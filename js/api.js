@@ -31,9 +31,61 @@
     try { return navigator.sendBeacon(CFG.apiUrl, new Blob([JSON.stringify(body)], { type: "text/plain;charset=UTF-8" })); } catch (e) { return false; }
   }
 
+  /* ---------- gộp hồ sơ (bản sao của hàm trong Code.gs, để chế độ DEMO chạy giống thật) ---------- */
+  const MAX_COIN_DELTA = 400;   // mỗi lần đồng bộ, số xu tăng thêm tối đa (chặn gian lận kiểu sửa số xu bằng F12)
+  function parseObj_(s){ try{ const o=JSON.parse(s||'{}'); return o&&typeof o==='object'&&!Array.isArray(o)?o:{}; }catch(e){return {};} }
+  function unionArr_(a, b, max) {
+    const out = [];
+    (Array.isArray(a) ? a : []).concat(Array.isArray(b) ? b : []).forEach(function (x) { x = String(x).slice(0, 40); if (out.indexOf(x) < 0 && out.length < (max || 80)) out.push(x); });
+    return out;
+  }
+  /** gộp hồ sơ từ máy học sinh (c) vào hồ sơ trên máy chủ (s). bc/be = số xu / tổng xu đã kiếm lúc đồng bộ gần nhất */
+  function profileMerge_(s, c, bc, be) {
+    const num = function (v, d) { v = +v; return isFinite(v) ? v : d; };
+    const out = {};
+    const hasS = s && Object.keys(s).length > 0;
+    let dc = hasS ? num(c.coins, 0) - num(bc, 0) : num(c.coins, 0);
+    let de = hasS ? num(c.earned, 0) - num(be, 0) : num(c.earned, 0);
+    if (dc > MAX_COIN_DELTA) { de = Math.min(de, MAX_COIN_DELTA); dc = MAX_COIN_DELTA; }
+    if (de > MAX_COIN_DELTA) de = MAX_COIN_DELTA;
+    out.coins = Math.max(0, Math.min(1000000, Math.round((hasS ? num(s.coins, 0) : 0) + dc)));
+    out.earned = Math.max(0, Math.round((hasS ? num(s.earned, 0) : 0) + de));
+    out.owned = unionArr_(s && s.owned, c.owned);
+    out.ownedPets = unionArr_(s && s.ownedPets, c.ownedPets);
+    out.ownedThemes = unionArr_(s && s.ownedThemes, c.ownedThemes);
+    out.avatar = String(c.avatar != null ? c.avatar : (s && s.avatar) || '').slice(0, 40);
+    out.theme = String(c.theme != null ? c.theme : (s && s.theme) || '').slice(0, 40);
+    // thú nuôi: lấy bản mới hơn, điểm kinh nghiệm lấy số lớn hơn
+    const sp = (s && s.pet) || {}, cp = c.pet || {};
+    const pick = num(cp.last, 0) >= num(sp.last, 0) ? cp : sp;
+    out.pet = { kind: String(pick.kind || cp.kind || sp.kind || '').slice(0, 30), name: String(pick.name || '').slice(0, 24), xp: Math.max(num(sp.xp, 0), num(cp.xp, 0)), cute: Math.max(0, Math.min(100, num(pick.cute, 40))), last: Math.max(num(sp.last, 0), num(cp.last, 0)), fed: Math.max(num(sp.fed, 0), num(cp.fed, 0)) };
+    // nhiệm vụ ngày
+    const sq = (s && s.quest) || {}, cq = c.quest || {};
+    if (String(cq.day || '') > String(sq.day || '')) out.quest = cq;
+    else if (String(cq.day || '') < String(sq.day || '')) out.quest = sq;
+    else {
+      const p = {}; [sq.p, cq.p].forEach(function (o) { Object.keys(o || {}).forEach(function (k) { p[k] = Math.max(num(p[k], 0), num((o || {})[k], 0)); }); });
+      out.quest = { day: cq.day || sq.day || '', p: p, done: unionArr_(sq.done, cq.done), bonus: !!(sq.bonus || cq.bonus) };
+    }
+    // chuỗi ngày
+    const ss = (s && s.streak) || {}, cs = c.streak || {};
+    const pickS = String(cs.last || '') > String(ss.last || '') ? cs : String(cs.last || '') < String(ss.last || '') ? ss : { last: cs.last || ss.last || '', n: Math.max(num(cs.n, 0), num(ss.n, 0)) };
+    out.streak = { last: String(pickS.last || ''), n: num(pickS.n, 0), best: Math.max(num(ss.best, 0), num(cs.best, 0), num(pickS.n, 0)) };
+    // ngân hàng câu sai (ôn lặp lại): gộp theo khoá, giữ bản cập nhật sau cùng
+    const wb = {};
+    [s && s.wb, c.wb].forEach(function (o) { Object.keys(o || {}).forEach(function (k) { const it = o[k]; if (!it || typeof it !== 'object') return; if (!wb[k] || num(it.t, 0) >= num(wb[k].t, 0)) wb[k] = it; }); });
+    const wk = Object.keys(wb).filter(function (k) { return !(wb[k].m && num(wb[k].t, 0) < Date.now() - 30 * 86400000); });
+    wk.sort(function (a, b2) { return num(wb[b2].t, 0) - num(wb[a].t, 0); });
+    out.wb = {}; wk.slice(0, 300).forEach(function (k) { out.wb[k] = wb[k]; });
+    // thống kê & bản đồ: lấy số lớn hơn
+    const st = {}; [(s && s.st) || {}, c.st || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { st[k] = Math.max(num(st[k], 0), num(o[k], 0)); }); }); out.st = st;
+    const mp = {}; [(s && s.map) || {}, c.map || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (Object.keys(mp).length < 300 || mp[k] != null) mp[k] = Math.max(num(mp[k], 0), num(o[k], 0)); }); }); out.map = mp;
+    return out;
+  }
+  
   /* ---------- bộ nhớ DEMO (cùng giao thức với Apps Script) ---------- */
   const DK = "lse_demo_v1";
-  const blank = () => ({ plays: [], answers: [], hws: {}, subs: [], students: [], appAssign: {} });
+  const blank = () => ({ plays: [], answers: [], hws: {}, subs: [], students: [], appAssign: {}, profiles: {} });
   const load = () => { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(DK) || "{}")); } catch (e) { return blank(); } };
   const store = d => { try { localStorage.setItem(DK, JSON.stringify(d)); } catch (e) { throw new Error("Bộ nhớ trình duyệt đầy"); } };
   const now = () => new Date().toISOString();
@@ -103,6 +155,15 @@
         store(d); return { ok: true, count: items.length };
       }
       case "studentDelete": needT(); d.students = d.students.filter(s => !L.sameName(s.name, b.name)); store(d); return { ok: true };
+      case "profileGet": { const k = L.plain(name); return { ok: true, profile: (d.profiles && d.profiles[k]) || null }; }
+      case "profileSave": {
+        const k = L.plain(name); if (!k) throw new Error("Thiếu tên học viên");
+        if (!b.profile || typeof b.profile !== "object") throw new Error("Hồ sơ không hợp lệ");
+        d.profiles = d.profiles || {};
+        const merged = profileMerge_(d.profiles[k] || null, b.profile, b.bc, b.be);
+        d.profiles[k] = merged; store(d); return { ok: true, profile: merged };
+      }
+      case "profileList": needT(); return { ok: true, list: Object.keys(d.profiles || {}).map(k => { const p = d.profiles[k], pet = p.pet || {}, st = p.streak || {}; return { name: k, coins: p.coins || 0, earned: p.earned || 0, pet: pet.kind || "", petXp: pet.xp || 0, streak: st.n || 0, lastDay: st.last || "" }; }) };
       case "appAccess": {
         if (teacher) return { ok: true, hidden: [] };
         return { ok: true, hidden: Object.keys(d.appAssign).filter(id => d.appAssign[id].length && !d.appAssign[id].some(n => L.sameName(n, name))) };

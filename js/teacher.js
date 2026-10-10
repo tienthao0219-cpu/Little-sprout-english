@@ -360,6 +360,8 @@
 
   async function tStudents(body) {
     let data = await L.api.call("studentList");
+    let profs = []; try { profs = (await L.api.call("profileList")).list || []; } catch (e) { }
+    const profOf = nm => profs.find(p => L.sameName(p.name, nm));
     const redraw = async () => { data = await L.api.call("studentList"); draw(); };
     const guard = async (fn) => { try { await fn(); } catch (e) { toast(e.message, 5000); } };
     const draw = () => {
@@ -395,7 +397,8 @@
         const noteIn = h("input", { type: "text", value: x.note, placeholder: "Ghi chú (tuỳ chọn)", style: "flex:1;min-width:120px" });
         const act = h("input", { type: "checkbox", style: "width:20px;height:20px", checked: x.active, title: "Bỏ tick = tạm khoá, em không đăng nhập được" });
         const collect = () => ({ name: nameIn.value.trim(), code: codeIn.value.trim(), active: act.checked, note: noteIn.value.trim() });
-        list.append(h("div.item", { style: "flex-wrap:wrap;gap:8px" }, nameIn, codeIn, noteIn, h("label.row", { style: "gap:4px;cursor:pointer" }, act, h("span.small", "Hoạt động")),
+        const pf = profOf(x.name), petN = pf && pf.pet && L.pet.SP[pf.pet] ? L.pet.SP[pf.pet].n : "";
+        list.append(h("div.item", { style: "flex-wrap:wrap;gap:8px" }, nameIn, codeIn, noteIn, pf ? h("span.small.muted", { title: "Dữ liệu trong game (xu, chuỗi ngày, thú nuôi)" }, "🪙 " + pf.coins + (pf.streak ? " · 🔥 " + pf.streak + " ngày" : "") + (petN ? " · 🐾 " + petN : "")) : null, h("label.row", { style: "gap:4px;cursor:pointer" }, act, h("span.small", "Hoạt động")),
           h("button.btn.sm", { onclick: () => guard(async () => { await L.api.call("studentSave", { list: [collect()], oldName: x.name }); toast("Đã lưu ✓"); await redraw(); }) }, "Lưu"),
           h("button.btn.sm.ghost", { title: "Tạo mật khẩu mới", onclick: () => { codeIn.value = genCode(); } }, "🔄"),
           h("button.btn.sm.rose", { onclick: async () => { if (await L.confirmBox("Xoá \"" + x.name + "\" khỏi danh sách? (Lịch sử học của em vẫn được giữ.)", "Xoá")) guard(async () => { await L.api.call("studentDelete", { name: x.name }); await redraw(); }); } }, "Xoá")));
@@ -420,6 +423,7 @@
             h("button.btn.sm.ghost", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "Đóng" : "Mở"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id }, "Sửa"),
             h("a.btn.sm.ghost", { href: "#/hw/" + x.id }, "Xem thử"),
+            h("a.btn.sm.ghost", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
             h("button.btn.sm.sky", { onclick: () => hwResultsModal(x) }, "Kết quả"),
             h("button.btn.sm.rose", { onclick: async () => { if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "Xoá"));
         }) : h("div.empty", "Chưa có bài tập nào.")));
@@ -677,10 +681,57 @@
       const studs = L.api.aggregate(rep).filter(s => s.name !== CFG.teacherName);
       body.append(h("div.row", { style: "margin-bottom:12px" }, h("div.tabs", { style: "margin:0" }, [[0, "Tất cả"], [30, "30 ngày"], [7, "7 ngày"]].map(([d, t]) => h("button" + (range === d ? ".on" : ""), { onclick: () => { range = d; draw(); } }, t))), h("span.grow"), h("span.muted.small", studs.length + " học viên")));
       if (!studs.length) { body.append(h("div.card.empty", "Chưa có dữ liệu. Khi học viên chơi app hoặc nộp bài, kết quả sẽ hiện ở đây.")); return; }
+      body.append(h("div.row", { style: "margin-bottom:10px" }, h("button.btn.peach", { onclick: () => parentReportModal(studs.map(x => x.name)) }, "📨 Báo cáo tuần cho phụ huynh (cả lớp)"), h("span.small.muted", "Tự tính từ dữ liệu 7 ngày gần nhất; cô đọc lại và thêm lời nhắn trước khi gửi.")));
       body.append(h("div.hint", { style: "margin-bottom:12px" }, "Chủ điểm \"cần ôn\" = đúng dưới 70% và đã gặp từ 3 ý trở lên. Chủ điểm lấy từ nhãn trong app hoặc dòng TOPIC: của bài tập."));
       studs.forEach(s => body.append(studentCard(s)));
     };
     draw();
+  }
+
+
+  /* ---------- Báo cáo tuần cho phụ huynh ---------- */
+  const dmy = d => String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0");
+  function weekStats(raw, name, from, to) {
+    const inR = x => { const t = +new Date(x.time || x.updated); return t >= from && t < to; };
+    const mine = x => L.sameName(x.name, name);
+    const rep = { plays: raw.plays.filter(x => mine(x) && inR(x)), subs: raw.subs.filter(x => mine(x) && inR(x)), answers: raw.answers.filter(x => mine(x) && inR(x)) };
+    const agg = L.api.aggregate(rep)[0] || null;
+    const days = new Set([...rep.plays, ...rep.subs, ...rep.answers].map(x => { const d = new Date(x.time || x.updated); return d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate(); }));
+    let right = 0, tot = 0; if (agg) agg.topicList.forEach(t => { right += t.right; tot += t.n; });
+    return { agg, days: days.size, plays: rep.plays.length, subs: rep.subs.length, right, tot };
+  }
+  function parentReportText(raw, name, prof) {
+    const now = Date.now(), cur = weekStats(raw, name, now - 7 * 86400000, now + 1), prev = weekStats(raw, name, now - 14 * 86400000, now - 7 * 86400000);
+    const a = cur.agg, d1 = new Date(now - 6 * 86400000), d2 = new Date(now);
+    const L1 = ["BÁO CÁO HỌC TẬP TUẦN · " + name, "Tuần " + dmy(d1) + " – " + dmy(d2) + "/" + d2.getFullYear() + " · " + CFG.siteName + " (cô " + CFG.teacherName.replace(/^Miss\s+/i, "") + ")", ""];
+    if (!a || !cur.tot && !cur.plays && !cur.subs) {
+      L1.push("Tuần này con chưa có dữ liệu luyện tập trên hệ thống.", "Mỗi ngày chỉ cần 10 phút (làm 1 bài luyện tập hoặc mục \"Ôn lại hôm nay\") là con sẽ nhớ bài tốt hơn rất nhiều. Phụ huynh nhắc con giúp cô nhé!");
+      return L1.join("\n");
+    }
+    L1.push("1) Mức độ chăm chỉ", "- Số ngày con có học trong tuần: " + cur.days + "/7", "- Số lượt chơi app/game: " + cur.plays + " · Số bài tập đã nộp: " + cur.subs, "- Tổng số ý con đã làm: " + cur.tot + (prof && prof.streak ? " · Chuỗi ngày học liên tiếp hiện tại: " + prof.streak + " ngày" : ""), "");
+    const acc = cur.tot ? Math.round(100 * cur.right / cur.tot) : null, pacc = prev.tot ? Math.round(100 * prev.right / prev.tot) : null;
+    L1.push("2) Kết quả", acc == null ? "- Tuần này con chưa có câu trả lời chi tiết được ghi lại." : "- Tỉ lệ đúng: " + acc + "% (" + cur.right + "/" + cur.tot + " ý)" + (pacc == null ? "" : acc > pacc ? " — tăng so với tuần trước (" + pacc + "%) 🎉" : acc < pacc ? " — thấp hơn tuần trước (" + pacc + "%)" : " — bằng tuần trước"), "");
+    const strong = a.topicList.filter(t => t.n >= 3 && t.acc >= 0.8).slice(-3).reverse(), weak = a.weak.slice(0, 3);
+    L1.push("3) Điểm mạnh");
+    if (strong.length) strong.forEach(t => L1.push("- " + t.topic + ": đúng " + Math.round(t.acc * 100) + "%")); else L1.push("- Con đang làm quen dần; cô sẽ tiếp tục theo dõi.");
+    L1.push("", "4) Phần cần ôn thêm");
+    if (weak.length) { weak.forEach(t => L1.push("- " + t.topic + ": đúng " + Math.round(t.acc * 100) + "% (" + t.right + "/" + t.n + " ý)")); const ex = a.wrongList.slice(0, 3); if (ex.length) { L1.push("  Một vài câu con hay nhầm:"); ex.forEach(w => L1.push("  • " + w.q)); } }
+    else L1.push("- Tuần này con không có chủ điểm nào dưới 70%. Rất tốt!");
+    L1.push("", "5) Gợi ý cho phụ huynh", weak.length ? "- Mỗi ngày dành 10 phút cho con vào mục \"Ôn lại hôm nay\" và luyện lại các phần trên; con sai câu nào thì câu đó sẽ tự quay lại đúng lúc để con nhớ lâu." : "- Phụ huynh khen con và khuyến khích con duy trì mỗi ngày một chút nhé.", cur.days < 3 ? "- Tuần này con học chưa đều (" + cur.days + "/7 ngày). Chia nhỏ 10 phút mỗi ngày hiệu quả hơn học dồn một buổi." : "- Con học khá đều, mong gia đình tiếp tục đồng hành cùng con.", "", "Lời nhắn của cô: ………………………………………………");
+    return L1.join("\n");
+  }
+  async function parentReportModal(names) {
+    let raw, profs = [];
+    try { raw = await L.api.call("report"); } catch (e) { toast(e.message); return; }
+    try { profs = (await L.api.call("profileList")).list || []; } catch (e) { }
+    const text = names.map(n => parentReportText(raw, n, profs.find(p => L.sameName(p.name, n)))).join("\n\n" + "—".repeat(30) + "\n\n");
+    modal(close => {
+      const ta = h("textarea", { style: "min-height:380px;font-family:var(--bfont);font-size:15px;line-height:1.5", spellcheck: "false" }); ta.value = text;
+      return h("div", h("h3", { style: "margin-bottom:6px" }, "📨 Báo cáo tuần cho phụ huynh"), h("div.small.muted", { style: "margin-bottom:8px" }, "Báo cáo tự tính từ dữ liệu 7 ngày gần nhất. Cô có thể sửa trực tiếp trong khung dưới rồi sao chép gửi Zalo/tin nhắn, hoặc in ra giấy."), ta,
+        h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Đóng"),
+          h("button.btn.sky", { onclick: () => { L.copyText(ta.value); } }, "📋 Sao chép"),
+          h("button.btn", { onclick: () => { const box = h("div.printonly.paper", ta.value.split("\n").map(l => h("div", { style: "min-height:1.2em;white-space:pre-wrap" }, l))); document.body.appendChild(box); document.body.classList.add("printing-extra"); window.print(); setTimeout(() => { box.remove(); document.body.classList.remove("printing-extra"); }, 500); } }, "🖨️ In")));
+    });
   }
 
   function pct(x) { return Math.round(x * 100); }
@@ -696,7 +747,7 @@
       detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm"),
         s.topicList.map(t => h("div.topic-row", h("div", { style: "font-weight:800" }, t.topic, h("div.small.muted", t.n + " ý" + (t.n >= 6 ? " · 6 ý gần nhất " + pct(t.recentAcc) + "%" : ""))), h("div.bar." + (t.n < 3 ? "" : t.acc < .6 ? "bad" : t.acc < .8 ? "" : "good"), h("i", { style: "width:" + pct(t.acc) + "%" })), h("b", pct(t.acc) + "%"))),
         s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai nhiều nhất"), h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Chủ điểm", "Số lần sai"].map(x => h("th", x)))), h("tbody", s.wrongList.slice(0, 15).map(w => h("tr", h("td", w.q), h("td", h("span.pill", w.topic)), h("td", "× " + w.n))))))] : null,
-        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s)) }, "📋 Sao chép báo cáo")));
+        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
     });
     return card;
   }

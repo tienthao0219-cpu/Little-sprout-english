@@ -71,8 +71,8 @@ window.LSE = window.LSE || {};
       rule: "Mỗi ván là một nhóm dòng, các ván cách nhau 1 dòng trống. Mỗi dòng: đáp án | gợi ý. Hệ thống tự xếp ô chữ (các từ cần có chữ cái chung mới nối được; nên 5–8 từ). Nếu có từ không xếp được, hệ thống sẽ báo.",
       sample: "TASK: Điền ô chữ.\napple | a red or green fruit\nanimal | a dog is an ...\nelephant | a very big grey animal\nlion | king of the jungle\nbanana | a long yellow fruit" },
     { id: "transform", label: "Viết lại câu (đồng nghĩa)", emoji: "✍️", color: "rose",
-      rule: "Mỗi dòng: câu gốc | gợi ý bắt đầu (không bắt buộc) => đáp án 1 / đáp án 2 (các cách viết đúng, ngăn bằng dấu /). Học sinh viết lại cả câu sao cho nghĩa không đổi. Hệ thống không phân biệt hoa/thường, bỏ qua dấu câu cuối và coi \"isn't\" = \"is not\", \"I'm\" = \"I am\". Thêm dòng EXP: ngay sau câu để giải thích.",
-      sample: "She is taller than her sister. | Her sister => Her sister is shorter than her. / Her sister is not as tall as her.\nEXP: Đổi so sánh hơn sang so sánh không bằng.\nI haven't seen him for two years. | The last time => The last time I saw him was two years ago.\n\"Where do you live?\" he asked me. | He asked me => He asked me where I lived.\nIt is too cold to go out. | It is so cold => It is so cold that we can't go out. / It is so cold that we cannot go out." },
+      rule: "Có 2 cách viết, trộn lẫn trong cùng một phần cũng được. CÁCH 1 (điền vào chỗ trống + từ gợi ý): câu gốc => câu thứ hai có chỗ trống, rồi => đáp án. Chỗ trống viết bằng dấu chấm ............ (hoặc ___), từ gợi ý để trong ngoặc ( ) ngay sau chỗ trống. Có nhiều cách viết đúng thì ngăn bằng dấu /. Có nhiều chỗ trống thì ngăn đáp án của từng chỗ bằng dấu ; theo thứ tự. Ví dụ: she hates learning English => She ............ (dislike) => dislikes learning English. CÁCH 1b (gọn hơn): đặt thẳng đáp án vào [[ ]]: She hates learning English. => She [[dislikes learning English]] (dislike). CÁCH 2 (viết lại cả câu): câu gốc | gợi ý bắt đầu (không bắt buộc) => đáp án 1 / đáp án 2. Hệ thống không phân biệt hoa/thường, bỏ qua dấu câu cuối và coi \"isn't\" = \"is not\", \"I'm\" = \"I am\". Thêm dòng EXP: ngay sau câu để giải thích.",
+      sample: "she hates learning English => She ............ (dislike) => dislikes learning English / does not like learning English\nEXP: hate ≈ dislike (ghét ≈ không thích).\nHe started playing the piano two years ago. => He has ............ (play) for two years. => played the piano / been playing the piano\nThey built this bridge in 1990. => This bridge [[was built]] (build) in 1990.\nShe is taller than her sister. | Her sister => Her sister is shorter than her. / Her sister is not as tall as her.\n\"Where do you live?\" he asked me. | He asked me => He asked me where I lived." },
     { id: "errfix", label: "Thám tử bắt lỗi (Error detective)", emoji: "🕵️", color: "rose",
       rule: "Mỗi dòng một câu có đúng 1 lỗi: bọc phần sai trong [[ ]], rồi => phần sửa đúng (nhiều cách sửa chấp nhận thì ngăn bằng dấu /). Ví dụ: She [[go]] to school every day. => goes. Học sinh chạm vào chỗ sai rồi gõ cách sửa; chấm 2 ý (tìm lỗi + sửa lỗi). Thêm dòng EXP: giải thích ngay sau câu (hiện khi xem đáp án).",
       sample: "She [[go]] to school every day. => goes\nEXP: Chủ ngữ số ít (She) thì động từ thêm -es.\nThere [[is]] three cats in the garden. => are\nI [[am have]] a new bike. => have / 've got\nHe didn't [[went]] to school. => go" }
@@ -262,6 +262,7 @@ window.LSE = window.LSE || {};
     return { questions, errors };
   }
 
+  const DOTS = /(?:\.{3,}|…+|_{3,}|\.\s\.\s\.[\s.]*)/;
   function parseTransform(raw) {
     const questions = [], errors = [];
     lines(raw).forEach((l, i) => {
@@ -272,8 +273,34 @@ window.LSE = window.LSE || {};
       const k = l.indexOf("=>");
       if (k < 0) { errors.push("Dòng " + (i + 1) + ": thiếu dấu => rồi đáp án"); return; }
       const left = l.slice(0, k).split("|"); const src = stripNum(left[0]); const starter = (left[1] || "").trim();
-      const answers = l.slice(k + 2).split(" / ").map(s => s.trim()).filter(Boolean);
-      if (!src || !answers.length) { errors.push("Dòng " + (i + 1) + ": thiếu câu gốc hoặc đáp án (nhiều đáp án ngăn bằng dấu / có khoảng trắng hai bên)"); return; }
+      const right = l.slice(k + 2).trim();
+      if (!src) { errors.push("Dòng " + (i + 1) + ": thiếu câu gốc"); return; }
+      // cách 1b: đáp án nằm trong [[ ]]
+      if (/\[\[.+?\]\]/.test(right)) {
+        const parts = []; let last = 0, r; const re = /\[\[(.+?)\]\]/g;
+        while ((r = re.exec(right))) {
+          if (r.index > last) parts.push({ k: "t", s: right.slice(last, r.index) });
+          const answers = r[1].split(/\s*\/\s*/).map(s => s.trim()).filter(Boolean);
+          if (!answers.length) { errors.push("Dòng " + (i + 1) + ": chỗ trống [[ ]] đang rỗng"); return; }
+          parts.push({ k: "b", answers }); last = r.index + r[0].length;
+        }
+        if (last < right.length) parts.push({ k: "t", s: right.slice(last) });
+        questions.push({ type: "transform", stem: "Hoàn thành câu thứ hai sao cho nghĩa không đổi (dùng từ trong ngoặc nếu có).", src, parts }); return;
+      }
+      // cách 1: chỗ trống bằng dấu chấm, đáp án sau dấu => thứ hai
+      if (DOTS.test(right)) {
+        const k2 = right.indexOf("=>");
+        if (k2 < 0) { errors.push("Dòng " + (i + 1) + ": có chỗ trống ............ nhưng chưa có đáp án. Viết thêm => đáp án ở cuối dòng (hoặc đặt đáp án trong [[ ]])"); return; }
+        const sentence = right.slice(0, k2).trim(), ansPart = right.slice(k2 + 2).trim();
+        const groups = ansPart.split(";").map(g => g.split(/\s*\/\s*/).map(s => s.trim()).filter(Boolean));
+        const segs = sentence.split(new RegExp(DOTS.source, "g")); const nBlank = segs.length - 1;
+        if (groups.length !== nBlank || groups.some(g => !g.length)) { errors.push("Dòng " + (i + 1) + ": có " + nBlank + " chỗ trống nhưng có " + groups.filter(g => g.length).length + " đáp án (nhiều chỗ trống thì ngăn đáp án bằng dấu ;)"); return; }
+        const parts = []; segs.forEach((sg, si) => { if (sg) parts.push({ k: "t", s: sg }); if (si < nBlank) parts.push({ k: "b", answers: groups[si] }); });
+        questions.push({ type: "transform", stem: "Hoàn thành câu thứ hai sao cho nghĩa không đổi (dùng từ trong ngoặc nếu có).", src, parts }); return;
+      }
+      // cách 2: viết lại cả câu
+      const answers = right.split(" / ").map(s => s.trim()).filter(Boolean);
+      if (!answers.length) { errors.push("Dòng " + (i + 1) + ": thiếu đáp án (nhiều đáp án ngăn bằng dấu / có khoảng trắng hai bên)"); return; }
       questions.push({ type: "transform", stem: "Viết lại câu sao cho nghĩa không đổi.", src, starter, answers });
     });
     return { questions, errors };
@@ -350,7 +377,7 @@ window.LSE = window.LSE || {};
       case "wordsearch": ensureSearch(q, q.level); return { v: [], sel: null, level: q.level };
       case "crossword": return { v: {} };
       case "errfix": return { v: { pick: null, fix: "" } };
-      case "transform": return { v: "" };
+      case "transform": return q.parts ? { v: q.parts.filter(p => p.k === "b").map(() => "") } : { v: "" };
     }
   }
   function key(q, st) {
@@ -361,7 +388,7 @@ window.LSE = window.LSE || {};
       case "wordsearch": st.v = q.words.map((_, i) => i); break;
       case "crossword": { const o = {}; q.words.forEach(w => { for (let k = 0; k < w.w.length; k++) o[(w.r + (w.dir ? k : 0)) + "," + (w.c + (w.dir ? 0 : k))] = w.w[k]; }); st.v = o; break; }
       case "errfix": st.v = { pick: q.toks.findIndex(t => t.ok), fix: q.fixes[0] }; break;
-      case "transform": st.v = q.answers[0]; break;
+      case "transform": st.v = q.parts ? q.parts.filter(p => p.k === "b").map(p => p.answers[0]) : q.answers[0]; break;
     }
     return st;
   }
@@ -374,7 +401,9 @@ window.LSE = window.LSE || {};
       case "memory": { const items = q.pairs.map((p, i) => ({ ok: v.includes(i) && st.miss[i] <= (q.pairs.length > 8 ? 2 : 1), label: lab(p.l) + " = " + p.r })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "wordsearch": { const items = q.words.map((w, i) => ({ ok: v.includes(i), label: w.w.toLowerCase() + (w.clue ? " (" + w.clue + ")" : "") })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "crossword": { const items = q.words.map(w => { let ok = true; for (let k = 0; k < w.w.length; k++) { const x = (v[(w.r + (w.dir ? k : 0)) + "," + (w.c + (w.dir ? 0 : k))] || "").toUpperCase(); if (x !== w.w[k]) { ok = false; break; } } return { ok, label: w.n + (w.dir ? " Down" : " Across") + " · " + lab(w.clue) + " → " + w.w.toLowerCase() }; }); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-      case "transform": { const ok = !!v && q.answers.some(a => tnorm(a) === tnorm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.src) + " → " + lab(q.answers[0]) }] }; }
+      case "transform": {
+        if (q.parts) { const bs = q.parts.filter(p => p.k === "b"); const items = bs.map((b, i) => ({ ok: !!v[i] && b.answers.some(a => tnorm(a) === tnorm(v[i])), label: lab(q.src) + " → " + lab(q.parts.map(p => p.k === "t" ? p.s : p.answers[0]).join("")) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+        const ok = !!v && q.answers.some(a => tnorm(a) === tnorm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.src) + " → " + lab(q.answers[0]) }] }; }
       case "errfix": {
         const a = v.pick != null && q.toks[v.pick] && q.toks[v.pick].ok, b = !!v.fix && q.fixes.some(f => norm(f) === norm(v.fix));
         return { got: (a ? 1 : 0) + (b ? 1 : 0), max: 2, items: [{ ok: a, label: "Tìm lỗi: " + lab(q.full) }, { ok: b, label: "Sửa lỗi: " + q.wrong + " → " + q.fixes[0] }] };
@@ -497,6 +526,18 @@ window.LSE = window.LSE || {};
     },
     transform(q, st, ctx, g) {
       const review = ctx.mode === "review";
+      if (q.parts) {
+        let bi = -1;
+        const hintText = t => String(t).split(/(\([^)]{1,40}\))/).map(x => /^\([^)]{1,40}\)$/.test(x) ? h("b.pill.lav", { style: "margin:0 4px" }, x) : document.createTextNode(x));
+        const line = q.parts.map(p => {
+          if (p.k === "t") return hintText(p.s);
+          bi++; const i = bi, ok = review ? g.items[i].ok : null;
+          const w = Math.max(120, Math.min(360, p.answers[0].length * 11 + 40));
+          return h("span.fillbox", h("input.blank" + (review ? (ok ? ".k-right" : ".k-wrong") : ""), { type: "text", style: "width:" + w + "px;max-width:100%", value: st.v[i], disabled: review, placeholder: (st.hnt && st.hnt[i]) || null, autocomplete: "off", autocapitalize: "none", spellcheck: "false", oninput: e => { st.v[i] = e.target.value; } }),
+            review && ctx.showAns && !ok ? h("span.small", { style: "color:var(--good);font-weight:800;margin-left:6px" }, "→ " + p.answers.join(" / ")) : null);
+        });
+        return h("div", h("div.srcbox", q.src, speakBtn(q.src)), h("div", { style: "font-size:18px;line-height:2.3;margin-top:8px" }, line));
+      }
       const ta = h("textarea.blank" + (review ? (g.got ? ".k-right" : ".k-wrong") : ""), { style: "width:100%;min-height:64px;text-align:left;font-family:var(--bfont);font-size:17px;border-radius:12px", value: st.v, disabled: review, spellcheck: "false", autocomplete: "off", placeholder: st.hnt || (q.starter ? q.starter + " …" : "Viết lại cả câu ở đây…"), oninput: e => { st.v = e.target.value; } });
       return h("div", h("div.srcbox", q.src, speakBtn(q.src)), q.starter ? h("div.small", { style: "margin:6px 0" }, "Bắt đầu bằng: ", h("b.pill.lav", q.starter)) : null, ta,
         review && ctx.showAns && !g.got ? h("div.fb.bad", "Đáp án: ", q.answers.map((a, i) => h("div", h("span.ans", a)))) : null);
@@ -565,7 +606,7 @@ window.LSE = window.LSE || {};
   }
 
   L.gx = {
-    classifyDrag, speakBtn, isEn, tnorm,
+    classifyDrag, speakBtn, isEn, tnorm, ensureSearch,
     TYPES, VIEW, IDS, Q_TYPES, parse, init, key, grade, speak,
     has: t => !!IDS[t], hasQ: t => !!Q_TYPES[t]
   };

@@ -1,5 +1,5 @@
 /* Luyện tập (kiểm tra từng câu, gợi ý, Fix it!), âm thanh, xu, cửa hàng avatar.
-   Dữ liệu xu/avatar lưu trên MÁY của học sinh (localStorage) – chưa đồng bộ giữa các thiết bị. */
+   Dữ liệu xu/avatar/thú nuôi lưu trong profile.js (đồng bộ lên Google Sheets). */
 window.LSE = window.LSE || {};
 (function (L) {
   const { h, shuffle } = L;
@@ -29,28 +29,7 @@ window.LSE = window.LSE || {};
   };
   L.sfx = sfx;
 
-  /* ================= Hồ sơ học sinh: xu + avatar ================= */
-  const AV = [
-    { id: "sprout", e: "🌱", n: "Mầm nhỏ", p: 0, bg: "#D3F6E6" }, { id: "cat", e: "🐱", n: "Mèo con", p: 0, bg: "#FFE0EE" }, { id: "dog", e: "🐶", n: "Cún con", p: 0, bg: "#FFE9C9" },
-    { id: "rabbit", e: "🐰", n: "Thỏ bông", p: 20, bg: "#FFD6E8" }, { id: "fox", e: "🦊", n: "Cáo nhỏ", p: 30, bg: "#FFD9BF" }, { id: "panda", e: "🐼", n: "Gấu trúc", p: 40, bg: "#E3E6EE" },
-    { id: "frog", e: "🐸", n: "Ếch xanh", p: 50, bg: "#D6F5D6" }, { id: "koala", e: "🐨", n: "Koala", p: 60, bg: "#DDE4F2" }, { id: "tiger", e: "🐯", n: "Hổ con", p: 70, bg: "#FFE9A8" },
-    { id: "lion", e: "🦁", n: "Sư tử", p: 90, bg: "#FFE0A8" }, { id: "unicorn", e: "🦄", n: "Kỳ lân", p: 120, bg: "#F3D9FF" }, { id: "dragon", e: "🐲", n: "Rồng nhỏ", p: 150, bg: "#CFF3E8" }
-  ];
-  const keyOf = () => "lse_prof_v1:" + L.plain(L.auth && L.auth.name || "");
-  const load = () => safe(() => Object.assign({ coins: 0, owned: ["sprout", "cat", "dog"], avatar: "", earned: 0 }, JSON.parse(localStorage.getItem(keyOf()) || "{}"))) || { coins: 0, owned: ["sprout", "cat", "dog"], avatar: "", earned: 0 };
-  const save = p => safe(() => localStorage.setItem(keyOf(), JSON.stringify(p)));
-  const listeners = [];
-  const prof = {
-    get: load,
-    coins: () => load().coins,
-    add(n) { if (!n) return; const p = load(); p.coins = Math.max(0, p.coins + n); if (n > 0) p.earned = (p.earned || 0) + n; save(p); listeners.forEach(f => f(p)); },
-    spend(n) { const p = load(); if (p.coins < n) return false; p.coins -= n; save(p); listeners.forEach(f => f(p)); return true; },
-    buy(id) { const a = AV.find(x => x.id === id), p = load(); if (!a || p.owned.includes(id) || p.coins < a.p) return false; p.coins -= a.p; p.owned.push(id); p.avatar = id; save(p); listeners.forEach(f => f(p)); return true; },
-    use(id) { const p = load(); if (!p.owned.includes(id)) return; p.avatar = id; save(p); listeners.forEach(f => f(p)); },
-    avatar() { const p = load(); return AV.find(x => x.id === p.avatar) || null; },
-    onChange(f) { listeners.push(f); }, AV
-  };
-  L.prof = prof;
+  const prof = L.prof; /* hồ sơ (xu, avatar...) nằm trong profile.js, đồng bộ lên Google Sheets */
   const SVG_COIN = '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFD66B"/><circle cx="12" cy="12" r="7.2" fill="none" stroke="#F2A93B" stroke-width="1.6"/><path d="M12 7.6v8.8M9.6 10.2c0-1.1 1-1.7 2.4-1.7s2.4.6 2.4 1.7c0 2-4.8 1.1-4.8 3.4 0 1.1 1.1 1.8 2.4 1.8s2.4-.7 2.4-1.8" fill="none" stroke="#C97B12" stroke-width="1.3" stroke-linecap="round"/></svg>';
   L.coinSvg = SVG_COIN;
   L.fly = (txt, from) => {
@@ -73,7 +52,9 @@ window.LSE = window.LSE || {};
         st.hnt = st.hnt || []; st.hnt[i] = bs[i].answers[0].slice(0, 1) + "…  (" + bs[i].answers[0].length + " chữ cái)"; return true;
       }
       case "short": { st.hnt = q.answers[0].slice(0, 1) + "…  (" + q.answers[0].length + " chữ cái)"; return true; }
-      case "transform": { const w = q.answers[0].split(/\s+/); st.hnt = "Gợi ý: " + w.slice(0, Math.max(2, Math.ceil(w.length / 3))).join(" ") + " …"; return true; }
+      case "transform": {
+        if (q.parts) { const bs = q.parts.filter(p => p.k === "b"); const i = bs.findIndex((b, k) => !st.v[k]); if (i < 0) return false; const w0 = bs[i].answers[0].split(/\s+/); st.hnt = st.hnt || []; st.hnt[i] = w0.slice(0, Math.max(1, Math.ceil(w0.length / 3))).join(" ") + " …  (" + w0.length + " từ)"; return true; }
+        const w = q.answers[0].split(/\s+/); st.hnt = "Gợi ý: " + w.slice(0, Math.max(2, Math.ceil(w.length / 3))).join(" ") + " …"; return true; }
       case "errfix": { const i = q.toks.findIndex(t => t.ok); if (st.v.pick === i) return false; st.v.pick = i; return true; }
       case "scramble": {
         const want = q.ans.replace(/\s/g, "").split(""); let k = 0;
@@ -125,6 +106,10 @@ window.LSE = window.LSE || {};
         const first = !(st.tries), ok = g.got === g.max;
         st.chk = g; if (!ok && !st.wrong1) st.wrong1 = true;
         if (ok) { sfx.ok(); stat.combo++; stat.best = Math.max(stat.best, stat.combo); } else { sfx.bad(); stat.combo = 0; }
+        L.rw.answer(ok);
+        if (first) { if (o.review) L.wb.result(q.id, ok); else if (!ok && o.hwId) L.wb.add(o.hwId, q); if (ok && (o.fix || o.review)) L.rw.event("fixed"); if (ok && o.review) L.rw.event("review"); }
+        else if (ok) L.rw.event("fixed");
+        if (ok && stat.combo >= 5) L.rw.combo(stat.combo);
         if (first && g.got > 0) { let gain = g.got + (ok && stat.combo >= 3 ? 1 : 0) - (st.hintUsed ? 1 : 0); gain = Math.max(0, gain); st.gain = gain; if (gain) { prof.add(gain); stat.coins += gain; setTimeout(sfx.coin, 220); L.fly("+" + gain + " 🪙", ev.target); } }
         ctx.redraw(); paintBar(); maybeFinish();
       } }, "Kiểm tra ✓");
@@ -144,12 +129,13 @@ window.LSE = window.LSE || {};
       const firstOk = all.filter(x => x.st.chk && x.st.chk.got === x.st.chk.max && !x.st.wrong1).length, pct = all.length ? Math.round(100 * firstOk / all.length) : 0;
       let bonus = 0; if (pct >= 80 && all.length >= 3) { bonus = 5; prof.add(bonus); stat.coins += bonus; }
       const wrongs = all.filter(x => x.st.wrong1);
+      if (!o.review) L.rw.practiceDone(o.fix ? null : o.hwId, pct); else L.rw.event("practice");
       if (pct >= 80) { sfx.win(); L.confetti(); } else sfx.coin();
       summary.append(h("div.card.result", h("div.muted", "Hoàn thành luyện tập"), h("div.score-big", firstOk + "/" + all.length, h("small", { style: "font-size:22px" }, " câu đúng ngay lần đầu")), h("div.cheer", L.cheer(pct)),
         h("div.row", { style: "justify-content:center;margin:8px 0" }, h("span.pill.butter", { html: L.coinSvg + " +" + stat.coins + " xu lần này" }), bonus ? h("span.pill.mint", "Thưởng ≥80%: +" + bonus) : null, stat.best >= 3 ? h("span.pill.rose", "🔥 chuỗi dài nhất x" + stat.best) : null),
         wrongs.length ? h("div.hint", { style: "text-align:left" }, h("b", "Các câu cần ôn lại (" + wrongs.length + "):"), wrongs.slice(0, 8).map(x => h("div.small", "• " + (x.q.stem || x.q.src || x.q.ans || (x.q.parts ? x.q.parts.map(p => p.k === "t" ? p.s : "___").join("") : "") || x.q.type).toString().slice(0, 90)))) : h("div.hint", "🌟 Không sai câu nào, giỏi quá!"),
         h("div.row", { style: "justify-content:center;margin-top:10px" },
-          wrongs.length ? h("button.btn.rose", { onclick: () => { const nr = rts.map(rt => subRuntime(rt, rt.qs.filter(q => rt.sts[q.id].wrong1))).filter(rt => rt.qs.length); startPractice("Fix it! · " + title, nr, o); } }, "🔧 Fix it! (" + wrongs.length + " câu)") : null,
+          wrongs.length ? h("button.btn.rose", { onclick: () => { const nr = rts.map(rt => subRuntime(rt, rt.qs.filter(q => rt.sts[q.id].wrong1))).filter(rt => rt.qs.length); startPractice("Fix it! · " + title, nr, Object.assign({}, o, { fix: true })); } }, "🔧 Fix it! (" + wrongs.length + " câu)") : null,
           h("button.btn", { onclick: () => startPractice(title, rts.map(rt => L.hw.buildRuntime(rt.sec)), o) }, "↻ Luyện lại từ đầu"),
           h("a.btn.ghost", { href: o.back || "#/hw" }, "← Quay lại"), h("a.btn.ghost", { href: "#/shop" }, "🛍️ Cửa hàng"))));
       summary.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -171,22 +157,42 @@ window.LSE = window.LSE || {};
     window.scrollTo(0, 0);
   }
 
-  /* ================= Cửa hàng avatar ================= */
+  /* ================= Cửa hàng: avatar · thú nuôi · chủ đề ================= */
+  let shopTab = "av";
   async function shopView() {
     const ui = L.ui; const box = h("div");
     const draw = () => {
       const p = prof.get(); box.innerHTML = "";
+      const tabs = h("div.tabs", [["av", "🧑‍🎨 Avatar"], ["pet", "🐾 Thú nuôi"], ["theme", "🎨 Chủ đề"]].map(([k, t]) => h("button" + (shopTab === k ? ".on" : ""), { onclick: () => { shopTab = k; draw(); } }, t)));
+      const sync = prof.sync.state, st = sync === "ok" ? "☁️ Đã lưu lên Google Sheets" : sync === "pending" ? "⏳ Đang lưu…" : sync === "offline" ? "⚠️ Chưa kết nối được máy chủ, sẽ tự lưu lại sau" : "";
       box.append(h("div.card", h("div.row", h("h1", { style: "font-size:30px" }, "🛍️ Cửa hàng của em"), h("span.grow"), h("span.pill.butter.big", { html: L.coinSvg + " " + p.coins + " xu" })),
-        h("div.small.muted", "Làm bài luyện tập và nộp bài để kiếm xu, rồi đổi lấy avatar xinh. Avatar hiện ở góc phải thanh menu.")),
-        h("div.avgrid", prof.AV.map(a => {
+        h("div.small.muted", "Làm bài luyện tập, nộp bài, hoàn thành nhiệm vụ để kiếm xu rồi đổi lấy đồ xinh. " + st), tabs));
+      if (shopTab === "av") {
+        box.append(h("div.avgrid", prof.AV.map(a => {
           const own = p.owned.includes(a.id), cur = p.avatar === a.id || (!p.avatar && a.id === "sprout");
           return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig", { style: "background:" + a.bg }, a.e), h("b", a.n),
             cur ? h("span.pill.mint", "Đang dùng") : own ? h("button.btn.sm", { onclick: () => { prof.use(a.id); sfx.ok(); draw(); ui.repaint && ui.repaint(); } }, "Chọn") :
               h("button.btn.sm" + (p.coins >= a.p ? ".peach" : ".ghost"), { onclick: () => { if (prof.buy(a.id)) { sfx.win(); L.confetti(40); L.toast("Đã mua " + a.n + "! 🎉"); draw(); ui.repaint && ui.repaint(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (a.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + a.p })));
         })));
+      } else if (shopTab === "pet") {
+        const ks = Object.keys(L.pet.SP);
+        box.append(h("div.avgrid", ks.map(k => {
+          const sp = L.pet.SP[k], own = sp.p === 0 || p.ownedPets.includes(k), cur = p.pet.kind === k;
+          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.petbg", { html: L.pet.svg(k, { mood: "happy", level: cur ? L.pet.lvOf(p.pet.xp) : 0, cute: 80 }) }), h("b", cur && p.pet.name ? p.pet.name : sp.n),
+            cur ? h("span.pill.mint", "Đang nuôi") : own ? h("button.btn.sm", { onclick: () => { L.pet.chooser(false); } }, "Chọn") :
+              h("button.btn.sm" + (p.coins >= sp.p ? ".peach" : ".ghost"), { onclick: () => { if (p.coins >= sp.p && prof.spend(sp.p)) { prof.mut(q => { if (!q.ownedPets.includes(k)) q.ownedPets.push(k); }); sfx.win(); L.confetti(40); L.toast("Đã mua " + sp.n + "! 🎉 Bấm Chọn để nuôi nhé"); draw(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (sp.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + sp.p })));
+        })), h("div.row", { style: "justify-content:center;margin-top:12px" }, h("button.btn", { onclick: () => L.pet.chooser(false) }, "🐾 Đổi thú nuôi / đặt tên")));
+      } else {
+        box.append(h("div.avgrid", L.extras.THEMES.map(t => {
+          const own = t.p === 0 || p.ownedThemes.includes(t.id), cur = (p.theme || "default") === t.id;
+          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.thbig.th-" + t.id, t.e), h("b", t.n), t.season ? h("span.pill.rose", "Mùa " + t.season) : null,
+            cur ? h("span.pill.mint", "Đang dùng") : own ? h("button.btn.sm", { onclick: () => { prof.mut(q => { q.theme = t.id; }); L.extras.applyTheme(t.id); sfx.ok(); draw(); } }, "Dùng") :
+              h("button.btn.sm" + (p.coins >= t.p ? ".peach" : ".ghost"), { onclick: () => { if (p.coins >= t.p && prof.spend(t.p)) { prof.mut(q => { if (!q.ownedThemes.includes(t.id)) q.ownedThemes.push(t.id); q.theme = t.id; }); L.extras.applyTheme(t.id); sfx.win(); L.confetti(40); L.toast("Đã mua chủ đề " + t.n + "! 🎉"); draw(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (t.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + t.p })));
+        })));
+      }
     };
     draw(); ui.show(box);
   }
 
-  L.practiceView = practiceView; L.shopView = shopView;
+  L.practiceView = practiceView; L.shopView = shopView; L.startPractice = startPractice; L.subRuntime = subRuntime;
 })(window.LSE);
