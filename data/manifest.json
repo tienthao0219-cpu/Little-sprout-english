@@ -54,6 +54,13 @@
       "emoji": "☕",
       "tint": 6,
       "units": []
+    },
+    {
+      "id": "template-game-html-wod",
+      "name": "TEMPLATE GAME HTML",
+      "emoji": "📚",
+      "tint": 7,
+      "units": []
     }
   ],
   "apps": [
