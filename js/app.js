@@ -1,0 +1,363 @@
+/* Giao diện học viên: đăng nhập, trang chủ, giáo trình, unit, chơi app, bài tập, lịch sử */
+(function (L) {
+  const { $, h, esc, toast, modal, fmtDate, fmtDur } = L;
+  const CFG = window.LSE_CONFIG;
+  const state = { manifest: null, hwList: null, plays: null, subs: null };
+  L.state = state;
+
+  const toTitle = s => String(s || "").trim().replace(/\s+/g, " ").replace(/(^|\s)(\S)/g, (_, a, b) => a + b.toUpperCase());
+  const isTeacher = () => L.auth.role === "teacher";
+  const go = p => { location.hash = p; };
+  L.go = go;
+  const main = () => $("#view");
+  function show(...nodes) { const m = main(); m.innerHTML = ""; nodes.flat().forEach(n => n && m.appendChild(n)); window.scrollTo(0, 0); }
+  L.show = show;
+  const spinner = () => h("div.empty", h("span.spinner"), " Đang tải…");
+
+  /* ---------- dữ liệu ---------- */
+  async function loadManifest(force) {
+    if (state.manifest && !force) return state.manifest;
+    let m = null;
+    if (isTeacher() && L.gh && L.gh.configured()) { try { m = await L.gh.readManifest(); } catch (e) { console.warn("gh manifest", e); } }
+    else if (isTeacher()) { try { m = JSON.parse(localStorage.getItem("lse_manifest_override_v1") || "null"); } catch (e) { m = null; } }
+    if (!m) {
+      try { const r = await fetch("data/manifest.json?v=" + Date.now(), { cache: "no-store" }); m = await r.json(); }
+      catch (e) { m = { version: 1, curricula: [], apps: [] }; }
+    }
+    state.manifest = m; return m;
+  }
+  L.loadManifest = loadManifest;
+  async function loadHw(force) { if (state.hwList && !force) return state.hwList; try { state.hwList = (await L.api.call("hwList")).list; } catch (e) { state.hwList = []; throw e; } return state.hwList; }
+  L.loadHw = loadHw;
+  async function loadMine(force) { if (state.plays && !force) return; const r = await L.api.call("myPlays"); state.plays = r.plays || []; state.subs = r.subs || []; }
+  const cur = id => (state.manifest.curricula || []).find(c => c.id === id);
+  const appsIn = (cid, uid) => (state.manifest.apps || []).filter(a => a.cur === cid && (uid == null || (a.unit || "") === uid));
+  const unitName = (c, uid) => { const u = (c.units || []).find(x => x.id === uid); return u ? u.name : ""; };
+  L.cur = cur; L.appsIn = appsIn; L.unitName = unitName;
+
+  /* ---------- đăng nhập ---------- */
+  function loginModal(teacherMode) {
+    return new Promise(resolve => {
+      modal(close => {
+        let tmode = !!teacherMode;
+        const box = h("div"), msg = h("div");
+        const draw = () => {
+          box.innerHTML = "";
+          const name = h("input", { type: "text", placeholder: "Ví dụ: Bin", autocomplete: "name", value: L.auth.name && !isTeacher() ? L.auth.name : "" });
+          const pw = h("input", { type: "password", placeholder: "Mật khẩu lớp", autocomplete: "current-password" });
+          const submit = async () => {
+            msg.innerHTML = "";
+            const nm = tmode ? CFG.teacherName : toTitle(name.value);
+            if (!nm) { msg.appendChild(h("div.err", "Em nhập tên của em nhé.")); return; }
+            btn.disabled = true; btn.textContent = "Đang vào…";
+            L.auth.name = nm; L.auth.pw = pw.value;
+            try {
+              const r = await L.api.call("login");
+              L.auth.role = r.role; L.api.saveAuth();
+              if (tmode && r.role !== "teacher") throw new Error("Mật khẩu này không phải của cô giáo");
+              state.manifest = state.hwList = state.plays = null;
+              close(); resolve(true);
+            } catch (e) { L.auth.role = ""; btn.disabled = false; btn.textContent = tmode ? "Vào khu giáo viên" : "Vào học"; msg.appendChild(h("div.err", e.message)); }
+          };
+          pw.addEventListener("keydown", e => { if (e.key === "Enter") submit(); });
+          name.addEventListener("keydown", e => { if (e.key === "Enter") pw.focus(); });
+          const btn = h("button.btn", { style: "width:100%;margin-top:14px", onclick: submit }, tmode ? "Vào khu giáo viên" : "Vào học");
+          box.append(
+            h("img.chibi", { src: "assets/chibi.png", alt: "" }),
+            h("h2.center", { style: "font-size:26px" }, tmode ? "Khu giáo viên" : "Chào mừng đến " + CFG.siteName),
+            h("p.center.muted", { style: "margin:4px 0 14px" }, tmode ? "Nhập mật khẩu của cô." : "Nhập tên và mật khẩu lớp để bắt đầu nhé!"),
+            h("div.stack", tmode ? null : h("label.field", h("span", "Tên của em"), name), h("label.field", h("span", tmode ? "Mật khẩu giáo viên" : "Mật khẩu lớp"), pw)),
+            msg, btn,
+            h("p.center.small.muted", { style: "margin:12px 0 0" }, h("a", { href: "javascript:void 0", style: "cursor:pointer;text-decoration:underline", onclick: () => { tmode = !tmode; draw(); } }, tmode ? "← Quay lại đăng nhập học viên" : "Cô giáo? Vào khu giáo viên")),
+            L.api.isDemo() ? h("div.hint", { style: "margin-top:12px" }, "Đang ở chế độ DEMO. Mật khẩu học viên: ", h("b", CFG.demoStudentPassword), " · giáo viên: ", h("b", CFG.demoTeacherPassword)) : null);
+          setTimeout(() => (tmode ? pw : name).focus(), 50);
+        };
+        draw();
+        return box;
+      }, { sticky: true });
+    });
+  }
+
+  /* ---------- khung chung ---------- */
+  function paintChrome() {
+    $("#siteName").textContent = CFG.siteName;
+    $("#siteTag").textContent = "by " + CFG.teacherName;
+    const route = (location.hash || "#/").replace(/^#/, "");
+    const nav = $("#nav"); nav.innerHTML = "";
+    const link = (href, text, on) => h("a" + (on ? ".on" : ""), { href }, text);
+    nav.append(
+      link("#/", "🏠 Trang chủ", route === "/" || route.startsWith("/c/")),
+      link("#/hw", "📝 Bài tập", route.startsWith("/hw")),
+      link("#/me", "📈 Lịch sử", route.startsWith("/me")));
+    if (isTeacher()) nav.append(link("#/teacher", "🌿 Khu của cô", route.startsWith("/teacher")));
+    if (L.auth.name) nav.append(h("span.who", (isTeacher() ? "👩‍🏫 " : "🙂 ") + L.auth.name), h("button", { title: "Đăng xuất", onclick: () => { endPlay(); L.api.logout(); state.manifest = state.hwList = state.plays = null; boot(); } }, "Thoát"));
+    $("#footer").innerHTML = "";
+    $("#footer").append(h("div", "© " + new Date().getFullYear() + " " + CFG.siteName + " · " + CFG.teacherName), isTeacher() ? null : h("div", h("a", { onclick: async () => { L.api.logout(); await loginModal(true); boot(); } }, "Khu giáo viên")));
+  }
+
+  /* ---------- trang chủ ---------- */
+  async function homeView() {
+    show(spinner());
+    await loadManifest();
+    const m = state.manifest;
+    const cards = (m.curricula || []).map((c, i) => {
+      const n = appsIn(c.id).length, u = (c.units || []).length;
+      return h("a.cur.tint" + (c.tint != null ? c.tint : i % 8), { href: "#/c/" + c.id },
+        h("div.em", c.emoji || "📚"), h("h3", c.name),
+        h("div.meta", u + " unit · " + n + " app/game"));
+    });
+    const hero = h("div.card.hero",
+      h("div", h("h1", CFG.siteName), h("p", "Chào " + (isTeacher() ? "cô " : "") + L.auth.name + "! Chọn giáo trình, chọn unit rồi chơi và ôn tập thật vui nhé."),
+        h("div.row", h("a.btn", { href: "#/hw" }, "📝 Bài tập của em"), h("a.btn.ghost", { href: "#/me" }, "📈 Lịch sử chơi"))),
+      h("img.chibi", { src: "assets/chibi.png", alt: CFG.teacherName }));
+    const hwBox = h("div");
+    show(hero, h("h2", { style: "margin:22px 2px 12px;font-size:24px" }, "Giáo trình"), h("div.grid", cards), hwBox);
+    loadHw().then(list => {
+      const open = list.filter(x => x.open && hwStatus(x).can).slice(0, 3);
+      if (!open.length) return;
+      hwBox.append(h("h2", { style: "margin:24px 2px 8px;font-size:24px" }, "Bài tập đang mở"), h("div.card", open.map(hwRow)));
+    }).catch(() => { });
+  }
+
+  /* ---------- giáo trình ---------- */
+  async function curView(cid) {
+    show(spinner()); await loadManifest();
+    const c = cur(cid);
+    if (!c) { show(h("div.card.empty", "Không tìm thấy giáo trình này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
+    const units = (c.units || []).map(u => {
+      const n = appsIn(cid, u.id).length;
+      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + (c.tint || 0), c.emoji || "📘"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
+    });
+    const loose = appsIn(cid, "");
+    if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
+    show(
+      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", c.name),
+      h("div.row", { style: "margin-bottom:12px" }, h("div.cur.tint" + (c.tint || 0), { style: "min-height:0;padding:10px 18px;cursor:default;flex-direction:row;align-items:center;gap:10px" }, h("span.em", c.emoji), h("h2", c.name))),
+      units.length ? h("div.grid", units) : h("div.card.empty", "Giáo trình này chưa có unit nào.", isTeacher() ? h("div", h("a.btn", { style: "margin-top:10px", href: "#/teacher/content" }, "Thêm unit")) : null));
+  }
+
+  /* ---------- unit ---------- */
+  function appItem(a) {
+    const mine = (state.plays || []).filter(p => p.appId === a.id);
+    const best = mine.length ? Math.max(...mine.map(p => p.max ? Math.round(100 * p.score / p.max) : 0)) : null;
+    return h("div.item", h("div.ic." + (a.kind === "game" ? "tint1" : "tint2"), a.kind === "game" ? "🎮" : "📱"),
+      h("div.grow", h("b", a.title), h("div.small.muted", (a.desc ? a.desc + " · " : "") + (mine.length ? "Đã chơi " + mine.length + " lần" + (best != null && mine.some(p => p.max) ? " · cao nhất " + best + "%" : "") : "Chưa chơi"))),
+      h("a.btn.sm", { href: "#/play/" + a.id }, "Chơi ▶"));
+  }
+  function hwStatus(x) {
+    const now = Date.now();
+    if (!x.open) return { can: false, text: "Đã đóng" };
+    if (x.start && now < +new Date(x.start)) return { can: false, text: "Chưa mở" };
+    if (x.end && now > +new Date(x.end)) return { can: false, text: "Hết hạn" };
+    if (x.maxAttempts && x.myAttempts >= x.maxAttempts) return { can: false, text: "Hết lượt" };
+    return { can: true, text: "Đang mở" };
+  }
+  function hwRow(x) {
+    const st = hwStatus(x);
+    const sub = [x.nItems ? x.nItems + " ý" : "", x.timeLimit ? x.timeLimit + " phút" : "", x.maxAttempts ? "tối đa " + x.maxAttempts + " lượt" : "", x.myAttempts ? "đã làm " + x.myAttempts + " lần" + (x.myBest != null ? " · điểm cao nhất " + x.myBest : "") : ""].filter(Boolean).join(" · ");
+    return h("div.item", h("div.ic.tint3", "📝"), h("div.grow", h("b", x.title), h("div.small.muted", sub || "Bài tập"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
+      h("a.btn.sm" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"));
+  }
+  async function unitView(cid, uid) {
+    show(spinner()); await loadManifest();
+    const c = cur(cid); if (!c) return go("/");
+    const real = uid === "_" ? "" : uid;
+    const name = real ? unitName(c, real) : "Chưa phân unit";
+    if (real && !name) { show(h("div.card.empty", "Không tìm thấy unit này.")); return; }
+    try { await loadMine(); } catch (e) { }
+    const apps = appsIn(cid, real);
+    const box = h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), apps.length ? apps.map(appItem) : h("div.empty", "Chưa có app nào trong unit này."));
+    const hwBox = h("div.card", h("h3", { style: "margin-bottom:4px" }, "Bài tập"), h("div.empty", h("span.spinner")));
+    show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", h("a", { href: "#/c/" + cid }, c.name), " › ", name),
+      h("h1", { style: "font-size:30px;margin-bottom:12px" }, name), box, hwBox);
+    try {
+      const list = (await loadHw()).filter(x => x.curId === cid && (x.unitId || "") === real);
+      hwBox.innerHTML = ""; hwBox.append(h("h3", { style: "margin-bottom:4px" }, "Bài tập"), list.length ? list.map(hwRow) : h("div.empty", "Chưa có bài tập cho unit này."));
+    } catch (e) { hwBox.innerHTML = ""; hwBox.append(h("h3", "Bài tập"), h("div.err", e.message)); }
+  }
+
+  /* ---------- chơi app ---------- */
+  let playSession = null;
+  async function endPlay() {
+    const s = playSession; if (!s) return; playSession = null;
+    try { const r = await s.flush(false); if (r) { toast("Đã lưu lần chơi thứ " + r.attempt + " ✓"); state.plays = null; } } catch (e) { toast("Chưa lưu được kết quả: " + e.message); }
+    s.stop();
+  }
+  async function playView(aid) {
+    show(spinner()); await loadManifest();
+    const app = (state.manifest.apps || []).find(a => a.id === aid);
+    if (!app) { show(h("div.card.empty", "Không tìm thấy app này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
+    const c = cur(app.cur);
+    const sess = L.adapters.createSession(app); playSession = sess;
+    const badge = h("span.pill", "…");
+    const iframe = h("iframe", { src: app.file, title: app.title, allow: "autoplay; fullscreen; clipboard-write", allowfullscreen: true });
+    const wrap = h("div.frame-wrap", iframe);
+    const exitFull = h("button.btn.sm.ghost.exitfull", { onclick: () => toggle() }, "✕ Thu nhỏ");
+    const toggle = () => { const on = wrap.classList.toggle("full"); if (on) wrap.prepend(exitFull); else exitFull.remove(); };
+    iframe.addEventListener("load", () => {
+      const name = L.adapters.inject(iframe); sess.adapter = name;
+      badge.className = "pill " + (name ? "mint" : "butter");
+      badge.textContent = name ? "✅ Đang ghi lại kết quả" : "ℹ️ Chỉ ghi lượt chơi";
+      badge.title = name ? "Mỗi câu đúng/sai được lưu để cô xem báo cáo" : "App này chưa gửi chi tiết từng câu về trang web";
+    });
+    show(
+      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
+      h("div.player",
+        h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
+          h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
+          h("button.btn.sm.mint", { onclick: async () => { await endPlay(); go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); } }, "Lưu & thoát")),
+        wrap,
+        app.desc ? h("div.small.muted", app.desc) : null));
+  }
+
+  /* ---------- bài tập: danh sách ---------- */
+  async function hwListView() {
+    show(spinner());
+    await loadManifest();
+    try {
+      const list = await loadHw(true);
+      show(h("h1", { style: "font-size:30px;margin-bottom:12px" }, "Bài tập"),
+        h("div.card", list.length ? list.map(x => { const c = cur(x.curId); const row = hwRow(x); if (c) row.querySelector(".grow").insertBefore(h("div.small.muted", c.name + (x.unitId ? " · " + unitName(c, x.unitId) : "")), row.querySelector(".grow").children[1]); return row; }) : h("div.empty", "Chưa có bài tập nào. Chờ cô giao bài nhé!")));
+    } catch (e) { show(h("div.card", h("div.err", e.message))); }
+  }
+
+  /* ---------- bài tập: làm bài ---------- */
+  async function hwRunView(id) {
+    show(spinner()); await loadManifest();
+    let hw, mine;
+    try { hw = (await L.api.call("hwGet", { id })).hw; mine = (await L.api.call("hwMine", { id })).subs || []; }
+    catch (e) { show(h("div.card", h("div.err", e.message), h("p", h("a.btn", { href: "#/hw" }, "← Danh sách bài tập")))); return; }
+    const m = hw.meta || {};
+    const used = mine.length;
+    let st = hwStatus({ open: hw.open, start: m.start, end: m.end, maxAttempts: m.maxAttempts, myAttempts: isTeacher() ? 0 : used });
+    if (isTeacher() && !st.can) st = { can: true, text: "Xem thử (cô)" };
+    const histTbl = () => mine.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Lần", "Ngày giờ", "Điểm", "Thời gian"].map(x => h("th", x)))),
+      h("tbody", mine.slice().reverse().map(s => h("tr", h("td", "Lần " + s.attempt), h("td", fmtDate(s.time)), h("td", h("b", s.scaled + "/" + (m.scale || 10)), " ", h("span.muted.small", "(" + s.score + "/" + s.max + ")")), h("td", fmtDur(s.durationSec))))))) : null;
+
+    const intro = () => {
+      const nSec = (hw.sections || []).length;
+      show(h("div.crumbs", h("a", { href: "#/hw" }, "Bài tập"), " › ", hw.title),
+        h("div.card", h("h1", { style: "font-size:30px" }, hw.title),
+          hw.desc ? h("div.shared", hw.desc) : null,
+          h("div.row", { style: "margin:12px 0" }, h("span.pill", nSec + " phần"), m.nItems ? h("span.pill.sky", m.nItems + " ý") : null, m.timeLimit ? h("span.pill.butter", "⏱ " + m.timeLimit + " phút") : null,
+            m.maxAttempts ? h("span.pill.peach", "Lượt: " + used + "/" + m.maxAttempts) : h("span.pill.mint", "Không giới hạn lượt"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
+          st.can ? h("button.btn", { onclick: run }, used ? "Làm lại ▶" : "Bắt đầu làm bài ▶") : h("div.hint", st.text === "Hết lượt" ? "Em đã dùng hết số lượt làm bài này." : "Bài này hiện không mở để làm."),
+        ),
+        mine.length ? h("div.card", h("h3", { style: "margin-bottom:8px" }, "Các lần đã làm"), histTbl()) : null);
+    };
+
+    const run = () => {
+      const rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec));
+      const t0 = Date.now(); let submitted = false, tick = null;
+      const timer = h("span.timer", "");
+      const head = h("div.hw-head", h("div.row", h("b", { style: "font-family:var(--hfont);font-size:19px" }, hw.title), h("span.grow"), m.timeLimit ? timer : null));
+      const parts = []; let no = 1;
+      (hw.sections || []).forEach((sec, i) => {
+        const rt = rts[i];
+        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i), L.hw.renderSection(rt, "do", false, no, null)));
+        no += rt.qs.length;
+      });
+      const submitBtn = h("button.btn.mint", { style: "width:100%;margin-top:16px;font-size:18px", onclick: () => submit(false) }, "Nộp bài ✓");
+      const err = h("div");
+      if (!rts.some(r => r.qs.length)) { show(h("div.card.empty", "Bài tập này chưa có câu hỏi.")); return; }
+      show(head, parts, err, submitBtn);
+      if (m.timeLimit) {
+        const end = t0 + m.timeLimit * 60000;
+        const upd = () => { const left = Math.max(0, end - Date.now()); timer.textContent = "⏱ " + String(Math.floor(left / 60000)).padStart(2, "0") + ":" + String(Math.floor(left / 1000) % 60).padStart(2, "0"); timer.classList.toggle("low", left < 60000); if (left <= 0 && !submitted) { clearInterval(tick); toast("Hết giờ! Bài được nộp tự động."); submit(true); } };
+        upd(); tick = setInterval(() => { if (!document.body.contains(timer)) { clearInterval(tick); return; } upd(); }, 1000);
+      }
+      async function submit(force) {
+        if (submitted) return;
+        const res = L.hw.gradeAll(rts);
+        const blank = rts.reduce((a, rt) => a + rt.qs.filter(q => { const g = L.hw.grade(q, rt.sts[q.id]); return g.got === 0; }).length, 0);
+        if (!force && blank > 0 && !(await L.confirmBox("Còn " + blank + " câu chưa có điểm (chưa làm hoặc sai). Em vẫn muốn nộp bài chứ?", "Nộp bài"))) return;
+        submitted = true; clearInterval(tick); submitBtn.disabled = true; submitBtn.textContent = "Đang nộp…";
+        const dur = Math.round((Date.now() - t0) / 1000);
+        try {
+          let r;
+          if (isTeacher()) r = { attempt: "thử", scaled: res.max ? L.round2(res.got / res.max * (m.scale || 10)) : 0, preview: true };
+          else {
+            r = await L.api.call("hwSubmit", { id: hw.id, score: res.got, max: res.max, durationSec: dur, items: res.items });
+            state.hwList = null;
+            mine.push({ attempt: r.attempt, time: new Date().toISOString(), score: res.got, max: res.max, scaled: r.scaled, durationSec: dur });
+          }
+          result(rts, res, r, dur);
+        } catch (e) { submitted = false; submitBtn.disabled = false; submitBtn.textContent = "Nộp bài ✓"; err.innerHTML = ""; err.appendChild(h("div.err", { style: "margin-top:12px" }, "Chưa nộp được: " + e.message + " — bài làm của em vẫn còn đây, bấm nộp lại nhé.")); }
+      }
+    };
+
+    const result = (rts, res, r, dur) => {
+      const scale = m.scale || 10, after = m.showAfter || "full";
+      const pct = res.max ? Math.round(100 * res.got / res.max) : 0;
+      const top = h("div.card.result",
+        h("div.muted", r.preview ? "Chế độ xem thử (không lưu điểm)" : "Kết quả lần " + r.attempt),
+        after === "done" ? h("div", { style: "font-size:46px" }, "🎉") : h("div.score-big", String(r.scaled), h("small", { style: "font-size:26px" }, "/" + scale)),
+        after === "done" ? h("h2", "Em đã nộp bài!") : h("div", { style: "margin:10px auto;max-width:360px" }, h("div.bar." + (pct >= 70 ? "good" : pct >= 40 ? "" : "bad"), h("i", { style: "width:" + pct + "%" })), h("div.muted", { style: "margin-top:6px" }, res.got + "/" + res.max + " ý đúng · " + fmtDur(dur))),
+        h("div.row", { style: "justify-content:center;margin-top:10px" }, (isTeacher() || (hw.open && (!m.maxAttempts || mine.length < m.maxAttempts))) ? h("button.btn", { onclick: () => hwRunView(id) }, "Làm lại ▶") : null, h("a.btn.ghost", { href: "#/hw" }, "← Danh sách bài tập")));
+      const out = [h("div.crumbs", h("a", { href: "#/hw" }, "Bài tập"), " › ", hw.title), top];
+      if (after === "full" || after === "verdict") {
+        let no = 1;
+        (hw.sections || []).forEach((sec, i) => {
+          const rt = rts[i];
+          out.push(h("div.card.sec", L.hw.sectionHeader(sec, i), h("div.small.muted", "Phần này: " + res.secs[i].got + "/" + res.secs[i].max + " ý"), L.hw.renderSection(rt, "review", after === "full", no, null)));
+          no += rt.qs.length;
+        });
+      }
+      show(out);
+    };
+
+    intro();
+  }
+
+  /* ---------- lịch sử của em ---------- */
+  async function meView() {
+    show(spinner());
+    try { await loadMine(true); } catch (e) { show(h("div.card", h("div.err", e.message))); return; }
+    await loadManifest();
+    const plays = state.plays, subs = state.subs;
+    const appRows = plays.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["App / game", "Lần", "Ngày giờ", "Kết quả", "Thời gian"].map(x => h("th", x)))),
+      h("tbody", plays.map(p => h("tr", h("td", h("a", { href: "#/play/" + p.appId, style: "font-weight:800" }, p.appTitle || p.appId)), h("td", "Lần " + p.attempt), h("td", fmtDate(p.time)), h("td", p.max ? p.score + "/" + p.max + " (" + Math.round(100 * p.score / p.max) + "%)" : "—"), h("td", fmtDur(p.durationSec))))))) : h("div.empty", "Em chưa chơi app nào. Vào một unit và bấm Chơi nhé!");
+    const hwRows = subs.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Bài tập", "Lần", "Ngày giờ", "Điểm", "Thời gian"].map(x => h("th", x)))),
+      h("tbody", subs.map(p => h("tr", h("td", h("a", { href: "#/hw/" + p.hwId, style: "font-weight:800" }, p.hwTitle || p.hwId)), h("td", "Lần " + p.attempt), h("td", fmtDate(p.time)), h("td", h("b", String(p.scaled))), h("td", fmtDur(p.durationSec))))))) : h("div.empty", "Em chưa nộp bài tập nào.");
+    show(h("h1", { style: "font-size:30px;margin-bottom:12px" }, "Lịch sử của " + L.auth.name), h("div.card", h("h3", { style: "margin-bottom:6px" }, "App & game"), appRows), h("div.card", h("h3", { style: "margin-bottom:6px" }, "Bài tập"), hwRows));
+  }
+
+  /* ---------- router ---------- */
+  let routeToken = 0;
+  async function route() {
+    const token = ++routeToken;
+    await endPlay();
+    if (token !== routeToken) return;
+    paintChrome();
+    if (!L.auth.name || !L.auth.role) return;
+    const p = (location.hash || "#/").replace(/^#/, "").split("?")[0].split("/").filter(Boolean);
+    try {
+      if (!p.length) return await homeView();
+      if (p[0] === "c" && p[1] && p[2] === "u") return await unitView(p[1], p[3] || "_");
+      if (p[0] === "c" && p[1]) return await curView(p[1]);
+      if (p[0] === "play" && p[1]) return await playView(p[1]);
+      if (p[0] === "hw" && p[1]) return await hwRunView(p[1]);
+      if (p[0] === "hw") return await hwListView();
+      if (p[0] === "me") return await meView();
+      if (p[0] === "teacher") { if (!isTeacher()) { show(h("div.card.empty", "Khu này dành cho cô giáo.")); return; } return await L.teacherView(p[1] || "home", p.slice(2)); }
+      show(h("div.card.empty", "Không tìm thấy trang.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ"))));
+    } catch (e) { console.error(e); show(h("div.card", h("div.err", "Có lỗi: " + e.message))); }
+  }
+  L.route = route;
+
+  async function boot() {
+    paintChrome();
+    document.title = CFG.siteName;
+    if (!L.auth.name || !L.auth.role) await loginModal(false);
+    else {
+      // kiểm tra phiên còn hợp lệ (mật khẩu có thể đã đổi)
+      try { const r = await L.api.call("login"); L.auth.role = r.role; L.api.saveAuth(); } catch (e) { L.api.logout(); await loginModal(false); }
+    }
+    route();
+  }
+  L.boot = () => {
+    window.addEventListener("hashchange", route);
+    window.addEventListener("pagehide", () => { if (playSession) playSession.flush(true); });
+    boot();
+  };
+})(window.LSE);
