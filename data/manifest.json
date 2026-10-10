@@ -1,13 +1,71 @@
 {
   "version": 1,
   "curricula": [
-    { "id": "starters", "name": "Cambridge Starters", "emoji": "🌱", "tint": 0, "units": [] },
-    { "id": "flyers", "name": "Cambridge Flyers", "emoji": "🚀", "tint": 4, "units": [] },
-    { "id": "gs4", "name": "Global Success 4", "emoji": "📘", "tint": 1, "units": [] },
-    { "id": "gs5", "name": "Global Success 5", "emoji": "📗", "tint": 3, "units": [] },
-    { "id": "gs7", "name": "Global Success 7", "emoji": "📙", "tint": 2, "units": [] },
-    { "id": "gs8", "name": "Global Success 8", "emoji": "📕", "tint": 5, "units": [] },
-    { "id": "adult", "name": "Giao tiếp người lớn", "emoji": "☕", "tint": 6, "units": [] }
+    {
+      "id": "starters",
+      "name": "Cambridge Starters",
+      "emoji": "🌱",
+      "tint": 0,
+      "units": []
+    },
+    {
+      "id": "flyers",
+      "name": "Cambridge Flyers",
+      "emoji": "🚀",
+      "tint": 4,
+      "units": []
+    },
+    {
+      "id": "gs4",
+      "name": "Global Success 4",
+      "emoji": "📘",
+      "tint": 1,
+      "units": []
+    },
+    {
+      "id": "gs5",
+      "name": "Global Success 5",
+      "emoji": "📗",
+      "tint": 3,
+      "units": []
+    },
+    {
+      "id": "gs7",
+      "name": "Global Success 7",
+      "emoji": "📙",
+      "tint": 2,
+      "units": []
+    },
+    {
+      "id": "gs8",
+      "name": "Global Success 8",
+      "emoji": "📕",
+      "tint": 5,
+      "units": [
+        {
+          "id": "unit-2-life-in-country-side-tuzg",
+          "name": "UNIT 2_LIFE IN COUNTRY SIDE"
+        }
+      ]
+    },
+    {
+      "id": "adult",
+      "name": "Giao tiếp người lớn",
+      "emoji": "☕",
+      "tint": 6,
+      "units": []
+    }
   ],
-  "apps": []
+  "apps": [
+    {
+      "id": "countryside-hub-unit-2-fx3k",
+      "title": "Countryside Hub Unit 2",
+      "cur": "gs8",
+      "unit": "unit-2-life-in-country-side-tuzg",
+      "file": "apps/gs8/unit-2-life-in-country-side-tuzg/countryside-hub-unit-2-fx3k.html",
+      "kind": "app",
+      "desc": "VOCAB + SO SÁNH TRẠNG TỪ",
+      "added": "2026-10-10T11:58:15.710Z"
+    }
+  ]
 }
