@@ -162,7 +162,7 @@ window.LSE = window.LSE || {};
     }
     if (T.includes("memory")) {
       if (pr.length < 2) notes.push("Cần ít nhất 2 dòng \"từ - nghĩa\" để tạo lật thẻ.");
-      else { const gs = []; for (let i = 0; i < pr.length; i += 6) gs.push(pr.slice(i, i + 6)); if (gs.length > 1 && gs[gs.length - 1].length < 2) gs[gs.length - 2].push(...gs.pop()); sec.push({ type: "memory", title: "Memory cards", raw: gs.map(g => g.map(p => p[0] + " = " + p[1]).join("\n")).join("\n\n"), topic }); }
+      else sec.push({ type: "memory", title: "Memory cards", raw: pr.slice(0, 12).map(p => p[0] + " = " + p[1]).join("\n"), topic });
     }
     if (T.includes("wordsearch")) {
       const ws = pr.length ? pr.map(p => p[0] + " | " + p[1]) : wl;

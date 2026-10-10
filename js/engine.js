@@ -397,12 +397,14 @@
     const cls = review ? (g.got === g.max ? "right" : g.got > 0 ? "partial" : "wrong") : "";
     const body = (VIEW[q.type] || L.gx.VIEW[q.type])(q, st, ctx, g, no);
     return h("div.q" + (cls ? "." + cls : ""),
-      isFill(q) ? null : h("div.stem", h("span.qn", "Câu " + no + ". "), q.stem || null),
+      isFill(q) ? null : h("div.stem", h("span.qn", "Câu " + no + ". "), q.stem || null, ["mcq1", "mcqN", "tf", "short"].includes(q.type) ? spkMini(q.stem, ctx) : null),
       q.img ? L.imgs.node(q.img) : null,
       body,
       review && ctx.showAns && q.expl ? h("div.expl", "💡 " + q.expl) : null);
   }
 
+  const isEn = t => /[A-Za-z]/.test(t || "") && !/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(t || "");
+  const spkMini = (t, ctx) => (ctx && ctx.sec && ctx.sec.noSpeak) || !isEn(t) || String(t).length > 120 || !(L.gx && L.gx.speak) ? null : h("span.ospk", { role: "button", title: "Nghe", onclick: ev => { ev.stopPropagation(); L.gx.speak(String(t).replace(/^\s*img\s*:.*/i, "")); } }, "🔊");
   function tfLabels(ctx) { return ctx.sec && ctx.sec.tfLabels === "vi" ? ["Đúng", "Sai"] : ["True", "False"]; }
 
   const VIEW = {
@@ -433,7 +435,7 @@
     fillbank(q, st, ctx, g, no) { return fillView(q, st, ctx, g, no); },
     short(q, st, ctx, g) {
       const review = ctx.mode === "review";
-      const inp = h("input.blank" + (review ? (g.items[0].ok ? ".k-right" : ".k-wrong") : ""), { type: "text", style: "width:100%;max-width:420px;text-align:left", value: st.v, autocomplete: "off", autocapitalize: "none", spellcheck: "false", placeholder: "Nhập câu trả lời…", disabled: review, oninput: e => { st.v = e.target.value; } });
+      const inp = h("input.blank" + (review ? (g.items[0].ok ? ".k-right" : ".k-wrong") : ""), { type: "text", style: "width:100%;max-width:420px;text-align:left", value: st.v, autocomplete: "off", autocapitalize: "none", spellcheck: "false", placeholder: st.hnt || "Nhập câu trả lời…", disabled: review, oninput: e => { st.v = e.target.value; } });
       return h("div", inp, review && ctx.showAns && !g.items[0].ok ? h("div.fb.bad", "Đáp án: ", h("span.ans", q.answers.join(" / "))) : null);
     },
     wordpick(q, st, ctx, g) {
@@ -457,12 +459,13 @@
           const sel = h("select.blank" + (review ? (ok ? ".k-right" : ".k-wrong") : ""), { style: "width:100%", disabled: review, onchange: e => { st.v[i] = e.target.value; } },
             h("option", { value: "" }, "— chọn —"), rights.map(r => h("option", { value: r, selected: st.v[i] === r }, r)));
           const lm = String(p.l).match(/^\s*img\s*:\s*(.+)$/i), pic = lm ? L.imgs.node(lm[1]) : null;
-          return h("div.pairrow", pic ? h("div.lft", pic) : h("div.lft", p.l), h("div", { style: "flex:1.2" }, sel, review && ctx.showAns && !ok ? h("div.small", { style: "color:var(--good);font-weight:800" }, "→ " + p.r) : null));
+          return h("div.pairrow", pic ? h("div.lft", pic) : h("div.lft", p.l, spkMini(p.l, ctx)), h("div", { style: "flex:1.2" }, sel, review && ctx.showAns && !ok ? h("div.small", { style: "color:var(--good);font-weight:800" }, "→ " + p.r) : null));
         }));
     },
     order(q, st, ctx, g) { return seqView(q, st, ctx, g, q.items, "order"); },
     sentence(q, st, ctx, g) { return seqView(q, st, ctx, g, q.chunks, "sentence"); },
     classify(q, st, ctx, g) {
+      if (!(ctx.sec && ctx.sec.clsMode === "choose") && L.gx && L.gx.classifyDrag) return L.gx.classifyDrag(q, st, ctx, g);
       const review = ctx.mode === "review";
       return h("div",
         st.ord.map(i => {
@@ -482,11 +485,11 @@
     const review = ctx.mode === "review";
     return h("div", q.opts.map((o, i) => {
       const sel = multi ? (st.v || []).includes(i) : st.v === i;
-      let c = "opt"; if (sel) c += " sel";
+      let c = "opt"; if (sel) c += " sel"; const hid = st.hid && st.hid.includes(i); if (hid) c += " dim";
       if (review) { if (sel) c += o.ok ? " k-right" : " k-wrong"; else if (o.ok && ctx.showAns) c += " k-miss"; }
       return h("button." + c.split(" ").join("."), {
-        onclick: () => { if (review) return; if (multi) st.v = sel ? st.v.filter(x => x !== i) : st.v.concat(i); else st.v = i; ctx.redraw(); }
-      }, h("span.l", LET[i]), h("span", o.t));
+        onclick: () => { if (review || hid) return; if (multi) st.v = sel ? st.v.filter(x => x !== i) : st.v.concat(i); else st.v = i; ctx.redraw(); }
+      }, h("span.l", LET[i]), h("span", o.t), spkMini(o.t, ctx));
     }), multi && !review ? h("div.small.muted", { style: "margin-top:6px" }, "Chọn tất cả đáp án đúng.") : null);
   }
 
@@ -525,7 +528,7 @@
         } }, st.v[i] || "     ");
       } else {
         const w = Math.max(96, Math.min(280, (p.answers[0].length * 11) + 36));
-        node = h("input.blank" + cls, { type: "text", style: "width:" + w + "px", value: st.v[i], disabled: review, autocomplete: "off", autocapitalize: "none", spellcheck: "false", oninput: e => { st.v[i] = e.target.value; } });
+        node = h("input.blank" + cls, { type: "text", style: "width:" + w + "px", value: st.v[i], disabled: review, placeholder: (st.hnt && st.hnt[i]) || null, autocomplete: "off", autocapitalize: "none", spellcheck: "false", oninput: e => { st.v[i] = e.target.value; } });
       }
       return h("span.fillbox", p.hint ? h("span.bhint", "(" + p.hint + ")") : null, node,
         review && ctx.showAns && !ok ? h("span.small", { style: "color:var(--good);font-weight:800" }, "→ " + p.answers[0]) : null);
@@ -562,7 +565,7 @@
   }
 
   /** vẽ một phần. mode: do|review */
-  function renderSection(rt, mode, showAns, startNo, onChange) {
+  function renderSection(rt, mode, showAns, startNo, onChange, opts) {
     const wrap = h("div");
     const draw = () => {
       wrap.innerHTML = "";
@@ -574,7 +577,7 @@
         redraw: () => { draw(); onChange && onChange(); },
         bankFree: () => { }
       };
-      if (rt.bank && mode === "do") {
+      if (rt.bank && (mode === "do")) {
         const left = Object.assign({}, usedBank);
         wrap.appendChild(h("div.bank", rt.bank.map(b => {
           const k = b.w; const isUsed = left[k] > 0; if (isUsed) left[k]--;
@@ -587,7 +590,7 @@
           } }, k);
         })));
       }
-      rt.qs.forEach((q, i) => wrap.appendChild(view(q, rt.sts[q.id], ctx, startNo + i)));
+      rt.qs.forEach((q, i) => wrap.appendChild(opts && opts.card ? opts.card(q, rt.sts[q.id], ctx, startNo + i, rt) : view(q, rt.sts[q.id], ctx, startNo + i)));
     };
     draw();
     return wrap;

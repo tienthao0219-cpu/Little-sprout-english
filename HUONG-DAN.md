@@ -98,3 +98,16 @@ Token chỉ lưu trong trình duyệt của cô trên máy đó. Đổi máy th�
 | 🕵️ Thám tử bắt lỗi | `She [[go]] to school. => goes` |
 - Nghe chọn từ dùng giọng đọc có sẵn của trình duyệt (miễn phí). Muốn dùng file MP3 riêng: thêm dòng `AUDIO: assets/media/ten.mp3` ngay trước dòng đó.
 - Màu folder: 16 màu pastel, giáo trình mới tự lấy màu chưa dùng.
+
+## Cập nhật đợt 2
+- 🃏 Lật thẻ: cả phần là MỘT bàn thẻ (mỗi dòng một cặp, tối đa 15 cặp = 30 thẻ). Mẫu có 10 cặp hình–từ (20 thẻ).
+- 🔎 Tìm từ: học sinh chọn mức Dễ / Vừa / Khó. Cô đặt mức mặc định bằng dòng `LEVEL: dễ` (hoặc vừa, khó).
+- 🗂️ Phân loại: mặc định kéo thẻ vào cột của nhóm. Muốn kiểu bấm chọn nhóm cũ: ô "Cách làm (Phân loại)" trong phần bài.
+- Thanh menu: cô hiện ảnh chibi, học sinh hiện chữ cái đầu của tên trên nền màu pastel.
+
+## Cập nhật đợt 3
+- ✍️ **Viết lại câu (đồng nghĩa)**: `câu gốc | bắt đầu bằng => đáp án 1 / đáp án 2`. Chấm không phân biệt hoa thường, bỏ dấu câu, coi isn't = is not, I'm = I am.
+- 🎮 **Luyện tập** (nút trên mỗi bài tập): kiểm tra từng câu, có gợi ý (−2 xu), kiếm xu, chuỗi đúng liên tiếp, **Fix it!** làm lại các câu vừa sai. Không tính điểm vào báo cáo.
+- 🪙 **Xu và cửa hàng avatar**: xu kiếm từ luyện tập và nộp bài; đổi avatar ở mục xu trên thanh menu. LƯU Ý: xu và avatar lưu trên từng thiết bị (trình duyệt) của học sinh, chưa đồng bộ giữa các máy.
+- 🔊 Nút nghe từ ở trắc nghiệm, đúng/sai, trả lời ngắn, ghép cặp, lật thẻ, tìm từ. Muốn tắt trong một phần: tick "Ẩn các nút 🔊" ở phần bài.
+- 🔈 Nút Âm thanh trên menu để bật/tắt tiếng hiệu ứng.

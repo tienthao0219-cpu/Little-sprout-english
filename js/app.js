@@ -83,6 +83,14 @@
   }
 
   /* ---------- khung chung ---------- */
+  /* avatar: cô = ảnh chibi; học sinh = chữ cái đầu trên nền pastel theo tên */
+  function avatarNode() {
+    if (isTeacher()) return h("img.av", { src: "assets/chibi.png", alt: "", onerror: e => { e.target.replaceWith(h("span.av", { style: "background:linear-gradient(135deg,#FF9EBB,#B9A8F0)" }, "T")); } });
+    const pa = L.prof && L.prof.avatar(); if (pa) return h("span.av.emo", { style: "background:" + pa.bg }, pa.e);
+    const name = String(L.auth.name || "?").trim(), ini = (name.split(/\s+/).pop() || "?").charAt(0).toUpperCase();
+    const cols = ["#FF9EBB", "#9ED8FF", "#8FDDBA", "#B9A8F0", "#FFB38A", "#F2C94C"]; let hsh = 0; for (const ch of name) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
+    return h("span.av", { style: "background:" + cols[hsh % cols.length] }, ini);
+  }
   function paintChrome() {
     $("#siteName").textContent = CFG.siteName;
     $("#siteTag").textContent = SLOGAN;
@@ -94,7 +102,9 @@
       link("#/hw", "book", "Bài tập", route.startsWith("/hw")),
       link("#/me", "star", "Lịch sử", route.startsWith("/me")));
     if (isTeacher()) nav.append(link("#/teacher", "sprout", "Khu của cô", route.startsWith("/teacher")));
-    if (L.auth.name) nav.append(h("span.who", (isTeacher() ? "👩‍🏫 " : "🙂 ") + L.auth.name), h("button.ni", { title: "Đăng xuất", onclick: () => { endPlay(); L.api.logout(); state.manifest = state.hwList = state.plays = null; boot(); } }, h("span.nico.n-out", { html: ICONS.out }), h("span.nlab", "Thoát")));
+    if (L.auth.name && !isTeacher()) { const coin = h("a.ni.coinchip", { href: "#/shop", title: "Cửa hàng" }, h("span.nico", { html: L.coinSvg }), h("span.nlab", String(L.prof.coins()) + " xu")); L.prof.onChange(() => { const l = coin.querySelector(".nlab"); if (l) l.textContent = L.prof.coins() + " xu"; }); nav.append(coin); }
+    if (L.auth.name) nav.append(h("button.ni", { title: "Bật/tắt âm thanh", onclick: e => { const m = L.sfx.toggle(); e.currentTarget.querySelector(".nico").innerHTML = m ? ICONS.mute : ICONS.sound; e.currentTarget.querySelector(".nlab").textContent = m ? "Tắt tiếng" : "Âm thanh"; if (!m) L.sfx.ok(); } }, h("span.nico", { html: L.sfx.muted() ? ICONS.mute : ICONS.sound }), h("span.nlab", L.sfx.muted() ? "Tắt tiếng" : "Âm thanh")));
+    if (L.auth.name) nav.append(h("span.who", avatarNode(), L.auth.name), h("button.ni", { title: "Đăng xuất", onclick: () => { endPlay(); L.api.logout(); state.manifest = state.hwList = state.plays = null; boot(); } }, h("span.nico.n-out", { html: ICONS.out }), h("span.nlab", "Thoát")));
     $("#footer").innerHTML = "";
     $("#footer").append(h("div", "© " + new Date().getFullYear() + " " + CFG.siteName + " · " + CFG.teacherName), isTeacher() ? null : h("div", h("a", { onclick: async () => { L.api.logout(); await loginModal(true); boot(); } }, "Khu giáo viên")));
   }
@@ -116,6 +126,8 @@
     book: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ED8FF"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><rect x="5" y="5" width="18" height="23" rx="3.5" fill="url(#gb)"/><path d="M9.5 11h9M9.5 15.5h9M9.5 20h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="m22 21 6-9a1.7 1.7 0 0 1 2.4 2.3L24.5 23.5 21 25z" fill="#FFB38A"/><path d="m22 21 3 2" stroke="#fff" stroke-width="1.2"/></svg>',
     star: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M16 3.5l3.8 7.7 8.5 1.2-6.15 6 1.45 8.45L16 22.8l-7.6 4 1.45-8.45-6.15-6 8.5-1.2z" fill="url(#gs)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/><circle cx="26.5" cy="5.5" r="1.5" fill="#B9A8F0"/><circle cx="5" cy="26" r="1.2" fill="#9ED8FF"/></svg>',
     sprout: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FDDBA"/><stop offset="1" stop-color="#9ED8FF"/></linearGradient></defs><path d="M16 28V15" stroke="#5FBF98" stroke-width="3" stroke-linecap="round"/><path d="M16 17C16 10 11 6 4.5 6.5 4.5 13 9 17 16 17z" fill="url(#gp)"/><path d="M16 14c0-6 4.5-9.5 11-9 0 6-4 10-11 9z" fill="#B9F0D4"/></svg>',
+    sound: '<svg viewBox="0 0 32 32"><path d="M5 12h5l7-6v20l-7-6H5z" fill="#9ED8FF"/><path d="M21 11.5a6.5 6.5 0 0 1 0 9M24.5 8a11 11 0 0 1 0 16" fill="none" stroke="#B9A8F0" stroke-width="2.6" stroke-linecap="round"/></svg>',
+    mute: '<svg viewBox="0 0 32 32"><path d="M5 12h5l7-6v20l-7-6H5z" fill="#CBD2E0"/><path d="m22 12 7 8m0-8-7 8" stroke="#FF9EBB" stroke-width="2.8" stroke-linecap="round"/></svg>',
     out: '<svg viewBox="0 0 32 32"><defs><linearGradient id="go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC4A8"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M12 5h9a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3h-9" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round"/><path d="M5 16h13M13.5 11 18.5 16l-5 5" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
   const SLOGAN = "Mỗi ngày một chút, mầm nhỏ vươn cao 🌱";
@@ -193,7 +205,9 @@
     const st = hwStatus(x);
     const sub = [x.nItems ? x.nItems + " ý" : "", x.timeLimit ? x.timeLimit + " phút" : "", x.maxAttempts ? "tối đa " + x.maxAttempts + " lượt" : "", x.myAttempts ? "đã làm " + x.myAttempts + " lần" + (x.myBest != null ? " · điểm cao nhất " + x.myBest : "") : ""].filter(Boolean).join(" · ");
     return h("div.item", h("div.ic.tint3", "📝"), h("div.grow", h("b", x.title), h("div.small.muted", sub || "Bài tập"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
-      h("a.btn.sm" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"));
+      h("div.col", { style: "display:flex;flex-direction:column;gap:6px;align-items:stretch" },
+        h("a.btn.sm" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"),
+        h("a.btn.sm.peach", { href: "#/practice/" + x.id, title: "Luyện tập: kiểm tra từng câu, có gợi ý, kiếm xu (không tính điểm)" }, "🎮 Luyện tập")));
   }
   async function unitView(cid, uid) {
     show(spinner()); await loadManifest();
@@ -278,7 +292,7 @@
           hw.desc ? h("div.shared", hw.desc) : null,
           h("div.row", { style: "margin:12px 0" }, h("span.pill", nSec + " phần"), m.nItems ? h("span.pill.sky", m.nItems + " ý") : null, m.timeLimit ? h("span.pill.butter", "⏱ " + m.timeLimit + " phút") : null,
             m.maxAttempts ? h("span.pill.peach", "Lượt: " + used + "/" + m.maxAttempts) : h("span.pill.mint", "Không giới hạn lượt"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
-          st.can ? h("button.btn", { onclick: run }, used ? "Làm lại ▶" : "Bắt đầu làm bài ▶") : h("div.hint", st.text === "Hết lượt" ? "Em đã dùng hết số lượt làm bài này." : "Bài này hiện không mở để làm."),
+          h("div.row", st.can ? h("button.btn", { onclick: run }, used ? "Làm lại ▶" : "Bắt đầu làm bài ▶") : null, h("a.btn.peach", { href: "#/practice/" + hw.id }, "🎮 Luyện tập (không tính điểm, có gợi ý, kiếm xu)")), !st.can ? h("div.hint", st.text === "Hết lượt" ? "Em đã dùng hết số lượt làm bài này." : "Bài này hiện không mở để làm.") : null,
         ),
         mine.length ? h("div.card", h("h3", { style: "margin-bottom:8px" }, "Các lần đã làm"), histTbl()) : null);
     };
@@ -318,6 +332,7 @@
             state.hwList = null;
             mine.push({ attempt: r.attempt, time: new Date().toISOString(), score: res.got, max: res.max, scaled: r.scaled, durationSec: dur });
           }
+          if (!r.preview && res.got > 0) { const c = Math.min(res.got, 40); L.prof.add(c); setTimeout(() => { L.toast("+" + c + " xu 🪙 nhờ nộp bài"); L.sfx.coin(); }, 700); }
           result(rts, res, r, dur);
         } catch (e) { submitted = false; submitBtn.disabled = false; submitBtn.textContent = "Nộp bài ✓"; err.innerHTML = ""; err.appendChild(h("div.err", { style: "margin-top:12px" }, "Chưa nộp được: " + e.message + " — bài làm của em vẫn còn đây, bấm nộp lại nhé.")); }
       }
@@ -375,6 +390,8 @@
       if (p[0] === "c" && p[1] && p[2] === "u") return await unitView(p[1], p[3] || "_");
       if (p[0] === "c" && p[1]) return await curView(p[1]);
       if (p[0] === "play" && p[1]) return await playView(p[1]);
+      if (p[0] === "practice" && p[1]) return await L.practiceView(p[1]);
+      if (p[0] === "shop") return await L.shopView();
       if (p[0] === "hw" && p[1]) return await hwRunView(p[1]);
       if (p[0] === "hw") return await hwListView();
       if (p[0] === "me") return await meView();
@@ -383,6 +400,7 @@
     } catch (e) { console.error(e); show(h("div.card", h("div.err", "Có lỗi: " + e.message))); }
   }
   L.route = route;
+  L.ui = { show, spinner, loadManifest, repaint: () => paintChrome() };
 
   async function boot() {
     paintChrome();

@@ -513,7 +513,9 @@
       };
       const typeSel = h("select", { onchange: e => { sec.type = e.target.value; markDirty(); fillRule(); check(); } }, L.hw.TYPES.map(t => h("option", { value: t.id, selected: t.id === sec.type }, t.emoji + " " + t.label)));
       const tfSel = h("label.field", h("span", "Nhãn Đúng/Sai"), h("select", { onchange: e => { sec.tfLabels = e.target.value; markDirty(); check(); } }, h("option", { value: "en", selected: sec.tfLabels !== "vi" }, "True / False"), h("option", { value: "vi", selected: sec.tfLabels === "vi" }, "Đúng / Sai")));
+      const clsSel = h("label.field", h("span", "Cách làm (Phân loại)"), h("select", { onchange: e => { sec.clsMode = e.target.value; markDirty(); check(); } }, h("option", { value: "drag", selected: sec.clsMode !== "choose" }, "Kéo thẻ vào cột của nhóm (khuyên dùng)"), h("option", { value: "choose", selected: sec.clsMode === "choose" }, "Bấm chọn nhóm cho từng mục")));
       const fillRule = () => {
+        clsSel.classList.toggle("hidden", sec.type !== "classify");
         rule.innerHTML = ""; rule.append(h("b", "Cú pháp: "), T().rule, h("div.small", { style: "margin-top:6px" }, h("b", "Gắn hình cho câu: "), "thêm dòng ", h("code", "IMG: apple"), " ngay trước câu (hoặc dòng đầu của khối câu). Sau IMG: có thể là emoji (🍎), tên từ (tra trong tab 🖼️ Hình), hoặc đường dẫn ảnh. ", sec.type === "match" ? h("span", "Ở dạng ghép: vế trái viết ", h("code", "img:dog = con chó"), " để vế trái là hình.") : null));
         tfSel.classList.toggle("hidden", !["tf", "tf4"].includes(sec.type));
       };
@@ -532,9 +534,10 @@
           h("button.btn.sm.ghost", { disabled: i === hw.sections.length - 1, onclick: () => { [hw.sections[i + 1], hw.sections[i]] = [hw.sections[i], hw.sections[i + 1]]; markDirty(); drawSecs(); } }, "↓"),
           h("button.btn.sm.rose", { onclick: async () => { if (hw.sections.length < 2) { toast("Bài cần ít nhất 1 phần"); return; } if (await L.confirmBox("Xoá phần " + (i + 1) + "?", "Xoá")) { hw.sections.splice(i, 1); markDirty(); drawSecs(); } } }, "Xoá")),
         h("div.two", h("label.field", h("span", "Dạng bài"), typeSel), h("label.field", h("span", "Chủ điểm mặc định (dùng cho báo cáo)"), h("input", { type: "text", value: sec.topic, placeholder: "Ví dụ: present simple", oninput: e => { sec.topic = e.target.value; markDirty(); check(); } }))),
-        tfSel, rule,
+        tfSel, clsSel, rule,
         h("label.field", { style: "margin-top:10px" }, h("span", "Nội dung chung của phần (đoạn văn, đề bài chung… không bắt buộc)"), h("textarea", { style: "min-height:80px;font-family:var(--bfont)", oninput: e => { sec.desc = e.target.value; markDirty(); } }, sec.desc || "")),
         h("details.fold", h("summary", "Thêm hình, âm thanh, YouTube"), h("div.stack", { style: "margin-top:8px" }, mediaField("img", "Hình (đường dẫn hoặc link)", "https://… hoặc assets/media/…", "image/*"), mediaField("audio", "Âm thanh MP3", "https://… hoặc assets/media/…", "audio/*"), mediaField("yt", "Video YouTube", "https://youtu.be/…", ""))),
+        h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: !!sec.noSpeak, onchange: e => { sec.noSpeak = e.target.checked; markDirty(); } }), "Ẩn các nút 🔊 nghe từ trong phần này (ví dụ bài kiểm tra nghe-viết)"),
         h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: !!sec.shuffleQ, onchange: e => { sec.shuffleQ = e.target.checked; markDirty(); } }), "Xáo thứ tự câu hỏi mỗi lần làm"),
         h("div.row", { style: "margin:12px 0 6px" }, h("b", "Nội dung bài tập (cú pháp)"), h("span.grow"),
           h("button.btn.sm.ghost", { onclick: () => { ta.value = sec.raw = T().sample; markDirty(); check(); } }, "Dùng mẫu"),
