@@ -53,11 +53,17 @@ Token chỉ lưu trong trình duyệt của cô trên máy đó. Đổi máy th�
 **Xem báo cáo:** *Báo cáo học viên* → bấm tên học viên để xem chủ điểm sai nhiều, câu hay sai; có nút sao chép báo cáo.
 
 ## Học viên vào học
-Gửi đường link website + mật khẩu lớp. Học viên nhập **tên** (nên thống nhất cách viết, ví dụ "Bin") + mật khẩu. Cùng một tên thì lịch sử gộp chung.
+**Cách 1 – mật khẩu lớp chung** (khi chưa có học viên nào trong tab *Học viên*): gửi đường link + mật khẩu lớp. Học viên nhập tên + mật khẩu. Cùng một tên thì lịch sử gộp chung, và em này có thể gõ tên em kia để xem.
+
+**Cách 2 – mỗi em một mật khẩu riêng** (khuyên dùng): Khu của cô → *👥 Học viên* → dán danh sách tên, trang tự tạo mật khẩu 5 ký tự cho từng em → bấm *Sao chép tên + mật khẩu* để gửi riêng cho từng em/phụ huynh. Khi có ít nhất 1 học viên đang hoạt động trong danh sách, **mật khẩu lớp chung ngừng dùng được**. Em nào chỉ xem được lịch sử, điểm của chính em đó (tên được lấy từ danh sách chứ không tin tên trình duyệt gửi).
+
+**Giao riêng:** ở bài tập có dòng *Giao cho → Chọn học viên…*; ở tab *Giáo trình & unit* mỗi app có nút *👥*. Không chọn ai = tất cả đều thấy. Với bài tập, máy chủ chặn thật (em không được giao thì không mở, không nộp được). Với app, chỉ **ẩn khỏi danh sách** (xem mục "nói thật").
 
 ---
 
 ## Những điều cô nên biết (nói thật)
+- **Giao app riêng cho từng em chỉ là ẩn trên giao diện**, không phải khoá kín: file app nằm trong kho công khai, ai biết đường dẫn trực tiếp vẫn mở được. Còn lịch sử/điểm của từng em và việc giao *bài tập* thì được máy chủ kiểm tra thật.
+- **Đừng đưa thông tin riêng của học viên (điểm cá nhân, nhận xét, liên lạc) vào kho GitHub** vì kho đang công khai. Tên và mật khẩu học viên chỉ nằm trong Google Sheet của cô (trang tính `students`), không nằm trong kho.
 - **Mật khẩu chỉ bảo vệ việc lưu điểm và bài tập**, không "khoá" được file app: ai biết đường dẫn trực tiếp tới file HTML vẫn mở được (vì web tĩnh trên GitHub Pages công khai). Nội dung bài tập (đáp án) cũng được gửi về trình duyệt học viên để chấm, nên học viên rành kỹ thuật có thể xem được. Với lớp 1–1 thì thường ổn; nếu cần thi nghiêm túc thì không dùng cách này.
 - **Báo câu sai chi tiết chỉ hoạt động với app có "báo kết quả".** App Countryside Hub (và các app cùng khuôn) được tự gắn. App khác chỉ ghi được "đã chơi lần mấy, bao lâu", trừ khi cô (hoặc mình) dán đoạn trong `docs/lse-report.js` vào app.
 - Tiến trình riêng *bên trong* app (xu, trang bị…) vẫn lưu trên từng thiết bị theo cách app cũ, không theo tài khoản học viên.
@@ -65,3 +71,30 @@ Gửi đường link website + mật khẩu lớp. Học viên nhập **tên** (
 - **Không có kết nối trực tiếp với NotebookLM.** Cô copy nội dung/kết quả từ NotebookLM rồi dán vào.
 - Phần Apps Script mình **chưa chạy thử trên tài khoản Google thật** (chỉ kiểm tra cú pháp; phần giao diện đã chạy thử với bộ nhớ giả lập). Lần đầu cài, cô thử nhanh: đăng nhập học viên → làm 1 bài → xem có dòng mới trong Google Sheets không. Nếu lỗi, gửi mình thông báo lỗi.
 - Chế độ DEMO (khi chưa điền `apiUrl`): dữ liệu chỉ nằm trong trình duyệt đang dùng, mật khẩu thử là `sprout` (học viên) và `thao` (giáo viên).
+
+
+## Hình cho từng từ / câu (đợt 1)
+- Trong khung soạn bài, thêm dòng `IMG: ...` ngay trước câu. Sau `IMG:` có thể là emoji (`IMG: 🍎`), tên từ đã tải ở tab **🖼️ Hình** (`IMG: apple`) hoặc đường dẫn ảnh.
+- Dạng ghép cặp: vế trái viết `img:dog = con chó`.
+- Nút **🪄 Gợi ý hình** tự gắn emoji cho các câu có danh từ cụ thể/màu sắc; cô xem lại và xoá dòng chưa đúng.
+- Tab **🖼️ Hình**: tải nhiều ảnh cùng lúc, tên file = từ (dog.png → `dog`). Cần token GitHub ở tab Cài đặt.
+
+## Ảnh sách → bài tập (miễn phí, đọc chữ ngay trên máy cô)
+1. Khu của cô → **📝 Bài tập** → **📷 Tạo từ ảnh sách** (hoặc nút **📷 Tạo phần từ ảnh sách** khi đang soạn bài).
+2. Chọn ảnh (xoay nếu nghiêng) → **Đọc chữ trong ảnh**. Lần đầu nạp 10–30 giây.
+3. Sửa chữ bị đọc sai. Muốn bỏ trống từ nào thì bọc `[[từ]]`. Dòng `dog - con chó` dùng cho ghép cặp/trắc nghiệm.
+4. Chọn dạng bài → **Tạo bài** → xem lại từng phần trong trang soạn bài rồi Lưu.
+- Giới hạn: đọc tốt chữ in tiếng Anh, ảnh thẳng, đủ sáng. Chữ tiếng Việt có dấu (tick ô "có tiếng Việt") và chữ viết tay có thể sai. Đây là đọc chữ + dựng bài theo mẫu, không phải AI "hiểu" sách; luôn cần cô xem lại.
+
+## 7 dạng bài trò chơi mới
+| Dạng | Cú pháp 1 dòng |
+|---|---|
+| 🔊 Nghe chọn từ | `dog \| cat, bird, fish` (từ đầu là đáp án; bỏ phần sau \| thì tự lấy đáp án nhiễu) |
+| 🎯 Nhìn nghĩa chọn từ | `con chó => dog \| cat, bird, fish` (thêm `IMG: 🐰` phía trên để hiện hình) |
+| 🔤 Xếp chữ cái | `dog \| con chó` |
+| 🃏 Lật thẻ ghép cặp | `dog = con chó` (ván cách nhau 1 dòng trống; `img:🍎 = apple`) |
+| 🔎 Tìm từ trong bảng | mỗi dòng 1 từ hoặc `dog \| con chó` |
+| 📰 Ô chữ | `apple \| a red fruit` (cần 3 từ trở lên, có chữ cái chung) |
+| 🕵️ Thám tử bắt lỗi | `She [[go]] to school. => goes` |
+- Nghe chọn từ dùng giọng đọc có sẵn của trình duyệt (miễn phí). Muốn dùng file MP3 riêng: thêm dòng `AUDIO: assets/media/ten.mp3` ngay trước dòng đó.
+- Màu folder: 16 màu pastel, giáo trình mới tự lấy màu chưa dùng.

@@ -10,7 +10,7 @@
   const go = p => { location.hash = p; };
   L.go = go;
   const main = () => $("#view");
-  function show(...nodes) { const m = main(); m.innerHTML = ""; nodes.flat().forEach(n => n && m.appendChild(n)); window.scrollTo(0, 0); }
+  function show(...nodes) { const m = main(); m.classList.remove("view-in"); m.innerHTML = ""; nodes.flat().forEach(n => n && m.appendChild(n)); void m.offsetWidth; m.classList.add("view-in"); window.scrollTo(0, 0); }
   L.show = show;
   const spinner = () => h("div.empty", h("span.spinner"), " Đang tải…");
 
@@ -23,6 +23,10 @@
     if (!m) {
       try { const r = await fetch("data/manifest.json?v=" + Date.now(), { cache: "no-store" }); m = await r.json(); }
       catch (e) { m = { version: 1, curricula: [], apps: [] }; }
+    }
+    /* học viên: ẩn các app không giao cho mình (cô giao app riêng cho từng em) */
+    if (!isTeacher() && L.auth.role) {
+      try { const r = await L.api.call("appAccess"); const hid = new Set(r.hidden || []); if (hid.size) m.apps = (m.apps || []).filter(a => !hid.has(a.id)); } catch (e) { console.warn("appAccess", e); }
     }
     state.manifest = m; return m;
   }
@@ -44,7 +48,7 @@
         const draw = () => {
           box.innerHTML = "";
           const name = h("input", { type: "text", placeholder: "Ví dụ: Bin", autocomplete: "name", value: L.auth.name && !isTeacher() ? L.auth.name : "" });
-          const pw = h("input", { type: "password", placeholder: "Mật khẩu lớp", autocomplete: "current-password" });
+          const pw = h("input", { type: "password", placeholder: tmode ? "Mật khẩu giáo viên" : "Mật khẩu của em", autocomplete: "current-password" });
           const submit = async () => {
             msg.innerHTML = "";
             const nm = tmode ? CFG.teacherName : toTitle(name.value);
@@ -53,7 +57,7 @@
             L.auth.name = nm; L.auth.pw = pw.value;
             try {
               const r = await L.api.call("login");
-              L.auth.role = r.role; L.api.saveAuth();
+              L.auth.role = r.role; if (r.name) L.auth.name = r.name; L.api.saveAuth();
               if (tmode && r.role !== "teacher") throw new Error("Mật khẩu này không phải của cô giáo");
               state.manifest = state.hwList = state.plays = null;
               close(); resolve(true);
@@ -65,8 +69,8 @@
           box.append(
             h("img.chibi", { src: "assets/chibi.png", alt: "" }),
             h("h2.center", { style: "font-size:26px" }, tmode ? "Khu giáo viên" : "Chào mừng đến " + CFG.siteName),
-            h("p.center.muted", { style: "margin:4px 0 14px" }, tmode ? "Nhập mật khẩu của cô." : "Nhập tên và mật khẩu lớp để bắt đầu nhé!"),
-            h("div.stack", tmode ? null : h("label.field", h("span", "Tên của em"), name), h("label.field", h("span", tmode ? "Mật khẩu giáo viên" : "Mật khẩu lớp"), pw)),
+            h("p.center.muted", { style: "margin:4px 0 14px" }, tmode ? "Nhập mật khẩu của cô." : "Nhập tên và mật khẩu của em để bắt đầu nhé!"),
+            h("div.stack", tmode ? null : h("label.field", h("span", "Tên của em"), name), h("label.field", h("span", tmode ? "Mật khẩu giáo viên" : "Mật khẩu của em"), pw)),
             msg, btn,
             h("p.center.small.muted", { style: "margin:12px 0 0" }, h("a", { href: "javascript:void 0", style: "cursor:pointer;text-decoration:underline", onclick: () => { tmode = !tmode; draw(); } }, tmode ? "← Quay lại đăng nhập học viên" : "Cô giáo? Vào khu giáo viên")),
             L.api.isDemo() ? h("div.hint", { style: "margin-top:12px" }, "Đang ở chế độ DEMO. Mật khẩu học viên: ", h("b", CFG.demoStudentPassword), " · giáo viên: ", h("b", CFG.demoTeacherPassword)) : null);
@@ -81,37 +85,70 @@
   /* ---------- khung chung ---------- */
   function paintChrome() {
     $("#siteName").textContent = CFG.siteName;
-    $("#siteTag").textContent = "by " + CFG.teacherName;
+    $("#siteTag").textContent = SLOGAN;
     const route = (location.hash || "#/").replace(/^#/, "");
     const nav = $("#nav"); nav.innerHTML = "";
-    const link = (href, text, on) => h("a" + (on ? ".on" : ""), { href }, text);
+    const link = (href, ico, text, on) => h("a.ni" + (on ? ".on" : ""), { href, title: text }, h("span.nico.n-" + ico, { html: ICONS[ico] }), h("span.nlab", text));
     nav.append(
-      link("#/", "🏠 Trang chủ", route === "/" || route.startsWith("/c/")),
-      link("#/hw", "📝 Bài tập", route.startsWith("/hw")),
-      link("#/me", "📈 Lịch sử", route.startsWith("/me")));
-    if (isTeacher()) nav.append(link("#/teacher", "🌿 Khu của cô", route.startsWith("/teacher")));
-    if (L.auth.name) nav.append(h("span.who", (isTeacher() ? "👩‍🏫 " : "🙂 ") + L.auth.name), h("button", { title: "Đăng xuất", onclick: () => { endPlay(); L.api.logout(); state.manifest = state.hwList = state.plays = null; boot(); } }, "Thoát"));
+      link("#/", "home", "Trang chủ", route === "/" || route.startsWith("/c/")),
+      link("#/hw", "book", "Bài tập", route.startsWith("/hw")),
+      link("#/me", "star", "Lịch sử", route.startsWith("/me")));
+    if (isTeacher()) nav.append(link("#/teacher", "sprout", "Khu của cô", route.startsWith("/teacher")));
+    if (L.auth.name) nav.append(h("span.who", (isTeacher() ? "👩‍🏫 " : "🙂 ") + L.auth.name), h("button.ni", { title: "Đăng xuất", onclick: () => { endPlay(); L.api.logout(); state.manifest = state.hwList = state.plays = null; boot(); } }, h("span.nico.n-out", { html: ICONS.out }), h("span.nlab", "Thoát")));
     $("#footer").innerHTML = "";
     $("#footer").append(h("div", "© " + new Date().getFullYear() + " " + CFG.siteName + " · " + CFG.teacherName), isTeacher() ? null : h("div", h("a", { onclick: async () => { L.api.logout(); await loginModal(true); boot(); } }, "Khu giáo viên")));
   }
 
   /* ---------- trang chủ ---------- */
+  /* số ngày học liên tiếp tính từ lịch sử chơi + bài nộp (giờ máy của em) */
+  function streakOf(plays, subs) {
+    const day = t => { const d = new Date(t); return isNaN(d) ? null : d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+    const set = new Set([...(plays || []), ...(subs || [])].map(x => day(x.updated || x.time)).filter(Boolean));
+    let n = 0; const d = new Date();
+    if (!set.has(day(d))) d.setDate(d.getDate() - 1); // hôm nay chưa học thì vẫn tính chuỗi đến hôm qua
+    while (set.has(day(d))) { n++; d.setDate(d.getDate() - 1); }
+    return n;
+  }
+  const greeting = () => { const hr = new Date().getHours(); return hr < 11 ? "Chào buổi sáng" : hr < 14 ? "Chào buổi trưa" : hr < 18 ? "Chào buổi chiều" : "Chào buổi tối"; };
+  /* biểu tượng menu: SVG tự vẽ, tô gradient pastel (không phụ thuộc phông/emoji của máy) */
+  const ICONS = {
+    home: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M4 15.5 16 5l12 10.5" fill="none" stroke="url(#gh)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14.5V26a1.5 1.5 0 0 0 1.5 1.5H13V19h6v8.5h4.5A1.5 1.5 0 0 0 25 26V14.5L16 7z" fill="url(#gh)"/><circle cx="24" cy="7" r="1.6" fill="#FFE08A"/></svg>',
+    book: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ED8FF"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><rect x="5" y="5" width="18" height="23" rx="3.5" fill="url(#gb)"/><path d="M9.5 11h9M9.5 15.5h9M9.5 20h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="m22 21 6-9a1.7 1.7 0 0 1 2.4 2.3L24.5 23.5 21 25z" fill="#FFB38A"/><path d="m22 21 3 2" stroke="#fff" stroke-width="1.2"/></svg>',
+    star: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M16 3.5l3.8 7.7 8.5 1.2-6.15 6 1.45 8.45L16 22.8l-7.6 4 1.45-8.45-6.15-6 8.5-1.2z" fill="url(#gs)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/><circle cx="26.5" cy="5.5" r="1.5" fill="#B9A8F0"/><circle cx="5" cy="26" r="1.2" fill="#9ED8FF"/></svg>',
+    sprout: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FDDBA"/><stop offset="1" stop-color="#9ED8FF"/></linearGradient></defs><path d="M16 28V15" stroke="#5FBF98" stroke-width="3" stroke-linecap="round"/><path d="M16 17C16 10 11 6 4.5 6.5 4.5 13 9 17 16 17z" fill="url(#gp)"/><path d="M16 14c0-6 4.5-9.5 11-9 0 6-4 10-11 9z" fill="#B9F0D4"/></svg>',
+    out: '<svg viewBox="0 0 32 32"><defs><linearGradient id="go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC4A8"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M12 5h9a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3h-9" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round"/><path d="M5 16h13M13.5 11 18.5 16l-5 5" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+  const SLOGAN = "Mỗi ngày một chút, mầm nhỏ vươn cao 🌱";
+  const TIPS = ["Hôm nay mình ôn gì nào? 🌱", "Mỗi ngày một chút, mầm nhỏ sẽ lớn thật nhanh!", "Sai cũng không sao, làm lại là nhớ lâu hơn nhé!", "Chọn một unit rồi chơi thử một game nào!", "Em giỏi hơn hôm qua một chút rồi đó! ✨", "Cố lên, mỗi câu đúng là một bước lên cao! 🚀", "Học vui thì nhớ lâu, chơi thôi nào! 🎮", "Cô tin là em làm được! 💖", "Chậm mà chắc, từng từ một nhé! 🐢", "Hôm nay thử thách bản thân một bài mới đi! 🌈"];
+  const CHEERS = [[90, ["Tuyệt vời quá! Em đúng là siêu sao! 🌟", "Xuất sắc! Cô tự hào về em lắm! 💖", "Quá đỉnh luôn! Giữ phong độ nhé! 🏆"]], [70, ["Giỏi lắm! Thêm chút nữa là đỉnh rồi! ✨", "Làm tốt lắm! Em đang tiến bộ rất nhanh! 🌈", "Hay lắm! Mình luyện thêm để lên điểm tuyệt đối nhé! 🚀"]], [40, ["Khá rồi đó! Xem lại câu sai rồi làm lại là nhớ ngay! 💪", "Cố lên, em đã đi được nửa đường rồi! 🌱", "Không sao đâu, mỗi lần sai là một lần học thêm! 🤗"]], [0, ["Đừng nản nha! Làm lại lần nữa, chắc chắn em sẽ tốt hơn! 🌷", "Mầm nhỏ cần thời gian để lớn, em cứ thử tiếp nhé! 🌱", "Cô luôn ở đây cùng em. Mình cùng ôn lại nào! 💖"]]];
+  const cheer = pct => { const g = CHEERS.find(x => pct >= x[0])[1]; return g[Math.floor(Math.random() * g.length)]; };
+  L.cheer = cheer;
+
   async function homeView() {
     show(spinner());
     await loadManifest();
     const m = state.manifest;
     const cards = (m.curricula || []).map((c, i) => {
       const n = appsIn(c.id).length, u = (c.units || []).length;
-      return h("a.cur.tint" + (c.tint != null ? c.tint : i % 8), { href: "#/c/" + c.id },
+      return h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/c/" + c.id },
         h("div.em", c.emoji || "📚"), h("h3", c.name),
-        h("div.meta", u + " unit · " + n + " app/game"));
+        h("div.meta", u + " unit · " + n + " app/game"), h("span.go", "→"));
     });
+    const statBox = h("div.stats");
+    const who = isTeacher() ? "cô " + L.auth.name : L.auth.name;
     const hero = h("div.card.hero",
-      h("div", h("h1", CFG.siteName), h("p", "Chào " + (isTeacher() ? "cô " : "") + L.auth.name + "! Chọn giáo trình, chọn unit rồi chơi và ôn tập thật vui nhé."),
+      h("div", h("div.bubble", TIPS[Math.floor(Math.random() * TIPS.length)]), h("h1", CFG.siteName), h("p", greeting() + ", " + who + "! Chọn giáo trình, chọn unit rồi chơi và ôn tập thật vui nhé."), statBox,
         h("div.row", h("a.btn", { href: "#/hw" }, "📝 Bài tập của em"), h("a.btn.ghost", { href: "#/me" }, "📈 Lịch sử chơi"))),
-      h("img.chibi", { src: "assets/chibi.png", alt: CFG.teacherName }));
+      h("div.hero-art", h("div.halo"), h("span.sp", "✨"), h("span.sp", "⭐"), h("span.sp", "🌿"), h("img.chibi", { src: "assets/chibi.png", alt: CFG.teacherName })));
     const hwBox = h("div");
     show(hero, h("h2", { style: "margin:22px 2px 12px;font-size:24px" }, "Giáo trình"), h("div.grid", cards), hwBox);
+    if (!isTeacher()) loadMine().then(() => {
+      const st = streakOf(state.plays, state.subs);
+      const nPlay = (state.plays || []).length, nHw = (state.subs || []).length;
+      if (st) statBox.append(h("span.stat.fire", "🔥 ", h("b", String(st)), " ngày học liên tiếp"));
+      if (nPlay) statBox.append(h("span.stat", "🎮 ", h("b", String(nPlay)), " lượt chơi"));
+      if (nHw) statBox.append(h("span.stat", "📝 ", h("b", String(nHw)), " bài đã nộp"));
+    }).catch(() => { });
     loadHw().then(list => {
       const open = list.filter(x => x.open && hwStatus(x).can).slice(0, 3);
       if (!open.length) return;
@@ -126,7 +163,7 @@
     if (!c) { show(h("div.card.empty", "Không tìm thấy giáo trình này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
     const units = (c.units || []).map(u => {
       const n = appsIn(cid, u.id).length;
-      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + (c.tint || 0), c.emoji || "📘"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
+      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), c.emoji || "📘"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
     });
     const loose = appsIn(cid, "");
     if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
@@ -225,7 +262,7 @@
   async function hwRunView(id) {
     show(spinner()); await loadManifest();
     let hw, mine;
-    try { hw = (await L.api.call("hwGet", { id })).hw; mine = (await L.api.call("hwMine", { id })).subs || []; }
+    try { hw = (await L.api.call("hwGet", { id })).hw; mine = (await L.api.call("hwMine", { id })).subs || []; try { await L.imgs.load(); } catch (e) { } }
     catch (e) { show(h("div.card", h("div.err", e.message), h("p", h("a.btn", { href: "#/hw" }, "← Danh sách bài tập")))); return; }
     const m = hw.meta || {};
     const used = mine.length;
@@ -289,11 +326,13 @@
     const result = (rts, res, r, dur) => {
       const scale = m.scale || 10, after = m.showAfter || "full";
       const pct = res.max ? Math.round(100 * res.got / res.max) : 0;
+      if (pct >= 80 || after === "done") setTimeout(() => L.confetti(), 250);
       const top = h("div.card.result",
         h("div.muted", r.preview ? "Chế độ xem thử (không lưu điểm)" : "Kết quả lần " + r.attempt),
         after === "done" ? h("div", { style: "font-size:46px" }, "🎉") : h("div.score-big", String(r.scaled), h("small", { style: "font-size:26px" }, "/" + scale)),
         after === "done" ? h("h2", "Em đã nộp bài!") : h("div", { style: "margin:10px auto;max-width:360px" }, h("div.bar." + (pct >= 70 ? "good" : pct >= 40 ? "" : "bad"), h("i", { style: "width:" + pct + "%" })), h("div.muted", { style: "margin-top:6px" }, res.got + "/" + res.max + " ý đúng · " + fmtDur(dur))),
         h("div.row", { style: "justify-content:center;margin-top:10px" }, (isTeacher() || (hw.open && (!m.maxAttempts || mine.length < m.maxAttempts))) ? h("button.btn", { onclick: () => hwRunView(id) }, "Làm lại ▶") : null, h("a.btn.ghost", { href: "#/hw" }, "← Danh sách bài tập")));
+      if (after !== "done") top.insertBefore(h("div.cheer", L.cheer(pct)), top.children[2] || null);
       const out = [h("div.crumbs", h("a", { href: "#/hw" }, "Bài tập"), " › ", hw.title), top];
       if (after === "full" || after === "verdict") {
         let no = 1;
@@ -351,7 +390,7 @@
     if (!L.auth.name || !L.auth.role) await loginModal(false);
     else {
       // kiểm tra phiên còn hợp lệ (mật khẩu có thể đã đổi)
-      try { const r = await L.api.call("login"); L.auth.role = r.role; L.api.saveAuth(); } catch (e) { L.api.logout(); await loginModal(false); }
+      try { const r = await L.api.call("login"); L.auth.role = r.role; if (r.name) L.auth.name = r.name; L.api.saveAuth(); } catch (e) { L.api.logout(); await loginModal(false); }
     }
     route();
   }

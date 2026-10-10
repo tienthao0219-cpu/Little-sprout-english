@@ -51,7 +51,7 @@
     { id: "classify", label: "Phân loại", emoji: "🗂️", color: "butter",
       rule: "Mỗi nhóm là một câu hỏi, mỗi dòng dạng: [Tên nhóm] mục 1, mục 2, mục 3. Cần ít nhất 2 nhóm. Các câu cách nhau 1 dòng trống. Có thể thêm dòng TASK:.",
       sample: "TASK: Phân loại các từ.\n[Fruits] apple, banana, orange\n[Animals] dog, cat, horse\n[Colours] red, green, blue" }
-  ];
+  ].concat(L.gx ? L.gx.TYPES : []);
   const TYPE = Object.fromEntries(TYPES.map(t => [t.id, t]));
 
   /* ---------------------------------------------------------------
@@ -62,7 +62,8 @@
     expl: /^\s*(?:EXP|EXPL|EXPLAIN|GIẢI THÍCH|GIAI THICH)\s*[:：]\s*(.+?)\s*$/i,
     ans: /^\s*(?:ANS|ANSWER|ĐÁP ÁN|DAP AN)\s*[:：]\s*(.+?)\s*$/i,
     task: /^\s*(?:TASK|YÊU CẦU|YEU CAU)\s*[:：]\s*(.+?)\s*$/i,
-    bank: /^\s*(?:BANK|KHUNG TỪ|KHUNG TU)\s*[:：]\s*(.+?)\s*$/i
+    bank: /^\s*(?:BANK|KHUNG TỪ|KHUNG TU)\s*[:：]\s*(.+?)\s*$/i,
+    img: /^\s*(?:IMG|HÌNH|HINH|PIC)\s*[:：]\s*(.+?)\s*$/i
   };
   const stripNum = s => String(s).replace(/^\s*(?:Câu|Cau|Question|Q)\s*\d*\s*[\.\):：]\s*/i, "").replace(/^\s*\d+\s*[\.\)]\s+/, "").trim();
   const VERDICT = { t: true, true: true, đúng: true, dung: true, đ: true, d: true, yes: true, correct: true, f: false, false: false, sai: false, s: false, no: false, wrong: false };
@@ -81,7 +82,7 @@
     return out;
   }
   function takeMeta(ls, keys) {
-    const m = { topic: "", expl: "", ans: "", task: "", rest: [] };
+    const m = { topic: "", expl: "", ans: "", task: "", img: "", rest: [] };
     ls.forEach(l => {
       for (const k of keys) { const r = l.match(META[k]); if (r) { m[k] = r[1]; return; } }
       m.rest.push(l);
@@ -92,11 +93,12 @@
   function parseMCQ(raw, multi) {
     const qs = [], errors = [];
     const optRe = /^\s*(\*)?\s*\(?([A-Ha-h])[\.\)]\s+(.*\S)\s*$/;
-    let cur = null;
+    let cur = null, pend = "";
     const flush = () => { if (cur) { qs.push(cur); cur = null; } };
     lines(raw).forEach(l => {
       if (!l.trim()) { flush(); return; }
       let m;
+      if ((m = l.match(META.img))) { if (cur) cur.img = m[1]; else pend = m[1]; return; }
       if ((m = l.match(META.topic))) { (cur || qs[qs.length - 1] || {}).topic = m[1]; return; }
       if ((m = l.match(META.expl))) { (cur || qs[qs.length - 1] || {}).expl = m[1]; return; }
       if ((m = l.match(META.ans))) { const t = cur || qs[qs.length - 1]; if (t) t.ansLetters = m[1].toUpperCase().replace(/[^A-H]/g, "").split(""); return; }
@@ -106,7 +108,7 @@
         return;
       }
       if (cur && cur.opts.length) flush();
-      if (!cur) cur = { type: multi ? "mcqN" : "mcq1", stem: "", opts: [] };
+      if (!cur) { cur = { type: multi ? "mcqN" : "mcq1", stem: "", opts: [] }; if (pend) { cur.img = pend; pend = ""; } }
       cur.stem += (cur.stem ? "\n" : "") + (cur.stem ? l.trim() : stripNum(l));
     });
     flush();
@@ -125,12 +127,13 @@
   }
 
   function parseTF(raw) {
-    const questions = [], errors = [];
+    const questions = [], errors = []; let pend = "";
     lines(raw).filter(l => l.trim()).forEach((l, i) => {
+      let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       const p = l.split("|").map(s => s.trim());
       const v = p.length > 1 ? verdict(p[1]) : undefined;
-      if (v === undefined) { errors.push("Dòng " + (i + 1) + ": thiếu | T hoặc | F ở cuối nhận định"); return; }
-      questions.push({ type: "tf", stem: stripNum(p[0]), answer: v, expl: p[2] || "", topic: p[3] || "" });
+      if (v === undefined) { errors.push("Dòng " + (i + 1) + ": thiếu | T hoặc | F ở cuối nhận định"); pend = ""; return; }
+      const q = { type: "tf", stem: stripNum(p[0]), answer: v, expl: p[2] || "", topic: p[3] || "" }; if (pend) { q.img = pend; pend = ""; } questions.push(q);
     });
     return { questions, errors };
   }
@@ -139,8 +142,8 @@
     const questions = [], errors = [];
     const subRe = /^\s*\(?([a-hA-H])[\.\)]\s+(.+?)\s*\|\s*(\S+)\s*$/;
     blocks(raw, "whole").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl"]);
-      const q = { type: "tf4", stem: "", subs: [], topic: m.topic, expl: m.expl };
+      const m = takeMeta(b, ["topic", "expl", "img"]);
+      const q = { type: "tf4", stem: "", subs: [], topic: m.topic, expl: m.expl }; if (m.img) q.img = m.img;
       m.rest.forEach(l => {
         const r = l.match(subRe);
         if (r) { const v = verdict(r[3]); if (v === undefined) errors.push("Câu " + (i + 1) + ": ý " + r[1] + " cần | T hoặc | F"); else q.subs.push({ t: r[2], answer: v }); }
@@ -154,11 +157,12 @@
 
   const BLANK = /\[\[(.+?)\]\](?:\{([^}]*)\})?/g;
   function parseFill(raw, type) {
-    const questions = [], errors = []; let bank = null;
+    const questions = [], errors = []; let bank = null, pend = "";
     blocks(raw, "perLine").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl", "bank"]);
+      const m = takeMeta(b, ["topic", "expl", "bank", "img"]);
       if (m.bank) { bank = (bank || []).concat(m.bank.split(/[,;]/).map(s => s.trim()).filter(Boolean)); }
-      if (!m.rest.length) return;
+      if (!m.rest.length) { if (m.img) pend = m.img; return; }
+      const imgV = m.img || pend; pend = "";
       const text = m.rest.map((l, k) => k ? l : stripNum(l)).join("\n");
       const parts = []; let last = 0, r; BLANK.lastIndex = 0;
       const tag = "Câu " + (questions.length + 1) + ": ";
@@ -182,20 +186,21 @@
       if (last < text.length) parts.push({ k: "t", s: text.slice(last) });
       if (!parts.some(p => p.k === "b")) { errors.push(tag + "chưa có chỗ trống [[đáp án]]: " + text.slice(0, 40)); return; }
       if (bad) return;
-      questions.push({ type, parts, topic: m.topic, expl: m.expl });
+      const fq = { type, parts, topic: m.topic, expl: m.expl }; if (imgV) fq.img = imgV; questions.push(fq);
     });
     if (type === "fillchoose" && questions.length && !questions.some(q => q.parts.some(p => p.choose))) errors.push("Dạng 'chọn trong danh sách' cần chỗ trống dạng [[*đúng|sai|sai]]");
     return { questions, errors, bank };
   }
 
   function parseShort(raw) {
-    const questions = [], errors = [];
+    const questions = [], errors = []; let pend = "";
     lines(raw).filter(l => l.trim()).forEach((l, i) => {
+      let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       const k = l.indexOf("=>");
-      if (k < 0) { errors.push("Dòng " + (i + 1) + ": thiếu dấu => giữa câu hỏi và đáp án"); return; }
+      if (k < 0) { errors.push("Dòng " + (i + 1) + ": thiếu dấu => giữa câu hỏi và đáp án"); pend = ""; return; }
       const answers = l.slice(k + 2).split("/").map(s => s.trim()).filter(Boolean);
-      if (!answers.length) { errors.push("Dòng " + (i + 1) + ": chưa có đáp án"); return; }
-      questions.push({ type: "short", stem: stripNum(l.slice(0, k)), answers });
+      if (!answers.length) { errors.push("Dòng " + (i + 1) + ": chưa có đáp án"); pend = ""; return; }
+      const sq = { type: "short", stem: stripNum(l.slice(0, k)), answers }; if (pend) { sq.img = pend; pend = ""; } questions.push(sq);
     });
     return { questions, errors };
   }
@@ -203,7 +208,7 @@
   function parseWordpick(raw) {
     const questions = [], errors = [];
     blocks(raw, "perLine").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl", "task"]);
+      const m = takeMeta(b, ["topic", "expl", "task", "img"]);
       const text = m.rest.join("\n"); if (!text.trim()) return;
       const toks = []; const re = /\[\[(.+?)\]\]|([A-Za-zÀ-ỹ0-9'’\-]+)|(\s+)|([^\sA-Za-zÀ-ỹ0-9'’\-])/g; let r;
       while ((r = re.exec(text))) {
@@ -212,7 +217,7 @@
         else toks.push({ w: r[0], pick: false });
       }
       if (!toks.some(t => t.ok)) { errors.push("Đoạn " + (questions.length + 1) + ": chưa có từ cần chọn [[từ]]"); return; }
-      questions.push({ type: "wordpick", stem: m.task ? stripNum(m.task) : "", toks, topic: m.topic, expl: m.expl });
+      const wq = { type: "wordpick", stem: m.task ? stripNum(m.task) : "", toks, topic: m.topic, expl: m.expl }; if (m.img) wq.img = m.img; questions.push(wq);
     });
     return { questions, errors };
   }
@@ -220,11 +225,11 @@
   function parseMatch(raw) {
     const questions = [], errors = [];
     blocks(raw, "whole").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl", "task"]);
+      const m = takeMeta(b, ["topic", "expl", "task"]); // không dùng IMG: ở đây vì vế trái có thể là "img:tên"
       const pairs = [];
       m.rest.forEach(l => { const r = l.match(/^\s*(.+?)\s*(?:=>|->|=|\|)\s*(.+?)\s*$/); if (r) pairs.push({ l: r[1], r: r[2] }); else errors.push("Nhóm " + (i + 1) + ": dòng không có dấu = : " + l.trim().slice(0, 40)); });
       if (pairs.length < 2) { errors.push("Nhóm " + (i + 1) + ": cần ít nhất 2 cặp"); return; }
-      questions.push({ type: "match", stem: m.task, pairs, topic: m.topic, expl: m.expl });
+      const mq = { type: "match", stem: m.task, pairs, topic: m.topic, expl: m.expl }; if (m.img) mq.img = m.img; questions.push(mq);
     });
     return { questions, errors };
   }
@@ -232,21 +237,22 @@
   function parseOrder(raw) {
     const questions = [], errors = [];
     blocks(raw, "whole").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl", "task"]);
+      const m = takeMeta(b, ["topic", "expl", "task", "img"]);
       const items = m.rest.map(l => l.replace(/^\s*\d+\s*[\.\)]\s+/, "").trim()).filter(Boolean);
       if (items.length < 2) { errors.push("Nhóm " + (i + 1) + ": cần ít nhất 2 mục"); return; }
-      questions.push({ type: "order", stem: m.task, items, topic: m.topic, expl: m.expl });
+      const oq = { type: "order", stem: m.task, items, topic: m.topic, expl: m.expl }; if (m.img) oq.img = m.img; questions.push(oq);
     });
     return { questions, errors };
   }
 
   function parseSentence(raw) {
-    const questions = [], errors = [];
+    const questions = [], errors = []; let pend = "";
     lines(raw).filter(l => l.trim()).forEach((l, i) => {
+      let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       const p = l.split("|"); const body = stripNum(p[0]); const hint = (p[1] || "").trim();
       const chunks = (body.includes("/") ? body.split("/") : body.split(/\s+/)).map(s => s.trim()).filter(Boolean);
-      if (chunks.length < 2) { errors.push("Dòng " + (i + 1) + ": cần ít nhất 2 từ/cụm"); return; }
-      questions.push({ type: "sentence", chunks, hint });
+      if (chunks.length < 2) { errors.push("Dòng " + (i + 1) + ": cần ít nhất 2 từ/cụm"); pend = ""; return; }
+      const sq = { type: "sentence", chunks, hint }; if (pend) { sq.img = pend; pend = ""; } questions.push(sq);
     });
     return { questions, errors };
   }
@@ -254,7 +260,7 @@
   function parseClassify(raw) {
     const questions = [], errors = [];
     blocks(raw, "whole").forEach((b, i) => {
-      const m = takeMeta(b, ["topic", "expl", "task"]);
+      const m = takeMeta(b, ["topic", "expl", "task", "img"]);
       const cats = [], items = [];
       m.rest.forEach(l => {
         const r = l.match(/^\s*\[(.+?)\]\s*(.+)$/);
@@ -263,7 +269,7 @@
         r[2].split(r[2].includes(";") ? ";" : ",").map(s => s.trim()).filter(Boolean).forEach(t => items.push({ t, c: ci }));
       });
       if (cats.length < 2 || items.length < 2) { errors.push("Nhóm " + (i + 1) + ": cần ít nhất 2 nhóm và 2 mục"); return; }
-      questions.push({ type: "classify", stem: m.task, cats, items, topic: m.topic, expl: m.expl });
+      const cq = { type: "classify", stem: m.task, cats, items, topic: m.topic, expl: m.expl }; if (m.img) cq.img = m.img; questions.push(cq);
     });
     return { questions, errors };
   }
@@ -284,7 +290,7 @@
       case "order": r = parseOrder(raw); break;
       case "sentence": r = parseSentence(raw); break;
       case "classify": r = parseClassify(raw); break;
-      default: r = { questions: [], errors: ["Dạng bài không hợp lệ: " + t] };
+      default: r = (L.gx && L.gx.has(t) && L.gx.parse(t, raw)) || { questions: [], errors: ["Dạng bài không hợp lệ: " + t] };
     }
     r.questions.forEach((q, i) => { q.id = (sec.id || "s") + "-" + (i + 1); q.topic = q.topic || sec.topic || ""; });
     if (t === "fillbank") {
@@ -321,6 +327,7 @@
       case "sentence": return { v: [], ord: shuffle(q.chunks.map((_, i) => i)) };
       case "classify": return { v: q.items.map(() => -1), ord: shuffle(q.items.map((_, i) => i)) };
     }
+    if (L.gx && L.gx.hasQ(q.type)) return L.gx.init(q);
   }
   /** trạng thái = đáp án đúng (dùng cho chế độ xem đáp án) */
   function keyState(q) {
@@ -337,6 +344,7 @@
       case "order": st.v = q.items.map((_, i) => i); break;
       case "sentence": st.v = q.chunks.map((_, i) => i); break;
       case "classify": st.v = q.items.map(it => it.c); break;
+      default: if (L.gx && L.gx.hasQ(q.type)) L.gx.key(q, st);
     }
     return st;
   }
@@ -344,8 +352,14 @@
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
   /** trả về {got, max, items:[{ok, label}]} — items dùng cho báo cáo chủ điểm */
   function grade(q, st) {
+    const r = gradeCore(q, st);
+    if (q.img && r.items && L.imgs) { const t = L.imgs.text(q.img); if (t) r.items.forEach(it => { if (it.label && it.label.indexOf("🖼 ") < 0) it.label += "  🖼 " + t; }); }
+    return r;
+  }
+  function gradeCore(q, st) {
     const v = st.v;
-    const lab = s => String(s).replace(/\s+/g, " ").slice(0, 90);
+    if (L.gx && L.gx.hasQ(q.type)) return L.gx.grade(q, st);
+    const lab = s => String(s).replace(/^\s*img\s*:\s*/i, "🖼 ").replace(/\s+/g, " ").slice(0, 90);
     switch (q.type) {
       case "mcq1": { const ok = v != null && v >= 0 && !!q.opts[v] && q.opts[v].ok; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
       case "mcqN": { const want = q.opts.map((o, i) => o.ok ? i : -1).filter(i => i >= 0); const ok = sameSet(v || [], want); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
@@ -381,9 +395,10 @@
     const review = ctx.mode === "review";
     const g = review ? grade(q, st) : null;
     const cls = review ? (g.got === g.max ? "right" : g.got > 0 ? "partial" : "wrong") : "";
-    const body = VIEW[q.type](q, st, ctx, g, no);
+    const body = (VIEW[q.type] || L.gx.VIEW[q.type])(q, st, ctx, g, no);
     return h("div.q" + (cls ? "." + cls : ""),
       isFill(q) ? null : h("div.stem", h("span.qn", "Câu " + no + ". "), q.stem || null),
+      q.img ? L.imgs.node(q.img) : null,
       body,
       review && ctx.showAns && q.expl ? h("div.expl", "💡 " + q.expl) : null);
   }
@@ -441,7 +456,8 @@
           const ok = review ? g.items[i].ok : null;
           const sel = h("select.blank" + (review ? (ok ? ".k-right" : ".k-wrong") : ""), { style: "width:100%", disabled: review, onchange: e => { st.v[i] = e.target.value; } },
             h("option", { value: "" }, "— chọn —"), rights.map(r => h("option", { value: r, selected: st.v[i] === r }, r)));
-          return h("div.pairrow", h("div.lft", p.l), h("div", { style: "flex:1.2" }, sel, review && ctx.showAns && !ok ? h("div.small", { style: "color:var(--good);font-weight:800" }, "→ " + p.r) : null));
+          const lm = String(p.l).match(/^\s*img\s*:\s*(.+)$/i), pic = lm ? L.imgs.node(lm[1]) : null;
+          return h("div.pairrow", pic ? h("div.lft", pic) : h("div.lft", p.l), h("div", { style: "flex:1.2" }, sel, review && ctx.showAns && !ok ? h("div.small", { style: "color:var(--good);font-weight:800" }, "→ " + p.r) : null));
         }));
     },
     order(q, st, ctx, g) { return seqView(q, st, ctx, g, q.items, "order"); },
