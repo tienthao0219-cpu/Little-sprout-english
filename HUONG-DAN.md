@@ -172,3 +172,63 @@ Cú pháp: `câu gốc => câu thứ hai có chỗ trống ............ (từ g�
 - Chống gian lận xu chỉ ở mức cơ bản (giới hạn 400 xu/lần lưu).
 - Sổ câu sai/Ôn lại/Boss chỉ lấy từ bài tập cô giao và phần Luyện tập, không lấy từ app HTML đăng riêng (app chỉ cho xu khi chơi).
 - Nội dung câu hỏi, tên unit vẫn do cô nhập; website không có sẵn nội dung sách giáo khoa.
+
+## Cập nhật đợt 5 (ảnh biểu tượng của cô + chibi cô Thảo chuyển động)
+
+### A. Cách cập nhật
+Gói `cap-nhat-dot5.zip` chỉ gồm file website (không cần đổi Code.gs nếu cô đã làm đợt 4). Giải nén, up lên GitHub (thư mục gốc của repo): `index.html`, thư mục `css`, thư mục `js` (**không ghi đè `js/config.js`**), thư mục **`assets/ui`** (chứa ảnh), `HUONG-DAN.md`. Chờ 1–2 phút rồi bấm Ctrl+Shift+R.
+
+### B. Ảnh đã được gắn vào đâu
+| Ảnh | Hiển thị ở |
+|---|---|
+| nv-dung, nv-luyentap, nv-nopbai, nv-onlai, nv-suasai, nv-combo, nv-boss, nv-game | 9 nhiệm vụ hằng ngày (và nv-dung khi nhiệm vụ đã xong) |
+| hop-qua | dòng "Xong cả 3 nhiệm vụ: +10 xu" |
+| tim, tim-mat | 3 trái tim trong trận Boss (còn tim / mất tim) |
+| nv-combo | chuỗi ngày học, combo |
+| nv-onlai, o-boss, o-cuahang | 3 ô lớn ở trang chủ: Ôn lại hôm nay, Đánh Boss, Cửa hàng |
+| o-bando | nút và tiêu đề Bản đồ đảo |
+| o-boss | con Boss "Quái Vật Từ Vựng" trong trận và nút Boss của từng bài |
+| gt-starters, gt-flyers | thẻ giáo trình có biểu tượng 🌱 (Starters) và 🚀 (Flyers) |
+| chibi-chi-bang, chibi-nhay-mat, chibi-an-mung, chibi-ngap | chibi cô Thảo ở trang chủ và các màn hình kết quả |
+
+Ảnh nào bị thiếu (xóa hoặc chưa tải lên) thì website tự quay về emoji cũ, không bị vỡ trang.
+
+### C. Chibi cô Thảo chuyển động
+- Ở trang chủ: chibi nhún nhảy nhẹ, lấp lánh xung quanh. **Chạm vào chibi**: chibi nhảy lên và nói một câu (có nhiều câu khác nhau).
+- Tư thế tự đổi theo tình trạng của học sinh: chưa học hôm nay → chỉ bảng (hướng dẫn); đã học hôm nay → nháy mắt, giơ ngón cái; xong cả 3 nhiệm vụ → giơ cúp, bay confetti; **để yên 1 phút không chạm gì → chibi ngáp**, chạm lại thì tỉnh dậy.
+- Màn kết quả luyện tập: ≥80% đúng → giơ cúp; từ 50% → nháy mắt; dưới 50% → chỉ bảng. Thắng Boss → giơ cúp; thua Boss → ngáp ("Không sao, mình thử lại nha!").
+- Máy nào bật chế độ "giảm chuyển động" thì chibi đứng yên (cho học sinh dễ bị chóng mặt).
+- Ảnh chibi chỉ dùng **nửa người trên** (từ đầu đến eo, mờ dần ở eo), không hiện chân và váy. Ảnh chibi toàn thân cô gửi sau này mình cũng sẽ cắt như vậy hoặc bỏ đi.
+- Thanh menu vẫn dùng ảnh chibi đầu tròn cũ (`assets/chibi.png`). Cô muốn đổi thì gửi ảnh mới cho mình.
+
+### D. (đã cập nhật ở đợt 6, xem bên dưới)
+
+## Cập nhật đợt 6 (bộ ảnh đầy đủ: avatar, thú nuôi, Boss, chủ đề, chibi 8 kiểu)
+
+### A. Cách cập nhật (gói cuối, đủ mọi thứ từ đợt 4 đến đợt 6)
+Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4 trở đi. Cô **chỉ cần làm gói này** (không phải làm lại gói đợt 4 và đợt 5). Giải nén rồi up lên GitHub (thư mục gốc của repo): `index.html`, thư mục `css`, thư mục `js` (**không ghi đè `js/config.js`**, gói này cũng không có file đó), thư mục **`assets/ui`** (khoảng 7 MB ảnh), `HUONG-DAN.md`. Phần Google Sheets: dùng file `Code.gs` trong gói (nếu cô chưa dán Code.gs mới thì làm Bước "Cập nhật Code.gs" ở đợt 4; nhớ gõ lại 2 mật khẩu lớp/cô ở đầu file). Chờ 1–2 phút rồi bấm Ctrl+Shift+R.
+
+### B. Ảnh đã gắn vào đâu
+| Ảnh | Hiển thị ở |
+|---|---|
+| av-sprout, av-cat, av-dog, av-rabbit, av-fox, av-panda, av-frog, av-koala, av-tiger, av-lion, av-unicorn, av-dragon | 12 avatar: Cửa hàng → Avatar, ảnh nhỏ cạnh tên học sinh trên thanh menu, nhân vật đứng trên đảo đang học dở ở Bản đồ đảo |
+| pet-cat, pet-dog, pet-bunny, pet-chick, pet-panda, pet-fox, pet-penguin, pet-hamster, pet-frog, pet-dragon, pet-unicorn | thú nuôi ở góc phải màn hình, trong bảng thú nuôi, khi chọn thú nuôi và Cửa hàng → Thú nuôi |
+| boss-tuvung, boss-nguphap, boss-luoihoc, boss-muc, boss-rong, boss-chinhta, boss-robot | 7 con Boss, mỗi trận Boss gặp ngẫu nhiên một con |
+| th-default (cực quang), th-candy, th-ocean, th-sakura, th-forest, th-sunset, th-summer, th-autumn, th-mooncake, th-xmas, th-tet, th-twilight, th-rainbow | 13 huy hiệu chủ đề trong Cửa hàng → Chủ đề |
+| chibi-chi-bang, chibi-dung, chibi-vay-tay | tư thế "hướng dẫn" (trang chủ khi chưa học hôm nay) |
+| chibi-nhay-mat, chibi-co-vu | tư thế "khen" (đã học hôm nay, kết quả 50–79%) |
+| chibi-an-mung, chibi-reo-ho | tư thế "ăn mừng" (xong nhiệm vụ, thắng Boss, kết quả từ 80%) |
+| chibi-ngap | tư thế "buồn ngủ" (để yên 1 phút, thua Boss) |
+
+### C. Những điều cô nên biết
+- **Chibi 8 kiểu**: mỗi tư thế có 2–3 kiểu ảnh. Mỗi lần vào trang, kiểu hiện ra ngẫu nhiên; **chạm vào chibi** thì đổi sang kiểu khác cùng tư thế, chibi nhảy và nói một câu. Cả 8 ảnh đều cắt **nửa người trên** (từ đầu đến eo, mờ dần ở eo), không hiện chân.
+- **Thú nuôi chỉ có 1 dáng ảnh** (dáng bình thường), nên cảm xúc được thể hiện bằng hiệu ứng: vui/yêu thì nhún nhảy; buồn thì ảnh xám đi, cúi xuống, có giọt nước; ngủ thì nghiêng, tối đi, có chữ Zzz. Phụ kiện theo cấp (nơ, ngôi sao, mũ phù thủy, vương miện, lấp lánh) hiện **đè lên ảnh** dưới dạng biểu tượng nhỏ, không phải vẽ riêng cho từng bé. Nếu sau này cô vẽ thêm các dáng vui, buồn, ngủ thì mình thay vào được.
+- **Kỳ lân (thú nuôi)** chưa có ảnh nên vẫn là hình vẽ cũ. Avatar Kỳ lân thì đã có ảnh.
+- **Rô-bốt (Boss)**: ảnh gốc nằm trên nền tròn vàng giống avatar. Mình đã tách nền để giống các Boss khác. Cô muốn giữ nền tròn thì báo mình.
+- Ảnh nào bị thiếu thì website tự quay về emoji hoặc hình vẽ cũ, không bị vỡ trang.
+- Mở trang đầu tiên có thể chậm hơn một chút vì có nhiều ảnh (mạng yếu thì ảnh hiện dần).
+
+### D. Còn thiếu ảnh nào (vẫn dùng emoji hoặc hình cũ)
+- Thú nuôi: các dáng vui, buồn, ngủ của cả 11 bé (hiện dùng hiệu ứng thay thế).
+- Ảnh chibi đầu tròn trên thanh menu (đang dùng ảnh cũ `assets/chibi.png`).
+- Hiệu ứng rơi bằng ảnh riêng (hiện là emoji).

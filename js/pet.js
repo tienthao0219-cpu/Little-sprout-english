@@ -1,6 +1,6 @@
 /* Thú nuôi: mỗi học sinh chọn 1 bạn đồng hành hiện nhỏ ở góc phải màn hình.
    - Làm đúng: độ cute tăng, lên cấp, có phụ kiện mới. Lâu không học: độ cute giảm dần, thú nằm ngủ.
-   - Tranh vẽ bằng SVG (không cần tải file ảnh). Dữ liệu nằm trong hồ sơ (profile.js) nên đồng bộ lên Google Sheets. */
+   - Tranh: ảnh trong assets/ui/pet-*.png (thiếu ảnh thì tự quay về tranh SVG). Dữ liệu nằm trong hồ sơ (profile.js) nên đồng bộ lên Google Sheets. */
 window.LSE = window.LSE || {};
 (function (L) {
   const { h } = L;
@@ -96,6 +96,23 @@ window.LSE = window.LSE || {};
     return `<svg viewBox="0 0 100 100" class="pet-svg" aria-hidden="true">${back}${front}${acc}</svg>`;
   }
 
+
+  /* ---------- tranh ảnh (assets/ui/pet-<loài>.png); loài chưa có ảnh vẫn dùng tranh SVG ở trên ---------- */
+  const IMG = { cat: 1, dog: 1, bunny: 1, chick: 1, panda: 1, fox: 1, penguin: 1, hamster: 1, frog: 1, dragon: 1, unicorn: 1 };
+  /** ảnh chỉ có 1 dáng (bình thường); cảm xúc được thể hiện bằng hiệu ứng: ngủ = nghiêng, mờ + Zzz; buồn = xám, cúi; vui = nhún nhảy + lấp lánh; yêu = tim */
+  function art(kind, o) {
+    o = o || {}; if (!IMG[kind]) return svg(kind, o);
+    const mood = o.mood || "normal", lv = o.level || 0;
+    const fb = svg(kind, o).replace(/"/g, "&quot;");
+    let acc = "";
+    if (lv >= 1) acc += '<text x="76" y="20" font-size="19" text-anchor="middle">🎀</text>';
+    if (lv >= 2) acc += '<text x="22" y="22" font-size="17" text-anchor="middle">🌟</text>';
+    if (lv >= 5) acc += '<text x="50" y="12" font-size="26" text-anchor="middle">👑</text>';
+    else if (lv >= 3) acc += '<text x="50" y="12" font-size="24" text-anchor="middle">🎩</text>';
+    if (lv >= 4) acc += '<g class="p-spark"><text x="8" y="44" font-size="13">✨</text><text x="86" y="52" font-size="12">✨</text></g>';
+    return `<div class="pet-img pm-${mood}"><img src="assets/ui/pet-${kind}.png" alt="" draggable="false" onerror="var d=this.parentNode;d.outerHTML=this.getAttribute('data-fb')" data-fb="${fb}">` + (acc ? `<svg viewBox="0 0 100 100" class="pet-acc" aria-hidden="true">${acc}</svg>` : "") + `</div>`;
+  }
+
   /* ---------- trạng thái ---------- */
   const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   function petOf() { const p = L.prof.get(); return p.pet && p.pet.kind && SP[p.pet.kind] ? p.pet : null; }
@@ -120,7 +137,7 @@ window.LSE = window.LSE || {};
     dock.classList.remove("hidden");
     const mood = moodOf(pet), lv = lvOf(pet.xp), cute = effCute(pet);
     wrap.className = "pet-wrap mood-" + mood;
-    wrap.innerHTML = svg(pet.kind, { mood: dock.dataset.fx === "cheer" ? "cheer" : mood, level: lv, cute });
+    wrap.innerHTML = art(pet.kind, { mood: dock.dataset.fx === "cheer" ? "cheer" : mood, level: lv, cute });
     wrap.setAttribute("title", (pet.name || SP[pet.kind].n) + " · Cấp " + (lv + 1) + " · Độ cute " + cute);
     if (mood === "sleep") { const z = h("div.pet-z", h("i", "z"), h("i", "z"), h("i", "Z")); wrap.appendChild(z); }
     if (mood === "love") wrap.appendChild(h("div.pet-hearts", h("i", "♥"), h("i", "♥")));
@@ -200,7 +217,7 @@ window.LSE = window.LSE || {};
     const line = mood === "sleep" ? "Đang ngủ… làm bài đúng để đánh thức mình nha 💤" : mood === "sad" ? "Mình buồn vì lâu rồi chưa học cùng nhau 🥺" : mood === "love" ? "Mình yêu em nhất trên đời! 💖" : mood === "happy" ? "Hôm nay mình vui lắm! ✨" : "Cùng ôn bài nhé! 🌱";
     const body = h("div.card.petpanel",
       h("button.x", { onclick: closePanel, "aria-label": "Đóng" }, "✕"),
-      h("div.petbig", { html: svg(pet.kind, { mood: mood === "sleep" ? "sleep" : mood === "normal" ? "happy" : mood, level: lv, cute }) }),
+      h("div.petbig", { html: art(pet.kind, { mood: mood === "sleep" ? "sleep" : mood === "normal" ? "happy" : mood, level: lv, cute }) }),
       h("h3", pet.name || SP[pet.kind].n), h("div.small.muted", TITLES[lv] + " · Cấp " + (lv + 1)),
       h("div.small", { style: "margin:8px 0 2px" }, "💗 Độ cute: ", h("b", cute + "/100")), h("div.bar.good", h("i", { style: "width:" + cute + "%" })),
       h("div.small", { style: "margin:8px 0 2px" }, "⭐ Kinh nghiệm: ", h("b", pet.xp + (nextAt ? " / " + nextAt : " (tối đa)"))), h("div.bar", h("i", { style: "width:" + (nextAt ? Math.round(100 * (pet.xp - LEVELS[lv]) / (nextAt - LEVELS[lv])) : 100) + "%" })),
@@ -228,7 +245,7 @@ window.LSE = window.LSE || {};
           h("div.petgrid", Object.keys(SP).map(k => {
             const s = SP[k], own = s.p === 0 || p.ownedPets.includes(k), cur = pickK === k;
             return h("button.petcard" + (cur ? ".cur" : ""), { onclick: () => { if (own) { pickK = k; draw(); } else if (p.coins >= s.p) { if (L.prof.spend(s.p)) { L.prof.mut(q => { if (!q.ownedPets.includes(k)) q.ownedPets.push(k); }); pickK = k; L.sfx.win(); L.toast("Đã mua " + s.n + "! 🎉"); draw(); } } else L.toast("Em còn thiếu " + (s.p - p.coins) + " xu nữa thôi!"); } },
-              h("div", { html: svg(k, { mood: "happy", level: 0, cute: 70 }) }), h("b", s.n), own ? h("span.pill.mint", cur ? "Đã chọn" : "Của em") : h("span.pill.butter", { html: L.coinSvg + " " + s.p }));
+              h("div", { html: art(k, { mood: "happy", level: 0, cute: 70 }) }), h("b", s.n), own ? h("span.pill.mint", cur ? "Đã chọn" : "Của em") : h("span.pill.butter", { html: L.coinSvg + " " + s.p }));
           })),
           h("label.field", { style: "margin-top:12px" }, h("span", "Tên của bé"), nm),
           h("div.row", { style: "justify-content:flex-end;margin-top:14px" }, first ? null : h("button.btn.ghost", { onclick: close }, "Đóng"),
@@ -243,5 +260,5 @@ window.LSE = window.LSE || {};
     }, first ? { sticky: true } : {});
   }
 
-  L.pet = { SP, svg, mount, unmount, answer, bulk, feed, chooser, panel: openPanel, lvOf, TITLES, LEVELS, effCute, petOf, draw };
+  L.pet = { SP, svg, art, mount, unmount, answer, bulk, feed, chooser, panel: openPanel, lvOf, TITLES, LEVELS, effCute, petOf, draw };
 })(window.LSE);

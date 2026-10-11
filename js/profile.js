@@ -6,10 +6,10 @@ window.LSE = window.LSE || {};
   const safe = f => { try { return f(); } catch (e) { return null; } };
 
   const AV = [
-    { id: "sprout", e: "🌱", n: "Mầm nhỏ", p: 0, bg: "#D3F6E6" }, { id: "cat", e: "🐱", n: "Mèo con", p: 0, bg: "#FFE0EE" }, { id: "dog", e: "🐶", n: "Cún con", p: 0, bg: "#FFE9C9" },
-    { id: "rabbit", e: "🐰", n: "Thỏ bông", p: 20, bg: "#FFD6E8" }, { id: "fox", e: "🦊", n: "Cáo nhỏ", p: 30, bg: "#FFD9BF" }, { id: "panda", e: "🐼", n: "Gấu trúc", p: 40, bg: "#E3E6EE" },
-    { id: "frog", e: "🐸", n: "Ếch xanh", p: 50, bg: "#D6F5D6" }, { id: "koala", e: "🐨", n: "Koala", p: 60, bg: "#DDE4F2" }, { id: "tiger", e: "🐯", n: "Hổ con", p: 70, bg: "#FFE9A8" },
-    { id: "lion", e: "🦁", n: "Sư tử", p: 90, bg: "#FFE0A8" }, { id: "unicorn", e: "🦄", n: "Kỳ lân", p: 120, bg: "#F3D9FF" }, { id: "dragon", e: "🐲", n: "Rồng nhỏ", p: 150, bg: "#CFF3E8" }
+    { im: "av-sprout", id: "sprout", e: "🌱", n: "Mầm nhỏ", p: 0, bg: "#D3F6E6" }, { im: "av-cat", id: "cat", e: "🐱", n: "Mèo con", p: 0, bg: "#FFE0EE" }, { im: "av-dog", id: "dog", e: "🐶", n: "Cún con", p: 0, bg: "#FFE9C9" },
+    { im: "av-rabbit", id: "rabbit", e: "🐰", n: "Thỏ bông", p: 20, bg: "#FFD6E8" }, { im: "av-fox", id: "fox", e: "🦊", n: "Cáo nhỏ", p: 30, bg: "#FFD9BF" }, { im: "av-panda", id: "panda", e: "🐼", n: "Gấu trúc", p: 40, bg: "#E3E6EE" },
+    { im: "av-frog", id: "frog", e: "🐸", n: "Ếch xanh", p: 50, bg: "#D6F5D6" }, { im: "av-koala", id: "koala", e: "🐨", n: "Koala", p: 60, bg: "#DDE4F2" }, { im: "av-tiger", id: "tiger", e: "🐯", n: "Hổ con", p: 70, bg: "#FFE9A8" },
+    { im: "av-lion", id: "lion", e: "🦁", n: "Sư tử", p: 90, bg: "#FFE0A8" }, { im: "av-unicorn", id: "unicorn", e: "🦄", n: "Kỳ lân", p: 120, bg: "#F3D9FF" }, { im: "av-dragon", id: "dragon", e: "🐲", n: "Rồng nhỏ", p: 150, bg: "#CFF3E8" }
   ];
 
   const blank = () => ({
