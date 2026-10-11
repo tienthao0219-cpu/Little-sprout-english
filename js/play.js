@@ -131,7 +131,7 @@ window.LSE = window.LSE || {};
       const wrongs = all.filter(x => x.st.wrong1);
       if (!o.review) L.rw.practiceDone(o.fix ? null : o.hwId, pct); else L.rw.event("practice");
       if (pct >= 80) { sfx.win(); L.confetti(); } else sfx.coin();
-      summary.append(h("div.card.result", h("div.muted", "Hoàn thành luyện tập"), h("div.score-big", firstOk + "/" + all.length, h("small", { style: "font-size:22px" }, " câu đúng ngay lần đầu")), h("div.cheer", L.cheer(pct)),
+      summary.append(h("div.card.result", L.mascot.el({ pose: pct >= 80 ? "win" : pct >= 50 ? "praise" : "guide", height: 190, say: true }), h("div.muted", "Hoàn thành luyện tập"), h("div.score-big", firstOk + "/" + all.length, h("small", { style: "font-size:22px" }, " câu đúng ngay lần đầu")), h("div.cheer", L.cheer(pct)),
         h("div.row", { style: "justify-content:center;margin:8px 0" }, h("span.pill.butter", { html: L.coinSvg + " +" + stat.coins + " xu lần này" }), bonus ? h("span.pill.mint", "Thưởng ≥80%: +" + bonus) : null, stat.best >= 3 ? h("span.pill.rose", "🔥 chuỗi dài nhất x" + stat.best) : null),
         wrongs.length ? h("div.hint", { style: "text-align:left" }, h("b", "Các câu cần ôn lại (" + wrongs.length + "):"), wrongs.slice(0, 8).map(x => h("div.small", "• " + (x.q.stem || x.q.src || x.q.ans || (x.q.parts ? x.q.parts.map(p => p.k === "t" ? p.s : "___").join("") : "") || x.q.type).toString().slice(0, 90)))) : h("div.hint", "🌟 Không sai câu nào, giỏi quá!"),
         h("div.row", { style: "justify-content:center;margin-top:10px" },
@@ -170,7 +170,7 @@ window.LSE = window.LSE || {};
       if (shopTab === "av") {
         box.append(h("div.avgrid", prof.AV.map(a => {
           const own = p.owned.includes(a.id), cur = p.avatar === a.id || (!p.avatar && a.id === "sprout");
-          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig", { style: "background:" + a.bg }, a.e), h("b", a.n),
+          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.pic", L.avImg(a, 84)), h("b", a.n),
             cur ? h("span.pill.mint", "Đang dùng") : own ? h("button.btn.sm", { onclick: () => { prof.use(a.id); sfx.ok(); draw(); ui.repaint && ui.repaint(); } }, "Chọn") :
               h("button.btn.sm" + (p.coins >= a.p ? ".peach" : ".ghost"), { onclick: () => { if (prof.buy(a.id)) { sfx.win(); L.confetti(40); L.toast("Đã mua " + a.n + "! 🎉"); draw(); ui.repaint && ui.repaint(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (a.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + a.p })));
         })));
@@ -178,14 +178,14 @@ window.LSE = window.LSE || {};
         const ks = Object.keys(L.pet.SP);
         box.append(h("div.avgrid", ks.map(k => {
           const sp = L.pet.SP[k], own = sp.p === 0 || p.ownedPets.includes(k), cur = p.pet.kind === k;
-          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.petbg", { html: L.pet.svg(k, { mood: "happy", level: cur ? L.pet.lvOf(p.pet.xp) : 0, cute: 80 }) }), h("b", cur && p.pet.name ? p.pet.name : sp.n),
+          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.petbg", { html: L.pet.art(k, { mood: "happy", level: cur ? L.pet.lvOf(p.pet.xp) : 0, cute: 80 }) }), h("b", cur && p.pet.name ? p.pet.name : sp.n),
             cur ? h("span.pill.mint", "Đang nuôi") : own ? h("button.btn.sm", { onclick: () => { L.pet.chooser(false); } }, "Chọn") :
               h("button.btn.sm" + (p.coins >= sp.p ? ".peach" : ".ghost"), { onclick: () => { if (p.coins >= sp.p && prof.spend(sp.p)) { prof.mut(q => { if (!q.ownedPets.includes(k)) q.ownedPets.push(k); }); sfx.win(); L.confetti(40); L.toast("Đã mua " + sp.n + "! 🎉 Bấm Chọn để nuôi nhé"); draw(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (sp.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + sp.p })));
         })), h("div.row", { style: "justify-content:center;margin-top:12px" }, h("button.btn", { onclick: () => L.pet.chooser(false) }, "🐾 Đổi thú nuôi / đặt tên")));
       } else {
         box.append(h("div.avgrid", L.extras.THEMES.map(t => {
           const own = t.p === 0 || p.ownedThemes.includes(t.id), cur = (p.theme || "default") === t.id;
-          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.thbig.th-" + t.id, t.e), h("b", t.n), t.season ? h("span.pill.rose", "Mùa " + t.season) : null,
+          return h("div.avtile" + (cur ? ".cur" : ""), h("div.avbig.thbig.pic", L.ico(t.im, t.e, 84)), h("b", t.n), t.season ? h("span.pill.rose", "Mùa " + t.season) : null,
             cur ? h("span.pill.mint", "Đang dùng") : own ? h("button.btn.sm", { onclick: () => { prof.mut(q => { q.theme = t.id; }); L.extras.applyTheme(t.id); sfx.ok(); draw(); } }, "Dùng") :
               h("button.btn.sm" + (p.coins >= t.p ? ".peach" : ".ghost"), { onclick: () => { if (p.coins >= t.p && prof.spend(t.p)) { prof.mut(q => { if (!q.ownedThemes.includes(t.id)) q.ownedThemes.push(t.id); q.theme = t.id; }); L.extras.applyTheme(t.id); sfx.win(); L.confetti(40); L.toast("Đã mua chủ đề " + t.n + "! 🎉"); draw(); } else L.toast("Em chưa đủ xu. Còn thiếu " + (t.p - p.coins) + " xu nữa thôi!"); } }, h("span", { html: L.coinSvg + " " + t.p })));
         })));

@@ -12,15 +12,15 @@ window.LSE = window.LSE || {};
 
   /* ================= Nhiệm vụ ngày ================= */
   const QUESTS = [
-    { id: "right10", t: "Trả lời đúng 10 câu", m: "right", n: 10, xu: 5, ic: "✅" },
-    { id: "right25", t: "Trả lời đúng 25 câu", m: "right", n: 25, xu: 10, ic: "🎯" },
-    { id: "practice1", t: "Hoàn thành 1 bài luyện tập", m: "practice", n: 1, xu: 5, ic: "🎮" },
-    { id: "hw1", t: "Nộp 1 bài tập", m: "hw", n: 1, xu: 6, ic: "📝" },
-    { id: "review5", t: "Ôn lại 5 câu ở mục Ôn lại", m: "review", n: 5, xu: 6, ic: "🔁" },
-    { id: "fix3", t: "Sửa đúng 3 câu từng làm sai", m: "fixed", n: 3, xu: 6, ic: "🔧" },
-    { id: "combo5", t: "Đạt combo 🔥 x5", m: "combo5", n: 1, xu: 5, ic: "🔥" },
-    { id: "boss1", t: "Đánh bại 1 con Boss", m: "boss", n: 1, xu: 8, ic: "👾" },
-    { id: "app1", t: "Chơi 1 app / game", m: "app", n: 1, xu: 4, ic: "🕹️" }
+    { id: "right10", im: "nv-dung", t: "Trả lời đúng 10 câu", m: "right", n: 10, xu: 5, ic: "✅" },
+    { id: "right25", im: "nv-dung", t: "Trả lời đúng 25 câu", m: "right", n: 25, xu: 10, ic: "🎯" },
+    { id: "practice1", im: "nv-luyentap", t: "Hoàn thành 1 bài luyện tập", m: "practice", n: 1, xu: 5, ic: "🎮" },
+    { id: "hw1", im: "nv-nopbai", t: "Nộp 1 bài tập", m: "hw", n: 1, xu: 6, ic: "📝" },
+    { id: "review5", im: "nv-onlai", t: "Ôn lại 5 câu ở mục Ôn lại", m: "review", n: 5, xu: 6, ic: "🔁" },
+    { id: "fix3", im: "nv-suasai", t: "Sửa đúng 3 câu từng làm sai", m: "fixed", n: 3, xu: 6, ic: "🔧" },
+    { id: "combo5", im: "nv-combo", t: "Đạt combo 🔥 x5", m: "combo5", n: 1, xu: 5, ic: "🔥" },
+    { id: "boss1", im: "nv-boss", t: "Đánh bại 1 con Boss", m: "boss", n: 1, xu: 8, ic: "👾" },
+    { id: "app1", im: "nv-game", t: "Chơi 1 app / game", m: "app", n: 1, xu: 4, ic: "🕹️" }
   ];
   const QBY = Object.fromEntries(QUESTS.map(q => [q.id, q]));
   const BONUS_ALL = 10;
@@ -48,9 +48,9 @@ window.LSE = window.LSE || {};
     p = p || prof.get(); const q = p.quest.day === prof.today() ? p.quest : { p: {}, done: [], bonus: false };
     const qs = questsFor(p), doneN = qs.filter(d => q.done.includes(d.id)).length;
     return h("div.card.quests",
-      h("div.row", h("h3", "🎯 Nhiệm vụ hôm nay"), h("span.grow"), h("span.pill." + (doneN === 3 ? "mint" : "butter"), doneN + "/3"), q.bonus ? h("span.pill.rose", "+" + BONUS_ALL + " xu thưởng") : h("span.small.muted", "Xong cả 3: +" + BONUS_ALL + " xu")),
+      h("div.row", h("h3", "🎯 Nhiệm vụ hôm nay"), h("span.grow"), h("span.pill." + (doneN === 3 ? "mint" : "butter"), doneN + "/3"), q.bonus ? h("span.pill.rose", "+" + BONUS_ALL + " xu thưởng") : h("span.small.muted", L.ei("🎁", 20), " Xong cả 3: +" + BONUS_ALL + " xu")),
       qs.map(d => { const cur = Math.min(d.n, q.p[d.m] || 0), ok = q.done.includes(d.id);
-        return h("div.qrow" + (ok ? ".done" : ""), h("span.qi", ok ? "✔️" : d.ic), h("div.grow", h("div", d.t), h("div.bar" + (ok ? ".good" : ""), h("i", { style: "width:" + Math.round(100 * cur / d.n) + "%" }))), h("span.pill.butter", { html: L.coinSvg + " +" + d.xu }), h("span.small.muted", cur + "/" + d.n)); }));
+        return h("div.qrow" + (ok ? ".done" : ""), h("span.qi", ok ? L.ico("nv-dung", "✔️", 32) : L.ico(d.im, d.ic, 32)), h("div.grow", h("div", d.t), h("div.bar" + (ok ? ".good" : ""), h("i", { style: "width:" + Math.round(100 * cur / d.n) + "%" }))), h("span.pill.butter", { html: L.coinSvg + " +" + d.xu }), h("span.small.muted", cur + "/" + d.n)); }));
   }
 
   /* ================= Chuỗi ngày học ================= */
@@ -116,7 +116,7 @@ window.LSE = window.LSE || {};
   }
 
   /* ================= Đánh Boss ================= */
-  const BOSSES = [{ e: "👾", n: "Quái Vật Từ Vựng" }, { e: "🐙", n: "Bạch Tuộc Ngữ Pháp" }, { e: "🦖", n: "Khủng Long Lười Học" }, { e: "🦑", n: "Mực Khổng Lồ" }, { e: "🐲", n: "Rồng Lửa Quên Bài" }, { e: "👹", n: "Yêu Tinh Sai Chính Tả" }, { e: "🤖", n: "Rô-bốt Bắt Lỗi" }];
+  const BOSSES = [{ im: "boss-tuvung", e: "👾", n: "Quái Vật Từ Vựng" }, { im: "boss-nguphap", e: "🐙", n: "Bạch Tuộc Ngữ Pháp" }, { im: "boss-luoihoc", e: "🦖", n: "Khủng Long Lười Học" }, { im: "boss-muc", e: "🦑", n: "Mực Khổng Lồ" }, { im: "boss-rong", e: "🐲", n: "Rồng Lửa Quên Bài" }, { im: "boss-chinhta", e: "👹", n: "Yêu Tinh Sai Chính Tả" }, { im: "boss-robot", e: "🤖", n: "Rô-bốt Bắt Lỗi" }];
   async function bossView(arg) {
     const ui = L.ui; ui.show(ui.spinner());
     let entries = [], title = "Boss";
@@ -141,12 +141,12 @@ window.LSE = window.LSE || {};
     entries.forEach(e => { e.st = L.hw.initState(e.q); });
     let queue = entries.slice(), hearts = 3, defeated = 0, combo = 0, best = 0, coins = 0, revive = false, over = false, chk = null;
     const bar = h("div.card.bossbar"), stage = h("div"), root = h("div");
-    const heartsStr = () => Array.from({ length: 3 }, (_, i) => i < hearts ? "❤️" : "🖤").join(" ");
+    const heartsStr = () => Array.from({ length: 3 }, (_, i) => L.ei(i < hearts ? "❤️" : "🖤", 30));
     const paintBar = (hit) => {
       bar.innerHTML = "";
       const hp = Math.round(100 * (N - defeated) / N);
-      bar.append(h("div.row", h("div.bossface" + (hit === "hit" ? ".hit" : hit === "atk" ? ".atk" : ""), boss.e), h("div.grow", h("b", boss.n), h("div.bar.bad.hp", h("i", { style: "width:" + hp + "%" })), h("div.small.muted", "HP " + hp + "% · còn " + (N - defeated) + " câu")),
-        h("div.col", { style: "text-align:right" }, h("div.hearts", heartsStr()), combo >= 2 ? h("span.pill.butter.combo", "🔥 x" + combo) : null)));
+      bar.append(h("div.row", h("div.bossface.pic" + (hit === "hit" ? ".hit" : hit === "atk" ? ".atk" : ""), L.ico(boss.im, boss.e, 96)), h("div.grow", h("b", boss.n), h("div.bar.bad.hp", h("i", { style: "width:" + hp + "%" })), h("div.small.muted", "HP " + hp + "% · còn " + (N - defeated) + " câu")),
+        h("div.col", { style: "text-align:right" }, h("div.hearts", heartsStr()), combo >= 2 ? h("span.pill.butter.combo", L.ei("🔥", 20), " x" + combo) : null)));
     };
     const finish = win => {
       over = true; bar.classList.toggle("lose", !win); paintBar();
@@ -154,13 +154,13 @@ window.LSE = window.LSE || {};
       if (win) {
         const reward = 8 + N + hearts * 2; prof.add(reward); coins += reward; prof.mut(p => { p.st.bosses = (p.st.bosses || 0) + 1; }); bump("boss", 1); touchStreak();
         L.sfx.win(); L.confetti && L.confetti(90);
-        stage.append(h("div.card.result", h("div", { style: "font-size:64px" }, "🏆"), h("h2", "Em đã đánh bại " + boss.n + "!"), h("div.score-big", "★".repeat(hearts) + "☆".repeat(3 - hearts)),
-          h("div.row", { style: "justify-content:center;margin:8px 0" }, h("span.pill.butter", { html: L.coinSvg + " +" + coins + " xu" }), best >= 3 ? h("span.pill.rose", "🔥 combo cao nhất x" + best) : null),
+        stage.append(h("div.card.result", L.mascot.el({ pose: "win", height: 220, say: "Em đánh bại Boss rồi! 🏆" }), h("h2", "Em đã đánh bại " + boss.n + "!"), h("div.score-big", "★".repeat(hearts) + "☆".repeat(3 - hearts)),
+          h("div.row", { style: "justify-content:center;margin:8px 0" }, h("span.pill.butter", { html: L.coinSvg + " +" + coins + " xu" }), best >= 3 ? h("span.pill.rose", L.ei("🔥", 18), " combo cao nhất x" + best) : null),
           h("div.cheer", L.cheer(hearts === 3 ? 95 : hearts === 2 ? 75 : 50)),
           h("div.row", { style: "justify-content:center;margin-top:10px" }, h("button.btn", { onclick: () => startBoss(title, shuffle(entries.map(e => ({ rt: e.rt, q: e.q, hwId: e.hwId }))).slice(0, N)) }, "⚔️ Đánh lại"), h("a.btn.ghost", { href: "#/" }, "← Trang chủ"), h("a.btn.ghost", { href: "#/shop" }, "🛍️ Cửa hàng"))));
       } else {
         L.sfx.bad();
-        stage.append(h("div.card.result", h("div", { style: "font-size:64px" }, "💤"), h("h2", boss.n + " thắng lần này…"), h("p.muted", "Không sao! Xem lại những câu vừa sai rồi thử lại, em sẽ thắng thôi."),
+        stage.append(h("div.card.result", L.mascot.el({ pose: "sleepy", height: 200, say: "Không sao, mình thử lại nha!" }), h("h2", boss.n + " thắng lần này…"), h("p.muted", "Không sao! Xem lại những câu vừa sai rồi thử lại, em sẽ thắng thôi."),
           h("div.row", { style: "justify-content:center;margin-top:10px" }, h("button.btn", { onclick: () => startBoss(title, shuffle(entries.map(e => ({ rt: e.rt, q: e.q, hwId: e.hwId })))) }, "⚔️ Đánh lại"), h("a.btn.ghost", { href: "#/review" }, "🔁 Ôn lại câu sai"), h("a.btn.ghost", { href: "#/" }, "← Trang chủ"))));
       }
     };
@@ -224,30 +224,30 @@ window.LSE = window.LSE || {};
     const you = prof.avatar();
     const node = (x, i) => h("a.isle" + (i % 2 ? ".r" : ".l") + (x.full ? ".full" : "") + (i === curIdx ? ".here" : ""), { href: "#/c/" + cid + "/u/" + x.u.id },
       h("div.isl-ico", ISL[i % ISL.length]),
-      i === curIdx ? h("div.isl-you", you ? you.e : "🌱") : null,
+      i === curIdx ? h("div.isl-you", you ? L.avImg(you, 40) : L.ei("🌱", 30)) : null,
       h("div.isl-name", x.u.name), h("div.isl-stars", [0, 1, 2].map(k => h("span" + (k < x.stars ? ".on" : ""), "★"))),
       h("div.small.muted", x.n ? x.done + "/" + x.n + " hoạt động" : "Chưa có hoạt động"));
     ui.show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", h("a", { href: "#/c/" + cid }, c.name), " › Bản đồ"),
-      h("div.card", h("h1", { style: "font-size:30px" }, "🗺️ Bản đồ đảo · " + c.name), h("div.small.muted", "Mỗi unit là một hòn đảo. Làm bài tập, luyện tập và chơi game ở unit đó để thắp sáng sao ★. Nhân vật của em đứng ở đảo đang học dở.")),
+      h("div.card", h("h1", { style: "font-size:30px" }, [L.ei("🗺️", 34), " Bản đồ đảo · " + c.name]), h("div.small.muted", "Mỗi unit là một hòn đảo. Làm bài tập, luyện tập và chơi game ở unit đó để thắp sáng sao ★. Nhân vật của em đứng ở đảo đang học dở.")),
       units.length ? h("div.isles", units.map(node)) : h("div.card.empty", "Giáo trình này chưa có unit nào."),
       h("div.row", { style: "justify-content:center;margin-top:14px" }, h("a.btn.ghost", { href: "#/c/" + cid }, "☰ Xem dạng danh sách")));
   }
 
   /* ================= Chủ đề giao diện ================= */
   const THEMES = [
-    { id: "default", n: "Cực quang pastel", p: 0, e: "🌈", fx: ["✨"] },
-    { id: "candy", n: "Kẹo ngọt", p: 0, e: "🍭", fx: ["🍬", "🍭", "🧁"] },
-    { id: "ocean", n: "Biển xanh", p: 0, e: "🌊", fx: ["🫧", "🐠", "🐚"] },
-    { id: "sakura", n: "Hoa anh đào", p: 30, e: "🌸", fx: ["🌸", "🌷"] },
-    { id: "forest", n: "Rừng xanh", p: 30, e: "🌿", fx: ["🍃", "🌿", "🦋"] },
-    { id: "sunset", n: "Hoàng hôn", p: 40, e: "🌅", fx: ["☁️", "✨"] },
-    { id: "summer", n: "Mùa hè", p: 40, e: "☀️", fx: ["☀️", "🍉", "🏖️"] },
-    { id: "autumn", n: "Lá thu", p: 40, e: "🍁", fx: ["🍁", "🍂"] },
-    { id: "mooncake", n: "Trung thu", p: 50, e: "🏮", fx: ["🏮", "🌕", "⭐"], season: "Trung thu" },
-    { id: "xmas", n: "Giáng sinh", p: 50, e: "🎄", fx: ["❄️", "⛄", "⭐"], season: "Giáng sinh" },
-    { id: "tet", n: "Tết", p: 50, e: "🧧", fx: ["🌼", "🧧", "🌸"], season: "Tết" },
-    { id: "twilight", n: "Chiều tím", p: 60, e: "🔮", fx: ["⭐", "🌙", "✨"] },
-    { id: "rainbow", n: "Cầu vồng", p: 60, e: "🌈", fx: ["🌈", "⭐", "💖"] }
+    { im: "th-default", id: "default", n: "Cực quang pastel", p: 0, e: "🌈", fx: ["✨", "⭐", "💫"] },
+    { im: "th-candy", id: "candy", n: "Kẹo ngọt", p: 0, e: "🍭", fx: ["🍬", "🍭", "🧁"] },
+    { im: "th-ocean", id: "ocean", n: "Biển xanh", p: 0, e: "🌊", fx: ["🫧", "🐠", "🐚"] },
+    { im: "th-sakura", id: "sakura", n: "Hoa anh đào", p: 30, e: "🌸", fx: ["🌸", "🌷"] },
+    { im: "th-forest", id: "forest", n: "Rừng xanh", p: 30, e: "🌿", fx: ["🍃", "🌿", "🦋"] },
+    { im: "th-sunset", id: "sunset", n: "Hoàng hôn", p: 40, e: "🌅", fx: ["☁️", "✨"] },
+    { im: "th-summer", id: "summer", n: "Mùa hè", p: 40, e: "☀️", fx: ["☀️", "🍉", "🏖️"] },
+    { im: "th-autumn", id: "autumn", n: "Lá thu", p: 40, e: "🍁", fx: ["🍁", "🍂"] },
+    { im: "th-mooncake", id: "mooncake", n: "Trung thu", p: 50, e: "🏮", fx: ["🏮", "🌕", "⭐"], season: "Trung thu" },
+    { im: "th-xmas", id: "xmas", n: "Giáng sinh", p: 50, e: "🎄", fx: ["❄️", "⛄", "⭐"], season: "Giáng sinh" },
+    { im: "th-tet", id: "tet", n: "Tết", p: 50, e: "🧧", fx: ["🌼", "🧧", "🌸"], season: "Tết" },
+    { im: "th-twilight", id: "twilight", n: "Chiều tím", p: 60, e: "🔮", fx: ["⭐", "🌙", "✨"] },
+    { im: "th-rainbow", id: "rainbow", n: "Cầu vồng", p: 60, e: "🌈", fx: ["🌈", "⭐", "💖"] }
   ];
   const THEME = Object.fromEntries(THEMES.map(t => [t.id, t]));
   let fxLayer = null;
@@ -256,7 +256,7 @@ window.LSE = window.LSE || {};
     try { localStorage.setItem("lse_theme", t.id); } catch (e) { }
     if (fxLayer) fxLayer.remove();
     fxLayer = h("div.fxlayer", { "aria-hidden": "true" });
-    const nodes = []; const n = 14;
+    const nodes = []; const n = 18;
     for (let i = 0; i < n; i++) {
       const sp = h("span", t.fx[i % t.fx.length]);
       sp.style.cssText = "left:" + Math.round((i * 97 / n + (i * 37) % 11)) % 100 + "%;font-size:" + (16 + (i * 7) % 16) + "px;animation-duration:" + (14 + (i * 5) % 12) + "s;animation-delay:-" + ((i * 3) % 14) + "s";
@@ -265,6 +265,9 @@ window.LSE = window.LSE || {};
     fxLayer.append(...nodes); document.body.appendChild(fxLayer);
   }
   try { applyTheme(localStorage.getItem("lse_theme") || "default"); } catch (e) { applyTheme("default"); }
+  /* hiệu ứng rơi tắt khi đang làm bài / đánh Boss / chơi game để học sinh không bị xao nhãng */
+  const fxRoute = () => document.documentElement.classList.toggle("nofx", /^#\/(practice|boss|hw|review|app|play)/.test(location.hash));
+  window.addEventListener("hashchange", fxRoute); fxRoute();
   function syncTheme() { if (L.auth.role === "student") { const t = prof.get().theme; if (t && THEME[t] && document.documentElement.dataset.theme !== t) applyTheme(t); } }
   prof.onChange(syncTheme);
 
@@ -272,12 +275,12 @@ window.LSE = window.LSE || {};
   function homeBlock() {
     const p = prof.get(), due = wb.due(p).length, open = wb.open(p).length, sn = streakNow(p);
     return h("div",
-      h("div.row.todaystats", h("span.pill.rose.big", "🔥 " + sn + " ngày liên tiếp"), h("span.pill.butter.big", { html: L.coinSvg + " " + p.coins + " xu" }), p.streak.best > sn ? h("span.small.muted", "Kỷ lục: " + p.streak.best + " ngày") : null),
+      h("div.row.todaystats", h("span.pill.rose.big", L.ei("🔥", 24), " " + sn + " ngày liên tiếp"), h("span.pill.butter.big", { html: L.coinSvg + " " + p.coins + " xu" }), p.streak.best > sn ? h("span.small.muted", "Kỷ lục: " + p.streak.best + " ngày") : null),
       questView(p),
       h("div.grid.actions",
-        h("a.cur.tint1", { href: "#/review" }, h("div.em", "🔁"), h("h3", "Ôn lại hôm nay"), h("div.meta", due ? due + " câu đến hạn ôn" : open ? "Chưa có câu nào đến hạn" : "Chưa có câu sai nào"), h("span.go", "→")),
-        h("a.cur.tint5", { href: "#/boss/wrong" }, h("div.em", "👾"), h("h3", "Đánh Boss"), h("div.meta", open ? "Đấu với " + Math.min(open, 10) + " câu em từng sai" : "Làm bài rồi quay lại nhé"), h("span.go", "→")),
-        h("a.cur.tint4", { href: "#/shop" }, h("div.em", "🛍️"), h("h3", "Cửa hàng"), h("div.meta", "Avatar · Thú nuôi · Chủ đề"), h("span.go", "→"))));
+        h("a.cur.tint1", { href: "#/review" }, h("div.em", L.ei("🔁", 44)), h("h3", "Ôn lại hôm nay"), h("div.meta", due ? due + " câu đến hạn ôn" : open ? "Chưa có câu nào đến hạn" : "Chưa có câu sai nào"), h("span.go", "→")),
+        h("a.cur.tint5", { href: "#/boss/wrong" }, h("div.em", L.ei("👾", 44)), h("h3", "Đánh Boss"), h("div.meta", open ? "Đấu với " + Math.min(open, 10) + " câu em từng sai" : "Làm bài rồi quay lại nhé"), h("span.go", "→")),
+        h("a.cur.tint4", { href: "#/shop" }, h("div.em", L.ei("🛍️", 44)), h("h3", "Cửa hàng"), h("div.meta", "Avatar · Thú nuôi · Chủ đề"), h("span.go", "→"))));
   }
 
   /* ================= Cổng thưởng: gọi mỗi khi học sinh trả lời ================= */

@@ -471,9 +471,8 @@ html[data-theme=xmas]{--bg:linear-gradient(125deg,#FFD6D6,#F5FFF2 35%,#D3F2D3 65
 html[data-theme=tet]{--bg:linear-gradient(125deg,#FFD0C9,#FFE6A8 40%,#FFC9C9 70%,#FFF0C2);--b1:#FF8F8F;--b2:#FFD966;--b3:#FFB38A;--hgrad:linear-gradient(90deg,#d42a2a,#d19200);--lav-d:#D4382F;--lav:#FFD9D2}
 html[data-theme=twilight]{--bg:linear-gradient(125deg,#D8C8FF,#B8B6F5 35%,#F2B8E0 70%,#C8D8FF);--b1:#B39DFF;--b2:#FF9EDB;--b3:#8EB5FF;--hgrad:linear-gradient(90deg,#5b3f9e,#c04a86);--lav-d:#7A56D6;--lav:#E4D9FF}
 html[data-theme=rainbow]{--bg:linear-gradient(125deg,#FFD6D6,#FFE9C2 20%,#FFFAC2 38%,#D6F5D6 56%,#D3ECFF 74%,#E6D6FF);--b1:#FFA8A8;--b2:#A8E6A8;--b3:#A8C8FF;--hgrad:linear-gradient(90deg,#e0505a,#e8a020,#3fb26a,#3b88d0,#8a5cd6);--lav-d:#8A5CD6;--lav:#E6D9FF}
-.fxlayer{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
-.fxlayer span{position:absolute;top:-8%;opacity:.55;animation:fxfall linear infinite;will-change:transform}
-html[data-theme=default] .fxlayer{display:none}
+.fxlayer{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:hidden}
+.fxlayer span{position:absolute;top:-8%;opacity:.85;filter:drop-shadow(0 2px 3px rgba(80,60,140,.2));animation:fxfall linear infinite;will-change:transform}
 html[data-theme=ocean] .fxlayer span{top:auto;bottom:-8%;animation-name:fxrise}
 @keyframes fxfall{0%{transform:translate(0,-10vh) rotate(0)}50%{transform:translate(34px,50vh) rotate(180deg)}100%{transform:translate(-12px,112vh) rotate(360deg)}}
 @keyframes fxrise{0%{transform:translate(0,0)}50%{transform:translate(24px,-55vh)}100%{transform:translate(-10px,-112vh)}}
@@ -576,3 +575,79 @@ html[data-theme=ocean] .fxlayer span{top:auto;bottom:-8%;animation-name:fxrise}
 @media print{.keypaper{break-before:page;page-break-before:always}}
 .printonly{display:none}
 @media print{body.printing-extra>*:not(.printonly){display:none!important}body.printing-extra .printonly{display:block!important;padding:0;font-size:14px}}
+
+/* ===== Đợt 5: ảnh biểu tượng + chibi chuyển động ===== */
+img.ico{display:inline-block;width:1.15em;height:1.15em;object-fit:contain;vertical-align:-.28em;-webkit-user-drag:none;user-select:none}
+.cur .em img.ico{width:44px;height:44px;vertical-align:middle}
+.qrow .qi img.ico{width:32px;height:32px;vertical-align:middle}
+.hearts{display:flex;gap:4px;align-items:center;justify-content:flex-end}
+.hearts img.ico{filter:drop-shadow(0 2px 3px rgba(43,53,80,.18))}
+.bossface img.ico{width:64px;height:64px}
+.pill img.ico{vertical-align:-.3em}
+.mascot{position:relative;display:inline-block;transform-origin:50% 100%;cursor:pointer;-webkit-tap-highlight-color:transparent;animation:mbob 3.4s ease-in-out infinite}
+.mascot>img{display:block;height:100%;width:auto;max-width:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 8px 10px rgba(43,53,80,.18))}
+.mascot>img.fallback{height:70%;margin-top:30%;border-radius:50%}
+.mascot.swap>img{animation:mswap .45s cubic-bezier(.2,1.4,.4,1)}
+.mascot.jump{animation:mjump .75s cubic-bezier(.3,1.3,.5,1)}
+.mascot.pose-win{animation-duration:2.2s}
+.mascot.pose-sleepy{animation:msleep 4.6s ease-in-out infinite}
+.mascot .m-sp{position:absolute;font-size:16px;opacity:0;pointer-events:none;animation:mtw 2.8s ease-in-out infinite}
+.mascot .m-sp:nth-child(1){left:-6%;top:22%}.mascot .m-sp:nth-child(2){right:-4%;top:10%;animation-delay:-1s;font-size:14px}.mascot .m-sp:nth-child(3){right:-8%;top:48%;animation-delay:-1.8s}
+.mascot.pose-sleepy .m-sp{display:none}
+.m-say{position:absolute;left:50%;top:-4px;transform:translate(-50%,-100%) scale(.85);min-width:120px;max-width:200px;padding:8px 12px;background:#fff;border:2px solid rgba(122,100,212,.35);border-radius:16px;font:700 13px/1.3 var(--bfont,inherit);color:var(--ink,#2B3550);text-align:center;box-shadow:0 6px 14px rgba(43,53,80,.12);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:5}
+.m-say.on{opacity:1;transform:translate(-50%,-100%) scale(1)}
+.m-say::after{content:"";position:absolute;left:50%;bottom:-8px;width:12px;height:12px;background:#fff;border-right:2px solid rgba(122,100,212,.35);border-bottom:2px solid rgba(122,100,212,.35);transform:translateX(-50%) rotate(45deg)}
+.hero-art .mascot{position:absolute;left:0;right:0;margin:auto;bottom:1%;width:fit-content;height:92%!important}
+.hero-art .m-say{top:6%;left:auto;right:58%;transform:scale(.85);transform-origin:100% 50%;width:150px}
+.hero-art .m-say.on{transform:scale(1)}
+.hero-art .m-say::after{left:auto;right:-7px;bottom:auto;top:40%;transform:rotate(-45deg)}
+.card.result .mascot{margin:0 auto 6px}
+.card.result .m-say{top:18%;left:auto;right:calc(50% + 62px);transform:scale(.85);width:170px}
+.card.result .m-say.on{transform:scale(1)}
+.card.result .m-say::after{left:auto;right:-7px;bottom:auto;top:40%;transform:rotate(-45deg)}
+@keyframes mbob{0%,100%{transform:translateY(0) rotate(-1.4deg)}50%{transform:translateY(-7px) rotate(1.4deg)}}
+@keyframes msleep{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(2px) rotate(3deg)}}
+@keyframes mjump{0%{transform:translateY(0) scale(1,1)}25%{transform:translateY(-34px) scale(.95,1.06)}50%{transform:translateY(0) scale(1.07,.93)}70%{transform:translateY(-12px) scale(.98,1.02)}100%{transform:translateY(0) scale(1,1)}}
+@keyframes mswap{0%{transform:scale(.9);opacity:.2}60%{transform:scale(1.04);opacity:1}100%{transform:scale(1)}}
+@keyframes mtw{0%,100%{opacity:0;transform:scale(.6) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(18deg)}}
+@media(prefers-reduced-motion:reduce){.mascot,.mascot.pose-sleepy,.mascot .m-sp{animation:none!important}.mascot .m-sp{opacity:.8}}
+@media(max-width:620px){.hero-art .m-say{width:120px;font-size:12px}.card.result .m-say{right:calc(50% + 40px);width:140px}}
+@media(max-width:620px){.hero{grid-template-columns:1fr 150px}.hero-art{max-width:150px}}
+/* chibi chỉ lấy nửa người trên */
+.hero-art .mascot{height:auto!important;width:88%;bottom:4%}
+.hero-art .mascot>img{width:100%;height:auto}
+.card.result .mascot>img{height:100%}
+
+/* ===== Đợt 6: ảnh avatar · thú nuôi · Boss · chủ đề ===== */
+.avbig.pic{background:none!important;box-shadow:none;font-size:0}
+.avbig.pic img.ico,.avbig.pic img.avimg{width:84px;height:84px;vertical-align:top;filter:drop-shadow(0 4px 8px rgba(120,90,180,.25))}
+.avbig.thbig.pic img.ico{border-radius:50%}
+.av.emo.pic{background:none!important;box-shadow:none;width:34px;height:34px}
+.av.emo.pic img.ico{width:34px;height:34px;vertical-align:top;filter:drop-shadow(0 1px 3px rgba(80,60,140,.35))}
+.isl-you{background:none;box-shadow:none;width:48px;height:48px}.isl-you img.ico{width:46px;height:46px;vertical-align:top;filter:drop-shadow(0 4px 6px rgba(80,60,140,.35))}
+.bossface.pic{width:104px;height:104px;background:none;box-shadow:none;font-size:0}
+.bossface.pic img.ico{width:100px;height:100px;vertical-align:top;filter:drop-shadow(0 6px 8px rgba(80,60,140,.3))}
+.bossface.hit.pic img{filter:brightness(1.3) saturate(1.6) drop-shadow(0 6px 8px rgba(80,60,140,.3))}
+.bossbar.lose .bossface.pic img{filter:grayscale(.9) brightness(.9)}
+.bossface.pic{animation:bossbob 2.6s ease-in-out infinite}
+/* thú nuôi bằng ảnh */
+.pet-img{position:relative;width:100%;height:100%}
+.pet-img>img{position:absolute;left:0;top:0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;transform-origin:50% 100%;-webkit-user-drag:none;user-select:none}
+.pet-acc{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.pet-img.pm-happy>img,.pet-img.pm-cheer>img{animation:pmhappy 1.6s ease-in-out infinite}
+.pet-img.pm-love>img{animation:pmhappy 1.3s ease-in-out infinite;filter:saturate(1.15)}
+.pet-img.pm-sad>img{filter:saturate(.45) brightness(.96);transform:scaleY(.94) translateY(2%);animation:pmsad 3s ease-in-out infinite}
+.pet-img.pm-sad::after{content:"💧";position:absolute;left:62%;top:30%;font-size:13px;animation:pmtear 1.8s ease-in infinite}
+.pet-img.pm-sleep>img{filter:brightness(.86) saturate(.75);transform:rotate(-8deg) translateY(3%) scale(1,.94);animation:pmsleep 4s ease-in-out infinite}
+@keyframes pmhappy{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-4%) scale(.98,1.03)}}
+@keyframes pmsad{0%,100%{transform:scaleY(.94) translateY(2%)}50%{transform:scaleY(.93) translateY(3%)}}
+@keyframes pmsleep{0%,100%{transform:rotate(-8deg) translateY(3%) scale(1,.94)}50%{transform:rotate(-8deg) translateY(3%) scale(1.02,.91)}}
+@keyframes pmtear{0%{opacity:0;transform:translateY(-4px)}30%{opacity:1}100%{opacity:0;transform:translateY(14px)}}
+.petbig .pet-img,.petcard>div .pet-img{width:100%;height:100%}
+.avbig.petbg .pet-img{width:78px;height:78px}
+@media(prefers-reduced-motion:reduce){.pet-img>img,.bossface.pic{animation:none!important}}
+
+span.ico.bk{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.28em;filter:drop-shadow(0 2px 3px rgba(43,53,80,.18))}
+span.ico.bk svg{width:100%;height:100%;display:block}
+.cur .em span.ico.bk{width:48px;height:48px;vertical-align:middle}
+html.nofx .fxlayer{display:none}

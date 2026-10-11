@@ -87,7 +87,7 @@
   /* avatar: cô = ảnh chibi; học sinh = chữ cái đầu trên nền pastel theo tên */
   function avatarNode() {
     if (isTeacher()) return h("img.av", { src: "assets/chibi.png", alt: "", onerror: e => { e.target.replaceWith(h("span.av", { style: "background:linear-gradient(135deg,#FF9EBB,#B9A8F0)" }, "T")); } });
-    const pa = L.prof && L.prof.avatar(); if (pa) return h("span.av.emo", { style: "background:" + pa.bg }, pa.e);
+    const pa = L.prof && L.prof.avatar(); if (pa) return h("span.av.emo.pic", L.avImg(pa, 34));
     const name = String(L.auth.name || "?").trim(), ini = (name.split(/\s+/).pop() || "?").charAt(0).toUpperCase();
     const cols = ["#FF9EBB", "#9ED8FF", "#8FDDBA", "#B9A8F0", "#FFB38A", "#F2C94C"]; let hsh = 0; for (const ch of name) hsh = (hsh * 31 + ch.charCodeAt(0)) >>> 0;
     return h("span.av", { style: "background:" + cols[hsh % cols.length] }, ini);
@@ -144,7 +144,7 @@
     const cards = (m.curricula || []).map((c, i) => {
       const n = appsIn(c.id).length, u = (c.units || []).length;
       return h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/c/" + c.id },
-        h("div.em", c.emoji || "📚"), h("h3", c.name),
+        h("div.em", L.ei(c.emoji || "📚", 44)), h("h3", c.name),
         h("div.meta", u + " unit · " + n + " app/game"), h("span.go", "→"));
     });
     const statBox = h("div.stats");
@@ -152,13 +152,13 @@
     const hero = h("div.card.hero",
       h("div", h("div.bubble", TIPS[Math.floor(Math.random() * TIPS.length)]), h("h1", CFG.siteName), h("p", greeting() + ", " + who + "! Chọn giáo trình, chọn unit rồi chơi và ôn tập thật vui nhé."), statBox,
         h("div.row", h("a.btn", { href: "#/hw" }, "📝 Bài tập của em"), h("a.btn.ghost", { href: "#/me" }, "📈 Lịch sử chơi"))),
-      h("div.hero-art", h("div.halo"), h("span.sp", "✨"), h("span.sp", "⭐"), h("span.sp", "🌿"), h("img.chibi", { src: "assets/chibi.png", alt: CFG.teacherName })));
+      h("div.hero-art", h("div.halo"), h("span.sp", "✨"), h("span.sp", "⭐"), h("span.sp", "🌿"), L.mascot.el({ pose: L.mascot.homePose(), height: 270, idleSleep: 60000 })));
     const hwBox = h("div");
     show(hero, isTeacher() ? null : L.extras.homeBlock(), h("h2", { style: "margin:22px 2px 12px;font-size:24px" }, "Giáo trình"), h("div.grid", cards), hwBox);
     if (!isTeacher()) loadMine().then(() => {
       const st = streakOf(state.plays, state.subs);
       const nPlay = (state.plays || []).length, nHw = (state.subs || []).length;
-      if (st) statBox.append(h("span.stat.fire", "🔥 ", h("b", String(st)), " ngày học liên tiếp"));
+      if (st) statBox.append(h("span.stat.fire", L.ei("🔥", 20), " ", h("b", String(st)), " ngày học liên tiếp"));
       if (nPlay) statBox.append(h("span.stat", "🎮 ", h("b", String(nPlay)), " lượt chơi"));
       if (nHw) statBox.append(h("span.stat", "📝 ", h("b", String(nHw)), " bài đã nộp"));
     }).catch(() => { });
@@ -176,13 +176,13 @@
     if (!c) { show(h("div.card.empty", "Không tìm thấy giáo trình này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
     const units = (c.units || []).map(u => {
       const n = appsIn(cid, u.id).length;
-      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), c.emoji || "📘"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
+      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), L.ei(c.emoji || "📘", 32)), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
     });
     const loose = appsIn(cid, "");
     if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", c.name),
-      h("div.row", { style: "margin-bottom:12px" }, h("div.cur.tint" + (c.tint || 0), { style: "min-height:0;padding:10px 18px;cursor:default;flex-direction:row;align-items:center;gap:10px" }, h("span.em", c.emoji), h("h2", c.name)), h("a.btn.sm.peach", { href: "#/map/" + cid }, "🗺️ Bản đồ đảo")),
+      h("div.row", { style: "margin-bottom:12px" }, h("div.cur.tint" + (c.tint || 0), { style: "min-height:0;padding:10px 18px;cursor:default;flex-direction:row;align-items:center;gap:10px" }, h("span.em", L.ei(c.emoji, 44)), h("h2", c.name)), h("a.btn.sm.peach", { href: "#/map/" + cid }, [L.ei("🗺️", 20), " Bản đồ đảo"])),
       units.length ? h("div.grid", units) : h("div.card.empty", "Giáo trình này chưa có unit nào.", isTeacher() ? h("div", h("a.btn", { style: "margin-top:10px", href: "#/teacher/content" }, "Thêm unit")) : null));
   }
 
@@ -209,7 +209,7 @@
       h("div.col", { style: "display:flex;flex-direction:column;gap:6px;align-items:stretch" },
         h("a.btn.sm" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"),
         h("a.btn.sm.peach", { href: "#/practice/" + x.id, title: "Luyện tập: kiểm tra từng câu, có gợi ý, kiếm xu (không tính điểm)" }, "🎮 Luyện tập"),
-        isTeacher() ? null : h("a.btn.sm.rose", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, "👾 Boss")));
+        isTeacher() ? null : h("a.btn.sm.rose", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, [L.ei("👾", 18), " Boss"])));
   }
   async function unitView(cid, uid) {
     show(spinner()); await loadManifest();
