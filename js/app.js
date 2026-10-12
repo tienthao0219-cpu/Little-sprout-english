@@ -205,12 +205,18 @@
   function hwRow(x) {
     const st = hwStatus(x);
     const sub = [x.nItems ? x.nItems + " ý" : "", x.timeLimit ? x.timeLimit + " phút" : "", x.maxAttempts ? "tối đa " + x.maxAttempts + " lượt" : "", x.myAttempts ? "đã làm " + x.myAttempts + " lần" + (x.myBest != null ? " · điểm cao nhất " + x.myBest : "") : ""].filter(Boolean).join(" · ");
-    return h("div.item", h("div.ic.tint3", "📝"), h("div.grow", h("b", x.title), h("div.small.muted", sub || "Bài tập"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
-      h("div.col", { style: "display:flex;flex-direction:column;gap:6px;align-items:stretch" },
-        h("a.btn.sm" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"),
-        h("a.btn.sm.peach", { href: "#/practice/" + x.id, title: "Luyện tập: kiểm tra từng câu, có gợi ý, kiếm xu (không tính điểm)" }, "🎮 Luyện tập"),
-        isTeacher() ? null : h("a.btn.sm.rose", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, [L.ei("👾", 18), " Boss"])));
+    /* một nút chính "Làm bài"; Luyện tập và Boss là hai đường chữ nhỏ bên dưới cho đỡ rối */
+    return h("div.item", h("div.ic.tint3", "📝"),
+      h("div.grow", h("b", x.title), h("div.small.muted", sub || "Bài tập"), h("span.pill." + (st.can ? "mint" : "rose"), st.text),
+        h("div.small", { style: "margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;font-weight:800" },
+          h("a", { href: "#/practice/" + x.id, title: "Luyện tập: kiểm tra từng câu, có gợi ý, kiếm xu (không tính điểm)" }, "🎮 Luyện tập"),
+          isTeacher() ? null : h("a", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, "👾 Boss"))),
+      h("a.btn" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"));
   }
+  /* ---------- link gửi học sinh (dán vào Zalo, Messenger…) ---------- */
+  const hwUrl = id => location.origin + location.pathname + "#/hw/" + id;
+  const copyHwLink = x => L.copyText(x.title + "\n" + hwUrl(x.id));
+  L.hwUrl = hwUrl; L.copyHwLink = copyHwLink;
   async function unitView(cid, uid) {
     show(spinner()); await loadManifest();
     const c = cur(cid); if (!c) return go("/");
@@ -269,8 +275,15 @@
     await loadManifest();
     try {
       const list = await loadHw(true);
+      /* gom theo giáo trình · unit, bài còn làm được lên trước */
+      const groups = [], idx = {};
+      list.slice().sort((a, b) => (hwStatus(b).can - hwStatus(a).can)).forEach(x => {
+        const c = cur(x.curId), key = (c ? c.name : "Khác") + (c && x.unitId ? " · " + unitName(c, x.unitId) : "");
+        if (!(key in idx)) { idx[key] = groups.length; groups.push({ key, items: [] }); }
+        groups[idx[key]].items.push(x);
+      });
       show(h("h1", { style: "font-size:30px;margin-bottom:12px" }, "Bài tập"),
-        h("div.card", list.length ? list.map(x => { const c = cur(x.curId); const row = hwRow(x); if (c) row.querySelector(".grow").insertBefore(h("div.small.muted", c.name + (x.unitId ? " · " + unitName(c, x.unitId) : "")), row.querySelector(".grow").children[1]); return row; }) : h("div.empty", "Chưa có bài tập nào. Chờ cô giao bài nhé!")));
+        groups.length ? groups.map(g => h("div.card", h("h3", { style: "margin-bottom:4px" }, g.key), g.items.map(hwRow))) : h("div.card", h("div.empty", "Chưa có bài tập nào. Chờ cô giao bài nhé!")));
     } catch (e) { show(h("div.card", h("div.err", e.message))); }
   }
 
@@ -303,13 +316,32 @@
       const rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec));
       const t0 = Date.now(); let submitted = false, tick = null;
       const timer = h("span.timer", "");
-      const head = h("div.hw-head", h("div.row", h("b", { style: "font-family:var(--hfont);font-size:19px" }, hw.title), h("span.grow"), m.timeLimit ? timer : null));
+      /* Báo đúng/sai ngay sau mỗi câu (tắt được trong phần sửa bài; không dùng khi cô chọn chỉ cho xem tổng điểm) */
+      const afterMode = m.showAfter || "full";
+      const instant = m.instant !== false && (afterMode === "full" || afterMode === "verdict");
+      const allQs = () => rts.flatMap(rt => rt.qs.map(q => rt.sts[q.id]));
+      const counter = h("span.pill.mint", "");
+      const paintCount = () => { const a = allQs(); counter.textContent = a.filter(s => s.chk).length + "/" + a.length + " câu đã kiểm tra"; };
+      const head = h("div.hw-head", h("div.row", h("b", { style: "font-family:var(--hfont);font-size:19px" }, hw.title), h("span.grow"), instant ? counter : null, m.timeLimit ? timer : null));
+      const AUTO = ["mcq1", "tf"];
+      const card = (q, st, ctx, n) => {
+        if (st.chk) {
+          const g = st.chk, ok = g.got === g.max;
+          return h("div", L.hw.view(q, st, Object.assign({}, ctx, { mode: "review", showAns: afterMode === "full" }), n),
+            h("div.row.pfeed" + (ok ? ".good" : ".bad"), h("b", ok ? "🎉 Đúng rồi!" : g.got > 0 ? "Chưa đủ (" + g.got + "/" + g.max + ")" : "Chưa đúng")));
+        }
+        const doCheck = () => { const g = L.hw.grade(q, st); if (!g.max) return; st.chk = g; L.sfx && (g.got === g.max ? L.sfx.ok() : L.sfx.bad()); paintCount(); };
+        /* trắc nghiệm 1 đáp án / đúng-sai: chọn xong là báo kết quả luôn */
+        const cx = Object.assign({}, ctx, { redraw: () => { if (AUTO.includes(q.type) && st.v != null && !st.chk) doCheck(); ctx.redraw(); } });
+        return h("div", L.hw.view(q, st, cx, n), AUTO.includes(q.type) ? null : h("div.row.pact", h("span.grow"), h("button.btn.sm.mint", { onclick: () => { doCheck(); ctx.redraw(); } }, "Kiểm tra ✓")));
+      };
       const parts = []; let no = 1;
       (hw.sections || []).forEach((sec, i) => {
         const rt = rts[i];
-        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i), L.hw.renderSection(rt, "do", false, no, null)));
+        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i), L.hw.renderSection(rt, "do", false, no, null, instant ? { card } : undefined)));
         no += rt.qs.length;
       });
+      if (instant) paintCount();
       const submitBtn = h("button.btn.mint", { style: "width:100%;margin-top:16px;font-size:18px", onclick: () => submit(false) }, "Nộp bài ✓");
       const err = h("div");
       if (!rts.some(r => r.qs.length)) { show(h("div.card.empty", "Bài tập này chưa có câu hỏi.")); return; }

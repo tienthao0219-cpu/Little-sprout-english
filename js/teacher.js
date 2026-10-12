@@ -420,13 +420,20 @@
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
             h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần"), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng")),
-            h("button.btn.sm.ghost", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "Đóng" : "Mở"),
+            h("button.btn.sm.mint", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(x) }, "🔗 Sao chép link"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id }, "Sửa"),
-            h("a.btn.sm.ghost", { href: "#/hw/" + x.id }, "Xem thử"),
-            h("button.btn.sm.mint", { title: "Sao chép đường link gửi cho học sinh", onclick: () => L.copyText(location.href.split("#")[0] + "#/hw/" + x.id) }, "🔗 Link"),
-            h("a.btn.sm.ghost", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
             h("button.btn.sm.sky", { onclick: () => hwResultsModal(x) }, "Kết quả"),
-            h("button.btn.sm.rose", { onclick: async () => { if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "Xoá"));
+            (() => {
+              /* các nút ít dùng gom vào menu ⋯ cho đỡ rối */
+              const menu = h("details.moremenu");
+              const item = (tag, props, label) => h(tag + ".btn.sm.ghost", Object.assign({}, props, props.onclick ? { onclick: e => { menu.open = false; props.onclick(e); } } : {}), label);
+              menu.append(h("summary.btn.sm.ghost", { title: "Thêm" }, "⋯"), h("div.mm",
+                item("a", { href: "#/hw/" + x.id }, "👀 Xem thử"),
+                item("a", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
+                item("button", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "🔒 Đóng bài" : "🔓 Mở bài"),
+                h("button.btn.sm.rose", { onclick: async () => { menu.open = false; if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "🗑️ Xoá")));
+              return menu;
+            })());
         }) : h("div.empty", "Chưa có bài tập nào.")));
     };
     draw();
@@ -485,6 +492,7 @@
           h("label.field", h("span", "Cách lấy điểm cuối cùng"), h("select", { onchange: e => { hw.meta.scoreRule = e.target.value; markDirty(); } }, [["highest", "Điểm cao nhất"], ["last", "Lần làm cuối"], ["avg", "Trung bình các lần"]].map(([v, t]) => h("option", { value: v, selected: hw.meta.scoreRule === v }, t)))),
           h("label.field", h("span", "Thang điểm"), h("input", { type: "number", min: 1, value: hw.meta.scale, oninput: e => { hw.meta.scale = +e.target.value || 10; markDirty(); } }))),
         h("label.field", { style: "margin-top:10px" }, h("span", "Sau khi nộp bài, học viên được xem"), h("select", { onchange: e => { hw.meta.showAfter = e.target.value; markDirty(); } }, [["full", "Điểm + đáp án + giải thích"], ["verdict", "Điểm + biết câu đúng/sai (không hiện đáp án)"], ["score", "Chỉ xem tổng điểm"], ["done", "Chỉ xác nhận hoàn thành"]].map(([v, t]) => h("option", { value: v, selected: hw.meta.showAfter === v }, t)))),
+        h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: hw.meta.instant !== false, onchange: e => { hw.meta.instant = e.target.checked; markDirty(); } }), h("span", h("b", "Báo đúng/sai ngay sau mỗi câu"), h("span.small.muted", " (chỉ dùng khi cho xem đáp án hoặc xem đúng/sai ở trên)"))),
         assignRow(),
         h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: hw.open, onchange: e => { hw.open = e.target.checked; markDirty(); } }), h("b", "Mở bài này cho học viên làm"))));
     drawUnit();
@@ -496,7 +504,7 @@
     };
     function sectionEditor(sec, i) {
       const T = () => L.hw.TYPE[sec.type];
-      const rule = h("div.hint"), prev = h("div.preview.hidden"), status = h("div");
+      const rule = h("details.fold"), prev = h("div.preview.hidden"), status = h("div");
       const ta = h("textarea", { style: "min-height:190px", placeholder: "Dán bài tập (theo cú pháp) vào đây…", spellcheck: "false", oninput: e => { sec.raw = e.target.value; markDirty(); check(); } }, sec.raw || "");
       let showKey = false, timer = null;
       const check = () => {
@@ -516,12 +524,18 @@
           } else prev.classList.add("hidden");
         }, 250);
       };
-      const typeSel = h("select", { onchange: e => { sec.type = e.target.value; markDirty(); fillRule(); check(); } }, L.hw.TYPES.map(t => h("option", { value: t.id, selected: t.id === sec.type }, t.emoji + " " + t.label)));
+      /* các dạng bài chia nhóm cho dễ chọn */
+      const TYPE_GROUPS = [["Trắc nghiệm · Đúng/Sai", ["mcq1", "mcqN", "tf", "tf4"]], ["Điền từ · Trả lời ngắn", ["fill", "fillhint", "fillbank", "fillchoose", "short"]], ["Ngữ pháp", ["errfix", "transform", "sentence"]], ["Ghép · Sắp xếp · Phân loại", ["match", "order", "classify", "wordpick"]], ["Từ vựng & trò chơi", ["listen", "meanpick", "scramble", "memory", "wordsearch", "crossword"]]];
+      const optOf = t => h("option", { value: t.id, selected: t.id === sec.type }, t.emoji + " " + t.label);
+      const grouped = TYPE_GROUPS.map(([label, ids]) => [label, ids.map(id => L.hw.TYPES.find(t => t.id === id)).filter(Boolean)]);
+      const known = new Set(TYPE_GROUPS.flatMap(g => g[1])), others = L.hw.TYPES.filter(t => !known.has(t.id));
+      const typeSel = h("select", { onchange: e => { sec.type = e.target.value; markDirty(); fillRule(); check(); } },
+        grouped.filter(g => g[1].length).map(([label, ts]) => h("optgroup", { label }, ts.map(optOf))), others.length ? h("optgroup", { label: "Khác" }, others.map(optOf)) : null);
       const tfSel = h("label.field", h("span", "Nhãn Đúng/Sai"), h("select", { onchange: e => { sec.tfLabels = e.target.value; markDirty(); check(); } }, h("option", { value: "en", selected: sec.tfLabels !== "vi" }, "True / False"), h("option", { value: "vi", selected: sec.tfLabels === "vi" }, "Đúng / Sai")));
       const clsSel = h("label.field", h("span", "Cách làm (Phân loại)"), h("select", { onchange: e => { sec.clsMode = e.target.value; markDirty(); check(); } }, h("option", { value: "drag", selected: sec.clsMode !== "choose" }, "Kéo thẻ vào cột của nhóm (khuyên dùng)"), h("option", { value: "choose", selected: sec.clsMode === "choose" }, "Bấm chọn nhóm cho từng mục")));
       const fillRule = () => {
         clsSel.classList.toggle("hidden", sec.type !== "classify");
-        rule.innerHTML = ""; rule.append(h("b", "Cú pháp: "), T().rule, h("div.small", { style: "margin-top:6px" }, h("b", "Gắn hình cho câu: "), "thêm dòng ", h("code", "IMG: apple"), " ngay trước câu (hoặc dòng đầu của khối câu). Sau IMG: có thể là emoji (🍎), tên từ (tra trong tab 🖼️ Hình), hoặc đường dẫn ảnh. ", sec.type === "match" ? h("span", "Ở dạng ghép: vế trái viết ", h("code", "img:dog = con chó"), " để vế trái là hình.") : null));
+        rule.innerHTML = ""; rule.append(h("summary", "📘 Xem cú pháp của dạng này"), h("div.hint", { style: "margin-top:8px" }, T().rule), h("div.small", { style: "margin-top:6px" }, h("b", "Gắn hình cho câu: "), "thêm dòng ", h("code", "IMG: apple"), " ngay trước câu (hoặc dòng đầu của khối câu). Sau IMG: có thể là emoji (🍎), tên từ (tra trong tab 🖼️ Hình), hoặc đường dẫn ảnh. ", sec.type === "match" ? h("span", "Ở dạng ghép: vế trái viết ", h("code", "img:dog = con chó"), " để vế trái là hình.") : null));
         tfSel.classList.toggle("hidden", !["tf", "tf4"].includes(sec.type));
       };
       const mediaField = (key, label, ph, accept) => {
@@ -579,7 +593,7 @@
       } catch (e) { saveStatus.append(h("div.err", "Chưa lưu được: " + e.message)); }
     };
     body.append(info, h("h3", { style: "margin:20px 2px 0" }, "Các phần của bài"), secsBox, addBtn,
-      h("div.card", { style: "position:sticky;bottom:10px" }, saveStatus, h("div.row", h("button.btn.mint", { onclick: () => doSave("stay") }, "💾 Lưu"), h("button.btn", { onclick: () => doSave("view") }, "Lưu & xem thử"), h("a.btn.ghost", { href: "#/teacher/hw" }, "← Danh sách"))));
+      h("div.card", { style: "position:sticky;bottom:10px" }, saveStatus, h("div.row", h("button.btn.mint", { onclick: () => doSave("stay") }, "💾 Lưu"), h("button.btn", { onclick: () => doSave("view") }, "Lưu & xem thử"), id === "new" ? null : h("button.btn.sky", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(hw) }, "🔗 Sao chép link"), h("a.btn.ghost", { href: "#/teacher/hw" }, "← Danh sách"))));
     drawSecs();
   }
 
