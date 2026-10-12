@@ -656,3 +656,26 @@ span.ico.bk{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.28e
 span.ico.bk svg{width:100%;height:100%;display:block}
 .cur .em span.ico.bk{width:48px;height:48px;vertical-align:middle}
 html.nofx .fxlayer{display:none}
+
+/* ===== điện thoại: thanh đầu trang gọn, không dính cố định (nhường chỗ cho câu hỏi) ===== */
+@media(max-width:640px){
+  .topbar{position:static}
+  .topbar-in{flex-wrap:wrap;gap:6px;padding:6px 12px}
+  .nav{margin-left:0;width:100%;flex-wrap:nowrap;overflow-x:auto;justify-content:flex-start;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px}
+  .nav::-webkit-scrollbar{display:none}
+  .nav>*{flex:0 0 auto}
+  .hw-head{top:0}
+}
+
+/* ===== điện thoại / máy yếu: tắt hiệu ứng nặng (làm mờ nền, nền chuyển màu liên tục) để cuộn mượt, không bị đứng ===== */
+@media(max-width:900px),(hover:none){
+  body{animation:none;background-attachment:scroll;background-size:100% 100%}
+  .deco i,.deco svg{animation:none}
+  .deco i{filter:blur(28px)}
+  .card,.modal,.topbar,.hw-head,.modal-bg{backdrop-filter:none;-webkit-backdrop-filter:none}
+  .card{background:rgba(255,255,255,.94)}
+  .modal{background:#fff}
+  .topbar,.hw-head{background:rgba(255,249,242,.97)}
+}
+@media(max-width:640px){.modal{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px)}}
+@media(max-width:640px){.pracbar,.bossbar,.pr-bar{top:0}.pracbar{padding:8px 12px}}
