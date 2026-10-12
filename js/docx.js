@@ -31,6 +31,26 @@ window.LSE = window.LSE || {};
     close();
     return out.replace(/<\/u>(\s*)<u>/g, "$1").replace(/[  ]+/g, " ").replace(/ *\n */g, "\n").trim();
   }
+  /* đoạn văn -> chuỗi có **chữ đậm** (dùng cho đoạn văn đọc hiểu; cả đoạn đậm như tiêu đề thì không đánh dấu) */
+  function paraBold(p) {
+    let out = "";
+    (function walk(node) {
+      for (const c of node.children) {
+        if (c.localName === "r") {
+          const rpr = kids(c, "rPr")[0], b = rpr && kids(rpr, "b")[0];
+          const isB = !!b && !/^(0|false|off|none)$/i.test(b.getAttributeNS(W, "val") || b.getAttribute("w:val") || "1");
+          let t = "";
+          for (const x of c.children) { if (x.localName === "t") t += x.textContent; else if (x.localName === "tab") t += " "; else if (x.localName === "br" || x.localName === "cr") t += "\n"; }
+          if (!t) continue;
+          const m = t.match(/^(\s*)([\s\S]*?)(\s*)$/);
+          out += isB && m[2] ? m[1] + "**" + m[2] + "**" + m[3] : t;
+        } else if (["hyperlink", "ins", "smartTag", "sdt", "sdtContent"].includes(c.localName)) walk(c);
+      }
+    })(p);
+    out = out.replace(/\*\*(\s*)\*\*/g, "$1").replace(/[  ]+/g, " ").replace(/ *\n */g, "\n").trim();
+    if (/^\*\*[^*]+\*\*$/.test(out)) out = out.slice(2, -2);
+    return out;
+  }
   function cellText(tc) { return kids(tc, "p").map(paraText).filter(Boolean).join("\n"); }
 
   async function readBlocks(file) {
@@ -42,7 +62,7 @@ window.LSE = window.LSE || {};
     for (const c of body.children) {
       if (c.localName === "p") {
         const st = kids(c, "pPr")[0], sty = st && kids(st, "pStyle")[0];
-        const t = paraText(c); if (t) blocks.push({ k: "p", t, style: sty ? (sty.getAttributeNS(W, "val") || sty.getAttribute("w:val") || "") : "" });
+        const t = paraText(c); if (t) blocks.push({ k: "p", t, tb: paraBold(c), style: sty ? (sty.getAttributeNS(W, "val") || sty.getAttribute("w:val") || "") : "" });
       } else if (c.localName === "tbl") {
         const rows = kids(c, "tr").map(tr => kids(tr, "tc").map(cellText));
         blocks.push({ k: "t", rows });
@@ -121,7 +141,7 @@ window.LSE = window.LSE || {};
         newSec(b.t); return;
       }
       if (!cur) { if (!title) title = stripU(b.t); return; }
-      if (!cur.qs.length) cur.desc.push(b.t); else if (q) q.lines.push(b.t);
+      if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
     });
     secs = secs.filter(s => s.qs.length);
 

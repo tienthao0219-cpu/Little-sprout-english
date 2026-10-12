@@ -391,7 +391,7 @@
      --------------------------------------------------------------- */
   const LET = "ABCDEFGH";
   /** chữ gạch chân từ file Word: <u>x</u> -> thẻ u (không dùng innerHTML) */
-  const rich = t => { const s = String(t == null ? "" : t); if (s.indexOf("<u>") < 0) return s; const out = []; s.split(/(<u>.*?<\/u>)/g).forEach(x => { const m = x.match(/^<u>(.*)<\/u>$/); if (m) out.push(h("u", m[1])); else if (x) out.push(x); }); return out; };
+  const rich = t => { const s = String(t == null ? "" : t); if (s.indexOf("<u>") < 0 && s.indexOf("**") < 0) return s; const out = []; s.split(/(<u>.*?<\/u>|\*\*[^*\n]+?\*\*)/g).forEach(x => { let m; if ((m = x.match(/^<u>(.*)<\/u>$/))) out.push(h("u", m[1])); else if ((m = x.match(/^\*\*([^*\n]+?)\*\*$/))) out.push(h("b", m[1])); else if (x) out.push(x); }); return out; };
 
   L.rich = rich;
   function view(q, st, ctx, no) {
@@ -556,7 +556,10 @@
   function buildRuntime(sec, opts) {
     const parsed = parseSection(sec);
     const rt = { sec, parsed, sts: {}, secSt: { sel: null }, qs: parsed.questions.slice() };
-    if (sec.shuffleQ && !(opts && opts.keepOrder)) rt.qs = shuffle(rt.qs);
+    const keep = opts && opts.keepOrder;
+    if ((sec.shuffleQ || (opts && opts.shuffleQ)) && !keep) rt.qs = shuffle(rt.qs);
+    /* xáo thứ tự đáp án A-B-C-D (chữ cái tự đánh lại theo vị trí mới) */
+    if (opts && opts.shuffleOpts && !keep) rt.qs.forEach(q => { if ((q.type === "mcq1" || q.type === "mcqN") && q.opts) q.opts = shuffle(q.opts); });
     rt.qs.forEach(q => rt.sts[q.id] = initState(q));
     if (sec.type === "fillbank") rt.bank = shuffle((parsed.bank || []).map((w, i) => ({ w, i })));
     return rt;
@@ -599,10 +602,16 @@
     return wrap;
   }
 
-  function sectionHeader(sec, idx) {
+  /** all = danh sách các phần của bài: phần không có đoạn văn riêng sẽ có nút "Xem lại đoạn văn" của phần trước (nếu phần trước có đoạn văn dài) */
+  function sectionHeader(sec, idx, all) {
+    let pass = null;
+    if (all && !sec.desc && /passage|text|đoạn|bài đọc|read|again|lại/i.test(sec.title || "")) for (let k = idx - 1; k >= 0; k--) { if (all[k] && all[k].desc && String(all[k].desc).length >= 120) { pass = all[k]; break; } }
     return [
       h("div.sec-title", h("span.no", String(idx + 1)), h("h3", sec.title || ("Phần " + (idx + 1))), h("span.pill", (TYPE[sec.type] || {}).label || sec.type)),
-      sec.desc ? h("div.shared", sec.desc) : null,
+      pass ? h("div.row", { style: "margin:4px 0 10px" }, h("button.btn.sm.sky", { type: "button", onclick: () => L.modal(close => h("div",
+        h("h3", { style: "margin:0 0 10px" }, "📖 " + (pass.title || "Đoạn văn")), mediaNode(pass.media), h("div.shared", rich(pass.desc)),
+        h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn", { type: "button", onclick: close }, "Đóng"))), { wide: true }) }, "📖 Xem lại đoạn văn")) : null,
+      sec.desc ? h("div.shared", rich(sec.desc)) : null,
       mediaNode(sec.media)
     ];
   }

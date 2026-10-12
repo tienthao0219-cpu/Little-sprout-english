@@ -79,7 +79,8 @@ window.LSE = window.LSE || {};
     let hw;
     try { hw = (await L.api.call("hwGet", { id })).hw; try { await L.imgs.load(); } catch (e) { } }
     catch (e) { ui.show(h("div.card", h("div.err", e.message), h("p", h("a.btn", { href: "#/hw" }, "← Danh sách bài tập")))); return; }
-    let rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec));
+    const pm = hw.meta || {}, pmix = (pm.shuffleMode || "retake") !== "off";   /* luyện tập: luôn xáo câu hỏi (trừ khi cô tắt) */
+    let rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec, { shuffleQ: pmix, shuffleOpts: pmix && !!pm.shuffleOpts }));
     startPractice(hw.title, rts, { back: "#/hw", hwId: hw.id });
   }
 
@@ -139,7 +140,7 @@ window.LSE = window.LSE || {};
         wrongs.length ? h("div.hint", { style: "text-align:left" }, h("b", "Các câu cần ôn lại (" + wrongs.length + "):"), wrongs.slice(0, 8).map(x => h("div.small", "• " + (x.q.stem || x.q.src || x.q.ans || (x.q.parts ? x.q.parts.map(p => p.k === "t" ? p.s : "___").join("") : "") || x.q.type).toString().slice(0, 90)))) : h("div.hint", "🌟 Không sai câu nào, giỏi quá!"),
         h("div.row", { style: "justify-content:center;margin-top:10px" },
           wrongs.length ? h("button.btn.rose", { onclick: () => { const nr = rts.map(rt => subRuntime(rt, rt.qs.filter(q => rt.sts[q.id].wrong1))).filter(rt => rt.qs.length); startPractice("Fix it! · " + title, nr, Object.assign({}, o, { fix: true })); } }, "🔧 Fix it! (" + wrongs.length + " câu)") : null,
-          h("button.btn", { onclick: () => startPractice(title, rts.map(rt => L.hw.buildRuntime(rt.sec)), o) }, "↻ Luyện lại từ đầu"),
+          h("button.btn", { onclick: () => startPractice(title, rts.map(rt => L.hw.buildRuntime(rt.sec, { shuffleQ: true })), o) }, "↻ Luyện lại từ đầu"),
           h("a.btn.ghost", { href: o.back || "#/hw" }, "← Quay lại"), h("a.btn.ghost", { href: "#/shop" }, "🛍️ Cửa hàng"))));
       summary.scrollIntoView({ behavior: "smooth", block: "start" });
     };
@@ -149,7 +150,8 @@ window.LSE = window.LSE || {};
       secBox.innerHTML = ""; let no = 1;
       rts.forEach((rt, i) => {
         const cardFn = (q, st, ctx, n, r) => card(q, st, ctx, n, r);
-        secBox.append(h("div.card.sec", L.hw.sectionHeader(rt.sec, i), L.hw.renderSection(rt, "do", false, no, () => { }, { card: cardFn })));
+        if (rt.sec.numFresh) no = 1;
+        secBox.append(h("div.card.sec", L.hw.sectionHeader(rt.sec, i, rts.map(r => r.sec)), L.hw.renderSection(rt, "do", false, no, () => { }, { card: cardFn })));
         no += rt.qs.length;
       });
     };

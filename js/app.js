@@ -313,7 +313,9 @@
     };
 
     const run = () => {
-      const rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec));
+      /* làm lại bài đã làm: tự xáo thứ tự câu hỏi (và đáp án A-B-C-D nếu cô bật) để em không học vẹt vị trí */
+      const mixMode = m.shuffleMode || "retake", doMix = mixMode === "always" || (mixMode === "retake" && used > 0);
+      const rts = (hw.sections || []).map(sec => L.hw.buildRuntime(sec, { shuffleQ: doMix, shuffleOpts: doMix && !!m.shuffleOpts }));
       const t0 = Date.now(); let submitted = false, tick = null;
       const timer = h("span.timer", "");
       /* Báo đúng/sai ngay sau mỗi câu (tắt được trong phần sửa bài; không dùng khi cô chọn chỉ cho xem tổng điểm) */
@@ -340,7 +342,8 @@
       const parts = []; let no = 1;
       (hw.sections || []).forEach((sec, i) => {
         const rt = rts[i];
-        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i), L.hw.renderSection(rt, "do", false, no, null, instant ? { card } : undefined)));
+        if (sec.numFresh) no = 1;
+        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i, hw.sections), L.hw.renderSection(rt, "do", false, no, null, instant ? { card } : undefined)));
         no += rt.qs.length;
       });
       if (instant) paintCount();
@@ -390,7 +393,8 @@
         let no = 1;
         (hw.sections || []).forEach((sec, i) => {
           const rt = rts[i];
-          out.push(h("div.card.sec", L.hw.sectionHeader(sec, i), h("div.small.muted", "Phần này: " + res.secs[i].got + "/" + res.secs[i].max + " ý"), L.hw.renderSection(rt, "review", after === "full", no, null)));
+          if (sec.numFresh) no = 1;
+          out.push(h("div.card.sec", L.hw.sectionHeader(sec, i, hw.sections), h("div.small.muted", "Phần này: " + res.secs[i].got + "/" + res.secs[i].max + " ý"), L.hw.renderSection(rt, "review", after === "full", no, null)));
           no += rt.qs.length;
         });
       }
