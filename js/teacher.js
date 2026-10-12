@@ -415,7 +415,7 @@
     const m = L.state.manifest;
     const draw = () => {
       body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
         list.length ? list.map(x => {
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
@@ -468,7 +468,7 @@
     let hw;
     if (id === "new") hw = { id: "hw" + uid("").slice(-6), title: "", desc: "", curId: (L.state.manifest.curricula[0] || {}).id || "", unitId: "", open: true, sections: [newSection()], meta: Object.assign({}, defMeta) };
     else hw = (await L.api.call("hwGet", { id })).hw;
-    if (id === "new") { try { const dr = JSON.parse(sessionStorage.getItem("lse_hw_draft") || "null"); if (dr && dr.sections && dr.sections.length) { hw.title = dr.title || ""; hw.sections = dr.sections.map(x => Object.assign(newSection(), x)); } sessionStorage.removeItem("lse_hw_draft"); } catch (e) { } }
+    if (id === "new") { try { const dr = JSON.parse(sessionStorage.getItem("lse_hw_draft") || "null"); if (dr && dr.sections && dr.sections.length) { hw.title = dr.title || ""; hw.sections = dr.sections.map(x => Object.assign(newSection(), x)); if (dr.curId) { hw.curId = dr.curId; hw.unitId = dr.unitId || ""; } } sessionStorage.removeItem("lse_hw_draft"); } catch (e) { } }
     hw.meta = Object.assign({}, defMeta, hw.meta || {});
     const m = L.state.manifest;
     try { await L.imgs.load(); } catch (e) { }
