@@ -11,8 +11,8 @@ window.LSE_CONFIG = {
   apiUrl: "https://script.google.com/macros/s/AKfycbxeSf7m8QhZ8LOV3VVBvxflNZFcReQIXsedGDD74Ae5U07djnaGC-vQV9o7pvNRYZNp2Q/exec",
 
   // Chỉ dùng ở chế độ DEMO. Khi đã có apiUrl thì mật khẩu thật nằm trong Google Apps Script.
-  demoStudentPassword: "sprout",
-  demoTeacherPassword: "thao",
+  demoStudentPassword: "",
+  demoTeacherPassword: "",
 
   // GitHub: để trống thì tự đoán từ địa chỉ trang (ten.github.io/ten-repo)
   github: { owner: "", repo: "", branch: "main" }
