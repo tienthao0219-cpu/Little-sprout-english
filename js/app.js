@@ -333,7 +333,9 @@
         const doCheck = () => { const g = L.hw.grade(q, st); if (!g.max) return; st.chk = g; L.sfx && (g.got === g.max ? L.sfx.ok() : L.sfx.bad()); paintCount(); };
         /* trắc nghiệm 1 đáp án / đúng-sai: chọn xong là báo kết quả luôn */
         const cx = Object.assign({}, ctx, { redraw: () => { if (AUTO.includes(q.type) && st.v != null && !st.chk) doCheck(); ctx.redraw(); } });
-        return h("div", L.hw.view(q, st, cx, n), AUTO.includes(q.type) ? null : h("div.row.pact", h("span.grow"), h("button.btn.sm.mint", { onclick: () => { doCheck(); ctx.redraw(); } }, "Kiểm tra ✓")));
+        const box = h("div", L.hw.view(q, st, cx, n), AUTO.includes(q.type) ? null : h("div.row.pact", h("span.grow"), h("button.btn.sm.mint", { onclick: () => { doCheck(); ctx.redraw(); } }, "Kiểm tra ✓")));
+        L.enterCheck(box, () => { doCheck(); ctx.redraw(); });   /* Enter trong ô gõ = Kiểm tra */
+        return box;
       };
       const parts = []; let no = 1;
       (hw.sections || []).forEach((sec, i) => {

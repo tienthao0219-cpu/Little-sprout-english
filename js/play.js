@@ -101,7 +101,7 @@ window.LSE = window.LSE || {};
         return h("div", L.hw.view(q, st, ctx2, no), h("div.row.pfeed" + (ok ? ".good" : ".bad"), h("b", ok ? "🎉 Đúng rồi!" + (st.gain ? "  +" + st.gain + " xu" : "") : "Chưa đúng (" + g.got + "/" + g.max + ")"), h("span.grow"),
           h("button.btn.sm.ghost", { onclick: () => { Object.assign(st, L.hw.initState(q), { chk: null, tries: (st.tries || 0) + 1, hid: null, hnt: null }); ctx.redraw(); paintBar(); } }, "↺ Làm lại câu này")));
       }
-      const checkBtn = h("button.btn.sm.mint", { onclick: ev => {
+      const doCheck = el => {
         const g = L.hw.grade(q, st); if (!g.max) return;
         const first = !(st.tries), ok = g.got === g.max;
         st.chk = g; if (!ok && !st.wrong1) st.wrong1 = true;
@@ -110,15 +110,18 @@ window.LSE = window.LSE || {};
         if (first) { if (o.review) L.wb.result(q.id, ok); else if (!ok && o.hwId) L.wb.add(o.hwId, q); if (ok && (o.fix || o.review)) L.rw.event("fixed"); if (ok && o.review) L.rw.event("review"); }
         else if (ok) L.rw.event("fixed");
         if (ok && stat.combo >= 5) L.rw.combo(stat.combo);
-        if (first && g.got > 0) { let gain = g.got + (ok && stat.combo >= 3 ? 1 : 0) - (st.hintUsed ? 1 : 0); gain = Math.max(0, gain); st.gain = gain; if (gain) { prof.add(gain); stat.coins += gain; setTimeout(sfx.coin, 220); L.fly("+" + gain + " 🪙", ev.target); } }
+        if (first && g.got > 0) { let gain = g.got + (ok && stat.combo >= 3 ? 1 : 0) - (st.hintUsed ? 1 : 0); gain = Math.max(0, gain); st.gain = gain; if (gain) { prof.add(gain); stat.coins += gain; setTimeout(sfx.coin, 220); L.fly("+" + gain + " 🪙", el); } }
         ctx.redraw(); paintBar(); maybeFinish();
-      } }, "Kiểm tra ✓");
+      };
+      const checkBtn = h("button.btn.sm.mint", { onclick: ev => doCheck(ev.target) }, "Kiểm tra ✓");
       const hintBtn = canHint(q) ? h("button.btn.sm.ghost", { title: "Gợi ý (−" + HINT_COST + " xu)", onclick: () => {
         if (prof.coins() < HINT_COST) { L.toast("Em chưa đủ " + HINT_COST + " xu để xem gợi ý. Làm thêm vài câu nhé!"); return; }
         if (!applyHint(q, st)) { L.toast("Câu này hết gợi ý rồi!"); return; }
         prof.spend(HINT_COST); st.hintUsed = true; stat.coins -= HINT_COST; sfx.coin(); ctx.redraw(); paintBar();
       } }, "💡 Gợi ý (−" + HINT_COST + " xu)") : null;
-      return h("div", L.hw.view(q, st, ctx, no), h("div.row.pact", hintBtn, h("span.grow"), checkBtn));
+      const box = h("div", L.hw.view(q, st, ctx, no), h("div.row.pact", hintBtn, h("span.grow"), checkBtn));
+      L.enterCheck(box, () => doCheck(checkBtn));   /* Enter trong ô gõ = Kiểm tra */
+      return box;
     };
 
     let finished = false;

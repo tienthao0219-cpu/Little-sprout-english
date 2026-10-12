@@ -117,5 +117,21 @@ window.LSE = window.LSE || {};
   const textToBase64 = s => { const b = new TextEncoder().encode(s); let bin = ""; b.forEach(x => bin += String.fromCharCode(x)); return btoa(bin); };
   const base64ToText = b => { const bin = atob(b.replace(/\s/g, "")); const u = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); return new TextDecoder().decode(u); };
 
-  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText });
+  /** Enter trong ô gõ của một câu: còn ô trống kế tiếp thì nhảy sang ô đó, hết ô trống thì kiểm tra câu (không bắt Enter khi đang gõ dấu tiếng Việt) */
+  function enterCheck(root, check) {
+    root.addEventListener("keydown", e => {
+      if (e.key !== "Enter" || e.isComposing || e.keyCode === 229 || e.shiftKey) return;
+      const t = e.target; if (!t || !/^(INPUT|TEXTAREA)$/.test(t.tagName) || t.disabled) return;
+      const boxes = [...root.querySelectorAll("input.blank:not([disabled]), textarea.blank:not([disabled])")];
+      const i = boxes.indexOf(t); if (i < 0) return;
+      e.preventDefault();
+      const next = boxes.slice(i + 1).find(x => !x.value.trim());
+      if (next) { next.focus(); return; }
+      check();
+      /* sau khi chấm, đưa con trỏ sang câu kế tiếp còn trống */
+      setTimeout(() => { const n = document.querySelector("input.blank:not([disabled]):not(.k-right):not(.k-wrong), textarea.blank:not([disabled]):not(.k-right):not(.k-wrong)"); if (n) n.focus(); }, 80);
+    });
+  }
+
+  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText, enterCheck });
 })(window.LSE);
