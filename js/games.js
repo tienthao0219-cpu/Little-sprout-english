@@ -536,10 +536,10 @@ window.LSE = window.LSE || {};
           return h("span.fillbox", h("input.blank" + (review ? (ok ? ".k-right" : ".k-wrong") : ""), { type: "text", style: "width:" + w + "px;max-width:100%", value: st.v[i], disabled: review, placeholder: (st.hnt && st.hnt[i]) || null, autocomplete: "off", autocapitalize: "none", spellcheck: "false", oninput: e => { st.v[i] = e.target.value; } }),
             review && ctx.showAns && !ok ? h("span.small", { style: "color:var(--good);font-weight:800;margin-left:6px" }, "→ " + p.answers.join(" / ")) : null);
         });
-        return h("div", h("div.srcbox", q.src, speakBtn(q.src)), h("div", { style: "font-size:18px;line-height:2.3;margin-top:8px" }, line));
+        return h("div", h("div.srcbox", q.src, ctx.sec && ctx.sec.speak ? speakBtn(q.src) : null), h("div", { style: "font-size:18px;line-height:2.3;margin-top:8px" }, line));
       }
       const ta = h("textarea.blank" + (review ? (g.got ? ".k-right" : ".k-wrong") : ""), { style: "width:100%;min-height:64px;text-align:left;font-family:var(--bfont);font-size:17px;border-radius:12px", value: st.v, disabled: review, spellcheck: "false", autocomplete: "off", placeholder: st.hnt || (q.starter ? q.starter + " …" : "Viết lại cả câu ở đây…"), oninput: e => { st.v = e.target.value; } });
-      return h("div", h("div.srcbox", q.src, speakBtn(q.src)), q.starter ? h("div.small", { style: "margin:6px 0" }, "Bắt đầu bằng: ", h("b.pill.lav", q.starter)) : null, ta,
+      return h("div", h("div.srcbox", q.src, ctx.sec && ctx.sec.speak ? speakBtn(q.src) : null), q.starter ? h("div.small", { style: "margin:6px 0" }, "Bắt đầu bằng: ", h("b.pill.lav", q.starter)) : null, ta,
         review && ctx.showAns && !g.got ? h("div.fb.bad", "Đáp án: ", q.answers.map((a, i) => h("div", h("span.ans", a)))) : null);
     },
     errfix(q, st, ctx, g) {

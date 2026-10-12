@@ -407,7 +407,7 @@
   }
 
   const isEn = t => /[A-Za-z]/.test(t || "") && !/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(t || "");
-  const spkMini = (t0, ctx) => { const t = String(t0 == null ? "" : t0).replace(/<\/?u>/g, ""); return (ctx && ctx.sec && ctx.sec.noSpeak) || !isEn(t) || String(t).length > 120 || !(L.gx && L.gx.speak) ? null : h("span.ospk", { role: "button", title: "Nghe", onclick: ev => { ev.stopPropagation(); L.gx.speak(String(t).replace(/^\s*img\s*:.*/i, "")); } }, "🔊"); };
+  const spkMini = (t0, ctx) => { const t = String(t0 == null ? "" : t0).replace(/<\/?u>/g, ""); return !(ctx && ctx.sec && ctx.sec.speak) || !isEn(t) || String(t).length > 120 || !(L.gx && L.gx.speak) ? null : h("span.ospk", { role: "button", title: "Nghe", onclick: ev => { ev.stopPropagation(); L.gx.speak(String(t).replace(/^\s*img\s*:.*/i, "")); } }, "🔊"); };
   function tfLabels(ctx) { return ctx.sec && ctx.sec.tfLabels === "vi" ? ["Đúng", "Sai"] : ["True", "False"]; }
 
   const VIEW = {
