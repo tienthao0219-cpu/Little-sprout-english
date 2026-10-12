@@ -679,3 +679,4 @@ html.nofx .fxlayer{display:none}
 }
 @media(max-width:640px){.modal{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px)}}
 @media(max-width:640px){.pracbar,.bossbar,.pr-bar{top:0}.pracbar{padding:8px 12px}}
+.shared b{color:#5B45B8;background:#EFE8FF;border-radius:5px;padding:0 3px}
