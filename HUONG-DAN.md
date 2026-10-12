@@ -232,3 +232,23 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - Thú nuôi: các dáng vui, buồn, ngủ của cả 11 bé (hiện dùng hiệu ứng thay thế).
 - Ảnh chibi đầu tròn trên thanh menu (đang dùng ảnh cũ `assets/chibi.png`).
 - Hiệu ứng rơi bằng ảnh riêng (hiện là emoji).
+
+---
+
+## Cập nhật đợt 7: Tạo bài tập từ file Word (.docx)
+
+**Cách dùng:** Khu của cô → Bài tập → **📄 Tạo từ file Word** → chọn file .docx → xem bản xem trước (số phần, số câu, cảnh báo) → **Đưa vào bài tập** → chọn lớp/unit, kiểm tra lại, bấm **Lưu** → ở danh sách bài tập bấm **🔗 Link** để sao chép đường link gửi học sinh (học sinh đăng nhập bằng tên + mật khẩu lớp rồi làm bài).
+
+**File Word cần có:**
+- Câu hỏi dạng `Question 1.` / `Câu 1.` / `1.`; đáp án A. B. C. D. nằm cùng dòng hoặc xuống dòng đều được.
+- Dòng yêu cầu (bắt đầu bằng Choose / Mark / Read / Supply / Find / Rewrite / Complete...) sẽ thành tên phần bài.
+- Đoạn văn (đoạn thường hoặc trong bảng) đặt ngay sau dòng yêu cầu, trước câu hỏi → thành đoạn văn của phần.
+- Cuối file: tiêu đề có chữ **ĐÁP ÁN** và bảng 3 cột **Câu | Đáp án | Giải thích**. Dòng "PHẦN I: ... (1 – 12)" trong bảng đáp án sẽ tách bài thành các phần tương ứng và làm chủ điểm cho báo cáo.
+
+**Nhận ra được:** trắc nghiệm A/B/C/D (gồm phát âm, trọng âm, điền chỗ trống trong đoạn văn, đọc hiểu); điền từ có gợi ý `____ (BENEFIT)` (đáp án lấy từ bảng); tìm lỗi sai `(A)(B)(C)(D)` với đáp án `C (find → finds)`; viết lại câu (dòng thứ hai bắt đầu bằng →, đáp án là câu đầy đủ).
+
+**Chữ gạch chân** trong Word được giữ (hiện gạch chân cho học sinh và khi in).
+
+**Chưa nhận ra:** hình ảnh trong file, đúng/sai, nối cột, câu không đánh số. Các câu này được báo ở khung "Cần cô lưu ý" để cô thêm tay.
+
+**Cập nhật:** tải lên GitHub các file: `index.html`, `js/docx.js`, `js/engine.js`, `js/print.js`, `js/teacher.js`, thư mục `vendor/jszip/` và file này. KHÔNG ghi đè `js/config.js`.

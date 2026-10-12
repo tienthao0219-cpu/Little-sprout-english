@@ -390,21 +390,24 @@
      ctx = {mode:'do'|'review', showAns:boolean, redraw(), sec, secSt}
      --------------------------------------------------------------- */
   const LET = "ABCDEFGH";
+  /** chữ gạch chân từ file Word: <u>x</u> -> thẻ u (không dùng innerHTML) */
+  const rich = t => { const s = String(t == null ? "" : t); if (s.indexOf("<u>") < 0) return s; const out = []; s.split(/(<u>.*?<\/u>)/g).forEach(x => { const m = x.match(/^<u>(.*)<\/u>$/); if (m) out.push(h("u", m[1])); else if (x) out.push(x); }); return out; };
 
+  L.rich = rich;
   function view(q, st, ctx, no) {
     const review = ctx.mode === "review";
     const g = review ? grade(q, st) : null;
     const cls = review ? (g.got === g.max ? "right" : g.got > 0 ? "partial" : "wrong") : "";
     const body = (VIEW[q.type] || L.gx.VIEW[q.type])(q, st, ctx, g, no);
     return h("div.q" + (cls ? "." + cls : ""),
-      isFill(q) ? null : h("div.stem", h("span.qn", "Câu " + no + ". "), q.stem || null, ["mcq1", "mcqN", "tf", "short"].includes(q.type) ? spkMini(q.stem, ctx) : null),
+      isFill(q) ? null : h("div.stem", h("span.qn", "Câu " + no + ". "), q.stem ? rich(q.stem) : null, ["mcq1", "mcqN", "tf", "short"].includes(q.type) ? spkMini(q.stem, ctx) : null),
       q.img ? L.imgs.node(q.img) : null,
       body,
       review && ctx.showAns && q.expl ? h("div.expl", "💡 " + q.expl) : null);
   }
 
   const isEn = t => /[A-Za-z]/.test(t || "") && !/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(t || "");
-  const spkMini = (t, ctx) => (ctx && ctx.sec && ctx.sec.noSpeak) || !isEn(t) || String(t).length > 120 || !(L.gx && L.gx.speak) ? null : h("span.ospk", { role: "button", title: "Nghe", onclick: ev => { ev.stopPropagation(); L.gx.speak(String(t).replace(/^\s*img\s*:.*/i, "")); } }, "🔊");
+  const spkMini = (t0, ctx) => { const t = String(t0 == null ? "" : t0).replace(/<\/?u>/g, ""); return (ctx && ctx.sec && ctx.sec.noSpeak) || !isEn(t) || String(t).length > 120 || !(L.gx && L.gx.speak) ? null : h("span.ospk", { role: "button", title: "Nghe", onclick: ev => { ev.stopPropagation(); L.gx.speak(String(t).replace(/^\s*img\s*:.*/i, "")); } }, "🔊"); };
   function tfLabels(ctx) { return ctx.sec && ctx.sec.tfLabels === "vi" ? ["Đúng", "Sai"] : ["True", "False"]; }
 
   const VIEW = {
@@ -489,7 +492,7 @@
       if (review) { if (sel) c += o.ok ? " k-right" : " k-wrong"; else if (o.ok && ctx.showAns) c += " k-miss"; }
       return h("button." + c.split(" ").join("."), {
         onclick: () => { if (review || hid) return; if (multi) st.v = sel ? st.v.filter(x => x !== i) : st.v.concat(i); else st.v = i; ctx.redraw(); }
-      }, h("span.l", LET[i]), h("span", o.t), spkMini(o.t, ctx));
+      }, h("span.l", LET[i]), h("span", rich(o.t)), spkMini(o.t, ctx));
     }), multi && !review ? h("div.small.muted", { style: "margin-top:6px" }, "Chọn tất cả đáp án đúng.") : null);
   }
 

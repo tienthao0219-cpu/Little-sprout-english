@@ -12,12 +12,12 @@ window.LSE = window.LSE || {};
   /* mỗi hàm trả {s: nút phiếu học sinh, k: chuỗi đáp án} */
   function item(q, no, sec, rt) {
     const num = h("span.no", no + ".");
-    const stem = (extra) => h("div", num, q.stem || "", extra || null);
+    const stem = (extra) => h("div", num, q.stem ? L.rich(q.stem) : "", extra || null);
     const wrap = (...kids) => h("div.pq", ...kids);
     switch (q.type) {
       case "mcq1": case "mcqN": {
         const inline = q.opts.every(o => short(o.t));
-        return { s: wrap(stem(q.type === "mcqN" ? h("i", "  (choose all correct answers)") : null), pimg(q.img), q.opts.map((o, i) => h("span.po", inline ? {} : { style: "display:block" }, LET[i] + ". " + o.t))), k: q.opts.map((o, i) => o.ok ? LET[i] : "").filter(Boolean).join(", ") };
+        return { s: wrap(stem(q.type === "mcqN" ? h("i", "  (choose all correct answers)") : null), pimg(q.img), q.opts.map((o, i) => h("span.po", inline ? {} : { style: "display:block" }, [LET[i] + ". ", L.rich(o.t)]))), k: q.opts.map((o, i) => o.ok ? LET[i] : "").filter(Boolean).join(", ") };
       }
       case "tf": { const lb = sec.tfLabels === "vi" ? ["Đúng", "Sai"] : ["True", "False"]; return { s: wrap(stem(h("span", "   ☐ " + lb[0] + "    ☐ " + lb[1])), pimg(q.img)), k: q.answer ? lb[0] : lb[1] }; }
       case "tf4": { const lb = sec.tfLabels === "vi" ? ["Đ", "S"] : ["T", "F"]; return { s: wrap(stem(), pimg(q.img), q.subs.map((s, i) => h("div", { style: "margin-left:18px" }, "abcdefgh"[i] + ") " + s.t, h("span", "    ☐ " + lb[0] + "   ☐ " + lb[1])))), k: q.subs.map((s, i) => "abcdefgh"[i] + ")" + (s.answer ? lb[0] : lb[1])).join("  ") }; }

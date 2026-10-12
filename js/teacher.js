@@ -415,7 +415,7 @@
     const m = L.state.manifest;
     const draw = () => {
       body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
         list.length ? list.map(x => {
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
@@ -423,6 +423,7 @@
             h("button.btn.sm.ghost", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "Đóng" : "Mở"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id }, "Sửa"),
             h("a.btn.sm.ghost", { href: "#/hw/" + x.id }, "Xem thử"),
+            h("button.btn.sm.mint", { title: "Sao chép đường link gửi cho học sinh", onclick: () => L.copyText(location.href.split("#")[0] + "#/hw/" + x.id) }, "🔗 Link"),
             h("a.btn.sm.ghost", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
             h("button.btn.sm.sky", { onclick: () => hwResultsModal(x) }, "Kết quả"),
             h("button.btn.sm.rose", { onclick: async () => { if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "Xoá"));
@@ -558,6 +559,7 @@
     }
 
     const addBtn = h("div.row", { style: "margin-top:14px" }, h("button.btn.ghost", { onclick: () => { hw.sections.push(newSection()); markDirty(); drawSecs(); } }, "+ Thêm phần (có thể chọn dạng bài khác)"),
+      h("button.btn.mint", { onclick: () => docxModal((title, secs) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"),
       h("button.btn.sky", { onclick: () => ocrModal(secs => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ ảnh. Cô xem lại từng phần nhé."); }) }, "📷 Tạo phần từ ảnh sách"));
     const saveStatus = h("div");
     const doSave = async (after) => {
@@ -650,6 +652,43 @@
         upd();
       };
       draw1();
+      return box;
+    }, { wide: true, sticky: true });
+  }
+
+  /* ---------- File Word -> bài tập ---------- */
+  function docxModal(onDone) {
+    L.modal(close => {
+      const box = h("div"), st = { res: null, err: "" };
+      const typeName = id => ((L.hw.TYPE || {})[id] || {}).label || id;
+      const draw = () => {
+        box.innerHTML = "";
+        box.append(h("h3", { style: "margin-bottom:6px" }, "📄 Tạo bài tập từ file Word"));
+        if (!st.res) {
+          const inp = h("input", { type: "file", accept: ".docx", style: "display:none", onchange: async e => {
+            const f = e.target.files[0]; if (!f) return;
+            box.innerHTML = ""; box.append(h("div.empty", h("span.spinner"), " Đang đọc file…"));
+            try { st.res = await L.docx.parseFile(f); st.err = ""; } catch (er) { st.err = er.message || String(er); }
+            draw();
+          } });
+          box.append(h("p.small.muted", { style: "margin-top:0" }, "Chọn file .docx có các câu hỏi (Question 1. / Câu 1. / 1.) và bảng ĐÁP ÁN ở cuối. Web sẽ tự tách thành các phần bài; cô xem lại rồi mới lưu."),
+            h("div.hint", { style: "margin-bottom:10px" }, h("div", h("b", "Nhận ra được: ")), h("div", "• Trắc nghiệm A/B/C/D (kể cả chữ gạch chân phát âm/trọng âm, điền chỗ trống trong đoạn văn, đọc hiểu có đoạn văn)"), h("div", "• Điền từ có gợi ý trong ngoặc, ví dụ  ____ (BENEFIT)"), h("div", "• Tìm lỗi sai (A)(B)(C)(D) với đáp án dạng \"C (find → finds)\""), h("div", "• Viết lại câu (dòng thứ hai bắt đầu bằng →)")),
+            st.err ? h("div.err", st.err) : null, inp,
+            h("div.row", { style: "justify-content:flex-end;margin-top:10px" }, h("button.btn.ghost", { onclick: close }, "Đóng"), h("button.btn.mint", { onclick: () => inp.click() }, "Chọn file Word (.docx)")));
+          return;
+        }
+        const r = st.res;
+        box.append(h("p.small", "Tiêu đề: ", h("b", r.title || "(chưa có)"), " · ", h("b", String(r.nQ)), " câu · ", h("b", String(r.sections.length)), " phần"));
+        if (r.warns.length || r.sections.some(s => s.warns.length)) box.append(h("div.err", { style: "margin-bottom:10px;max-height:150px;overflow:auto" }, h("b", "Cần cô lưu ý:"), r.warns.map(w => h("div", "• " + w)), r.sections.map(s => s.warns.map(w => h("div", "• [" + s.title + "] " + w)))));
+        box.append(h("div", { style: "max-height:48vh;overflow:auto" }, r.sections.map((s, i) => {
+          const first = s.raw.split(/\n\n|\n(?=[^A-H*E])/)[0].replace(/<\/?u>/g, "").slice(0, 130);
+          return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", String(i + 1)),
+            h("div.grow", h("b", s.title), h("div.small.muted", typeName(s.type) + " · " + s.n + " câu" + (s.desc ? " · có đoạn văn/yêu cầu" : "") + (s.topic ? " · chủ điểm: " + s.topic : "")), h("div.small", { style: "opacity:.75;margin-top:3px" }, first + "…")));
+        })));
+        box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: () => { st.res = null; draw(); } }, "← Chọn file khác"), h("button.btn.ghost", { onclick: close }, "Đóng"),
+          r.sections.length ? h("button.btn.mint", { onclick: () => { const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw })); close(); onDone(r.title, secs); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
+      };
+      draw();
       return box;
     }, { wide: true, sticky: true });
   }
