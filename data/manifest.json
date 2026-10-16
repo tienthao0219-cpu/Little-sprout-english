@@ -8,7 +8,7 @@
       "tint": 0,
       "units": [
         {
-          "id": "unit-1-cffw",
+          "id": "unit-1-143s",
           "name": "UNIT 1"
         }
       ]
@@ -95,14 +95,14 @@
       "added": "2026-10-16T15:42:26.847Z"
     },
     {
-      "id": "unit-1-i-love-animals-flip-tiles-cago",
-      "title": "UNIT 1 · I love animals! - Flip Tiles",
+      "id": "unit-1-i-love-animals-whack-the-cats-arb4",
+      "title": "UNIT 1 · I love animals! - Whack the Cats",
       "cur": "starters",
-      "unit": "unit-1-cffw",
-      "file": "apps/starters/unit-1-cffw/unit-1-i-love-animals-flip-tiles-cago.html",
-      "kind": "app",
-      "desc": "FLASHCARD",
-      "added": "2026-10-16T16:13:05.140Z"
+      "unit": "unit-1-143s",
+      "file": "apps/starters/unit-1-143s/unit-1-i-love-animals-whack-the-cats-arb4.html",
+      "kind": "game",
+      "desc": "WHACK THE CAT",
+      "added": "2026-10-16T16:14:00.454Z"
     }
   ]
 }
