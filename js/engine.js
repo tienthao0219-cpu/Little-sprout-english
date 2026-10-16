@@ -649,7 +649,7 @@
   /** Thẻ của một phần. Bài đọc hiểu (có đoạn văn dài + câu trắc nghiệm/đúng sai/trả lời ngắn): đoạn văn được GHIM
       cạnh các câu hỏi (2 cột trên màn hình rộng, dính ở đầu trang trên điện thoại, có nút thu gọn) để học sinh không phải kéo lên kéo xuống.
       Các phần khác giữ nguyên như cũ. body = các node câu hỏi (vd. renderSection(...)). */
-  const SPLIT_TYPES = { mcq1: 1, mcqN: 1, tf: 1, tf4: 1, short: 1 };
+  const SPLIT_TYPES = { mcq1: 1, mcqN: 1, tf: 1, tf4: 1, short: 1, match: 1, fill: 1, fillhint: 1, fillchoose: 1, fillbank: 1, wordpick: 1 };
   const SPLIT_MIN = 160;   // đoạn văn từ ngần này ký tự trở lên mới ghim
   function sectionCard(sec, idx, all, ...body) {
     const head = sectionHeader(sec, idx, all);   // [tiêu đề, nút "xem lại đoạn văn", nội dung chung, media]
