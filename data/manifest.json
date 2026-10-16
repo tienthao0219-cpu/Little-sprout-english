@@ -6,7 +6,12 @@
       "name": "Cambridge Starters",
       "emoji": "🌱",
       "tint": 0,
-      "units": []
+      "units": [
+        {
+          "id": "unit-1-cffw",
+          "name": "UNIT 1"
+        }
+      ]
     },
     {
       "id": "flyers",
@@ -88,6 +93,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-16T15:42:26.847Z"
+    },
+    {
+      "id": "unit-1-i-love-animals-flip-tiles-cago",
+      "title": "UNIT 1 · I love animals! - Flip Tiles",
+      "cur": "starters",
+      "unit": "unit-1-cffw",
+      "file": "apps/starters/unit-1-cffw/unit-1-i-love-animals-flip-tiles-cago.html",
+      "kind": "app",
+      "desc": "FLASHCARD",
+      "added": "2026-10-16T16:13:05.140Z"
     }
   ]
 }
