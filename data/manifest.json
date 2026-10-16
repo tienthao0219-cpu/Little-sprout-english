@@ -13,7 +13,12 @@
       "name": "Cambridge Flyers",
       "emoji": "🚀",
       "tint": 4,
-      "units": []
+      "units": [
+        {
+          "id": "review-0759",
+          "name": "REVIEW"
+        }
+      ]
     },
     {
       "id": "gs4",
@@ -73,6 +78,16 @@
       "kind": "app",
       "desc": "VOCAB + SO SÁNH TRẠNG TỪ",
       "added": "2026-10-10T11:58:15.710Z"
+    },
+    {
+      "id": "review-vocab-dkhw",
+      "title": "REVIEW VOCAB",
+      "cur": "flyers",
+      "unit": "review-0759",
+      "file": "apps/flyers/review-0759/review-vocab-dkhw.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-16T15:42:26.847Z"
     }
   ]
 }
