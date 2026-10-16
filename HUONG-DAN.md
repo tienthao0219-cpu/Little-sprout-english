@@ -252,3 +252,20 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 **Chưa nhận ra:** hình ảnh trong file, đúng/sai, nối cột, câu không đánh số. Các câu này được báo ở khung "Cần cô lưu ý" để cô thêm tay.
 
 **Cập nhật:** tải lên GitHub các file: `index.html`, `js/docx.js`, `js/engine.js`, `js/print.js`, `js/teacher.js`, thư mục `vendor/jszip/` và file này. KHÔNG ghi đè `js/config.js`.
+
+## Cập nhật đợt 7 (bài đọc chọn ngay trong đoạn văn · đoạn văn ghim khi làm bài · báo cáo TỪNG BÀI nộp)
+
+### A. Cách cập nhật (làm đúng thứ tự)
+1. **Apps Script (bắt buộc, để lưu thêm "em chọn gì / đáp án đúng"):** mở Google Sheet của lớp → Tiện ích mở rộng → Apps Script → **xoá hết code cũ, dán toàn bộ file `apps-script/Code.gs` mới** (giữ nguyên hai mật khẩu ở đầu file như cô đã đặt, đừng để về `DOI-MAT-KHAU-...`) → Lưu → **Triển khai → Quản lý bản triển khai → ✏️ → Phiên bản: Phiên bản mới → Triển khai.** (Không tạo triển khai mới để link /exec không đổi.)
+2. Tải lên GitHub: `index.html`, `css/style.css`, `js/engine.js`, `js/docx.js`, `js/api.js`, `js/app.js`, `js/play.js`, `js/teacher.js`. KHÔNG ghi đè `js/config.js`.
+3. Trang tính `answers` sẽ tự có thêm 4 cột `sec`, `no`, `ans`, `key`; dữ liệu cũ giữ nguyên.
+
+### B. Báo cáo từng bài nộp (không còn gộp lẫn các bài)
+- **📊 Báo cáo học viên → bấm tên em → "📝 Từng bài đã nộp"**: mỗi bài một dòng (bài nào, lần mấy, ngày giờ, điểm). Bấm **Xem chi tiết** để thấy theo từng PHẦN → từng CÂU: đề bài, **em chọn gì**, **đáp án đúng**, đúng/sai. Có tab "Chỉ câu sai" / "Tất cả" và nút **📋 Sao chép** (dán gửi phụ huynh).
+- **📝 Bài tập → Kết quả** của một bài: mỗi em có các nút "Lần 1, Lần 2…" để xem chi tiết đúng bài đó.
+- Phần "Độ chính xác theo chủ điểm" vẫn là thống kê GỘP của mọi bài (để thấy chủ điểm yếu); bảng "Câu/ý sai nhiều nhất" nay có thêm cột **Bài / nguồn**. "Sao chép báo cáo" và báo cáo tuần cho phụ huynh có thêm danh sách các bài đã nộp, mỗi bài một dòng.
+- **Bài nộp cũ** (trước đợt này) chỉ có đề và đúng/sai, không có "em chọn gì" vì lúc đó app chưa lưu; từ bài nộp mới trở đi sẽ đầy đủ.
+
+### C. Bài đọc điền chỗ trống (21)(22)… và bài đọc hiểu
+- Nhập file Word có đoạn văn "(21) ____" + các câu "Question 21. A. … B. … C. …": app tự gộp thành **một bài "Điền từ (chọn trong danh sách)"**, ô chọn nằm ngay trong đoạn văn, học sinh không phải kéo xuống. (Cần file Word có bảng đáp án để biết đáp án đúng; nếu thiếu, app giữ dạng trắc nghiệm cũ.)
+- Bài đọc hiểu (đoạn văn dài + câu hỏi): đoạn văn được **ghim** cạnh câu hỏi (2 cột trên máy tính; dính ở đầu trang trên điện thoại, có nút "▲ Thu gọn").
