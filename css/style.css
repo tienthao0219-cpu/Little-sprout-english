@@ -680,3 +680,22 @@ html.nofx .fxlayer{display:none}
 @media(max-width:640px){.modal{max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px)}}
 @media(max-width:640px){.pracbar,.bossbar,.pr-bar{top:0}.pracbar{padding:8px 12px}}
 .shared b{color:#5B45B8;background:#EFE8FF;border-radius:5px;padding:0 3px}
+
+/* ===== bài đọc hiểu: đoạn văn được ghim cạnh câu hỏi, học sinh không phải kéo lên kéo xuống ===== */
+.split{--pin-top:124px}                /* = thanh trên cùng (61px) + thanh tên bài (~55px) */
+.split-body{display:block}
+.pass-col{position:sticky;top:var(--pin-top);z-index:6;max-height:38vh;overflow:auto;-webkit-overflow-scrolling:touch;
+  background:#fff;border-radius:var(--r-sm);padding:6px 10px 8px;margin:6px 0 12px;
+  box-shadow:0 8px 18px rgba(80,60,140,.16),inset 0 0 0 2px var(--line)}
+.pass-col .shared{margin:4px 0 0}
+.pass-col .media{margin-top:6px}
+.pass-toggle{display:block;margin:0 0 2px auto;border:0;background:var(--lav);color:var(--lav-d);font:inherit;font-size:13px;font-weight:800;border-radius:999px;padding:3px 12px;cursor:pointer}
+.pass-col.min{max-height:none;overflow:hidden}
+.pass-col.min .shared,.pass-col.min .media{display:none}
+.q-col>.q:first-child,.q-col>div>.q:first-child{margin-top:0}
+@media(min-width:900px){
+  .split-body{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:18px;align-items:start}
+  .pass-col{max-height:calc(100vh - var(--pin-top) - 16px);margin:0}
+  .pass-toggle{display:none}
+}
+@media(max-width:640px){.split{--pin-top:56px}}   /* điện thoại: thanh trên cùng không dính, chỉ còn thanh tên bài */
