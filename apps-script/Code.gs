@@ -13,7 +13,8 @@ const TEACHER_NAME = 'Miss Thảo';
 
 const SHEETS = {
   plays: ['sid', 'time', 'updated', 'name', 'appId', 'appTitle', 'cur', 'unit', 'attempt', 'score', 'max', 'pct', 'durationSec'],
-  answers: ['time', 'name', 'source', 'sourceId', 'attempt', 'topic', 'qid', 'ok', 'q'],
+  // sec/no/ans/key (thêm sau): phần nào, câu số mấy, em chọn gì, đáp án đúng -> báo cáo chi tiết từng bài nộp
+  answers: ['time', 'name', 'source', 'sourceId', 'attempt', 'topic', 'qid', 'ok', 'q', 'sec', 'no', 'ans', 'key'],
   homework: ['id', 'title', 'curId', 'unitId', 'open', 'created', 'updated', 'meta', 'fileId'],
   submissions: ['time', 'name', 'hwId', 'hwTitle', 'attempt', 'score', 'max', 'scaled', 'durationSec'],
   students: ['name', 'code', 'active', 'created', 'note'],
@@ -21,6 +22,7 @@ const SHEETS = {
   profiles: ['name', 'data', 'updated']
 };
 const MAX_REPORT_ANSWERS = 8000;
+const DETAIL_COLS = ['sec', 'no', 'ans', 'key'];   // cột nặng: không gửi trong 'report' tổng hợp, chỉ gửi khi xem chi tiết 1 bài nộp (hwDetail)
 
 function doGet() {
   return json_({ ok: true, service: 'Little Sprout English', note: 'Dùng POST. Mở trang web của lớp để sử dụng.' });
@@ -64,7 +66,14 @@ function route_(b) {
       ok: true,
       plays: rows_('plays'),
       subs: rows_('submissions'),
-      answers: rows_('answers').slice(-MAX_REPORT_ANSWERS)
+      answers: rows_('answers').slice(-MAX_REPORT_ANSWERS).map(function (r) { DETAIL_COLS.forEach(function (c) { delete r[c]; }); return r; })
+    };
+    // Chi tiết từng câu của MỘT bài nộp (phần, câu, đáp án em chọn, đáp án đúng)
+    case 'hwDetail': needT(); return {
+      ok: true,
+      answers: rows_('answers').filter(function (r) {
+        return r.source === 'hw' && r.sourceId === b.id && sameName_(r.name, b.student) && String(r.attempt) === String(b.attempt);
+      })
     };
     case 'studentList': needT(); return { ok: true, roster: rosterOn_(), list: students_().map(function (r) { return { name: String(r.name), code: String(r.code), active: isTrue_(r.active), note: String(r.note || '') }; }) };
     case 'studentSave': needT(); return studentsUpsert_(b.list || [], b.oldName);
@@ -284,6 +293,11 @@ function sheet_(key) {
     sh.getRange(1, 1, 1, SHEETS[key].length).setValues([SHEETS[key]]).setFontWeight('bold');
     sh.setFrozenRows(1);
     if (key === 'students') sh.getRange('B:B').setNumberFormat('@'); // giữ mã dạng chữ (không bị đổi thành số)
+    if (key === 'answers') sh.getRange(1, SHEETS.answers.indexOf('no') + 1, sh.getMaxRows(), 1).setNumberFormat('@'); // số câu "1.10" không bị đổi thành số 1.1
+  } else if (sh.getLastColumn() < SHEETS[key].length) {
+    // trang tính cũ thiếu cột mới (vd. answers chưa có sec/no/ans/key): thêm tiêu đề, dữ liệu cũ giữ nguyên
+    sh.getRange(1, 1, 1, SHEETS[key].length).setValues([SHEETS[key]]).setFontWeight('bold');
+    if (key === 'answers') sh.getRange(1, SHEETS.answers.indexOf('no') + 1, sh.getMaxRows(), 1).setNumberFormat('@');
   }
   return sh;
 }
@@ -438,7 +452,8 @@ function hwSubmit_(name, b, teacher) {
   const now = new Date().toISOString();
   append_('submissions', { time: now, name: name, hwId: b.id, hwTitle: r[cols.indexOf('title')], attempt: attempt, score: score, max: max, scaled: scaled, durationSec: +b.durationSec || 0 });
   appendMany_('answers', (b.items || []).slice(0, 800).map(function (a) {
-    return { time: now, name: name, source: 'hw', sourceId: b.id, attempt: attempt, topic: safe_(cut_(a.topic, 120)), qid: cut_(a.qid, 80), ok: !!a.ok, q: safe_(cut_(a.q, 160)) };
+    return { time: now, name: name, source: 'hw', sourceId: b.id, attempt: attempt, topic: safe_(cut_(a.topic, 120)), qid: cut_(a.qid, 80), ok: !!a.ok, q: safe_(cut_(a.q, 240)),
+      sec: safe_(cut_(a.sec, 120)), no: safe_(cut_(a.no, 12)), ans: safe_(cut_(a.ans, 200)), key: safe_(cut_(a.key, 200)) };
   }));
   return { ok: true, attempt: attempt, scaled: scaled };
 }
