@@ -77,6 +77,74 @@ window.LSE = window.LSE || {};
   /* tiêu đề bảng đáp án phải BẮT ĐẦU bằng cụm này (tránh nhầm với dòng hướng dẫn như "Chọn đáp án đúng nhất…") */
   const KEYHEAD = /^\s*(?:(?:phần|part)\s+[ivx\d]+\s*[:.\-–]\s*)?(?:bảng\s+)?(?:đáp\s*án|answer\s*key|key|hướng\s*dẫn\s*giải|lời\s*giải)\b/i;
 
+  /* ---- bài đọc dạng phiếu: "Task 1: Match…" (ghép từ với nghĩa), "Task 2: … True (T) or False (F)", đoạn văn chung ---- */
+  const TASKRE = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)\s*[:.\-–)]/i;
+  const TFEND = /\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?[\s.]*$/i;
+  const TFCELL = /^\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?$/i;
+  const ENUM_ONLY = /^(?:\d{1,3}|[a-hA-H])\s*[.)]?$/;
+  /** gộp ô "1." + ô "stretching" liền nhau thành "1. stretching" (bảng Word thường tách số/chữ cái ra một ô riêng) */
+  function normCells(row) {
+    const cells = (row || []).map(c => String(c || "").trim()), out = [];
+    for (let i = 0; i < cells.length; i++) {
+      const c = cells[i], nx = cells[i + 1];
+      if (ENUM_ONLY.test(c) && nx && !ENUM_ONLY.test(nx)) { out.push(c.replace(/[.)]\s*$/, "") + ". " + nx); i++; }
+      else out.push(c);
+    }
+    return out.filter(Boolean);
+  }
+  const tfOf = v => { const s = String(v || "").trim(); if (/^(?:t|true|đúng|đ)(?![a-zà-ỹ])/i.test(s)) return "T"; if (/^(?:f|false|sai|s)(?![a-zà-ỹ])/i.test(s)) return "F"; return ""; };
+  const segOf = (key, taskNo) => (key.segs || []).find(x => x.tn === taskNo) || ((key.segs || []).length === 1 && key.segs[0].tn === 0 ? key.segs[0] : null) || { ans: key.ans, expl: key.expl };
+  /** nhận ra bài Đúng/Sai hoặc bài Ghép từ trong một Task; trả {items, warns} hoặc null nếu không phải hai dạng này */
+  function detectTask(s, key) {
+    const seg = segOf(key, s.taskNo || 0), warns = [], tag = "Task " + (s.taskNo || "?") + ": ";
+    /* --- Đúng / Sai: mỗi nhận định một hàng (số | nhận định | T / F) hoặc một đoạn kết thúc bằng T / F --- */
+    const tfs = [];
+    s.blocks.forEach(b => {
+      const rows = b.k === "t" ? b.rows.map(normCells) : String(b.t).split("\n").map(x => [x.trim()]);
+      rows.forEach(cells => {
+        if (!cells.length) return;
+        const last = cells[cells.length - 1]; let stem = "";
+        if (cells.length >= 2 && TFCELL.test(last)) stem = cells.slice(0, -1).join(" ");
+        else if (cells.length === 1 && TFEND.test(cells[0]) && cells[0].replace(TFEND, "").trim().length > 3) stem = cells[0].replace(TFEND, "");
+        else return;
+        let num = 0; const m = stem.match(/^\s*(\d{1,3})\s*[.)]\s*([\s\S]+)$/); if (m) { num = +m[1]; stem = m[2]; }
+        stem = stem.replace(/\s+/g, " ").trim(); if (stem.length > 2) tfs.push({ num, stem });
+      });
+    });
+    if (tfs.length >= 2) {
+      const items = [];
+      tfs.forEach((t, i) => {
+        const num = t.num || i + 1, v = tfOf(seg.ans[num]);
+        if (!v) { warns.push(tag + "câu " + num + " chưa có đáp án T/F trong bảng đáp án (bỏ qua)"); return; }
+        const ex = String(seg.expl[num] || "").replace(/\s+/g, " ").trim();
+        items.push({ num, type: "tf", line: t.stem + " | " + v + (ex ? " | " + ex : ""), warns: [] });
+      });
+      return { items, warns, kind: "tf" };
+    }
+    /* --- Ghép từ với nghĩa: một danh sách 1. 2. 3. và một danh sách a. b. c. (trong bảng hoặc đoạn văn), đáp án "1 – c" --- */
+    if (/match|nối|ghép/i.test(s.title || "")) {
+      const left = [], right = [];
+      const take = x => {
+        x = x.replace(/[\s○◯◦•☐□_]+$/g, "").trim(); let m;
+        if ((m = x.match(/^(\d{1,2})\s*[.)]\s*([\s\S]+)$/))) left.push({ n: +m[1], t: m[2].trim() });
+        else if ((m = x.match(/^([a-hA-H])\s*[.)]\s*([\s\S]+)$/))) right.push({ l: m[1].toLowerCase(), t: m[2].trim() });
+      };
+      s.blocks.forEach(b => (b.k === "t" ? b.rows.flatMap(normCells) : String(b.t).split("\n")).forEach(c => String(c).split("\n").forEach(x => { x = x.trim(); if (x) take(x); })));
+      if (left.length >= 2 && right.length >= 2) {
+        const pairs = [];
+        left.forEach(l => {
+          const a = String(seg.ans[l.n] || ""), lm = a.match(/^\s*\(?([a-hA-H])\b/);
+          let r = lm ? right.find(x => x.l === lm[1].toLowerCase()) : (a ? right.find(x => a.toLowerCase().includes(x.t.toLowerCase().slice(0, 18))) : null);
+          if (!r) { warns.push(tag + "từ " + l.n + " (" + l.t + ") chưa có đáp án ghép trong bảng đáp án (bỏ qua)"); return; }
+          pairs.push(l.t.replace(/\s*=\s*/g, " - ") + " = " + r.t.replace(/\s*=\s*/g, " - "));
+        });
+        if (right.length > left.length) warns.push(tag + "có " + (right.length - left.length) + " nghĩa thừa (không có từ nào ghép), app bỏ qua các nghĩa thừa");
+        return { items: pairs.length >= 2 ? [{ num: 0, type: "match", line: pairs.join("\n"), n: pairs.length, warns: [] }] : [], warns, kind: "match" };
+      }
+    }
+    return null;
+  }
+
   /* sắp xếp từ thành câu: ghép các cụm bị xáo trộn theo câu hoàn chỉnh trong bảng đáp án -> "A / horse / can / …" */
   function orderChunks(chunks, ans) {
     const n1 = s => s.toLowerCase().replace(/[.,;:!?]+$/g, "");
@@ -101,21 +169,32 @@ window.LSE = window.LSE || {};
 
   /* ---- bảng đáp án ---- */
   function parseKey(blocks, startIdx) {
-    const key = { ans: {}, expl: {}, parts: [] };
+    const key = { ans: {}, expl: {}, parts: [], segs: [] };
+    /* bài đọc nhiều Task, số câu làm lại từ 1 ở mỗi Task: đáp án của từng Task nằm trong một "đoạn" riêng (segs) */
+    let seg = null;
+    const KT = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)/i;
+    const newSeg = tn => { seg = { tn, ans: {}, expl: {} }; key.segs.push(seg); };
+    const put = (n, a, e) => { if (!seg) newSeg(0); seg.ans[n] = a; seg.expl[n] = e || ""; };
     for (let i = startIdx; i < blocks.length; i++) {
       const b = blocks[i];
+      if (b.k === "p") { const km = b.t.match(KT); if (km && b.t.length < 120) newSeg(+km[1]); }
       if (b.k === "t") {
         b.rows.forEach(r => {
           const c0 = (r[0] || "").trim();
-          if (/^\d{1,3}$/.test(c0) && r.length >= 2) { const n = +c0; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[2] || "").trim(); }
+          const kr = c0.match(KT); if (kr && c0.length < 80) { newSeg(+kr[1]); return; }
+          if (/^\d{1,3}$/.test(c0) && r.length >= 2) { const n = +c0; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[2] || "").trim(); put(n, key.ans[n], key.expl[n]); }
           else if (/^(ph[ầa]n|part|section)\b/i.test(c0)) {
             const m = c0.match(/\((\d+)\s*[–\-—to]+\s*(\d+)\)/i);
             if (m) key.parts.push({ from: +m[1], to: +m[2], title: c0.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(), full: c0 });
           }
         });
       } else {
+        /* đáp án viết gọn trên một dòng: "1 – c, 2 – a, 3 – d, 4 – b" hoặc "1-T 2-F 3-T" */
+        const toks = []; b.t.replace(/(\d{1,2})\s*[-–:.)]\s*([a-hA-H]|True|False|T|F|Đúng|Sai)(?![A-Za-zà-ỹ])/g, (all, n, v) => { toks.push([+n, v]); return all; });
+        if (toks.length >= 2) { toks.forEach(([n, v]) => { put(n, v, ""); if (!(n in key.ans)) key.ans[n] = v; }); continue; }
         const m = b.t.match(/^(?:câu\s*|question\s*)?(\d{1,3})\s*[.:)\-–]\s*(.+)$/i);
         if (m && !(+m[1] in key.ans)) key.ans[+m[1]] = m[2].trim();
+        if (m) put(+m[1], m[2].trim(), "");
       }
     }
     return key;
@@ -140,17 +219,21 @@ window.LSE = window.LSE || {};
     const warns = [];
     let keyAt = blocks.findIndex(b => b.k === "p" && KEYHEAD.test(b.t) && b.t.length < 90 && !QRE.test(b.t));
     if (keyAt < 0) keyAt = blocks.findIndex(b => b.k === "t" && /đáp\s*án|answer/i.test((b.rows[0] || []).join(" ")));
-    const key = keyAt >= 0 ? parseKey(blocks, keyAt) : { ans: {}, expl: {}, parts: [] };
+    const key = keyAt >= 0 ? parseKey(blocks, keyAt) : { ans: {}, expl: {}, parts: [], segs: [] };
     if (keyAt < 0) warns.push("Không thấy bảng/đoạn ĐÁP ÁN trong file. Các câu sẽ chưa có đáp án đúng, cô cần đánh dấu lại trong bước chỉnh sửa. (Gợi ý: tiêu đề có chữ \"ĐÁP ÁN\" và bảng có cột Câu | Đáp án | Giải thích.)");
     const main = keyAt >= 0 ? blocks.slice(0, keyAt) : blocks;
 
     let title = "", secs = [], cur = null, q = null, started = false;
+    const pre = [];                                          // đoạn văn đứng trước "Task 1" (bài đọc dùng chung cho các Task)
     const newSec = t => { cur = { title: t, desc: [], qs: [] }; secs.push(cur); q = null; };
     const flushQ = () => { q = null; };
     main.forEach(b => {
+      /* "Task 1: …" mở một phần mới; mọi khối đứng sau nó (đoạn, bảng) được giữ lại để nhận dạng bài Ghép / Đúng-Sai */
+      if (b.k === "p" && b.t.length < 260 && TASKRE.test(b.t)) { newSec(stripU(b.t)); cur.task = true; cur.taskNo = +b.t.match(TASKRE)[1]; cur.blocks = []; return; }
+      if (cur && cur.task) cur.blocks.push(b);
       if (b.k === "t") {
         const txt = b.rows.map(r => r.filter(Boolean).join("\n")).filter(Boolean).join("\n");
-        if (!cur) return;                                   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
+        if (!cur) { if (title && txt.replace(/\s+/g, " ").length >= 160) pre.push(txt); return; }   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
         if (!cur.qs.length) { if (txt) cur.desc.push(txt); } else if (q) q.lines.push(txt);
         return;
       }
@@ -163,14 +246,21 @@ window.LSE = window.LSE || {};
       if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title)) {
         newSec(b.t); return;
       }
-      if (!cur) { if (!title) title = stripU(b.t); return; }
+      if (!cur) { if (!title) title = stripU(b.t); else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
       if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
     });
-    secs = secs.filter(s => s.qs.length);
+    /* Task ghép từ / đúng-sai: nhận dạng từ bảng + đoạn, bỏ qua cách tách câu theo số thứ tự thông thường */
+    secs.forEach(s => {
+      if (!s.task) return;
+      const det = detectTask(s, key);
+      if (det) { s.pre = det.items; s.qs = []; s.desc = []; warns.push(...det.warns); }
+    });
+    const passage = pre.join("\n\n").trim(), usePassage = passage.replace(/\s+/g, " ").length >= 160;
+    secs = secs.filter(s => s.qs.length || (s.pre && s.pre.length));
 
     /* câu hỏi -> kiểu */
     secs.forEach(s => {
-      s.items = s.qs.map(qq => {
+      s.items = s.pre || s.qs.map(qq => {
         const text = qq.lines.join("\n").trim();
         const key1 = key.ans[qq.num] || "", ex = key.expl[qq.num] || "";
         const o = splitOptions(text);
@@ -254,8 +344,10 @@ window.LSE = window.LSE || {};
         const g = groups[groups.length - 1];
         if (g && g.gk === gk) g.items.push(it); else groups.push({ gk, part, type: it.type, items: [it] });
       });
-      groups.forEach((g, gi) => out.push({ title: g.part ? prettyPart(g.part) : (s.title || "Phần " + (out.length + 1)), instr: s.title, desc: gi === 0 ? s.desc.join("\n\n") : (g.part ? "" : s.desc.join("\n\n")), topic: g.part ? g.part.title.replace(/^(ph[ầa]n|part|section)\s+[IVX\d]+\s*[:.\-–]\s*/i, "").toLowerCase() : "", type: g.type, items: g.items }));
+      groups.forEach((g, gi) => out.push({ title: g.part ? prettyPart(g.part) : (s.title || "Phần " + (out.length + 1)), instr: s.title, desc: gi === 0 ? s.desc.join("\n\n") : (g.part ? "" : s.desc.join("\n\n")), topic: g.part ? g.part.title.replace(/^(ph[ầa]n|part|section)\s+[IVX\d]+\s*[:.\-–]\s*/i, "").toLowerCase() : "", type: g.type, items: g.items, task: !!s.task }));
     });
+    /* đoạn văn đứng trước Task 1 là bài đọc chung: gắn vào mọi Task để app ghim đoạn văn cạnh câu hỏi */
+    if (usePassage) out.forEach(o => { if (o.task) o.desc = passage + (o.desc ? "\n\n" + o.desc : ""); });
     /* nếu tách theo PHẦN thì giữ yêu cầu đề bài trong mô tả */
     out.forEach(o => { if (o.title !== o.instr && o.instr && !o.desc.includes(o.instr)) o.desc = (o.instr + (o.desc ? "\n\n" + o.desc : "")).trim(); });
 
@@ -284,7 +376,7 @@ window.LSE = window.LSE || {};
     out.forEach((o, i) => {
       const cz = clozeMerge(o);
       if (cz) { sections.push(cz); return; }
-      const sec = { title: stripU(o.title), type: o.type === "?" ? "mcq1" : o.type, desc: stripU(o.desc), topic: o.topic, raw: "", n: 0, warns: [] };
+      const sec = { title: stripU(o.title), type: o.type === "?" ? "mcq1" : o.type, desc: stripU(o.desc), topic: o.topic, raw: "", n: 0, warns: [], numFresh: !!o.task, tfLabels: "en" };
       const lines = [];
       o.items.forEach(it => {
         sec.warns.push(...(it.warns || []));
@@ -295,9 +387,11 @@ window.LSE = window.LSE || {};
         else if (it.type === "transform") { if (!it.answers.length) return; lines.push(it.src + (it.starter ? " | " + it.starter : "") + " => " + it.answers.join(" / ") + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
         else if (it.type === "fill" || it.type === "fillhint") { lines.push(it.line + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
         else if (it.type === "sentence") { if (it.skip || !it.line) return; lines.push(it.line + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
+        else if (it.type === "tf") { lines.push(it.line); sec.n++; }
+        else if (it.type === "match") { lines.push(it.line); sec.n += it.n; }
       });
       if (o.type === "?") { sec.type = "mcq1"; }
-      sec.raw = lines.join(o.type === "transform" || o.type === "errfix" || o.type === "fill" || o.type === "fillhint" || o.type === "sentence" ? "\n" : "\n\n");
+      sec.raw = lines.join(o.type === "transform" || o.type === "errfix" || o.type === "fill" || o.type === "fillhint" || o.type === "sentence" || o.type === "tf" ? "\n" : "\n\n");
       if (sec.n) sections.push(sec); else if (sec.warns.length) notes.push(...sec.warns);
     });
     sections.forEach(s => { if (s.type === "fill" || s.type === "fillhint") s.raw = s.raw.replace(/\nEXP:/g, "\nEXP:"); });

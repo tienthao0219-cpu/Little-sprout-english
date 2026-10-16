@@ -744,7 +744,7 @@
             draw();
           } });
           box.append(h("p.small.muted", { style: "margin-top:0" }, "Chọn file .docx có các câu hỏi (Question 1. / Câu 1. / 1.) và bảng ĐÁP ÁN ở cuối. Web sẽ tự tách thành các phần bài; cô xem lại rồi mới lưu."),
-            h("div.hint", { style: "margin-bottom:10px" }, h("div", h("b", "Nhận ra được: ")), h("div", "• Trắc nghiệm A/B/C/D (kể cả chữ gạch chân phát âm/trọng âm, điền chỗ trống trong đoạn văn, đọc hiểu có đoạn văn)"), h("div", "• Điền từ có gợi ý trong ngoặc, ví dụ  ____ (BENEFIT)"), h("div", "• Tìm lỗi sai (A)(B)(C)(D) với đáp án dạng \"C (find → finds)\""), h("div", "• Viết lại câu (dòng thứ hai bắt đầu bằng →)")),
+            h("div.hint", { style: "margin-bottom:10px" }, h("div", h("b", "Nhận ra được: ")), h("div", "• Trắc nghiệm A/B/C/D (kể cả chữ gạch chân phát âm/trọng âm, điền chỗ trống trong đoạn văn, đọc hiểu có đoạn văn)"), h("div", "• Điền từ có gợi ý trong ngoặc, ví dụ  ____ (BENEFIT)"), h("div", "• Tìm lỗi sai (A)(B)(C)(D) với đáp án dạng \"C (find → finds)\""), h("div", "• Viết lại câu (dòng thứ hai bắt đầu bằng →)"), h("div", "• Sắp xếp từ thành câu (các từ cách nhau bằng dấu /, đáp án là câu hoàn chỉnh)"), h("div", "• Bài đọc dạng phiếu: đoạn văn + \"Task 1: Match…\" (cột 1, 2, 3 và a, b, c) + \"Task 2: … True (T) or False (F)\" + bảng đáp án (Task 1 và Task 2 có thể đánh số lại từ 1)")),
             st.err ? h("div.err", st.err) : null, inp,
             h("div.row", { style: "justify-content:flex-end;margin-top:10px" }, h("button.btn.ghost", { onclick: close }, "Đóng"), h("button.btn.mint", { onclick: () => inp.click() }, "Chọn file Word (.docx)")));
           return;
@@ -758,7 +758,7 @@
             h("div.grow", h("b", s.title), h("div.small.muted", typeName(s.type) + " · " + s.n + " câu" + (s.desc ? " · có đoạn văn/yêu cầu" : "") + (s.topic ? " · chủ điểm: " + s.topic : "")), h("div.small", { style: "opacity:.75;margin-top:3px" }, first + "…")));
         })));
         box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: () => { st.res = null; draw(); } }, "← Chọn file khác"), h("button.btn.ghost", { onclick: close }, "Đóng"),
-          r.sections.length ? h("button.btn.mint", { onclick: () => { const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw })); close(); onDone(r.title, secs); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
+          r.sections.length ? h("button.btn.mint", { onclick: () => { const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw, numFresh: !!s.numFresh, tfLabels: s.tfLabels || "en" })); close(); onDone(r.title, secs); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
       };
       draw();
       return box;
