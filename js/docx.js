@@ -74,7 +74,30 @@ window.LSE = window.LSE || {};
   const stripU = s => String(s || "").replace(/<\/?u>/g, "");
   const QRE = /^(?:(?:question|câu|cau|q)\s*)?(\d{1,3})\s*[.:)]\s*(.*)$/is;
   const INSTR = /^(choose|mark|read|supply|find|rewrite|complete|fill|match|circle|underline|put|write|use|give|correct|change|turn|listen|look|identify|decide|select|arrange|reorder|rearrange|choose|answer|do|finish|make|order)\b/i;
-  const KEYHEAD = /(đáp\s*án|answer\s*key|^key\b|hướng\s*dẫn\s*giải)/i;
+  /* tiêu đề bảng đáp án phải BẮT ĐẦU bằng cụm này (tránh nhầm với dòng hướng dẫn như "Chọn đáp án đúng nhất…") */
+  const KEYHEAD = /^\s*(?:(?:phần|part)\s+[ivx\d]+\s*[:.\-–]\s*)?(?:bảng\s+)?(?:đáp\s*án|answer\s*key|key|hướng\s*dẫn\s*giải|lời\s*giải)\b/i;
+
+  /* sắp xếp từ thành câu: ghép các cụm bị xáo trộn theo câu hoàn chỉnh trong bảng đáp án -> "A / horse / can / …" */
+  function orderChunks(chunks, ans) {
+    const n1 = s => s.toLowerCase().replace(/[.,;:!?]+$/g, "");
+    const toks = ans.replace(/\s+/g, " ").trim().split(" ");
+    const pool = chunks.map(c => c.replace(/\s+/g, " ").trim()).filter(c => c && !/^[.?!,;]+$/.test(c));
+    const endP = (ans.match(/[.?!]+\s*$/) || [""])[0].trim();
+    const used = pool.map(() => false), out = []; let i = 0;
+    while (i < toks.length) {
+      let best = -1, bestLen = 0;
+      pool.forEach((c, k) => {
+        if (used[k]) return; const cw = c.split(" "); if (cw.length > toks.length - i) return;
+        for (let j = 0; j < cw.length; j++) if (n1(cw[j]) !== n1(toks[i + j])) return;
+        if (cw.length > bestLen) { best = k; bestLen = cw.length; }
+      });
+      if (best < 0) return null;
+      used[best] = true; out.push(pool[best]); i += bestLen;
+    }
+    if (used.some(u => !u) || !out.length) return null;
+    if (endP) out[out.length - 1] = out[out.length - 1].replace(/[.?!]+$/, "") + endP;
+    return out.join(" / ");
+  }
 
   /* ---- bảng đáp án ---- */
   function parseKey(blocks, startIdx) {
@@ -153,12 +176,14 @@ window.LSE = window.LSE || {};
         const o = splitOptions(text);
         if (o) {
           let stem = o.stem;
-          if (!stem) stem = s.desc.join(" ").includes("(" + qq.num + ")") ? "Chỗ trống (" + qq.num + ")" : "Choose the correct answer.";
+          /* câu không có đề, chỉ có A/B/C và đoạn văn có "(21) ____" -> bài đọc điền chỗ trống (xem clozeMerge) */
+          const cloze = !stem && s.desc.join(" ").includes("(" + qq.num + ")");
+          if (!stem) stem = cloze ? "Chỗ trống (" + qq.num + ")" : "Choose the correct answer.";
           const lm = key1.match(/^([A-H])(?![A-Za-z])/i); const letter = lm ? lm[1].toUpperCase() : "";
           const w = [];
           if (!key1) w.push("Câu " + qq.num + ": chưa có đáp án trong bảng đáp án");
           else if (!letter || !o.opts.some(x => x.l === letter)) w.push("Câu " + qq.num + ": đáp án \"" + key1 + "\" không khớp A/B/C/D");
-          return { num: qq.num, type: "mcq1", stem, opts: o.opts, letter, expl: ex, warns: w };
+          return { num: qq.num, type: "mcq1", stem, opts: o.opts, letter, expl: ex, warns: w, cloze };
         }
         if (/\([A-D]\)/.test(text)) {            // tìm lỗi sai
           const w = [];
@@ -194,6 +219,13 @@ window.LSE = window.LSE || {};
           const ans = key1.replace(/^(→|->|➜)\s*/, "").trim();
           return { num: qq.num, type: "transform", src: stripU(src), starter, answers: ans ? ans.split(/\s+\/\s+/) : [], expl: ex, warns: ans ? [] : ["Câu " + qq.num + ": chưa có đáp án viết lại câu"] };
         }
+        if (text.split("/").length >= 4 && !/_{3,}|\.{4,}|…/.test(text)) {   // sắp xếp từ thành câu: từ / từ / từ / …
+          const chunks = text.split("/").map(x => x.replace(/\s+/g, " ").trim()).filter(Boolean);
+          const ans = key1.replace(/\s+/g, " ").trim(), w = []; let line = "";
+          if (!ans) w.push("Câu " + qq.num + ": chưa có câu hoàn chỉnh trong bảng đáp án");
+          else { line = orderChunks(chunks, ans); if (!line) { w.push("Câu " + qq.num + ": không ghép được các cụm với đáp án, đã tách theo từng từ (cô kiểm tra lại)"); line = ans.split(" ").join(" / "); } }
+          return { num: qq.num, type: "sentence", line, expl: ex, warns: w, skip: !ans };
+        }
         if (/_{3,}|\.{4,}|…/.test(text)) {       // điền từ có gợi ý trong ngoặc
           const hm = text.match(/\(([A-Za-zÀ-ỹ][^()]{0,40})\)\s*[.?!]?\s*$/);
           const hint = hm ? hm[1].trim() : "";
@@ -227,8 +259,31 @@ window.LSE = window.LSE || {};
     /* nếu tách theo PHẦN thì giữ yêu cầu đề bài trong mô tả */
     out.forEach(o => { if (o.title !== o.instr && o.instr && !o.desc.includes(o.instr)) o.desc = (o.instr + (o.desc ? "\n\n" + o.desc : "")).trim(); });
 
+    /* Bài đọc điền chỗ trống: đoạn văn có "(21) ____" + các câu "Question 21. A. … B. … C. …" chỉ có đáp án.
+       Gộp thành MỘT bài dạng "Điền từ (chọn trong danh sách)": ô chọn nằm ngay trong đoạn văn, học sinh không phải kéo xuống.
+       Chỉ gộp khi mọi câu đều có đáp án đúng và tìm thấy đủ chỗ trống; nếu không thì giữ nguyên dạng trắc nghiệm. */
+    const clozeMerge = o => {
+      if (o.type !== "mcq1" || o.items.length < 2) return null;
+      if (!o.items.every(it => it.type === "mcq1" && it.cloze && it.letter && it.opts.some(x => x.l === it.letter))) return null;
+      let text = stripU(o.desc || ""), instrText = stripU(o.instr || "").trim();
+      if (instrText && text.startsWith(instrText)) text = text.slice(instrText.length);
+      const clean = s => String(s).replace(/[|\[\]]/g, "/").replace(/\s+/g, " ").trim();
+      for (const it of o.items) {
+        const re = new RegExp("(?:\\*\\*)?\\(\\s*" + it.num + "\\s*\\)(?:\\*\\*)?\\s*(?:_{2,}|\\.{3,}|…+)");
+        if (!re.test(text)) return null;
+        const list = it.opts.map(x => (x.l === it.letter ? "*" : "") + clean(x.t)).join("|");
+        text = text.replace(re, "(" + it.num + ") [[" + list + "]]");
+      }
+      text = text.replace(/\*\*/g, "").replace(/\s+/g, " ").trim();
+      const expl = o.items.map(it => { const right = it.opts.find(x => x.l === it.letter); return "(" + it.num + ") " + clean(right.t) + (it.expl ? " – " + clean(it.expl) : ""); }).join("  ·  ");
+      const title = stripU(o.title);
+      return { title, type: "fillchoose", desc: instrText && instrText !== title ? instrText : "", topic: o.topic, raw: text + "\nEXP: " + expl, n: o.items.length, warns: [].concat(...o.items.map(it => it.warns || [])) };
+    };
+
     const sections = [], notes = [];
     out.forEach((o, i) => {
+      const cz = clozeMerge(o);
+      if (cz) { sections.push(cz); return; }
       const sec = { title: stripU(o.title), type: o.type === "?" ? "mcq1" : o.type, desc: stripU(o.desc), topic: o.topic, raw: "", n: 0, warns: [] };
       const lines = [];
       o.items.forEach(it => {
@@ -239,9 +294,10 @@ window.LSE = window.LSE || {};
         } else if (it.type === "errfix") { if (!it.marked) return; lines.push(it.marked + " => " + it.fixes.join(" / ") + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
         else if (it.type === "transform") { if (!it.answers.length) return; lines.push(it.src + (it.starter ? " | " + it.starter : "") + " => " + it.answers.join(" / ") + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
         else if (it.type === "fill" || it.type === "fillhint") { lines.push(it.line + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
+        else if (it.type === "sentence") { if (it.skip || !it.line) return; lines.push(it.line + (it.expl ? "\nEXP: " + it.expl.replace(/\n/g, " ") : "")); sec.n++; }
       });
       if (o.type === "?") { sec.type = "mcq1"; }
-      sec.raw = lines.join(o.type === "transform" || o.type === "errfix" || o.type === "fill" || o.type === "fillhint" ? "\n" : "\n\n");
+      sec.raw = lines.join(o.type === "transform" || o.type === "errfix" || o.type === "fill" || o.type === "fillhint" || o.type === "sentence" ? "\n" : "\n\n");
       if (sec.n) sections.push(sec); else if (sec.warns.length) notes.push(...sec.warns);
     });
     sections.forEach(s => { if (s.type === "fill" || s.type === "fillhint") s.raw = s.raw.replace(/\nEXP:/g, "\nEXP:"); });

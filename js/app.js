@@ -343,7 +343,7 @@
       (hw.sections || []).forEach((sec, i) => {
         const rt = rts[i];
         if (sec.numFresh) no = 1;
-        parts.push(h("div.card.sec", L.hw.sectionHeader(sec, i, hw.sections), L.hw.renderSection(rt, "do", false, no, null, instant ? { card } : undefined)));
+        parts.push(L.hw.sectionCard(sec, i, hw.sections, L.hw.renderSection(rt, "do", false, no, null, instant ? { card } : undefined)));
         no += rt.qs.length;
       });
       if (instant) paintCount();
@@ -394,7 +394,7 @@
         (hw.sections || []).forEach((sec, i) => {
           const rt = rts[i];
           if (sec.numFresh) no = 1;
-          out.push(h("div.card.sec", L.hw.sectionHeader(sec, i, hw.sections), h("div.small.muted", "Phần này: " + res.secs[i].got + "/" + res.secs[i].max + " ý"), L.hw.renderSection(rt, "review", after === "full", no, null)));
+          out.push(L.hw.sectionCard(sec, i, hw.sections, h("div.small.muted", "Phần này: " + res.secs[i].got + "/" + res.secs[i].max + " ý"), L.hw.renderSection(rt, "review", after === "full", no, null)));
           no += rt.qs.length;
         });
       }

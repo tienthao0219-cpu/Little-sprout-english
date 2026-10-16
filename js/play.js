@@ -151,7 +151,7 @@ window.LSE = window.LSE || {};
       rts.forEach((rt, i) => {
         const cardFn = (q, st, ctx, n, r) => card(q, st, ctx, n, r);
         if (rt.sec.numFresh) no = 1;
-        secBox.append(h("div.card.sec", L.hw.sectionHeader(rt.sec, i, rts.map(r => r.sec)), L.hw.renderSection(rt, "do", false, no, () => { }, { card: cardFn })));
+        secBox.append(L.hw.sectionCard(rt.sec, i, rts.map(r => r.sec), L.hw.renderSection(rt, "do", false, no, () => { }, { card: cardFn })));
         no += rt.qs.length;
       });
     };

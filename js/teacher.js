@@ -439,6 +439,60 @@
     draw();
   }
 
+  /** Chi tiết MỘT bài nộp của MỘT học viên: phần nào → câu nào → đề, em chọn gì, đáp án đúng.
+      sub = {name, hwId, hwTitle, attempt, time, score, max, scaled} (một dòng trong bảng submissions) */
+  const okOf_ = a => a.ok === true || a.ok === "TRUE" || a.ok === 1 || a.ok === "1";
+  /** đề bài của một ý; với câu điền từ, bỏ phần " → đáp án" ở cuối vì đã có cột "Đáp án đúng" */
+  const qText_ = a => { const q = String(a.q || a.qid || ""); const i = q.lastIndexOf(" → "); return a.key && i > 0 ? q.slice(0, i) : q; };
+  function subDetailText(sub, rows, onlyWrong) {
+    const bySec = []; rows.forEach(a => { const k = String(a.sec || ""); let g = bySec.find(x => x.k === k); if (!g) bySec.push(g = { k, rows: [] }); g.rows.push(a); });
+    const L2 = ["BÀI TẬP: " + (sub.hwTitle || sub.hwId), "Học viên: " + sub.name + " · Lần " + sub.attempt + " · " + fmtDate(sub.time), "Điểm: " + sub.scaled + " (" + sub.score + "/" + sub.max + " ý)"];
+    bySec.forEach(g => {
+      const list = onlyWrong ? g.rows.filter(a => !okOf_(a)) : g.rows; if (!list.length) return;
+      L2.push("", "▶ " + (g.k || "Phần không tên") + " — đúng " + g.rows.filter(okOf_).length + "/" + g.rows.length + " ý");
+      list.forEach(a => { L2.push("- " + (a.no ? "Câu " + a.no + ": " : "") + qText_(a)); if (a.ans || a.key) L2.push("    Em chọn: " + (a.ans || "—") + (okOf_(a) ? "  ✓" : "   |   Đáp án đúng: " + (a.key || "—"))); });
+    });
+    if (onlyWrong && !rows.some(a => !okOf_(a))) L2.push("", "Không sai câu nào 🎉");
+    return L2.join("\n");
+  }
+  function subDetailModal(sub) {
+    modal(close => {
+      const box = h("div"); let rows = null, err = "", showAll = false;
+      const draw = () => {
+        box.innerHTML = "";
+        box.append(h("h3", { style: "margin-bottom:2px" }, sub.hwTitle || sub.hwId),
+          h("div.small.muted", { style: "margin-bottom:10px" }, sub.name + " · Lần " + sub.attempt + " · " + fmtDate(sub.time) + " · Điểm " + sub.scaled + " (" + sub.score + "/" + sub.max + " ý)"));
+        if (err) { box.append(h("div.err", err)); }
+        else if (!rows) { box.append(h("div.empty", h("span.spinner"), " Đang tải chi tiết…")); }
+        else {
+          const wrong = rows.filter(a => !okOf_(a)), hasDetail = rows.some(a => a.ans || a.key);
+          box.append(h("div.row", { style: "margin-bottom:8px" },
+            h("div.tabs", { style: "margin:0" }, [[false, "Chỉ câu sai (" + wrong.length + ")"], [true, "Tất cả (" + rows.length + ")"]].map(([v, t]) => h("button" + (showAll === v ? ".on" : ""), { onclick: () => { showAll = v; draw(); } }, t))),
+            h("span.grow"), h("button.btn.sm.sky", { onclick: () => L.copyText(subDetailText(sub, rows, !showAll)) }, "📋 Sao chép")));
+          if (!rows.length) box.append(h("div.hint", "Chưa có chi tiết từng câu cho bài nộp này (bài nộp cũ hoặc chưa cập nhật Apps Script, xem HUONG-DAN.md)."));
+          else if (!hasDetail) box.append(h("div.hint", { style: "margin-bottom:8px" }, "Bài nộp này được lưu trước khi app ghi lại đáp án em chọn, nên chỉ có đề và đúng/sai. Các bài nộp từ nay sẽ có đủ đáp án em chọn và đáp án đúng."));
+          const bySec = []; rows.forEach(a => { const k = String(a.sec || ""); let g = bySec.find(x => x.k === k); if (!g) bySec.push(g = { k, rows: [] }); g.rows.push(a); });
+          bySec.forEach(g => {
+            const list = showAll ? g.rows : g.rows.filter(a => !okOf_(a));
+            const right = g.rows.filter(okOf_).length;
+            box.append(h("h4", { style: "margin:14px 0 4px;font-size:16px" }, g.k || "Phần không tên", h("span.pill" + (right === g.rows.length ? ".mint" : ".rose"), { style: "margin-left:8px" }, right + "/" + g.rows.length + " ý")));
+            if (!list.length) { box.append(h("div.small.muted", "Phần này em làm đúng hết 🎉")); return; }
+            box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Câu", "Đề bài", hasDetail ? "Em chọn" : null, hasDetail ? "Đáp án đúng" : null, ""].filter(x => x != null).map(t => h("th", t)))),
+              h("tbody", list.map(a => { const ok = okOf_(a);
+                return h("tr", { style: ok ? "" : "background:#FFF5F8" }, h("td", { style: "white-space:nowrap;font-weight:800" }, a.no || ""), h("td", qText_(a)),
+                  hasDetail ? h("td", { style: "font-weight:800;color:" + (ok ? "var(--good,#1f7c60)" : "#b43a62") }, a.ans || "—") : null,
+                  hasDetail ? h("td", { style: "font-weight:800;color:var(--good,#1f7c60)" }, a.key || "—") : null,
+                  h("td", ok ? "✓" : "✗")); })))));
+          });
+        }
+        box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Đóng")));
+      };
+      draw();
+      L.api.call("hwDetail", { id: sub.hwId, student: sub.name, attempt: sub.attempt }).then(r => { rows = r.answers || []; draw(); }).catch(e => { err = e.message || String(e); draw(); });
+      return box;
+    }, { wide: true });
+  }
+
   async function hwResultsModal(x) {
     modal(close => {
       const box = h("div", h("h3", { style: "margin-bottom:8px" }, "Kết quả: " + x.title), h("div.empty", h("span.spinner")));
@@ -448,10 +502,11 @@
         const rows = Object.keys(by).map(n => {
           const a = by[n].sort((p, q) => p.attempt - q.attempt), sc = a.map(s => +s.scaled);
           const fin = rule === "last" ? sc[sc.length - 1] : rule === "avg" ? L.round2(sc.reduce((p, q) => p + q, 0) / sc.length) : Math.max(...sc);
-          return h("tr", h("td", h("b", n)), h("td", a.length), h("td", sc.join(", ")), h("td", h("b", String(fin))), h("td", fmtDate(a[a.length - 1].time)));
+          return h("tr", h("td", h("b", n)), h("td", a.length), h("td", sc.join(", ")), h("td", h("b", String(fin))), h("td", fmtDate(a[a.length - 1].time)),
+            h("td", h("div.row", { style: "gap:4px" }, a.map(s => h("button.btn.sm.sky", { title: "Xem từng câu: em chọn gì, đáp án đúng", onclick: () => subDetailModal(Object.assign({ hwTitle: x.title, hwId: x.id }, s)) }, "Lần " + s.attempt)))));
         });
-        box.innerHTML = ""; box.append(h("h3", { style: "margin-bottom:8px" }, "Kết quả: " + x.title), h("div.small.muted", "Điểm cuối theo cách tính: " + ({ highest: "điểm cao nhất", last: "lần làm cuối", avg: "trung bình" }[rule])),
-          rows.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Học viên", "Số lần", "Điểm từng lần", "Điểm cuối", "Lần gần nhất"].map(t => h("th", t)))), h("tbody", rows))) : h("div.empty", "Chưa có ai nộp bài."),
+        box.innerHTML = ""; box.append(h("h3", { style: "margin-bottom:8px" }, "Kết quả: " + x.title), h("div.small.muted", "Điểm cuối theo cách tính: " + ({ highest: "điểm cao nhất", last: "lần làm cuối", avg: "trung bình" }[rule]) + " · Bấm \"Lần …\" để xem từng câu em chọn gì và đáp án đúng."),
+          rows.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Học viên", "Số lần", "Điểm từng lần", "Điểm cuối", "Lần gần nhất", "Chi tiết"].map(t => h("th", t)))), h("tbody", rows))) : h("div.empty", "Chưa có ai nộp bài."),
           h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Đóng")));
       }).catch(e => { box.innerHTML = ""; box.append(h("div.err", e.message)); });
       return box;
@@ -739,7 +794,7 @@
       if (!studs.length) { body.append(h("div.card.empty", "Chưa có dữ liệu. Khi học viên chơi app hoặc nộp bài, kết quả sẽ hiện ở đây.")); return; }
       body.append(h("div.row", { style: "margin-bottom:10px" }, h("button.btn.peach", { onclick: () => parentReportModal(studs.map(x => x.name)) }, "📨 Báo cáo tuần cho phụ huynh (cả lớp)"), h("span.small.muted", "Tự tính từ dữ liệu 7 ngày gần nhất; cô đọc lại và thêm lời nhắn trước khi gửi.")));
       body.append(h("div.hint", { style: "margin-bottom:12px" }, "Chủ điểm \"cần ôn\" = đúng dưới 70% và đã gặp từ 3 ý trở lên. Chủ điểm lấy từ nhãn trong app hoặc dòng TOPIC: của bài tập."));
-      studs.forEach(s => body.append(studentCard(s)));
+      studs.forEach(s => body.append(studentCard(s, rep)));
     };
     draw();
   }
@@ -767,6 +822,9 @@
     L1.push("1) Mức độ chăm chỉ", "- Số ngày con có học trong tuần: " + cur.days + "/7", "- Số lượt chơi app/game: " + cur.plays + " · Số bài tập đã nộp: " + cur.subs, "- Tổng số ý con đã làm: " + cur.tot + (prof && prof.streak ? " · Chuỗi ngày học liên tiếp hiện tại: " + prof.streak + " ngày" : ""), "");
     const acc = cur.tot ? Math.round(100 * cur.right / cur.tot) : null, pacc = prev.tot ? Math.round(100 * prev.right / prev.tot) : null;
     L1.push("2) Kết quả", acc == null ? "- Tuần này con chưa có câu trả lời chi tiết được ghi lại." : "- Tỉ lệ đúng: " + acc + "% (" + cur.right + "/" + cur.tot + " ý)" + (pacc == null ? "" : acc > pacc ? " — tăng so với tuần trước (" + pacc + "%) 🎉" : acc < pacc ? " — thấp hơn tuần trước (" + pacc + "%)" : " — bằng tuần trước"), "");
+    /* mỗi bài tập nộp trong tuần một dòng (không gộp các bài lại với nhau) */
+    const wsubs = raw.subs.filter(x => L.sameName(x.name, name) && +new Date(x.time) >= now - 7 * 86400000).sort((p, c) => String(p.time).localeCompare(String(c.time)));
+    if (wsubs.length) { L1.push("Các bài tập con đã nộp tuần này:"); wsubs.forEach(p => L1.push("  • " + (p.hwTitle || p.hwId) + " (lần " + p.attempt + ", " + dmy(new Date(p.time)) + "): " + p.scaled + " điểm" + (p.max ? " — đúng " + p.score + "/" + p.max + " ý" : ""))); L1.push(""); }
     const strong = a.topicList.filter(t => t.n >= 3 && t.acc >= 0.8).slice(-3).reverse(), weak = a.weak.slice(0, 3);
     L1.push("3) Điểm mạnh");
     if (strong.length) strong.forEach(t => L1.push("- " + t.topic + ": đúng " + Math.round(t.acc * 100) + "%")); else L1.push("- Con đang làm quen dần; cô sẽ tiếp tục theo dõi.");
@@ -791,7 +849,11 @@
   }
 
   function pct(x) { return Math.round(x * 100); }
-  function studentCard(s) {
+  function studentCard(s, rep) {
+    rep = rep || { plays: [], subs: [] };
+    const mySubs = rep.subs.filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.time).localeCompare(String(a.time)));
+    /* câu sai nhiều nhất đến từ bài tập hay app nào */
+    const srcOf = w => w.src === "hw" ? ((rep.subs.find(x => x.hwId === w.srcId) || {}).hwTitle || w.srcId || "") : w.src === "app" ? "App: " + ((rep.plays.find(x => x.appId === w.srcId) || {}).appTitle || w.srcId || "") : "";
     const tot = s.topicList.reduce((a, t) => a + t.n, 0), right = s.topicList.reduce((a, t) => a + t.right, 0);
     const detail = h("div.hidden");
     const head = h("div.row", { style: "cursor:pointer" }, h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:20px" }, s.name), h("div.small.muted", "Lần cuối: " + fmtDate(s.lastTime) + " · " + s.plays + " lượt chơi app · " + s.subs + " bài nộp" + (tot ? " · đúng " + pct(right / tot) + "% (" + right + "/" + tot + " ý)" : ""))),
@@ -800,15 +862,23 @@
     head.addEventListener("click", () => {
       if (!detail.classList.contains("hidden")) { detail.classList.add("hidden"); return; }
       detail.classList.remove("hidden"); detail.innerHTML = "";
-      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm"),
+      /* TỪNG BÀI ĐÃ NỘP: mỗi bài một dòng, bấm "Xem chi tiết" để thấy phần nào, câu nào, em chọn gì, đáp án đúng */
+      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "📝 Từng bài đã nộp"),
+        mySubs.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Bài tập", "Lần", "Ngày giờ", "Điểm", "Đúng", ""].map(t => h("th", t)))),
+          h("tbody", mySubs.map(p => h("tr", h("td", h("b", p.hwTitle || p.hwId)), h("td", "Lần " + p.attempt), h("td", fmtDate(p.time)), h("td", h("b", String(p.scaled))),
+            h("td", p.max ? p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "—"),
+            h("td", h("button.btn.sm.sky", { onclick: () => subDetailModal(p) }, "Xem chi tiết"))))))) : h("div.small.muted", "Chưa nộp bài tập nào."),
+        h("div.hint", { style: "margin:8px 0 0" }, "Phần dưới là thống kê GỘP của tất cả bài và app em đã làm (để thấy chủ điểm yếu). Muốn biết em sai ở bài nào, câu nào, chọn gì → bấm \"Xem chi tiết\" ở bảng trên."));
+      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm (gộp tất cả bài)"),
         s.topicList.map(t => h("div.topic-row", h("div", { style: "font-weight:800" }, t.topic, h("div.small.muted", t.n + " ý" + (t.n >= 6 ? " · 6 ý gần nhất " + pct(t.recentAcc) + "%" : ""))), h("div.bar." + (t.n < 3 ? "" : t.acc < .6 ? "bad" : t.acc < .8 ? "" : "good"), h("i", { style: "width:" + pct(t.acc) + "%" })), h("b", pct(t.acc) + "%"))),
-        s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai nhiều nhất"), h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Chủ điểm", "Số lần sai"].map(x => h("th", x)))), h("tbody", s.wrongList.slice(0, 15).map(w => h("tr", h("td", w.q), h("td", h("span.pill", w.topic)), h("td", "× " + w.n))))))] : null,
-        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
+        s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai nhiều nhất"), h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Bài / nguồn", "Chủ điểm", "Số lần sai"].map(x => h("th", x)))), h("tbody", s.wrongList.slice(0, 15).map(w => h("tr", h("td", w.q), h("td", { style: "font-size:13px" }, srcOf(w)), h("td", h("span.pill", w.topic)), h("td", "× " + w.n))))))] : null,
+        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s, mySubs)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
     });
     return card;
   }
-  function reportText(s) {
+  function reportText(s, subs) {
     const lines = ["BÁO CÁO: " + s.name, "Lần học gần nhất: " + fmtDate(s.lastTime), ""];
+    if (subs && subs.length) { lines.push("Các bài đã nộp (mỗi bài một dòng):"); subs.slice(0, 20).forEach(p => lines.push("- " + (p.hwTitle || p.hwId) + " · lần " + p.attempt + " · " + fmtDate(p.time) + " · điểm " + p.scaled + (p.max ? " (" + p.score + "/" + p.max + " ý)" : ""))); lines.push(""); }
     lines.push(s.weak.length ? "Cần ôn lại:" : "Chưa có chủ điểm nào dưới 70%.");
     s.weak.forEach(t => lines.push("- " + t.topic + ": đúng " + pct(t.acc) + "% (" + t.right + "/" + t.n + " ý)"));
     lines.push("", "Chủ điểm khác:");

@@ -130,7 +130,9 @@
         store(d); return { ok: true, attempt: row.attempt };
       }
       case "myPlays": return { ok: true, plays: d.plays.filter(x => x.name === name).slice(-200).reverse(), subs: d.subs.filter(x => x.name === name).slice(-200).reverse() };
-      case "report": needT(); return { ok: true, plays: d.plays, subs: d.subs, answers: d.answers.slice(-8000) };
+      case "report": needT(); return { ok: true, plays: d.plays, subs: d.subs, answers: d.answers.slice(-8000).map(a => { const r = Object.assign({}, a); delete r.sec; delete r.no; delete r.ans; delete r.key; return r; }) };
+      /* chi tiết từng câu của MỘT bài nộp: phần, câu, em chọn gì, đáp án đúng (khớp với apps-script hwDetail) */
+      case "hwDetail": needT(); return { ok: true, answers: d.answers.filter(a => a.source === "hw" && a.sourceId === b.id && L.sameName(a.name, b.student) && String(a.attempt) === String(b.attempt)) };
       case "studentList": needT(); return { ok: true, roster: rosterOn, list: d.students.map(s => ({ name: s.name, code: s.code, active: s.active !== false, note: s.note || "" })) };
       case "studentSave": {
         needT(); const items = b.list || [];

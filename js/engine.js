@@ -156,9 +156,18 @@
   }
 
   const BLANK = /\[\[(.+?)\]\](?:\{([^}]*)\})?/g;
+  /** như blocks(raw,"perLine") nhưng dòng EXP:/TOPIC: đứng riêng ngay sau một dòng sẽ đi kèm dòng đó (trước đây bị bỏ mất) */
+  function fillBlocks(raw) {
+    const out = [];
+    blocks(raw, "perLine").forEach(b => {
+      if (out.length && b.length === 1 && (META.expl.test(b[0]) || META.topic.test(b[0]))) out[out.length - 1] = out[out.length - 1].concat(b);
+      else out.push(b);
+    });
+    return out;
+  }
   function parseFill(raw, type) {
     const questions = [], errors = []; let bank = null, pend = "";
-    blocks(raw, "perLine").forEach((b, i) => {
+    fillBlocks(raw).forEach((b, i) => {
       const m = takeMeta(b, ["topic", "expl", "bank", "img"]);
       if (m.bank) { bank = (bank || []).concat(m.bank.split(/[,;]/).map(s => s.trim()).filter(Boolean)); }
       if (!m.rest.length) { if (m.img) pend = m.img; return; }
@@ -249,6 +258,8 @@
     const questions = [], errors = []; let pend = "";
     lines(raw).filter(l => l.trim()).forEach((l, i) => {
       let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
+      if ((mi = l.match(META.expl))) { if (questions.length) questions[questions.length - 1].expl = mi[1]; return; }
+      if ((mi = l.match(META.topic))) { if (questions.length) questions[questions.length - 1].topic = mi[1]; return; }
       const p = l.split("|"); const body = stripNum(p[0]); const hint = (p[1] || "").trim();
       const chunks = (body.includes("/") ? body.split("/") : body.split(/\s+/)).map(s => s.trim()).filter(Boolean);
       if (chunks.length < 2) { errors.push("Dòng " + (i + 1) + ": cần ít nhất 2 từ/cụm"); pend = ""; return; }
@@ -360,27 +371,46 @@
     const v = st.v;
     if (L.gx && L.gx.hasQ(q.type)) return L.gx.grade(q, st);
     const lab = s => String(s).replace(/^\s*img\s*:\s*/i, "🖼 ").replace(/\s+/g, " ").slice(0, 90);
+    /* Mỗi ý trả về: ok, label (đề) + ans (em đã chọn/gõ) + key (đáp án đúng) -> dùng cho báo cáo chi tiết của cô */
+    const NOPICK = "(chưa chọn)", NOFILL = "(bỏ trống)";
+    const optLine = (o, i) => LET[i] + ". " + String(o.t).replace(/\s+/g, " ");
+    const picked = idx => idx.slice().sort((a, b) => a - b).filter(i => q.opts[i]).map(i => optLine(q.opts[i], i)).join(" ; ");
+    const keyOpts = () => q.opts.map((o, i) => o.ok ? optLine(o, i) : null).filter(Boolean).join(" ; ");
+    /* đề chung chung kiểu "Choose the correct answer." (câu ngữ âm, chọn từ...) thì kèm các đáp án để cô biết câu nào */
+    const mcqLab = () => { const s = String(q.stem || "").trim(); return (s.length >= 25 && !/^(choose|mark|select)\b[^?]*\b(answer|word|letter)\b/i.test(s)) ? lab(s) : lab(s) + "  [" + q.opts.map(optLine).join("   ") + "]"; };
+    const TFT = x => x === true ? "Đúng" : x === false ? "Sai" : NOPICK;
+    /* câu có nhiều chỗ trống (bài đọc điền chỗ trống): chỉ lấy đoạn quanh chỗ trống thứ i, các chỗ trống khác điền sẵn đáp án */
+    const fillCtx = i => {
+      let bi = -1, before = "", after = "", hit = false;
+      q.parts.forEach(p => { if (p.k === "t") { if (hit) after += p.s; else before += p.s; } else { bi++; if (bi === i) hit = true; else if (hit) after += p.answers[0]; else before += p.answers[0]; } });
+      before = before.replace(/\s+/g, " "); after = after.replace(/\s+/g, " ");
+      /* cắt ở ranh giới chữ (không cắt giữa từ); tổng ≤ 90 ký tự để lab() không cắt thêm */
+      if (before.length > 46) before = "…" + before.slice(-46).replace(/^\S*\s/, "");
+      if (after.length > 32) after = after.slice(0, 32).replace(/\s\S*$/, "") + "…";
+      return before + "___" + after;
+    };
     switch (q.type) {
-      case "mcq1": { const ok = v != null && v >= 0 && !!q.opts[v] && q.opts[v].ok; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
-      case "mcqN": { const want = q.opts.map((o, i) => o.ok ? i : -1).filter(i => i >= 0); const ok = sameSet(v || [], want); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
-      case "tf": { const ok = v === q.answer; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
-      case "tf4": { const items = q.subs.map((s, i) => ({ ok: v[i] === s.answer, label: lab(s.t) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "mcq1": { const ok = v != null && v >= 0 && !!q.opts[v] && q.opts[v].ok; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: mcqLab(), ans: v != null && v >= 0 && q.opts[v] ? optLine(q.opts[v], v) : NOPICK, key: keyOpts() }] }; }
+      case "mcqN": { const want = q.opts.map((o, i) => o.ok ? i : -1).filter(i => i >= 0); const ok = sameSet(v || [], want); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: mcqLab(), ans: (v || []).length ? picked(v) : NOPICK, key: keyOpts() }] }; }
+      case "tf": { const ok = v === q.answer; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem), ans: TFT(v), key: TFT(q.answer) }] }; }
+      case "tf4": { const items = q.subs.map((s, i) => ({ ok: v[i] === s.answer, label: lab(s.t), ans: TFT(v[i]), key: TFT(s.answer) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "fill": case "fillhint": case "fillchoose": case "fillbank": {
-        const items = blanksOf(q).map((b, i) => ({ ok: !!v[i] && b.answers.some(a => norm(a) === norm(v[i])), label: lab(q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0] }));
+        const bs = blanksOf(q);
+        const items = bs.map((b, i) => ({ ok: !!v[i] && b.answers.some(a => norm(a) === norm(v[i])), label: lab(bs.length > 1 ? fillCtx(i) : q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0], ans: v[i] ? String(v[i]) : NOFILL, key: b.answers.join(" / ") }));
         return { got: items.filter(x => x.ok).length, max: items.length, items };
       }
-      case "short": { const ok = !!v && q.answers.some(a => norm(a) === norm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
+      case "short": { const ok = !!v && q.answers.some(a => norm(a) === norm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem), ans: v ? String(v) : NOFILL, key: q.answers.join(" / ") }] }; }
       case "wordpick": {
         const want = q.toks.map((t, i) => t.ok ? i : -1).filter(i => i >= 0);
         const right = (v || []).filter(i => want.includes(i)).length, wrong = (v || []).length - right;
-        const items = want.map(i => ({ ok: (v || []).includes(i), label: q.toks[i].w }));
-        (v || []).filter(i => !want.includes(i)).forEach(i => items.push({ ok: false, label: "chọn nhầm: " + q.toks[i].w }));
+        const items = want.map(i => ({ ok: (v || []).includes(i), label: q.toks[i].w, ans: (v || []).includes(i) ? q.toks[i].w : "(không chọn)", key: q.toks[i].w }));
+        (v || []).filter(i => !want.includes(i)).forEach(i => items.push({ ok: false, label: "chọn nhầm: " + q.toks[i].w, ans: q.toks[i].w, key: "(không phải đáp án)" }));
         return { got: Math.max(0, right - wrong), max: want.length, items };
       }
-      case "match": { const items = q.pairs.map((p, i) => ({ ok: !!v[i] && norm(v[i]) === norm(p.r), label: lab(p.l) + " = " + p.r })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-      case "order": { const items = q.items.map((t, i) => ({ ok: v[i] === i, label: lab(t) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-      case "sentence": { const ok = v.length === q.chunks.length && norm(v.map(i => q.chunks[i]).join(" ")) === norm(q.chunks.join(" ")); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.chunks.join(" ")) }] }; }
-      case "classify": { const items = q.items.map((it, i) => ({ ok: v[i] === it.c, label: lab(it.t) + " → " + q.cats[it.c] })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "match": { const items = q.pairs.map((p, i) => ({ ok: !!v[i] && norm(v[i]) === norm(p.r), label: lab(p.l) + " = " + p.r, ans: v[i] ? String(v[i]) : "(chưa ghép)", key: p.r })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "order": { const items = q.items.map((t, i) => ({ ok: v[i] === i, label: lab(t), ans: v[i] != null && q.items[v[i]] != null ? q.items[v[i]] : "(trống)", key: t })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "sentence": { const ok = v.length === q.chunks.length && norm(v.map(i => q.chunks[i]).join(" ")) === norm(q.chunks.join(" ")); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.chunks.join(" ")), ans: v.length ? v.map(i => q.chunks[i]).join(" ") : "(chưa sắp xếp)", key: q.chunks.join(" ") }] }; }
+      case "classify": { const items = q.items.map((it, i) => ({ ok: v[i] === it.c, label: lab(it.t) + " → " + q.cats[it.c], ans: v[i] >= 0 && q.cats[v[i]] != null ? q.cats[v[i]] : NOPICK, key: q.cats[it.c] })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
     }
     return { got: 0, max: 0, items: [] };
   }
@@ -616,16 +646,39 @@
     ];
   }
 
+  /** Thẻ của một phần. Bài đọc hiểu (có đoạn văn dài + câu trắc nghiệm/đúng sai/trả lời ngắn): đoạn văn được GHIM
+      cạnh các câu hỏi (2 cột trên màn hình rộng, dính ở đầu trang trên điện thoại, có nút thu gọn) để học sinh không phải kéo lên kéo xuống.
+      Các phần khác giữ nguyên như cũ. body = các node câu hỏi (vd. renderSection(...)). */
+  const SPLIT_TYPES = { mcq1: 1, mcqN: 1, tf: 1, tf4: 1, short: 1 };
+  const SPLIT_MIN = 160;   // đoạn văn từ ngần này ký tự trở lên mới ghim
+  function sectionCard(sec, idx, all, ...body) {
+    const head = sectionHeader(sec, idx, all);   // [tiêu đề, nút "xem lại đoạn văn", nội dung chung, media]
+    const len = String(sec.desc || "").replace(/\s+/g, " ").length;
+    if (!SPLIT_TYPES[sec.type] || len < SPLIT_MIN || !head[2]) return h("div.card.sec", head, body);
+    const toggle = h("button.pass-toggle", { type: "button", onclick: e => {
+      const col = e.currentTarget.closest(".pass-col"); col.classList.toggle("min");
+      e.currentTarget.textContent = col.classList.contains("min") ? "▼ Mở đoạn văn" : "▲ Thu gọn";
+    } }, "▲ Thu gọn");
+    return h("div.card.sec.split", head[0],
+      h("div.split-body", h("aside.pass-col", toggle, head[2], head[3]), h("div.q-col", head[1], body)));
+  }
+
   /** chấm cả bài: rts = [runtime]; trả {got,max,secs:[{title,got,max}], items:[{qid,topic,ok,q}]} */
   function gradeAll(rts) {
-    let got = 0, max = 0; const items = [], secs = [];
+    let got = 0, max = 0, no = 1; const items = [], secs = [];
     rts.forEach(rt => {
       let sg = 0, sm = 0;
-      rt.qs.forEach(q => {
+      if (rt.sec.numFresh) no = 1;                    // đánh số câu giống lúc học sinh làm bài
+      rt.qs.forEach((q, qi) => {
         const r = grade(q, rt.sts[q.id]);
         sg += r.got; sm += r.max;
-        r.items.forEach((it, k) => items.push({ qid: q.id + "#" + (k + 1), topic: q.topic || rt.sec.topic || "", ok: !!it.ok, q: it.label }));
+        r.items.forEach((it, k) => items.push({
+          qid: q.id + "#" + (k + 1), topic: q.topic || rt.sec.topic || "", ok: !!it.ok, q: it.label,
+          sec: rt.sec.title || "", no: String(no + qi) + (r.items.length > 1 ? "." + (k + 1) : ""),   // phần nào, câu số mấy (câu nhiều ý: 5.1, 5.2…)
+          ans: it.ans == null ? "" : String(it.ans), key: it.key == null ? "" : String(it.key)       // em chọn gì / đáp án đúng
+        }));
       });
+      no += rt.qs.length;
       got += sg; max += sm; secs.push({ title: rt.sec.title, got: sg, max: sm });
     });
     return { got, max, secs, items };
@@ -657,5 +710,5 @@
     ].filter((x, i) => x !== "" || i > 1).join("\n");
   }
 
-  L.hw = { TYPES, TYPE, parseSection, initState, keyState, grade, view, buildRuntime, keyRuntime, renderSection, sectionHeader, mediaNode, gradeAll, countItems, aiPrompt };
+  L.hw = { TYPES, TYPE, parseSection, initState, keyState, grade, view, buildRuntime, keyRuntime, renderSection, sectionHeader, sectionCard, mediaNode, gradeAll, countItems, aiPrompt };
 })(window.LSE);
