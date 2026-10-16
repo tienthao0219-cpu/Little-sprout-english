@@ -184,6 +184,131 @@ window.LSE = window.LSE || {};
     }, { wide: true, sticky: true });
   }
 
+  /* ================= Biến một bài từ vựng thành các bài GAME =================
+     Lấy các cặp từ-nghĩa trong bài (ghép cặp, trắc nghiệm định nghĩa, xếp chữ, nhìn nghĩa chọn từ…),
+     cô tích chọn từ và loại game, app tạo BẢN NHÁP bài mới gồm các game (lật thẻ, tìm từ, ô chữ, xếp chữ cái…). */
+  const isEn = t => /[A-Za-z]/.test(t || "") && !/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/i.test(t || "");
+  const wc = s => String(s).trim().split(/\s+/).length;
+  const clean1 = s => String(s == null ? "" : s).replace(/<\/?u>/g, "").replace(/\*\*/g, "").replace(/\s+/g, " ").replace(/^[\s*•\-–]+/, "").replace(/[\s.,;:!?]+$/, "").trim();
+  const META_LINE = /^(IMG|HÌNH|HINH|PIC|AUDIO|LEVEL|TASK|YÊU CẦU|YEU CAU|EXP|EXPL|EXPLAIN|GIẢI THÍCH|TOPIC|CHỦ ĐIỂM|BANK|ANS|ĐÁP ÁN)\s*[:：]/i;
+
+  function vocabPairs(hw) {
+    const out = [], seen = new Set();
+    const add = (word, hint, img) => {
+      word = clean1(word); hint = clean1(hint);
+      if (!word || word.length > 40 || /^[\d\s]+$/.test(word)) return;
+      const k = word.toLowerCase(); if (seen.has(k)) return; seen.add(k);
+      out.push({ word, hint, img: img || "" });
+    };
+    (hw.sections || []).forEach(sec => {
+      const raw = String(sec.raw || "").replace(/\r/g, ""), t = sec.type, lines = raw.split("\n").map(l => l.trim()).filter(Boolean);
+      if (t === "match" || t === "memory") {
+        lines.forEach(l => {
+          if (META_LINE.test(l) && !/^img\s*:[^=]*=/i.test(l)) return; const m = l.match(/^(.+?)\s*=\s*(.+)$/); if (!m) return;
+          const a = m[1].trim(), b = m[2].trim(), im = a.match(/^img\s*:\s*(.+)$/i);
+          if (im) { add(b, "", "img:" + im[1].trim()); return; }
+          if (isEn(a) && !isEn(b)) add(a, b); else if (!isEn(a) && isEn(b)) add(b, a); else if (wc(a) <= wc(b)) add(a, b); else add(b, a);
+        });
+      } else if (t === "meanpick") {
+        let img = "";
+        lines.forEach(l => { const mi = l.match(/^(?:IMG|HÌNH|HINH|PIC)\s*[:：]\s*(.+)$/i); if (mi) { img = "img:" + mi[1].trim(); return; } if (META_LINE.test(l)) return; const m = l.match(/^(.+?)\s*=>\s*([^|]+)/); if (m) add(m[2], /^what is this\??$/i.test(m[1].trim()) ? "" : m[1], img); img = ""; });
+      } else if (["scramble", "wordsearch", "crossword", "listen"].includes(t)) {
+        let img = "";
+        lines.forEach(l => {
+          const mi = l.match(/^(?:IMG|HÌNH|HINH|PIC)\s*[:：]\s*(.+)$/i); if (mi) { img = "img:" + mi[1].trim(); return; }
+          if (META_LINE.test(l)) return;
+          if (t === "wordsearch" && !l.includes("|") && l.includes(",")) { l.split(",").forEach(w => add(w, "")); img = ""; return; }
+          const p = l.split("|"); add(p[0], t === "listen" ? "" : p[1], img); img = "";
+        });
+      } else if (t === "mcq1") {
+        L.hw.parseSection(sec).questions.forEach(q => {
+          const ok = (q.opts || []).find(o => o.ok); if (!ok) return; const w = clean1(ok.t);
+          if (!/^[A-Za-z' -]+$/.test(w) || wc(w) > 3) return;
+          add(w, String(q.stem || "").replace(/_{2,}|\.{3,}|…+/g, "…"), q.img ? "img:" + q.img : "");
+        });
+      }
+    });
+    return out;
+  }
+
+  const GAMES = [
+    { id: "memory", cap: 12, note: "tối đa 12 cặp/bàn", ok: p => !!(p.hint || p.img) },
+    { id: "wordsearch", cap: 10, note: "chỉ từ gồm chữ cái, ≤ 14 chữ, 10 từ/ván", ok: p => /^[A-Za-z]{2,14}$/.test(p.word) },
+    { id: "crossword", cap: 8, note: "cần có gợi ý, 8 từ/ván", ok: p => /^[A-Za-z]{3,14}$/.test(p.word) && !!p.hint },
+    { id: "scramble", cap: 99, note: "xếp lại các chữ cái", ok: p => p.word.length >= 3 },
+    { id: "meanpick", cap: 99, note: "cần có gợi ý nghĩa/hình, từ 4 từ trở lên", ok: p => !!(p.hint || p.img) },
+    { id: "listen", cap: 99, note: "học sinh bấm 🔊 nghe rồi chọn từ, từ 4 từ trở lên", ok: p => /^[A-Za-z' -]+$/.test(p.word) }
+  ];
+  const imgLine = p => p.img ? "IMG: " + p.img.replace(/^img:/i, "") + "\n" : "";
+  function gameRaw(id, picks) {
+    const chunk = (arr, n) => { const o = []; for (let i = 0; i < arr.length; i += n) o.push(arr.slice(i, i + n)); return o; };
+    switch (id) {
+      case "memory": return "TASK: Lật thẻ, tìm các cặp giống nhau.\n" + picks.map(p => p.img ? p.img + " = " + p.word : p.word + " = " + p.hint).join("\n");
+      case "wordsearch": return chunk(picks, 10).map(g => "TASK: Tìm các từ sau trong bảng.\n" + g.map(p => p.word + (p.hint ? " | " + p.hint : "")).join("\n")).join("\n\n");
+      case "crossword": return chunk(picks, 8).map(g => "TASK: Điền ô chữ.\n" + g.map(p => p.word + " | " + p.hint).join("\n")).join("\n\n");
+      case "scramble": return picks.map(p => imgLine(p) + p.word + (p.hint ? " | " + p.hint : "")).join("\n");
+      case "meanpick": return picks.map(p => imgLine(p) + (p.hint || "What is this?") + " => " + p.word).join("\n");
+      case "listen": return picks.map(p => p.word).join("\n");
+    }
+    return "";
+  }
+
+  function gameModal(x) {
+    L.modal(close => {
+      const box = h("div", h("h3", { style: "margin:0 0 8px" }, "🎮 Biến thành game"), h("div.empty", h("span.spinner"), " Đang đọc bài…"));
+      const st = { pairs: [], on: {}, games: {}, n: 10, title: "" };
+      const draw = () => {
+        box.innerHTML = "";
+        box.append(h("div.row", h("h3", { style: "margin:0" }, "🎮 Biến thành game"), h("span.grow"), h("button.btn.sm.ghost", { type: "button", onclick: close }, "Đóng")),
+          h("p.small.muted", "Bài nguồn: ", h("b", x.title), ". App lấy các từ trong bài, cô chọn từ và loại game, app tạo bản nháp bài game mới (cô xem lại rồi lưu)."));
+        if (!st.pairs.length) { box.append(h("div.empty", "Bài này chưa có từ vựng nhận ra được. Hãy thử bài từ vựng dạng ghép cặp, trắc nghiệm định nghĩa (đáp án là một từ), xếp chữ hoặc nhìn nghĩa chọn từ.")); return; }
+        const chosen = st.pairs.filter(p => st.on[p.word]);
+        box.append(h("div.row", { style: "margin:6px 0" }, h("b", "1. Chọn từ (" + chosen.length + "/" + st.pairs.length + ")"), h("span.grow"),
+          h("button.btn.sm.ghost", { type: "button", onclick: () => { const all = chosen.length === st.pairs.length; st.pairs.forEach(p => st.on[p.word] = !all); draw(); } }, "Chọn tất cả / bỏ hết")));
+        box.append(h("div.scroll-x", { style: "max-height:210px;overflow:auto" }, h("table.tbl", h("tbody", st.pairs.map(p => h("tr",
+          h("td", h("input", { type: "checkbox", style: "width:18px;height:18px", checked: !!st.on[p.word], onchange: e => { st.on[p.word] = e.target.checked; draw(); } })),
+          h("td", h("b", p.word)), h("td", { style: "font-size:13px" }, (p.img ? "🖼 " : "") + (p.hint || "").slice(0, 70))))))));
+        box.append(h("div.row", { style: "margin:14px 0 4px" }, h("b", "2. Chọn loại game")));
+        GAMES.forEach(g => {
+          const el = chosen.filter(g.ok), need = ["meanpick", "listen"].includes(g.id) ? 4 : 2;
+          const okG = el.length >= need;
+          box.append(h("label.row", { style: "gap:8px;cursor:" + (okG ? "pointer" : "not-allowed") + ";opacity:" + (okG ? 1 : .55) + ";padding:3px 0" },
+            h("input", { type: "checkbox", style: "width:20px;height:20px", disabled: !okG, checked: okG && !!st.games[g.id], onchange: e => { st.games[g.id] = e.target.checked; } }),
+            h("b", ((L.hw.TYPE[g.id] || {}).emoji || "") + " " + ((L.hw.TYPE[g.id] || {}).label || g.id)), h("span.small.muted", " · dùng được " + el.length + " từ · " + g.note)));
+        });
+        const nIn = h("input", { type: "number", min: 4, value: st.n, style: "width:90px", oninput: e => { st.n = Math.max(2, +e.target.value || 10); } });
+        const tIn = h("input", { type: "text", value: st.title, oninput: e => { st.title = e.target.value; } });
+        box.append(h("div.two", { style: "margin-top:10px" }, h("label.field", h("span", "3. Số từ cho mỗi game (lấy ngẫu nhiên)"), nIn), h("label.field", h("span", "Tên bài game"), tIn)),
+          h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn", { type: "button", onclick: make }, "🎮 Tạo bài game")));
+      };
+      const make = () => {
+        const chosen = st.pairs.filter(p => st.on[p.word]), secs = [], notes = [];
+        GAMES.forEach(g => {
+          if (!st.games[g.id]) return;
+          const el = chosen.filter(g.ok); if (!el.length) return;
+          const picks = L.shuffle(el).slice(0, Math.min(st.n, g.id === "memory" ? 12 : 999));
+          const sec = { id: "s" + L.uid("").slice(-5), title: ((L.hw.TYPE[g.id] || {}).label || g.id), type: g.id, desc: "", media: { img: "", audio: "", yt: "" }, raw: gameRaw(g.id, picks), topic: "từ vựng", shuffleQ: false, tfLabels: "en" };
+          const p = L.hw.parseSection(sec);
+          if (!p.questions.length) { notes.push((L.hw.TYPE[g.id] || {}).label + ": chưa tạo được (" + (p.errors[0] || "thiếu từ") + ")"); return; }
+          if (p.errors.length) notes.push((L.hw.TYPE[g.id] || {}).label + ": " + p.errors.length + " dòng bị bỏ qua");
+          secs.push(sec);
+        });
+        if (!secs.length) { toast(notes[0] || "Chưa chọn game nào có đủ từ", 5000); return; }
+        sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: st.title || ("Game – " + x.title), curId: x.curId, unitId: x.unitId || "", sections: secs }));
+        close(); L.go("/teacher/hw-edit/new");
+        toast("Đã tạo bản nháp " + secs.length + " game. Cô xem lại rồi bấm Lưu nhé." + (notes.length ? " (" + notes.join("; ") + ")" : ""), 7000);
+      };
+      L.api.call("hwGet", { id: x.id }).then(r => {
+        st.pairs = vocabPairs(r.hw); st.pairs.forEach(p => st.on[p.word] = true);
+        st.n = Math.min(10, st.pairs.length) || 10; st.title = "Game – " + x.title;
+        GAMES.forEach(g => { st.games[g.id] = ["memory", "wordsearch", "crossword", "scramble"].includes(g.id); });
+        draw();
+      }).catch(e => { box.innerHTML = ""; box.append(h("div.err", "Không đọc được bài: " + e.message)); });
+      return box;
+    }, { wide: true, sticky: true });
+  }
+
   L.mixModal = mixModal;
-  L.mix = { chunksOf, guess, sample, sectionsFrom };
+  L.gameModal = gameModal;
+  L.mix = { chunksOf, guess, sample, sectionsFrom, vocabPairs, gameRaw };
 })(window.LSE);

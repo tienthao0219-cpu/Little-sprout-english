@@ -430,6 +430,7 @@
               menu.append(h("summary.btn.sm.ghost", { title: "Thêm" }, "⋯"), h("div.mm",
                 item("a", { href: "#/hw/" + x.id }, "👀 Xem thử"),
                 item("a", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
+                item("button", { title: "Lấy từ vựng của bài này để tạo các bài game (lật thẻ, tìm từ, ô chữ…)", onclick: () => L.gameModal && L.gameModal(x) }, "🎮 Biến thành game"),
                 item("button", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "🔒 Đóng bài" : "🔓 Mở bài"),
                 h("button.btn.sm.rose", { onclick: async () => { menu.open = false; if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "🗑️ Xoá")));
               return menu;
