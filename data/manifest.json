@@ -42,6 +42,10 @@
         {
           "id": "unit-9-3lng",
           "name": "UNIT 9"
+        },
+        {
+          "id": "unit-10-z6sh",
+          "name": "UNIT 10"
         }
       ]
     },
@@ -215,6 +219,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:35:50.577Z"
+    },
+    {
+      "id": "unit-10-your-day-picture-cards-8q4b",
+      "title": "Unit 10 · Your day - Picture cards",
+      "cur": "starters",
+      "unit": "unit-10-z6sh",
+      "file": "apps/starters/unit-10-z6sh/unit-10-your-day-picture-cards-8q4b.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:37:00.596Z"
     }
   ]
 }
