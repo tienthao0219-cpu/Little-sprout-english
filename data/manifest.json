@@ -66,6 +66,10 @@
         {
           "id": "unit-15-7p87",
           "name": "UNIT 15"
+        },
+        {
+          "id": "review-vocab-mix-19w4",
+          "name": "REVIEW VOCAB MIX"
         }
       ]
     },
@@ -615,6 +619,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:25:56.166Z"
+    },
+    {
+      "id": "starters-vocab-quest-9bdv",
+      "title": "Starters Vocab Quest",
+      "cur": "starters",
+      "unit": "review-vocab-mix-19w4",
+      "file": "apps/starters/review-vocab-mix-19w4/starters-vocab-quest-9bdv.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:28:18.494Z"
     }
   ]
 }
