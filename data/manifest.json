@@ -150,6 +150,10 @@
         {
           "id": "unit-1-ugrc",
           "name": "UNIT 1"
+        },
+        {
+          "id": "unit-5-locs",
+          "name": "UNIT 5"
         }
       ]
     },
@@ -587,6 +591,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:23:55.663Z"
+    },
+    {
+      "id": "jobs-amp-dreams-hub-unit-5-jsq7",
+      "title": "Jobs &amp; Dreams Hub — Unit 5",
+      "cur": "gs5",
+      "unit": "unit-5-locs",
+      "file": "apps/gs5/unit-5-locs/jobs-amp-dreams-hub-unit-5-jsq7.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:24:56.814Z"
     }
   ]
 }
