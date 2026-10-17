@@ -82,6 +82,10 @@
         {
           "id": "review-0759",
           "name": "REVIEW"
+        },
+        {
+          "id": "unit-5-5x5z",
+          "name": "UNIT 5"
         }
       ]
     },
@@ -373,6 +377,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:02:59.298Z"
+    },
+    {
+      "id": "san-khau-ngoi-sao-unit-5-v11-noiz",
+      "title": "Sân Khấu Ngôi Sao – Unit 5 (v11)",
+      "cur": "flyers",
+      "unit": "unit-5-5x5z",
+      "file": "apps/flyers/unit-5-5x5z/san-khau-ngoi-sao-unit-5-v11-noiz.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:19:59.791Z"
     }
   ]
 }
