@@ -102,6 +102,10 @@
         {
           "id": "unit-4-5yam",
           "name": "UNIT 4"
+        },
+        {
+          "id": "unit-8-uu06",
+          "name": "UNIT 8"
         }
       ]
     },
@@ -473,6 +477,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:07:41.564Z"
+    },
+    {
+      "id": "unit-8-sports-day-the-tu-vung-en5p",
+      "title": "Unit 8 · Sports day! - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-8-uu06",
+      "file": "apps/flyers/unit-8-uu06/unit-8-sports-day-the-tu-vung-en5p.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:08:47.100Z"
     }
   ]
 }
