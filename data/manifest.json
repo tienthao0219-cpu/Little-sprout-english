@@ -134,6 +134,10 @@
         {
           "id": "unit-1-lquu",
           "name": "UNIT 1"
+        },
+        {
+          "id": "unit-3-u4di",
+          "name": "UNIT 3"
         }
       ]
     },
@@ -558,6 +562,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:19:16.328Z"
+    },
+    {
+      "id": "my-week-hub-unit-3-ppmx",
+      "title": "My Week Hub Unit 3",
+      "cur": "gs4",
+      "unit": "unit-3-u4di",
+      "file": "apps/gs4/unit-3-u4di/my-week-hub-unit-3-ppmx.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:22:02.774Z"
     }
   ]
 }
