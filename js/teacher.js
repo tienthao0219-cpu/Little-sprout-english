@@ -187,9 +187,141 @@
   }
 
   /* ---------- Giáo trình & unit ---------- */
+  /* xoá một file trong kho GitHub (cần token); trả false nếu file không còn */
+  gh.delFile = async (path, message) => {
+    const ex = await gh.getFile(path); if (!ex || !ex.sha) return false;
+    await gh.api("/contents/" + path.split("/").map(encodeURIComponent).join("/"), { method: "DELETE", body: { message, sha: ex.sha, branch: gh.cfg().branch } });
+    return true;
+  };
+  /** gỡ app khỏi danh mục; tuỳ chọn xoá luôn file trên GitHub (chỉ khi không còn mục nào dùng chung file đó) */
+  async function deleteApps(ids, deleteFiles, msg) {
+    let removed = [];
+    await editManifest(mm => { removed = (mm.apps || []).filter(a => ids.includes(a.id)); mm.apps = (mm.apps || []).filter(a => !ids.includes(a.id)); }, msg || "Gỡ app");
+    let files = 0, failed = 0;
+    if (deleteFiles && gh.configured()) {
+      const used = new Set((L.state.manifest.apps || []).map(a => a.file));
+      for (const f of [...new Set(removed.map(a => a.file))]) {
+        if (!f || used.has(f) || !/^apps\//.test(f)) continue;
+        try { if (await gh.delFile(f, "Xóa file app")) files++; } catch (e) { failed++; }
+      }
+    }
+    return { removed: removed.length, files, failed };
+  }
+  async function deleteHws(list) { let n = 0; for (const x of list) { try { await L.api.call("hwDelete", { id: x.id }); n++; } catch (e) { console.warn(e); } } L.state.hwList = null; return n; }
+  /** đổi giáo trình / unit của bài tập (hwGet rồi hwSave); curId/unitId = undefined thì giữ nguyên */
+  async function relocateHws(list, curId, unitId) {
+    let n = 0;
+    for (const x of list) { try { const hw = (await L.api.call("hwGet", { id: x.id })).hw; if (curId !== undefined) hw.curId = curId; if (unitId !== undefined) hw.unitId = unitId; await L.api.call("hwSave", { hw }); n++; } catch (e) { console.warn(e); } }
+    L.state.hwList = null; return n;
+  }
+  const nextTint = mm => { const used = new Set(mm.curricula.map(x => x.tint)); for (let k = 0; k < 16; k++) if (!used.has(k)) return k; return mm.curricula.length % 16; };
+  const chk = (label, checked, onchange, sub) => h("label.row", { style: "gap:8px;cursor:pointer;align-items:flex-start;margin:6px 0" }, h("input", { type: "checkbox", style: "width:20px;height:20px;margin-top:2px", checked, onchange: e => onchange(e.target.checked) }), h("span", h("b", label), sub ? h("div.small.muted", sub) : null));
+
   async function tContent(body) {
     let sel = (L.state.manifest.curricula[0] || {}).id;
     let assigns = {}; try { (await L.api.call("appAssignList")).list.forEach(x => assigns[x.appId] = x.names); } catch (e) { console.warn(e); }
+    const picked = new Set();      // các unit đang được tích chọn (để chuyển / xoá nhiều unit cùng lúc)
+    const hwIn = async (curId, unitIds) => { try { return (await L.loadHw(true)).filter(x => x.curId === curId && (!unitIds || unitIds.includes(x.unitId || ""))); } catch (e) { return []; } };
+    const done = (msg) => { toast(msg, 6000); L.state.hwList = null; };
+
+    /* ----- xoá app (một hoặc nhiều) ----- */
+    const deleteAppsModal = (apps, why) => {
+      if (!apps.length) return;
+      const o = { files: gh.configured() };
+      modal(close => h("div", h("h3", { style: "margin:0 0 6px" }, "🗑️ Xóa " + (apps.length === 1 ? "app \"" + apps[0].title + "\"" : apps.length + " app/game")),
+        h("p.small.muted", { style: "margin-top:0" }, why || "App sẽ biến mất khỏi danh mục, học sinh không thấy nữa. Lịch sử chơi và điểm đã lưu vẫn được giữ."),
+        gh.configured() ? chk("Xóa luôn file HTML khỏi GitHub", o.files, v => { o.files = v; }, "Nên chọn để kho nhẹ hơn. Nếu file đó đang được dùng ở mục khác thì app sẽ giữ lại file.") : h("div.hint", "Chưa kết nối GitHub (Cài đặt) nên chỉ gỡ khỏi danh mục trên máy này."),
+        h("div.row", { style: "justify-content:flex-end;margin-top:14px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),
+          h("button.btn.rose", { onclick: async e => { e.target.disabled = true; try { const r = await deleteApps(apps.map(a => a.id), o.files, "Xóa app"); close(); done("Đã xóa " + r.removed + " app" + (r.files ? ", " + r.files + " file trên GitHub" : "") + (r.failed ? " (" + r.failed + " file chưa xóa được)" : "") + " ✓"); } catch (er) { toast(er.message, 6000); e.target.disabled = false; } draw(); } }, "Xóa"))), { sticky: true });
+    };
+
+    /* ----- xoá cả giáo trình ----- */
+    const deleteCurModal = async () => {
+      const c = L.cur(sel); if (!c) return;
+      const apps = L.appsIn(sel), hws = await hwIn(sel), o = { files: gh.configured(), hw: true };
+      modal(close => h("div", h("h3", { style: "margin:0 0 6px" }, "🗑️ Xóa giáo trình \"" + c.name + "\""),
+        h("div.hint", { style: "margin-bottom:8px" }, "Trong giáo trình này đang có: ", h("b", (c.units || []).length + " unit"), " · ", h("b", apps.length + " app/game"), " · ", h("b", hws.length + " bài tập"), "."),
+        chk("Xóa luôn " + apps.length + " app/game", true, () => { }, "Bắt buộc: app/game của giáo trình sẽ biến khỏi danh mục."),
+        gh.configured() ? chk("Xóa các file HTML khỏi GitHub", o.files, v => { o.files = v; }, "Nên chọn để kho nhẹ hơn.") : null,
+        chk("Xóa luôn " + hws.length + " bài tập trong giáo trình", o.hw, v => { o.hw = v; }, "Điểm và bài đã nộp của học sinh vẫn được giữ trong Google Sheet. Bỏ tích thì các bài tập sẽ vẫn còn trong danh sách Bài tập nhưng không thuộc giáo trình nào."),
+        h("p.small", { style: "color:#b43a62;font-weight:800" }, "Không khôi phục được trên web. Cô chắc chắn chứ?"),
+        h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),
+          h("button.btn.rose", { onclick: async e => {
+            e.target.disabled = true;
+            try {
+              const r = await deleteApps(apps.map(a => a.id), o.files, "Xóa giáo trình " + c.name);
+              let nh = 0; if (o.hw) nh = await deleteHws(hws);
+              await editManifest(mm => { mm.curricula = mm.curricula.filter(x => x.id !== c.id); }, "Xóa giáo trình " + c.name);
+              sel = (L.state.manifest.curricula[0] || {}).id; picked.clear(); close();
+              done("Đã xóa giáo trình \"" + c.name + "\" (" + r.removed + " app" + (r.files ? ", " + r.files + " file GitHub" : "") + (o.hw ? ", " + nh + " bài tập" : "") + ") ✓");
+            } catch (er) { toast(er.message, 6000); e.target.disabled = false; }
+            draw();
+          } }, "Xóa giáo trình"))), { sticky: true });
+    };
+
+    /* ----- xoá unit (một hoặc nhiều): giữ nội dung hoặc xoá luôn ----- */
+    const deleteUnitsModal = async ids => {
+      const c = L.cur(sel); if (!c || !ids.length) return;
+      const apps = (L.state.manifest.apps || []).filter(a => a.cur === sel && ids.includes(a.unit)), hws = await hwIn(sel, ids), o = { mode: "keep", files: gh.configured() };
+      const names = (c.units || []).filter(u => ids.includes(u.id)).map(u => u.name);
+      modal(close => { const box = h("div"); const draw2 = () => {
+        box.innerHTML = "";
+        box.append(h("h3", { style: "margin:0 0 6px" }, "🗑️ Xóa " + (names.length === 1 ? "unit \"" + names[0] + "\"" : names.length + " unit")),
+          h("div.hint", { style: "margin-bottom:8px" }, "Bên trong có: ", h("b", apps.length + " app/game"), " · ", h("b", hws.length + " bài tập"), "."),
+          h("label.row", { style: "gap:8px;cursor:pointer;margin:6px 0;align-items:flex-start" }, h("input", { type: "radio", name: "um", style: "width:20px;height:20px;margin-top:2px", checked: o.mode === "keep", onchange: () => { o.mode = "keep"; draw2(); } }), h("span", h("b", "Chỉ xóa unit, giữ nội dung"), h("div.small.muted", "App và bài tập chuyển về \"Chưa phân unit\" của giáo trình này (cô có thể xếp lại sau)."))),
+          h("label.row", { style: "gap:8px;cursor:pointer;margin:6px 0;align-items:flex-start" }, h("input", { type: "radio", name: "um", style: "width:20px;height:20px;margin-top:2px", checked: o.mode === "all", onchange: () => { o.mode = "all"; draw2(); } }), h("span", h("b", "Xóa unit và TẤT CẢ nội dung bên trong"), h("div.small.muted", "Xóa " + apps.length + " app/game và " + hws.length + " bài tập (điểm đã nộp của học sinh vẫn được giữ)."))),
+          o.mode === "all" && gh.configured() ? chk("Xóa luôn file HTML khỏi GitHub", o.files, v => { o.files = v; }) : null,
+          o.mode === "all" ? h("p.small", { style: "color:#b43a62;font-weight:800" }, "Không khôi phục được trên web.") : null,
+          h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),
+            h("button.btn.rose", { onclick: async e => {
+              e.target.disabled = true;
+              try {
+                let msg = "";
+                if (o.mode === "all") { const r = await deleteApps(apps.map(a => a.id), o.files, "Xóa unit"); const nh = await deleteHws(hws); msg = " (đã xóa " + r.removed + " app, " + nh + " bài tập)"; }
+                else if (hws.length) { await relocateHws(hws, undefined, ""); }
+                await editManifest(mm => { const cc = mm.curricula.find(x => x.id === sel); cc.units = (cc.units || []).filter(u => !ids.includes(u.id)); (mm.apps || []).forEach(a => { if (a.cur === sel && ids.includes(a.unit)) a.unit = ""; }); }, "Xóa unit");
+                ids.forEach(i => picked.delete(i)); close(); done("Đã xóa " + names.length + " unit" + msg + " ✓");
+              } catch (er) { toast(er.message, 6000); e.target.disabled = false; }
+              draw();
+            } }, "Xóa")));
+      }; draw2(); return box; }, { sticky: true });
+    };
+
+    /* ----- chuyển unit sang giáo trình khác (hoặc giáo trình mới) ----- */
+    const moveUnitsModal = async ids => {
+      const m0 = L.state.manifest, c = L.cur(sel); if (!c || !ids.length) return;
+      const hws = await hwIn(sel, ids), apps = (m0.apps || []).filter(a => a.cur === sel && ids.includes(a.unit));
+      const others = m0.curricula.filter(x => x.id !== sel), o = { dest: others[0] ? others[0].id : "__new", name: "", emoji: "📚" };
+      const names = (c.units || []).filter(u => ids.includes(u.id)).map(u => u.name);
+      modal(close => { const box = h("div"); const draw2 = () => {
+        box.innerHTML = "";
+        box.append(h("h3", { style: "margin:0 0 6px" }, "📦 Chuyển " + names.length + " unit sang giáo trình khác"),
+          h("div.hint", { style: "margin-bottom:8px" }, "Các unit: ", h("b", names.join(", ")), ". Kèm theo ", h("b", apps.length + " app/game"), " và ", h("b", hws.length + " bài tập"), " trong các unit đó."),
+          h("label.field", h("span", "Chuyển vào"), h("select", { onchange: e => { o.dest = e.target.value; draw2(); } }, others.map(x => h("option", { value: x.id, selected: o.dest === x.id }, (x.emoji || "") + " " + x.name)), h("option", { value: "__new", selected: o.dest === "__new" }, "➕ Tạo giáo trình mới…"))),
+          o.dest === "__new" ? h("div.two", { style: "margin-top:8px" }, h("label.field", h("span", "Tên giáo trình mới (ví dụ: Get Ready for Flyers)"), h("input", { type: "text", value: o.name, oninput: e => { o.name = e.target.value; } })), h("label.field", h("span", "Biểu tượng"), h("input", { type: "text", value: o.emoji, style: "width:80px", oninput: e => { o.emoji = e.target.value; } }))) : null,
+          h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),
+            h("button.btn", { onclick: async e => {
+              if (o.dest === "__new" && !o.name.trim()) { toast("Nhập tên giáo trình mới nhé"); return; }
+              e.target.disabled = true;
+              try {
+                let destId = o.dest;
+                await editManifest(mm => {
+                  let dest = mm.curricula.find(x => x.id === o.dest);
+                  if (!dest) { dest = { id: slug(o.name) + "-" + uid("").slice(-3), name: o.name.trim(), emoji: o.emoji || "📚", tint: nextTint(mm), units: [] }; mm.curricula.push(dest); }
+                  const src = mm.curricula.find(x => x.id === sel), moving = (src.units || []).filter(u => ids.includes(u.id));
+                  src.units = (src.units || []).filter(u => !ids.includes(u.id)); dest.units = (dest.units || []).concat(moving);
+                  (mm.apps || []).forEach(a => { if (a.cur === sel && ids.includes(a.unit)) a.cur = dest.id; });
+                  destId = dest.id;
+                }, "Chuyển unit sang giáo trình khác");
+                const nh = hws.length ? await relocateHws(hws, destId, undefined) : 0;
+                const destName = (L.cur(destId) || {}).name || "";
+                sel = destId; picked.clear(); close(); done("Đã chuyển " + names.length + " unit (" + apps.length + " app, " + nh + " bài tập) sang \"" + destName + "\" ✓");
+              } catch (er) { toast(er.message, 6000); e.target.disabled = false; }
+              draw();
+            } }, "Chuyển")));
+      }; draw2(); return box; }, { sticky: true });
+    };
+
     const draw = () => {
       body.innerHTML = "";
       const m = L.state.manifest, c = L.cur(sel);
@@ -199,21 +331,33 @@
         h("div.tabs", { style: "margin-top:10px" }, m.curricula.map(x => h("button" + (x.id === sel ? ".on" : ""), { onclick: () => { sel = x.id; draw(); } }, (x.emoji || "") + " " + x.name)))));
       if (!c) return;
       /* tên giáo trình */
-      body.append(h("div.card", h("div.row", h("input", { type: "text", value: c.name, style: "max-width:320px", id: "curName" }), h("button.btn.sm", { onclick: () => { const v = $("#curName").value.trim(); if (v) save(mm => { mm.curricula.find(x => x.id === sel).name = v; }, "Đổi tên giáo trình"); } }, "Đổi tên"))));
+      body.append(h("div.card", h("div.row", h("input", { type: "text", value: c.name, style: "max-width:320px", id: "curName" }), h("button.btn.sm", { onclick: () => { const v = $("#curName").value.trim(); if (v) save(mm => { mm.curricula.find(x => x.id === sel).name = v; }, "Đổi tên giáo trình"); } }, "Đổi tên"), h("span.grow"),
+        h("button.btn.sm.rose", { title: "Xóa cả giáo trình này cùng các unit, app và bài tập bên trong", onclick: () => deleteCurModal() }, "🗑️ Xóa giáo trình"))));
       /* unit */
       const unitCard = h("div.card", h("div.row", h("h3", "Unit / chủ đề của " + c.name), h("span.grow")));
       const nu = h("input", { type: "text", placeholder: "Tên unit mới (do cô đặt)", style: "max-width:340px" });
       unitCard.append(h("div.row", { style: "margin:8px 0" }, nu, h("button.btn.sm", { onclick: () => { const v = nu.value.trim(); if (!v) return; save(mm => { const cc = mm.curricula.find(x => x.id === sel); cc.units = cc.units || []; cc.units.push({ id: slug(v) + "-" + uid("").slice(-4), name: v }); }, "Thêm unit " + v); } }, "+ Thêm unit")));
+      /* chọn nhiều unit để chuyển sang giáo trình khác hoặc xoá cùng lúc */
+      if ((c.units || []).length) unitCard.append(h("div.row", { style: "margin:4px 0 8px;gap:8px;flex-wrap:wrap" },
+        h("button.btn.sm.ghost", { onclick: () => { if (picked.size === c.units.length) picked.clear(); else c.units.forEach(u => picked.add(u.id)); draw(); } }, picked.size === c.units.length ? "Bỏ chọn hết" : "Chọn tất cả unit"),
+        h("span.small.muted", picked.size ? "Đã chọn " + picked.size + " unit:" : "Tích ô vuông bên trái unit để chọn nhiều unit"),
+        picked.size ? h("button.btn.sm.sky", { onclick: () => moveUnitsModal([...picked]) }, "📦 Chuyển sang giáo trình khác…") : null,
+        picked.size ? h("button.btn.sm.rose", { onclick: () => deleteUnitsModal([...picked]) }, "🗑️ Xóa các unit đã chọn…") : null));
       (c.units || []).forEach((u, i) => {
         const nameIn = h("input", { type: "text", value: u.name, style: "flex:1;min-width:160px" });
         const nApps = L.appsIn(sel, u.id).length;
-        unitCard.append(h("div.item", nameIn, h("span.pill", nApps + " app"),
+        const pick = h("input", { type: "checkbox", style: "width:20px;height:20px;flex:none", checked: picked.has(u.id), title: "Chọn unit này", onchange: e => { e.target.checked ? picked.add(u.id) : picked.delete(u.id); draw(); } });
+        unitCard.append(h("div.item", pick, nameIn, h("span.pill", nApps + " app"),
           h("button.btn.sm.ghost", { title: "Lên", disabled: i === 0, onclick: () => save(mm => { const a = mm.curricula.find(x => x.id === sel).units; [a[i - 1], a[i]] = [a[i], a[i - 1]]; }, "Sắp xếp unit") }, "↑"),
           h("button.btn.sm.ghost", { title: "Xuống", disabled: i === (c.units.length - 1), onclick: () => save(mm => { const a = mm.curricula.find(x => x.id === sel).units; [a[i + 1], a[i]] = [a[i], a[i + 1]]; }, "Sắp xếp unit") }, "↓"),
           h("button.btn.sm", { onclick: () => { const v = nameIn.value.trim(); if (v) save(mm => { mm.curricula.find(x => x.id === sel).units[i].name = v; }, "Đổi tên unit"); } }, "Lưu"),
-          h("button.btn.sm.rose", { onclick: async () => { if (nApps && !(await L.confirmBox("Unit này đang có " + nApps + " app. Xoá unit thì các app chuyển về 'Chưa phân unit'. Tiếp tục?", "Xoá unit"))) return; save(mm => { const cc = mm.curricula.find(x => x.id === sel); cc.units.splice(i, 1); (mm.apps || []).forEach(a => { if (a.cur === sel && a.unit === u.id) a.unit = ""; }); }, "Xoá unit"); } }, "Xoá")));
+          h("button.btn.sm.rose", { onclick: () => deleteUnitsModal([u.id]) }, "Xoá")));
       });
       if (!(c.units || []).length) unitCard.append(h("div.empty", "Chưa có unit. Thêm unit đầu tiên ở trên."));
+      /* app chưa xếp vào unit nào (hiện ở giáo trình dưới tên "Chưa phân unit") */
+      const loose = L.appsIn(sel, "");
+      if (loose.length) unitCard.append(h("div.item", { style: "background:#FFF8EA;flex-wrap:wrap" }, h("div.grow", h("b", "Chưa phân unit"), h("div.small.muted", loose.length + " app/game chưa thuộc unit nào: " + loose.map(a => a.title).join(", ").slice(0, 120))),
+        h("button.btn.sm.rose", { onclick: () => deleteAppsModal(loose, "Các app này đang nằm ở mục \"Chưa phân unit\". Xóa thì app biến khỏi danh mục, học sinh không thấy nữa (điểm đã lưu vẫn giữ).") }, "🗑️ Xóa các app này")));
       body.append(unitCard);
       /* app */
       const apps = L.appsIn(sel);
@@ -225,7 +369,7 @@
           h("button.btn.sm", { onclick: () => save(mm => { const x = mm.apps.find(z => z.id === a.id); x.title = t.value.trim() || x.title; if (a._unit !== undefined) x.unit = a._unit; }, "Sửa app") }, "Lưu"),
           h("a.btn.sm.ghost", { href: "#/play/" + a.id }, "Mở"),
           h("button.btn.sm.ghost", { title: "Giao app này cho học viên nào", onclick: () => pickStudents(assigns[a.id] || [], async v => { try { await L.api.call("appAssignSave", { appId: a.id, names: v }); if (v.length) assigns[a.id] = v; else delete assigns[a.id]; toast("Đã lưu ✓"); } catch (e) { toast(e.message, 5000); } draw(); }, "App này chỉ hiện trong danh sách của các học viên được chọn (không chọn ai = tất cả đều thấy). Đây là ẩn trên giao diện, không phải khoá kín.") }, "👥 " + ((assigns[a.id] || []).length ? (assigns[a.id].length + " em") : "Tất cả")),
-          h("button.btn.sm.rose", { onclick: async () => { if (await L.confirmBox("Gỡ \"" + a.title + "\" khỏi danh mục? (File vẫn còn trong kho GitHub, lịch sử chơi không bị xoá.)", "Gỡ")) save(mm => { mm.apps = mm.apps.filter(z => z.id !== a.id); }, "Gỡ app " + a.title); } }, "Gỡ")));
+          h("button.btn.sm.rose", { title: "Xóa app này khỏi danh mục (có thể xóa luôn file)", onclick: () => deleteAppsModal([a]) }, "🗑️ Xóa")));
       });
       if (!apps.length) appCard.append(h("div.empty", "Chưa có app nào.", h("div", h("a.btn.sm", { style: "margin-top:8px", href: "#/teacher/upload" }, "⬆️ Đăng app"))));
       body.append(appCard);
