@@ -211,12 +211,30 @@
   }
 
   /* ---------- unit ---------- */
+  /* ---------- loại tài liệu: app/game HTML, PDF, PowerPoint, video, âm thanh, hình, link YouTube/Drive ---------- */
+  const FILE_KINDS = { html: "app", htm: "app", pdf: "doc", ppt: "doc", pptx: "doc", doc: "doc", docx: "doc", xls: "doc", xlsx: "doc", mp4: "video", webm: "video", mov: "video", m4v: "video", mp3: "audio", m4a: "audio", wav: "audio", ogg: "audio", png: "image", jpg: "image", jpeg: "image", gif: "image", webp: "image" };
+  const extOf = n => { const m = String(n || "").split("?")[0].match(/\.([a-z0-9]+)$/i); return m ? m[1].toLowerCase() : ""; };
+  L.extOf = extOf;
+  L.fileKind = name => FILE_KINDS[extOf(name)] || "";
+  /** loại để hiển thị của một mục trong danh mục: game | app | doc | video | audio | image */
+  L.itemKind = a => a.kind && a.kind !== "app" ? a.kind : (a.url ? "video" : (L.fileKind(a.file) || a.kind || "app"));
+  const KIND_UI = { game: ["🎮", "tint1", "Chơi ▶", "Chưa chơi", "chơi"], app: ["📱", "tint2", "Chơi ▶", "Chưa chơi", "chơi"], doc: ["📄", "tint3", "Xem ▶", "Chưa xem", "xem"], video: ["🎬", "tint4", "Xem ▶", "Chưa xem", "xem"], audio: ["🎧", "tint5", "Nghe ▶", "Chưa nghe", "nghe"], image: ["🖼️", "tint6", "Xem ▶", "Chưa xem", "xem"] };
+  L.kindUI = a => KIND_UI[L.itemKind(a)] || KIND_UI.app;
+  /** link YouTube / Google Drive / Google Slides -> địa chỉ nhúng; null nếu không nhận ra */
+  L.embedUrl = url => {
+    const u = String(url || "").trim(); let m;
+    if ((m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/|live\/))([\w-]{6,})/i))) return "https://www.youtube-nocookie.com/embed/" + m[1];
+    if ((m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/i)) || (m = u.match(/drive\.google\.com\/open\?(?:.*&)?id=([\w-]+)/i))) return "https://drive.google.com/file/d/" + m[1] + "/preview";
+    if ((m = u.match(/docs\.google\.com\/presentation\/d\/([\w-]+)/i))) return "https://docs.google.com/presentation/d/" + m[1] + "/embed?start=false&loop=false";
+    return null;
+  };
   function appItem(a) {
     const mine = (state.plays || []).filter(p => p.appId === a.id);
     const best = mine.length ? Math.max(...mine.map(p => p.max ? Math.round(100 * p.score / p.max) : 0)) : null;
-    return h("div.item", h("div.ic." + (a.kind === "game" ? "tint1" : "tint2"), a.kind === "game" ? "🎮" : "📱"),
-      h("div.grow", h("b", a.title), h("div.small.muted", (a.desc ? a.desc + " · " : "") + (mine.length ? "Đã chơi " + mine.length + " lần" + (best != null && mine.some(p => p.max) ? " · cao nhất " + best + "%" : "") : "Chưa chơi"))),
-      h("a.btn.sm", { href: "#/play/" + a.id }, "Chơi ▶"));
+    const ui = L.kindUI(a);
+    return h("div.item", h("div.ic." + ui[1], ui[0]),
+      h("div.grow", h("b", a.title), h("div.small.muted", (a.desc ? a.desc + " · " : "") + (mine.length ? "Đã " + ui[4] + " " + mine.length + " lần" + (best != null && mine.some(p => p.max) ? " · cao nhất " + best + "%" : "") : ui[3]))),
+      h("a.btn.sm", { href: "#/play/" + a.id }, ui[2]));
   }
   function hwStatus(x) {
     const now = Date.now();
@@ -273,23 +291,50 @@
     const c = cur(app.cur);
     const sess = L.adapters.createSession(app); playSession = sess;
     const badge = h("span.pill", "…");
-    const iframe = h("iframe", { src: app.file, title: app.title, allow: "autoplay; fullscreen; clipboard-write", allowfullscreen: true });
-    const wrap = h("div.frame-wrap", iframe);
+    /* file đã được thay thế (cập nhật) thì thêm ?v= để điện thoại không giữ bản cũ */
+    const bust = u => u + (app.updated ? (u.includes("?") ? "&" : "?") + "v=" + encodeURIComponent(app.updated.replace(/\D/g, "").slice(0, 14)) : "");
+    const kindF = app.url ? "link" : (L.fileKind(app.file) || "app");
+    const absUrl = app.file ? new URL(bust(app.file), location.href).href : app.url;
+    const logView = () => { if (!sess.dirty) { sess.dirty = true; sess.schedule(); } };     // tài liệu/video: ghi một lượt xem
+    let content, wrapNote = "", openLink = null;
+    if (kindF === "app") {
+      const iframe = h("iframe", { src: bust(app.file), title: app.title, allow: "autoplay; fullscreen; clipboard-write", allowfullscreen: true });
+      content = iframe;
+      iframe.addEventListener("load", () => {
+        const name = L.adapters.inject(iframe); sess.adapter = name;
+        badge.className = "pill " + (name ? "mint" : "butter");
+        badge.textContent = name ? "✅ Đang ghi lại kết quả" : "ℹ️ Chỉ ghi lượt chơi";
+        badge.title = name ? "Mỗi câu đúng/sai được lưu để cô xem báo cáo" : "App này chưa gửi chi tiết từng câu về trang web";
+      });
+    } else {
+      badge.className = "pill butter"; badge.textContent = "ℹ️ Chỉ ghi lượt xem";
+      openLink = h("a.btn.sm.ghost", { href: absUrl, target: "_blank", rel: "noopener" }, kindF === "doc" && /\.pdf$/i.test(app.file || "") ? "📄 Mở PDF ở tab mới" : "↗ Mở ở tab mới");
+      if (kindF === "video") { content = h("video", { controls: true, playsinline: true, preload: "metadata", src: bust(app.file), style: "width:100%;max-height:78vh;background:#000;border-radius:14px", onplay: logView }); }
+      else if (kindF === "audio") { content = h("div", { style: "padding:30px 14px;text-align:center" }, h("div", { style: "font-size:64px" }, "🎧"), h("audio", { controls: true, preload: "metadata", src: bust(app.file), style: "width:100%;max-width:560px;margin-top:12px", onplay: logView })); }
+      else if (kindF === "image") { content = h("img", { src: bust(app.file), alt: app.title, style: "max-width:100%;display:block;margin:0 auto;border-radius:12px", onload: logView }); }
+      else if (kindF === "link") {
+        const emb = L.embedUrl(app.url);
+        content = emb ? h("iframe", { src: emb, title: app.title, allow: "autoplay; fullscreen; encrypted-media; picture-in-picture", allowfullscreen: true }) : h("div.empty", "Link này chưa nhúng được, ", h("a", { href: app.url, target: "_blank", rel: "noopener" }, "bấm để mở"));
+        content.addEventListener && content.addEventListener("load", logView);
+      } else {   // doc: PDF mở trực tiếp; PowerPoint/Word/Excel mở qua trình xem Office Online (cần file công khai trên web)
+        const isPdf = /\.pdf$/i.test(app.file || "");
+        content = h("iframe", { src: isPdf ? bust(app.file) : "https://view.officeapps.live.com/op/embed.aspx?src=" + encodeURIComponent(absUrl), title: app.title, allowfullscreen: true });
+        content.addEventListener("load", logView);
+        wrapNote = isPdf ? "Điện thoại không hiện được PDF trong trang? Bấm nút “Mở PDF ở tab mới”." : "Nếu trang trắng, đợi 1–2 phút (web mới đăng) hoặc bấm “Mở ở tab mới” / tải về.";
+      }
+    }
+    const wrap = h("div.frame-wrap", content);
+    if (content.tagName === "VIDEO" || content.tagName === "IMG" || content.tagName === "DIV") wrap.style.height = "auto";
     const exitFull = h("button.btn.sm.ghost.exitfull", { onclick: () => toggle() }, "✕ Thu nhỏ");
     const toggle = () => { const on = wrap.classList.toggle("full"); if (on) wrap.prepend(exitFull); else exitFull.remove(); };
-    iframe.addEventListener("load", () => {
-      const name = L.adapters.inject(iframe); sess.adapter = name;
-      badge.className = "pill " + (name ? "mint" : "butter");
-      badge.textContent = name ? "✅ Đang ghi lại kết quả" : "ℹ️ Chỉ ghi lượt chơi";
-      badge.title = name ? "Mỗi câu đúng/sai được lưu để cô xem báo cáo" : "App này chưa gửi chi tiết từng câu về trang web";
-    });
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
       h("div.player",
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
-          h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
+          openLink, h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
           h("button.btn.sm.mint", { onclick: async () => { await endPlay(); go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); } }, "Lưu & thoát")),
         wrap,
+        wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
         app.desc ? h("div.small.muted", app.desc) : null));
   }
 

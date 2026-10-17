@@ -108,25 +108,59 @@
         h("div.row", { style: "margin-top:14px" }, h("a.btn", { href: "#/teacher/upload" }, "⬆️ Đăng app mới"), h("a.btn.peach", { href: "#/teacher/hw-edit/new" }, "📝 Tạo bài tập"), h("a.btn.sky", { href: "#/teacher/report" }, "📊 Xem báo cáo"))));
   }
 
-  /* ---------- Đăng app ---------- */
+  /* ---------- Đăng app / tài liệu / video ---------- */
+  const flatT = s => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").toLowerCase().replace(/\s+/g, " ").trim();
+  const KIND_LABEL = { app: "App/game HTML", doc: "Tài liệu", video: "Video", audio: "Âm thanh", image: "Hình" };
+  const mbText = n => (n / 1048576).toFixed(n < 1048576 * 10 ? 2 : 1) + " MB";
+  /** hỏi cô khi đăng trùng: thay thế bản cũ / giữ cả hai / huỷ. Trả {mode, entry} hoặc null */
+  function askDup(dups, name, size, m, canReplace) {
+    return new Promise(res => {
+      let which = 0, closed = false;
+      modal(close => {
+        const fin = v => { if (closed) return; closed = true; close(); res(v); };
+        const where = a => { const c = (m.curricula || []).find(x => x.id === a.cur); return (c ? L.curLabel(c) : "?") + (a.unit && c ? " › " + L.unitName(c, a.unit) : ""); };
+        const box = h("div");
+        const draw2 = () => {
+          box.innerHTML = "";
+          box.append(h("h3", { style: "margin:0 0 6px" }, "⚠️ Đã có " + (dups.length > 1 ? dups.length + " mục trùng" : "mục này") + " trong danh mục"),
+            h("div.hint", { style: "margin-bottom:8px" }, "Cô đang đăng ", h("b", name), size != null ? " (" + mbText(size) + ")" : "", ". Danh mục đã có:"),
+            dups.map((a, i) => h("label.row", { style: "gap:8px;cursor:pointer;align-items:flex-start;margin:6px 0;padding:8px;border-radius:12px;background:" + (which === i ? "#EFE8FF" : "#fff") },
+              dups.length > 1 && canReplace ? h("input", { type: "radio", name: "dup", style: "width:18px;height:18px;margin-top:3px", checked: which === i, onchange: () => { which = i; draw2(); } }) : null,
+              h("span", h("b", a.title), h("div.small.muted", where(a) + " · đăng " + fmtDate(a.updated || a.added) + (a.size ? " · " + mbText(a.size) : "") + (size != null && a.size && Math.abs(a.size - size) < 1 ? " · CÙNG DUNG LƯỢNG (có thể giống hệt)" : ""))))),
+            h("p.small", { style: "margin:10px 0 4px" }, canReplace ? "Cô muốn làm gì?" : "Link này đã có. Cô muốn đăng thêm một mục nữa không?"),
+            canReplace ? h("div.small.muted", { style: "margin-bottom:8px" }, "• Thay thế: file mới đè lên file cũ, học sinh vẫn thấy cùng một mục (lịch sử chơi, điểm giữ nguyên).", h("br"), "• Giữ cả hai: thêm một mục mới, tên có thêm “(bản 2)”.") : null,
+            h("div.row", { style: "justify-content:flex-end;margin-top:12px;gap:8px;flex-wrap:wrap" }, h("button.btn.ghost", { onclick: () => fin(null) }, "Hủy"),
+              h("button.btn.sky", { onclick: () => fin({ mode: "both" }) }, "➕ Giữ cả hai"),
+              canReplace ? h("button.btn.rose", { onclick: () => fin({ mode: "replace", entry: dups[which] }) }, "🔄 Thay thế bản cũ") : null));
+        };
+        draw2(); return box;
+      }, { sticky: true });
+    });
+  }
+
   async function tUpload(body) {
-    const m = L.state.manifest;
-    const f = { cur: m.curricula[0] && m.curricula[0].id, unit: "", newUnit: "", title: "", kind: "app", desc: "", file: null };
+    const m = L.state.manifest, MAXMB = 40;
+    const f = { cur: m.curricula[0] && m.curricula[0].id, unit: "", newUnit: "", title: "", kind: "app", desc: "", file: null, link: "" };
     const status = h("div");
-    const drop = h("div.drop", { onclick: () => pick.click() }, h("div", { style: "font-size:34px" }, "📱"), h("b", "Chọn file HTML của app/game"), h("div.small.muted", "Bấm vào đây hoặc kéo thả file .html vào (mỗi lần 1 file)"));
-    const pick = h("input", { type: "file", accept: ".html,.htm,text/html", class: "hidden", onchange: e => setFile(e.target.files[0]) });
+    const dropIdle = () => { drop.innerHTML = ""; drop.append(h("div", { style: "font-size:34px" }, "📤"), h("b", "Chọn file để đăng"), h("div.small.muted", "App/game HTML, PDF, PowerPoint, Word, Excel, video (mp4), ghi âm (mp3, m4a), hình. Bấm vào đây hoặc kéo thả vào (mỗi lần 1 file, tối đa " + MAXMB + " MB)")); };
+    const drop = h("div.drop", { onclick: () => pick.click() });
+    const pick = h("input", { type: "file", accept: ".html,.htm,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx,.mp4,.webm,.mov,.m4v,.mp3,.m4a,.wav,.ogg,.png,.jpg,.jpeg,.gif,.webp", class: "hidden", onchange: e => setFile(e.target.files[0]) });
+    dropIdle();
     drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
     drop.addEventListener("dragleave", () => drop.classList.remove("over"));
     drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]); });
     const titleIn = h("input", { type: "text", placeholder: "Tên hiển thị cho học viên", oninput: e => f.title = e.target.value });
+    const kindBox = h("label.field", h("span", "Loại (chỉ với file HTML)"), h("select", { onchange: e => f.kind = e.target.value }, h("option", { value: "app" }, "📱 App ôn tập"), h("option", { value: "game" }, "🎮 Game")));
     async function setFile(file) {
       if (!file) return;
-      if (!/\.html?$/i.test(file.name)) { toast("Chỉ nhận file .html"); return; }
-      f.file = file;
-      drop.innerHTML = ""; drop.append(h("div", { style: "font-size:30px" }, "✅"), h("b", file.name), h("div.small.muted", (file.size / 1048576).toFixed(2) + " MB · bấm để chọn file khác"));
+      const k = L.fileKind(file.name);
+      if (!k) { toast("Loại file này chưa đăng được. Nhận: HTML, PDF, PowerPoint, Word, Excel, mp4, mp3, m4a, hình.", 6000); return; }
+      if (file.size > MAXMB * 1048576) { toast("File " + mbText(file.size) + " quá lớn (tối đa " + MAXMB + " MB). Video nặng: đăng lên YouTube (chế độ không công khai) rồi dán link vào ô bên dưới.", 9000); return; }
+      f.file = file; kindBox.classList.toggle("hidden", k !== "app");
+      drop.innerHTML = ""; drop.append(h("div", { style: "font-size:30px" }, "✅"), h("b", file.name), h("div.small.muted", mbText(file.size) + " · " + KIND_LABEL[k] + " · bấm để chọn file khác"));
       if (!f.title) {
-        let t = file.name.replace(/\.html?$/i, "").replace(/[_-]+/g, " ");
-        try { const head = await file.slice(0, 30000).text(); const mm = head.match(/<title[^>]*>([^<]{2,80})<\/title>/i); if (mm) t = mm[1].trim(); } catch (e) { }
+        let t = file.name.replace(/\.[a-z0-9]+$/i, "").replace(/[_-]+/g, " ");
+        if (k === "app") { try { const head = await file.slice(0, 30000).text(); const mm = head.match(/<title[^>]*>([^<]{2,80})<\/title>/i); if (mm) t = mm[1].trim(); } catch (e) { } }
         f.title = t; titleIn.value = t;
       }
     }
@@ -136,36 +170,77 @@
       unitBox.append(h("label.field", h("span", "Unit / chủ đề"), selUnit(c, f.unit, v => { f.unit = v; })),
         h("label.field", { style: "margin-top:8px" }, h("span", "Hoặc tạo unit mới (nếu điền ô này, sẽ dùng unit mới)"), h("input", { type: "text", placeholder: "Ví dụ: Unit 3 – Tên unit do cô đặt", value: f.newUnit, oninput: e => f.newUnit = e.target.value })));
     };
+    const reset = () => { f.file = null; f.title = ""; f.newUnit = ""; f.link = ""; titleIn.value = ""; linkIn.value = ""; kindBox.classList.remove("hidden"); dropIdle(); drawUnit(); };
+    const makeUnit = (m2, c) => { let unitId = f.unit; if (f.newUnit.trim()) { unitId = slug(f.newUnit) + "-" + uid("").slice(-4); c.units = c.units || []; c.units.push({ id: unitId, name: f.newUnit.trim() }); } return unitId; };
+    const okBox = (msg, id) => { status.innerHTML = ""; status.append(h("div.ok-box", msg, h("div", { style: "margin-top:8px" }, h("a.btn.sm", { href: "#/play/" + id }, "Xem thử ▶")))); };
     const doUpload = async () => {
-      if (!f.file) { toast("Chọn file HTML trước nhé"); return; }
+      const link = f.link.trim();
+      if (!f.file && !link) { toast("Chọn file hoặc dán link trước nhé"); return; }
       if (!f.title.trim()) { toast("Nhập tên hiển thị"); return; }
-      if (!gh.configured()) { status.innerHTML = ""; status.append(h("div.err", "Chưa kết nối GitHub nên chưa đăng file lên web được. Vào Cài đặt để nhập token, hoặc dùng 'Cách 2' bên dưới nếu cô đã tự kéo file vào GitHub.")); return; }
-      btn.disabled = true; status.innerHTML = ""; status.append(h("div.hint", h("span.spinner"), " Đang đăng lên GitHub… (file lớn có thể mất vài chục giây)"));
+      if (!f.file && !L.embedUrl(link)) { toast("Link chưa nhận ra. Nhận link YouTube, Google Drive (file), Google Slides.", 6000); return; }
+      if (f.file && !gh.configured()) { status.innerHTML = ""; status.append(h("div.err", "Chưa kết nối GitHub nên chưa đăng file lên web được. Vào Cài đặt để nhập token, hoặc dùng 'Cách 2' bên dưới nếu cô đã tự kéo file vào GitHub. (Đăng bằng link YouTube/Drive thì không cần token.)")); return; }
+      btn.disabled = true; status.innerHTML = ""; status.append(h("div.hint", h("span.spinner"), " Đang kiểm tra danh mục…"));
       try {
-        const m2 = await gh.readManifest();
-        const c = m2.curricula.find(x => x.id === f.cur); let unitId = f.unit;
-        if (f.newUnit.trim()) { unitId = slug(f.newUnit) + "-" + uid("").slice(-4); c.units = c.units || []; c.units.push({ id: unitId, name: f.newUnit.trim() }); }
-        const id = slug(f.title) + "-" + uid("").slice(-4);
-        const path = "apps/" + f.cur + "/" + (unitId || "khac") + "/" + id + ".html";
+        const m2 = gh.configured() ? await gh.readManifest() : JSON.parse(JSON.stringify(await L.loadManifest()));
+        const apps = m2.apps = m2.apps || [];
+        /* ---- phát hiện trùng: cùng tên file đã đăng, hoặc cùng tên hiển thị trong giáo trình, hoặc cùng link ---- */
+        const dups = f.file
+          ? apps.filter(a => (a.orig && a.orig.toLowerCase() === f.file.name.toLowerCase()) || (a.cur === f.cur && flatT(a.title) === flatT(f.title)))
+          : apps.filter(a => a.url === link || (a.cur === f.cur && flatT(a.title) === flatT(f.title)));
+        let mode = "new", target = null;
+        if (dups.length) {
+          status.innerHTML = "";
+          const ans = await askDup(dups, f.file ? f.file.name : link, f.file ? f.file.size : null, m2, !!f.file);
+          if (!ans) { btn.disabled = false; return; }
+          mode = ans.mode; target = ans.entry || null;
+          status.append(h("div.hint", h("span.spinner"), " Đang đăng lên GitHub… (file lớn có thể mất vài chục giây)"));
+        } else { status.innerHTML = ""; status.append(h("div.hint", h("span.spinner"), f.file ? " Đang đăng lên GitHub… (file lớn có thể mất vài chục giây)" : " Đang lưu…")); }
+        const nowIso = new Date().toISOString();
+        /* ---- đăng bằng link (YouTube / Drive / Slides) ---- */
+        if (!f.file) {
+          const c = m2.curricula.find(x => x.id === f.cur), unitId = makeUnit(m2, c), id = slug(f.title) + "-" + uid("").slice(-4);
+          let title = f.title.trim(); if (apps.some(a => flatT(a.title) === flatT(title))) { let n = 2; while (apps.some(a => flatT(a.title) === flatT(title + " (bản " + n + ")"))) n++; title += " (bản " + n + ")"; }
+          apps.push({ id, title, cur: f.cur, unit: unitId || "", url: link, kind: /youtu/i.test(link) ? "video" : "doc", desc: f.desc.trim(), added: nowIso });
+          if (gh.configured()) await gh.writeManifest(m2, "Thêm link: " + title); else localStorage.setItem(MK, JSON.stringify(m2));
+          L.state.manifest = m2; okBox("Đã thêm \"" + title + "\" ✓. Học sinh xem được ngay.", id); reset(); btn.disabled = false; return;
+        }
+        /* ---- đăng file ---- */
+        const ext = L.extOf(f.file.name), kF = L.fileKind(f.file.name), kind = kF === "app" ? f.kind : kF;
         const b64 = await L.fileToBase64(f.file);
-        await gh.putFile(path, b64, "Đăng app: " + f.title.trim());
-        m2.apps = m2.apps || []; m2.apps.push({ id, title: f.title.trim(), cur: f.cur, unit: unitId || "", file: path, kind: f.kind, desc: f.desc.trim(), added: new Date().toISOString() });
-        await gh.writeManifest(m2, "Thêm vào danh mục: " + f.title.trim());
-        L.state.manifest = m2;
-        status.innerHTML = ""; status.append(h("div.ok-box", "Đã đăng \"" + f.title.trim() + "\" ✓. GitHub Pages cần khoảng 1–3 phút để cập nhật trang, sau đó học viên mở được. Cô có thể bấm 'Chơi thử' sau ít phút.", h("div", { style: "margin-top:8px" }, h("a.btn.sm", { href: "#/play/" + id }, "Chơi thử ▶"))));
-        f.file = null; f.title = ""; f.newUnit = ""; titleIn.value = ""; drop.innerHTML = ""; drop.append(h("div", { style: "font-size:34px" }, "📱"), h("b", "Chọn file HTML tiếp theo"));
-        drawUnit();
+        if (mode === "replace" && target) {
+          const e = apps.find(a => a.id === target.id), oldPath = e.file;
+          const newPath = oldPath && L.extOf(oldPath) === ext ? oldPath : "apps/" + e.cur + "/" + (e.unit || "khac") + "/" + e.id + "." + ext;
+          await gh.putFile(newPath, b64, "Cập nhật file: " + e.title);
+          if (oldPath && newPath !== oldPath) { try { await gh.delFile(oldPath, "Xóa file cũ của " + e.title); } catch (er) { } }
+          Object.assign(e, { file: newPath, orig: f.file.name, size: f.file.size, kind, updated: nowIso }); delete e.url;
+          if (f.desc.trim()) e.desc = f.desc.trim();
+          await gh.writeManifest(m2, "Cập nhật app: " + e.title);
+          L.state.manifest = m2; okBox("Đã thay thế bản cũ của \"" + e.title + "\" ✓. Học sinh mở lại sẽ thấy bản mới sau khoảng 1–3 phút (GitHub Pages cập nhật).", e.id);
+        } else {
+          const c = m2.curricula.find(x => x.id === f.cur), unitId = makeUnit(m2, c), id = slug(f.title) + "-" + uid("").slice(-4);
+          let title = f.title.trim();
+          if (mode === "both" && apps.some(a => flatT(a.title) === flatT(title))) { let n = 2; while (apps.some(a => flatT(a.title) === flatT(title + " (bản " + n + ")"))) n++; title += " (bản " + n + ")"; }
+          const path = "apps/" + f.cur + "/" + (unitId || "khac") + "/" + id + "." + ext;
+          await gh.putFile(path, b64, "Đăng " + (kF === "app" ? "app" : "tài liệu") + ": " + title);
+          apps.push({ id, title, cur: f.cur, unit: unitId || "", file: path, kind, orig: f.file.name, size: f.file.size, desc: f.desc.trim(), added: nowIso });
+          await gh.writeManifest(m2, "Thêm vào danh mục: " + title);
+          L.state.manifest = m2; okBox("Đã đăng \"" + title + "\" ✓. GitHub Pages cần khoảng 1–3 phút để cập nhật trang, sau đó học viên mở được. Cô có thể bấm 'Xem thử' sau ít phút.", id);
+        }
+        reset();
       } catch (e) { status.innerHTML = ""; status.append(h("div.err", e.message)); }
       btn.disabled = false;
     };
     const btn = h("button.btn", { style: "margin-top:14px", onclick: doUpload }, "⬆️ Đăng lên web");
-    body.append(h("div.card", h("h3", { style: "margin-bottom:10px" }, "Đăng app / game HTML"), pick, drop,
+    const linkIn = h("input", { type: "text", placeholder: "https://youtu.be/…  hoặc link Google Drive / Google Slides", oninput: e => f.link = e.target.value.trim() });
+    body.append(h("div.card", h("h3", { style: "margin-bottom:10px" }, "Đăng app, game, tài liệu, video"), pick, drop,
       h("div.two", { style: "margin-top:12px" },
-        h("label.field", h("span", "Giáo trình"), selCur(m, f.cur, v => { f.cur = v; f.unit = ""; drawUnit(); })),
-        h("label.field", h("span", "Loại"), h("select", { onchange: e => f.kind = e.target.value }, h("option", { value: "app" }, "📱 App ôn tập"), h("option", { value: "game" }, "🎮 Game")))),
+        h("label.field", h("span", "Giáo trình"), selCur(m, f.cur, v => { f.cur = v; f.unit = ""; drawUnit(); })), kindBox),
       h("div", { style: "margin-top:8px" }, unitBox),
       h("label.field", { style: "margin-top:8px" }, h("span", "Tên hiển thị"), titleIn),
       h("label.field", { style: "margin-top:8px" }, h("span", "Mô tả ngắn (không bắt buộc)"), h("input", { type: "text", placeholder: "Ví dụ: Ôn từ vựng và so sánh hơn", oninput: e => f.desc = e.target.value })),
+      h("details.fold", h("summary", "Hoặc dán link YouTube / Google Drive thay vì tải file lên (video dài, nặng)"),
+        h("p.small.muted", { style: "margin:8px 0" }, "Video nặng nên đăng lên YouTube ở chế độ “Không công khai” (Unlisted), rồi dán link vào đây. Link Google Drive phải để chế độ “Bất kỳ ai có đường liên kết đều xem được”. Khi dán link thì không cần chọn file ở trên."), linkIn),
+      h("div.hint", { style: "margin-top:10px" }, h("div", h("b", "Lưu ý: ")), h("div", "• PowerPoint (.pptx) mở qua trình xem Office Online, nên dưới khoảng 10 MB; cách chắc nhất là xuất PowerPoint ra PDF rồi đăng PDF."), h("div", "• Video mp4 nên dưới 40 MB (nén bớt hoặc dùng YouTube). Ghi âm mp3/m4a thường rất nhẹ."), h("div", "• Nếu tên file hoặc tên hiển thị trùng một mục đã có, web sẽ hỏi cô muốn thay thế hay giữ cả hai.")),
       btn, status));
     drawUnit();
 
@@ -180,8 +255,11 @@
       h("label.field", { style: "margin-top:8px" }, h("span", "Tên hiển thị"), h("input", { type: "text", oninput: e => g.title = e.target.value })),
       h("label.field", { style: "margin-top:8px" }, h("span", "Đường dẫn file trong kho"), h("input", { type: "text", placeholder: "apps/gs8/ten-file.html", oninput: e => g.path = e.target.value.trim() })),
       h("button.btn.sm", { style: "margin-top:10px", onclick: async () => {
-        if (!g.title.trim() || !/^apps\/.+\.html?$/i.test(g.path)) { toast("Cần tên và đường dẫn dạng apps/…/….html"); return; }
-        await editManifest(mm => { mm.apps = mm.apps || []; mm.apps.push({ id: slug(g.title) + "-" + uid("").slice(-4), title: g.title.trim(), cur: g.cur, unit: g.unit, file: g.path, kind: g.kind, desc: "", added: new Date().toISOString() }); }, "Khai báo app: " + g.title);
+        if (!g.title.trim() || !/^apps\/.+\.(html?|pdf|pptx?|docx?|xlsx?|mp4|webm|mov|m4v|mp3|m4a|wav|ogg|png|jpe?g|gif|webp)$/i.test(g.path)) { toast("Cần tên và đường dẫn dạng apps/…/tên-file.html (hoặc .pdf, .pptx, .mp4, .mp3…)"); return; }
+        const dupA = (L.state.manifest.apps || []).filter(a => a.file === g.path || (a.cur === g.cur && flatT(a.title) === flatT(g.title)));
+        if (dupA.length && !(await L.confirmBox("Danh mục đã có mục trùng: " + dupA.map(a => "\"" + a.title + "\"").join(", ") + (dupA.some(a => a.file === g.path) ? " (cùng file)" : " (cùng tên)") + ". Vẫn khai báo thêm để giữ cả hai?", "Giữ cả hai"))) return;
+        const kF = L.fileKind(g.path);
+        await editManifest(mm => { mm.apps = mm.apps || []; mm.apps.push({ id: slug(g.title) + "-" + uid("").slice(-4), title: g.title.trim(), cur: g.cur, unit: g.unit, file: g.path, kind: kF === "app" ? g.kind : kF, desc: "", added: new Date().toISOString() }); }, "Khai báo app: " + g.title);
         toast("Đã khai báo ✓");
       } }, "Khai báo")));
   }
@@ -369,7 +447,7 @@
       apps.forEach(a => {
         const t = h("input", { type: "text", value: a.title, style: "flex:1;min-width:150px" });
         const un = selUnit(c, a.unit, v => { a._unit = v; });
-        appCard.append(h("div.item", { style: "flex-wrap:wrap" }, h("div.ic." + (a.kind === "game" ? "tint1" : "tint2"), a.kind === "game" ? "🎮" : "📱"), t, un,
+        appCard.append(h("div.item", { style: "flex-wrap:wrap" }, h("div.ic." + L.kindUI(a)[1], L.kindUI(a)[0]), t, un,
           h("button.btn.sm", { onclick: () => save(mm => { const x = mm.apps.find(z => z.id === a.id); x.title = t.value.trim() || x.title; if (a._unit !== undefined) x.unit = a._unit; }, "Sửa app") }, "Lưu"),
           h("a.btn.sm.ghost", { href: "#/play/" + a.id }, "Mở"),
           h("button.btn.sm.ghost", { title: "Giao app này cho học viên nào", onclick: () => pickStudents(assigns[a.id] || [], async v => { try { await L.api.call("appAssignSave", { appId: a.id, names: v }); if (v.length) assigns[a.id] = v; else delete assigns[a.id]; toast("Đã lưu ✓"); } catch (e) { toast(e.message, 5000); } draw(); }, "App này chỉ hiện trong danh sách của các học viên được chọn (không chọn ai = tất cả đều thấy). Đây là ẩn trên giao diện, không phải khoá kín.") }, "👥 " + ((assigns[a.id] || []).length ? (assigns[a.id].length + " em") : "Tất cả")),
