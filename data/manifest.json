@@ -86,6 +86,10 @@
         {
           "id": "unit-5-5x5z",
           "name": "UNIT 5"
+        },
+        {
+          "id": "unit-6-5365",
+          "name": "UNIT 6"
         }
       ]
     },
@@ -387,6 +391,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:19:59.791Z"
+    },
+    {
+      "id": "job-tycoon-co-ty-phu-nghe-nghiep-aamo",
+      "title": "Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp",
+      "cur": "flyers",
+      "unit": "unit-6-5365",
+      "file": "apps/flyers/unit-6-5365/job-tycoon-co-ty-phu-nghe-nghiep-aamo.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:24:10.605Z"
     }
   ]
 }
