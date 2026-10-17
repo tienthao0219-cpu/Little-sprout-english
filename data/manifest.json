@@ -94,6 +94,10 @@
         {
           "id": "unit-1-tfka",
           "name": "UNIT 1"
+        },
+        {
+          "id": "unit-2-hjhd",
+          "name": "UNIT 2"
         }
       ]
     },
@@ -435,6 +439,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T04:55:54.778Z"
+    },
+    {
+      "id": "unit-2-going-to-town-the-tu-vung-b8nw",
+      "title": "Unit 2 · Going to town - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-2-hjhd",
+      "file": "apps/flyers/unit-2-hjhd/unit-2-going-to-town-the-tu-vung-b8nw.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T04:57:08.563Z"
     }
   ]
 }
