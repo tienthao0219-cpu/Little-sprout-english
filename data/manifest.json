@@ -34,6 +34,10 @@
         {
           "id": "unit-7-xvix",
           "name": "UNIT 7"
+        },
+        {
+          "id": "unit-8-m3r2",
+          "name": "UNIT 8"
         }
       ]
     },
@@ -187,6 +191,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:33:46.168Z"
+    },
+    {
+      "id": "unit-8-in-the-playground-picture-cards-czm6",
+      "title": "Unit 8 · In the playground - Picture cards",
+      "cur": "starters",
+      "unit": "unit-8-m3r2",
+      "file": "apps/starters/unit-8-m3r2/unit-8-in-the-playground-picture-cards-czm6.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:34:47.030Z"
     }
   ]
 }
