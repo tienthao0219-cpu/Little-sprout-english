@@ -30,6 +30,10 @@
         {
           "id": "unit-6-vi86",
           "name": "UNIT 6"
+        },
+        {
+          "id": "unit-7-xvix",
+          "name": "UNIT 7"
         }
       ]
     },
@@ -173,6 +177,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:32:45.320Z"
+    },
+    {
+      "id": "unit-7-we-love-school-picture-cards-jrxi",
+      "title": "Unit 7 · We love school! - Picture cards",
+      "cur": "starters",
+      "unit": "unit-7-xvix",
+      "file": "apps/starters/unit-7-xvix/unit-7-we-love-school-picture-cards-jrxi.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:33:46.168Z"
     }
   ]
 }
