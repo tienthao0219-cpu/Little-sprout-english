@@ -146,7 +146,12 @@
       "name": "Global Success 5",
       "emoji": "📗",
       "tint": 3,
-      "units": []
+      "units": [
+        {
+          "id": "unit-1-ugrc",
+          "name": "UNIT 1"
+        }
+      ]
     },
     {
       "id": "gs7",
@@ -572,6 +577,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:22:02.774Z"
+    },
+    {
+      "id": "unit-1-hub-6tfh",
+      "title": "Unit 1 Hub",
+      "cur": "gs5",
+      "unit": "unit-1-ugrc",
+      "file": "apps/gs5/unit-1-ugrc/unit-1-hub-6tfh.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:23:55.663Z"
     }
   ]
 }
