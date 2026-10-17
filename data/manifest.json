@@ -96,8 +96,8 @@
           "name": "UNIT 1"
         },
         {
-          "id": "unit-2-hjhd",
-          "name": "UNIT 2"
+          "id": "unit-3-6gj1",
+          "name": "UNIT 3"
         }
       ]
     },
@@ -441,14 +441,14 @@
       "added": "2026-10-17T04:55:54.778Z"
     },
     {
-      "id": "unit-2-going-to-town-the-tu-vung-b8nw",
-      "title": "Unit 2 · Going to town - Thẻ từ vựng",
+      "id": "unit-3-eating-out-the-tu-vung-9c0q",
+      "title": "Unit 3 · Eating out - Thẻ từ vựng",
       "cur": "flyers",
-      "unit": "unit-2-hjhd",
-      "file": "apps/flyers/unit-2-hjhd/unit-2-going-to-town-the-tu-vung-b8nw.html",
+      "unit": "unit-3-6gj1",
+      "file": "apps/flyers/unit-3-6gj1/unit-3-eating-out-the-tu-vung-9c0q.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-10-17T04:57:08.563Z"
+      "added": "2026-10-17T04:58:04.206Z"
     }
   ]
 }
