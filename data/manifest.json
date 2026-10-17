@@ -90,6 +90,10 @@
         {
           "id": "unit-6-5365",
           "name": "UNIT 6"
+        },
+        {
+          "id": "unit-6-nbrz",
+          "name": "UNIT 6"
         }
       ]
     },
@@ -401,6 +405,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:24:10.605Z"
+    },
+    {
+      "id": "rut-go-dream-jobs-d7wz",
+      "title": "Rút Gỗ Dream Jobs",
+      "cur": "flyers",
+      "unit": "unit-6-nbrz",
+      "file": "apps/flyers/unit-6-nbrz/rut-go-dream-jobs-d7wz.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:25:09.497Z"
     }
   ]
 }
