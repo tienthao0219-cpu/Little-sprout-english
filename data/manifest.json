@@ -26,6 +26,10 @@
         {
           "id": "unit-5-g55q",
           "name": "UNIT 5"
+        },
+        {
+          "id": "unit-6-vi86",
+          "name": "UNIT 6"
         }
       ]
     },
@@ -159,6 +163,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:20:51.412Z"
+    },
+    {
+      "id": "unit-6-look-at-us-picture-cards-rua3",
+      "title": "Unit 6 · Look at us! - Picture cards",
+      "cur": "starters",
+      "unit": "unit-6-vi86",
+      "file": "apps/starters/unit-6-vi86/unit-6-look-at-us-picture-cards-rua3.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:32:45.320Z"
     }
   ]
 }
