@@ -333,6 +333,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T03:56:38.548Z"
+    },
+    {
+      "id": "dress-up-boutique-b8ft",
+      "title": "Dress-Up Boutique",
+      "cur": "starters",
+      "unit": "unit-5-g55q",
+      "file": "apps/starters/unit-5-g55q/dress-up-boutique-b8ft.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T03:57:43.394Z"
     }
   ]
 }
