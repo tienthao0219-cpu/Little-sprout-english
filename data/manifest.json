@@ -353,6 +353,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:00:29.911Z"
+    },
+    {
+      "id": "alphabet-grand-prix-racing-hv5e",
+      "title": "Alphabet Grand Prix - Racing",
+      "cur": "starters",
+      "unit": "unit-5-g55q",
+      "file": "apps/starters/unit-5-g55q/alphabet-grand-prix-racing-hv5e.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:02:06.624Z"
     }
   ]
 }
