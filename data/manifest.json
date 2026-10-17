@@ -130,7 +130,12 @@
       "name": "Global Success 4",
       "emoji": "📘",
       "tint": 1,
-      "units": []
+      "units": [
+        {
+          "id": "unit-1-lquu",
+          "name": "UNIT 1"
+        }
+      ]
     },
     {
       "id": "gs5",
@@ -543,6 +548,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:16:51.459Z"
+    },
+    {
+      "id": "english-4-hub-unit-1-my-friends-eufz",
+      "title": "English 4 Hub — Unit 1: My Friends",
+      "cur": "gs4",
+      "unit": "unit-1-lquu",
+      "file": "apps/gs4/unit-1-lquu/english-4-hub-unit-1-my-friends-eufz.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:19:16.328Z"
     }
   ]
 }
