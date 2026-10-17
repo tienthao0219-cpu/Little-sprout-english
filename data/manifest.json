@@ -54,6 +54,10 @@
         {
           "id": "unit-12-2pxd",
           "name": "UNIT 12"
+        },
+        {
+          "id": "unit-13-mq6c",
+          "name": "UNIT 13"
         }
       ]
     },
@@ -257,6 +261,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:39:06.818Z"
+    },
+    {
+      "id": "unit-13-going-to-the-zoo-picture-cards-ijun",
+      "title": "Unit 13 · Going to the zoo - Picture cards",
+      "cur": "starters",
+      "unit": "unit-13-mq6c",
+      "file": "apps/starters/unit-13-mq6c/unit-13-going-to-the-zoo-picture-cards-ijun.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:40:48.649Z"
     }
   ]
 }
