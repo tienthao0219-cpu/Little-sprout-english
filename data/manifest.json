@@ -363,6 +363,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:02:06.624Z"
+    },
+    {
+      "id": "monster-factory-unit-7-7vdn",
+      "title": "Monster Factory · Unit 7",
+      "cur": "starters",
+      "unit": "unit-7-xvix",
+      "file": "apps/starters/unit-7-xvix/monster-factory-unit-7-7vdn.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:02:59.298Z"
     }
   ]
 }
