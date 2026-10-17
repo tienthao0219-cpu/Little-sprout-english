@@ -415,6 +415,16 @@
       "kind": "game",
       "desc": "",
       "added": "2026-10-17T04:25:09.497Z"
+    },
+    {
+      "id": "rut-go-dream-jobs-bwd6",
+      "title": "Rút Gỗ Dream Jobs",
+      "cur": "flyers",
+      "unit": "unit-6-5365",
+      "file": "apps/flyers/unit-6-5365/rut-go-dream-jobs-bwd6.html",
+      "kind": "game",
+      "desc": "",
+      "added": "2026-10-17T04:26:36.844Z"
     }
   ]
 }
