@@ -38,6 +38,10 @@
         {
           "id": "unit-8-m3r2",
           "name": "UNIT 8"
+        },
+        {
+          "id": "unit-9-3lng",
+          "name": "UNIT 9"
         }
       ]
     },
@@ -201,6 +205,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:34:47.030Z"
+    },
+    {
+      "id": "unit-9-my-hobbies-picture-cards-mmru",
+      "title": "Unit 9 · My hobbies - Picture cards",
+      "cur": "starters",
+      "unit": "unit-9-3lng",
+      "file": "apps/starters/unit-9-3lng/unit-9-my-hobbies-picture-cards-mmru.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T03:35:50.577Z"
     }
   ]
 }
