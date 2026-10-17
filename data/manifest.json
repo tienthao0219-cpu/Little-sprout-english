@@ -114,6 +114,10 @@
         {
           "id": "unit-10-45mu",
           "name": "UNIT 10"
+        },
+        {
+          "id": "unit-11-toth",
+          "name": "UNIT 11"
         }
       ]
     },
@@ -515,6 +519,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:11:10.420Z"
+    },
+    {
+      "id": "unit-11-our-summer-holidays-the-tu-vung-u8ij",
+      "title": "Unit 11 · Our summer holidays - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-11-toth",
+      "file": "apps/flyers/unit-11-toth/unit-11-our-summer-holidays-the-tu-vung-u8ij.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:12:53.028Z"
     }
   ]
 }
