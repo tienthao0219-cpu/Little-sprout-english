@@ -174,7 +174,7 @@ window.LSE = window.LSE || {};
         toast("Đã tạo bản nháp bài tổng hợp. Cô xem lại rồi bấm Lưu nhé." + (notes.length ? " (" + notes.join("; ") + ")" : ""), 6000);
       };
 
-      const curSel = h("select", { onchange: e => { st.cur = e.target.value; st.units.clear(); st.srcs = null; st.title = ""; drawUnits(); srcBox.innerHTML = ""; catBox.innerHTML = ""; msg.innerHTML = ""; } }, m.curricula.map(c => h("option", { value: c.id, selected: c.id === st.cur }, c.name)));
+      const curSel = h("select", { onchange: e => { st.cur = e.target.value; st.units.clear(); st.srcs = null; st.title = ""; drawUnits(); srcBox.innerHTML = ""; catBox.innerHTML = ""; msg.innerHTML = ""; } }, m.curricula.map(c => h("option", { value: c.id, selected: c.id === st.cur }, L.curLabel ? L.curLabel(c) : c.name)));
       box.append(h("div.row", h("h3", { style: "margin:0" }, "🎲 Tạo bài tổng hợp"), h("span.grow"), h("button.btn.sm.ghost", { type: "button", onclick: close }, "Đóng")),
         h("p.small.muted", "Chọn unit làm nguồn. Hệ thống lấy ngẫu nhiên câu từ các bài tập đã có trong các unit đó, theo số lượng cô nhập cho từng nhóm."),
         h("label.field", h("span", "1. Giáo trình và unit nguồn"), curSel), unitBox,

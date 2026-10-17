@@ -91,7 +91,7 @@
   }
   L.teacherView = teacherView;
 
-  const selCur = (m, val, onchange, withEmpty) => h("select", { onchange: e => onchange(e.target.value) }, withEmpty ? h("option", { value: "" }, withEmpty) : null, m.curricula.map(c => h("option", { value: c.id, selected: c.id === val }, c.name)));
+  const selCur = (m, val, onchange, withEmpty) => h("select", { onchange: e => onchange(e.target.value) }, withEmpty ? h("option", { value: "" }, withEmpty) : null, m.curricula.map(c => h("option", { value: c.id, selected: c.id === val }, L.curLabel ? L.curLabel(c) : c.name)));
   const selUnit = (c, val, onchange) => h("select", { onchange: e => onchange(e.target.value) }, h("option", { value: "", selected: !val }, "Chưa phân unit"), ((c && c.units) || []).map(u => h("option", { value: u.id, selected: u.id === val }, u.name)));
 
   /* ---------- Tổng quan ---------- */
@@ -291,14 +291,15 @@
     const moveUnitsModal = async ids => {
       const m0 = L.state.manifest, c = L.cur(sel); if (!c || !ids.length) return;
       const hws = await hwIn(sel, ids), apps = (m0.apps || []).filter(a => a.cur === sel && ids.includes(a.unit));
-      const others = m0.curricula.filter(x => x.id !== sel), o = { dest: others[0] ? others[0].id : "__new", name: "", emoji: "📚" };
+      const others = m0.curricula.filter(x => x.id !== sel), o = { dest: others[0] ? others[0].id : "__new", name: "", emoji: "📚", group: c.group || c.name || "" };
       const names = (c.units || []).filter(u => ids.includes(u.id)).map(u => u.name);
       modal(close => { const box = h("div"); const draw2 = () => {
         box.innerHTML = "";
         box.append(h("h3", { style: "margin:0 0 6px" }, "📦 Chuyển " + names.length + " unit sang giáo trình khác"),
           h("div.hint", { style: "margin-bottom:8px" }, "Các unit: ", h("b", names.join(", ")), ". Kèm theo ", h("b", apps.length + " app/game"), " và ", h("b", hws.length + " bài tập"), " trong các unit đó."),
-          h("label.field", h("span", "Chuyển vào"), h("select", { onchange: e => { o.dest = e.target.value; draw2(); } }, others.map(x => h("option", { value: x.id, selected: o.dest === x.id }, (x.emoji || "") + " " + x.name)), h("option", { value: "__new", selected: o.dest === "__new" }, "➕ Tạo giáo trình mới…"))),
+          h("label.field", h("span", "Chuyển vào"), h("select", { onchange: e => { o.dest = e.target.value; draw2(); } }, others.map(x => h("option", { value: x.id, selected: o.dest === x.id }, (x.emoji || "") + " " + L.curLabel(x))), h("option", { value: "__new", selected: o.dest === "__new" }, "➕ Tạo giáo trình mới…"))),
           o.dest === "__new" ? h("div.two", { style: "margin-top:8px" }, h("label.field", h("span", "Tên giáo trình mới (ví dụ: Get Ready for Flyers)"), h("input", { type: "text", value: o.name, oninput: e => { o.name = e.target.value; } })), h("label.field", h("span", "Biểu tượng"), h("input", { type: "text", value: o.emoji, style: "width:80px", oninput: e => { o.emoji = e.target.value; } }))) : null,
+          o.dest === "__new" ? h("label.field", { style: "margin-top:8px" }, h("span", "Nhóm (thư mục lớn chứa giáo trình mới, ví dụ: Flyers; để trống nếu không cần)"), h("input", { type: "text", list: "groupList", value: o.group, oninput: e => { o.group = e.target.value; } })) : null,
           h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),
             h("button.btn", { onclick: async e => {
               if (o.dest === "__new" && !o.name.trim()) { toast("Nhập tên giáo trình mới nhé"); return; }
@@ -307,7 +308,7 @@
                 let destId = o.dest;
                 await editManifest(mm => {
                   let dest = mm.curricula.find(x => x.id === o.dest);
-                  if (!dest) { dest = { id: slug(o.name) + "-" + uid("").slice(-3), name: o.name.trim(), emoji: o.emoji || "📚", tint: nextTint(mm), units: [] }; mm.curricula.push(dest); }
+                  if (!dest) { dest = { id: slug(o.name) + "-" + uid("").slice(-3), name: o.name.trim(), emoji: o.emoji || "📚", tint: nextTint(mm), units: [] }; if (o.group.trim()) dest.group = o.group.trim(); mm.curricula.push(dest); }
                   const src = mm.curricula.find(x => x.id === sel), moving = (src.units || []).filter(u => ids.includes(u.id));
                   src.units = (src.units || []).filter(u => !ids.includes(u.id)); dest.units = (dest.units || []).concat(moving);
                   (mm.apps || []).forEach(a => { if (a.cur === sel && ids.includes(a.unit)) a.cur = dest.id; });
@@ -327,11 +328,14 @@
       const m = L.state.manifest, c = L.cur(sel);
       const save = async (fn, msg) => { try { await editManifest(fn, msg); toast("Đã lưu ✓"); } catch (e) { toast(e.message, 5000); } draw(); };
       body.append(h("div.card", h("div.row", h("h3", "Giáo trình"), h("span.grow"),
-        h("button.btn.sm.ghost", { onclick: () => modal(close => { const n = h("input", { type: "text", placeholder: "Tên giáo trình mới" }), e = h("input", { type: "text", value: "📚", style: "width:70px" }); return h("div", h("h3", { style: "margin-bottom:10px" }, "Thêm giáo trình"), h("label.field", h("span", "Tên"), n), h("label.field", { style: "margin-top:8px" }, h("span", "Biểu tượng (emoji)"), e), h("div.row", { style: "justify-content:flex-end;margin-top:14px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"), h("button.btn", { onclick: () => { if (!n.value.trim()) return; close(); sel = slug(n.value) + "-" + uid("").slice(-3); save(mm => mm.curricula.push({ id: sel, name: n.value.trim(), emoji: e.value || "📚", tint: (() => { const used = new Set(mm.curricula.map(x => x.tint)); for (let k = 0; k < 16; k++) if (!used.has(k)) return k; return mm.curricula.length % 16; })(), units: [] }), "Thêm giáo trình " + n.value); } }, "Thêm"))); }) }, "+ Thêm giáo trình")),
-        h("div.tabs", { style: "margin-top:10px" }, m.curricula.map(x => h("button" + (x.id === sel ? ".on" : ""), { onclick: () => { sel = x.id; draw(); } }, (x.emoji || "") + " " + x.name)))));
+        h("button.btn.sm.ghost", { onclick: () => modal(close => { const n = h("input", { type: "text", placeholder: "Tên giáo trình mới" }), e = h("input", { type: "text", value: "📚", style: "width:70px" }), gi = h("input", { type: "text", list: "groupList", value: (L.cur(sel) || {}).group || "", placeholder: "Không bắt buộc, ví dụ: Flyers" }); return h("div", h("h3", { style: "margin-bottom:10px" }, "Thêm giáo trình"), h("label.field", h("span", "Tên"), n), h("label.field", { style: "margin-top:8px" }, h("span", "Nhóm (thư mục lớn chứa giáo trình này; để trống nếu không cần)"), gi),h("label.field", { style: "margin-top:8px" }, h("span", "Biểu tượng (emoji)"), e), h("div.row", { style: "justify-content:flex-end;margin-top:14px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"), h("button.btn", { onclick: () => { if (!n.value.trim()) return; close(); sel = slug(n.value) + "-" + uid("").slice(-3); save(mm => mm.curricula.push({ id: sel, name: n.value.trim(), emoji: e.value || "📚", group: gi.value.trim() || undefined, tint: (() => { const used = new Set(mm.curricula.map(x => x.tint)); for (let k = 0; k < 16; k++) if (!used.has(k)) return k; return mm.curricula.length % 16; })(), units: [] }), "Thêm giáo trình " + n.value); } }, "Thêm"))); }) }, "+ Thêm giáo trình")),
+        h("div.tabs", { style: "margin-top:10px" }, m.curricula.map(x => h("button" + (x.id === sel ? ".on" : ""), { onclick: () => { sel = x.id; picked.clear(); draw(); } }, (x.emoji || "") + " " + L.curLabel(x))),
+          h("datalist#groupList", [...new Set(m.curricula.map(x => x.group).filter(Boolean))].map(g => h("option", { value: g }))))));
       if (!c) return;
       /* tên giáo trình */
-      body.append(h("div.card", h("div.row", h("input", { type: "text", value: c.name, style: "max-width:320px", id: "curName" }), h("button.btn.sm", { onclick: () => { const v = $("#curName").value.trim(); if (v) save(mm => { mm.curricula.find(x => x.id === sel).name = v; }, "Đổi tên giáo trình"); } }, "Đổi tên"), h("span.grow"),
+      body.append(h("div.card", h("div.row", h("input", { type: "text", value: c.name, style: "max-width:320px", id: "curName" }), h("button.btn.sm", { onclick: () => { const v = $("#curName").value.trim(); if (v) save(mm => { mm.curricula.find(x => x.id === sel).name = v; }, "Đổi tên giáo trình"); } }, "Đổi tên"),
+        h("input", { type: "text", list: "groupList", id: "curGroup", value: c.group || "", placeholder: "Nhóm (thư mục lớn), ví dụ: Flyers", title: "Giáo trình cùng nhóm sẽ nằm chung trong một thư mục lớn ở trang chủ. Để trống = không thuộc nhóm nào.", style: "max-width:260px" }),
+        h("button.btn.sm.sky", { onclick: () => { const v = $("#curGroup").value.trim(); save(mm => { const cc = mm.curricula.find(x => x.id === sel); if (v) cc.group = v; else delete cc.group; }, "Đổi nhóm giáo trình"); } }, "Lưu nhóm"), h("span.grow"),
         h("button.btn.sm.rose", { title: "Xóa cả giáo trình này cùng các unit, app và bài tập bên trong", onclick: () => deleteCurModal() }, "🗑️ Xóa giáo trình"))));
       /* unit */
       const unitCard = h("div.card", h("div.row", h("h3", "Unit / chủ đề của " + c.name), h("span.grow")));

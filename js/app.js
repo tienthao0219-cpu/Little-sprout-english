@@ -137,15 +137,39 @@
   const cheer = pct => { const g = CHEERS.find(x => pct >= x[0])[1]; return g[Math.floor(Math.random() * g.length)]; };
   L.cheer = cheer;
 
+  const groupId = c => L.slug(c.group || "");
+  const groupOf = gid => (state.manifest.curricula || []).filter(c => c.group && groupId(c) === gid);
+  const groupCrumb = c => c && c.group ? [h("a", { href: "#/g/" + groupId(c) }, c.group), " › "] : [];
+  L.curLabel = c => (c.group ? c.group + " › " : "") + c.name;
+  function curCard(c, i) {
+    const n = appsIn(c.id).length, u = (c.units || []).length;
+    return h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/c/" + c.id },
+      h("div.em", L.ei(c.emoji || "📚", 44)), h("h3", c.name),
+      h("div.meta", u + " unit · " + n + " app/game"), h("span.go", "→"));
+  }
+  /* trang của một nhóm (thư mục lớn): liệt kê các giáo trình con */
+  async function groupView(gid) {
+    show(spinner()); await loadManifest();
+    const cs = groupOf(gid);
+    if (!cs.length) { show(h("div.card.empty", "Không tìm thấy thư mục này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
+    show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", cs[0].group),
+      h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(cs[0].emoji || "📁", 40), cs[0].group),
+      h("div.grid", cs.map((c, i) => curCard(c, i))));
+  }
+
   async function homeView() {
     show(spinner());
     await loadManifest();
     const m = state.manifest;
-    const cards = (m.curricula || []).map((c, i) => {
-      const n = appsIn(c.id).length, u = (c.units || []).length;
-      return h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/c/" + c.id },
-        h("div.em", L.ei(c.emoji || "📚", 44)), h("h3", c.name),
-        h("div.meta", u + " unit · " + n + " app/game"), h("span.go", "→"));
+    /* giáo trình có "nhóm" (thư mục lớn, ví dụ Flyers) thì trang chủ chỉ hiện một thẻ cho cả nhóm; bấm vào mới thấy các giáo trình con */
+    const cards = [], seenG = new Set();
+    (m.curricula || []).forEach((c, i) => {
+      if (!c.group) { cards.push(curCard(c, i)); return; }
+      const gid = groupId(c); if (seenG.has(gid)) return; seenG.add(gid);
+      const cs = groupOf(gid), nu = cs.reduce((a, x) => a + (x.units || []).length, 0), na = cs.reduce((a, x) => a + appsIn(x.id).length, 0);
+      cards.push(h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/g/" + gid },
+        h("div.em", L.ei(c.emoji || "📁", 44)), h("h3", c.group),
+        h("div.meta", cs.length + " giáo trình · " + nu + " unit · " + na + " app/game"), h("span.go", "→")));
     });
     const statBox = h("div.stats");
     const who = isTeacher() ? "cô " + L.auth.name : L.auth.name;
@@ -181,7 +205,7 @@
     const loose = appsIn(cid, "");
     if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
     show(
-      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", c.name),
+      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
       h("div.row", { style: "margin-bottom:12px" }, h("div.cur.tint" + (c.tint || 0), { style: "min-height:0;padding:10px 18px;cursor:default;flex-direction:row;align-items:center;gap:10px" }, h("span.em", L.ei(c.emoji, 44)), h("h2", c.name)), h("a.btn.sm.peach", { href: "#/map/" + cid }, [L.ei("🗺️", 20), " Bản đồ đảo"])),
       units.length ? h("div.grid", units) : h("div.card.empty", "Giáo trình này chưa có unit nào.", isTeacher() ? h("div", h("a.btn", { style: "margin-top:10px", href: "#/teacher/content" }, "Thêm unit")) : null));
   }
@@ -227,7 +251,7 @@
     const apps = appsIn(cid, real);
     const box = h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), apps.length ? apps.map(appItem) : h("div.empty", "Chưa có app nào trong unit này."));
     const hwBox = h("div.card", h("h3", { style: "margin-bottom:4px" }, "Bài tập"), h("div.empty", h("span.spinner")));
-    show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", h("a", { href: "#/c/" + cid }, c.name), " › ", name),
+    show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), h("a", { href: "#/c/" + cid }, c.name), " › ", name),
       h("h1", { style: "font-size:30px;margin-bottom:12px" }, name), box, hwBox);
     try {
       const list = (await loadHw()).filter(x => x.curId === cid && (x.unitId || "") === real);
@@ -260,7 +284,7 @@
       badge.title = name ? "Mỗi câu đúng/sai được lưu để cô xem báo cáo" : "App này chưa gửi chi tiết từng câu về trang web";
     });
     show(
-      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
+      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
       h("div.player",
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
           h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
@@ -278,7 +302,7 @@
       /* gom theo giáo trình · unit, bài còn làm được lên trước */
       const groups = [], idx = {};
       list.slice().sort((a, b) => (hwStatus(b).can - hwStatus(a).can)).forEach(x => {
-        const c = cur(x.curId), key = (c ? c.name : "Khác") + (c && x.unitId ? " · " + unitName(c, x.unitId) : "");
+        const c = cur(x.curId), key = (c ? L.curLabel(c) : "Khác") + (c && x.unitId ? " · " + unitName(c, x.unitId) : "");
         if (!(key in idx)) { idx[key] = groups.length; groups.push({ key, items: [] }); }
         groups[idx[key]].items.push(x);
       });
@@ -436,6 +460,7 @@
     const p = (location.hash || "#/").replace(/^#/, "").split("?")[0].split("/").filter(Boolean);
     try {
       if (!p.length) return await homeView();
+      if (p[0] === "g" && p[1]) return await groupView(p[1]);
       if (p[0] === "c" && p[1] && p[2] === "u") return await unitView(p[1], p[3] || "_");
       if (p[0] === "c" && p[1]) return await curView(p[1]);
       if (p[0] === "play" && p[1]) return await playView(p[1]);
