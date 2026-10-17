@@ -110,6 +110,10 @@
         {
           "id": "unit-9-uy7c",
           "name": "UNIT 9"
+        },
+        {
+          "id": "unit-10-45mu",
+          "name": "UNIT 10"
         }
       ]
     },
@@ -501,6 +505,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:10:00.481Z"
+    },
+    {
+      "id": "unit-10-a-good-year-the-tu-vung-nekm",
+      "title": "Unit 10 · A good year! - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-10-45mu",
+      "file": "apps/flyers/unit-10-45mu/unit-10-a-good-year-the-tu-vung-nekm.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:11:10.420Z"
     }
   ]
 }
