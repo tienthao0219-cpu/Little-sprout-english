@@ -154,6 +154,10 @@
         {
           "id": "unit-5-locs",
           "name": "UNIT 5"
+        },
+        {
+          "id": "unit-4-o6ek",
+          "name": "UNIT 4"
         }
       ]
     },
@@ -601,6 +605,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:24:56.814Z"
+    },
+    {
+      "id": "free-time-activities-hub-unit-4-omt2",
+      "title": "Free-time Activities Hub Unit 4",
+      "cur": "gs5",
+      "unit": "unit-4-o6ek",
+      "file": "apps/gs5/unit-4-o6ek/free-time-activities-hub-unit-4-omt2.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:25:56.166Z"
     }
   ]
 }
