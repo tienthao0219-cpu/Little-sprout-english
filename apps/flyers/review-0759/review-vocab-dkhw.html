@@ -575,6 +575,11 @@ body.in-game{overflow:hidden}
 .app.game .tile{width:38px;height:44px;font-size:22px;border-width:2px;box-shadow:0 3px 0 #f6bd90}
 .app.game #scr,.app.game .tiles{gap:5px}
 
+
+.topic .utabs{display:flex;flex-wrap:wrap;gap:6px;padding:2px 10px 8px}
+.topic .utabs button{border:2px solid color-mix(in srgb,var(--c) 30%,#fff);background:#fff;color:color-mix(in srgb,var(--c) 70%,#2a2a3a);border-radius:999px;padding:6px 12px;min-height:36px;font-weight:800;font-size:13px;cursor:pointer}
+.topic .utabs button small{opacity:.75;font-weight:900;margin-left:3px}
+.topic .utabs button.on{background:var(--c);border-color:var(--c);color:#fff}
 </style>
 </head>
 <body>
@@ -598,6 +603,10 @@ TOPICS.forEach(t=>{
   });
 });
 const topicById = id => TOPICS.find(t=>t.id===id);
+/* ---- 1 card / 1 unit; các chủ đề nhỏ nằm trong tab ---- */
+const UNITS = (function(){ const m = {}, o = []; TOPICS.forEach(t=>{ if(!m[t.n]){ m[t.n] = {n:t.n, tids:[], first:t}; o.push(m[t.n]); } m[t.n].tids.push(t.id); }); return o; })();
+const UNITN = n => UNITS.find(u=>u.n===n);
+const unitCount = ids => new Set(ids.map(id=>{ const t = topicById(id); return t ? t.n : id; })).size;
 const IMGBASE = 'images/';
 const IMGDATA = null; /*IMGDATA*/   // bản "1 file": build-app.ps1 -Embed thay bằng {tên ảnh: data-URI}
 const HAS_GAMES = true; /*HAS_GAMES*/   // bản "1 file" không có thư mục games\ nên tắt phần Game template
@@ -629,6 +638,10 @@ let store = (function(){
 })();
 if(!Array.isArray(store.sel)) store.sel = [TOPICS[0].id];
 store.sel = store.sel.filter(id=>topicById(id));
+if(!store.subSel || typeof store.subSel!=='object') store.subSel = {};
+const unitIds = u => { const v = store.subSel[u.n]; return (v && u.tids.indexOf(v)>=0) ? [v] : u.tids.slice(); };
+(function(){ const on = new Set(store.sel.map(id=>topicById(id).n)); store.sel = []; UNITS.forEach(u=>{ if(on.has(u.n)) unitIds(u).forEach(id=>store.sel.push(id)); }); })();
+const unitTitleOf = ids => { const t = topicById(ids[0]); if(unitCount(ids)!==1) return unitCount(ids)+' unit'; const u = UNITN(t.n); return 'Unit '+t.n+' · '+t.name+((ids.length<u.tids.length && t.sub) ? ' · '+t.sub : ''); };
 if(!Array.isArray(store.types) || !store.types.length) store.types = Object.keys(TYPES);
 store.types = store.types.filter(t=>TYPES[t] && typeSupported(t));
 if(!store.types.length) store.types = ['en2vi'];
@@ -730,7 +743,7 @@ function pickWords(pool, n){
 /* Số từ mỗi lượt: tick 1 unit = 100% số từ · 2 unit = 80% · 3 unit = 70%. Từ 4 unit trở lên: theo số từ chọn (10 / 20 / 30). */
 const RATIO_RULE = {1:1, 2:0.8, 3:0.7};
 function sessionCount(sel, pool){
-  const r = RATIO_RULE[sel.length];
+  const r = RATIO_RULE[unitCount(sel)];
   if(r) return Math.max(1, Math.min(pool.length, Math.round(pool.length*r)));
   return Math.min(store.size, pool.length);
 }
@@ -794,7 +807,7 @@ const reviewIds = () => WORDS.filter(w=>getP(w.id).rv);
 function startSession(opts){
   opts = opts || {};
   const review = !!opts.ids;
-  const scope = opts.topic ? [opts.topic] : store.sel.slice();     // opts.topic: "Practice unit này"
+  const scope = opts.scope ? opts.scope.slice() : (opts.topic ? [opts.topic] : store.sel.slice());     // opts.topic: "Practice unit này"
   let pool = review ? opts.ids.map(id=>BYID[id]).filter(Boolean) : poolOf(scope);
   if(!pool.length) return;
   if(review && pool.length>store.size) pool = shuffle(pool.slice()).slice(0, store.size);
@@ -803,7 +816,7 @@ function startSession(opts){
   const n = review ? pool.length : sessionCount(scope, pool);
   const words = review ? shuffle(pool.slice()) : pickWords(pool, n);
   S = {
-    n, review, pool, scope, topicOnly: opts.topic||null, types: store.types.filter(typeSupported),
+    n, review, pool, scope, topicOnly: opts.scope ? opts.scope.slice() : (opts.topic ? [opts.topic] : null), types: store.types.filter(typeSupported),
     matchOk: distinctTexts(pool.length>=4 ? pool : WORDS)>=4,
     queue: words.map(w=>({w, attempt:1, avoid:''})),
     idx:0, done:0, score:0, streak:0, best:0, results:{}, prevType:'', startedPoolSize: pool.length,
@@ -1294,18 +1307,23 @@ function renderHome(){
   resumeGame(); S = null; q = null; endG();
   const sel = new Set(store.sel), pool = poolOf(store.sel);
   const total = WORDS.length, mastered = WORDS.filter(w=>getP(w.id).box>=4).length, seenAll = WORDS.filter(w=>getP(w.id).seen>0).length;
-  const n = sessionCount(store.sel, pool), k = store.sel.length;
-  const cards = TOPICS.map(t=>{
-    const ws = wordsOfUnit(t);
+  const n = sessionCount(store.sel, pool), k = unitCount(store.sel);
+  const cards = UNITS.map(u=>{
+    const ids = unitIds(u), t = u.first;
+    const ws = WORDS.filter(w=>w.topics.some(x=>ids.indexOf(x)>=0));
     const seen = ws.filter(w=>getP(w.id).seen>0).length, mas = ws.filter(w=>getP(w.id).box>=4).length, unkN = ws.filter(w=>getP(w.id).unk).length;
-    const on = sel.has(t.id), th = ws.find(w=>w.img);
+    const on = ids.every(id=>sel.has(id)), th = ws.find(w=>w.img);
+    const cnt = tid => WORDS.filter(w=>w.topics.indexOf(tid)>=0).length;
+    const cur = store.subSel[u.n] && u.tids.indexOf(store.subSel[u.n])>=0 ? store.subSel[u.n] : 'all';
+    const tabs = u.tids.length>1 ? `<div class="utabs" role="tablist" aria-label="Chủ đề trong Unit ${u.n}"><button class="${cur==='all'?'on':''}" data-act="pickSub" data-n="${u.n}" data-id="all" role="tab" aria-selected="${cur==='all'}">Tất cả <small>${WORDS.filter(w=>w.topics.some(x=>u.tids.indexOf(x)>=0)).length}</small></button>${u.tids.map(id=>{ const tp = topicById(id); return `<button class="${cur===id?'on':''}" data-act="pickSub" data-n="${u.n}" data-id="${id}" role="tab" aria-selected="${cur===id}">${esc(tp.sub||tp.name)} <small>${cnt(id)}</small></button>`; }).join('')}</div>` : '';
     return `<div class="topic${on?' on':''}" style="--c:${t.color}">
-      <button class="tmain" data-act="toggleTopic" data-id="${t.id}" aria-pressed="${on}">
+      <button class="tmain" data-act="toggleUnit" data-n="${u.n}" aria-pressed="${on}">
         <span class="chk">${on?'✓':''}</span>
-        <span class="row"><span class="ic${th?' thumb':''}">${th?`<img src="${imgOf(th)}" alt="">`:t.icon}</span><span><span class="un">${esc(unitLabel(t))}</span><div class="nm">${esc(t.name)}</div><div class="vi">${esc(t.vi)}</div></span></span>
-        <div class="bar"><i class="seen" style="width:${seen/ws.length*100}%"></i><i class="mas" style="width:${mas/ws.length*100}%"></i></div>
+        <span class="row"><span class="ic${th?' thumb':''}">${th?`<img src="${imgOf(th)}" alt="">`:t.icon}</span><span><span class="un">Unit ${u.n}</span><div class="nm">${esc(t.name)}</div><div class="vi">${esc(t.vi)}</div></span></span>
+        <div class="bar"><i class="seen" style="width:${ws.length?seen/ws.length*100:0}%"></i><i class="mas" style="width:${ws.length?mas/ws.length*100:0}%"></i></div>
         <div class="meta">${ws.length} từ · đã gặp ${seen} · thuộc ${mas}${unkN?` · 🚩 ${unkN}`:''}</div></button>
-      <div class="tacts"><button data-act="flashTopic" data-id="${t.id}">📇 Flashcard</button><button data-act="practiceTopic" data-id="${t.id}">🎯 Practice</button></div></div>`;
+      ${tabs}
+      <div class="tacts"><button data-act="flashUnit" data-n="${u.n}">📇 Flashcard</button><button data-act="practiceUnit" data-n="${u.n}">🎯 Practice</button></div></div>`;
   }).join('');
   const chips = Object.keys(TYPES).map(k=>{
     const off = !typeSupported(k);
@@ -1356,7 +1374,7 @@ function renderHome(){
    ========================================================================== */
 function openFlash(units){
   endG();
-  const single = !!(units && units.length===1);
+  const single = !!(units && units.length && unitCount(units)===1);
   const ids = units && units.length ? units : store.sel.slice();
   const list = poolOf(ids);
   if(!list.length){ toast('Hãy tick ít nhất 1 unit để xem flashcard.'); return; }
@@ -1408,7 +1426,7 @@ function flashCardHtml(){
 }
 function drawFlash(){
   const g = G, n = g.list.length;
-  const title = g.single ? unitLabel(topicById(g.units[0]))+' · '+topicById(g.units[0]).name : g.units.length+' unit';
+  const title = g.single ? unitTitleOf(g.units) : unitCount(g.units)+' unit';
   app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ">🏠</button><div class="gtitle">📇 ${esc(title)} · ${n} từ</div></div>
     <div class="seg"><button class="${g.mode==='grid'?'on':''}" data-act="fcmode" data-m="grid">🖼️ Thẻ ảnh</button><button class="${g.mode==='cards'?'on':''}" data-act="fcmode" data-m="cards">🃏 Từng thẻ</button></div>
     ${g.mode==='grid' ? `<div class="fc-controls"><input id="fcq" class="search" type="search" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt…" value="${esc(g.query)}" autocomplete="off"><button class="chip${g.hide?' on':''}" data-act="fchide">🙈 Ẩn nghĩa tiếng Việt</button><button class="chip${g.unkOnly?' on':''}" data-act="fcunk">🚩 Chỉ từ chưa thuộc</button><button class="chip" data-act="fcall">🔄 Lật / úp tất cả</button></div>
@@ -1462,7 +1480,7 @@ function launchTemplate(key){
   if(pool.length<t.min){ toast(`Game này cần ít nhất ${t.min} từ — hãy tick thêm unit ở trên.`); return; }
   if(t.minImg && new Set(pool.filter(w=>w.img).map(w=>w.w.toLowerCase())).size<t.minImg){ toast(`Game này cần ít nhất ${t.minImg} từ có hình. Hãy tick thêm unit đã có ảnh.`); return; }
   const us = TOPICS.filter(x=>store.sel.indexOf(x.id)>=0);
-  const label = us.length<=3 ? us.map(unitLabel).join(' + ') : us.length+' unit';
+  const ul = [...new Set(us.map(x=>x.n))]; const label = ul.length<=3 ? ul.map(n=>'Unit '+n+' · '+UNITN(n).first.name).join(' + ') : ul.length+' unit';
   const payload = {label, dir:'../../../flyers/flyers-vocabulary-x4d8/images/', home:'../../../flyers/flyers-vocabulary-x4d8/flyers-vocab-quest-r3m9.html', homeKey:'flyers.backHome', words: pool.map(w=>({id:w.id, w:w.w, vi:w.vi, tag:w.tag, say:w.say, img:w.img}))};
   try{ localStorage.setItem('starters.game', JSON.stringify(payload)); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
   toast('Đang mở game… (một số game nặng nên chờ vài giây)');
@@ -1807,6 +1825,10 @@ function blitzEnd(){
 
 /* ---------- Sự kiện ---------- */
 const H = {
+  toggleUnit(el){ const u = UNITN(+el.dataset.n), ids = unitIds(u), on = ids.every(id=>store.sel.indexOf(id)>=0); store.sel = store.sel.filter(id=>u.tids.indexOf(id)<0); if(!on) ids.forEach(id=>store.sel.push(id)); save(); renderHome(); },
+  pickSub(el){ const u = UNITN(+el.dataset.n), was = u.tids.some(id=>store.sel.indexOf(id)>=0); store.subSel[u.n] = el.dataset.id; if(was){ store.sel = store.sel.filter(id=>u.tids.indexOf(id)<0); unitIds(u).forEach(id=>store.sel.push(id)); } save(); renderHome(); },
+  flashUnit(el){ openFlash(unitIds(UNITN(+el.dataset.n))); },
+  practiceUnit(el){ startSession({scope: unitIds(UNITN(+el.dataset.n))}); },
   toggleTopic(el){ const id = el.dataset.id, i = store.sel.indexOf(id); if(i>=0) store.sel.splice(i,1); else store.sel.push(id); save(); renderHome(); },
   selAll(){ store.sel = TOPICS.map(t=>t.id); save(); renderHome(); },
   selNone(){ store.sel = []; save(); renderHome(); },
@@ -1823,7 +1845,7 @@ const H = {
   reviewall(){ const ids = reviewIds().map(w=>w.id); if(ids.length) startSession({ids}); },
   flash(){ openFlash(); },
   flashTopic(el){ openFlash([el.dataset.id]); },
-  flashstart(){ if(G && G.key==='flash'){ if(G.single) startSession({topic:G.units[0]}); else startSession(); } },
+  flashstart(){ if(G && G.key==='flash'){ if(G.single) startSession({scope:G.units}); else startSession(); } },
   fcmode(el){ if(G && G.key==='flash'){ G.mode = el.dataset.m; if(G.mode==='cards'){ G.i = 0; G.flip = false; } drawFlash(); } },
   fchide(){ if(G && G.key==='flash'){ G.hide = !G.hide; drawFlash(); } },
   fcunk(){ if(G && G.key==='flash'){ G.unkOnly = !G.unkOnly; drawFlash(); } },
@@ -1879,7 +1901,7 @@ const H = {
   mR(el){ matchRight(+el.dataset.j); },
   reset(){ if(confirm('Xóa toàn bộ tiến độ và điểm của thiết bị này?')){ store.words = {}; store.sessions = 0; store.xp = 0; save(); renderHome(); } },
   start(){ startSession(); },
-  again(){ startSession(S && S.topicOnly ? {topic:S.topicOnly} : {}); },
+  again(){ startSession(S && S.topicOnly ? {scope:S.topicOnly} : {}); },
   review(){ if(S && S.missedIds && S.missedIds.length) startSession({ids:S.missedIds}); },
   home(){ renderHome(); window.scrollTo(0,0); },
   quit(){ if(confirm('Thoát khỏi lượt chơi? Phần đã làm vẫn được lưu lại.')) renderHome(); },
@@ -1945,7 +1967,7 @@ new MutationObserver(()=>{
 }).observe(app,{childList:true});
 
 /* debug / kiểm tra nhanh trong console */
-window.__vocab = {WORDS, TOPICS, store:()=>store, pickWords, norm, q:()=>q, S:()=>S, G:()=>G};
+window.__vocab = {WORDS, TOPICS, UNITS, store:()=>store, pickWords, norm, q:()=>q, S:()=>S, G:()=>G};
 
 // quay về từ một game template: vào thẳng tab Trò chơi
 let backHome = false;
