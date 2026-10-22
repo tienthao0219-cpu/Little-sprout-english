@@ -216,7 +216,7 @@
     },
     {
       "id": "review-vocab-dkhw",
-      "title": "REVIEW VOCAB",
+      "title": "REVIEW VOCAB (có hình, theo unit)",
       "cur": "flyers",
       "unit": "review-0759",
       "file": "apps/flyers/review-0759/review-vocab-dkhw.html",
@@ -663,6 +663,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-22T14:41:27.000Z"
+    },
+    {
+      "id": "flyers-vocab-quest-q7k2",
+      "title": "REVIEW VOCAB (định nghĩa, theo chủ đề)",
+      "cur": "flyers",
+      "unit": "review-0759",
+      "file": "apps/flyers/review-0759/flyers-vocab-quest-q7k2.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-22T14:42:38.000Z"
     }
   ]
 }
