@@ -100,6 +100,10 @@
           "name": "UNIT 1"
         },
         {
+          "id": "unit-2-hjhd",
+          "name": "UNIT 2"
+        },
+        {
           "id": "unit-3-6gj1",
           "name": "UNIT 3"
         },
@@ -629,6 +633,36 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:32:50.254Z"
+    },
+    {
+      "id": "unit-2-going-to-town-the-tu-vung-b8nw",
+      "title": "Unit 2 · Going to town - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-2-hjhd",
+      "file": "apps/flyers/unit-2-hjhd/unit-2-going-to-town-the-tu-vung-b8nw.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-22T14:41:27.000Z"
+    },
+    {
+      "id": "unit-6-dream-jobs-the-tu-vung-c1xn",
+      "title": "Unit 6 · Dream jobs - Thẻ từ vựng",
+      "cur": "flyers",
+      "unit": "unit-6-5365",
+      "file": "apps/flyers/unit-6-5365/unit-6-dream-jobs-the-tu-vung-c1xn.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-22T14:41:27.000Z"
+    },
+    {
+      "id": "unit-1-i-love-animals-picture-cards-c1p5",
+      "title": "Unit 1 · I love animals! - Picture cards",
+      "cur": "starters",
+      "unit": "unit-1-143s",
+      "file": "apps/starters/unit-1-143s/unit-1-i-love-animals-picture-cards-c1p5.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-22T14:41:27.000Z"
     }
   ]
 }
