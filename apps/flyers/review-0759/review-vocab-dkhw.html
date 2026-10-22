@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Flyers Vocab Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +19,11 @@
   --font-h:'Baloo 2','Nunito',system-ui,sans-serif;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
+html{-webkit-text-size-adjust:100%;touch-action:manipulation;overscroll-behavior-y:none}
+body{-webkit-tap-highlight-color:transparent;overflow-anchor:none}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.45;
   background-image:radial-gradient(circle at 10% 0%,#ffe9bd 0,transparent 45%),radial-gradient(circle at 100% 20%,#d6f3e6 0,transparent 40%);
-  background-attachment:fixed;min-height:100vh}
+  min-height:100vh;min-height:100dvh}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
 button:disabled{cursor:default}
 h1,h2,h3{font-family:var(--font-h);margin:0;line-height:1.15}
@@ -213,7 +214,7 @@ h1,h2,h3{font-family:var(--font-h);margin:0;line-height:1.15}
 .key.bad{background:var(--bad-soft);border-color:var(--bad);opacity:.6}
 .slots.center{justify-content:center;margin:10px 0}
 .slot.lost{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
-.sky{position:relative;height:min(58vh,420px);min-height:320px;border-radius:24px;overflow:hidden;background:linear-gradient(#bfe4ff,#eaf7ff);border:3px solid #b9d3ff;margin-top:10px}
+.sky{position:relative;height:min(58vh,420px);height:min(58dvh,420px);min-height:320px;border-radius:24px;overflow:hidden;background:linear-gradient(#bfe4ff,#eaf7ff);border:3px solid #b9d3ff;margin-top:10px}
 .balloon{position:absolute;bottom:-120px;width:23%;aspect-ratio:.82;border-radius:50% 50% 46% 46%;background:var(--bc);border:0;color:#fff;font-weight:800;font-size:clamp(11px,3.3vw,17px);display:grid;place-items:center;padding:8px;text-shadow:0 1px 2px rgba(0,0,0,.35);box-shadow:inset -8px -10px 0 rgba(0,0,0,.1);animation:rise linear both;word-break:break-word;line-height:1.1}
 @keyframes rise{from{transform:translateY(0)}to{transform:translateY(calc(var(--h) * -1 - 160px))}}
 .balloon.freeze{animation-play-state:paused}
@@ -275,7 +276,7 @@ h1,h2,h3{font-family:var(--font-h);margin:0;line-height:1.15}
 .fc-en{font-family:var(--font-h);font-weight:800;font-size:20px;line-height:1.2}
 .fc-def{color:var(--muted);font-size:13px;line-height:1.3}
 .fc-vi{font-weight:800;color:var(--primary-d);text-align:right;max-width:42%}
-.hidevi .fc-row:not(.show) .fc-vi{filter:blur(7px);user-select:none}
+.hidevi .fc-row:not(.show) .fc-vi{color:transparent;text-shadow:0 0 8px rgba(80,70,120,.55);user-select:none}
 .icon-btn.sm{width:36px;height:36px;font-size:16px;border-width:2px}
 .fcard{background:#fff;border:3px solid var(--line);border-radius:26px;box-shadow:0 6px 0 var(--line);min-height:260px;display:grid;place-content:center;text-align:center;padding:22px;cursor:pointer;margin:10px 0 14px}
 .fcard.flip{background:var(--primary-soft);border-color:var(--primary);box-shadow:0 6px 0 var(--primary)}
@@ -283,7 +284,8 @@ h1,h2,h3{font-family:var(--font-h);margin:0;line-height:1.15}
 .fcard-w.vi{font-size:34px;color:var(--primary-d)}
 .fcard .tip{color:var(--muted);font-size:14px;margin-top:10px}
 /* ===== v3: giao diện pastel nhẹ nhàng ===== */
-body{background-color:#fbf7ff;background-image:radial-gradient(60% 38% at 6% 0%,#ffe6ef 0,transparent 70%),radial-gradient(55% 40% at 100% 6%,#dcefff 0,transparent 70%),radial-gradient(70% 45% at 50% 100%,#e4f8ec 0,transparent 70%);background-attachment:fixed}
+body{background-color:#fbf7ff;background-image:none}
+body::before{content:"";position:fixed;left:0;right:0;top:0;bottom:0;z-index:-1;pointer-events:none;transform:translateZ(0);background:radial-gradient(60% 38% at 6% 0%,#ffe6ef 0,transparent 70%),radial-gradient(55% 40% at 100% 6%,#dcefff 0,transparent 70%),radial-gradient(70% 45% at 50% 100%,#e4f8ec 0,transparent 70%)}
 .btn{border-color:var(--line);box-shadow:0 3px 0 #efe7f7;color:var(--ink)}
 .btn.primary{background:var(--primary);border-color:var(--primary-b);color:#1d4d3e;box-shadow:0 4px 0 var(--primary-b)}
 .btn.primary:active:not(:disabled){box-shadow:0 2px 0 var(--primary-b)}
@@ -347,7 +349,7 @@ body{background-color:#fbf7ff;background-image:radial-gradient(60% 38% at 6% 0%,
 .key.good{background:var(--primary-soft);border-color:var(--primary-b)}
 .key.bad{background:var(--bad-soft);border-color:#ff9fb3}
 .toast{background:#565b7d}
-.overlay{background:rgba(88,84,128,.38);backdrop-filter:blur(3px)}
+.overlay{background:rgba(88,84,128,.5)}
 .rvbox{background:#fff4e6;border-color:#f7d3a8}
 .rt-h{color:#2f7f68}
 .wlist{border-color:#efe7f7}
@@ -368,10 +370,10 @@ body{background-color:#fbf7ff;background-image:radial-gradient(60% 38% at 6% 0%,
 .fc-tile .en{font-family:var(--font-h);font-weight:800;font-size:23px;line-height:1.1;word-break:break-word;margin-top:4px}
 .fc-tile .meaning{font-weight:700;font-size:15.5px;line-height:1.25;color:#566083}
 .fc-tile.speaking{animation:pop .3s}
-.hidevi .fc-tile:not(.show) .meaning{filter:blur(8px);user-select:none}
+.hidevi .fc-tile:not(.show) .meaning{color:transparent;text-shadow:0 0 9px rgba(80,70,120,.55);user-select:none}
 /* trang bìa */
 .on-cover .app{padding-bottom:18px}
-.cover{position:relative;min-height:calc(100vh - 34px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 6px 22px;overflow:hidden}
+.cover{position:relative;min-height:calc(100vh - 34px);min-height:calc(100dvh - 34px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 6px 22px;overflow:hidden}
 .cover .deco{position:absolute;font-size:30px;opacity:.85;animation:floaty 6s ease-in-out infinite;pointer-events:none;user-select:none}
 @keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
 .cover .brand{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #efe7f7;border-radius:999px;padding:5px 16px;font-weight:800;color:#2f7f68;box-shadow:0 3px 0 #efe7f7;position:relative}
@@ -407,6 +409,90 @@ body{background-color:#fbf7ff;background-image:radial-gradient(60% 38% at 6% 0%,
 .fc-hrow .fc-h{margin:14px 0 8px}
 .fc-hrow .btn{padding:8px 14px;font-size:14.5px;border-radius:14px}
 .infobox{background:#e9f2ff;border:3px solid #cfe2ff;border-radius:16px;padding:10px 14px;font-weight:700}
+/* ===================== STARTERS: bảng màu hồng–xanh trời, xinh hơn ===================== */
+:root{--primary:#ffc7dc;--primary-d:#c4487c;--primary-b:#ff9fc4;--primary-soft:#fff0f6;--accent:#ffe29a;--accent-soft:#fff8e3;--blue:#8fd0ff;--blue-soft:#e8f5ff}
+body::before{background:radial-gradient(60% 38% at 6% 0%,#ffe0ee 0,transparent 70%),radial-gradient(55% 40% at 100% 6%,#d6efff 0,transparent 70%),radial-gradient(70% 45% at 50% 100%,#fff3c9 0,transparent 70%)}
+.logo{color:#c4487c}
+.btn.primary{background:var(--primary);border-color:var(--primary-b);color:#7a1f48;box-shadow:0 4px 0 var(--primary-b)}
+.btn.primary:active:not(:disabled){box-shadow:0 2px 0 var(--primary-b)}
+.btn.primary:disabled{background:#f1e6ec;border-color:#e3d3dc;color:#b9a5b0;box-shadow:0 4px 0 #e3d3dc}
+.hero{background:linear-gradient(135deg,#ffe3ee 0%,#e1f2ff 55%,#fff1c4 100%)}
+.hero h1{color:#c4487c}
+.progress i{background:linear-gradient(90deg,#ffb3d0,#a9dcff)}
+.result .big,.rt-h{color:#c4487c}
+.seg button.on,.chip.on{border-color:var(--primary-b);background:var(--primary-soft);color:var(--primary-d)}
+.tabs button.on{border-color:var(--primary-b);background:var(--primary-soft);color:var(--primary-d);box-shadow:0 4px 0 var(--primary-b)}
+.opt.right,.fb.good{background:var(--primary-soft);border-color:var(--primary-b)}
+.slot.ok{background:var(--primary-soft);border-color:var(--primary-b)}
+.cover h1 .a{color:#ff7fb0}.cover h1 .b{color:#4fb4e8}
+.cover .brand{color:#c4487c}
+.ptag{display:inline-block;font-family:var(--font);font-size:.42em;font-weight:800;color:#8a6a85;background:#f6ecf5;border-radius:999px;padding:2px 9px;vertical-align:middle;margin-left:6px;white-space:nowrap;letter-spacing:0}
+
+/* ---------- thẻ unit trên trang chủ ---------- */
+.topic{padding:0;display:flex;flex-direction:column}
+.topic .tmain{display:block;width:100%;text-align:left;padding:12px 12px 6px 14px;border-radius:calc(var(--radius) - 3px)}
+.topic .tmain .nm{padding-right:30px}
+.topic .un{display:inline-block;font-size:12px;font-weight:900;letter-spacing:.5px;color:color-mix(in srgb,var(--c) 85%,#000);background:color-mix(in srgb,var(--c) 16%,#fff);border-radius:999px;padding:1px 9px;margin-bottom:2px}
+.topic .ic.thumb{padding:3px;background:#fff;border:2px solid color-mix(in srgb,var(--c) 30%,#fff)}
+.topic .ic.thumb img{width:100%;height:100%;object-fit:contain}
+.topic .tacts{display:flex;gap:6px;padding:0 10px 10px}
+.topic .tacts button{flex:1;border:2px solid color-mix(in srgb,var(--c) 30%,#fff);background:color-mix(in srgb,var(--c) 9%,#fff);border-radius:12px;padding:6px 4px;font-weight:800;font-size:13.5px;color:color-mix(in srgb,var(--c) 70%,#222)}
+.topic .tacts button:active{transform:translateY(2px)}
+.topic .tmain .bar{margin-top:8px}
+
+/* ---------- ảnh trong câu hỏi ---------- */
+.qpic{display:grid;place-items:center;margin:4px 0 6px}
+.qpic img{width:min(52vw,190px);aspect-ratio:1;object-fit:contain}
+.qpic.sm img{width:min(34vw,110px)}
+.fbrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.fbpic{width:84px;height:84px;object-fit:contain;flex:none}
+.picopts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:6px auto 0;max-width:430px}
+.picopt{position:relative;display:grid;place-items:center;aspect-ratio:1;background:#fff;border:3px solid #efe7f7;border-radius:22px;padding:8px;transition:transform .1s,border-color .1s;box-shadow:0 4px 0 #f1eaf8}
+.picopt:hover:not(:disabled){border-color:var(--blue)}
+.picopt:active:not(:disabled){transform:translateY(2px)}
+.picopt img{width:92%;height:92%;object-fit:contain}
+.picopt b{position:absolute;left:8px;top:8px;width:26px;height:26px;border-radius:8px;background:#f3ecf8;display:grid;place-items:center;font-size:13px;color:var(--muted)}
+.picopt .cap{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-weight:800;font-size:16px;background:rgba(255,255,255,.85);border-radius:10px;margin:0 8px;padding:1px 4px}
+.picopt.right{background:var(--primary-soft);border-color:var(--primary-b)}
+.picopt.wrong{background:var(--bad-soft);border-color:#ff9fb3}
+.picopt.dim{opacity:.55}
+
+/* ---------- nối cặp ---------- */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-top:8px}
+.mcol{display:grid;gap:10px;align-content:start}
+.mbtn{min-height:76px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;background:#fff;border:3px solid #efe7f7;border-radius:18px;padding:6px 8px;font-weight:800;font-size:19px;line-height:1.2;transition:transform .1s;box-shadow:0 4px 0 #f1eaf8;word-break:break-word}
+.mbtn img{width:64px;height:64px;object-fit:contain}
+.mbtn:active:not(:disabled){transform:translateY(2px)}
+.mbtn.sel{border-color:#8fb8f5;background:var(--blue-soft);box-shadow:0 0 0 3px #e0ecff}
+.mbtn.done{background:var(--primary-soft);border-color:var(--primary-b);opacity:.8}
+.mbtn.bad{animation:shake .4s;border-color:#ff9fb3;background:var(--bad-soft)}
+
+/* ---------- flashcard: thẻ lật có ảnh (giống Flip Tiles) ---------- */
+.ft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+@media (max-width:440px){.ft-grid{grid-template-columns:repeat(2,1fr);gap:10px}}
+.ft-item{display:flex;flex-direction:column;gap:6px}
+.ft{position:relative;height:212px;perspective:1000px;cursor:pointer;border-radius:22px;user-select:none;width:100%;display:block}
+.ft-in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.72,.2,1)}
+.ft.flipped .ft-in{transform:rotateY(180deg)}
+.ft-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;overflow:hidden;border:3px solid #fff;outline:3px solid color-mix(in srgb,var(--c) 42%,#fff);box-shadow:0 8px 18px rgba(120,100,160,.14)}
+.ft-front{background:linear-gradient(160deg,#fff,color-mix(in srgb,var(--c) 10%,#fff) 70%,color-mix(in srgb,var(--c) 20%,#fff));display:grid;place-items:center;padding:10px 10px 22px}
+.ft-front img{width:94%;height:100%;max-height:168px;object-fit:contain}
+.ft-front .wtxt{font-family:var(--font-h);font-weight:800;font-size:26px;text-align:center;line-height:1.1;word-break:break-word}
+.ft-front .hint{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:11px;font-weight:900;letter-spacing:.5px;color:color-mix(in srgb,var(--c) 50%,#888)}
+.ft-back{transform:rotateY(180deg);display:grid;place-content:center;justify-items:center;gap:6px;text-align:center;padding:12px;background:radial-gradient(circle at 18px 18px,rgba(255,255,255,.55) 0 3px,transparent 4px) 0 0/36px 36px,linear-gradient(150deg,color-mix(in srgb,var(--c) 88%,#fff),color-mix(in srgb,var(--c) 62%,#ff9cc4))}
+.ft-back .w{font-family:var(--font-h);font-weight:800;font-size:clamp(23px,5vw,30px);line-height:1.05;color:#fff;text-shadow:0 3px 0 rgba(70,50,100,.18);word-break:break-word}
+.ft-back .w .ptag{color:#8a4a70;background:rgba(255,255,255,.88);text-shadow:none}
+.ft-back .mean{font-weight:800;font-size:16px;line-height:1.25;color:#fff;text-shadow:0 2px 0 rgba(70,50,100,.18);background:rgba(255,255,255,.2);border-radius:12px;padding:3px 10px}
+.hidevi .ft-back .mean{display:none}
+.ft-back .snd{margin-top:2px;border:0;border-radius:999px;padding:6px 12px;font-weight:900;font-size:14px;color:#3a6ea6;background:rgba(255,255,255,.95);box-shadow:0 3px 0 rgba(60,70,120,.18)}
+.ft-item.unk .ft-face{outline-color:#ff8fa5}
+.fcard .fcard-img{width:min(60vw,230px);aspect-ratio:1;object-fit:contain;margin:0 auto 6px;display:block}
+.fcard.flip .fcard-w .ptag{background:#fff}
+.mcard img{width:100%;max-height:78px;object-fit:contain}
+.mcard.vi.hasimg{padding:3px}
+.gimg{display:inline-block;width:46px;height:46px;object-fit:contain;vertical-align:middle;margin-right:6px}
+@media (prefers-reduced-motion:reduce){.ft-in{transition:none}.cover .deco,.cover .rocket{animation:none}}
+
 /* ===== v2: vừa khung hình, ảnh to, thanh gọn ===== */
 .app.game{display:flex;flex-direction:column;height:100dvh;max-width:820px;padding:8px 14px calc(8px + env(safe-area-inset-bottom));overflow:hidden;box-sizing:border-box}
 body.in-game{overflow:hidden}
@@ -494,619 +580,58 @@ body.in-game{overflow:hidden}
 <body>
 <noscript>Trò chơi cần bật JavaScript để chạy.</noscript>
 <div id="app" class="app"></div>
-
 <script>
-/* ==========================================================================
-   DỮ LIỆU TỪ VỰNG  —  dễ sửa!
-   Mỗi dòng:  từ tiếng Anh | nghĩa tiếng Việt | định nghĩa tiếng Anh | (các đáp án thay thế, cách nhau bằng dấu phẩy)
-   - Dòng bắt đầu bằng # là ghi chú.
-   - Một từ nằm ở 2 chủ đề: ghi lại dòng "từ | nghĩa" ở chủ đề kia (không cần định nghĩa).
-   - Body / Family / Weather: đã bổ sung đủ từ của cả 3 cấp Starters + Movers + Flyers theo danh sách chủ đề
-     của Cambridge English (Young Learners word list). Dòng "# --- Flyers/Movers/Starters ---" chỉ là ghi chú cấp độ.
-   ========================================================================== */
-const TOPICS = [
-{id:'animals', icon:'🐾', name:'Animals', vi:'Động vật', color:'#f08a24', words:`
-beetle | bọ cánh cứng | A small insect with a hard shell on its back.
-butterfly | con bướm | An insect with big, colourful wings.
-camel | con lạc đà | A big desert animal with one or two humps.
-creature | sinh vật | Any living thing that is not a plant, such as an animal.
-dinosaur | khủng long | A giant animal that lived millions of years ago.
-eagle | đại bàng | A large bird that hunts small animals.
-extinct | tuyệt chủng | No longer alive anywhere in the world.
-fur | lông thú | The soft hair that covers an animal's body.
-insect | côn trùng | A small animal with six legs, like an ant or a bee.
-nest | tổ chim | A home that a bird makes for its eggs.
-octopus | bạch tuộc | A sea animal with eight long arms.
-swan | thiên nga | A big white bird with a long neck that swims on lakes.
-tortoise | rùa cạn | A slow animal with a hard shell that lives on land.
-wild | hoang dã | Living in nature, not looked after by people.
-wing | đôi cánh | A bird uses this part of its body to fly.
-`},
-{id:'body', icon:'👤', name:'The Body & Face', vi:'Cơ thể và khuôn mặt', color:'#e76f51', words:`
-# --- Flyers ---
-elbow | khuỷu tay | The part in the middle of your arm that bends.
-finger | ngón tay | One of the long parts at the end of your hand.
-knee | đầu gối | The part in the middle of your leg that bends.
-toe | ngón chân | One of the small parts at the end of your foot.
-# --- Movers ---
-back | lưng | The part of your body behind you, from your neck down to your waist.
-beard | râu (ở cằm và má) | The hair that grows on a man's chin and cheeks.
-blond | tóc vàng hoe | Having light yellow hair. | blonde
-curly | quăn, xoăn | Having hair that goes round in small circles, not straight.
-fair | sáng màu (tóc, da) | Having light-coloured hair or skin.
-fat | mập, béo | Having a lot of flesh on your body; the opposite of thin.
-moustache | ria mép | The hair that grows above a man's mouth.
-neck | cổ | The part of your body between your head and your shoulders.
-shoulder | vai | The part of your body between your neck and your arm.
-stomach | bụng, dạ dày | The part inside your body where food goes after you eat it.
-thin | gầy, ốm | Not fat; having little flesh on your body.
-tooth | răng (số nhiều: teeth) | One of the hard white things in your mouth that you use to bite food.
-# --- Starters ---
-arm | cánh tay | The long part of your body between your shoulder and your hand.
-body | cơ thể | All the parts of a person or an animal, from the head to the feet.
-ear | tai | One of the two parts on the sides of your head that you use for listening.
-eye | mắt | You see with these two parts of your face.
-face | khuôn mặt | The front part of your head, with your eyes, nose and mouth.
-foot | bàn chân (số nhiều: feet) | The part at the end of your leg that you stand on.
-hair | tóc | The thin threads that grow on your head.
-hand | bàn tay | The part at the end of your arm with five fingers.
-head | đầu | The part of your body above your neck, with your face and brain.
-leg | chân (từ hông xuống) | One of the two long parts of your body that you walk on.
-mouth | miệng | The part of your face that you use to eat and speak.
-nose | mũi | The part of your face that you use to smell things.
-smile | nụ cười, mỉm cười | A happy look on your face when the corners of your mouth go up.
-`},
-{id:'clothes', icon:'👗', name:'Clothes & Accessories', vi:'Trang phục và phụ kiện', color:'#d6559b', words:`
-belt | thắt lưng | You wear this around your waist to hold up your trousers.
-bracelet | vòng đeo tay | A piece of jewellery that you wear around your wrist.
-costume | trang phục hóa trang | Special clothes you wear to look like someone else.
-crown | vương miện | A gold hat with jewels that a king or queen wears.
-glove | găng tay | You wear this on your hand to keep it warm.
-necklace | dây chuyền | A piece of jewellery that you wear around your neck.
-pocket | túi áo, túi quần | A small bag sewn into clothes for keeping small things.
-pyjamas | bộ đồ ngủ | Clothes that you wear in bed.
-ring | chiếc nhẫn | A piece of jewellery that you wear on your finger.
-spot | chấm tròn | A small round mark on a surface.
-spotted | có đốm tròn | Covered with small round marks.
-stripe | kẻ sọc | A long, thin line of colour.
-striped | có sọc | Having long, thin lines of colour.
-sunglasses | kính râm | You wear these over your eyes when the sun is bright.
-trainers | giày thể thao | Soft shoes that you wear to do sport. | sneakers
-umbrella | cái ô, dù | You hold this over your head to stay dry in the rain.
-uniform | đồng phục | Special clothes that everyone at a school or job wears.
-`},
-{id:'colours', icon:'🎨', name:'Colours & Materials', vi:'Màu sắc và chất liệu', color:'#9b5de5', words:`
-gold | vàng / màu vàng kim | A shiny yellow metal that is very valuable.
-silver | bạc / màu bạc | A shiny grey-white metal used for coins and jewellery.
-card | bìa cứng | Thick, stiff paper.
-glass | thủy tinh | A hard, clear material that windows are made of.
-metal | kim loại | A hard, shiny material such as iron or steel.
-plastic | nhựa | A light material made in factories, used for bottles and toys.
-wood | gỗ | The hard material that trees are made of.
-wool | len | Soft thread from sheep that is used to make warm clothes.
-`},
-{id:'family', icon:'👨‍👩‍👧', name:'Family & Friends', vi:'Gia đình và bạn bè', color:'#ef476f', words:`
-# --- Flyers ---
-husband | người chồng | A married man.
-wife | người vợ | A married woman.
-married | đã kết hôn | Having a husband or a wife.
-surname | họ (tên họ) | The name that all the people in a family share.
-# --- Movers ---
-aunt | cô, dì, bác gái | Your mother's or father's sister, or the wife of your uncle.
-daughter | con gái | A girl or woman who is someone's child.
-granddaughter | cháu gái (của ông bà) | The daughter of your son or daughter.
-grandparent | ông hoặc bà | Your mother's or father's mother or father.
-grandson | cháu trai (của ông bà) | The son of your son or daughter.
-grown-up | người lớn | A person who is not a child any more.
-parent | cha hoặc mẹ, phụ huynh | A mother or a father.
-son | con trai | A boy or man who is someone's child.
-uncle | chú, bác, cậu, dượng | Your mother's or father's brother, or the husband of your aunt.
-# --- Starters ---
-baby | em bé | A very young child who cannot walk or talk yet.
-boy | cậu bé | A male child.
-brother | anh trai, em trai | A boy or man with the same parents as you.
-child | đứa trẻ (số nhiều: children) | A young person who is not yet a grown-up.
-classmate | bạn cùng lớp | A person who is in the same class as you at school.
-cousin | anh chị em họ | The son or daughter of your aunt or uncle.
-dad | bố, ba (gọi thân mật) | A kind name for a father, used by children.
-family | gia đình | A group of people who are related, like parents and children.
-father | bố, cha | A man who has a child.
-friend | bạn, người bạn | A person you know well and like.
-girl | cô bé | A female child.
-grandfather | ông | The father of your mother or father.
-grandma | bà (gọi thân mật) | A kind name for your mother's or father's mother.
-grandmother | bà | The mother of your mother or father.
-grandpa | ông (gọi thân mật) | A kind name for your mother's or father's father.
-kid | trẻ con (cách nói thân mật) | A child; people use this word in everyday talk.
-live | sống, ở | To have your home in a place.
-man | người đàn ông (số nhiều: men) | An adult male person.
-mother | mẹ | A woman who has a child.
-mum | mẹ (gọi thân mật) | A kind name for a mother, used by children. | mom
-old | già, lớn tuổi | Having lived for a long time.
-person | người (số nhiều: people) | A man, woman or child.
-sister | chị gái, em gái | A girl or woman with the same parents as you.
-woman | người phụ nữ (số nhiều: women) | An adult female person.
-young | trẻ, nhỏ tuổi | Not old; having lived for only a short time.
-`},
-{id:'food', icon:'🍽️', name:'Food & Drink', vi:'Thực phẩm và đồ uống', color:'#e5383b', words:`
-biscuit | bánh quy | A small, flat, dry cake that is often sweet. | cookie
-butter | bơ | A soft, yellow food made from milk that you spread on bread.
-cereal | ngũ cốc | A breakfast food made from grain that you eat with milk.
-chopsticks | đôi đũa | Two thin sticks that people in Asia use to eat.
-flour | bột mì | A white powder used to make bread and cakes.
-fork | cái nĩa | You use this with a knife to pick up food.
-honey | mật ong | A sweet, sticky food made by bees.
-jam | mứt | A sweet food made from fruit that you spread on bread.
-knife | con dao | You use this to cut food.
-meal | bữa ăn | The food you eat at breakfast, lunch or dinner.
-olives | quả ô liu | Small green or black fruits that are used to make oil.
-pepper | hạt tiêu / ớt chuông | A hot spice for food, or a red, green or yellow vegetable.
-piece | miếng, mẩu | A part that is cut or broken from something bigger.
-pizza | bánh pizza | A flat, round Italian food with cheese and tomato on top.
-salt | muối | A white powder that makes food taste better.
-smell | ngửi, có mùi | To notice something with your nose.
-snack | món ăn nhẹ | A small amount of food that you eat between meals.
-spoon | cái thìa, muỗng | You use this to eat soup or ice cream.
-strawberry | quả dâu tây | A small, red, sweet fruit with tiny seeds on the outside.
-sugar | đường | A sweet white powder that you put in tea.
-taste | nếm, có vị | To find out the flavour of food with your tongue.
-yoghurt | sữa chua | A thick, creamy food made from milk.
-`},
-{id:'health', icon:'🏥', name:'Health', vi:'Sức khỏe và y tế', color:'#2a9d8f', words:`
-bandage | băng gạc | A long piece of cloth that you wrap around a hurt part of your body.
-chemist's | hiệu thuốc | A shop where you buy medicine. | chemist, pharmacy
-cut | vết đứt, cắt | A small injury in your skin made by something sharp.
-fall over | té ngã | To drop to the ground by accident.
-medicine | thuốc uống | Something you swallow when you are ill to get better.
-sore | đau nhức | Painful and hurting, for example a throat when you have a cold.
-x-ray | chụp phim X-quang | A special picture that shows the bones inside your body.
-`},
-{id:'home', icon:'🏠', name:'The Home', vi:'Nhà cửa và đồ gia dụng', color:'#c77d3a', words:`
-brush | bàn chải, chổi cọ | A tool with stiff hairs that you use for cleaning or painting.
-comb | cái lược | You pull this through your hair to make it tidy.
-cooker | bếp nấu | A machine in the kitchen that you use to heat and cook food.
-cushion | đệm ngồi, gối tựa | A soft bag that you put on a chair or sofa.
-diary | nhật ký | A book where you write about what you do each day.
-entrance | lối vào | The place where you go into a building.
-envelope | phong bì thư | A paper cover that you put a letter in.
-fridge | tủ lạnh | A cold machine where you keep food fresh.
-gate | cổng | A door in a fence or wall outside.
-key | chìa khóa | You use this to open or lock a door.
-letter | bức thư | A message that you write on paper and send by post.
-oven | lò nướng | The hot box in a kitchen where you bake cakes.
-screen | màn hình | The flat part of a TV or computer where you see pictures.
-shampoo | dầu gội đầu | A liquid soap for washing your hair.
-shelf | kệ, giá sách | A flat board on a wall where you put books.
-soap | bánh xà phòng | You wash your hands with this to make them clean.
-stamp | con tem | A small piece of paper that you stick on a letter to post it.
-step | bậc thang | One part of the stairs that you put your foot on.
-swing | xích đu | A seat that hangs from ropes and moves backwards and forwards.
-telephone | điện thoại bàn | You use this to talk to someone who is far away.
-`},
-{id:'places', icon:'🗺️', name:'Places & Directions', vi:'Địa điểm và phương hướng', color:'#3a86ff', words:`
-airport | sân bay | A place where planes take off and land.
-bank | ngân hàng | A place where people keep their money.
-bridge | cây cầu | A structure that lets you cross a river.
-castle | lâu đài | A big, old stone building where kings and queens lived.
-chemist's | hiệu thuốc
-club | câu lạc bộ | A group of people who meet to do an activity together.
-college | trường cao đẳng | A place where people study after they leave school.
-corner | góc phố | The place where two streets meet.
-east | hướng Đông | The direction where the sun comes up.
-factory | nhà máy | A building where machines make things.
-fire station | trạm cứu hỏa | The building where firefighters wait for emergency calls.
-front | phía trước | The part of something that faces forward, the opposite of the back.
-gym | phòng tập thể dục | A room with equipment where you do exercise.
-hotel | khách sạn | A building where travellers pay to sleep.
-kilometre | ki-lô-mét | A measure of distance equal to one thousand metres.
-left | bên trái | The opposite direction to right.
-right | bên phải | The opposite direction to left.
-middle | ở giữa | The centre of something, not at the sides.
-motorway | đường cao tốc | A wide, fast road for cars between cities.
-museum | bảo tàng | A building where you can look at old and interesting things.
-north | hướng Bắc | The direction at the top of a map.
-path | lối đi nhỏ | A narrow track for walking.
-police station | đồn cảnh sát | The building where police officers work.
-post office | bưu điện | A place where you buy stamps and send letters.
-restaurant | nhà hàng | A place where you pay to eat a meal.
-skyscraper | tòa nhà chọc trời | A very tall building in a big city.
-south | hướng Nam | The direction at the bottom of a map.
-stadium | sân vận động | A big place where people watch sport and matches.
-straight on | đi thẳng | Go forward and do not turn left or right.
-theatre | nhà hát | A building where you watch plays.
-university | trường đại học | A place where people study for a degree.
-way | lối đi, con đường | A road or path that goes to a place.
-west | hướng Tây | The direction where the sun goes down.
-`},
-{id:'school', icon:'🏫', name:'School', vi:'Trường học và môn học', color:'#4361ee', words:`
-art | môn mỹ thuật | The subject where you draw and paint.
-bin | thùng rác | A container where you throw rubbish.
-competition | cuộc thi | An event where people try to win a prize.
-dictionary | từ điển | A book that tells you what words mean.
-flag | lá cờ | A piece of cloth with colours or a pattern that stands for a country.
-geography | môn địa lý | The subject about countries, mountains and rivers.
-glue | keo dán, hồ dán | You use this sticky liquid to stick paper together.
-group | nhóm | A number of people or things that are together.
-history | môn lịch sử | The subject about things that happened a long time ago.
-language | ngôn ngữ | English, French and Vietnamese are all examples of this.
-maths | môn toán | The subject about numbers.
-online | trực tuyến | Connected to the internet.
-project | dự án học tập | A piece of school work where you find out about a topic.
-rucksack | ba lô | A bag that you carry on your back. | backpack
-science | môn khoa học | The subject where you do experiments.
-scissors | cái kéo | You use these to cut paper.
-student | học sinh, sinh viên | A person who studies at a school or university.
-study | học tập, nghiên cứu | To spend time learning about something.
-subject | môn học | Maths, art and music are all examples of this at school.
-timetable | thời khóa biểu | A list that shows when your lessons are.
-Wi-Fi | mạng không dây | A way to connect to the internet without wires.
-`},
-{id:'sports', icon:'⚽', name:'Sports & Leisure', vi:'Thể thao và giải trí', color:'#38b000', words:`
-cartoon | phim hoạt hình | A funny film made from drawings.
-channel | kênh truyền hình | One of the different stations that you can watch on TV.
-chess | cờ vua | A board game with kings, queens and pawns.
-collect | sưu tầm | To get many things of the same kind, like stamps.
-concert | buổi hòa nhạc | An event where musicians play music for an audience.
-drum | cái trống | A round instrument that you hit with sticks.
-festival | lễ hội | A special event with music, food or celebrations.
-golf | môn gôn | A sport where you hit a small ball into holes with a club.
-instrument | nhạc cụ | A thing you play to make music, like a guitar.
-invitation | thiệp mời | A card that asks you to come to a party.
-magazine | tạp chí | A thin book with pictures and articles that comes out every month.
-match | trận đấu | A game between two teams or players.
-member | thành viên | A person who belongs to a club or group.
-pop music | nhạc pop | Modern music with a strong beat that many young people like.
-rock music | nhạc rock | Loud music played with guitars and drums.
-prize | giải thưởng | Something that you get when you win.
-programme | chương trình | A show on TV or the radio. | program
-puzzle | câu đố, trò xếp hình | A game where you must put pieces together or find an answer.
-pyramid | kim tự tháp | A huge stone building with a square bottom and triangle sides, found in Egypt.
-quiz | bài đố vui | A game where you answer questions.
-race | cuộc đua | A competition to see who is the fastest.
-score | ghi điểm, điểm số | To get a point or a goal in a game.
-ski | trượt tuyết | A long, thin board that you wear on each foot to slide on snow.
-sledge | xe trượt tuyết | A vehicle without wheels that slides over snow.
-snowball | bóng tuyết | A ball made of snow that you throw.
-snowman | người tuyết | A figure made of snow with a carrot for a nose.
-snowboard | ván trượt tuyết | One wide board that you stand on to slide down a snowy hill.
-snowboarding | môn trượt ván tuyết | The sport of sliding down snowy hills on a wide board.
-stage | sân khấu | The raised floor in a theatre where actors perform.
-suitcase | va ly | A big bag that you pack your clothes in for a trip.
-team | đội thi đấu | A group of people who play a sport together.
-tent | lều cắm trại | A small cloth house that you sleep in when you go camping.
-torch | đèn pin | A small light that you hold in your hand. | flashlight
-tune | giai điệu | A group of musical notes that make a song.
-tyre | lốp xe | The rubber ring around a wheel. | tire
-violin | đàn vi-ô-lông | A small wooden instrument that you play with a bow.
-volleyball | bóng chuyền | A team game where you hit a ball over a high net with your hands.
-winner | người chiến thắng | The person who comes first in a competition.
-`},
-{id:'time', icon:'⏰', name:'Time, Seasons & Months', vi:'Thời gian, các mùa và tháng', color:'#8d6e63', words:`
-calendar | tờ lịch, lịch treo tường | A chart that shows the days, weeks and months of the year.
-century | thế kỷ (100 năm) | A period of one hundred years.
-date | ngày tháng | The day, month and year of a particular time.
-early | sớm | Before the usual or expected time.
-late | muộn | After the usual or expected time.
-future | tương lai | The time that has not happened yet.
-past | quá khứ | The time before now.
-hour | giờ | A period of sixty minutes.
-minute | phút | A period of sixty seconds.
-midday | buổi trưa (12h) | Twelve o'clock in the day.
-midnight | nửa đêm | Twelve o'clock at night.
-month | tháng | One of the twelve parts of a year, such as May.
-season | mùa | One of the four parts of the year, such as summer.
-spring | mùa xuân | The season after winter, when flowers begin to grow.
-summer | mùa hè | The hottest season of the year.
-autumn | mùa thu | The season when leaves fall from the trees. | fall
-winter | mùa đông | The coldest season of the year.
-January | tháng 1 | The first month of the year.
-February | tháng 2 | The shortest month of the year.
-March | tháng 3 | The month after February.
-April | tháng 4 | The month after March.
-May | tháng 5 | The month after April.
-June | tháng 6 | The month before July.
-July | tháng 7 | The month after June.
-August | tháng 8 | The month before September.
-September | tháng 9 | The month after August.
-October | tháng 10 | The month before November.
-November | tháng 11 | The month after October.
-December | tháng 12 | The last month of the year.
-`},
-{id:'transport', icon:'🚗', name:'Transport', vi:'Phương tiện giao thông', color:'#f3722c', words:`
-ambulance | xe cứu thương | A vehicle that takes ill or hurt people to hospital.
-bicycle | xe đạp | A vehicle with two wheels that you move with pedals.
-engine | động cơ | The part of a car that makes it move.
-fire engine | xe cứu hỏa | A big red vehicle that carries firefighters to a fire.
-journey | hành trình, chuyến đi | The act of travelling from one place to another.
-lift | đi nhờ xe, thang máy | A machine that carries people up and down inside a building.
-motorway | đường cao tốc
-passenger | hành khách | A person who travels in a vehicle but does not drive it.
-platform | sân ga | The place in a station where you wait for a train.
-railway | đường sắt | The metal track that trains travel on.
-racing car | xe đua | A very fast car that is used in races.
-racing bike | xe đạp đua | A light bicycle that is used in races.
-rocket | tên lửa | A vehicle that travels into space.
-spaceship | tàu vũ trụ | A vehicle that travels between planets.
-taxi | xe taxi | A car with a driver that you pay to take you somewhere.
-traffic | giao thông | All the cars and vehicles on a road.
-wheel | bánh xe | A round part that turns under a car or bicycle.
-`},
-{id:'weather', icon:'🌤️', name:'Weather', vi:'Thời tiết', color:'#00a6d6', words:`
-# --- Flyers ---
-fog | sương mù | Thick white cloud near the ground that makes it hard to see.
-foggy | nhiều sương mù | Describes weather when it is hard to see because of thick cloud near the ground.
-storm | cơn bão | Very bad weather with strong wind, rain and thunder.
-# --- Movers ---
-cloud | đám mây | A white or grey shape in the sky that is made of tiny drops of water.
-cloudy | nhiều mây | Full of clouds, with little blue sky.
-ice | băng tuyết | Water that has frozen and become hard.
-rain | mưa | Water that falls from the clouds in small drops.
-rainbow | cầu vồng | A curve of many colours in the sky after the rain.
-sky | bầu trời | The space above the Earth where you see the sun, clouds and stars.
-snow | tuyết | Soft white pieces of frozen water that fall from the sky in cold weather.
-sunny | nhiều nắng | With a lot of bright light from the sun.
-weather | thời tiết | If it is hot, cold, wet or windy, we are talking about this.
-wind | gió | Air that moves quickly outside.
-windy | nhiều gió | With a lot of strong air moving outside.
-# --- Starters ---
-sun | mặt trời | The big bright star in the sky that gives us light and heat.
-`},
-{id:'work', icon:'💼', name:'Work', vi:'Nghề nghiệp và nơi làm việc', color:'#6d597a', words:`
-actor | nam diễn viên | A man who acts in films and plays.
-artist | họa sĩ | A person who draws or paints pictures.
-astronaut | phi hành gia | A person who travels into space.
-businessman | nam doanh nhân | A man who works in business.
-businesswoman | nữ doanh nhân | A woman who works in business.
-designer | nhà thiết kế | A person who plans how things will look, like clothes.
-engineer | kỹ sư | A person who plans and builds machines or roads.
-fire fighter | lính cứu hỏa | A person whose job is to put out fires.
-job | công việc | The work that you do to earn money.
-journalist | nhà báo | A person who writes news stories.
-manager | người quản lý | A person who is in charge of a shop or company.
-mechanic | thợ sửa xe, thợ máy | A person who repairs cars and machines.
-meeting | cuộc họp | An event where people get together to talk about something.
-news | tin tức | Information about things that have just happened.
-newspaper | tờ báo | Large sheets of paper with the news, printed every day.
-office | văn phòng | A room or building where people work at desks.
-photographer | nhiếp ảnh gia | A person who takes pictures with a camera.
-pilot | phi công | A person who flies a plane.
-police officer | cảnh sát | A person who catches criminals and keeps people safe.
-queen | nữ hoàng | A woman who rules a country.
-singer | ca sĩ | A person who sings songs.
-waiter | bồi bàn | A person who brings food to customers in a restaurant.
-`},
-{id:'world', icon:'🌍', name:'The World Around Us', vi:'Thế giới tự nhiên', color:'#2d936c', words:`
-air | không khí | The invisible gas around us that we breathe.
-cave | hang động | A large natural hole in a mountain or under the ground.
-desert | sa mạc | A very dry place with lots of sand and little rain.
-Earth | Trái Đất | The planet where we live.
-environment | môi trường | The natural world around us, such as air, water and land.
-hill | ngọn đồi | A high area of land that is smaller than a mountain.
-land | đất liền, vùng đất | The dry part of the Earth that is not covered by sea.
-ocean | đại dương | A very large area of salt water.
-planet | hành tinh | A large round object in space, such as Mars.
-pond | cái ao | A small area of water in a garden or field.
-space | không gian vũ trụ | The huge area beyond the Earth where the stars and planets are.
-stone | hòn đá | A small, hard piece of rock.
-rock | tảng đá | A very large piece of hard material on the ground.
-stream | con suối | A small, narrow river.
-view | quang cảnh, tầm nhìn | Everything that you can see from one place.
-waterfall | thác nước | Water that falls down from a high place.
-`},
-{id:'adjverb', icon:'💬', name:'Adjectives & Verbs', vi:'Tính từ và động từ phổ biến', color:'#e07a5f', words:`
-brave | dũng cảm | Not afraid of danger.
-clever | thông minh | Able to learn and understand things quickly.
-dangerous | nguy hiểm | Likely to hurt you.
-expensive | đắt đỏ | Costing a lot of money.
-friendly | thân thiện | Kind and pleasant to other people.
-frightened | sợ hãi | Feeling very afraid.
-heavy | nặng | Difficult to lift because it weighs a lot.
-horrible | kinh khủng | Very unpleasant or bad.
-large | rộng lớn | Very big in size.
-lazy | lười biếng | Not wanting to work or do anything.
-poor | nghèo | Having very little money.
-rich | giàu có | Having a lot of money.
-soft | mềm mại | Not hard; nice to touch.
-strange | lạ lùng | Unusual and surprising.
-tidy | ngăn nắp | With everything in its place.
-untidy | bừa bộn | Messy, with things not in their place.
-unusual | bất thường | Different from what is normal.
-appear | xuất hiện | To come into view.
-believe | tin tưởng | To think that something is true.
-borrow | mượn | To take something and give it back later.
-burn | cháy, bỏng | To be on fire, or to hurt yourself with heat.
-disappear | biến mất | To go out of sight.
-explore | khám phá | To travel to a new place to find out about it.
-fall over | ngã
-find out | tìm ra | To learn a fact that you did not know.
-hate | ghét | To dislike something very much.
-hurry | vội vã | To move or do something very quickly.
-improve | cải thiện | To become better or make something better.
-invent | phát minh | To make something completely new for the first time.
-look after | chăm sóc | To take care of someone or something.
-prefer | thích hơn | To like one thing more than another.
-remember | nhớ | To keep something in your mind and not forget it.
-repair | sửa chữa | To mend something that is broken. | fix
-save | tiết kiệm, cứu trợ | To keep money, or to help someone out of danger.
-spend | tiêu tiền, dành thời gian | To use money to buy things, or to pass time doing something.
-whisper | thì thầm | To speak very quietly.
-whistle | huýt sáo | To make a high sound by blowing air through your lips.
-`},
-{id:'irregular', icon:'⏪', name:'Irregular Verbs (Past)', vi:'Động từ bất quy tắc quá khứ', color:'#b5179e', words:`
-# Mỗi từ là dạng quá khứ (V2). Câu ví dụ có chỗ trống ___ nên học sinh chọn/gõ đúng dạng quá khứ.
-went | đã đi (quá khứ của go) | Past simple of go: Yesterday, I ___ to the park.
-saw | đã nhìn thấy (quá khứ của see) | Past simple of see: I ___ a big dog in the street.
-had | đã có, đã ăn, đã uống (quá khứ của have) | Past simple of have: We ___ lunch at twelve o'clock.
-came | đã đến (quá khứ của come) | Past simple of come: My uncle ___ to our house last night.
-gave | đã cho, tặng (quá khứ của give) | Past simple of give: She ___ me a present for my birthday.
-took | đã cầm, dẫn đi, chụp ảnh (quá khứ của take) | Past simple of take: Dad ___ me to school by bike.
-made | đã làm, chế tạo (quá khứ của make) | Past simple of make: Mum ___ a delicious cake yesterday.
-ate | đã ăn (quá khứ của eat) | Past simple of eat: He ___ two sandwiches for lunch.
-drank | đã uống (quá khứ của drink) | Past simple of drink: I ___ a glass of milk this morning.
-bought | đã mua (quá khứ của buy) | Past simple of buy: We ___ some bread at the shop.
-fell over | đã ngã, vấp té (quá khứ của fall over) | Past simple of fall over: The boy ___ on the wet floor. | fell
-found | đã tìm thấy (quá khứ của find) | Past simple of find: I ___ my keys under the sofa.
-caught | đã bắt (quá khứ của catch) | Past simple of catch: She ___ the ball with both hands.
-brought | đã mang theo, đem lại (quá khứ của bring) | Past simple of bring: He ___ his umbrella to school.
-lost | đã làm mất, đi lạc (quá khứ của lose) | Past simple of lose: I ___ my pencil case yesterday.
-won | đã chiến thắng (quá khứ của win) | Past simple of win: Our team ___ the match.
-hurt | đã làm đau, bị đau (quá khứ của hurt) | This verb looks the same in the present and the past: Yesterday I ___ my knee.
-wore | đã mặc, đội (quá khứ của wear) | Past simple of wear: She ___ a red dress to the party.
-rode | đã cưỡi, đạp xe (quá khứ của ride) | Past simple of ride: We ___ our bikes to the park.
-broke | đã làm vỡ, làm hỏng (quá khứ của break) | Past simple of break: Tom ___ the window with a ball.
-`},
-{id:'listening2', icon:'🎧', name:'Listening Part 2 Words', vi:'Thứ, tháng, số, giờ (chính tả)', color:'#118ab2', words:`
-Monday | thứ Hai | The first day of the school week.
-Tuesday | thứ Ba | The day after Monday.
-Wednesday | thứ Tư | The day in the middle of the week, after Tuesday.
-Thursday | thứ Năm | The day after Wednesday.
-Friday | thứ Sáu | The last school day of the week.
-Saturday | thứ Bảy | The first day of the weekend.
-Sunday | Chủ nhật | The last day of the week, a day to rest.
-January | tháng 1
-February | tháng 2
-March | tháng 3
-April | tháng 4
-May | tháng 5
-June | tháng 6
-July | tháng 7
-August | tháng 8
-September | tháng 9
-October | tháng 10
-November | tháng 11
-December | tháng 12
-thirteen | mười ba (13) | The number after twelve. Do not mix it up with thirty!
-thirty | ba mươi (30) | The number after twenty-nine. Do not mix it up with thirteen!
-fourteen | mười bốn (14) | The number after thirteen. Do not mix it up with forty!
-forty | bốn mươi (40) | The number after thirty-nine. Do not mix it up with fourteen!
-fifteen | mười lăm (15) | The number after fourteen. Do not mix it up with fifty!
-fifty | năm mươi (50) | The number after forty-nine. Do not mix it up with fifteen!
-twelve | mười hai (12) | The number after eleven.
-twenty | hai mươi (20) | The number after nineteen.
-hundred | một trăm (100) | The number 100.
-thousand | một nghìn (1.000) | The number 1,000, ten times one hundred.
-o'clock | giờ đúng | We use this word for an exact hour, for example: It is seven ___. | oclock
-half past | rưỡi (30 phút) | Thirty minutes after the hour, for example: It is ___ two (2:30).
-quarter past | hơn 15 phút | Fifteen minutes after the hour, for example: It is ___ three (3:15).
-quarter to | kém 15 phút | Fifteen minutes before the next hour, for example: It is ___ four (3:45).
-midday | buổi trưa (12h)
-midnight | nửa đêm
-morning | buổi sáng | The early part of the day, before twelve o'clock.
-afternoon | buổi chiều | The part of the day between midday and the evening.
-evening | buổi tối | The part of the day before night, after the afternoon.
-`},
-{id:'preps', icon:'📍', name:'Prepositions', vi:'Giới từ vị trí và phương hướng', color:'#06a77d', words:`
-next to | bên cạnh | Very close to something, at its side.
-opposite | đối diện | On the other side, facing something.
-between | ở giữa (hai người/vật) | In the middle of two people or things.
-behind | phía sau | At the back of something.
-in front of | phía trước | At the front of something, before it.
-above | phía trên (không chạm vào) | Higher than something, but not touching it.
-over | phía trên, bên trên | Above something, or from one side to the other across the top.
-under | phía dưới | Lower than something, with it on top.
-below | bên dưới | At a lower place than something else.
-through | xuyên qua | From one end to the other inside something, like a tunnel or a forest.
-across | băng qua | From one side to the other side, like a road, a bridge or a river.
-go past | đi ngang qua | To go by a building or a place without stopping. | past
-into | đi vào trong | Moving from the outside to the inside of a place.
-out of | bước ra khỏi | Moving from the inside to the outside of a place.
-straight on | đi thẳng
-on the left | ở bên trái | On the side of your body where your heart is.
-on the right | ở bên phải | On the side that is opposite to the left.
-`},
-{id:'phrasal', icon:'🔗', name:'Phrasal Verbs', vi:'Cụm động từ', color:'#e63946', words:`
-look at | nhìn vào cái gì | To turn your eyes towards something to see it.
-look for | tìm kiếm (= search for) | To try to find something that you cannot see. | search for
-look after | chăm sóc (= take care of)
-look like | trông giống như | To have the same appearance as someone or something.
-find out | tìm ra
-turn on | bật (đèn, tivi, máy) | To make a light or a machine start working.
-fall over | ngã, vấp té
-go out | đi ra ngoài | To leave your home to do something outside.
-lie down | nằm xuống | To put your body flat on a bed or the floor.
-put on | mặc vào, đội vào | To dress yourself in clothes, a hat or shoes.
-take off | cởi ra, cất cánh | To remove clothes from your body, or when a plane leaves the ground.
-get up | thức dậy, đứng dậy | To leave your bed in the morning, or to stand up.
-wake up | tỉnh giấc | To stop sleeping.
-get on | lên (xe buýt, tàu, máy bay) | To go onto a bus, a train or a plane.
-get off | xuống (xe buýt, tàu, máy bay) | To leave a bus, a train or a plane.
-pick up | nhặt lên, đón ai đó | To lift something from the floor, or to collect someone in a car.
-dress up | ăn diện, hóa trang | To wear special clothes, for example for a party.
-`},
-{id:'pairs', icon:'⚖️', name:'Confusing Pairs', vi:'Cặp từ dễ nhầm lẫn', color:'#f77f00', words:`
-borrow | mượn (borrow from)
-lend | cho mượn (lend to) | To give something to someone for a short time, and you want it back.
-bring | mang đến (gần người nói) | To carry something to the place where the speaker is.
-take | mang đi (xa người nói) | To carry something from here to another place.
-win | thắng cuộc | To come first in a race, a game or a competition.
-lose | thua cuộc, làm mất | To not win a game, or to not be able to find something.
-`},
-{id:'feelings', icon:'😀', name:'Feelings & Qualities', vi:'Cảm xúc và tính chất', color:'#ffb703', words:`
-excited | hào hứng, phấn khích | Very happy and full of energy about something good.
-scared | sợ hãi | Afraid of something.
-frightened | sợ hãi
-worried | lo lắng | Unhappy because you think something bad may happen.
-surprised | ngạc nhiên | Feeling shocked because something was unexpected.
-tired | mệt mỏi | Needing to rest or to sleep.
-proud of | tự hào về | Very pleased about something good that you or someone else has done.
-huge | to lớn, khổng lồ | Extremely big.
-enormous | khổng lồ (= huge) | Even bigger than big; giant.
-tiny | tí hon | Extremely small.
-heavy | nặng
-light | nhẹ | Not heavy; easy to lift.
-expensive | đắt đỏ
-cheap | rẻ | Costing little money.
-clean | sạch sẽ | Free from dirt.
-dirty | bẩn thỉu | Covered with mud, dust or marks.
-noisy | ồn ào | Making a lot of loud sound.
-quiet | yên tĩnh | Making little or no sound.
-`}
-];
-/* ===================== HẾT PHẦN DỮ LIỆU ===================== */
-
+const TOPICS = [{"id":"u1a","n":1,"icon":"🏠","name":"Our home","vi":"Nhà của chúng ta","color":"#e76f51","words":[{"id":"cooker","w":"cooker","vi":"bếp nấu","img":"cooker","alt":["stove"]},{"id":"fridge","w":"fridge","vi":"tủ lạnh","img":"fridge","alt":["refrigerator"]},{"id":"oven","w":"oven","vi":"lò nướng","img":"oven"},{"id":"cushion","w":"cushion","vi":"gối tựa","img":"cushion"},{"id":"shelf","w":"shelf","vi":"kệ, giá","img":"shelf"},{"id":"soap","w":"soap","vi":"xà phòng","img":"soap"},{"id":"shampoo","w":"shampoo","vi":"dầu gội","img":"shampoo"},{"id":"toothpaste","w":"toothpaste","vi":"kem đánh răng","img":"toothpaste"},{"id":"comb","w":"comb","vi":"cái lược","img":"comb"},{"id":"brush","w":"brush","vi":"bàn chải","img":"brush"},{"id":"towel","w":"towel","vi":"khăn tắm","img":"towel"}],"sub":"Kitchen & bathroom","subVi":"Bếp & phòng tắm"},{"id":"u1b","n":1,"icon":"🏠","name":"Our home","vi":"Nhà của chúng ta","color":"#e76f51","words":[{"id":"diary","w":"diary","vi":"nhật ký","img":"diary"},{"id":"envelope","w":"envelope","vi":"phong bì","img":"envelope"},{"id":"key","w":"key","vi":"chìa khóa","img":"key"},{"id":"necklace","w":"necklace","vi":"dây chuyền","img":"necklace"},{"id":"rucksack","w":"rucksack","vi":"ba lô","img":"rucksack","alt":["backpack"]},{"id":"stamps","w":"stamps","vi":"con tem","img":"stamps","alt":["stamp"]},{"id":"violin","w":"violin","vi":"đàn vi-ô-lông","img":"violin"},{"id":"drums","w":"drums","vi":"bộ trống","img":"drums","alt":["drum"]},{"id":"wifi","w":"wifi","vi":"mạng wifi","img":"wifi","alt":["wi-fi"],"say":"wi-fi"}],"sub":"Things & hobbies","subVi":"Đồ vật & sở thích"},{"id":"u1c","n":1,"icon":"🏠","name":"Our home","vi":"Nhà của chúng ta","color":"#e76f51","words":[{"id":"empty","w":"empty","vi":"trống rỗng","img":"empty"},{"id":"full","w":"full","vi":"đầy","img":"full"},{"id":"broken","w":"broken","vi":"bị vỡ, hỏng","img":"broken"},{"id":"quiet","w":"quiet","vi":"yên tĩnh","img":"quiet"},{"id":"noisy","w":"noisy","vi":"ồn ào","img":"noisy"},{"id":"tidy","w":"tidy","vi":"ngăn nắp","img":"tidy"},{"id":"untidy","w":"untidy","vi":"bừa bộn","img":"untidy"},{"id":"bored","w":"bored","vi":"chán nản","img":"bored"}],"sub":"Describing words","subVi":"Từ miêu tả"},{"id":"u2a","n":2,"icon":"🏙️","name":"Going to town","vi":"Đi vào thành phố","color":"#577590","words":[{"id":"airport","w":"airport","vi":"sân bay","img":"airport"},{"id":"bank","w":"bank","vi":"ngân hàng","img":"bank"},{"id":"bridge","w":"bridge","vi":"cây cầu","img":"bridge"},{"id":"castle","w":"castle","vi":"lâu đài","img":"castle"},{"id":"chemists","w":"chemist's","vi":"hiệu thuốc","img":"chemists","alt":["chemist","pharmacy"]},{"id":"factory","w":"factory","vi":"nhà máy","img":"factory"},{"id":"fire-station","w":"fire station","vi":"trạm cứu hỏa","img":"fire-station"},{"id":"hotel","w":"hotel","vi":"khách sạn","img":"hotel"},{"id":"museum","w":"museum","vi":"bảo tàng","img":"museum"},{"id":"police-station","w":"police station","vi":"đồn cảnh sát","img":"police-station"},{"id":"post-office","w":"post office","vi":"bưu điện","img":"post-office"},{"id":"railway-station","w":"railway station","vi":"sân ga","img":"railway-station","alt":["train station"]},{"id":"skyscraper","w":"skyscraper","vi":"tòa nhà chọc trời","img":"skyscraper"},{"id":"stadium","w":"stadium","vi":"sân vận động","img":"stadium"},{"id":"university","w":"university","vi":"trường đại học","img":"university"}],"sub":"Places in town","subVi":"Nơi chốn trong thành phố"},{"id":"u2b","n":2,"icon":"🏙️","name":"Going to town","vi":"Đi vào thành phố","color":"#577590","words":[{"id":"ambulance","w":"ambulance","vi":"xe cứu thương","img":"ambulance"},{"id":"bicycle","w":"bicycle","vi":"xe đạp","img":"bicycle","alt":["bike"]},{"id":"fire-engine","w":"fire engine","vi":"xe cứu hỏa","img":"fire-engine"},{"id":"motorway","w":"motorway","vi":"đường cao tốc","img":"motorway","alt":["highway"]},{"id":"taxi","w":"taxi","vi":"xe taxi","img":"taxi","alt":["cab"]},{"id":"traffic","w":"traffic","vi":"giao thông","img":"traffic"}],"sub":"Transport","subVi":"Phương tiện"},{"id":"u2c","n":2,"icon":"🏙️","name":"Going to town","vi":"Đi vào thành phố","color":"#577590","words":[{"id":"across","w":"across","vi":"băng qua","img":"across"},{"id":"corner","w":"corner","vi":"góc phố","img":"corner"},{"id":"front","w":"front","vi":"phía trước","img":"front","alt":["in front of"]},{"id":"middle","w":"middle","vi":"ở giữa","img":"middle"}],"sub":"Directions","subVi":"Chỉ đường"},{"id":"u3a","n":3,"icon":"🍽️","name":"Eating out","vi":"Đi ăn ngoài","color":"#e4572e","words":[{"id":"biscuit","w":"biscuit","vi":"bánh quy","img":"biscuit","alt":["cookie"]},{"id":"butter","w":"butter","vi":"bơ","img":"butter"},{"id":"flour","w":"flour","vi":"bột mì","img":"flour"},{"id":"honey","w":"honey","vi":"mật ong","img":"honey"},{"id":"jam","w":"jam","vi":"mứt","img":"jam"},{"id":"olives","w":"olives","vi":"quả ô liu","img":"olives","alt":["olive"]},{"id":"pepper","w":"pepper","vi":"hạt tiêu","img":"pepper"},{"id":"pizza","w":"pizza","vi":"bánh pizza","img":"pizza"},{"id":"salt","w":"salt","vi":"muối","img":"salt"},{"id":"strawberry","w":"strawberry","vi":"dâu tây","img":"strawberry"},{"id":"sugar","w":"sugar","vi":"đường","img":"sugar"},{"id":"yoghurt","w":"yoghurt","vi":"sữa chua","img":"yoghurt","alt":["yogurt"]},{"id":"chopsticks","w":"chopsticks","vi":"đôi đũa","img":"chopsticks","alt":["chopstick"]},{"id":"fork","w":"fork","vi":"cái nĩa","img":"fork"},{"id":"knife","w":"knife","vi":"con dao","img":"knife"},{"id":"spoon","w":"spoon","vi":"cái thìa","img":"spoon"}],"sub":"Food & table","subVi":"Đồ ăn & dụng cụ ăn"},{"id":"u3b","n":3,"icon":"🍽️","name":"Eating out","vi":"Đi ăn ngoài","color":"#e4572e","words":[{"id":"smell","w":"smell","vi":"ngửi, có mùi","img":"smell"},{"id":"taste","w":"taste","vi":"nếm, có vị","img":"taste"},{"id":"delicious","w":"delicious","vi":"thơm ngon","img":"delicious","alt":["yummy"]},{"id":"frightened","w":"frightened","vi":"sợ hãi","img":"frightened","alt":["scared"]},{"id":"ill","w":"ill","vi":"bị ốm","img":"ill","alt":["sick"]}],"sub":"Senses & feelings","subVi":"Giác quan & cảm giác"},{"id":"u4a","n":4,"icon":"📚","name":"At school","vi":"Ở trường","color":"#3a86ff","words":[{"id":"art","w":"art","vi":"mỹ thuật","img":"art"},{"id":"geography","w":"geography","vi":"địa lý","img":"geography"},{"id":"history","w":"history","vi":"lịch sử","img":"history"},{"id":"it","w":"IT","vi":"tin học","img":"it","alt":["ICT"],"say":"I T"},{"id":"languages","w":"languages","vi":"ngôn ngữ","img":"languages","alt":["language"]},{"id":"maths","w":"maths","vi":"toán học","img":"maths","alt":["math"]},{"id":"music","w":"music","vi":"âm nhạc","img":"music"},{"id":"science","w":"science","vi":"khoa học","img":"science"},{"id":"sport","w":"sport","vi":"thể dục, thể thao","img":"sport","alt":["PE"]}],"sub":"School subjects","subVi":"Môn học"},{"id":"u4b","n":4,"icon":"📚","name":"At school","vi":"Ở trường","color":"#3a86ff","words":[{"id":"dictionary","w":"dictionary","vi":"từ điển","img":"dictionary"},{"id":"invitation","w":"invitation","vi":"thiệp mời","img":"invitation"},{"id":"project","w":"project","vi":"dự án","img":"project"},{"id":"timetable","w":"timetable","vi":"thời khóa biểu","img":"timetable"},{"id":"quiz","w":"quiz","vi":"bài đố vui","img":"quiz"}],"sub":"School things","subVi":"Đồ dùng & hoạt động ở trường"},{"id":"u4c","n":4,"icon":"📚","name":"At school","vi":"Ở trường","color":"#3a86ff","words":[{"id":"borrow","w":"borrow","vi":"mượn","img":"borrow"},{"id":"join","w":"join","vi":"tham gia","img":"join"},{"id":"repeat","w":"repeat","vi":"nhắc lại","img":"repeat"},{"id":"study","w":"study","vi":"học tập","img":"study"}],"sub":"School verbs","subVi":"Động từ"},{"id":"u5a","n":5,"icon":"🎈","name":"A day out","vi":"Một ngày đi chơi","color":"#9b5de5","words":[{"id":"cinema","w":"cinema","vi":"rạp chiếu phim","img":"cinema","alt":["movie theater"]},{"id":"circus","w":"circus","vi":"rạp xiếc","img":"circus"},{"id":"gym","w":"gym","vi":"phòng tập thể dục","img":"gym"},{"id":"ocean","w":"ocean","vi":"đại dương","img":"ocean","alt":["sea"]},{"id":"theatre","w":"theatre","vi":"nhà hát","img":"theatre","alt":["theater"]},{"id":"zoo","w":"zoo","vi":"sở thú","img":"zoo"}],"sub":"Places","subVi":"Nơi chốn"},{"id":"u5b","n":5,"icon":"🎈","name":"A day out","vi":"Một ngày đi chơi","color":"#9b5de5","words":[{"id":"actor","w":"actor","vi":"nam diễn viên","img":"actor","alt":["actress"]},{"id":"clown","w":"clown","vi":"chú hề","img":"clown"},{"id":"cartoon","w":"cartoon","vi":"phim hoạt hình","img":"cartoon"},{"id":"dinosaurs","w":"dinosaurs","vi":"khủng long","img":"dinosaurs","alt":["dinosaur"]},{"id":"pyramids","w":"pyramids","vi":"kim tự tháp","img":"pyramids","alt":["pyramid"]},{"id":"screen","w":"screen","vi":"màn hình","img":"screen"},{"id":"stage","w":"stage","vi":"sân khấu","img":"stage"},{"id":"swing","w":"swing","vi":"xích đu","img":"swing"}],"sub":"Shows & fun things","subVi":"Biểu diễn & vui chơi"},{"id":"u5c","n":5,"icon":"🎈","name":"A day out","vi":"Một ngày đi chơi","color":"#9b5de5","words":[{"id":"brave","w":"brave","vi":"dũng cảm","img":"brave"},{"id":"cheap","w":"cheap","vi":"rẻ","img":"cheap"},{"id":"expensive","w":"expensive","vi":"đắt","img":"expensive"},{"id":"extinct","w":"extinct","vi":"tuyệt chủng","img":"extinct"},{"id":"frightening","w":"frightening","vi":"đáng sợ","img":"frightening","alt":["scary"]}],"sub":"Describing words","subVi":"Từ miêu tả"},{"id":"u6a","n":6,"icon":"💼","name":"Dream jobs","vi":"Nghề mơ ước","color":"#00a6a6","words":[{"id":"artist","w":"artist","vi":"họa sĩ","img":"artist"},{"id":"astronaut","w":"astronaut","vi":"phi hành gia","img":"astronaut"},{"id":"businessman","w":"businessman","vi":"doanh nhân (nam, nữ)","img":"businessman","alt":["businesswoman","businessperson"]},{"id":"cook","w":"cook","vi":"đầu bếp","img":"cook","alt":["chef"]},{"id":"dentist","w":"dentist","vi":"nha sĩ","img":"dentist"},{"id":"designer","w":"designer","vi":"nhà thiết kế","img":"designer"},{"id":"doctor","w":"doctor","vi":"bác sĩ","img":"doctor"},{"id":"engineer","w":"engineer","vi":"kỹ sư","img":"engineer"},{"id":"fire-fighter","w":"fire fighter","vi":"lính cứu hỏa","img":"fire-fighter","alt":["firefighter","fireman"]},{"id":"journalist","w":"journalist","vi":"nhà báo","img":"journalist","alt":["reporter"]},{"id":"manager","w":"manager","vi":"quản lý","img":"manager"},{"id":"mechanic","w":"mechanic","vi":"thợ máy","img":"mechanic"},{"id":"nurse","w":"nurse","vi":"y tá","img":"nurse"},{"id":"photographer","w":"photographer","vi":"nhiếp ảnh gia","img":"photographer"},{"id":"pilot","w":"pilot","vi":"phi công","img":"pilot"},{"id":"police-officer","w":"police officer","vi":"cảnh sát","img":"police-officer","alt":["policeman","policewoman"]},{"id":"singer","w":"singer","vi":"ca sĩ","img":"singer"},{"id":"teacher","w":"teacher","vi":"giáo viên","img":"teacher"},{"id":"tennis-player","w":"tennis player","vi":"vận động viên quần vợt","img":"tennis-player"},{"id":"waiter","w":"waiter","vi":"bồi bàn","img":"waiter","alt":["waitress"]}],"sub":"Jobs","subVi":"Nghề nghiệp"},{"id":"u6b","n":6,"icon":"💼","name":"Dream jobs","vi":"Nghề mơ ước","color":"#00a6a6","words":[{"id":"office","w":"office","vi":"văn phòng","img":"office"},{"id":"factory","w":"factory","vi":"nhà máy","img":"factory"},{"id":"hospital","w":"hospital","vi":"bệnh viện","img":"hospital"},{"id":"restaurant","w":"restaurant","vi":"nhà hàng","img":"restaurant"}],"sub":"Workplaces","subVi":"Nơi làm việc"},{"id":"u6c","n":6,"icon":"💼","name":"Dream jobs","vi":"Nghề mơ ước","color":"#00a6a6","words":[{"id":"brave","w":"brave","vi":"dũng cảm","img":"brave"},{"id":"clever","w":"clever","vi":"thông minh","img":"clever","alt":["smart"]},{"id":"lazy","w":"lazy","vi":"lười biếng","img":"lazy"},{"id":"poor","w":"poor","vi":"nghèo","img":"poor"},{"id":"rich","w":"rich","vi":"giàu có","img":"rich"}],"sub":"Describing words","subVi":"Từ miêu tả"},{"id":"u7a","n":7,"icon":"🏰","name":"At the castle","vi":"Ở lâu đài","color":"#b5838d","words":[{"id":"bridge","w":"bridge","vi":"cây cầu","img":"bridge"},{"id":"entrance-exit","w":"entrance / exit","vi":"lối vào / lối ra","img":"entrance-exit","alt":["entrance","exit"],"say":"entrance and exit"},{"id":"gate","w":"gate","vi":"cổng","img":"gate"},{"id":"steps","w":"steps","vi":"bậc thang","img":"steps","alt":["step"]}],"sub":"Castle places","subVi":"Các nơi trong lâu đài"},{"id":"u7b","n":7,"icon":"🏰","name":"At the castle","vi":"Ở lâu đài","color":"#b5838d","words":[{"id":"king","w":"king","vi":"vua","img":"king"},{"id":"queen","w":"queen","vi":"nữ hoàng","img":"queen"},{"id":"crown","w":"crown","vi":"vương miện","img":"crown"},{"id":"costume","w":"costume","vi":"trang phục hóa trang","img":"costume"},{"id":"ring","w":"ring","vi":"chiếc nhẫn","img":"ring"},{"id":"butterfly","w":"butterfly","vi":"con bướm","img":"butterfly"},{"id":"swan","w":"swan","vi":"thiên nga","img":"swan"}],"sub":"Royal things & animals","subVi":"Hoàng gia & động vật"},{"id":"u7c","n":7,"icon":"🏰","name":"At the castle","vi":"Ở lâu đài","color":"#b5838d","words":[{"id":"east","w":"east","vi":"hướng Đông","img":"east"},{"id":"west","w":"west","vi":"hướng Tây","img":"west"},{"id":"north","w":"north","vi":"hướng Bắc","img":"north"},{"id":"south","w":"south","vi":"hướng Nam","img":"south"}],"sub":"Directions","subVi":"Phương hướng"},{"id":"u8a","n":8,"icon":"⚽","name":"Sports day!","vi":"Ngày hội thể thao","color":"#2a9d8f","words":[{"id":"golf","w":"golf","vi":"môn gôn","img":"golf"},{"id":"high-jump","w":"high jump","vi":"nhảy cao","img":"high-jump"},{"id":"race","w":"race","vi":"cuộc đua","img":"race"},{"id":"volleyball","w":"volleyball","vi":"bóng chuyền","img":"volleyball"},{"id":"match","w":"match","vi":"trận đấu","img":"match"},{"id":"goal","w":"goal","vi":"bàn thắng, khung thành","img":"goal"},{"id":"prize","w":"prize","vi":"giải thưởng","img":"prize"},{"id":"score","w":"score","vi":"tỉ số, ghi điểm","img":"score"},{"id":"team","w":"team","vi":"đội","img":"team"},{"id":"winner","w":"winner","vi":"người thắng cuộc","img":"winner"}],"sub":"Sports & competition","subVi":"Thể thao & thi đấu"},{"id":"u8b","n":8,"icon":"⚽","name":"Sports day!","vi":"Ngày hội thể thao","color":"#2a9d8f","words":[{"id":"fall-over","w":"fall over","vi":"té ngã","img":"fall-over","alt":["fall down"]},{"id":"knee","w":"knee","vi":"đầu gối","img":"knee"},{"id":"sore","w":"sore","vi":"đau nhức","img":"sore"},{"id":"bandage","w":"bandage","vi":"băng gạc","img":"bandage"}],"sub":"Injuries","subVi":"Chấn thương"},{"id":"u9a","n":9,"icon":"⛺","name":"Our camping adventure","vi":"Chuyến cắm trại","color":"#43aa8b","words":[{"id":"belt","w":"belt","vi":"thắt lưng","img":"belt"},{"id":"pocket","w":"pocket","vi":"túi quần, túi áo","img":"pocket"},{"id":"rucksack","w":"rucksack","vi":"ba lô","img":"rucksack","alt":["backpack"]},{"id":"tent","w":"tent","vi":"lều","img":"tent"},{"id":"torch","w":"torch","vi":"đèn pin","img":"torch","alt":["flashlight"]}],"sub":"Camping gear","subVi":"Đồ cắm trại"},{"id":"u9b","n":9,"icon":"⛺","name":"Our camping adventure","vi":"Chuyến cắm trại","color":"#43aa8b","words":[{"id":"bats","w":"bats","vi":"con dơi","img":"bats","alt":["bat"]},{"id":"cave","w":"cave","vi":"hang động","img":"cave"},{"id":"earth","w":"Earth","vi":"Trái Đất","img":"earth"},{"id":"fur","w":"fur / furry","vi":"lông thú, có lông mềm","img":"fur","alt":["fur","furry"],"say":"fur"},{"id":"hill","w":"hill","vi":"ngọn đồi","img":"hill"},{"id":"moon","w":"moon","vi":"mặt trăng","img":"moon"},{"id":"stars","w":"stars","vi":"các vì sao","img":"stars","alt":["star"]},{"id":"stone","w":"stone / rock","vi":"hòn đá","img":"stone","alt":["stone","rock"],"say":"stone"}],"sub":"Nature","subVi":"Thiên nhiên"},{"id":"u9c","n":9,"icon":"⛺","name":"Our camping adventure","vi":"Chuyến cắm trại","color":"#43aa8b","words":[{"id":"burn","w":"burn","vi":"bị bỏng, cháy","img":"burn"},{"id":"whisper","w":"whisper","vi":"thì thầm","img":"whisper"},{"id":"whistle","w":"whistle","vi":"huýt sáo","img":"whistle"}],"sub":"Verbs & describing words","subVi":"Động từ & từ miêu tả"},{"id":"u10a","n":10,"icon":"❄️","name":"A good year!","vi":"Một năm tuyệt vời!","color":"#3bb9d9","words":[{"id":"spring","w":"spring","vi":"mùa xuân","img":"spring"},{"id":"summer","w":"summer","vi":"mùa hè","img":"summer"},{"id":"autumn","w":"autumn","vi":"mùa thu","img":"autumn","alt":["fall"]},{"id":"winter","w":"winter","vi":"mùa đông","img":"winter"},{"id":"sledge","w":"sledge","vi":"xe trượt tuyết","img":"sledge","alt":["sled"]},{"id":"snowball","w":"snowball","vi":"bóng tuyết","img":"snowball"},{"id":"snowboard","w":"snowboard","vi":"ván trượt tuyết","img":"snowboard"},{"id":"snowman","w":"snowman","vi":"người tuyết","img":"snowman"},{"id":"leaf","w":"leaf","vi":"chiếc lá","img":"leaf","alt":["leaves"]}],"sub":"Seasons & snow","subVi":"Mùa & tuyết"},{"id":"u10b","n":10,"icon":"❄️","name":"A good year!","vi":"Một năm tuyệt vời!","color":"#3bb9d9","words":[{"id":"collect","w":"collect","vi":"sưu tầm","img":"collect"},{"id":"push","w":"push","vi":"đẩy","img":"push"},{"id":"pull","w":"pull","vi":"kéo","img":"pull"}],"sub":"Actions","subVi":"Hành động"},{"id":"u11a","n":11,"icon":"✈️","name":"Our summer holidays","vi":"Kỳ nghỉ hè","color":"#f4a300","words":[{"id":"suitcase","w":"suitcase","vi":"va ly","img":"suitcase"},{"id":"sunglasses","w":"sunglasses","vi":"kính râm","img":"sunglasses"},{"id":"gloves","w":"gloves","vi":"găng tay","img":"gloves","alt":["glove"]},{"id":"striped","w":"striped","vi":"kẻ sọc","img":"striped"},{"id":"spotted","w":"spotted","vi":"chấm tròn","img":"spotted"}],"sub":"Holiday things","subVi":"Đồ đi nghỉ"},{"id":"u11b","n":11,"icon":"✈️","name":"Our summer holidays","vi":"Kỳ nghỉ hè","color":"#f4a300","words":[{"id":"camel","w":"camel","vi":"lạc đà","img":"camel"},{"id":"desert","w":"desert","vi":"sa mạc","img":"desert"},{"id":"pyramids","w":"pyramids","vi":"kim tự tháp","img":"pyramids","alt":["pyramid"]}],"sub":"Desert & places","subVi":"Sa mạc & nơi chốn"},{"id":"u11c","n":11,"icon":"✈️","name":"Our summer holidays","vi":"Kỳ nghỉ hè","color":"#f4a300","words":[{"id":"foggy","w":"foggy","vi":"sương mù","img":"foggy"},{"id":"raining","w":"raining","vi":"mưa","img":"raining","alt":["rainy"]},{"id":"snowing","w":"snowing","vi":"tuyết rơi","img":"snowing","alt":["snowy"]},{"id":"storm","w":"storm","vi":"cơn bão","img":"storm"}],"sub":"Weather","subVi":"Thời tiết"},{"id":"u12a","n":12,"icon":"🚀","name":"Past and future","vi":"Quá khứ và tương lai","color":"#ef476f","words":[{"id":"planet","w":"planet","vi":"hành tinh","img":"planet"},{"id":"rocket","w":"rocket","vi":"tên lửa","img":"rocket"},{"id":"space","w":"space","vi":"vũ trụ","img":"space"},{"id":"spaceship","w":"spaceship","vi":"tàu vũ trụ","img":"spaceship"}],"sub":"Space","subVi":"Vũ trụ"},{"id":"u12b","n":12,"icon":"🚀","name":"Past and future","vi":"Quá khứ và tương lai","color":"#ef476f","words":[{"id":"calendar","w":"calendar","vi":"tờ lịch","img":"calendar"}],"sub":"Time","subVi":"Thời gian"},{"id":"u12c","n":12,"icon":"🚀","name":"Past and future","vi":"Quá khứ và tương lai","color":"#ef476f","words":[{"id":"eagle","w":"eagle","vi":"đại bàng","img":"eagle"},{"id":"land","w":"land","vi":"đất liền","img":"land"},{"id":"pond","w":"pond","vi":"cái ao","img":"pond"},{"id":"racing-bike","w":"racing bike","vi":"xe đạp đua","img":"racing-bike"},{"id":"ski","w":"ski","vi":"trượt tuyết","img":"ski"}],"sub":"Nature & sports","subVi":"Thiên nhiên & thể thao"}];
 (function(){
 'use strict';
-
 /* ---------- Dữ liệu ---------- */
 const norm = s => String(s).toLowerCase().replace(/[^a-z]/g,'');
 const isLetter = c => /[a-z]/i.test(c);
 const WORDS = [];
 const BYID = {};
 TOPICS.forEach(t=>{
-  t.words.split('\n').forEach(line=>{
-    line = line.trim();
-    if(!line || line[0]==='#') return;
-    const p = line.split('|').map(s=>s.trim());
-    if(!p[0] || !p[1]) return;
-    const id = p[0].toLowerCase();
-    let w = BYID[id];
-    if(w){ if(w.topics.indexOf(t.id)<0) w.topics.push(t.id); if(!w.d && p[2]) w.d = p[2]; return; }
-    w = {id, w:p[0], vi:p[1], d:p[2]||'', alt:(p[3]||'').split(',').map(s=>norm(s)).filter(Boolean), topics:[t.id]};
-    BYID[id] = w; WORDS.push(w);
+  t.words.forEach(o=>{
+    let w = BYID[o.id];
+    if(w){ if(w.topics.indexOf(t.id)<0) w.topics.push(t.id); return; }
+    w = {id:o.id, w:o.w, vi:o.vi, tag:o.tag||'', img:o.img||'', say:o.say||o.w, alt:(o.alt||[]).map(norm).filter(Boolean), topics:[t.id]};
+    BYID[o.id] = w; WORDS.push(w);
   });
 });
 const topicById = id => TOPICS.find(t=>t.id===id);
+const IMGBASE = 'images/';
+const IMGDATA = null; /*IMGDATA*/   // bản "1 file": build-app.ps1 -Embed thay bằng {tên ảnh: data-URI}
+const HAS_GAMES = true; /*HAS_GAMES*/   // bản "1 file" không có thư mục games\ nên tắt phần Game template
+const imgOf = w => w.img ? (IMGDATA ? (IMGDATA[w.img] || '') : IMGBASE + w.img + '.webp') : '';
+const WITH_IMG = WORDS.filter(w=>w.img);
 
 /* ---------- Lưu trữ ---------- */
 const KEY = 'flyersVocabQuest.v1';
 const TYPES = {
-  def:      {label:'Định nghĩa',     icon:'📖'},
-  missing:  {label:'Điền chữ cái',   icon:'🔤'},
-  listen:   {label:'Nghe & viết',    icon:'🎧'},
-  scramble: {label:'Sắp xếp chữ',    icon:'🔀'},
-  en2vi:    {label:'Anh → Việt',     icon:'🔠'},
-  vi2en:    {label:'Việt → Anh',     icon:'🔡'}
+  missing:  {label:'Điền chữ cái',    icon:'🔤'},
+  scramble: {label:'Sắp xếp chữ',     icon:'🔀'},
+  en2vi:    {label:'Anh → Việt',      icon:'🔠'},
+  vi2en:    {label:'Việt → Anh',      icon:'🔡'},
+  lw:       {label:'Nghe chọn từ',    icon:'🎧'},
+  lp:       {label:'Nghe chọn hình',  icon:'🖼️'},
+  type:     {label:'Nhìn & gõ từ',    icon:'⌨️'},
+  listen:   {label:'Nghe & gõ',       icon:'✍️'},
+  match:    {label:'Nối cặp',         icon:'🔗'}
 };
 const TTS_OK = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+function typeSupported(t){
+  if((t==='lw' || t==='listen') && !TTS_OK) return false;
+  if(t==='lp' && (!TTS_OK || WITH_IMG.length<4)) return false;
+  return true;
+}
 let store = (function(){
   try{ const s = JSON.parse(localStorage.getItem(KEY)); if(s && s.words) return s; }catch(e){}
-  return {words:{}, sessions:0, xp:0, sel:null, size:20, types:null, sound:true};
+  return {words:{}, sessions:0, xp:0, sel:null, size:20, types:null, sound:true, tab:'quest'};
 })();
-if(!Array.isArray(store.sel)) store.sel = TOPICS.map(t=>t.id);
+if(!Array.isArray(store.sel)) store.sel = [TOPICS[0].id];
 store.sel = store.sel.filter(id=>topicById(id));
 if(!Array.isArray(store.types) || !store.types.length) store.types = Object.keys(TYPES);
-if(!TTS_OK) store.types = store.types.filter(t=>t!=='listen');
-if(!store.types.length) store.types = Object.keys(TYPES).filter(t=>t!=='listen');
+store.types = store.types.filter(t=>TYPES[t] && typeSupported(t));
+if(!store.types.length) store.types = ['en2vi'];
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); }catch(e){} }
 const DEF_P = {box:0, seen:0, ok:0, bad:0, last:0, lastOk:true, lastType:'', rv:false, unk:false};
 const getP = id => store.words[id] || DEF_P;
@@ -1127,6 +652,9 @@ function roulette(items, wf){
 }
 const rnd = a => a[Math.floor(Math.random()*a.length)];
 const poolOf = sel => { const s = new Set(sel); return WORDS.filter(w=>w.topics.some(t=>s.has(t))); };
+const imgTag = (w, cls) => w.img ? `<img class="${cls||''}" src="${imgOf(w)}" alt="${esc(w.w)}" draggable="false">` : '';
+const wordHtml = w => esc(w.w) + (w.tag ? `<span class="ptag">${esc(w.tag)}</span>` : '');
+const unitLabel = t => 'Unit ' + t.n + (t.sub ? ' · ' + t.sub : '');
 
 /* ---------- Âm thanh ---------- */
 let actx = null, voice = null;
@@ -1169,7 +697,7 @@ function tone(seq){
 const sfxOk = () => tone([[660,.12],[880,.18]]);
 const sfxBad = () => tone([[260,.18],[200,.25]]);
 function confetti(){
-  const em = ['🎉','⭐','✨','🌟','🎊'];
+  const em = ['🎉','⭐','✨','🌟','🎊','🌸'];
   for(let i=0;i<30;i++){
     const s = document.createElement('span'); s.className='confetti'; s.textContent = rnd(em);
     s.style.left = Math.random()*100+'vw'; s.style.animationDuration = (2.2+Math.random()*2)+'s'; s.style.animationDelay = (Math.random()*.8)+'s';
@@ -1183,12 +711,12 @@ function pickWords(pool, n){
   const sNo = store.sessions;
   const arr = shuffle(pool.slice());
   const byOld = (a,b)=>getP(a.id).last - getP(b.id).last;
-  // 0) Từ em bấm "Chưa thuộc": được ưu tiên trước (tối đa ~40% lượt, để vẫn còn chỗ phủ các từ khác)
+  // 0) Từ em bấm "Chưa thuộc": được ưu tiên trước (tối đa ~40% lượt)
   const chosen = arr.filter(w=>getP(w.id).unk).sort(byOld).slice(0, Math.ceil(n*0.4));
-  // 1) Đến nửa lượt: những từ "lâu rồi chưa gặp / chưa từng gặp" -> đảm bảo luyện hết mọi từ theo vòng
+  // 1) Đến nửa lượt: những từ lâu chưa gặp / chưa từng gặp -> luyện hết mọi từ theo vòng
   arr.filter(w=>chosen.indexOf(w)<0).sort(byOld).slice(0, Math.max(0, Math.ceil(n/2) - chosen.length)).forEach(w=>chosen.push(w));
   let rest = arr.filter(w=>chosen.indexOf(w)<0);
-  // 2) Phần còn lại: ưu tiên từ yếu (hộp thấp, mới sai, lâu chưa gặp)
+  // 2) Phần còn lại: ưu tiên từ yếu
   while(chosen.length<n && rest.length){
     const w = roulette(rest, w=>{
       const p = getP(w.id), age = Math.min(sNo-p.last, 6);
@@ -1199,8 +727,7 @@ function pickWords(pool, n){
   return shuffle(chosen);
 }
 
-/* Số từ mỗi lượt: tick 1 chủ đề = 100% số từ · 2 chủ đề = 80% · 3 chủ đề = 70%.
-   Từ 4 chủ đề trở lên: theo số từ học sinh chọn (10 / 20 / 30). */
+/* Số từ mỗi lượt: tick 1 unit = 100% số từ · 2 unit = 80% · 3 unit = 70%. Từ 4 unit trở lên: theo số từ chọn (10 / 20 / 30). */
 const RATIO_RULE = {1:1, 2:0.8, 3:0.7};
 function sessionCount(sel, pool){
   const r = RATIO_RULE[sel.length];
@@ -1209,10 +736,18 @@ function sessionCount(sel, pool){
 }
 
 /* ---------- Chọn dạng bài ---------- */
-const TW = {en2vi:[5,4,3,2,1,1], def:[4,4,3,3,2,2], vi2en:[3,3,3,3,3,3], missing:[3,4,4,4,4,4], scramble:[2,3,4,4,4,4], listen:[2,3,4,5,5,5]};
+//            hộp 0 → 5 (từ càng thuộc thì dạng khó càng hay gặp)
+const TW = {lw:[5,4,3,2,1,1], lp:[5,4,3,2,2,2], en2vi:[4,4,3,2,1,1], vi2en:[3,3,3,3,3,3], missing:[3,4,4,4,4,4], scramble:[2,3,4,4,4,4], type:[1,2,3,4,5,5], listen:[1,2,3,4,5,5], match:[3,3,3,2,2,2]};
+function distinctTexts(pool){ return new Set(pool.map(w=>w.w.toLowerCase())).size; }
+function typeOk(t, w){
+  if(t==='scramble') return !/\s/.test(w.w) && norm(w.w).length>=3 && norm(w.w).length<=12;
+  if(t==='lp') return !!w.img && WITH_IMG.length>=4;
+  if(t==='match') return !!(S && S.matchOk);
+  return true;
+}
 function pickType(w, enabled, prev, avoid){
   const p = getP(w.id);
-  const ok = enabled.filter(t => !(t==='def' && !w.d) && !(t==='scramble' && norm(w.w).length<3));
+  const ok = enabled.filter(t=>typeOk(t,w));
   const base = ok.length ? ok : ['en2vi'];
   let o = base.filter(t=>t!==p.lastType && t!==prev && t!==avoid);
   if(!o.length) o = base.filter(t=>t!==avoid);
@@ -1221,17 +756,33 @@ function pickType(w, enabled, prev, avoid){
 }
 function mkOpts(w, kind, pool){
   const key = kind==='en' ? 'w' : 'vi';
-  const used = new Set([w[key].toLowerCase()]); const out = [];
+  const used = new Set([w[key].toLowerCase()]); if(kind==='en') used.add(w.w.toLowerCase());
+  const out = [];
   const near = WORDS.filter(x=>x!==w && x.topics.some(t=>w.topics.indexOf(t)>=0));
   [near, pool, WORDS].forEach(src=>{
     shuffle(src.slice()).forEach(x=>{
       if(out.length>=3) return;
       const v = x[key], k = v.toLowerCase();
-      if(kind==='en' && x.vi===w.vi) return;   // cùng nghĩa tiếng Việt (vd. scared/frightened): không dùng làm đáp án nhiễu
+      if(x.vi===w.vi) return;   // cùng nghĩa tiếng Việt: không dùng làm đáp án nhiễu
       if(!used.has(k)){ used.add(k); out.push(v); }
     });
   });
   out.push(w[key]);
+  return shuffle(out);
+}
+// 4 hình để chọn (1 đúng + 3 nhiễu có ảnh)
+function mkPicOpts(w, pool){
+  const used = new Set([w.w.toLowerCase()]), out = [];
+  const near = WITH_IMG.filter(x=>x!==w && x.topics.some(t=>w.topics.indexOf(t)>=0));
+  [near, pool.filter(x=>x.img), WITH_IMG].forEach(src=>{
+    shuffle(src.slice()).forEach(x=>{
+      if(out.length>=3 || x===w) return;
+      const k = x.w.toLowerCase();
+      if(used.has(k) || x.vi===w.vi) return;
+      used.add(k); out.push(x);
+    });
+  });
+  out.push(w);
   return shuffle(out);
 }
 
@@ -1243,7 +794,7 @@ const reviewIds = () => WORDS.filter(w=>getP(w.id).rv);
 function startSession(opts){
   opts = opts || {};
   const review = !!opts.ids;
-  const scope = opts.topic ? [opts.topic] : store.sel.slice();     // opts.topic: "Practice chủ đề này"
+  const scope = opts.topic ? [opts.topic] : store.sel.slice();     // opts.topic: "Practice unit này"
   let pool = review ? opts.ids.map(id=>BYID[id]).filter(Boolean) : poolOf(scope);
   if(!pool.length) return;
   if(review && pool.length>store.size) pool = shuffle(pool.slice()).slice(0, store.size);
@@ -1252,7 +803,8 @@ function startSession(opts){
   const n = review ? pool.length : sessionCount(scope, pool);
   const words = review ? shuffle(pool.slice()) : pickWords(pool, n);
   S = {
-    n, review, pool, scope, topicOnly: opts.topic||null, types: store.types.filter(t=>t!=='listen' || TTS_OK),
+    n, review, pool, scope, topicOnly: opts.topic||null, types: store.types.filter(typeSupported),
+    matchOk: distinctTexts(pool.length>=4 ? pool : WORDS)>=4,
     queue: words.map(w=>({w, attempt:1, avoid:''})),
     idx:0, done:0, score:0, streak:0, best:0, results:{}, prevType:'', startedPoolSize: pool.length,
     order: words.map(w=>w.id), status:{}, hist:[], hv:-1, live:null
@@ -1285,8 +837,25 @@ function missingPlan(w, box){
   let k = Math.max(1, Math.round(len*.4)) + (box>=4?1:0);
   k = Math.min(k, len-1);
   const cand = pos.slice(1);
-  const blanks = shuffle(cand.slice()).slice(0,k).sort((a,b)=>a-b);
-  return blanks;
+  return shuffle(cand.slice()).slice(0,Math.max(1,k)).sort((a,b)=>a-b);
+}
+
+// Dựng bài "Nối cặp": từ đang hỏi + 3 từ khác; một bên là từ tiếng Anh, bên kia là hình (hoặc nghĩa tiếng Việt)
+function setupMatch(){
+  const w = q.w, pool = S.pool.length>=4 ? S.pool : WORDS;
+  const ok = x=>x!==w && x.w.toLowerCase()!==w.w.toLowerCase() && x.vi!==w.vi;
+  const near = pool.filter(x=>ok(x) && x.topics.some(t=>w.topics.indexOf(t)>=0));
+  let cands = [];
+  [near, pool.filter(ok), WORDS.filter(ok)].forEach(src=>{ shuffle(src.slice()).forEach(x=>{ if(cands.indexOf(x)<0) cands.push(x); }); });
+  if(w.img) cands = cands.filter(x=>x.img).concat(cands.filter(x=>!x.img));
+  const seen = new Set([w.w.toLowerCase()]), pick = [];
+  cands.forEach(x=>{ const k = x.w.toLowerCase(); if(pick.length<3 && !seen.has(k)){ seen.add(k); pick.push(x); } });
+  if(pick.length<3) return false;
+  q.items = [w].concat(pick);
+  q.useImg = q.items.every(x=>x.img);
+  q.left = shuffle(q.items.slice()); q.right = shuffle(q.items.slice());
+  q.sel = -1; q.selSide = ''; q.done = new Set(); q.wrong = 0; q.flash = null; q.mode = 'match';
+  return true;
 }
 
 function prepareQ(){
@@ -1296,18 +865,21 @@ function prepareQ(){
   const easy = item.attempt>1 || p.box<3;
   q = {item, w, type, answered:false, correct:null, hints:0, value:'', picked:-1, given:''};
   S.live = q;
-  if(type==='def'){
-    q.mode = easy ? 'mc' : 'typed';
-    if(easy){ q.opts = mkOpts(w,'en',S.pool); q.correctVal = w.w; }
-  } else if(type==='en2vi'){
+  if(type==='en2vi'){
     q.mode = 'mc'; q.opts = mkOpts(w,'vi',S.pool); q.correctVal = w.vi;
+  } else if(type==='lw'){
+    q.mode = 'mc'; q.opts = mkOpts(w,'en',S.pool); q.correctVal = w.w;
+  } else if(type==='lp'){
+    q.mode = 'pic'; q.opts = mkPicOpts(w,S.pool);
   } else if(type==='vi2en'){
     q.mode = easy ? 'mc' : 'typed';
     if(easy){ q.opts = mkOpts(w,'en',S.pool); q.correctVal = w.w; }
+  } else if(type==='type' || type==='listen'){
+    q.mode = 'typed';
   } else if(type==='missing'){
     q.mode = 'missing'; q.blanks = missingPlan(w, p.box); q.typedL = '';
-  } else if(type==='listen'){
-    q.mode = 'typed';
+  } else if(type==='match'){
+    if(!setupMatch()){ q.type = 'en2vi'; q.mode = 'mc'; q.opts = mkOpts(w,'vi',S.pool); q.correctVal = w.vi; }
   } else {
     q.mode = 'scramble';
     const letters = [...w.w].filter(isLetter).map(c=>c.toLowerCase());
@@ -1323,16 +895,24 @@ function pattern(word, reveal){
   let seen = 0;
   return [...word].map(ch=>{
     if(isLetter(ch)){ seen++; return seen<=reveal ? ch : '_'; }
-    return ch===' ' ? '  ' : ch;
+    return ch===' ' ? '  ' : ch;
   }).join(' ');
 }
 const spk = (text, slow) => `<button class="icon-btn" data-act="speak" data-t="${esc(text)}" ${slow?'data-slow="1"':''} aria-label="${slow?'Nghe chậm':'Nghe'}">${slow?'🐢':'🔊'}</button>`;
+const qpic = (w, cls) => w.img ? `<div class="qpic${cls?' '+cls:''}">${imgTag(w)}</div>` : '';
 
 function optsHtml(){
   return `<div class="opts">${q.opts.map((o,i)=>{
     let cls = 'opt';
     if(q.answered){ if(o===q.correctVal) cls += ' right'; else if(i===q.picked) cls += ' wrong'; else cls += ' dim'; }
     return `<button class="${cls}" data-act="opt" data-i="${i}" ${q.answered?'disabled':''}><b>${i+1}</b><span>${esc(o)}</span></button>`;
+  }).join('')}</div>`;
+}
+function picOptsHtml(){
+  return `<div class="picopts">${q.opts.map((o,i)=>{
+    let cls = 'picopt';
+    if(q.answered){ if(o===q.w) cls += ' right'; else if(i===q.picked) cls += ' wrong'; else cls += ' dim'; }
+    return `<button class="${cls}" data-act="opt" data-i="${i}" ${q.answered?'disabled':''} aria-label="Hình ${i+1}"><b>${i+1}</b>${imgTag(o)}${q.answered?`<span class="cap">${esc(o.w)}</span>`:''}</button>`;
   }).join('')}</div>`;
 }
 function typedHtml(ph){
@@ -1366,34 +946,52 @@ function scrambleHtml(){
   }).join('');
   return `<div class="slots" style="margin-top:10px">${slots}</div><div class="bank">${bank}</div>`;
 }
+function matchHtml(){
+  const L = q.left.map((x,i)=>{
+    const cls = 'mbtn'+(q.done.has(x.id)?' gone':'')+((q.selSide==='L'&&q.sel===i)?' sel':'');
+    return `<button class="${cls}" data-act="mL" data-side="L" data-i="${i}" ${(q.done.has(x.id)||q.answered)?'disabled':''}>${wordHtml(x)}</button>`;
+  }).join('');
+  const R = q.right.map((x,j)=>{
+    const cls = 'mbtn'+(q.done.has(x.id)?' gone':'')+((q.selSide==='R'&&q.sel===j)?' sel':'');
+    return `<button class="${cls}" data-act="mR" data-side="R" data-j="${j}" ${(q.done.has(x.id)||q.answered)?'disabled':''}>${q.useImg ? imgTag(x) : esc(x.vi)}</button>`;
+  }).join('');
+  return `<div class="match${q.useImg?' img':''}"><div class="mcol">${L}</div><div class="mcol${q.useImg?' imgs':''}">${R}</div></div>`;
+}
 function hintHtml(){
   const w = q.w, n = norm(w.w).length, out = [];
   const mono = 'display:block;font-family:ui-monospace,Consolas,monospace;letter-spacing:2px;font-size:20px';
-  if(q.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span style="${mono}">${esc(pattern(w.w,0))}</span>`);
-  if(q.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span style="${mono}">${esc(pattern(w.w,1))}</span>`);
-  if(q.hints>=3) out.push(q.type==='vi2en' ? `💡 Hai chữ cái đầu: <span style="${mono}">${esc(pattern(w.w,Math.min(2,n)))}</span>` : `💡 Nghĩa tiếng Việt: <b>${esc(w.vi)}</b>`);
+  if(q.type==='listen'){
+    if(q.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span style="${mono}">${esc(pattern(w.w,0))}</span>`);
+    if(q.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span style="${mono}">${esc(pattern(w.w,1))}</span>`);
+    if(q.hints>=3) out.push(`💡 Nghĩa tiếng Việt: <b>${esc(w.vi)}</b>${w.img?`<div class="qpic sm">${imgTag(w)}</div>`:''}`);
+  } else {                                   // dạng gõ từ (nhìn hình / Việt → Anh)
+    if(q.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span style="${mono}">${esc(pattern(w.w,0))}</span>`);
+    if(q.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span style="${mono}">${esc(pattern(w.w,1))}</span>`);
+    if(q.hints>=3) out.push(`💡 Hai chữ cái đầu: <span style="${mono}">${esc(pattern(w.w,Math.min(2,n)))}</span> <button class="icon-btn sm" data-act="speak" data-t="${esc(w.say)}" aria-label="Nghe">🔊</button>`);
+  }
   return out.map(x=>`<div>${x}</div>`).join('');
 }
+const byText = t => WORDS.find(x=>x.w.toLowerCase()===String(t).toLowerCase());
 /* Giải thích sau mỗi câu (cả đúng lẫn sai) */
 function explainHtml(){
   const w = q.w, L = [], b = s => `<b>${esc(s)}</b>`;
-  if(q.type==='def'){
-    if(w.d.indexOf('___')>=0){
-      const i = w.d.indexOf(': '), pre = i>=0 ? w.d.slice(0,i) : '', sen = i>=0 ? w.d.slice(i+2) : w.d;
-      L.push(`${pre?esc(pre)+' → ':''}“${esc(sen).replace('___', `<b class="red">${esc(w.w)}</b>`)}”`);
-    } else L.push(`Định nghĩa “${esc(w.d)}” chính là từ ${b(w.w)}.`);
-  } else if(q.type==='en2vi') L.push(`${b(w.w)} nghĩa là ${b(w.vi)}.`);
+  if(q.type==='en2vi') L.push(`${b(w.w)} nghĩa là ${b(w.vi)}.`);
   else if(q.type==='vi2en') L.push(`Nghĩa “${esc(w.vi)}” trong tiếng Anh là ${b(w.w)}.`);
   else if(q.type==='missing') L.push(`Từ hoàn chỉnh là ${b(w.w)} (${esc(w.vi)}).`);
   else if(q.type==='scramble') L.push(`Các chữ cái ghép lại thành ${b(w.w)} (${esc(w.vi)}).`);
+  else if(q.type==='type') L.push(`${w.img?'Hình này là':'Nghĩa này là'} ${b(w.w)} (${esc(w.vi)}).`);
+  else if(q.type==='match') L.push(`Các cặp đúng: ${q.items.map(x=>`${b(x.w)} = ${q.useImg?'hình':esc(x.vi)}`).join(' · ')}`);
   else L.push(`Từ em vừa nghe là ${b(w.w)} (${esc(w.vi)}).`);
-  if(q.mode!=='mc') L.push(`Đánh vần: ${b([...w.w].filter(c=>c!==' ').join(' · '))}`);
-  if(!q.correct && q.mode==='mc' && q.picked>=0){
-    const pk = q.opts[q.picked];
-    if(q.type==='en2vi'){ const x = WORDS.find(x=>x.vi===pk); if(x) L.push(`“${esc(pk)}” là nghĩa của từ ${b(x.w)}, không phải ${b(w.w)}.`); }
-    else { const x = BYID[pk.toLowerCase()]; if(x) L.push(`Em đã chọn ${b(x.w)} — nghĩa là “${esc(x.vi)}”${x.d && x.d.indexOf('___')<0 ? ` (${esc(x.d)})` : ''}.`); }
+  if(q.mode!=='mc' && q.mode!=='pic' && q.mode!=='match') L.push(`Đánh vần: ${b([...w.w].filter(c=>c!==' ').join(' · '))}`);
+  if(!q.correct && q.picked>=0){
+    if(q.mode==='pic'){ const x = q.opts[q.picked]; if(x) L.push(`Em đã chọn hình của ${b(x.w)} (${esc(x.vi)}), không phải ${b(w.w)}.`); }
+    else if(q.mode==='mc'){
+      const pk = q.opts[q.picked];
+      if(q.type==='en2vi'){ const x = WORDS.find(x=>x.vi===pk); if(x) L.push(`“${esc(pk)}” là nghĩa của từ ${b(x.w)}, không phải ${b(w.w)}.`); }
+      else { const x = byText(pk); if(x) L.push(`Em đã chọn ${b(x.w)} — nghĩa là “${esc(x.vi)}”.`); }
+    }
   }
-  if(!q.correct && q.mode!=='mc' && q.given) L.push(`Em trả lời “${esc(q.given)}” — chưa khớp với ${b(w.w)}.`);
+  if(!q.correct && q.mode!=='mc' && q.mode!=='pic' && q.mode!=='match' && q.given) L.push(`Em trả lời “${esc(q.given)}” — chưa khớp với ${b(w.w)}.`);
   return `<div class="why"><b>💡 Giải thích:</b>${L.map(x=>`<div>${x}</div>`).join('')}</div>`;
 }
 function feedbackHtml(){
@@ -1403,9 +1001,7 @@ function feedbackHtml(){
   const hintNote = (ok && q.hints) ? ' (có dùng gợi ý)' : '';
   const retry = (!ok && q.item.attempt===1) ? '<span class="fd"> · Từ này sẽ quay lại sau để em thử lại 💪</span>' : '';
   return `<div class="fb ${ok?'good':'bad'}">
-    <div class="fbh">${ok?'🎉':'💭'} ${rnd(ok?good:bad)}${hintNote}${retry}</div>
-    <div class="fw">${esc(w.w)} ${spk(w.w)} <span class="fv">${esc(w.vi)}</span></div>
-    ${w.d && w.d.indexOf('___')<0 ?`<div class="fd">📖 ${esc(w.d)}</div>`:''}
+    <div class="fbrow">${w.img?`<img class="fbpic" src="${imgOf(w)}" alt="">`:''}<div class="fbtxt"><div class="fbh">${ok?'🎉':'💭'} ${rnd(ok?good:bad)}${hintNote}${retry}</div><div class="fw">${wordHtml(w)} ${spk(w.say)} <span class="fv">${esc(w.vi)}</span></div></div></div>
     <details class="whyd"><summary>💡 Xem giải thích</summary>${explainHtml()}</details></div>`;
 }
 function numsHtml(){
@@ -1420,34 +1016,44 @@ function navHtml(){
     <button class="btn" data-act="skip" ${(viewing||q.answered)?'disabled':''}>⏭ Bỏ qua</button>
     <button class="btn${q.answered?' primary':''}" id="nextbtn" data-act="next" ${q.answered?'':'disabled'}>Tiếp ▶</button></div></div>`;
 }
+const listenRow = w => `<div class="listen-row"><button class="icon-btn lg" data-act="speak" data-t="${esc(w.say)}" aria-label="Nghe">🔊</button>${spk(w.say,true)}</div>`;
 
 function renderQ(first){
   const w = q.w, T = TYPES[q.type];
   const tp = topicById(w.topics[0]);
-  const hintable = q.type==='listen' || (q.mode!=='mc' && (q.type==='def' || q.type==='vi2en'));
+  const hintable = q.type==='listen' || q.type==='type' || (q.type==='vi2en' && q.mode==='typed');
   const hintbox = hintable ? `<div class="hintbox" id="hintbox">${hintHtml()}</div>` : '';
-  let label = '', top = '', bot = '';
-  if(q.type==='def'){
-    label = w.d.indexOf('___')>=0 ? 'Điền dạng đúng của từ vào chỗ trống' : 'Từ nào có nghĩa như sau?';
-    top = `<div class="clue">“${esc(w.d)}”</div>` + (q.mode==='mc' ? '' : `<div class="pattern">${esc(pattern(w.w,1))}</div>${hintbox}`);
-    bot = q.mode==='mc' ? optsHtml() : typedHtml('Gõ từ tiếng Anh...');
-  } else if(q.type==='en2vi'){
-    label = 'Nghĩa tiếng Việt của từ này là gì?'; top = `<div class="bigword">${esc(w.w)} ${spk(w.w)}</div>`; bot = optsHtml();
+  let label = '', top = '', bot = '', topCls = '';
+  if(q.type==='en2vi'){
+    label = 'Nghĩa tiếng Việt của từ này là gì?';
+    top = `${qpic(w)}<div class="bigword">${wordHtml(w)} ${spk(w.say)}</div>`; bot = optsHtml();
   } else if(q.type==='vi2en'){
-    label = 'Từ tiếng Anh của nghĩa này là gì?'; top = `<div class="bigword vi">${esc(w.vi)}</div>` + (q.mode==='mc' ? '' : `<div class="pattern">${esc(pattern(w.w,1))}</div>${hintbox}`);
+    label = 'Từ tiếng Anh của nghĩa này là gì?';
+    top = `<div class="bigword vi">${esc(w.vi)}</div>` + (q.mode==='mc' ? '' : hintbox);
     bot = q.mode==='mc' ? optsHtml() : typedHtml('Gõ từ tiếng Anh...');
+  } else if(q.type==='lw'){
+    label = 'Nghe và chọn từ đúng'; top = listenRow(w); bot = optsHtml();
+  } else if(q.type==='lp'){
+    label = 'Nghe và chọn hình đúng'; topCls = ' pics'; top = listenRow(w) + picOptsHtml();
+  } else if(q.type==='type'){
+    label = w.img ? 'Nhìn hình và gõ từ tiếng Anh' : 'Gõ từ tiếng Anh của nghĩa này';
+    top = `${qpic(w)}<div class="bigword vi">${esc(w.vi)}</div>${hintbox}`; bot = typedHtml('Gõ từ tiếng Anh...');
   } else if(q.type==='missing'){
-    label = 'Điền các chữ cái còn thiếu'; top = `<div class="bigword vi">${esc(w.vi)}</div>`;
+    label = 'Điền các chữ cái còn thiếu';
+    top = `${qpic(w)}<div class="bigword vi">${esc(w.vi)}</div>`;
     bot = `<div class="slotwrap"><div class="slots" id="slots">${slotsHtml()}</div>${q.answered?'':`<input id="hid" class="hid" type="text" maxlength="${q.blanks.length}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Nhập các chữ cái còn thiếu" value="${esc(q.typedL)}">`}</div>`;
   } else if(q.type==='listen'){
-    label = 'Nghe và viết lại từ bạn nghe được';
-    top = `<div class="listen-row"><button class="icon-btn lg" data-act="speak" data-t="${esc(w.w)}" aria-label="Nghe">🔊</button>${spk(w.w,true)}</div>${hintbox}`; bot = typedHtml('Gõ từ bạn nghe được...');
+    label = 'Nghe và viết lại từ bạn nghe được'; top = listenRow(w) + hintbox; bot = typedHtml('Gõ từ bạn nghe được...');
+  } else if(q.type==='match'){
+    label = `Nối từ tiếng Anh với ${q.useImg?'hình':'nghĩa'} đúng. Chạm bên nào trước cũng được, đúng thì biến mất!`;
+    topCls = ' mt'; top = `<div id="matchbox" class="matchbox">${matchHtml()}</div>`;
   } else {
-    label = 'Sắp xếp các chữ cái thành từ đúng'; top = `<div class="bigword vi">${esc(w.vi)}</div>`; bot = `<div id="scr">${scrambleHtml()}</div>`;
+    label = 'Sắp xếp các chữ cái thành từ đúng';
+    top = `${qpic(w)}<div class="bigword vi">${esc(w.vi)}</div>`; bot = `<div id="scr">${scrambleHtml()}</div>`;
   }
   let actions = '';
   if(!q.answered){
-    if(q.mode!=='mc'){
+    if(q.mode==='typed' || q.mode==='missing' || q.mode==='scramble'){
       actions = `<div class="actions">
         ${hintable?`<button class="btn" data-act="hint" id="hintbtn" ${q.hints>=3?'disabled':''}>💡 Gợi ý (${q.hints}/3)</button>`:''}
         ${q.mode==='scramble'?`<button class="btn" data-act="clear">↺ Xóa</button>`:''}
@@ -1468,9 +1074,9 @@ function renderQ(first){
       <div class="combo">${S.streak>=2?'🔥 '+S.streak:'⭐ '+S.score}</div></div>
     ${numsHtml()}
     <div class="qcard${first?' enter':''}" id="qcard">
-      <div class="qhead"><span class="qtype">${T.icon} ${T.label}</span><span class="qtopic">${esc(tp.icon+' '+tp.name)}</span>${tags}</div>
+      <div class="qhead"><span class="qtype">${T.icon} ${T.label}</span><span class="qtopic">${esc(tp.icon+' '+unitLabel(tp))}</span>${tags}</div>
       <div class="qlabel">${label}</div>
-      <div class="qtop">${top}</div>
+      <div class="qtop${topCls}">${top}</div>
       <div class="qbot">${bot}${actions}${q.answered?feedbackHtml():''}</div>
     </div>${navHtml()}`;
   const nm = app.querySelector('.nums'), cu = app.querySelector('.num.cur');
@@ -1479,26 +1085,26 @@ function renderQ(first){
   if(!q.answered){
     if(q.mode==='typed') focusEl('#ans');
     else if(q.mode==='missing') focusEl('#hid');
-    if(q.type==='listen') setTimeout(()=>speak(w.w), 350);
-    else if(q.type==='en2vi' && store.sound) setTimeout(()=>speak(w.w), 300);
+    if(q.type==='listen' || q.type==='lw' || q.type==='lp') setTimeout(()=>speak(w.say), 350);
+    else if(q.type==='en2vi' && store.sound) setTimeout(()=>speak(w.say), 300);
   } else if(S.hv===-1){
     const nb = $('#nextbtn'); if(nb) nb.focus({preventScroll:true});
   }
 }
-function focusEl(sel){ setTimeout(()=>{ const e = $(sel); if(e) e.focus({preventScroll:true}); }, 60); }
+function focusEl(sel){ if(TOUCH) return; setTimeout(()=>{ const e = $(sel); if(e) e.focus({preventScroll:true}); }, 60); }
 function shake(){ const c = $('#qcard'); if(!c) return; c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
 
 /* ---------- Xử lý trả lời ---------- */
 function checkTyped(given){
   const g = norm(given);
   if(g===norm(q.w.w) || q.w.alt.indexOf(g)>=0) return true;
-  // Việt → Anh: các từ cùng nghĩa tiếng Việt (vd. scared/frightened) đều được chấp nhận
+  // Việt → Anh: các từ cùng nghĩa tiếng Việt đều được chấp nhận
   return q.type==='vi2en' && WORDS.some(x=>x.vi===q.w.vi && norm(x.w)===g);
 }
 function submit(giveUp){
   if(!q || q.answered) return;
   let ok = false, given = '';
-  if(q.mode==='mc') return;
+  if(q.mode==='mc' || q.mode==='pic' || q.mode==='match') return;
   if(q.mode==='typed'){
     const el = $('#ans'); given = (el ? el.value : q.value).trim(); q.value = given;
     if(!given && !giveUp){ shake(); return; }
@@ -1536,7 +1142,7 @@ function finish(ok, given){
     }
     S.results[w.id] = {w, ok, hinted:q.hints>0, type:q.type};
     S.status[w.id] = ok ? 'ok' : 'bad';
-    lse('answer', {qid:w.id, topic:'Từ vựng Flyers – '+topicById(w.topics[0]).name, ok:ok, q:'['+TYPES[q.type].label+'] '+w.w+' = '+w.vi});
+    lse('answer', {qid:w.id, topic:'Từ vựng Flyers – '+unitLabel(topicById(w.topics[0]))+' '+topicById(w.topics[0]).name, ok:ok, q:'['+TYPES[q.type].label+'] '+w.w+' = '+w.vi});
   } else {
     if(ok) pts = 3;
     S.done++;
@@ -1545,13 +1151,45 @@ function finish(ok, given){
   ok ? sfxOk() : sfxBad();
   lastAnswerAt = Date.now();
   renderQ(false);
-  setTimeout(()=>speak(w.w), 450);
+  setTimeout(()=>speak(w.say), 450);
 }
 function pick(i){
-  if(!q || q.answered || q.mode!=='mc') return;
-  q.picked = i; q.given = q.opts[i];
-  finish(q.opts[i]===q.correctVal, q.opts[i]);
+  if(!q || q.answered) return;
+  if(q.mode==='mc'){ q.picked = i; q.given = q.opts[i]; finish(q.opts[i]===q.correctVal, q.opts[i]); }
+  else if(q.mode==='pic'){ q.picked = i; q.given = q.opts[i].w; finish(q.opts[i]===q.w, q.opts[i].w); }
 }
+function updateMatch(){ const e = $('#matchbox'); if(e) e.innerHTML = matchHtml(); }
+const mEl = (side,idx) => document.querySelector(`.mbtn[data-side="${side}"][data-${side==='L'?'i':'j'}="${idx}"]`);
+/* Chạm từ hoặc hình/nghĩa bên nào trước cũng được; cặp đúng biến mất ngay, không cần chờ */
+function matchTap(side, idx){
+  if(!q || q.mode!=='match' || q.answered) return;
+  const item = (side==='L' ? q.left : q.right)[idx];
+  if(!item || q.done.has(item.id)) return;
+  if(q.sel<0 || q.selSide===side){
+    const same = (q.sel===idx && q.selSide===side);
+    const prev = q.sel>=0 ? mEl(q.selSide,q.sel) : null; if(prev) prev.classList.remove('sel');
+    if(same){ q.sel = -1; q.selSide = ''; return; }
+    q.sel = idx; q.selSide = side;
+    const el = mEl(side,idx); if(el) el.classList.add('sel');
+    if(side==='L') speak(item.say);
+    return;
+  }
+  const li = side==='L' ? idx : q.sel, ri = side==='R' ? idx : q.sel;
+  const a = mEl('L',li), b = mEl('R',ri), l = q.left[li], r = q.right[ri];
+  q.sel = -1; q.selSide = '';
+  if(a) a.classList.remove('sel'); if(b) b.classList.remove('sel');
+  if(l===r){
+    q.done.add(l.id); sfxOk(); speak(l.say);
+    [a,b].forEach(el=>{ if(el){ el.disabled = true; el.classList.add('gone'); } });
+    if(q.done.size===q.items.length){ const cur = q; setTimeout(()=>{ if(q===cur && !cur.answered) finish(cur.wrong<=1, ''); }, 380); }
+  } else {
+    q.wrong++; sfxBad();
+    [a,b].forEach(el=>{ if(el) el.classList.add('bad'); });
+    setTimeout(()=>{ [a,b].forEach(el=>{ if(el) el.classList.remove('bad'); }); }, 380);
+  }
+}
+const matchLeft = i => matchTap('L', i);
+const matchRight = j => matchTap('R', j);
 function next(){
   if(!S || !q || !q.answered) return;
   if(S.hv!==-1){                       // đang xem lại câu cũ: đi tới
@@ -1583,16 +1221,15 @@ function updateSlots(){ const e = $('#slots'); if(e) e.innerHTML = slotsHtml(); 
 function updateScramble(){ const e = $('#scr'); if(e) e.innerHTML = scrambleHtml(); }
 
 /* ---------- Màn hình kết quả ---------- */
-// Danh sách từ sai, gom theo chủ điểm, từ tiếng Anh in đậm đỏ + tô vàng
+// Danh sách từ sai, gom theo unit, từ tiếng Anh in đậm đỏ + tô vàng
 function groupedMissedHtml(words){
   const by = {};
   words.forEach(w=>{ const t = topicById(w.topics[0]); (by[t.id] = by[t.id] || {t, ws:[]}).ws.push(w); });
-  return TOPICS.filter(t=>by[t.id]).map(t=>`<div class="rtopic"><div class="rt-h">${esc(t.icon+' '+t.name)}</div>${by[t.id].ws.map(w=>`<div class="wr"><span class="e"><span class="red">${esc(w.w)}</span> ${spk(w.w)}${w.d && w.d.indexOf('___')<0 ? `<span class="df">${esc(w.d)}</span>` : ''}</span><span class="v">${esc(w.vi)}</span></div>`).join('')}</div>`).join('');
+  return TOPICS.filter(t=>by[t.id]).map(t=>`<div class="rtopic"><div class="rt-h">${esc(t.icon+' '+unitLabel(t)+' · '+t.name)}</div>${by[t.id].ws.map(w=>`<div class="wr"><span class="e">${w.img?`<img class="gimg" src="${imgOf(w)}" alt="">`:''}<span class="red">${esc(w.w)}</span> ${spk(w.say)}</span><span class="v">${esc(w.vi)}</span></div>`).join('')}</div>`).join('');
 }
 function renderResult(){
   const res = Object.values(S.results);
   const okFirst = res.filter(r=>r.ok).length;
-  const clean = res.filter(r=>r.ok && !r.hinted).length;
   const acc = S.n ? okFirst/S.n : 0;
   const stars = acc>=.9?3 : acc>=.7?2 : acc>=.4?1 : 0;
   const missed = res.filter(r=>!r.ok);
@@ -1601,7 +1238,7 @@ function renderResult(){
   let cover = '';
   if(!S.review){
     const pool = poolOf(S.scope || store.sel); const seen = pool.filter(w=>getP(w.id).seen>0).length;
-    cover = `<p class="note" style="text-align:center">Bạn đã gặp <b>${seen}/${pool.length}</b> từ trong ${S.topicOnly?'chủ đề này':'các chủ đề đã chọn'}.</p>`;
+    cover = `<p class="note" style="text-align:center">Bạn đã gặp <b>${seen}/${pool.length}</b> từ trong ${S.topicOnly?'unit này':'các unit đã chọn'}.</p>`;
   }
   app.innerHTML = `<div class="result">
     <div class="stars">${[0,1,2].map(i=>`<span class="${i<stars?'':'off'}">⭐</span>`).join('')}</div>
@@ -1613,11 +1250,11 @@ function renderResult(){
       <div><b>${Math.round(acc*100)}%</b><span>Chính xác</span></div>
       <div><b>🔥 ${S.best}</b><span>Chuỗi đúng dài nhất</span></div>
     </div>
-    ${missed.length?`<h2 style="text-align:left;font-size:19px">📌 Từ vựng làm sai, xếp theo chủ điểm</h2><div class="wlist">${groupedMissedHtml(missed.map(r=>r.w))}</div>`:`<p><b>Không sai từ nào!</b> 🎉</p>`}
+    ${missed.length?`<h2 style="text-align:left;font-size:19px">📌 Từ vựng làm sai, xếp theo unit</h2><div class="wlist">${groupedMissedHtml(missed.map(r=>r.w))}</div>`:`<p><b>Không sai từ nào!</b> 🎉</p>`}
     ${cover}
     <div class="rbtns">
       ${missed.length?`<button class="btn accent big" data-act="review">🔁 Làm lại ${missed.length} từ vừa sai</button>`:''}
-      ${allRv.length>missed.length?`<button class="btn big" data-act="reviewall">📚 Ôn tất cả ${allRv.length} từ cần ôn (kể cả chủ đề khác)</button>`:''}
+      ${allRv.length>missed.length?`<button class="btn big" data-act="reviewall">📚 Ôn tất cả ${allRv.length} từ cần ôn (kể cả unit khác)</button>`:''}
       ${S.review?'':`<button class="btn primary big" data-act="again">▶ Chơi tiếp lượt mới</button>`}
       <button class="btn big" data-act="home">🏠 Về trang chủ</button>
     </div></div>`;
@@ -1631,21 +1268,22 @@ function renderResult(){
 /* ---------- Trang bìa ---------- */
 const ASSET = '../../../assets/ui/';   // ảnh mascot của website (nếu không có thì dùng emoji)
 const logoImg = () => `<img class="logo-img" src="${ASSET}av-sprout.png" alt="" onerror="this.outerHTML='<i style=&quot;font-style:normal;font-size:30px&quot;>🌱</i>'">`;
+const wordsOfUnit = t => WORDS.filter(w=>w.topics.indexOf(t.id)>=0);
 function renderCover(){
   resumeGame(); S = null; q = null; endG();
   document.body.classList.add('on-cover');
   const total = WORDS.length, mastered = WORDS.filter(w=>getP(w.id).box>=4).length, seen = WORDS.filter(w=>getP(w.id).seen>0).length;
-  const deco = [['☁️','6%','8%','0s'],['⭐','86%','6%','1s'],['✨','12%','34%','2s'],['🌈','84%','30%','.5s'],['🎈','8%','66%','1.5s'],['🌸','88%','62%','2.5s'],['☁️','72%','86%','1s'],['⭐','18%','88%','3s']];
+  const deco = [['☁️','6%','8%','0s'],['⭐','86%','6%','1s'],['🐝','12%','34%','2s'],['🌈','84%','30%','.5s'],['🎈','8%','66%','1.5s'],['🌸','88%','62%','2.5s'],['☁️','72%','86%','1s'],['🐥','18%','88%','3s']];
   app.innerHTML = `<div class="cover">
     ${deco.map(d=>`<span class="deco" style="left:${d[1]};top:${d[2]};animation-delay:${d[3]}">${d[0]}</span>`).join('')}
     <div class="brand">🌱 Little Sprout English</div>
     <div class="stage"><div class="mascot"><img src="${ASSET}av-sprout.png" alt="Mầm nhỏ" onerror="this.outerHTML='🌱'"></div>
       <img class="rocket" src="${ASSET}gt-flyers.png" alt="" onerror="this.remove()"></div>
     <h1><span class="a">Flyers</span><span class="b">Vocab Quest</span></h1>
-    <p class="sub">Ôn luyện từ vựng Cambridge Flyers thật vui cùng Miss Thảo</p>
-    <div class="facts"><span class="fact">📚 ${total} từ vựng</span><span class="fact">🗂️ ${TOPICS.length} chủ đề</span><span class="fact">📝 6 dạng bài</span><span class="fact">🎮 5 trò chơi</span></div>
+    <p class="sub">Học từ vựng Cambridge Flyers thật vui cùng Miss Thảo</p>
+    <div class="facts"><span class="fact">📚 ${total} từ vựng</span><span class="fact">🗂️ ${new Set(TOPICS.map(t=>t.n)).size} unit</span><span class="fact">📝 ${Object.keys(TYPES).length} dạng bài</span><span class="fact">🎮 ${TEMPLATES.length+GAMES.length} trò chơi</span></div>
     <button class="btn primary go" data-act="enter">▶ Bắt đầu học</button>
-    <div class="go2"><button class="btn" data-act="coverflash">📇 Ôn từ vựng</button><button class="btn" data-act="covergames">🎮 Chơi game</button></div>
+    <div class="go2"><button class="btn" data-act="coverflash">📇 Flashcard</button><button class="btn" data-act="covergames">🎮 Chơi game</button></div>
     ${seen ? `<div class="prog">Đã thuộc ${mastered}/${total} từ · đã gặp ${seen} từ<div class="progress"><i style="width:${Math.round(mastered/total*100)}%"></i></div></div>` : ''}
   </div>`;
   window.scrollTo(0,0);
@@ -1658,41 +1296,48 @@ function renderHome(){
   const total = WORDS.length, mastered = WORDS.filter(w=>getP(w.id).box>=4).length, seenAll = WORDS.filter(w=>getP(w.id).seen>0).length;
   const n = sessionCount(store.sel, pool), k = store.sel.length;
   const cards = TOPICS.map(t=>{
-    const ws = WORDS.filter(w=>w.topics.indexOf(t.id)>=0);
+    const ws = wordsOfUnit(t);
     const seen = ws.filter(w=>getP(w.id).seen>0).length, mas = ws.filter(w=>getP(w.id).box>=4).length, unkN = ws.filter(w=>getP(w.id).unk).length;
-    const on = sel.has(t.id);
-    return `<button class="topic${on?' on':''}" style="--c:${t.color}" data-act="toggleTopic" data-id="${t.id}" aria-pressed="${on}">
-      <span class="chk">${on?'✓':''}</span>
-      <span class="row"><span class="ic">${t.icon}</span><span><div class="nm">${esc(t.name)}</div><div class="vi">${esc(t.vi)}</div></span></span>
-      <div class="bar"><i class="seen" style="width:${seen/ws.length*100}%"></i><i class="mas" style="width:${mas/ws.length*100}%"></i></div>
-      <div class="meta">${ws.length} từ · đã gặp ${seen} · thuộc ${mas}${unkN?` · 🚩 ${unkN}`:''}</div></button>`;
+    const on = sel.has(t.id), th = ws.find(w=>w.img);
+    return `<div class="topic${on?' on':''}" style="--c:${t.color}">
+      <button class="tmain" data-act="toggleTopic" data-id="${t.id}" aria-pressed="${on}">
+        <span class="chk">${on?'✓':''}</span>
+        <span class="row"><span class="ic${th?' thumb':''}">${th?`<img src="${imgOf(th)}" alt="">`:t.icon}</span><span><span class="un">${esc(unitLabel(t))}</span><div class="nm">${esc(t.name)}</div><div class="vi">${esc(t.vi)}</div></span></span>
+        <div class="bar"><i class="seen" style="width:${seen/ws.length*100}%"></i><i class="mas" style="width:${mas/ws.length*100}%"></i></div>
+        <div class="meta">${ws.length} từ · đã gặp ${seen} · thuộc ${mas}${unkN?` · 🚩 ${unkN}`:''}</div></button>
+      <div class="tacts"><button data-act="flashTopic" data-id="${t.id}">📇 Flashcard</button><button data-act="practiceTopic" data-id="${t.id}">🎯 Practice</button></div></div>`;
   }).join('');
   const chips = Object.keys(TYPES).map(k=>{
-    const off = k==='listen' && !TTS_OK;
+    const off = !typeSupported(k);
     const on = store.types.indexOf(k)>=0 && !off;
-    return `<button class="chip${on?' on':''}${off?' off-support':''}" data-act="toggleType" data-t="${k}" ${off?'disabled title="Trình duyệt này không hỗ trợ giọng đọc"':''}>${TYPES[k].icon} ${TYPES[k].label}</button>`;
+    return `<button class="chip${on?' on':''}${off?' off-support':''}" data-act="toggleType" data-t="${k}" ${off?'disabled title="Dạng này cần giọng đọc của trình duyệt hoặc cần thêm ảnh"':''}>${TYPES[k].icon} ${TYPES[k].label}</button>`;
   }).join('');
   const rv = reviewIds();
   const rvHtml = rv.length ? `<div class="rvbox"><div><b>🔁 Có ${rv.length} từ em làm sai cần ôn lại</b>
-      <div class="small muted">Dù không tick chủ đề của những từ này, em vẫn có thể ôn lại ngay.</div>
+      <div class="small muted">Dù không tick unit của những từ này, em vẫn có thể ôn lại ngay.</div>
       <div class="rvwords">${rv.slice(0,14).map(w=>`<span class="red">${esc(w.w)}</span>`).join('')}${rv.length>14?'<span class="muted">…</span>':''}</div></div>
       <button class="btn accent" data-act="reviewall">▶ Ôn ngay</button></div>` : '';
   const tab = store.tab==='games' ? 'games' : 'quest';
   const sizeHtml = (k>=1 && k<=3)
-    ? `<div class="infobox">📏 Em chọn <b>${k}</b> chủ đề (${pool.length} từ) → mỗi lượt luyện <b>${n}</b> từ (${Math.round(RATIO_RULE[k]*100)}% số từ). Từ chưa luyện hoặc hay sai được ưu tiên trước.</div>`
-    : (k===0 ? '<p class="note">Hãy chọn ít nhất 1 chủ đề ở trên.</p>'
+    ? `<div class="infobox">📏 Em chọn <b>${k}</b> unit (${pool.length} từ) → mỗi lượt luyện <b>${n}</b> từ (${Math.round(RATIO_RULE[k]*100)}% số từ). Từ chưa luyện hoặc hay sai được ưu tiên trước.</div>`
+    : (k===0 ? '<p class="note">Hãy tick ít nhất 1 unit ở trên.</p>'
         : `<div class="seg">${[10,20,30].map(s=>`<button class="${store.size===s?'on':''}" data-act="size" data-n="${s}">${s} từ</button>`).join('')}</div>
-    <p class="note">Từ 4 chủ đề trở lên: em tự chọn số từ mỗi lượt. (Chọn 1–3 chủ đề thì hệ thống tự tính: 100% · 80% · 70% số từ.)</p>`);
+    <p class="note">Từ 4 unit trở lên: em tự chọn số từ mỗi lượt. (Chọn 1–3 unit thì hệ thống tự tính: 100% · 80% · 70% số từ.)</p>`);
   const foot = `<div class="foot">Tiến độ được lưu ngay trên thiết bị này. <button class="link" data-act="reset">Xóa tiến độ</button></div>`;
-  const gamesHtml = `
+  const tplHtml = !TEMPLATES.length ? '' : `
+    <div class="sec-h"><h2>🎯 Game template</h2></div>
+    <p class="note" style="margin:0 0 6px">Các game này tự lấy <b>${pool.length}</b> từ vựng của ${k?`<b>${k}</b> unit đã tick ở trên`:'các unit — hãy tick unit ở trên trước'} để ra câu hỏi và hình. Chọn unit khác thì game đổi theo.</p>
+    <div class="games">${TEMPLATES.map(g=>`<button class="gcard" style="--g:${g.color}" data-act="openGame" data-k="${g.key}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>`;
+  const gamesHtml = tplHtml + `
+    <div class="sec-h"><h2>⚡ Game nhanh trong app</h2></div>
     <div class="games">${GAMES.map(g=>`<button class="gcard" style="--g:${g.color}" data-act="${g.act}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>
-    <p class="note">Các trò chơi dùng <b>${pool.length}</b> từ trong các chủ đề đã chọn và ưu tiên những từ bạn chưa thuộc.</p>${foot}`;
+    <p class="note">Game nhanh ưu tiên những từ bạn chưa thuộc.</p>${foot}`;
   app.innerHTML = `
     <div class="top"><button class="logo" data-act="cover" aria-label="Về trang bìa" style="background:none;border:0;padding:0">${logoImg()}Flyers Vocab Quest</button>
       <div class="pills"><span class="pill">⭐ ${store.xp}</span><button class="pill btn-pill" data-act="toggleSound" aria-label="Bật/tắt âm thanh">${store.sound?'🔊':'🔇'}</button></div></div>
-    <div class="hero"><h1>Luyện từ vựng Flyers</h1><p>Chọn chủ đề rồi bắt đầu luyện. Hệ thống tự ưu tiên những từ bạn chưa thuộc!</p>
+    <div class="hero"><h1>Luyện từ vựng Flyers</h1><p>Tick các unit muốn luyện rồi bắt đầu. Mỗi unit có nút <b>Flashcard</b> và <b>Practice</b> riêng!</p>
       <div class="stats"><span>📚 ${total} từ</span><span>👀 Đã gặp ${seenAll}</span><span>🏅 Đã thuộc ${mastered}</span></div></div>
-    <div class="sec-h"><h2>1. Chọn chủ đề</h2><span><button class="link" data-act="selAll">Chọn tất cả</button><span class="sep"> · </span><button class="link" data-act="selNone">Bỏ chọn</button></span></div>
+    <div class="sec-h"><h2>1. Chọn unit</h2><span><button class="link" data-act="selAll">Chọn tất cả</button><span class="sep"> · </span><button class="link" data-act="selNone">Bỏ chọn</button></span></div>
     <div class="topics">${cards}</div>
     <div class="tabs"><button class="${tab==='quest'?'on':''}" data-act="tab" data-t="quest">📚 Luyện tập</button><button class="${tab==='games'?'on':''}" data-act="tab" data-t="games">🎮 Trò chơi nhỏ</button></div>
     ${tab==='games' ? gamesHtml : `
@@ -1701,9 +1346,88 @@ function renderHome(){
     ${sizeHtml}
     <div class="sec-h"><h2>3. Dạng bài</h2></div>
     <div class="chips">${chips}</div>
-    <p class="note">Mỗi từ được hỏi bằng dạng bài khác nhau. Từ càng thuộc thì bài càng khó (gõ chữ thay vì chọn đáp án). Từ nào em bấm 🚩 <b>Chưa thuộc</b> (ở phần Ôn từ) sẽ xuất hiện nhiều hơn.</p>
+    <p class="note">Các dạng bài được trộn lẫn cho mỗi từ. Từ càng thuộc thì bài càng khó (gõ chữ thay vì chọn đáp án). Từ nào em bấm 🚩 <b>Chưa thuộc</b> (ở phần Flashcard) sẽ xuất hiện nhiều hơn.</p>
     ${foot}
-    <div class="startbar"><div class="inner two"><button class="btn" data-act="flash" ${pool.length?'':'disabled'} title="Xem lại từ vựng và nghĩa trước khi làm bài">📇 Ôn từ</button><button class="btn primary big" data-act="start" ${(!pool.length||!store.types.length)?'disabled':''}>${pool.length?`▶ Bắt đầu · ${n} từ`:'Hãy chọn ít nhất 1 chủ đề'}</button></div></div>`}`;
+    <div class="startbar"><div class="inner two"><button class="btn" data-act="flash" ${pool.length?'':'disabled'} title="Xem lại từ vựng trước khi làm bài">📇 Flashcard</button><button class="btn primary big" data-act="start" ${(!pool.length||!store.types.length)?'disabled':''}>${pool.length?`▶ Practice · ${n} từ`:'Hãy tick ít nhất 1 unit'}</button></div></div>`}`;
+}
+
+/* ==========================================================================
+   FLASHCARD: thẻ lật có hình (giống Flip Tiles), gom theo unit
+   ========================================================================== */
+function openFlash(units){
+  endG();
+  const single = !!(units && units.length===1);
+  const ids = units && units.length ? units : store.sel.slice();
+  const list = poolOf(ids);
+  if(!list.length){ toast('Hãy tick ít nhất 1 unit để xem flashcard.'); return; }
+  G = mkG({key:'flash', list, units:ids, single, mode:'grid', hide:false, unkOnly:false, query:'', deck:list.slice(), i:0, flip:false, flipped:new Set(), onKey:flashKey});
+  q = null; S = null;
+  drawFlash();
+}
+function flagBtnHtml(w, cls){
+  const u = !!getP(w.id).unk;
+  return `<button class="fc-flag${cls?' '+cls:''}${u?' on':''}" data-act="flag" data-id="${esc(w.id)}" aria-pressed="${u}">${u?'🚩 Chưa thuộc ✓':'🚩 Chưa thuộc'}</button>`;
+}
+function flashCountText(ws){
+  const u = ws.filter(w=>getP(w.id).unk).length;
+  return ws.length+' từ'+(u?' · 🚩 '+u:'');
+}
+function ftItemHtml(w, color){
+  const flipped = G.flipped.has(w.id);
+  const front = w.img ? `<img src="${imgOf(w)}" alt="">` : `<div class="wtxt">${esc(w.w)}${w.tag?`<span class="ptag">${esc(w.tag)}</span>`:''}</div>`;
+  return `<div class="ft-item${getP(w.id).unk?' unk':''}" data-id="${esc(w.id)}" style="--c:${color}">
+    <div class="ft${flipped?' flipped':''}" role="button" tabindex="0" data-act="ftflip" data-id="${esc(w.id)}" aria-label="Thẻ ${esc(w.w)}"><div class="ft-in">
+      <div class="ft-face ft-front">${front}<div class="hint">CHẠM ĐỂ LẬT</div></div>
+      <div class="ft-face ft-back"><div class="w">${wordHtml(w)}</div><div class="mean">${esc(w.vi)}</div><button class="snd" data-act="speak" data-t="${esc(w.say)}">🔊 Nghe lại</button></div>
+    </div></div>${flagBtnHtml(w)}</div>`;
+}
+function flashListHtml(){
+  const qy = G.query.trim().toLowerCase(), by = {};
+  G.list.forEach(w=>{
+    if(qy && w.w.toLowerCase().indexOf(qy)<0 && w.vi.toLowerCase().indexOf(qy)<0) return;
+    if(G.unkOnly && !getP(w.id).unk) return;
+    (by[w.topics[0]] = by[w.topics[0]] || []).push(w);
+  });
+  const html = TOPICS.filter(t=>by[t.id]).map(t=>`<div class="fc-topic" style="--c:${t.color}" data-tid="${t.id}"><div class="fc-hrow"><h3 class="fc-h">${esc(t.icon+' '+unitLabel(t)+' · '+t.name)} <small>${flashCountText(by[t.id])}</small></h3><button class="btn" data-act="practiceTopic" data-id="${t.id}">🎯 Practice unit này</button></div><div class="ft-grid">${by[t.id].map(w=>ftItemHtml(w,t.color)).join('')}</div></div>`).join('');
+  return html || `<p class="note">${G.unkOnly?'Chưa có từ nào được đánh dấu 🚩 Chưa thuộc.':'Không tìm thấy từ nào.'}</p>`;
+}
+function flashCardHtml(){
+  const g = G, w = g.deck[g.i];
+  const front = w.img ? `<img class="fcard-img" src="${imgOf(w)}" alt="">` : `<div class="fcard-w">${wordHtml(w)}</div>`;
+  const back = `${w.img?`<img class="fcard-img" style="width:min(40vw,150px)" src="${imgOf(w)}" alt="">`:''}<div class="fcard-w">${wordHtml(w)}</div><div class="fcard-w vi" style="margin-top:6px">${esc(w.vi)}</div><div class="tip">Chạm để lật lại</div>`;
+  return `<div class="qcount" style="text-align:center">Thẻ <b>${g.i+1}</b>/${g.deck.length}</div>
+    <div class="fcard${g.flip?' flip':''}" data-act="fcflip">
+      ${g.flip ? back : `${front}<div class="tip">Chạm thẻ để xem từ</div>`}
+    </div>
+    <div class="actions" style="justify-content:center">
+      <button class="btn" data-act="fcprev" ${g.i===0?'disabled':''}>◀ Trước</button>
+      <button class="icon-btn" data-act="speak" data-t="${esc(w.say)}" aria-label="Nghe">🔊</button>
+      <button class="btn" data-act="fcnext" ${g.i>=g.deck.length-1?'disabled':''}>Sau ▶</button></div>
+    <div style="text-align:center">${flagBtnHtml(w,'wide')}</div>
+    <div style="text-align:center;margin-top:10px"><button class="link" data-act="fcshuffle">🔀 Xáo trộn thẻ</button></div>`;
+}
+function drawFlash(){
+  const g = G, n = g.list.length;
+  const title = g.single ? unitLabel(topicById(g.units[0]))+' · '+topicById(g.units[0]).name : g.units.length+' unit';
+  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ">🏠</button><div class="gtitle">📇 ${esc(title)} · ${n} từ</div></div>
+    <div class="seg"><button class="${g.mode==='grid'?'on':''}" data-act="fcmode" data-m="grid">🖼️ Thẻ ảnh</button><button class="${g.mode==='cards'?'on':''}" data-act="fcmode" data-m="cards">🃏 Từng thẻ</button></div>
+    ${g.mode==='grid' ? `<div class="fc-controls"><input id="fcq" class="search" type="search" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt…" value="${esc(g.query)}" autocomplete="off"><button class="chip${g.hide?' on':''}" data-act="fchide">🙈 Ẩn nghĩa tiếng Việt</button><button class="chip${g.unkOnly?' on':''}" data-act="fcunk">🚩 Chỉ từ chưa thuộc</button><button class="chip" data-act="fcall">🔄 Lật / úp tất cả</button></div>
+      <p class="note" style="margin:0 0 2px">Chạm vào thẻ để lật và nghe phát âm. Bấm 🚩 <b>Chưa thuộc</b> nếu em chưa nhớ từ đó.</p>
+      <div id="fclist" class="${g.hide?'hidevi':''}">${flashListHtml()}</div>` : `<div style="margin-top:10px">${flashCardHtml()}</div>`}
+    <div class="startbar"><div class="inner"><button class="btn primary big" data-act="flashstart">▶ ${g.single?'Practice unit này':'Bắt đầu làm bài'}</button></div></div>`;
+  window.scrollTo(0,0);
+}
+function flashMove(d){
+  const g = G; if(!g || g.key!=='flash' || g.mode!=='cards') return;
+  const i = g.i+d; if(i<0 || i>=g.deck.length) return;
+  g.i = i; g.flip = false; drawFlash();
+  if(store.sound) speak(g.deck[g.i].say);
+}
+function flashKey(e){
+  if(e.ctrlKey || e.metaKey || e.altKey || G.mode!=='cards') return;
+  if(e.key==='ArrowRight'){ e.preventDefault(); flashMove(1); }
+  else if(e.key==='ArrowLeft'){ e.preventDefault(); flashMove(-1); }
+  else if(e.key===' ' || e.key==='Enter'){ e.preventDefault(); G.flip = !G.flip; drawFlash(); }
 }
 
 /* ==========================================================================
@@ -1711,12 +1435,39 @@ function renderHome(){
    ========================================================================== */
 let G = null;
 const GAMES = [
-  {act:'playMemory',  icon:'🃏', name:'Lật thẻ ghép cặp',    desc:'Ghép từ tiếng Anh với nghĩa tiếng Việt', color:'#d6f3e6'},
-  {act:'playSearch',  icon:'🔎', name:'Tìm từ trong ô chữ',  desc:'Đọc nghĩa tiếng Việt, tìm từ tiếng Anh', color:'#e0edff'},
-  {act:'playHangman', icon:'🌻', name:'Cứu cây con',         desc:'Đoán từng chữ cái, đừng để cây héo!',    color:'#fff0d3'},
+  {act:'playMemory',  icon:'🃏', name:'Lật thẻ ghép cặp',    desc:'Ghép từ tiếng Anh với hình (hoặc nghĩa)', color:'#ffe3ee'},
+  {act:'playSearch',  icon:'🔎', name:'Tìm từ trong ô chữ',  desc:'Nhìn nghĩa, tìm từ tiếng Anh trong ô chữ', color:'#e0edff'},
   {act:'playBalloon', icon:'🎈', name:'Bắn bóng bay',        desc:'Chạm đúng bóng bay trước khi nó bay mất', color:'#ffe1e8'},
   {act:'playBlitz',   icon:'⚡', name:'Đúng hay Sai?',       desc:'60 giây, trả lời được càng nhiều càng tốt', color:'#ece3ff'}
 ];
+/* Game template: mỗi game là một file riêng trong games\, đọc từ vựng của các unit đang tick */
+const TEMPLATES = !HAS_GAMES ? [] : [
+  {key:'whack',   file:'whack-the-cats.html',    icon:'🔨', name:'Whack the Cats',      desc:'Đập đúng con mèo mang hình cần tìm',            color:'#ffe9c9', min:6},
+  {key:'pvz',     file:'plants-vs-zombies.html', icon:'🧟', name:'Plants vs Zombies',   desc:'Trả lời nhanh để cây bắn zombie (8 câu)',       color:'#dff5d8', min:4},
+  {key:'croc',    file:'dental-croc.html',       icon:'🐊', name:'Dental Crocodile',    desc:'Chọn răng cá sấu, trả lời câu hỏi cả lớp',      color:'#d9f2ea', min:4},
+  {key:'uno',     file:'uno-vocab.html',         icon:'🃏', name:'Uno Từ Vựng',         desc:'Đánh bài Uno, trả lời đúng mới được đánh bài',  color:'#ffe1ec', min:8},
+  {key:'jenga',   file:'jenga.html',             icon:'🪵', name:'Rút Gỗ Đối Đầu',      desc:'Trả lời đúng để rút khối gỗ, đừng làm đổ tháp', color:'#fff0c7', min:6},
+  {key:'wordrun', file:'word-run.html',          icon:'🏃', name:'Word Run',            desc:'Chạy qua 5 thế giới, chạm đúng đáp án',         color:'#e3ecff', min:10},
+  {key:'zombie',  file:'zombie.html',            icon:'🧟‍♂️', name:'Zombie Đói Bụng',     desc:'Cho zombie ăn đúng món để cứu cả nhà',          color:'#e6f5d0', min:8},
+  {key:'bridge',  file:'bridge.html',            icon:'🌉', name:'Cầu Vui',             desc:'Trả lời đúng để các bạn thú qua cầu an toàn',   color:'#dff1ff', min:8},
+  {key:'gold',    file:'gold-miner.html',        icon:'⛏️', name:'Đào Vàng Từ Vựng',    desc:'Thả móc đào đá quý, trả lời để lấy vàng',       color:'#fff2c4', min:12},
+  {key:'fly',     file:'fly-swatter.html',       icon:'🪰', name:'Đập Ruồi Ôn Từ',      desc:'Đập đúng con ruồi mang đáp án',                 color:'#ffe3e3', min:12},
+  {key:'mouse',   file:'mouse-tower.html',       icon:'🐭', name:'Chuột Leo Tháp',      desc:'Giúp chuột leo tháp bằng các câu trả lời đúng', color:'#ece3ff', min:8},
+  {key:'dice',    file:'dice-hunt.html',         icon:'🎲', name:'Xí Ngầu Săn Số',      desc:'Đấu với bot: tung xí ngầu, trả lời để săn số',  color:'#d9f6f0', min:10},
+  {key:'job',     file:'job-tycoon.html',        icon:'🏙️', name:'Job Tycoon – Cờ Tỷ Phú', desc:'Mua đất bằng từ vựng, trả lời để xây nhà (cần ≥ 24 từ có hình)', color:'#fff0d6', min:24, minImg:24}
+];
+function launchTemplate(key){
+  const t = TEMPLATES.find(x=>x.key===key); if(!t) return;
+  const pool = poolOf(store.sel);
+  if(pool.length<t.min){ toast(`Game này cần ít nhất ${t.min} từ — hãy tick thêm unit ở trên.`); return; }
+  if(t.minImg && new Set(pool.filter(w=>w.img).map(w=>w.w.toLowerCase())).size<t.minImg){ toast(`Game này cần ít nhất ${t.minImg} từ có hình. Hãy tick thêm unit đã có ảnh.`); return; }
+  const us = TOPICS.filter(x=>store.sel.indexOf(x.id)>=0);
+  const label = us.length<=3 ? us.map(unitLabel).join(' + ') : us.length+' unit';
+  const payload = {label, dir:'../../../flyers/flyers-vocabulary-x4d8/images/', home:'../../../flyers/flyers-vocabulary-x4d8/flyers-vocab-quest-r3m9.html', homeKey:'flyers.backHome', words: pool.map(w=>({id:w.id, w:w.w, vi:w.vi, tag:w.tag, say:w.say, img:w.img}))};
+  try{ localStorage.setItem('starters.game', JSON.stringify(payload)); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
+  toast('Đang mở game… (một số game nặng nên chờ vài giây)');
+  location.href = '../../starters/starters-vocab-quest/games/' + t.file;
+}
 const fmtT = ms => { const s = Math.round(ms/1000); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
 function mkG(o){ return Object.assign({timers:[], cleanup(){ this.timers.forEach(t=>{ clearInterval(t); clearTimeout(t); }); }}, o); }
 function endG(){ if(G){ try{ G.cleanup(); }catch(e){} } G = null; }
@@ -1728,7 +1479,7 @@ function toast(msg){
 }
 function gamePool(min, filter){
   const p = poolOf(store.sel).filter(filter || (()=>true));
-  if(p.length<min){ toast(`Hãy chọn thêm chủ đề (cần ít nhất ${min} từ phù hợp).`); return null; }
+  if(p.length<min){ toast(`Hãy tick thêm unit (cần ít nhất ${min} từ phù hợp).`); return null; }
   return p;
 }
 // Chọn ngẫu nhiên có trọng số: từ chưa thuộc xuất hiện nhiều hơn
@@ -1753,36 +1504,36 @@ function gameResult(o){
   app.innerHTML = `<div class="result"><div class="stars" style="font-size:64px">${o.icon}</div>
     <h1>${o.title}</h1><p>${o.msg}</p><div class="big">+${xp} điểm</div>
     <div class="rgrid">${o.stats.map(s=>`<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
-    ${missed.length?`<h2 style="text-align:left;font-size:19px">📌 Từ cần ôn thêm, theo chủ điểm</h2><div class="wlist">${groupedMissedHtml(missed)}</div>`:''}
+    ${missed.length?`<h2 style="text-align:left;font-size:19px">📌 Từ cần ôn thêm, theo unit</h2><div class="wlist">${groupedMissedHtml(missed)}</div>`:''}
     <div class="rbtns"><button class="btn primary big" data-act="${o.again}">▶ Chơi lại</button><button class="btn big" data-act="gquit">🏠 Về trang chủ</button></div></div>`;
   endG(); window.scrollTo(0,0);
   if(o.win){ confetti(); tone([[523,.12],[659,.12],[784,.12],[1047,.3]]); }
 }
 
-/* ---------- 1. Lật thẻ ghép cặp ---------- */
+/* ---------- 1. Lật thẻ ghép cặp (từ ↔ hình / nghĩa) ---------- */
 function playMemory(){
   endG();
   const pool = gamePool(5); if(!pool) return;
   const used = new Set(), picked = [];
-  pickWeak(pool, pool.length).forEach(w=>{ if(picked.length<8 && !used.has(w.vi)){ used.add(w.vi); picked.push(w); } });
-  if(picked.length<4){ toast('Hãy chọn thêm chủ đề.'); return; }
+  pickWeak(pool, pool.length).forEach(w=>{ const k = w.w.toLowerCase(); if(picked.length<8 && !used.has(k) && !used.has('vi:'+w.vi)){ used.add(k); used.add('vi:'+w.vi); picked.push(w); } });
+  if(picked.length<4){ toast('Hãy tick thêm unit.'); return; }
   const cards = shuffle(picked.flatMap(w=>[{w, side:'en', text:w.w, up:false, done:false}, {w, side:'vi', text:w.vi, up:false, done:false}]));
   G = mkG({key:'memory', cards, n:picked.length, first:-1, lock:false, moves:0, matched:0, t0:Date.now()});
-  startG('Lật thẻ ghép cặp','🃏','<p class="note" style="margin:0 0 10px">Lật hai thẻ để ghép từ tiếng Anh với nghĩa tiếng Việt của nó.</p><div class="mgrid" id="mgrid"></div>');
+  startG('Lật thẻ ghép cặp','🃏','<p class="note" style="margin:0 0 10px">Lật hai thẻ để ghép từ tiếng Anh với hình (hoặc nghĩa tiếng Việt) của nó.</p><div class="mgrid" id="mgrid"></div>');
   drawMem(); memTick();
   G.timers.push(setInterval(memTick, 500));
 }
 function memTick(){ if(G && G.key==='memory') setScore('⏱ '+fmtT(Date.now()-G.t0)+' · 🔄 '+G.moves); }
 function drawMem(){
   $('#mgrid').innerHTML = G.cards.map((c,i)=>{
-    const show = c.up || c.done;
-    return `<button class="mcard ${c.side}${c.up?' up':''}${c.done?' done':''}" data-act="mflip" data-i="${i}" ${show?'disabled':''} aria-label="Thẻ ${i+1}">${show?`<span>${esc(c.text)}</span>`:'<span class="q">🌱</span>'}</button>`;
+    const show = c.up || c.done, pic = c.side==='vi' && c.w.img;
+    return `<button class="mcard ${c.side}${pic?' hasimg':''}${c.up?' up':''}${c.done?' done':''}" data-act="mflip" data-i="${i}" ${show?'disabled':''} aria-label="Thẻ ${i+1}">${show?(pic?imgTag(c.w):`<span>${esc(c.text)}</span>`):'<span class="q">🌱</span>'}</button>`;
   }).join('');
 }
 function memFlip(i){
   if(!G || G.key!=='memory' || G.lock) return;
   const c = G.cards[i]; if(c.up || c.done) return;
-  c.up = true; if(c.side==='en' && store.sound) speak(c.w.w);
+  c.up = true; if(c.side==='en' && store.sound) speak(c.w.say);
   if(G.first<0){ G.first = i; drawMem(); return; }
   const a = G.cards[G.first]; G.first = -1; G.moves++;
   if(a.w===c.w){
@@ -1831,7 +1582,7 @@ function playSearch(){
   const L = 'abcdefghijklmnopqrstuvwxyz';
   grid.forEach(row=>{ for(let j=0;j<row.length;j++) if(!row[j]) row[j] = L[Math.floor(Math.random()*26)]; });
   G = mkG({key:'search', grid, placed, start:null, hint:null, hints:0, t0:Date.now()});
-  startG('Tìm từ trong ô chữ','🔎','<p class="note" style="margin:0 0 10px">Đọc nghĩa tiếng Việt, rồi tìm từ tiếng Anh trong ô chữ: chạm chữ cái đầu, sau đó chạm chữ cái cuối (từ nằm ngang, dọc hoặc chéo xuống).</p><div class="wgrid" id="wgrid"></div><div class="wclues" id="wclues"></div><div class="actions" style="margin-top:12px"><button class="btn" data-act="swhint">💡 Gợi ý</button></div>');
+  startG('Tìm từ trong ô chữ','🔎','<p class="note" style="margin:0 0 10px">Nhìn hình / nghĩa tiếng Việt, rồi tìm từ tiếng Anh trong ô chữ: chạm chữ cái đầu, sau đó chạm chữ cái cuối (từ nằm ngang, dọc hoặc chéo xuống).</p><div class="wgrid" id="wgrid"></div><div class="wclues" id="wclues"></div><div class="actions" style="margin-top:12px"><button class="btn" data-act="swhint">💡 Gợi ý</button></div>');
   drawSearch();
 }
 function drawSearch(){
@@ -1844,7 +1595,7 @@ function drawSearch(){
     if(g.hint && g.hint[0]===r && g.hint[1]===c) cls += ' hint';
     return `<button class="${cls}" ${st} data-act="wcell" data-r="${r}" data-c="${c}" aria-label="${ch}">${ch.toUpperCase()}</button>`;
   }).join('')).join('');
-  $('#wclues').innerHTML = g.placed.map(p=>`<div class="wclue${p.found?' done':''}">${p.found?`✅ <b>${esc(p.w.w)}</b> <span class="vi">${esc(p.w.vi)}</span>`:`❓ ${esc(p.w.vi)} <span class="pat">${esc(pattern(p.w.w,0))}</span>`}</div>`).join('');
+  $('#wclues').innerHTML = g.placed.map(p=>`<div class="wclue${p.found?' done':''}">${p.found?`✅ <b>${esc(p.w.w)}</b> <span class="vi">${esc(p.w.vi)}</span>`:`${p.w.img?imgTag(p.w,'gimg'):'❓'} ${esc(p.w.vi)} <span class="pat">${esc(pattern(p.w.w,0))}</span>`}</div>`).join('');
   setScore('🔎 '+g.placed.filter(p=>p.found).length+'/'+g.placed.length);
 }
 function swCell(r, c){
@@ -1860,7 +1611,7 @@ function swCell(r, c){
   const rs = s.split('').reverse().join('');
   const hit = G.placed.find(p=>!p.found && (p.s===s || p.s===rs));
   if(hit){
-    hit.found = true; G.start = null; sfxOk(); if(store.sound) speak(hit.w.w); drawSearch();
+    hit.found = true; G.start = null; sfxOk(); if(store.sound) speak(hit.w.say); drawSearch();
     if(G.placed.every(p=>p.found)) G.timers.push(setTimeout(searchFinish, 700));
   } else {
     sfxBad(); G.start = [r,c]; drawSearch();
@@ -1889,7 +1640,7 @@ function playHangman(){
   startG('Cứu cây con','🌻','<div id="hbody"></div>');
   hangRound();
 }
-function hangRound(){ G.lives = 6; G.guessed = new Set(); G.ended = false; G.showDef = false; drawHang(); }
+function hangRound(){ G.lives = 6; G.guessed = new Set(); G.ended = false; G.showPic = false; drawHang(); }
 function drawHang(){
   const g = G, w = g.words[g.i], tp = topicById(w.topics[0]), ended = g.ended;
   const slots = [...w.w].map(ch=>{
@@ -1906,18 +1657,18 @@ function drawHang(){
   }).join('');
   const last = g.i>=g.words.length-1;
   const fb = ended ? `<div class="fb ${ended==='win'?'good':'bad'}"><h3>${ended==='win'?'🌸 Cây đã được cứu!':'🥀 Cây bị héo mất rồi…'}</h3>
-      <div class="fw">${esc(w.w)} ${spk(w.w)}</div><div class="fv">${esc(w.vi)}</div>${w.d?`<div class="fd">${esc(w.d)}</div>`:''}
-      <button class="btn primary big" data-act="hnext">${last?'Xem kết quả':'Từ tiếp theo'} ↵</button></div>` : '';
+      <div class="fbrow">${w.img?`<img class="fbpic" src="${imgOf(w)}" alt="">`:''}<div><div class="fw">${wordHtml(w)} ${spk(w.say)}</div><div class="fv">${esc(w.vi)}</div></div></div>
+      <button class="btn primary big" data-act="hnext" style="margin-top:10px">${last?'Xem kết quả':'Từ tiếp theo'} ↵</button></div>` : '';
   $('#hbody').innerHTML = `<div class="qcard">
-    <span class="qtype">Từ ${g.i+1}/${g.words.length}</span><span class="qtopic">${esc(tp.icon+' '+tp.name)}</span>
+    <span class="qtype">Từ ${g.i+1}/${g.words.length}</span><span class="qtopic">${esc(tp.icon+' '+unitLabel(tp))}</span>
     <div class="plant">${ended==='win'?'🌸':PLANT[g.lives]}</div>
     <div class="hearts">${'❤️'.repeat(g.lives)}${'🖤'.repeat(6-g.lives)}</div>
     <div class="qlabel" style="text-align:center">Nghĩa tiếng Việt</div>
-    <div class="bigword vi" style="justify-content:center;margin:2px 0 6px">${esc(w.vi)} ${spk(w.w)}</div>
-    ${g.showDef && w.d ? `<div class="hintbox" style="display:block">📖 ${esc(w.d)}</div>` : ''}
+    <div class="bigword vi" style="justify-content:center;margin:2px 0 6px">${esc(w.vi)} ${spk(w.say)}</div>
+    ${(g.showPic || ended) && w.img ? qpic(w,'sm') : ''}
     <div class="slots center">${slots}</div>
     ${ended ? fb : `<div class="kb">${keys}</div>
-      <div class="actions" style="justify-content:center;margin-top:14px"><button class="btn" data-act="hhint">💡 Mở 1 chữ (−1 ❤️)</button><button class="btn" data-act="hdef">📖 Định nghĩa</button></div>`}
+      <div class="actions" style="justify-content:center;margin-top:14px"><button class="btn" data-act="hhint">💡 Mở 1 chữ (−1 ❤️)</button>${w.img&&!g.showPic?'<button class="btn" data-act="hdef">🖼️ Xem hình</button>':''}</div>`}
   </div>`;
   setScore('⭐ '+g.score);
 }
@@ -1926,7 +1677,7 @@ function hangCheck(){
   const win = [...new Set(norm(w.w))].every(c=>g.guessed.has(c));
   if(win){ g.ended = 'win'; g.score += 5 + g.lives*2; sfxOk(); }
   else if(g.lives<=0){ g.ended = 'lose'; g.missed.push(w); sfxBad(); }
-  if(g.ended && store.sound) speak(w.w);
+  if(g.ended && store.sound) speak(w.say);
 }
 function hangGuess(k){
   const g = G; if(!g || g.key!=='hang' || g.ended || g.guessed.has(k)) return;
@@ -1968,12 +1719,12 @@ function playBalloon(){
 function balloonScore(){ setScore('❤️'.repeat(Math.max(0,G.lives))+' ⭐'+G.score); }
 function balloonRound(){
   const g = G, w = g.words[g.i];
-  const kind = (w.d && Math.random()<.5) ? 'd' : 'v';
+  const usePic = !!w.img && Math.random()<.65;
   const opts = mkOpts(w, 'en', g.pool);
   g.cur = {w, opts, resolved:false};
   $('#bprompt').innerHTML = `<span class="qtype">🎈 Bóng ${g.i+1}/${g.words.length}</span>
     <div class="qlabel">Chạm vào bóng bay có từ tiếng Anh đúng:</div>
-    <div class="${kind==='d'?'clue':'bigword vi'}" style="margin-bottom:0">${kind==='d'?'“'+esc(w.d)+'”':esc(w.vi)}</div>`;
+    ${usePic ? qpic(w,'sm') : `<div class="bigword vi" style="margin-bottom:0">${esc(w.vi)}</div>`}`;
   const sky = $('#sky'); sky.style.setProperty('--h', sky.clientHeight+'px');
   const dur = Math.max(5, 8.5 - g.i*.3);
   const slots = shuffle([0,1,2,3]);
@@ -1989,7 +1740,7 @@ function balloonResolve(ok, i){
   [...$('#sky').children].forEach((b,j)=>{ b.classList.add('freeze'); if(c.opts[j]===c.w.w) b.classList.add('right'); else if(j===i) b.classList.add('wrong'); else b.classList.add('dim'); });
   if(ok){ g.score += 10 + Math.min(g.combo,5)*2; g.combo++; g.right++; sfxOk(); }
   else { g.lives--; g.combo = 0; g.missed.push(c.w); sfxBad(); }
-  if(store.sound) speak(c.w.w);
+  if(store.sound) speak(c.w.say);
   const b = $('#bbanner'); b.className = 'banner show '+(ok?'good':'bad');
   b.innerHTML = ok ? `✅ <b>${esc(c.w.w)}</b> — ${esc(c.w.vi)}` : `❌ Đáp án: <b>${esc(c.w.w)}</b> — ${esc(c.w.vi)}`;
   balloonScore();
@@ -2017,19 +1768,18 @@ function blitzTick(){
 function blitzNext(){
   const g = G, pool = g.pool; let w;
   do { w = roulette(pool, x=>{ const p = getP(x.id); return BOXW[p.box]*(p.seen?1:1.5); }); } while(pool.length>1 && g.cur && g.cur.w===w);
-  const kind = (w.d && Math.random()<.3) ? 'd' : 'vi';
-  let truth = Math.random()<.5, shown = w[kind];
+  let truth = Math.random()<.5, shown = w.vi;
   if(!truth){
-    const ok = x=>x!==w && x[kind] && x[kind]!==w[kind];
+    const ok = x=>x!==w && x.vi!==w.vi;
     const near = pool.filter(x=>ok(x) && x.topics.some(t=>w.topics.indexOf(t)>=0));
     const src = near.length ? near : pool.filter(ok);
-    if(src.length) shown = rnd(src)[kind]; else truth = true;
+    if(src.length) shown = rnd(src).vi; else truth = true;
   }
-  g.cur = {w, kind, truth, shown};
+  g.cur = {w, truth, shown};
   const c = $('#bcard');
   c.className = 'qcard'+(g.flash?' flash'+g.flash:'');
-  c.innerHTML = `<div class="qlabel">Từ này có nghĩa là…</div><div class="bigword">${esc(w.w)} ${spk(w.w)}</div>
-    <div class="clue" style="margin-bottom:0">= ${kind==='d'?'“'+esc(shown)+'”':esc(shown)}</div>`;
+  c.innerHTML = `<div class="qlabel">Từ này có nghĩa là…</div>${qpic(w,'sm')}<div class="bigword">${wordHtml(w)} ${spk(w.say)}</div>
+    <div class="clue" style="margin-bottom:0">= ${esc(shown)}</div>`;
 }
 function blitzAns(v){
   const g = G; if(!g || g.key!=='blitz' || g.left<=0) return;
@@ -2038,7 +1788,7 @@ function blitzAns(v){
   else {
     g.streak = 0; g.flash = 'bad'; sfxBad();
     if(g.wrong.indexOf(c.w)<0) g.wrong.push(c.w);
-    $('#blast').innerHTML = `✗ <b>${esc(c.w.w)}</b> = ${esc(c.w[c.kind])}`;
+    $('#blast').innerHTML = `✗ <b>${esc(c.w.w)}</b> = ${esc(c.w.vi)}`;
   }
   blitzTick(); blitzNext();
 }
@@ -2053,75 +1803,6 @@ function blitzEnd(){
   const acc = g.total ? Math.round(g.score/g.total*100) : 0;
   gameResult({icon:'⚡', title:'Hết giờ!', msg:g.score>=15?'Nhanh như chớp!':'Cố gắng thêm lần nữa nhé!', xp:g.score*3,
     stats:[[g.score,'Câu đúng'],[acc+'%','Chính xác'],['🔥 '+g.best,'Chuỗi dài nhất']], missed:g.wrong, again:'playBlitz', win:g.score>=15});
-}
-
-/* ==========================================================================
-   FLASHCARD: ôn lại từ vựng + nghĩa tiếng Việt trước khi làm bài
-   ========================================================================== */
-function openFlash(){
-  endG();
-  const list = poolOf(store.sel);
-  if(!list.length){ toast('Hãy chọn ít nhất 1 chủ đề để ôn từ.'); return; }
-  G = mkG({key:'flash', list, mode:'list', hide:false, unkOnly:false, query:'', deck:list.slice(), i:0, flip:false, onKey:flashKey});
-  q = null; S = null;
-  drawFlash();
-}
-function flagBtnHtml(w, cls){
-  const u = !!getP(w.id).unk;
-  return `<button class="fc-flag${cls?' '+cls:''}${u?' on':''}" data-act="flag" data-id="${esc(w.id)}" aria-pressed="${u}">${u?'🚩 Chưa thuộc ✓':'🚩 Chưa thuộc'}</button>`;
-}
-function flashCountText(ws){
-  const u = ws.filter(w=>getP(w.id).unk).length;
-  return ws.length+' từ'+(u?' · 🚩 '+u:'');
-}
-function fcItemHtml(w){
-  return `<div class="fc-item${getP(w.id).unk?' unk':''}" data-id="${esc(w.id)}"><button class="fc-tile" data-act="fctile" data-t="${esc(w.w)}" aria-label="${esc(w.w)}: ${esc(w.vi)}"><span class="snd">🔊</span><span class="en">${esc(w.w)}</span><span class="meaning">${esc(w.vi)}</span></button>${flagBtnHtml(w)}</div>`;
-}
-function flashListHtml(){
-  const qy = G.query.trim().toLowerCase(), by = {};
-  G.list.forEach(w=>{
-    if(qy && w.w.toLowerCase().indexOf(qy)<0 && w.vi.toLowerCase().indexOf(qy)<0) return;
-    if(G.unkOnly && !getP(w.id).unk) return;
-    (by[w.topics[0]] = by[w.topics[0]] || []).push(w);
-  });
-  const html = TOPICS.filter(t=>by[t.id]).map(t=>`<div class="fc-topic" style="--c:${t.color}" data-tid="${t.id}"><div class="fc-hrow"><h3 class="fc-h">${esc(t.icon+' '+t.name)} <small>${flashCountText(by[t.id])}</small></h3><button class="btn" data-act="practiceTopic" data-id="${t.id}">🎯 Practice chủ đề này</button></div><div class="fc-grid">${by[t.id].map(fcItemHtml).join('')}</div></div>`).join('');
-  return html || `<p class="note">${G.unkOnly?'Chưa có từ nào được đánh dấu 🚩 Chưa thuộc.':'Không tìm thấy từ nào.'}</p>`;
-}
-function flashCardHtml(){
-  const g = G, w = g.deck[g.i];
-  return `<div class="qcount" style="text-align:center">Thẻ <b>${g.i+1}</b>/${g.deck.length}</div>
-    <div class="fcard${g.flip?' flip':''}" data-act="fcflip">
-      ${g.flip ? `<div class="fcard-w vi">${esc(w.vi)}</div>${w.d?`<p class="fd" style="margin:10px 0 0">${esc(w.d.replace('___','…'))}</p>`:''}<div class="tip">Chạm để lật lại</div>`
-               : `<div class="fcard-w">${esc(w.w)}</div><div class="tip">Chạm thẻ để xem nghĩa</div>`}
-    </div>
-    <div class="actions" style="justify-content:center">
-      <button class="btn" data-act="fcprev" ${g.i===0?'disabled':''}>◀ Trước</button>
-      <button class="icon-btn" data-act="speak" data-t="${esc(w.w)}" aria-label="Nghe">🔊</button>
-      <button class="btn" data-act="fcnext" ${g.i>=g.deck.length-1?'disabled':''}>Sau ▶</button></div>
-    <div style="text-align:center">${flagBtnHtml(w,'wide')}</div>
-    <div style="text-align:center;margin-top:10px"><button class="link" data-act="fcshuffle">🔀 Xáo trộn thẻ</button></div>`;
-}
-function drawFlash(){
-  const g = G, n = g.list.length;
-  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ">🏠</button><div class="gtitle">📇 Ôn từ vựng · ${n} từ</div></div>
-    <div class="seg"><button class="${g.mode==='list'?'on':''}" data-act="fcmode" data-m="list">📋 Danh sách</button><button class="${g.mode==='cards'?'on':''}" data-act="fcmode" data-m="cards">🃏 Thẻ lật</button></div>
-    ${g.mode==='list' ? `<div class="fc-controls"><input id="fcq" class="search" type="search" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt…" value="${esc(g.query)}" autocomplete="off"><button class="chip${g.hide?' on':''}" data-act="fchide">🙈 Ẩn nghĩa (tự kiểm tra)</button><button class="chip${g.unkOnly?' on':''}" data-act="fcunk">🚩 Chỉ từ chưa thuộc</button></div>
-      <p class="note" style="margin:0 0 2px">${g.hide?'Chạm vào từng ô để nghe và xem nghĩa.':'Chạm vào ô từ vựng để nghe phát âm.'} Bấm 🚩 <b>Chưa thuộc</b> nếu em chưa nhớ từ đó.</p>
-      <div id="fclist" class="${g.hide?'hidevi':''}">${flashListHtml()}</div>` : `<div style="margin-top:10px">${flashCardHtml()}</div>`}
-    <div class="startbar"><div class="inner"><button class="btn primary big" data-act="start">▶ Bắt đầu làm bài</button></div></div>`;
-  window.scrollTo(0,0);
-}
-function flashMove(d){
-  const g = G; if(!g || g.key!=='flash' || g.mode!=='cards') return;
-  const i = g.i+d; if(i<0 || i>=g.deck.length) return;
-  g.i = i; g.flip = false; drawFlash();
-  if(store.sound) speak(g.deck[g.i].w);
-}
-function flashKey(e){
-  if(e.ctrlKey || e.metaKey || e.altKey || G.mode!=='cards') return;
-  if(e.key==='ArrowRight'){ e.preventDefault(); flashMove(1); }
-  else if(e.key==='ArrowLeft'){ e.preventDefault(); flashMove(-1); }
-  else if(e.key===' ' || e.key==='Enter'){ e.preventDefault(); G.flip = !G.flip; drawFlash(); }
 }
 
 /* ---------- Sự kiện ---------- */
@@ -2140,10 +1821,24 @@ const H = {
   back, skip, pause: pauseGame, resume: resumeGame,
   pausehome(){ resumeGame(); endG(); renderHome(); window.scrollTo(0,0); },
   reviewall(){ const ids = reviewIds().map(w=>w.id); if(ids.length) startSession({ids}); },
-  flash: openFlash,
+  flash(){ openFlash(); },
+  flashTopic(el){ openFlash([el.dataset.id]); },
+  flashstart(){ if(G && G.key==='flash'){ if(G.single) startSession({topic:G.units[0]}); else startSession(); } },
   fcmode(el){ if(G && G.key==='flash'){ G.mode = el.dataset.m; if(G.mode==='cards'){ G.i = 0; G.flip = false; } drawFlash(); } },
   fchide(){ if(G && G.key==='flash'){ G.hide = !G.hide; drawFlash(); } },
   fcunk(){ if(G && G.key==='flash'){ G.unkOnly = !G.unkOnly; drawFlash(); } },
+  fcall(){
+    if(!G || G.key!=='flash') return;
+    const vis = [...document.querySelectorAll('.ft')].map(e=>e.dataset.id);
+    const all = vis.length && vis.every(id=>G.flipped.has(id));
+    vis.forEach(id=>{ if(all) G.flipped.delete(id); else G.flipped.add(id); });
+    document.querySelectorAll('.ft').forEach(e=>e.classList.toggle('flipped', G.flipped.has(e.dataset.id)));
+  },
+  ftflip(el){
+    if(!G || G.key!=='flash') return;
+    const id = el.dataset.id; el.classList.toggle('flipped');
+    if(el.classList.contains('flipped')){ G.flipped.add(id); if(BYID[id]) speak(BYID[id].say); } else G.flipped.delete(id);
+  },
   flag(el){
     const id = el.dataset.id; if(!BYID[id]) return;
     const p = ensureP(id); p.unk = !p.unk; save();
@@ -2151,38 +1846,37 @@ const H = {
       if(b.dataset.id!==id) return;
       b.classList.toggle('on', p.unk); b.setAttribute('aria-pressed', p.unk);
       b.textContent = p.unk ? '🚩 Chưa thuộc ✓' : '🚩 Chưa thuộc';
-      const it = b.closest('.fc-item'); if(it) it.classList.toggle('unk', p.unk);
+      const it = b.closest('.ft-item'); if(it) it.classList.toggle('unk', p.unk);
     });
     document.querySelectorAll('.fc-topic').forEach(tp=>{
       const sm = tp.querySelector('.fc-h small'); if(!sm) return;
-      const u = tp.querySelectorAll('.fc-item.unk').length;
-      sm.textContent = tp.querySelectorAll('.fc-item').length+' từ'+(u?' · 🚩 '+u:'');
+      const u = tp.querySelectorAll('.ft-item.unk').length;
+      sm.textContent = tp.querySelectorAll('.ft-item').length+' từ'+(u?' · 🚩 '+u:'');
     });
   },
   practiceTopic(el){ startSession({topic: el.dataset.id}); },
-  fctile(el){
-    speak(el.dataset.t);                       // chạm ô: nghe phát âm (và xem nghĩa nếu đang ẩn)
-    el.classList.add('show'); el.classList.remove('speaking'); void el.offsetWidth; el.classList.add('speaking');
-  },
   enter(){ document.body.classList.remove('on-cover'); renderHome(); window.scrollTo(0,0); },
   cover: renderCover,
   covergames(){ store.tab = 'games'; save(); H.enter(); },
   coverflash(){ document.body.classList.remove('on-cover'); openFlash(); },
-  fcflip(){ if(G && G.key==='flash'){ G.flip = !G.flip; drawFlash(); } },
+  fcflip(){ if(G && G.key==='flash'){ G.flip = !G.flip; drawFlash(); if(G.flip && store.sound) speak(G.deck[G.i].say); } },
   fcprev(){ flashMove(-1); },
   fcnext(){ flashMove(1); },
   fcshuffle(){ if(G && G.key==='flash'){ shuffle(G.deck); G.i = 0; G.flip = false; drawFlash(); } },
   gquit(){ endG(); renderHome(); window.scrollTo(0,0); },
   playMemory, playSearch, playHangman, playBalloon, playBlitz,
+  openGame(el){ launchTemplate(el.dataset.k); },
   mflip(el){ memFlip(+el.dataset.i); },
   wcell(el){ swCell(+el.dataset.r, +el.dataset.c); },
   swhint: swHint,
   hkey(el){ hangGuess(el.dataset.k); },
   hhint: hangHint,
-  hdef(){ if(G && G.key==='hang' && !G.ended){ G.showDef = true; drawHang(); } },
+  hdef(){ if(G && G.key==='hang' && !G.ended){ G.showPic = true; drawHang(); } },
   hnext: hangNext,
   bpick(el){ balloonPick(+el.dataset.i); },
   bans(el){ blitzAns(el.dataset.v==='1'); },
+  mL(el){ matchLeft(+el.dataset.i); },
+  mR(el){ matchRight(+el.dataset.j); },
   reset(){ if(confirm('Xóa toàn bộ tiến độ và điểm của thiết bị này?')){ store.words = {}; store.sessions = 0; store.xp = 0; save(); renderHome(); } },
   start(){ startSession(); },
   again(){ startSession(S && S.topicOnly ? {topic:S.topicOnly} : {}); },
@@ -2192,7 +1886,7 @@ const H = {
   speak(el){ speak(el.dataset.t, !!el.dataset.slow); },
   opt(el){ pick(+el.dataset.i); },
   submit(){ submit(false); },
-  giveup(){ if(q && !q.answered){ if(q.mode==='mc'){ q.picked = -1; finish(false,''); } else submit(true); } },
+  giveup(){ if(q && !q.answered){ if(q.mode==='mc' || q.mode==='pic' || q.mode==='match'){ q.picked = -1; finish(false,''); } else submit(true); } },
   next(){ next(); },
   hint(){
     if(!q || q.answered || q.hints>=3) return;
@@ -2219,6 +1913,9 @@ document.addEventListener('input', e=>{
 });
 document.addEventListener('keydown', e=>{
   if(paused){ if(e.key==='Escape' || e.key==='Enter'){ e.preventDefault(); resumeGame(); } return; }
+  if(G && G.key==='flash' && G.mode==='grid' && (e.key==='Enter' || e.key===' ') && e.target.classList && e.target.classList.contains('ft')){
+    e.preventDefault(); H.ftflip(e.target); return;
+  }
   if(G && G.onKey){ G.onKey(e); return; }
   if(e.ctrlKey || e.metaKey || e.altKey || !q) return;
   const k = e.key;
@@ -2226,10 +1923,11 @@ document.addEventListener('keydown', e=>{
     if((k==='Enter' || k===' ') && Date.now()-lastAnswerAt>350){ e.preventDefault(); next(); }
     return;
   }
-  if(q.mode==='mc'){
+  if(q.mode==='mc' || q.mode==='pic'){
     if(/^[1-4]$/.test(k)){ e.preventDefault(); pick(+k-1); }
     return;
   }
+  if(q.mode==='match') return;
   if(k==='Enter'){ e.preventDefault(); submit(false); return; }
   if(q.mode==='scramble'){
     if(k==='Backspace'){ e.preventDefault(); q.placed.pop(); updateScramble(); }
@@ -2249,7 +1947,11 @@ new MutationObserver(()=>{
 /* debug / kiểm tra nhanh trong console */
 window.__vocab = {WORDS, TOPICS, store:()=>store, pickWords, norm, q:()=>q, S:()=>S, G:()=>G};
 
-renderCover();
+// quay về từ một game template: vào thẳng tab Trò chơi
+let backHome = false;
+try{ if(localStorage.getItem('flyers.backHome')){ localStorage.removeItem('flyers.backHome'); backHome = true; } }catch(e){}
+if(backHome){ store.tab = 'games'; document.body.classList.remove('on-cover'); renderHome(); } else renderCover();
+
 })();
 </script>
 </body>
