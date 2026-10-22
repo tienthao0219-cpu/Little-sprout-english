@@ -407,6 +407,88 @@ body{background-color:#fbf7ff;background-image:radial-gradient(60% 38% at 6% 0%,
 .fc-hrow .fc-h{margin:14px 0 8px}
 .fc-hrow .btn{padding:8px 14px;font-size:14.5px;border-radius:14px}
 .infobox{background:#e9f2ff;border:3px solid #cfe2ff;border-radius:16px;padding:10px 14px;font-weight:700}
+/* ===== v2: vừa khung hình, ảnh to, thanh gọn ===== */
+.app.game{display:flex;flex-direction:column;height:100dvh;max-width:820px;padding:8px 14px calc(8px + env(safe-area-inset-bottom));overflow:hidden;box-sizing:border-box}
+body.in-game{overflow:hidden}
+.app.game .gbar{flex:none;margin:0 0 6px;gap:10px}
+.app.game .gbar .x{width:36px;height:36px}
+.gbar .progress,.progress{height:12px!important;margin:0!important;flex:1}
+.gbar .qn{font-weight:800;font-size:14px;color:var(--muted);white-space:nowrap}
+.gbar .qn b{color:var(--ink,#333)}
+.app.game .nums{flex:none;margin-bottom:6px}
+.app.game .qcount{display:none}
+.app.game .qcard{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:10px 12px;border-radius:20px;overflow:hidden}
+.qhead{flex:none;display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:2px}
+.qlabel{flex:none;font-weight:800;font-size:15px;color:var(--muted);margin:2px 0 4px}
+.qtop{flex:1 1 0;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;overflow:hidden}
+.qtop .qpic{flex:1 1 0;min-height:0;width:100%;margin:0;display:flex;align-items:center;justify-content:center}
+.qtop .qpic img{width:auto;height:100%;max-width:min(78vw,340px);max-height:min(34dvh,340px);aspect-ratio:1;object-fit:contain}
+.qtop .qpic.sm{flex:none}.qtop .qpic.sm img{height:auto;width:min(26vw,90px)}
+.qtop .bigword{margin:0;font-size:clamp(24px,5.5dvh,40px);text-align:center}
+.qtop.pics,.qtop.mt{justify-content:flex-start;overflow:auto}
+.qtop.pics .picopts{width:100%;max-width:min(430px,56dvh);gap:8px;margin:4px auto 0}
+.qbot{flex:none;display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.app.game .opts{gap:8px}
+.app.game .opt{padding:10px 10px;min-height:48px;font-size:clamp(16px,2.6dvh,19px)}
+.app.game .actions{margin-top:4px;padding:0}
+.app.game .qnav{flex:none;position:static;padding:6px 0 0;background:none}
+.app.game .qnav .btn{padding:8px 14px}
+.hintbox:empty{display:none}
+.hintbox{margin:0;padding:6px 10px;font-size:15px}
+.app.game .hintbox{max-height:18dvh;overflow:auto}
+.icon-btn.sm{width:30px;height:30px}
+/* feedback gọn */
+.fb{border-radius:14px;padding:8px 10px}
+.fb.good{background:var(--primary-soft)}.fb.bad{background:var(--bad-soft)}
+.fbrow{display:flex;gap:10px;align-items:center}
+.fbpic{width:clamp(48px,9dvh,80px);height:clamp(48px,9dvh,80px);object-fit:contain;flex:none}
+.fbh{font-weight:800;font-size:15px}.fbh .fd{font-weight:700;color:var(--muted)}
+.fw{font-size:18px;font-weight:800}.fv{color:var(--muted);font-weight:700}
+.whyd{margin-top:4px;font-size:14px}.whyd summary{cursor:pointer;font-weight:800;color:var(--muted)}
+.whyd[open]{max-height:16dvh;overflow:auto}
+/* nối cặp: cặp đúng biến mất, nút to dễ chạm */
+.match{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.mcol{display:flex;flex-direction:column;gap:8px}
+.mcol.imgs{gap:8px}
+.mbtn{min-height:48px;flex:1 1 0;border-radius:14px;font-weight:800;font-size:clamp(16px,2.6dvh,19px);transition:opacity .25s,transform .25s,visibility .25s}
+.mbtn img{width:auto;height:100%;max-height:min(11dvh,96px);max-width:100%;object-fit:contain}
+.mbtn.sel{border-color:var(--blue);background:var(--blue-soft);transform:scale(1.03)}
+.mbtn.bad{border-color:#ff9fb3;background:var(--bad-soft);animation:shake .3s}
+.mbtn.gone{opacity:0;visibility:hidden;pointer-events:none;transform:scale(.7)}
+/* màn kết quả: nút gọn, không còn thanh to đỏ vàng */
+.rbtns{max-width:420px;margin:12px auto 0;gap:8px}
+.rbtns .btn.big{padding:10px 14px;font-size:17px;box-shadow:none;border-width:2px}
+.rbtns .btn.accent{background:var(--accent-soft);border-color:var(--accent);color:#9a5a10}
+.rbtns .btn.primary{box-shadow:0 3px 0 var(--primary-d)}
+.topic .bar{height:8px!important}
+.timebar{height:10px}
+@media (max-height:620px){.qhead .qtopic,.nums{display:none}.qtop .qpic img{max-height:28dvh}}
+/* v2.1 chỉnh */
+.app.game .nums{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:2px;scrollbar-width:none}
+.app.game .nums::-webkit-scrollbar{display:none}
+.app.game .nums .num{flex:none}
+.app.game .actions{display:flex;flex-wrap:nowrap;align-items:center;gap:8px}
+.app.game .actions .btn{padding:8px 12px;font-size:15px;white-space:nowrap}
+.app.game .actions .link{font-size:14px;white-space:nowrap}
+.qtop.mt{justify-content:stretch;align-items:stretch;overflow:hidden}
+.qtop.mt .matchbox{flex:1 1 0;min-height:0;display:flex}
+.qtop.mt .match{flex:1;min-height:0;align-items:stretch}
+.qtop.mt .mcol{min-height:0}
+.qtop.mt .mbtn{min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 8px}
+.qtop.mt .mbtn img{max-height:100%;height:100%;width:auto;object-fit:contain}
+.qtop.pics{overflow:hidden;justify-content:center}
+.qtop.pics .picopts{max-width:min(430px,calc(100% - 4px),44dvh)}
+.picopt{padding:4px}
+.picopt .cap{font-size:14px;bottom:3px}
+@media (max-height:700px){.app.game .nums{display:none}}
+.app.game .actions{flex-wrap:wrap;justify-content:flex-end;row-gap:6px}
+.app.game .actions .grow{flex:1 1 0}
+@media (max-width:400px){.app.game .actions .btn{padding:8px 10px;font-size:14px}}
+/* chữ dài: ô nhỏ lại để vừa khung */
+.app.game .slots{gap:4px}.app.game .slot{width:34px;height:42px;font-size:22px;border-width:2px}
+.app.game .tile{width:38px;height:44px;font-size:22px;border-width:2px;box-shadow:0 3px 0 #f6bd90}
+.app.game #scr,.app.game .tiles{gap:5px}
+
 </style>
 </head>
 <body>
@@ -1051,19 +1133,23 @@ let actx = null, voice = null;
 function getVoice(){
   if(!TTS_OK) return null;
   if(voice) return voice;
-  const vs = speechSynthesis.getVoices();
-  voice = vs.find(v=>/en-GB/i.test(v.lang)) || vs.find(v=>/en-US/i.test(v.lang)) || vs.find(v=>/^en/i.test(v.lang)) || null;
-  return voice;
+  const vs = speechSynthesis.getVoices(); if(!vs.length) return null;
+  const rank = v => { let r = 0; const n = v.name || '';
+    if(/en[-_]GB/i.test(v.lang)) r += 30; else if(/en[-_]US/i.test(v.lang)) r += 20; else if(/en[-_](AU|IE|CA|NZ)/i.test(v.lang)) r += 10;
+    if(/google uk english female|sonia|libby|natural|samantha|serena|kate|karen|moira|ava|susan/i.test(n)) r += 10;
+    if(/espeak|compact|novelty|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|trinoids|whisper|zarvox|albert|fred|junior|kathy|ralph/i.test(n)) r -= 50;
+    return r; };
+  const en = vs.filter(v=>/^en([-_]|$)/i.test(v.lang)).sort((a,b)=>rank(b)-rank(a));
+  voice = en[0] || null; return voice;
 }
-if(TTS_OK){ try{ speechSynthesis.onvoiceschanged = ()=>{ voice = null; }; }catch(e){} }
+if(TTS_OK){ try{ speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = ()=>{ voice = null; }; }catch(e){} }
 function speak(text, slow){
   if(!TTS_OK) return;
   try{
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    const v = getVoice(); u.lang = v ? v.lang : 'en-GB'; if(v) u.voice = v;
-    u.rate = slow ? 0.55 : 0.85;
-    setTimeout(()=>speechSynthesis.speak(u), 40);
+    const ss = speechSynthesis;
+    const go = () => { const u = new SpeechSynthesisUtterance(text); const v = getVoice(); u.lang = v ? v.lang : 'en-GB'; if(v) u.voice = v;
+      u.rate = slow ? 0.6 : 0.9; u.pitch = 1; u.volume = 1; ss.speak(u); if(ss.paused) ss.resume(); };
+    if(ss.speaking || ss.pending){ ss.cancel(); setTimeout(go, 80); } else go();
   }catch(e){}
 }
 function tone(seq){
@@ -1282,9 +1368,10 @@ function scrambleHtml(){
 }
 function hintHtml(){
   const w = q.w, n = norm(w.w).length, out = [];
-  if(q.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span style="display:block;font-family:ui-monospace,Consolas,monospace;letter-spacing:2px;font-size:20px">${esc(pattern(w.w,0))}</span>`);
-  if(q.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span style="display:block;font-family:ui-monospace,Consolas,monospace;letter-spacing:2px;font-size:20px">${esc(pattern(w.w,1))}</span>`);
-  if(q.hints>=3) out.push(`💡 Nghĩa tiếng Việt: <b>${esc(w.vi)}</b>`);
+  const mono = 'display:block;font-family:ui-monospace,Consolas,monospace;letter-spacing:2px;font-size:20px';
+  if(q.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span style="${mono}">${esc(pattern(w.w,0))}</span>`);
+  if(q.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span style="${mono}">${esc(pattern(w.w,1))}</span>`);
+  if(q.hints>=3) out.push(q.type==='vi2en' ? `💡 Hai chữ cái đầu: <span style="${mono}">${esc(pattern(w.w,Math.min(2,n)))}</span>` : `💡 Nghĩa tiếng Việt: <b>${esc(w.vi)}</b>`);
   return out.map(x=>`<div>${x}</div>`).join('');
 }
 /* Giải thích sau mỗi câu (cả đúng lẫn sai) */
@@ -1314,14 +1401,12 @@ function feedbackHtml(){
   const good = ['Chính xác!','Giỏi quá!','Tuyệt vời!','Xuất sắc!','Đúng rồi!'];
   const bad = ['Chưa đúng rồi','Cố lên nào!','Suýt nữa thì đúng!','Không sao, nhớ từ này nhé!'];
   const hintNote = (ok && q.hints) ? ' (có dùng gợi ý)' : '';
-  const skipNote = (!ok && !q.given && q.mode!=='mc' ) ? '' : '';
-  const retry = (!ok && q.item.attempt===1) ? '<div class="fd">Từ này sẽ quay lại sau ít phút để em thử lần nữa 💪</div>' : '';
+  const retry = (!ok && q.item.attempt===1) ? '<span class="fd"> · Từ này sẽ quay lại sau để em thử lại 💪</span>' : '';
   return `<div class="fb ${ok?'good':'bad'}">
-    <h3>${ok?'🎉':'💭'} ${rnd(ok?good:bad)}${hintNote}</h3>
-    <div class="fw">${esc(w.w)} ${spk(w.w)}</div>
-    <div class="fv">${esc(w.vi)}</div>
+    <div class="fbh">${ok?'🎉':'💭'} ${rnd(ok?good:bad)}${hintNote}${retry}</div>
+    <div class="fw">${esc(w.w)} ${spk(w.w)} <span class="fv">${esc(w.vi)}</span></div>
     ${w.d && w.d.indexOf('___')<0 ?`<div class="fd">📖 ${esc(w.d)}</div>`:''}
-    ${explainHtml()}${retry}${skipNote}</div>`;
+    <details class="whyd"><summary>💡 Xem giải thích</summary>${explainHtml()}</details></div>`;
 }
 function numsHtml(){
   const cur = q.w.id;
@@ -1339,36 +1424,38 @@ function navHtml(){
 function renderQ(first){
   const w = q.w, T = TYPES[q.type];
   const tp = topicById(w.topics[0]);
-  let body = '';
+  const hintable = q.type==='listen' || (q.mode!=='mc' && (q.type==='def' || q.type==='vi2en'));
+  const hintbox = hintable ? `<div class="hintbox" id="hintbox">${hintHtml()}</div>` : '';
+  let label = '', top = '', bot = '';
   if(q.type==='def'){
-    body = `<div class="qlabel">${w.d.indexOf('___')>=0 ? 'Điền dạng đúng của từ vào chỗ trống' : 'Từ nào có nghĩa như sau?'}</div><div class="clue">“${esc(w.d)}”</div>`;
-    body += q.mode==='mc' ? optsHtml() : `<div class="pattern">${esc(pattern(w.w,1))}</div>` + typedHtml('Gõ từ tiếng Anh...');
+    label = w.d.indexOf('___')>=0 ? 'Điền dạng đúng của từ vào chỗ trống' : 'Từ nào có nghĩa như sau?';
+    top = `<div class="clue">“${esc(w.d)}”</div>` + (q.mode==='mc' ? '' : `<div class="pattern">${esc(pattern(w.w,1))}</div>${hintbox}`);
+    bot = q.mode==='mc' ? optsHtml() : typedHtml('Gõ từ tiếng Anh...');
   } else if(q.type==='en2vi'){
-    body = `<div class="qlabel">Nghĩa tiếng Việt của từ này là gì?</div><div class="bigword">${esc(w.w)} ${spk(w.w)}</div>` + optsHtml();
+    label = 'Nghĩa tiếng Việt của từ này là gì?'; top = `<div class="bigword">${esc(w.w)} ${spk(w.w)}</div>`; bot = optsHtml();
   } else if(q.type==='vi2en'){
-    body = `<div class="qlabel">Từ tiếng Anh của nghĩa này là gì?</div><div class="bigword vi">${esc(w.vi)}</div>`;
-    body += q.mode==='mc' ? optsHtml() : `<div class="pattern">${esc(pattern(w.w,1))}</div>` + typedHtml('Gõ từ tiếng Anh...');
+    label = 'Từ tiếng Anh của nghĩa này là gì?'; top = `<div class="bigword vi">${esc(w.vi)}</div>` + (q.mode==='mc' ? '' : `<div class="pattern">${esc(pattern(w.w,1))}</div>${hintbox}`);
+    bot = q.mode==='mc' ? optsHtml() : typedHtml('Gõ từ tiếng Anh...');
   } else if(q.type==='missing'){
-    body = `<div class="qlabel">Điền các chữ cái còn thiếu</div><div class="bigword vi">${esc(w.vi)}</div>
-      <div class="slotwrap"><div class="slots" id="slots">${slotsHtml()}</div>${q.answered?'':`<input id="hid" class="hid" type="text" maxlength="${q.blanks.length}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Nhập các chữ cái còn thiếu" value="${esc(q.typedL)}">`}</div>`;
+    label = 'Điền các chữ cái còn thiếu'; top = `<div class="bigword vi">${esc(w.vi)}</div>`;
+    bot = `<div class="slotwrap"><div class="slots" id="slots">${slotsHtml()}</div>${q.answered?'':`<input id="hid" class="hid" type="text" maxlength="${q.blanks.length}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Nhập các chữ cái còn thiếu" value="${esc(q.typedL)}">`}</div>`;
   } else if(q.type==='listen'){
-    body = `<div class="qlabel">Nghe và viết lại từ bạn nghe được</div>
-      <div class="listen-row"><button class="icon-btn lg" data-act="speak" data-t="${esc(w.w)}" aria-label="Nghe">🔊</button>${spk(w.w,true)}</div>
-      <div class="hintbox" id="hintbox">${hintHtml()}</div>` + typedHtml('Gõ từ bạn nghe được...');
+    label = 'Nghe và viết lại từ bạn nghe được';
+    top = `<div class="listen-row"><button class="icon-btn lg" data-act="speak" data-t="${esc(w.w)}" aria-label="Nghe">🔊</button>${spk(w.w,true)}</div>${hintbox}`; bot = typedHtml('Gõ từ bạn nghe được...');
   } else {
-    body = `<div class="qlabel">Sắp xếp các chữ cái thành từ đúng</div><div class="bigword vi">${esc(w.vi)}</div><div id="scr">${scrambleHtml()}</div>`;
+    label = 'Sắp xếp các chữ cái thành từ đúng'; top = `<div class="bigword vi">${esc(w.vi)}</div>`; bot = `<div id="scr">${scrambleHtml()}</div>`;
   }
   let actions = '';
   if(!q.answered){
     if(q.mode!=='mc'){
       actions = `<div class="actions">
-        ${q.type==='listen'?`<button class="btn" data-act="hint" id="hintbtn">💡 Gợi ý (${q.hints}/3)</button>`:''}
+        ${hintable?`<button class="btn" data-act="hint" id="hintbtn" ${q.hints>=3?'disabled':''}>💡 Gợi ý (${q.hints}/3)</button>`:''}
         ${q.mode==='scramble'?`<button class="btn" data-act="clear">↺ Xóa</button>`:''}
         <span class="grow"></span>
-        <button class="btn primary" data-act="submit">Kiểm tra</button></div>
-        <div style="text-align:right;margin-top:8px"><button class="link" data-act="giveup">Mình không biết</button></div>`;
+        <button class="link" data-act="giveup">Mình không biết</button>
+        <button class="btn primary" data-act="submit">Kiểm tra</button></div>`;
     } else {
-      actions = `<div style="text-align:right;margin-top:10px"><button class="link" data-act="giveup">Mình không biết</button></div>`;
+      actions = `<div class="actions"><span class="grow"></span><button class="link" data-act="giveup">Mình không biết</button></div>`;
     }
   }
   const pct = Math.round(S.done/S.n*100);
@@ -1377,13 +1464,17 @@ function renderQ(first){
   app.innerHTML = `
     <div class="gbar"><button class="x" data-act="quit" aria-label="Về trang chủ">🏠</button>
       <div class="progress"><i style="width:${pct}%"></i></div>
+      <div class="qn">Câu <b>${qn}</b>/${S.n}</div>
       <div class="combo">${S.streak>=2?'🔥 '+S.streak:'⭐ '+S.score}</div></div>
     ${numsHtml()}
-    <div class="qcount">Câu <b>${qn}</b>/${S.n}${tags}</div>
     <div class="qcard${first?' enter':''}" id="qcard">
-      <span class="qtype">${T.icon} ${T.label}</span><span class="qtopic">${esc(tp.icon+' '+tp.name)}</span>
-      ${body}${actions}${q.answered?feedbackHtml():''}
+      <div class="qhead"><span class="qtype">${T.icon} ${T.label}</span><span class="qtopic">${esc(tp.icon+' '+tp.name)}</span>${tags}</div>
+      <div class="qlabel">${label}</div>
+      <div class="qtop">${top}</div>
+      <div class="qbot">${bot}${actions}${q.answered?feedbackHtml():''}</div>
     </div>${navHtml()}`;
+  const nm = app.querySelector('.nums'), cu = app.querySelector('.num.cur');
+  if(nm && cu) nm.scrollLeft = cu.offsetLeft - nm.clientWidth/2 + cu.offsetWidth/2;
   window.scrollTo(0,0);
   if(!q.answered){
     if(q.mode==='typed') focusEl('#ans');
@@ -2148,6 +2239,12 @@ document.addEventListener('keydown', e=>{
     }
   }
 });
+
+/* Màn hình câu hỏi: khung cố định vừa trang, không cần kéo */
+new MutationObserver(()=>{
+  const g = !!app.querySelector('#qcard');
+  app.classList.toggle('game', g); document.body.classList.toggle('in-game', g);
+}).observe(app,{childList:true});
 
 /* debug / kiểm tra nhanh trong console */
 window.__vocab = {WORDS, TOPICS, store:()=>store, pickWords, norm, q:()=>q, S:()=>S, G:()=>G};
