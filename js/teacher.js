@@ -745,6 +745,37 @@
   const toLocalInput = iso => { if (!iso) return ""; const d = new Date(iso); if (isNaN(d)) return ""; const p = n => String(n).padStart(2, "0"); return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + "T" + p(d.getHours()) + ":" + p(d.getMinutes()); };
   const newSection = () => ({ id: "s" + uid("").slice(-5), title: "", type: "mcq1", desc: "", media: { img: "", audio: "", yt: "" }, raw: "", topic: "", shuffleQ: false, tfLabels: "en" });
 
+  /* ---------- Tìm dòng bị lỗi trong ô nội dung (để tô đỏ) ---------- */
+  const META_LINE = /^\s*(EXP|TOPIC|IMG|AUDIO|TASK|BANK|LEVEL|ANS)\s*[:：]/i;
+  function itemStarts(sec) {                      // số dòng (1-based) mở đầu mỗi câu/nhóm
+    const ls = String(sec.raw || "").replace(/\r/g, "").split("\n"), out = [];
+    const optRe = /^\s*\*?\s*[A-Ha-h][.)]\s/;
+    if (["mcq1", "mcqN"].includes(sec.type)) {
+      let prevOpt = true;
+      ls.forEach((l, i) => { if (!l.trim() || META_LINE.test(l)) return; const isOpt = optRe.test(l); if (!isOpt && prevOpt) out.push(i + 1); prevOpt = isOpt; });
+      return out;
+    }
+    if (["tf4", "match", "order", "classify", "wordpick", "wordsearch", "crossword", "memory"].includes(sec.type)) {
+      let startBlock = true; ls.forEach((l, i) => { if (!l.trim()) { startBlock = true; return; } if (startBlock && !META_LINE.test(l)) { out.push(i + 1); startBlock = false; } else if (startBlock) startBlock = false; });
+      return out;
+    }
+    ls.forEach((l, i) => { if (l.trim() && !META_LINE.test(l)) out.push(i + 1); });
+    return out;
+  }
+  function errLine(sec, e) {
+    const ls = String(sec.raw || "").replace(/\r/g, "").split("\n"); let m;
+    if ((m = e.match(/^Dòng (\d+)\b/))) return +m[1] <= ls.length ? +m[1] : 0;
+    if ((m = e.match(/^(?:Câu|Nhóm|Ván|Ô chữ|Đoạn) (\d+)\b/))) return itemStarts(sec)[+m[1] - 1] || 0;
+    if ((m = e.match(/^Dòng '(.+?)'/))) { const i = ls.findIndex(l => l.toLowerCase().includes(m[1].toLowerCase())); return i >= 0 ? i + 1 : 0; }
+    if ((m = e.match(/: (.{3,40})$/))) { const t = m[1].trim().toLowerCase(); const i = ls.findIndex(l => l.toLowerCase().includes(t)); return i >= 0 ? i + 1 : 0; }
+    return 0;
+  }
+  function locateErrors(sec, errors) {
+    const map = new Map();
+    errors.forEach(e => { const n = errLine(sec, e); if (n) map.set(n, map.has(n) ? map.get(n) + " | " + e : e); });
+    return map;
+  }
+
   async function tHwEdit(body, rest) {
     const id = rest[0] || "new";
     let hw;
@@ -789,22 +820,49 @@
     function sectionEditor(sec, i) {
       const T = () => L.hw.TYPE[sec.type];
       const rule = h("details.fold"), prev = h("div.preview.hidden"), status = h("div");
-      const ta = h("textarea", { style: "min-height:190px", placeholder: "Dán bài tập (theo cú pháp) vào đây…", spellcheck: "false", oninput: e => { sec.raw = e.target.value; markDirty(); check(); } }, sec.raw || "");
+      const bk = h("div.lnbk");
+      const ta = h("textarea.lned", { style: "min-height:190px;max-height:520px", placeholder: "Dán bài tập (theo cú pháp) vào đây…", spellcheck: "false", wrap: "soft", oninput: e => { sec.raw = e.target.value; markDirty(); paintLines(); check(); }, onscroll: () => syncBk() }, sec.raw || "");
+      const taWrap = h("div.lnwrap", bk, ta);
+      let badLines = new Map();
+      const syncBk = () => { const sb = ta.offsetWidth - ta.clientWidth - 4; bk.style.paddingRight = (12 + Math.max(0, sb)) + "px"; bk.scrollTop = ta.scrollTop; };
+      const paintLines = () => {
+        bk.innerHTML = "";
+        String(ta.value).split("\n").forEach((t, i) => { const bad = badLines.get(i + 1); bk.append(h("div.ln" + (bad ? ".bad" : ""), { "data-n": String(i + 1), title: bad || null }, t || "\u200b")); });
+        syncBk();
+      };
+      const gotoLine = n => {
+        const el = bk.children[n - 1]; if (!el) return;
+        ta.scrollIntoView({ block: "center", behavior: "smooth" });
+        ta.scrollTop = Math.max(0, el.offsetTop - 60); syncBk(); ta.focus({ preventScroll: true });
+        el.classList.remove("flash"); void el.offsetWidth; el.classList.add("flash");
+      };
       let showKey = false, timer = null;
       const check = () => {
         clearTimeout(timer);
         timer = setTimeout(() => {
           status.innerHTML = ""; prev.innerHTML = "";
-          if (!sec.raw.trim()) { prev.classList.add("hidden"); return; }
+          if (!sec.raw.trim()) { prev.classList.add("hidden"); badLines = new Map(); paintLines(); return; }
           const p = L.hw.parseSection(sec);
           const n = L.hw.countItems(sec);
+          badLines = locateErrors(sec, p.errors); paintLines();
           status.append(h("div.row", h("span.pill." + (p.questions.length ? "mint" : "rose"), "Nhận được " + p.questions.length + " câu · " + n + " ý chấm điểm"), p.errors.length ? h("span.pill.peach", p.errors.length + " lỗi cần xem") : null));
-          if (p.errors.length) status.append(h("div.err", { style: "margin-top:8px" }, p.errors.slice(0, 8).map(e => h("div", "• " + e)), p.errors.length > 8 ? h("div", "… và " + (p.errors.length - 8) + " lỗi nữa") : null));
+          if (p.errors.length) status.append(h("div.err", { style: "margin-top:8px" }, p.errors.slice(0, 8).map(e => { const ln = errLine(sec, e); return h("div", ln ? { style: "cursor:pointer;text-decoration:underline dotted", title: "Bấm để nhảy tới dòng này", onclick: () => gotoLine(ln) } : null, "• " + (ln && !/^Dòng/.test(e) ? "[dòng " + ln + "] " : "") + e); }), p.errors.length > 8 ? h("div", "… và " + (p.errors.length - 8) + " lỗi nữa") : null));
+          const cards = [...badLines.entries()].map(([ln, msg]) => h("div.qbad", { title: "Bấm để tới dòng này trong ô soạn", onclick: () => gotoLine(ln) }, h("b", "⚠️ Dòng " + ln + " chưa nhận được"), h("div.small", msg), h("code", String(sec.raw).split("\n")[ln - 1] || "")));
+          if (!p.questions.length && cards.length) { prev.classList.remove("hidden"); prev.append(h("div.row", { style: "margin-bottom:6px" }, h("b", "Các câu bị lỗi")), cards); }
           if (p.questions.length) {
             prev.classList.remove("hidden");
             const rt = showKey ? L.hw.keyRuntime(sec) : L.hw.buildRuntime(sec, { keepOrder: true });
             prev.append(h("div.row", { style: "margin-bottom:6px" }, h("b", "Xem trước"), h("span.grow"), h("button.btn.sm.ghost", { onclick: () => { showKey = !showKey; check(); } }, showKey ? "Ẩn đáp án" : "Hiện đáp án")),
               L.hw.renderSection(rt, showKey ? "review" : "do", true, 1, null));
+            if (cards.length) {                       // chèn thẻ đỏ đúng vị trí câu lỗi (nếu đếm khớp), không thì đặt trên đầu
+              const starts = itemStarts(sec), qs = [...prev.querySelectorAll(".q")];
+              const idxOf = ln => { let k = -1; starts.forEach((st, x) => { if (st <= ln) k = x; }); return k; };
+              const errIdx = [...badLines.keys()].map(idxOf);
+              if (starts.length && !errIdx.includes(-1) && starts.length - new Set(errIdx).size === qs.length) {
+                let valid = 0; const lns = [...badLines.keys()];
+                starts.forEach((st, x) => { const ci = errIdx.indexOf(x); if (ci >= 0) { const card = cards[ci]; (qs[valid] ? qs[valid].before(card) : qs[qs.length - 1].after(card)); lns.forEach((_, c2) => { if (c2 !== ci && errIdx[c2] === x) card.after(cards[c2]); }); } else valid++; });
+              } else prev.prepend(...cards);
+            }
           } else prev.classList.add("hidden");
         }, 250);
       };
@@ -844,16 +902,21 @@
         h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: !!sec.shuffleQ, onchange: e => { sec.shuffleQ = e.target.checked; markDirty(); } }), "Xáo thứ tự câu hỏi mỗi lần làm (riêng phần này, kể cả lần đầu)"),
         h("label.row", { style: "margin-top:10px;gap:8px;cursor:pointer" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: !!sec.numFresh, onchange: e => { sec.numFresh = e.target.checked; markDirty(); } }), "Đánh số câu bắt đầu lại từ 1 ở phần này (ví dụ Task 2 bắt đầu từ Câu 1)"),
         h("div.row", { style: "margin:12px 0 6px" }, h("b", "Nội dung bài tập (cú pháp)"), h("span.grow"),
-          h("button.btn.sm.ghost", { onclick: () => { ta.value = sec.raw = T().sample; markDirty(); check(); } }, "Dùng mẫu"),
+          h("button.btn.sm.ghost", { onclick: () => { ta.value = sec.raw = T().sample; markDirty(); paintLines(); check(); } }, "Dùng mẫu"),
           h("button.btn.sm.ghost", { title: "Tự gắn hình (ảnh trong Thư viện hình hoặc emoji) cho các câu có từ vựng cụ thể", onclick: () => {
             const r = L.imgs.suggest(sec.type, sec.raw);
             if (r.unsupported) { toast("Dạng bài này chưa gợi ý hình tự động. Cô thêm dòng IMG: thủ công nhé."); return; }
             if (!r.added) { toast(r.total ? "Không tìm thấy hình phù hợp cho các câu (hoặc đã có IMG:)" : "Chưa có nội dung"); return; }
-            ta.value = sec.raw = r.raw; markDirty(); check(); toast("Đã gắn hình cho " + r.added + "/" + r.total + " câu. Cô xem lại và xoá dòng IMG: nếu chưa đúng ý nhé.", 5000);
+            ta.value = sec.raw = r.raw; markDirty(); paintLines(); check(); toast("Đã gắn hình cho " + r.added + "/" + r.total + " câu. Cô xem lại và xoá dòng IMG: nếu chưa đúng ý nhé.", 5000);
           } }, "🪄 Gợi ý hình"),
           h("button.btn.sm.sky", { onclick: () => promptModal(sec.type, sec.topic) }, "🤖 Prompt cho AI")),
-        ta, status, prev);
-      fillRule(); check();
+        taWrap, status, prev);
+      box.jumpErr = () => {
+        badLines = locateErrors(sec, L.hw.parseSection(sec).errors); paintLines();
+        const first = [...badLines.keys()].sort((a, b) => a - b)[0];
+        if (first) gotoLine(first); else { box.scrollIntoView({ block: "center", behavior: "smooth" }); box.classList.remove("secflash"); void box.offsetWidth; box.classList.add("secflash"); }
+      };
+      fillRule(); check(); paintLines();
       return box;
     }
 
@@ -866,6 +929,8 @@
       if (!hw.title.trim()) { saveStatus.append(h("div.err", "Nhập tiêu đề bài tập.")); return; }
       let nItems = 0, bad = [];
       hw.sections.forEach((s, i) => { const p = L.hw.parseSection(s); if (!p.questions.length) bad.push("Phần " + (i + 1) + " chưa có câu hỏi hợp lệ"); if (p.errors.length) bad.push("Phần " + (i + 1) + ": " + p.errors.length + " lỗi cú pháp (các câu lỗi sẽ bị bỏ qua)"); nItems += L.hw.countItems(s); });
+      const firstBad = hw.sections.findIndex(s => { const p = L.hw.parseSection(s); return !p.questions.length || p.errors.length; });
+      if (firstBad >= 0 && secsBox.children[firstBad] && secsBox.children[firstBad].jumpErr) secsBox.children[firstBad].jumpErr();
       if (bad.some(b => /chưa có câu/.test(b))) { saveStatus.append(h("div.err", bad.filter(b => /chưa có câu/.test(b)).map(b => h("div", "• " + b)))); return; }
       if (bad.length && !(await L.confirmBox(bad.join("\n") + "\nVẫn lưu bài?", "Vẫn lưu"))) return;
       hw.meta.nItems = nItems; hw.meta.nSections = hw.sections.length; hw.title = hw.title.trim();

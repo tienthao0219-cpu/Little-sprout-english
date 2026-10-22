@@ -699,3 +699,21 @@ html.nofx .fxlayer{display:none}
   .pass-toggle{display:none}
 }
 @media(max-width:640px){.split{--pin-top:56px}}   /* điện thoại: thanh trên cùng không dính, chỉ còn thanh tên bài */
+
+/* Ô soạn bài: số dòng + tô đỏ dòng lỗi */
+.lnwrap{position:relative;display:block}
+.lnbk{position:absolute;inset:2px;overflow:hidden;pointer-events:none;box-sizing:border-box;padding:10px 12px 10px 52px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.55;font-weight:600;white-space:pre-wrap;word-wrap:break-word;overflow-wrap:break-word;color:transparent;border-radius:calc(var(--r-sm) - 2px)}
+.lnbk .ln{position:relative;margin:0 -12px 0 -52px;padding:0 12px 0 52px;min-height:1.55em}
+.lnbk .ln::before{content:attr(data-n);position:absolute;left:0;top:0;width:40px;text-align:right;color:#9aa3b8;font-size:12px;font-weight:700}
+.lnbk .ln.bad{background:rgba(255,70,70,.2);box-shadow:inset 4px 0 0 #e53935}
+.lnbk .ln.bad::before{color:#e53935}
+textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52px;box-sizing:border-box}
+.lnwrap::before{content:"";position:absolute;inset:0;background:#fff;border-radius:var(--r-sm)}
+
+.qbad{border:2px solid #e53935;background:#fff0f0;border-radius:14px;padding:10px 14px;margin:10px 0;cursor:pointer}
+.qbad b{color:#c62828}
+.qbad code{display:block;margin-top:6px;padding:6px 8px;background:#ffe1e1;border-radius:8px;white-space:pre-wrap;word-break:break-word;font-size:13px}
+.lnbk .ln.flash{animation:lnflash 1.6s ease-out}
+@keyframes lnflash{0%,40%{background:rgba(255,70,70,.65)}100%{background:rgba(255,70,70,.2)}}
+.secbox.secflash{animation:secflash 1.6s ease-out}
+@keyframes secflash{0%,40%{box-shadow:0 0 0 4px #e53935}100%{box-shadow:none}}

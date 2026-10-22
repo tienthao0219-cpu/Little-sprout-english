@@ -128,7 +128,7 @@
 
   function parseTF(raw) {
     const questions = [], errors = []; let pend = "";
-    lines(raw).filter(l => l.trim()).forEach((l, i) => {
+    lines(raw).forEach((l, i) => { if (!l.trim()) return;
       let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       const p = l.split("|").map(s => s.trim());
       const v = p.length > 1 ? verdict(p[1]) : undefined;
@@ -203,7 +203,7 @@
 
   function parseShort(raw) {
     const questions = [], errors = []; let pend = "";
-    lines(raw).filter(l => l.trim()).forEach((l, i) => {
+    lines(raw).forEach((l, i) => { if (!l.trim()) return;
       let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       const k = l.indexOf("=>");
       if (k < 0) { errors.push("Dòng " + (i + 1) + ": thiếu dấu => giữa câu hỏi và đáp án"); pend = ""; return; }
@@ -256,7 +256,7 @@
 
   function parseSentence(raw) {
     const questions = [], errors = []; let pend = "";
-    lines(raw).filter(l => l.trim()).forEach((l, i) => {
+    lines(raw).forEach((l, i) => { if (!l.trim()) return;
       let mi; if ((mi = l.match(META.img))) { pend = mi[1]; return; }
       if ((mi = l.match(META.expl))) { if (questions.length) questions[questions.length - 1].expl = mi[1]; return; }
       if ((mi = l.match(META.topic))) { if (questions.length) questions[questions.length - 1].topic = mi[1]; return; }
