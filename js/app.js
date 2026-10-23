@@ -26,12 +26,20 @@
     }
     /* học viên: ẩn các app không giao cho mình (cô giao app riêng cho từng em) */
     if (!isTeacher() && L.auth.role) {
-      try { const r = await L.api.call("appAccess"); const hid = new Set(r.hidden || []); if (hid.size) m.apps = (m.apps || []).filter(a => !hid.has(a.id)); } catch (e) { console.warn("appAccess", e); }
+      try { const r = await L.api.call("appAccess"); const hid = new Set(r.hidden || []); state.allApps = (m.apps || []).slice(); state.hiddenApps = hid; if (hid.size) m.apps = (m.apps || []).filter(a => !hid.has(a.id)); } catch (e) { console.warn("appAccess", e); }
     }
     state.manifest = m; return m;
   }
   L.loadManifest = loadManifest;
-  async function loadHw(force) { if (state.hwList && !force) return state.hwList; try { state.hwList = (await L.api.call("hwList")).list; } catch (e) { state.hwList = []; throw e; } return state.hwList; }
+  /* bài tập chỉ hiện cho học viên nào còn thấy được app của giáo trình/unit đó (cô đã ẩn hết app của giáo trình đó với em này thì bài tập cũng ẩn) */
+  function hwRelevant(x) {
+    if (isTeacher() || !state.hiddenApps || !state.hiddenApps.size) return true;
+    const all = (state.allApps || []).filter(a => a.cur === x.curId);
+    const inUnit = x.unitId ? all.filter(a => (a.unit || "") === x.unitId) : [];
+    const pool = inUnit.length ? inUnit : all;
+    return !pool.length || pool.some(a => !state.hiddenApps.has(a.id));
+  }
+  async function loadHw(force) { if (state.hwList && !force) return state.hwList; try { state.hwList = (await L.api.call("hwList")).list.filter(hwRelevant); } catch (e) { state.hwList = []; throw e; } return state.hwList; }
   L.loadHw = loadHw;
   async function loadMine(force) { if (state.plays && !force) return; const r = await L.api.call("myPlays"); state.plays = r.plays || []; state.subs = r.subs || []; }
   L.loadMine = loadMine;
@@ -326,7 +334,13 @@
     const wrap = h("div.frame-wrap", content);
     if (content.tagName === "VIDEO" || content.tagName === "IMG" || content.tagName === "DIV") wrap.style.height = "auto";
     const exitFull = h("button.btn.sm.ghost.exitfull", { onclick: () => toggle() }, "✕ Thu nhỏ");
-    const toggle = () => { const on = wrap.classList.toggle("full"); if (on) wrap.prepend(exitFull); else exitFull.remove(); };
+    /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
+    const toggle = () => {
+      const on = wrap.classList.toggle("full");
+      for (let e = wrap.parentElement; e && e.id !== "view" && e !== document.body; e = e.parentElement) e.classList.toggle("nofx", on);
+      document.documentElement.classList.toggle("noscroll", on);
+      if (on) wrap.prepend(exitFull); else exitFull.remove();
+    };
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
       h("div.player",
@@ -537,7 +551,7 @@
     route();
   }
   L.boot = () => {
-    window.addEventListener("hashchange", route);
+    window.addEventListener("hashchange", () => { document.documentElement.classList.remove("noscroll"); route(); });
     window.addEventListener("pagehide", () => { if (playSession) playSession.flush(true); });
     boot();
   };

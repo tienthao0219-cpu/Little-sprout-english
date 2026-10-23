@@ -578,6 +578,16 @@ body.in-game{overflow:hidden}
 .topic .utabs button{border:2px solid color-mix(in srgb,var(--c) 30%,#fff);background:#fff;color:color-mix(in srgb,var(--c) 70%,#2a2a3a);border-radius:999px;padding:6px 12px;min-height:36px;font-weight:800;font-size:13px;cursor:pointer}
 .topic .utabs button small{opacity:.75;font-weight:900;margin-left:3px}
 .topic .utabs button.on{background:var(--c);border-color:var(--c);color:#fff}
+
+/* ---- chỉnh giao diện điện thoại ---- */
+.gbar .x{display:grid;place-items:center;padding:0;background:rgba(255,255,255,.9)!important;border:0!important;box-shadow:0 4px 10px rgba(140,110,200,.18),inset 0 0 0 1.5px #fff;color:inherit}
+.gbar .x svg{width:24px;height:24px;display:block}
+.startbar .inner.two{grid-template-columns:1fr 1fr!important;gap:10px;align-items:stretch}
+.startbar .inner.two .btn{display:flex;align-items:center;justify-content:center;gap:6px;min-height:58px;height:100%;padding:10px 8px!important;font-size:17px!important;line-height:1.15;white-space:nowrap;margin:0;border-radius:18px}
+.startbar .inner.two .btn.big{font-size:17px!important}
+.fc-hrow{margin-bottom:10px}
+.fc-hrow .btn{margin-bottom:2px}
+.ft-grid{margin-top:4px}
 </style>
 </head>
 <body>
@@ -1079,7 +1089,7 @@ function renderQ(first){
   const qn = S.order.indexOf(w.id)+1;
   const tags = (S.hv!==-1 ? '<span class="tag">👀 Xem lại</span>' : '') + (q.item.attempt>1 ? '<span class="tag">🔁 Làm lại</span>' : '');
   app.innerHTML = `
-    <div class="gbar"><button class="x" data-act="quit" aria-label="Về trang chủ">🏠</button>
+    <div class="gbar"><button class="x" data-act="quit" aria-label="Về trang chủ"><svg viewBox="0 0 32 32"><defs><linearGradient id="gh2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M4 15.5 16 5l12 10.5" fill="none" stroke="url(#gh2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14.5V26a1.5 1.5 0 0 0 1.5 1.5H13V19h6v8.5h4.5A1.5 1.5 0 0 0 25 26V14.5L16 7z" fill="url(#gh2)"/><circle cx="24" cy="7" r="1.6" fill="#FFE08A"/></svg></button>
       <div class="progress"><i style="width:${pct}%"></i></div>
       <div class="qn">Câu <b>${qn}</b>/${S.n}</div>
       <div class="combo">${S.streak>=2?'🔥 '+S.streak:'⭐ '+S.score}</div></div>
@@ -1404,7 +1414,7 @@ function flashListHtml(){
     if(G.unkOnly && !getP(w.id).unk) return;
     (by[w.topics[0]] = by[w.topics[0]] || []).push(w);
   });
-  const html = TOPICS.filter(t=>by[t.id]).map(t=>`<div class="fc-topic" style="--c:${t.color}" data-tid="${t.id}"><div class="fc-hrow"><h3 class="fc-h">${esc(t.icon+' '+unitLabel(t)+' · '+t.name)} <small>${flashCountText(by[t.id])}</small></h3><button class="btn" data-act="practiceTopic" data-id="${t.id}">🎯 Practice unit này</button></div><div class="ft-grid">${by[t.id].map(w=>ftItemHtml(w,t.color)).join('')}</div></div>`).join('');
+  const html = TOPICS.filter(t=>by[t.id]).map(t=>`<div class="fc-topic" style="--c:${t.color}" data-tid="${t.id}"><div class="fc-hrow"><h3 class="fc-h">${esc(t.icon+' '+unitLabel(t)+' · '+t.name)} <small>${flashCountText(by[t.id])}</small></h3><button class="btn" data-act="practiceTopic" data-id="${t.id}">🎯 Practice chủ đề này</button></div><div class="ft-grid">${by[t.id].map(w=>ftItemHtml(w,t.color)).join('')}</div></div>`).join('');
   return html || `<p class="note">${G.unkOnly?'Chưa có từ nào được đánh dấu 🚩 Chưa thuộc.':'Không tìm thấy từ nào.'}</p>`;
 }
 function flashCardHtml(){
@@ -1425,7 +1435,7 @@ function flashCardHtml(){
 function drawFlash(){
   const g = G, n = g.list.length;
   const title = g.single ? unitTitleOf(g.units) : unitCount(g.units)+' unit';
-  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ">🏠</button><div class="gtitle">📇 ${esc(title)} · ${n} từ</div></div>
+  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ"><svg viewBox="0 0 32 32"><defs><linearGradient id="gh2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M4 15.5 16 5l12 10.5" fill="none" stroke="url(#gh2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14.5V26a1.5 1.5 0 0 0 1.5 1.5H13V19h6v8.5h4.5A1.5 1.5 0 0 0 25 26V14.5L16 7z" fill="url(#gh2)"/><circle cx="24" cy="7" r="1.6" fill="#FFE08A"/></svg></button><div class="gtitle">📇 ${esc(title)} · ${n} từ</div></div>
     <div class="seg"><button class="${g.mode==='grid'?'on':''}" data-act="fcmode" data-m="grid">🖼️ Thẻ ảnh</button><button class="${g.mode==='cards'?'on':''}" data-act="fcmode" data-m="cards">🃏 Từng thẻ</button></div>
     ${g.mode==='grid' ? `<div class="fc-controls"><input id="fcq" class="search" type="search" placeholder="Tìm từ tiếng Anh hoặc tiếng Việt…" value="${esc(g.query)}" autocomplete="off"><button class="chip${g.hide?' on':''}" data-act="fchide">🙈 Ẩn nghĩa tiếng Việt</button><button class="chip${g.unkOnly?' on':''}" data-act="fcunk">🚩 Chỉ từ chưa thuộc</button><button class="chip" data-act="fcall">🔄 Lật / úp tất cả</button></div>
       <p class="note" style="margin:0 0 2px">Chạm vào thẻ để lật và nghe phát âm. Bấm 🚩 <b>Chưa thuộc</b> nếu em chưa nhớ từ đó.</p>
@@ -1509,7 +1519,7 @@ function pickWeak(pool, n){
 }
 function startG(title, icon, inner){
   q = null; S = null;
-  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ">🏠</button><div class="gtitle">${icon} ${esc(title)}</div><div class="combo" id="gscore"></div><button class="x" data-act="pause" aria-label="Tạm dừng">⏸</button></div>${inner}`;
+  app.innerHTML = `<div class="gbar"><button class="x" data-act="gquit" aria-label="Về trang chủ"><svg viewBox="0 0 32 32"><defs><linearGradient id="gh2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M4 15.5 16 5l12 10.5" fill="none" stroke="url(#gh2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14.5V26a1.5 1.5 0 0 0 1.5 1.5H13V19h6v8.5h4.5A1.5 1.5 0 0 0 25 26V14.5L16 7z" fill="url(#gh2)"/><circle cx="24" cy="7" r="1.6" fill="#FFE08A"/></svg></button><div class="gtitle">${icon} ${esc(title)}</div><div class="combo" id="gscore"></div><button class="x" data-act="pause" aria-label="Tạm dừng">⏸</button></div>${inner}`;
   window.scrollTo(0,0);
 }
 const setScore = t => { const e = $('#gscore'); if(e) e.textContent = t; };
