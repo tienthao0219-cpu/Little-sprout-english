@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#ffeedd">
@@ -653,7 +653,7 @@ function unlockAudio(){
   try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){}
   const c=ensureCtx();
   if(c){ try{ const buf=c.createBuffer(1,1,22050), src=c.createBufferSource(); src.buffer=buf; src.connect(c.destination); src.start(0); }catch(e){} }
-  if(!navigator.audioSession){ try{ if(!silentEl){ silentEl=new Audio(makeSilentWav()); silentEl.loop=true; silentEl.volume=.02; } silentEl.play().catch(()=>{}); }catch(e){} }
+  try{ if(!silentEl){ silentEl=new Audio(makeSilentWav()); silentEl.loop=true; silentEl.volume=.05; } silentEl.play().catch(()=>{}); }catch(e){}
   if(speechOK&&!audioUnlocked){ try{ const u=new SpeechSynthesisUtterance(" "); u.volume=0; speechSynthesis.speak(u); }catch(e){} }
   audioUnlocked=true;
 }

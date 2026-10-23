@@ -344,7 +344,8 @@
     }
     const wrap = h("div.frame-wrap", content);
     if (content.tagName === "VIDEO" || content.tagName === "IMG" || content.tagName === "DIV") wrap.style.height = "auto";
-    const exitFull = h("button.btn.sm.ghost.exitfull", { onclick: () => toggle() }, "✕ Thu nhỏ");
+    const quit = async () => { await endPlay(); if (app.hub) go(L.gamehub.backHref(app.cur, app.unit).slice(1)); else go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); };
+    const exitFull = h("div.exitfull", h("button.btn.sm.ghost", { onclick: () => toggle() }, "✕ Thu nhỏ"), h("button.btn.sm.mint", { onclick: quit }, "💾 Lưu & thoát"));
     /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
     const toggle = () => {
       const on = wrap.classList.toggle("full");
@@ -359,10 +360,12 @@
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
           openLink, app.hub ? null : h("a.btn.sm.rose", { href: L.gamehub.backHref(app.cur, app.unit), title: "Chơi game khác với bài này" }, "🎮 Game khác"),
           h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
-          h("button.btn.sm.mint", { onclick: async () => { await endPlay(); if (app.hub) go(L.gamehub.backHref(app.cur, app.unit).slice(1)); else go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); } }, "Lưu & thoát")),
+          h("button.btn.sm.mint", { onclick: quit }, "Lưu & thoát")),
         wrap,
         wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
         app.desc ? h("div.small.muted", app.desc) : null));
+    /* điện thoại: game tự mở toàn màn hình cho đủ chỗ chơi (có nút Thu nhỏ / Lưu & thoát ở trên cùng) */
+    try { if (window.matchMedia("(max-width:700px)").matches && content.tagName === "IFRAME" && (app.hub || /apps\/games\//.test(app.file || ""))) toggle(); } catch (e) { }
   }
 
   /* ---------- bài tập: danh sách ---------- */
