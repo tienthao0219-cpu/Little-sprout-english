@@ -205,6 +205,8 @@ select.blank{width:auto;appearance:auto}
 details.fold{border-radius:var(--r-sm);background:#fff;box-shadow:inset 0 0 0 2px var(--line);padding:10px 14px;margin-top:10px}
 details.fold summary{cursor:pointer;font-weight:800}
 details.moremenu{position:relative}
+.item.mm-open,.item:has(details.moremenu[open]){position:relative;z-index:60}
+details.moremenu[open]{z-index:61}
 details.moremenu>summary{list-style:none;cursor:pointer}
 details.moremenu>summary::-webkit-details-marker{display:none}
 details.moremenu .mm{position:absolute;right:0;top:calc(100% + 6px);z-index:30;display:flex;flex-direction:column;gap:6px;min-width:168px;padding:8px;border-radius:14px;background:#fff;box-shadow:0 10px 30px rgba(60,40,120,.2),inset 0 0 0 2px var(--line)}

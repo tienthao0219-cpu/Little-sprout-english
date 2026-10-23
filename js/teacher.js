@@ -652,6 +652,9 @@
             (() => {
               /* các nút ít dùng gom vào menu ⋯ cho đỡ rối */
               const menu = h("details.moremenu");
+              /* hàng đang mở menu nổi lên trên các hàng bên dưới (nếu không các nút của hàng dưới sẽ đè lên menu) */
+              menu.addEventListener("toggle", () => { const it = menu.closest(".item"); if (it) it.classList.toggle("mm-open", menu.open); });
+              document.addEventListener("pointerdown", ev => { if (menu.open && !menu.contains(ev.target)) menu.open = false; }, true);
               const item = (tag, props, label) => h(tag + ".btn.sm.ghost", Object.assign({}, props, props.onclick ? { onclick: e => { menu.open = false; props.onclick(e); } } : {}), label);
               menu.append(h("summary.btn.sm.ghost", { title: "Thêm" }, "⋯"), h("div.mm",
                 item("a", { href: "#/hw/" + x.id }, "👀 Xem thử"),

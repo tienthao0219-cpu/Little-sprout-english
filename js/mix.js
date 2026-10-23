@@ -192,13 +192,20 @@ window.LSE = window.LSE || {};
   const clean1 = s => String(s == null ? "" : s).replace(/<\/?u>/g, "").replace(/\*\*/g, "").replace(/\s+/g, " ").replace(/^[\s*•\-–]+/, "").replace(/[\s.,;:!?]+$/, "").trim();
   const META_LINE = /^(IMG|HÌNH|HINH|PIC|AUDIO|LEVEL|TASK|YÊU CẦU|YEU CAU|EXP|EXPL|EXPLAIN|GIẢI THÍCH|TOPIC|CHỦ ĐIỂM|BANK|ANS|ĐÁP ÁN)\s*[:：]/i;
 
+  const FUNC = new Set("am is are was were be been do does did can could will would should must may might have has had the and but for not you your she her his him they them their our its this that these those there here what who when where which how why yes".split(" "));
   function vocabPairs(hw) {
     const out = [], seen = new Set();
-    const add = (word, hint, img) => {
-      word = clean1(word); hint = clean1(hint);
+    const add = (word, hint, img, ctx) => {
+      word = clean1(word); hint = ctx ? String(hint || "").replace(/<\/?u>/g, "").replace(/\*\*/g, "").replace(/\s+/g, " ").trim() : clean1(hint);
       if (!word || word.length > 40 || /^[\d\s]+$/.test(word)) return;
-      const k = word.toLowerCase(); if (seen.has(k)) return; seen.add(k);
-      out.push({ word, hint, img: img || "" });
+      const k = word.toLowerCase();
+      if (seen.has(k)) {   /* trùng từ: ưu tiên nghĩa/hình thật hơn câu gợi ý hay không có gì */
+        const ex = out.find(o => o.word.toLowerCase() === k);
+        if (ex && !ctx && (hint || img) && (ex.ctx || (!ex.hint && !ex.img))) { ex.hint = hint; ex.ctx = false; if (img) ex.img = img; }
+        return;
+      }
+      seen.add(k);
+      out.push({ word, hint, img: img || "", ctx: !!ctx });
     };
     (hw.sections || []).forEach(sec => {
       const raw = String(sec.raw || "").replace(/\r/g, ""), t = sec.type, lines = raw.split("\n").map(l => l.trim()).filter(Boolean);
@@ -220,6 +227,27 @@ window.LSE = window.LSE || {};
           if (t === "wordsearch" && !l.includes("|") && l.includes(",")) { l.split(",").forEach(w => add(w, "")); img = ""; return; }
           const p = l.split("|"); add(p[0], t === "listen" ? "" : p[1], img); img = "";
         });
+      } else if (["fill", "fillhint", "fillchoose", "fillbank"].includes(t)) {
+        /* từ đứng trong [[ ]] là từ vựng cần nhớ; gợi ý = câu có chỗ trống */
+        lines.forEach(l => {
+          if (META_LINE.test(l)) return;
+          const ms = [...l.matchAll(/\[\[([^\]]+)\]\]/g)];
+          const firstOf = inner => { const o = inner.split("|").map(x => x.trim()); const st = o.find(x => x.startsWith("*")); return (st || o[0] || "").replace(/^\*/, "").split("/")[0].trim(); };
+          ms.forEach((m, k) => {
+            const a = firstOf(m[1]); if (t !== "fillchoose" && m[1].includes("|")) return;
+            if (!/^[A-Za-z' -]+$/.test(a) || wc(a) > 3 || a.length < 3 || FUNC.has(a.toLowerCase())) return;
+            let n = -1, ctx = l.replace(/\[\[([^\]]+)\]\](\{[^}]*\})?/g, (_, inner) => (++n === k ? "___" : firstOf(inner)));
+            ctx = ctx.replace(/\s+/g, " ").trim();
+            if (ctx.length > 110) { const q = ctx.indexOf("___"), st = Math.max(0, q - 50); ctx = (st ? "…" : "") + ctx.slice(st, st + 110) + "…"; }
+            add(a, ctx, "", true);
+          });
+        });
+      } else if (t === "short") {
+        lines.forEach(l => { if (META_LINE.test(l)) return; const m = l.match(/^(.+?)\s*=>\s*(.+)$/); if (!m) return; const a = m[2].split("/")[0].trim(); if (/^[A-Za-z' -]+$/.test(a) && wc(a) <= 3 && a.length >= 3 && !FUNC.has(a.toLowerCase())) add(a, m[1], "", true); });
+      } else if (t === "classify") {
+        lines.forEach(l => { const m = l.match(/^\[[^\]]+\]\s*(.+)$/); if (m) m[1].split(",").forEach(w => { w = w.trim(); if (/^[A-Za-z' -]+$/.test(w) && wc(w) <= 3) add(w, ""); }); });
+      } else if (t === "mcqN") {
+        L.hw.parseSection(sec).questions.forEach(q => (q.opts || []).filter(o => o.ok).forEach(o => { const w = clean1(o.t); if (/^[A-Za-z' -]+$/.test(w) && wc(w) <= 3) add(w, String(q.stem || "").replace(/_{2,}|\.{3,}|…+/g, "…"), q.img ? "img:" + q.img : "", true); }));
       } else if (t === "mcq1") {
         L.hw.parseSection(sec).questions.forEach(q => {
           const ok = (q.opts || []).find(o => o.ok); if (!ok) return; const w = clean1(ok.t);
@@ -232,7 +260,7 @@ window.LSE = window.LSE || {};
   }
 
   const GAMES = [
-    { id: "memory", cap: 12, note: "tối đa 12 cặp/bàn", ok: p => !!(p.hint || p.img) },
+    { id: "memory", cap: 12, note: "tối đa 12 cặp/bàn, cần nghĩa hoặc hình", ok: p => !!(p.img || (p.hint && !p.ctx)) },
     { id: "wordsearch", cap: 10, note: "chỉ từ gồm chữ cái, ≤ 14 chữ, 10 từ/ván", ok: p => /^[A-Za-z]{2,14}$/.test(p.word) },
     { id: "crossword", cap: 8, note: "cần có gợi ý, 8 từ/ván", ok: p => /^[A-Za-z]{3,14}$/.test(p.word) && !!p.hint },
     { id: "scramble", cap: 99, note: "xếp lại các chữ cái", ok: p => p.word.length >= 3 },
@@ -261,7 +289,7 @@ window.LSE = window.LSE || {};
         box.innerHTML = "";
         box.append(h("div.row", h("h3", { style: "margin:0" }, "🎮 Biến thành game"), h("span.grow"), h("button.btn.sm.ghost", { type: "button", onclick: close }, "Đóng")),
           h("p.small.muted", "Bài nguồn: ", h("b", x.title), ". App lấy các từ trong bài, cô chọn từ và loại game, app tạo bản nháp bài game mới (cô xem lại rồi lưu)."));
-        if (!st.pairs.length) { box.append(h("div.empty", "Bài này chưa có từ vựng nhận ra được. Hãy thử bài từ vựng dạng ghép cặp, trắc nghiệm định nghĩa (đáp án là một từ), xếp chữ hoặc nhìn nghĩa chọn từ.")); return; }
+        if (!st.pairs.length) { box.append(h("div.empty", "Bài này chưa lấy được từ vựng nào. App đọc được từ các dạng: ghép cặp, xếp chữ, ô chữ, nhìn nghĩa chọn từ, nghe chọn từ, trắc nghiệm (đáp án là một từ), điền từ [[…]], trả lời ngắn, phân loại. Bài chỉ có câu dài, đúng/sai hoặc sắp xếp câu thì không có từ riêng để làm game.")); return; }
         const chosen = st.pairs.filter(p => st.on[p.word]);
         box.append(h("div.row", { style: "margin:6px 0" }, h("b", "1. Chọn từ (" + chosen.length + "/" + st.pairs.length + ")"), h("span.grow"),
           h("button.btn.sm.ghost", { type: "button", onclick: () => { const all = chosen.length === st.pairs.length; st.pairs.forEach(p => st.on[p.word] = !all); draw(); } }, "Chọn tất cả / bỏ hết")));
@@ -276,6 +304,16 @@ window.LSE = window.LSE || {};
             h("input", { type: "checkbox", style: "width:20px;height:20px", disabled: !okG, checked: okG && !!st.games[g.id], onchange: e => { st.games[g.id] = e.target.checked; } }),
             h("b", ((L.hw.TYPE[g.id] || {}).emoji || "") + " " + ((L.hw.TYPE[g.id] || {}).label || g.id)), h("span.small.muted", " · dùng được " + el.length + " từ · " + g.note)));
         });
+        /* chơi ngay bằng Trung tâm trò chơi (cần nghĩa tiếng Việt của từ) */
+        const viP = chosen.filter(p => p.hint && !p.ctx && !isEn(p.hint));
+        box.append(h("div.row", { style: "margin:14px 0 4px" }, h("b", "🎮 Hoặc chơi ngay bằng Trung tâm trò chơi")));
+        if (viP.length >= 4) {
+          box.append(h("p.small.muted", { style: "margin:0 0 6px" }, "Dùng " + viP.length + " từ đã chọn có nghĩa tiếng Việt, không cần tạo hay lưu bài mới."),
+            h("div.row", { style: "gap:8px;flex-wrap:wrap" }, [["vuon-chuot", "🔨 Đập Chuột"], ["dao-vang", "⛏️ Đào Vàng"], ["xi-ngau", "🎲 Xí Ngầu"]].map(([gid, lb]) => h("button.btn.sm.rose", { type: "button", onclick: () => {
+              try { sessionStorage.setItem("lse_custom_set", JSON.stringify({ title: x.title, items: viP.map(p => ({ w: p.word, vi: p.hint })) })); } catch (e) { toast("Không lưu được bộ từ tạm"); return; }
+              close(); L.go("/games/play/" + gid + "/custom?cur=" + encodeURIComponent(x.curId || "") + "&unit=" + encodeURIComponent(x.unitId || ""));
+            } }, lb))));
+        } else box.append(h("p.small.muted", { style: "margin:0" }, "Cần ít nhất 4 từ đã chọn có nghĩa tiếng Việt (hiện có " + viP.length + "). Bài điền từ chỉ có câu gợi ý tiếng Anh nên chưa chơi được cách này."));
         const nIn = h("input", { type: "number", min: 4, value: st.n, style: "width:90px", oninput: e => { st.n = Math.max(2, +e.target.value || 10); } });
         const tIn = h("input", { type: "text", value: st.title, oninput: e => { st.title = e.target.value; } });
         box.append(h("div.two", { style: "margin-top:10px" }, h("label.field", h("span", "3. Số từ cho mỗi game (lấy ngẫu nhiên)"), nIn), h("label.field", h("span", "Tên bài game"), tIn)),
