@@ -217,6 +217,7 @@
     if (!(c.units || []).length && loose.length) {
       try { await loadMine(); } catch (e) { }
       show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
+        h("div.row", { style: "margin-bottom:10px" }, h("a.btn.sm.sky", { href: "#/" }, "🏠 Về các folder")),
         h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(c.emoji || "📘", 40), c.name),
         h("div", { style: "margin-bottom:10px" }, h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" }, "🎮 Chơi game với bài này")),
         h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), loose.map(appItem)));
@@ -225,6 +226,7 @@
     if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
+      h("div.row", { style: "margin-bottom:10px" }, h("a.btn.sm.sky", { href: "#/" }, "🏠 Về các folder")),
       h("div.row", { style: "margin-bottom:12px" }, h("div.cur.tint" + (c.tint || 0), { style: "min-height:0;padding:10px 18px;cursor:default;flex-direction:row;align-items:center;gap:10px" }, h("span.em", L.ei(c.emoji, 44)), h("h2", c.name)), h("a.btn.sm.peach", { href: "#/map/" + cid }, [L.ei("🗺️", 20), " Bản đồ đảo"])),
       units.length ? h("div.grid", units) : h("div.card.empty", "Giáo trình này chưa có unit nào.", isTeacher() ? h("div", h("a.btn", { style: "margin-top:10px", href: "#/teacher/content" }, "Thêm unit")) : null));
   }
@@ -289,6 +291,7 @@
     const box = h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), apps.length ? apps.map(appItem) : h("div.empty", "Chưa có app nào trong unit này."));
     const hwBox = h("div.card", h("h3", { style: "margin-bottom:4px" }, "Bài tập"), h("div.empty", h("span.spinner")));
     show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), h("a", { href: "#/c/" + cid }, c.name), " › ", name),
+      h("div.row", { style: "margin-bottom:10px;gap:8px;flex-wrap:wrap" }, h("a.btn.sm.sky", { href: "#/" }, "🏠 Về các folder"), h("a.btn.sm.ghost", { href: "#/c/" + cid }, "← Các unit của " + c.name)),
       h("div.row.space", { style: "margin-bottom:12px" }, h("h1", { style: "font-size:30px" }, name), h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" + encodeURIComponent(real) }, "🎮 Chơi game với bài này")), box, hwBox);
     try {
       const list = (await loadHw()).filter(x => x.curId === cid && (x.unitId || "") === real);
@@ -345,7 +348,10 @@
     const wrap = h("div.frame-wrap", content);
     if (content.tagName === "VIDEO" || content.tagName === "IMG" || content.tagName === "DIV") wrap.style.height = "auto";
     const quit = async () => { await endPlay(); if (app.hub) go(L.gamehub.backHref(app.cur, app.unit).slice(1)); else go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); };
-    const exitFull = h("div.exitfull", h("button.btn.sm.ghost", { onclick: () => toggle() }, "✕ Thu nhỏ"), h("button.btn.sm.mint", { onclick: quit }, "💾 Lưu & thoát"));
+    const goHome = async () => { await endPlay(); go("/"); };
+    /* nút 🏠 Trang chủ bên trong app gửi lệnh nav: về trang unit (hoặc Trung tâm trò chơi), lưu lượt chơi trước */
+    L.playCur = { win: () => content.contentWindow, nav: to => (to === "home" ? goHome() : quit()) };
+    const exitFull = h("div.exitfull", h("button.btn.sm.ghost", { onclick: () => toggle() }, "✕ Thu nhỏ"), h("button.btn.sm.sky", { onclick: goHome }, "🏠"), h("button.btn.sm.mint", { onclick: quit }, "💾 Lưu & thoát"));
     /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
     const toggle = () => {
       const on = wrap.classList.toggle("full");
@@ -360,6 +366,7 @@
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
           openLink, app.hub ? null : h("a.btn.sm.rose", { href: L.gamehub.backHref(app.cur, app.unit), title: "Chơi game khác với bài này" }, "🎮 Game khác"),
           h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
+          h("button.btn.sm.sky", { onclick: goHome, title: "Về trang chủ (các folder)" }, "🏠 Trang chủ"),
           h("button.btn.sm.mint", { onclick: quit }, "Lưu & thoát")),
         wrap,
         wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
@@ -556,6 +563,7 @@
   L.prof.onChange(() => { const l = document.querySelector(".coinchip .nlab"); if (l) l.textContent = L.prof.coins() + " xu"; });
   L.route = route;
   L.playApp = app => playView(null, app);
+  window.addEventListener("message", e => { const d = e.data; if (!d || d.lse !== 1 || d.kind !== "nav" || !L.playCur) return; try { if (e.source === L.playCur.win()) L.playCur.nav(d.to); } catch (x) { } });
   L.ui = { show, spinner, loadManifest, repaint: () => paintChrome() };
 
   async function boot() {

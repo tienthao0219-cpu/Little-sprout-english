@@ -175,7 +175,7 @@ document.getElementById('playAll').onclick=function(){
 };
 const tabs2=document.getElementById('tabs2');
 if(tabs2) tabs2.addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b) return; stopAll=true; try{speechSynthesis.cancel();}catch(_){} topicSel=b.dataset.t; tabs2.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); render(); window.scrollTo(0,0); });
-document.getElementById('homeBtn').onclick=()=>{ stopAll=true; try{speechSynthesis.cancel();}catch(_){} try{ if(window.parent && window.parent!==window){ window.parent.location.hash='#/'; return; } }catch(_){} if(history.length>1) history.back(); };
+document.getElementById('homeBtn').onclick=()=>{ stopAll=true; try{speechSynthesis.cancel();}catch(_){} try{ if(window.parent && window.parent!==window){ window.parent.postMessage({lse:1,kind:'nav',to:'unit'},'*'); setTimeout(function(){ try{ if(/\/play\//.test(window.parent.location.hash)) window.parent.location.hash='#/'; }catch(_){} },2500); return; } }catch(_){} if(history.length>1) history.back(); };
 render();
 </script>
 <script>/* ===== Tab Luyện tập (dùng danh sách thẻ của unit) ===== */
