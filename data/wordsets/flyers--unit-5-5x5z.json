@@ -1,1 +1,141 @@
-{"id": "flyers--unit-5-5x5z", "title": "Unit 5 · A day out", "cur": "flyers", "unit": "unit-5-5x5z", "items": [{"w": "cinema", "vi": "rạp chiếu phim", "ipa": "ˈsɪnəmə", "topic": "Places", "img": "img/flyers--unit-5-5x5z/cinema.webp"}, {"w": "circus", "vi": "rạp xiếc", "ipa": "ˈsɜːkəs", "topic": "Places", "img": "img/flyers--unit-5-5x5z/circus.webp"}, {"w": "gym", "vi": "phòng tập thể dục", "ipa": "dʒɪm", "topic": "Places", "img": "img/flyers--unit-5-5x5z/gym.webp"}, {"w": "ocean", "vi": "đại dương", "ipa": "ˈəʊʃn", "topic": "Places", "img": "img/flyers--unit-5-5x5z/ocean.webp"}, {"w": "theatre", "vi": "nhà hát", "ipa": "ˈθɪətə", "topic": "Places", "img": "img/flyers--unit-5-5x5z/theatre.webp"}, {"w": "zoo", "vi": "sở thú", "ipa": "zuː", "topic": "Places", "img": "img/flyers--unit-5-5x5z/zoo.webp"}, {"w": "actor", "vi": "nam diễn viên", "ipa": "ˈæktə", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/actor.webp"}, {"w": "clown", "vi": "chú hề", "ipa": "klaʊn", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/clown.webp"}, {"w": "cartoon", "vi": "phim hoạt hình", "ipa": "kɑːˈtuːn", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/cartoon.webp"}, {"w": "dinosaurs", "vi": "khủng long", "ipa": "ˈdaɪnəsɔːz", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/dinosaurs.webp"}, {"w": "pyramids", "vi": "kim tự tháp", "ipa": "ˈpɪrəmɪdz", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/pyramids.webp"}, {"w": "screen", "vi": "màn hình", "ipa": "skriːn", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/screen.webp"}, {"w": "stage", "vi": "sân khấu", "ipa": "steɪdʒ", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/stage.webp"}, {"w": "swing", "vi": "xích đu", "ipa": "swɪŋ", "topic": "Shows & fun things", "img": "img/flyers--unit-5-5x5z/swing.webp"}, {"w": "brave", "vi": "dũng cảm", "ipa": "breɪv", "topic": "Describing words", "img": "img/flyers--unit-5-5x5z/brave.webp"}, {"w": "cheap", "vi": "rẻ", "ipa": "tʃiːp", "topic": "Describing words", "img": "img/flyers--unit-5-5x5z/cheap.webp"}, {"w": "extinct", "vi": "tuyệt chủng", "ipa": "ɪkˈstɪŋkt", "topic": "Describing words", "img": "img/flyers--unit-5-5x5z/extinct.webp"}, {"w": "frightening", "vi": "đáng sợ", "ipa": "ˈfraɪtnɪŋ", "topic": "Describing words", "img": "img/flyers--unit-5-5x5z/frightening.webp"}, {"w": "pleased", "vi": "hài lòng", "ipa": "pliːzd", "topic": "Describing words", "img": "img/flyers--unit-5-5x5z/pleased.webp"}, {"w": "project", "vi": "dự án", "ipa": "ˈprɒdʒekt", "topic": "Other words", "img": "img/flyers--unit-5-5x5z/project.webp"}]}
+{
+ "id": "flyers--unit-5-5x5z",
+ "title": "Unit 5 · A day out",
+ "cur": "flyers",
+ "unit": "unit-5-5x5z",
+ "items": [
+  {
+   "w": "cinema",
+   "vi": "rạp chiếu phim",
+   "ipa": "ˈsɪnəmə",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/cinema.webp"
+  },
+  {
+   "w": "circus",
+   "vi": "rạp xiếc",
+   "ipa": "ˈsɜːkəs",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/circus.webp"
+  },
+  {
+   "w": "gym",
+   "vi": "phòng tập thể dục",
+   "ipa": "dʒɪm",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/gym.webp"
+  },
+  {
+   "w": "ocean",
+   "vi": "đại dương",
+   "ipa": "ˈəʊʃn",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/ocean.webp"
+  },
+  {
+   "w": "theatre",
+   "vi": "nhà hát",
+   "ipa": "ˈθɪətə",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/theatre.webp"
+  },
+  {
+   "w": "zoo",
+   "vi": "sở thú",
+   "ipa": "zuː",
+   "topic": "Places",
+   "img": "img/flyers--unit-5-5x5z/zoo.webp"
+  },
+  {
+   "w": "actor",
+   "vi": "nam diễn viên",
+   "ipa": "ˈæktə",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/actor.webp"
+  },
+  {
+   "w": "clown",
+   "vi": "chú hề",
+   "ipa": "klaʊn",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/clown.webp"
+  },
+  {
+   "w": "cartoon",
+   "vi": "phim hoạt hình",
+   "ipa": "kɑːˈtuːn",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/cartoon.webp"
+  },
+  {
+   "w": "dinosaurs",
+   "vi": "khủng long",
+   "ipa": "ˈdaɪnəsɔːz",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/dinosaurs.webp"
+  },
+  {
+   "w": "pyramids",
+   "vi": "kim tự tháp",
+   "ipa": "ˈpɪrəmɪdz",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/pyramids.webp"
+  },
+  {
+   "w": "screen",
+   "vi": "màn hình",
+   "ipa": "skriːn",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/screen.webp"
+  },
+  {
+   "w": "stage",
+   "vi": "sân khấu",
+   "ipa": "steɪdʒ",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/stage.webp"
+  },
+  {
+   "w": "swing",
+   "vi": "xích đu",
+   "ipa": "swɪŋ",
+   "topic": "Shows & fun things",
+   "img": "img/flyers--unit-5-5x5z/swing.webp"
+  },
+  {
+   "w": "brave",
+   "vi": "dũng cảm",
+   "ipa": "breɪv",
+   "topic": "Describing words",
+   "img": "img/flyers--unit-5-5x5z/brave.webp"
+  },
+  {
+   "w": "cheap",
+   "vi": "rẻ",
+   "ipa": "tʃiːp",
+   "topic": "Describing words",
+   "img": "img/flyers--unit-5-5x5z/cheap.webp"
+  },
+  {
+   "w": "extinct",
+   "vi": "tuyệt chủng",
+   "ipa": "ɪkˈstɪŋkt",
+   "topic": "Describing words",
+   "img": "img/flyers--unit-5-5x5z/extinct.webp"
+  },
+  {
+   "w": "frightening",
+   "vi": "đáng sợ",
+   "ipa": "ˈfraɪtnɪŋ",
+   "topic": "Describing words",
+   "img": "img/flyers--unit-5-5x5z/frightening.webp"
+  },
+  {
+   "w": "project",
+   "vi": "dự án",
+   "ipa": "ˈprɒdʒekt",
+   "topic": "Other words",
+   "img": "img/flyers--unit-5-5x5z/project.webp"
+  }
+ ]
+}
