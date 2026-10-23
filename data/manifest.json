@@ -189,6 +189,15 @@
       ]
     },
     {
+      "id": "grammar-irregular",
+      "name": "Irregular verbs",
+      "emoji": "🦆",
+      "groupEmoji": "📖",
+      "tint": 9,
+      "group": "Ngữ pháp",
+      "units": []
+    },
+    {
       "id": "adult",
       "name": "Giao tiếp người lớn",
       "emoji": "☕",
@@ -687,6 +696,17 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-22T14:42:38.000Z"
+    },
+    {
+      "id": "irregular-verbs-xk3p",
+      "title": "Irregular verbs – ôn động từ bất quy tắc",
+      "cur": "grammar-irregular",
+      "unit": "",
+      "file": "apps/grammar/irregular-verbs/irregular-verbs.html",
+      "kind": "app",
+      "desc": "84 động từ · V1→nghĩa, V1→V2, V1→V2&V3 · tick chọn, tìm kiếm A–Z",
+      "added": "2026-10-23T02:12:15.000Z",
+      "updated": "2026-10-23T02:12:15.000Z"
     }
   ]
 }

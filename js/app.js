@@ -146,6 +146,7 @@
   L.cheer = cheer;
 
   const groupId = c => L.slug(c.group || "");
+  const groupEmoji = cs => { const x = cs.find(c => c.groupEmoji); return x ? x.groupEmoji : (cs[0] && cs[0].emoji); };
   const groupOf = gid => (state.manifest.curricula || []).filter(c => c.group && groupId(c) === gid);
   const groupCrumb = c => c && c.group ? [h("a", { href: "#/g/" + groupId(c) }, c.group), " › "] : [];
   L.curLabel = c => (c.group ? c.group + " › " : "") + c.name;
@@ -153,7 +154,7 @@
     const n = appsIn(c.id).length, u = (c.units || []).length;
     return h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/c/" + c.id },
       h("div.em", L.ei(c.emoji || "📚", 44)), h("h3", c.name),
-      h("div.meta", u + " unit · " + n + " app/game"), h("span.go", "→"));
+      h("div.meta", (u ? u + " unit · " : "") + n + " app/game"), h("span.go", "→"));
   }
   /* trang của một nhóm (thư mục lớn): liệt kê các giáo trình con */
   async function groupView(gid) {
@@ -161,7 +162,7 @@
     const cs = groupOf(gid);
     if (!cs.length) { show(h("div.card.empty", "Không tìm thấy thư mục này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
     show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", cs[0].group),
-      h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(cs[0].emoji || "📁", 40), cs[0].group),
+      h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(groupEmoji(cs) || "📁", 40), cs[0].group),
       h("div.grid", cs.map((c, i) => curCard(c, i))));
   }
 
@@ -176,8 +177,8 @@
       const gid = groupId(c); if (seenG.has(gid)) return; seenG.add(gid);
       const cs = groupOf(gid), nu = cs.reduce((a, x) => a + (x.units || []).length, 0), na = cs.reduce((a, x) => a + appsIn(x.id).length, 0);
       cards.push(h("a.cur.tint" + ((c.tint != null ? c.tint : i) % 16), { href: "#/g/" + gid },
-        h("div.em", L.ei(c.emoji || "📁", 44)), h("h3", c.group),
-        h("div.meta", cs.length + " giáo trình · " + nu + " unit · " + na + " app/game"), h("span.go", "→")));
+        h("div.em", L.ei(groupEmoji(cs) || "📁", 44)), h("h3", c.group),
+        h("div.meta", cs.length + " giáo trình · " + (nu ? nu + " unit · " : "") + na + " app/game"), h("span.go", "→")));
     });
     const statBox = h("div.stats");
     const who = isTeacher() ? "cô " + L.auth.name : L.auth.name;
@@ -211,6 +212,13 @@
       return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), L.ei(c.emoji || "📘", 32)), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
     });
     const loose = appsIn(cid, "");
+    if (!(c.units || []).length && loose.length) {
+      try { await loadMine(); } catch (e) { }
+      show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
+        h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(c.emoji || "📘", 40), c.name),
+        h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), loose.map(appItem)));
+      return;
+    }
     if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
