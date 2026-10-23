@@ -2,8 +2,27 @@
  "version": 1,
  "games": [
   {
+   "id": "vuon-chuot",
+   "title": "Đập Chuột – Vườn Chuột Chũi",
+   "desc": "Chuột chũi thò lên cầm bảng đáp án A–D. Đập đúng để nhận xu, giữ tim, hạ Chuột Vua. 4 màn vườn, nhiều dạng câu (nghe, điền chữ, xếp chữ, gõ), có Fix it!",
+   "file": "apps/games/vuon-chuot.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab",
+    "speed"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-vuon-chuot.webp",
+   "color": "pink",
+   "needs": "3 từ trở lên có nghĩa tiếng Việt (cần 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261023160000"
+  },
+  {
    "id": "dap-chuot",
-   "title": "Đập Chuột",
+   "title": "Đập Chuột · Nâng cấp búa",
    "desc": "Chuột chui lên cầm bảng đáp án. Đập đúng chuột, tránh chuột sai, đánh Boss và nâng cấp búa!",
    "file": "apps/games/dap-chuot.html",
    "tags": [

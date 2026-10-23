@@ -740,6 +740,17 @@
       "desc": "Game xí ngầu săn số (template)",
       "added": "2026-10-23T07:20:00.000Z",
       "updated": "2026-10-23T07:20:00.000Z"
+    },
+    {
+      "id": "vuon-chuot-template-q4w8",
+      "title": "Đập Chuột – Vườn Chuột Chũi (template)",
+      "cur": "template-game-html-wod",
+      "unit": "",
+      "file": "apps/games/vuon-chuot.html",
+      "kind": "game",
+      "desc": "Template Đập Chuột của cô (từ vựng + ngữ pháp, dữ liệu mẫu Things We Can Do). Khi chơi qua Trung tâm trò chơi sẽ dùng từ vựng của unit đã chọn.",
+      "added": "2026-10-23T08:20:00.000Z",
+      "updated": "2026-10-23T08:20:00.000Z"
     }
   ]
 }
