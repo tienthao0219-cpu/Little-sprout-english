@@ -26,7 +26,10 @@
     }
     /* học viên: ẩn các app không giao cho mình (cô giao app riêng cho từng em) */
     if (!isTeacher() && L.auth.role) {
-      try { const r = await L.api.call("appAccess"); const hid = new Set(r.hidden || []); state.allApps = (m.apps || []).slice(); state.hiddenApps = hid; if (hid.size) m.apps = (m.apps || []).filter(a => !hid.has(a.id)); } catch (e) { console.warn("appAccess", e); }
+      try { const r = await L.api.call("appAccess"); const hid = new Set(r.hidden || []); state.allApps = (m.apps || []).slice(); state.hiddenApps = hid;
+        /* giáo trình cô không giao cho em này ("cur:<id>") → ẩn luôn giáo trình và mọi app trong đó */
+        const hc = new Set([...hid].filter(x => String(x).startsWith("cur:")).map(x => String(x).slice(4))); state.hiddenCur = hc;
+        if (hid.size) { m.apps = (m.apps || []).filter(a => !hid.has(a.id) && !hc.has(a.cur)); if (hc.size) m.curricula = (m.curricula || []).filter(c => !hc.has(c.id)); } } catch (e) { console.warn("appAccess", e); }
     }
     state.manifest = m; return m;
   }
@@ -34,6 +37,7 @@
   /* bài tập chỉ hiện cho học viên nào còn thấy được app của giáo trình/unit đó (cô đã ẩn hết app của giáo trình đó với em này thì bài tập cũng ẩn) */
   function hwRelevant(x) {
     if (isTeacher() || !state.hiddenApps || !state.hiddenApps.size) return true;
+    if (state.hiddenCur && state.hiddenCur.has(x.curId)) return false;
     const all = (state.allApps || []).filter(a => a.cur === x.curId);
     const inUnit = x.unitId ? all.filter(a => (a.unit || "") === x.unitId) : [];
     const pool = inUnit.length ? inUnit : all;
@@ -303,8 +307,12 @@
   let playSession = null;
   async function endPlay() {
     const s = playSession; if (!s) return; playSession = null;
-    try { const r = await s.flush(false); if (r) { toast("Đã lưu lần chơi thứ " + r.attempt + " ✓"); state.plays = null; } } catch (e) { toast("Chưa lưu được kết quả: " + e.message); }
-    s.stop();
+    /* lưu lên Google Sheets có thể mất vài giây: chỉ chờ tối đa ~0,6 giây rồi chuyển trang ngay, phần còn lại lưu nền (tránh nút Home/Thoát như "không bấm được") */
+    const job = (async () => {
+      try { const r = await s.flush(false); if (r) { toast("Đã lưu lần chơi thứ " + r.attempt + " ✓"); state.plays = null; } } catch (e) { toast("Chưa lưu được kết quả: " + e.message); }
+      s.stop();
+    })();
+    await Promise.race([job, new Promise(r => setTimeout(r, 600))]);
   }
   async function playView(aid, appObj) {
     show(spinner()); await loadManifest();

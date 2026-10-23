@@ -73,6 +73,13 @@ details.guide li{margin:4px 0}
 .seg{display:flex;background:#f1ebfa;border-radius:14px;padding:4px;gap:4px;margin-top:10px}
 .seg button{flex:1;padding:8px 6px;border-radius:11px;font-weight:800;font-size:14px;color:var(--muted)}
 .seg button.on{background:#fff;color:#6a4fcb;box-shadow:0 2px 0 #e2d8f6}
+.w.mask{letter-spacing:3px;font-family:var(--fh);color:#7a5cd6}
+.tpick{margin:2px 0 12px;padding:12px;background:var(--card);border:2px dashed var(--line);border-radius:18px}
+.tpick .tt{font-weight:800;margin-bottom:8px;font-size:15px}.tpick .tt small{color:var(--muted);font-weight:700}
+.tpick .chips2{display:flex;flex-wrap:wrap;gap:8px}
+.tpick .chip.off{opacity:.55;text-decoration:line-through}
+#bar{transition:transform .2s}
+#bar.hide{transform:translateY(130%);pointer-events:none}
 .stick{position:sticky;top:0;z-index:6;margin:10px -14px 0;padding:8px 14px 6px;background:rgba(251,247,255,.94);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:2px solid var(--line)}
 .search{position:relative}
 .search input{width:100%;border:3px solid var(--line);border-radius:16px;padding:12px 44px 12px 44px;font:inherit;font-weight:700;background:#fff;color:var(--ink);outline:none;min-height:50px}
@@ -267,12 +274,13 @@ const TYPES = {
   mcr:   {label:'Chọn động từ',        icon:'🔁'},
   pic:   {label:'Nhìn hình chọn từ',   icon:'🖼️'},
   type:  {label:'Gõ đáp án',           icon:'⌨️'},
+  miss:  {label:'Điền chữ còn thiếu',  icon:'🔡'},
   scr:   {label:'Xếp chữ',             icon:'🔤'},
   fill:  {label:'Điền vào câu',        icon:'✏️'},
   match: {label:'Nối cặp',             icon:'🔗'},
   tf:    {label:'Đúng hay sai?',       icon:'✅'}
 };
-const MODE_TYPES = {A:['mc','mcr','pic','type','scr','match','tf'], B:['mc','type','scr','fill','match','tf'], C:['mc','type','fill','match','tf']};
+const MODE_TYPES = {A:['mc','mcr','pic','type','miss','scr','match','tf'], B:['mc','type','miss','scr','fill','match','tf'], C:['mc','type','miss','fill','match','tf']};
 
 /* ---------- tiện ích ---------- */
 const $ = s => document.querySelector(s);
@@ -426,6 +434,15 @@ function renderHome() {
   q.addEventListener('input', () => { S.q = q.value; $('.search .cl').classList.toggle('hidden', !S.q); renderList(); });
   q.addEventListener('keydown', e => { if (e.key === 'Enter') q.blur(); });
   renderTools(); renderList(); renderBar();
+  /* thanh nút cố định ở đáy chỉ hiện khi 2 khối "Học & trả bài" ở trên/dưới danh sách đang khuất → không bị trùng nội dung */
+  try {
+    if (window.__barIO) window.__barIO.disconnect();
+    if ('IntersectionObserver' in window) {
+      const vis = new Set();
+      window.__barIO = new IntersectionObserver(es => { es.forEach(e => e.isIntersecting ? vis.add(e.target.id) : vis.delete(e.target.id)); const b = $('#bar'); if (b) b.classList.toggle('hide', vis.size > 0); });
+      ['act', 'act2'].forEach(id => { const e = document.getElementById(id); if (e) window.__barIO.observe(e); });
+    }
+  } catch (e) { }
   setTimeout(() => { const st = $('#stick'); if (st) document.documentElement.style.setProperty('--stick', st.offsetHeight + 'px'); }, 50);
 }
 function renderTools() {
@@ -492,7 +509,14 @@ function renderBar() {
   $('#bar').innerHTML = `<div class="in"><div class="cnt"><b>${n}</b> từ<small>đã chọn</small></div>
     <button class="btn" data-act="flash" ${n ? '' : 'disabled'}>🃏 Flashcard</button>
     <button class="btn pri" data-act="learnThen" ${n ? '' : 'disabled'}>🚀 Học rồi trả bài</button></div>`;
-  ['#act', '#act2'].forEach(id => { const e = $(id); if (e) e.innerHTML = `<div class="act">${actHtml()}</div>`; });
+  ['#act', '#act2'].forEach(id => { const e = $(id); if (e) e.innerHTML = `<div class="act">${id === '#act' ? typesHtml() : ''}${actHtml()}</div>`; });
+}
+/* học sinh tự chọn dạng trả bài (bật/tắt từng dạng; chọn nhiều dạng = Mixed Practice) */
+function typesHtml() {
+  const tys = MODE_TYPES[store.mode], on = tys.filter(isOn).length, all = on === tys.length;
+  return `<div class="tpick"><div class="tt">🎯 Chọn dạng trả bài <small>(chạm để bật/tắt · nhiều dạng = trộn xen kẽ)</small></div>
+    <div class="chips2">${tys.map(t => `<button class="chip ${isOn(t) ? 'on' : 'off'}" data-act="setType" data-t="${t}" aria-pressed="${isOn(t)}">${TYPES[t].icon} ${TYPES[t].label}</button>`).join('')}
+    <button class="chip act" data-act="allTypes">${all ? '🔀 Đang trộn tất cả' : '🔀 Chọn tất cả'}</button></div></div>`;
 }
 function refreshSel() { renderTools(); renderList(); renderBar(); }
 
@@ -631,6 +655,7 @@ function distV1(v) {
 const rightOf = (v, mode) => mode === 'A' ? v.vi : mode === 'B' ? v.v2[0] : pair(v);
 
 function applicable(t, v, mode) {
+  if (t === 'miss') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2.length === 1 && v.v2[0].length >= 3 : (v.v2.length === 1 && v.v3.length === 1 && v.v2[0].length >= 3 && v.v3[0].length >= 3);
   if (t === 'scr') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2[0].length >= 4 : false;
   return true;
 }
@@ -647,6 +672,11 @@ function build(item) {
     q.opts = o.map(x => x.v1); q.ok = o.map(x => acc.includes(x)); q.prompt = `Động từ nào có nghĩa:<span class="w" style="font-size:28px">${esc(v.vi)}</span>`; q.ans = v.v1;
   } else if (t === 'pic') {
     const o = shuffle([v, ...distV1(v)]); q.opts = o.map(x => x.v1); q.ok = o.map(x => x === v); q.prompt = `Hình này là động từ nào?<img class="pic" src="${img(v)}" alt="">`; q.ans = v.v1;
+  } else if (t === 'miss') {
+    const mask = w => { const n = w.length, k = Math.max(1, Math.round((n - 1) * .45)); const idx = shuffle(Array.from({length: n - 1}, (_, i) => i + 1)).slice(0, k); return w.split('').map((c, i) => idx.includes(i) ? '_' : c).join(' '); };
+    if (mode === 'A') { q.prompt = `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(v)}" alt="">Điền chữ cái còn thiếu của động từ (V1):<span class="w" style="font-size:26px">${esc(v.vi)}</span><span class="w mask">${esc(mask(v.v1))}</span>`; q.fields = [{acc: [v.v1], label: 'V1'}]; q.ans = v.v1; }
+    else if (mode === 'B') { q.prompt = `<span class="w">${esc(v.v1)}</span>Điền chữ cái còn thiếu của V2:<span class="w mask">${esc(mask(v.v2[0]))}</span>`; q.fields = [{acc: v.v2, label: 'V2'}]; q.ans = fm(v.v2); }
+    else { q.prompt = `<span class="w">${esc(v.v1)}</span>Điền chữ cái còn thiếu của V2 và V3:<span class="w mask">V2: ${esc(mask(v.v2[0]))}</span><span class="w mask">V3: ${esc(mask(v.v3[0]))}</span>`; q.fields = [{acc: v.v2, label: 'V2'}, {acc: v.v3, label: 'V3'}]; q.ans = fm(v.v2) + ' · ' + fm(v.v3); }
   } else if (t === 'type') {
     if (mode === 'A') { const acc = VERBS.filter(x => sameMeaning(x, v)); q.prompt = `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(v)}" alt="">Gõ động từ (V1) có nghĩa:<span class="w" style="font-size:28px">${esc(v.vi)}</span>`; q.fields = [{acc: acc.map(x => x.v1), label: 'V1'}]; q.ans = v.v1; }
     else if (mode === 'B') { q.prompt = `<span class="w">${esc(v.v1)}</span>Gõ dạng quá khứ đơn (V2):`; q.fields = [{acc: v.v2, label: 'V2'}]; q.ans = fm(v.v2); }
@@ -758,7 +788,7 @@ function renderQ() {
   if (['mc', 'mcr', 'pic', 'fill'].includes(q.t) && q.opts) {
     const picLine = (q.t === 'mc' && q.pic) ? `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(q.v)}" alt="">` : '';
     body = `<div class="qp">${picLine}${q.prompt}</div><div class="opts">${q.opts.map((o, i) => `<button class="opt" data-act="opt" data-i="${i}"><b>${L[i]}</b><span>${esc(o)}</span></button>`).join('')}</div>`;
-  } else if (q.t === 'type' || (q.t === 'fill' && q.fields)) {
+  } else if (q.t === 'type' || q.t === 'miss' || (q.t === 'fill' && q.fields)) {
     body = `<div class="qp">${q.prompt}</div>` + q.fields.map((f, i) => `<label class="lab2">${f.label}</label><input class="inp" data-i="${i}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="${i === q.fields.length - 1 ? 'done' : 'next'}" placeholder="…">`).join('') +
       `<div class="hintp" id="hint"></div><div class="fnav2"><button class="btn sm" data-act="hint">💡 Gợi ý</button><button class="btn pri" data-act="check">Kiểm tra ✓</button></div>`;
   } else if (q.t === 'scr') {
@@ -890,7 +920,8 @@ document.addEventListener('click', e => {
     case 'setSize': store.size = +el.dataset.n; save(); settings(); break;
     case 'setType': { const t = el.dataset.t, off = store.off[store.mode] || []; const i = off.indexOf(t);
       if (i >= 0) off.splice(i, 1); else if (MODE_TYPES[store.mode].filter(x => !off.includes(x)).length > 1) off.push(t);
-      store.off[store.mode] = off; save(); settings(); break; }
+      store.off[store.mode] = off; save(); if (ovEl) settings(); else renderBar(); break; }
+    case 'allTypes': store.off[store.mode] = []; save(); if (ovEl) settings(); else renderBar(); break;
     case 'resetProg': store.words = {}; save(); closeOv(); refreshSel(); break;
     case 'closeOv': closeOv(); break;
     case 'testSound': { testSound(); const d = $('#diag'); if (d) { d.style.display = 'block'; d.innerHTML = audioDiag(); } break; }

@@ -588,8 +588,57 @@
     let data = await L.api.call("studentList");
     let profs = []; try { profs = (await L.api.call("profileList")).list || []; } catch (e) { }
     const profOf = nm => profs.find(p => L.sameName(p.name, nm));
+    /* giáo trình nào em nào được xem: lưu trong bảng appAssign với mã "cur:<id giáo trình>" (có dòng = chỉ các em trong dòng đó thấy; "__none__" = chưa em nào) */
+    let cass = {}; try { (await L.api.call("appAssignList")).list.forEach(x => { if (/^cur:/.test(x.appId)) cass[x.appId.slice(4)] = x.names; }); } catch (e) { console.warn(e); }
+    let curs = []; try { curs = ((await L.loadManifest()) || {}).curricula || []; } catch (e) { }
     const redraw = async () => { data = await L.api.call("studentList"); draw(); };
     const guard = async (fn) => { try { await fn(); } catch (e) { toast(e.message, 5000); } };
+    /** bảng "mỗi em được xem giáo trình nào": tick = em thấy giáo trình đó; không tick = em không thấy (cô luôn thấy hết) */
+    const accessCard = () => {
+      const stu = data.list.filter(x => x.active);
+      const card = h("div.card", h("h3", { style: "margin-bottom:6px" }, "🔐 Mỗi em được xem giáo trình nào"));
+      if (!stu.length || !curs.length) { card.append(h("div.hint", !stu.length ? "Thêm học viên ở dưới trước, rồi quay lại đây để chọn giáo trình cho từng em." : "Chưa có giáo trình nào.")); return card; }
+      const nameOf = c => (c.group ? c.group + " › " : "") + c.name;
+      const unset = curs.filter(c => !(c.id in cass));
+      const cb = {};   // cb[studentName][curId]
+      stu.forEach(x => { cb[x.name] = {}; curs.forEach(c => { const ns = cass[c.id]; const on = ns ? ns.some(n => L.sameName(n, x.name)) : true; cb[x.name][c.id] = h("input", { type: "checkbox", style: "width:22px;height:22px", checked: on }); }); });
+      const setCol = (cid, v) => stu.forEach(x => cb[x.name][cid].checked = v);
+      const setRow = (nm, v) => curs.forEach(c => cb[nm][c.id].checked = v);
+      const th = { style: "padding:6px 4px;text-align:center;position:sticky;top:0;background:var(--card,#fff);z-index:1;font-size:13px;vertical-align:bottom" };
+      const mini = "padding:2px 8px;font-size:12px";
+      const head = h("tr", h("th", { style: "text-align:left;padding:8px;position:sticky;left:0;top:0;background:var(--card,#fff);z-index:2" }, "Học viên"));
+      curs.forEach(c => head.append(h("th", th, h("div", nameOf(c)),
+        h("div", { style: "margin-top:4px" },
+          h("button.btn.sm.ghost", { style: mini, title: "Tick cả cột", onclick: () => setCol(c.id, true) }, "Tất cả"), " ",
+          h("button.btn.sm.ghost", { style: mini, title: "Bỏ tick cả cột", onclick: () => setCol(c.id, false) }, "Không")))));
+      const rows = stu.map(x => {
+        const tr = h("tr", { style: "border-top:1px solid var(--line)" },
+          h("td", { style: "padding:6px 8px;font-weight:700;position:sticky;left:0;background:var(--card,#fff)" }, h("div", x.name),
+            h("div", h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, true) }, "Hết"), " ", h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, false) }, "Bỏ"))));
+        curs.forEach(c => tr.append(h("td", { style: "text-align:center;padding:6px" }, cb[x.name][c.id])));
+        return tr;
+      });
+      const table = h("table", { style: "border-collapse:collapse;width:100%;min-width:" + (150 + curs.length * 92) + "px;font-size:14px" }, h("thead", head), h("tbody", rows));
+      const saveBtn = h("button.btn", { onclick: async () => {
+        saveBtn.disabled = true; saveBtn.textContent = "Đang lưu…";
+        try {
+          for (const c of curs) {
+            const names = stu.filter(x => cb[x.name][c.id].checked).map(x => x.name);
+            await L.api.call("appAssignSave", { appId: "cur:" + c.id, names: names.length ? names : ["__none__"] });
+            cass[c.id] = names.length ? names : ["__none__"];
+          }
+          toast("Đã lưu quyền xem giáo trình ✓");
+        } catch (e) { toast(e.message, 5000); }
+        draw();
+      } }, "💾 Lưu quyền xem");
+      card.append(
+        h("div.small.muted", { style: "margin-bottom:8px" }, "Tick giáo trình mà em được xem. Em chỉ thấy các giáo trình (và app, bài tập, game trong đó) đã tick; không tick thì em không thấy. Cô đăng nhập bằng mật khẩu giáo viên thì luôn thấy tất cả. Ví dụ em chỉ học Flyers: chỉ tick cột Flyers."),
+        unset.length ? h("div.hint", { style: "margin-bottom:8px" }, "Giáo trình chưa giao cho ai (đang hiện cho mọi em): " + unset.map(nameOf).join(", ") + ". Bấm \"Lưu\" để áp dụng tick bên dưới.") : null,
+        h("div", { style: "overflow:auto;max-height:60vh;border:2px solid var(--line);border-radius:14px" }, table),
+        h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, saveBtn),
+        h("div.small.muted", { style: "margin-top:8px" }, "Em mới thêm sau này sẽ chưa thấy giáo trình nào cho đến khi cô tick cho em ở bảng này. Đổi tên một em thì cô tick lại cho em đó. Lưu ý: đây là cách ẩn trên trang học, nhằm giúp em không bị rối; không phải là khoá bảo mật."));
+      return card;
+    };
     const draw = () => {
       body.innerHTML = "";
       const active = data.list.filter(x => x.active).length;
@@ -599,6 +648,8 @@
           ? h("div.ok-box", "Đang bật tài khoản riêng: học viên phải nhập đúng tên và mật khẩu của chính mình. Mật khẩu lớp chung không còn dùng để đăng nhập.")
           : h("div.hint", "Chưa có học viên nào trong danh sách, nên hiện vẫn dùng mật khẩu lớp chung. Thêm học viên ở dưới (ít nhất 1 em) để chuyển sang mật khẩu riêng từng em."),
         h("p.small.muted", { style: "margin:8px 0 0" }, "Khi bật mật khẩu riêng: em A chỉ xem được lịch sử và điểm của em A. Cô có thể giao bài tập hoặc app riêng cho từng em (nút \"Giao cho\" ở bài tập và ở tab Giáo trình & unit).")));
+
+      body.append(accessCard());
 
       /* thêm hàng loạt */
       const ta = h("textarea", { style: "min-height:110px;font-family:var(--bfont)", placeholder: "Mỗi dòng một học viên. Ví dụ:\nBin\nLan Anh\nMinh, minh2024   (gõ thêm dấu phẩy + mật khẩu nếu cô muốn tự đặt)", spellcheck: "false" });

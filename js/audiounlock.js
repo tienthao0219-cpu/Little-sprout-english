@@ -4,6 +4,9 @@
    File này dùng chung cho site và cả 3 game (chạy trong iframe), gọi nhiều lần cũng an toàn. */
 (function () {
   if (window.__lseAudioUnlock) return; window.__lseAudioUnlock = 1;
+  /* chỉ cần cho iPhone/iPad; Android/máy tính không cần (tránh giữ luồng âm thanh làm nhiễu giọng đọc) */
+  var isIOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if (!isIOS) return;
   var done = false, el = null;
   function wav() {
     var n = 8000, b = new ArrayBuffer(44 + n * 2), v = new DataView(b);

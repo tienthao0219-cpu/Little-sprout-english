@@ -57,6 +57,8 @@
   function inject(iframe) {
     let w;
     try { w = iframe.contentWindow; void w.document; } catch (e) { return null; }
+    /* lớp bảo vệ giọng đọc: chỉ đọc đúng từ vựng, không đọc chồng/ký hiệu (áp dụng cho mọi app, kể cả app đăng sau này) */
+    try { if (!w.__lseTtsGuard) { const sc = w.document.createElement("script"); sc.src = new URL("js/ttsguard.js?v=20261023a", location.href).href; (w.document.head || w.document.documentElement).appendChild(sc); } } catch (e) { }
     for (const a of ADAPTERS) {
       try { if (a.detect(w)) { w.eval(a.source); return a.name; } } catch (e) { console.warn("adapter", a.name, e); }
     }
