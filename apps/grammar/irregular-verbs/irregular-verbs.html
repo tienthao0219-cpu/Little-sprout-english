@@ -85,10 +85,25 @@ details.guide li{margin:4px 0}
 .az button:active{background:var(--lav-s)}
 
 /* ---------- danh sách ---------- */
-.lh{display:flex;align-items:center;gap:8px;margin:16px 2px 8px;scroll-margin-top:calc(var(--stick) + 8px)}
-.lh .lt{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;font-family:var(--fh);font-weight:800;font-size:22px;display:grid;place-items:center;text-transform:uppercase}
+.lh{display:flex;align-items:center;gap:10px;margin:10px 0 0;scroll-margin-top:calc(var(--stick) + 8px);background:var(--card);border:2px solid var(--line);border-radius:18px;padding:8px 12px 8px 8px;cursor:pointer;min-height:60px;box-shadow:0 3px 0 var(--line)}
+.lh.open{border-color:var(--lav);box-shadow:0 3px 0 #d9cdf5}
+.lh .lm{flex:1;min-width:0;line-height:1.2}
+.lh .lm b{font-weight:800}
+.lh .lm small{display:block;color:var(--muted);font-weight:700;font-size:13px}
+.lh .lm small.has{color:var(--mint-d)}
+.lh .arr{font-size:20px;color:#6a4fcb;transition:transform .15s;width:26px;text-align:center}
+.lh.open .arr{transform:rotate(180deg)}
+.grp{padding:8px 0 4px}
+.act{background:var(--card);border:3px solid var(--line);border-radius:22px;padding:12px;box-shadow:0 5px 0 #e4daf3;margin-top:6px}
+.act .acnt{font-weight:800;margin:0 2px 8px;display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}
+.act .acnt b{font-family:var(--fh);font-size:26px;color:var(--mint-d)}
+.act .acnt small{color:var(--muted);font-weight:700}
+.act .two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.act .btn small{display:block;font-size:12.5px;font-weight:700;opacity:.8;line-height:1.1}
+.act .btn.big{flex-direction:column;gap:0;line-height:1.2}
+.lh .lt{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--pink),var(--lav));color:#fff;font-family:var(--fh);font-weight:800;font-size:22px;display:grid;place-items:center;text-transform:uppercase}
 .lh small{color:var(--muted);font-weight:700}
-.lh .mini{margin-left:auto;font-weight:800;font-size:13px;color:#6a4fcb;background:var(--lav-s);border-radius:999px;padding:6px 12px}
+.lh .mini{font-weight:800;font-size:13px;color:#6a4fcb;background:var(--lav-s);border-radius:999px;padding:8px 12px;flex:none}
 .row{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:8px 10px;margin-bottom:8px;cursor:pointer;min-height:76px;transition:.1s}
 .row.sel{border-color:var(--mint);background:linear-gradient(90deg,var(--mint-s),#fff 60%)}
 .row .tick{width:32px;height:32px;border-radius:10px;border:3px solid #d8d1e6;background:#fff;display:grid;place-items:center;color:transparent;font-weight:900;font-size:18px;flex:none}
@@ -362,7 +377,7 @@ function confetti() {
 }
 
 /* ---------- trạng thái ---------- */
-const S = {view:'home', q:'', tab:'all'};
+const S = {view:'home', q:'', tab:'all', open:new Set()};
 let Q = null, F = null, ovEl = null, advT = null;
 
 /* =====================================================================
@@ -392,7 +407,10 @@ function renderHome() {
     <div class="sec">1️⃣ Chọn kiểu học</div>
     <div class="modes" id="modes">${Object.keys(MODES).map(k => `<button class="mode ${store.mode === k ? 'on' : ''}" data-act="mode" data-k="${k}"><span class="mi">${MODES[k].icon}</span><b>${MODES[k].name}</b><span>${MODES[k].sub}</span></button>`).join('')}</div>
 
-    <div class="sec">2️⃣ Chọn động từ <small id="selInfo"></small></div>
+    <div class="sec">2️⃣ Học &amp; trả bài</div>
+    <div id="act"></div>
+
+    <div class="sec">3️⃣ Chọn động từ <small id="selInfo"></small></div>
     <div class="chips" id="quick"></div>
     <div class="seg" id="seg"></div>
     <div class="stick" id="stick">
@@ -400,6 +418,8 @@ function renderHome() {
       <div class="az" id="az"></div>
     </div>
     <div id="list"></div>
+    <div class="sec">✅ Chọn xong rồi? Bắt đầu thôi!</div>
+    <div id="act2"></div>
   </div>
   <div class="bar" id="bar"></div>`;
   const q = $('#q');
@@ -416,12 +436,13 @@ function renderTools() {
     PARTS.map(p => { const ids = VERBS.filter(v => v.part === p).map(v => v.id); const on = ids.every(i => sel.has(i));
       return `<button class="chip ${on ? 'on' : ''}" data-act="selPart" data-p="${p}">Part ${p}</button>`; }).join('') +
     `<button class="chip warn ${nrv ? '' : ''}" data-act="selRv" ${nrv ? '' : 'disabled'}>⚠ Cần ôn (${nrv})</button>` +
-    (sel.size ? `<button class="chip" data-act="selNone">✕ Bỏ chọn</button>` : '');
+    (sel.size ? `<button class="chip" data-act="selNone">✕ Bỏ chọn</button>` : '') +
+    `<button class="chip act" data-act="openAll">${S.open.size >= 16 ? '▴ Đóng hết các nhóm' : '▾ Mở hết các nhóm'}</button>`;
   $('#seg').innerHTML =
     `<button class="${S.tab === 'all' ? 'on' : ''}" data-act="tab" data-t="all">Tất cả (${VERBS.length})</button>` +
     `<button class="${S.tab === 'sel' ? 'on' : ''}" data-act="tab" data-t="sel">Đã chọn (${sel.size})</button>` +
     `<button class="${S.tab === 'rv' ? 'on' : ''}" data-act="tab" data-t="rv">Cần ôn (${nrv})</button>`;
-  $('#selInfo').textContent = '· bấm vào dòng để tick';
+  $('#selInfo').textContent = '· bấm nhóm chữ cái để xổ xuống, bấm dòng để tick';
 }
 function filtered() {
   const sel = selSet(), q = norm(S.q.trim());
@@ -445,22 +466,33 @@ function rowHtml(v, sel) {
     <button class="spk" data-act="say" data-id="${v.id}" aria-label="Nghe">🔊</button></div>`;
 }
 function renderList() {
-  const list = filtered(), sel = selSet(); let html = '', cur = '';
-  const letters = [];
-  list.forEach(v => { const l = v.v1[0]; if (l !== cur) { cur = l; letters.push(l);
-      const n = list.filter(x => x.v1[0] === l).length;
-      html += `<div class="lh" id="sec-${l}"><span class="lt">${l}</span><small>${n} từ</small><button class="mini" data-act="selLetter" data-l="${l}">${list.filter(x => x.v1[0] === l).every(x => sel.has(x.id)) ? 'Bỏ nhóm' : 'Chọn nhóm'}</button></div>`; }
-    html += rowHtml(v, sel); });
+  const list = filtered(), sel = selSet(); const force = !!S.q.trim() || S.tab !== 'all';
+  const by = {}; list.forEach(v => { (by[v.v1[0]] = by[v.v1[0]] || []).push(v); });
+  const letters = Object.keys(by); let html = '';
+  letters.forEach(l => {
+    const vs = by[l], n = vs.filter(x => sel.has(x.id)).length, open = force || S.open.has(l), all = n === vs.length;
+    html += `<div class="lh ${open ? 'open' : ''}" id="sec-${l}" data-act="grp" data-l="${l}"><span class="lt">${l}</span>
+      <div class="lm"><b>${vs.length} từ</b><small class="${n ? 'has' : ''}">${n ? '✓ đã chọn ' + n + '/' + vs.length : 'chưa chọn'} · ${vs.slice(0, 3).map(x => x.v1).join(', ')}…</small></div>
+      <button class="mini" data-act="selLetter" data-l="${l}">${all ? 'Bỏ nhóm' : 'Chọn nhóm'}</button><span class="arr">▾</span></div>`;
+    if (open) html += `<div class="grp">${vs.map(v => rowHtml(v, sel)).join('')}</div>`;
+  });
   if (!list.length) html = `<div class="empty">${S.tab === 'rv' ? 'Chưa có từ nào cần ôn 🎉' : S.tab === 'sel' ? 'Chưa chọn từ nào. Bấm vào dòng động từ để tick ✓' : 'Không tìm thấy động từ nào 🔍'}</div>`;
   else if (S.q.trim()) html = `<div style="margin:10px 0"><button class="chip act" data-act="selFound">☑ Chọn ${list.length} từ tìm thấy</button></div>` + html;
   $('#list').innerHTML = html;
   $('#az').innerHTML = letters.map(l => `<button data-act="jump" data-l="${l}">${l}</button>`).join('');
 }
+function actHtml() {
+  const n = store.sel.length, m = MODES[store.mode], d = n ? '' : 'disabled';
+  return `<div class="acnt"><b>${n}</b> từ đã chọn <small>${m.icon} ${m.name}</small></div>
+    <button class="btn pri big" data-act="learnThen" ${d}>🚀 Học rồi trả bài<small>Flashcard xáo trộn → luyện tập</small></button>
+    <div class="two"><button class="btn" data-act="flash" ${d}>🃏 Chỉ học Flashcard</button><button class="btn" data-act="practice" ${d}>🎮 Chỉ trả bài</button></div>`;
+}
 function renderBar() {
-  const n = store.sel.length, m = MODES[store.mode];
+  const n = store.sel.length;
   $('#bar').innerHTML = `<div class="in"><div class="cnt"><b>${n}</b> từ<small>đã chọn</small></div>
     <button class="btn" data-act="flash" ${n ? '' : 'disabled'}>🃏 Flashcard</button>
-    <button class="btn pri" data-act="practice" ${n ? '' : 'disabled'}>🎮 Luyện tập</button></div>`;
+    <button class="btn pri" data-act="learnThen" ${n ? '' : 'disabled'}>🚀 Học rồi trả bài</button></div>`;
+  ['#act', '#act2'].forEach(id => { const e = $(id); if (e) e.innerHTML = `<div class="act">${actHtml()}</div>`; });
 }
 function refreshSel() { renderTools(); renderList(); renderBar(); }
 
@@ -502,10 +534,11 @@ const activeTypes = () => { const a = MODE_TYPES[store.mode].filter(isOn); retur
 /* =====================================================================
    FLASHCARD
    ===================================================================== */
-function startFlash(ids) {
+function startFlash(ids, opts) {
+  opts = opts || {};
   const list = (ids || store.sel).map(id => BY[id]).filter(Boolean);
   if (!list.length) return;
-  F = {list: SORTED.filter(v => list.includes(v)), i: 0, flip: false, unk: new Set(), known: new Set(), shuffled: false, mode: store.mode, base: list};
+  F = {list: shuffle(SORTED.filter(v => list.includes(v))), i: 0, flip: false, unk: new Set(), known: new Set(), shuffled: true, mode: store.mode, base: list, then: !!opts.then};
   renderFlash();
 }
 function renderFlash() {
@@ -519,7 +552,7 @@ function renderFlash() {
   $('#root').innerHTML = `<div class="app">
     <div class="gbar"><button class="x" data-act="fquit" aria-label="Về trang chủ">${HOME_SVG}</button><div class="prog"><i style="width:${(F.i + 1) / n * 100}%"></i></div><span class="qn">${F.i + 1}/${n}</span></div>
     <div class="fwrap"><div class="fcard ${F.flip ? 'flip' : ''}" data-act="flipc"><div class="face"><div style="width:100%;display:flex;flex-direction:column;align-items:center;gap:6px">${front}</div><div class="tip">👆 Nghĩ đáp án rồi chạm thẻ để lật</div></div><div class="face back">${back}<div class="tip">${MODES[m].icon} ${MODES[m].name}</div></div></div></div>
-    <div class="fnav2"><button class="btn" data-act="fsay">🔊 Nghe đọc</button><button class="btn" data-act="fshuf">${F.shuffled ? '🔀 Đang xáo' : '🔀 Xáo thẻ'}</button></div>
+    <div class="fnav2"><button class="btn" data-act="fsay">🔊 Nghe đọc</button><button class="btn" data-act="fshuf">${F.shuffled ? '🔀 Đang xáo trộn' : '🔤 Đang theo A–Z'}</button></div>
     <div class="fnav"><button class="btn pnk" data-act="funk">❌ Chưa thuộc</button><button class="btn pri" data-act="fknow">✅ Đã thuộc</button></div>
     <div class="fnav2"><button class="btn sm" data-act="fprev" ${F.i ? '' : 'disabled'}>◀ Trước</button><button class="btn sm" data-act="fnext">Sau ▶</button></div>
   </div>`;
@@ -538,12 +571,13 @@ function flashDone() {
   S.view = 'flashdone'; const unk = [...F.unk].map(id => BY[id]);
   if (!unk.length) { sfxWin(); confetti(); }
   $('#root').innerHTML = `<div class="app"><div class="qcard res"><div class="stars">${unk.length ? '📚' : '🌟'}</div>
-    <h2>${unk.length ? 'Xem hết thẻ rồi!' : 'Em thuộc hết rồi!'}</h2>
+    <h2>${F.then ? 'Học xong rồi! Giờ trả bài nhé 🎓' : unk.length ? 'Xem hết thẻ rồi!' : 'Em thuộc hết rồi!'}</h2>
     <div class="cheer">✅ Đã thuộc: <b>${F.known.size}</b> · ❌ Chưa thuộc: <b>${unk.length}</b></div>
     ${unk.length ? `<div class="rl">${unk.map(listItem).join('')}</div>` : ''}
     <div class="rbtns">
-      ${unk.length ? `<button class="btn pri big" data-act="flashUnk">🃏 Học lại các từ chưa thuộc</button><button class="btn pnk big" data-act="practiceUnk">🎮 Luyện tập các từ chưa thuộc</button>` : ''}
-      <button class="btn big" data-act="flash">🔁 Xem lại từ đầu</button>
+      <button class="btn pri big" data-act="practiceAll">🎮 Trả bài ngay (${F.base.length} từ)</button>
+      ${unk.length ? `<button class="btn big" data-act="flashUnk">🃏 Học lại các từ chưa thuộc</button><button class="btn pnk big" data-act="practiceUnk">🎮 Chỉ trả bài các từ chưa thuộc</button>` : ''}
+      <button class="btn big" data-act="flash">🔁 Học lại từ đầu (xáo trộn)</button>
       <button class="btn big" data-act="home">🏠 Về danh sách</button></div></div></div>`;
 }
 const listItem = v => `<div class="it"><img src="${img(v)}" alt=""><div style="flex:1;min-width:0"><b>${esc(v.v1)}</b><span>${esc(fm(v.v2))} · ${esc(fm(v.v3))}</span><i>${esc(v.vi)}</i></div><button class="spk" data-act="say" data-id="${v.id}">🔊</button></div>`;
@@ -865,17 +899,21 @@ document.addEventListener('click', e => {
     case 'selNone': setSel([]); refreshSel(); break;
     case 'selPart': { const ids = VERBS.filter(v => v.part === +el.dataset.p).map(v => v.id); const s = selSet(); const on = ids.every(i => s.has(i)); ids.forEach(i => on ? s.delete(i) : s.add(i)); setSel([...s]); refreshSel(); break; }
     case 'selRv': setSel(VERBS.filter(v => needs(v.id)).map(v => v.id)); S.tab = 'sel'; refreshSel(); break;
-    case 'selLetter': { const l = el.dataset.l, ids = filtered().filter(v => v.v1[0] === l).map(v => v.id); const s = selSet(); const on = ids.every(i => s.has(i)); ids.forEach(i => on ? s.delete(i) : s.add(i)); setSel([...s]); refreshSel(); break; }
+    case 'grp': { const l = el.dataset.l; if (S.q.trim() || S.tab !== 'all') break; S.open.has(l) ? S.open.delete(l) : S.open.add(l); renderList(); renderTools(); break; }
+    case 'openAll': { if (S.open.size >= 16) S.open.clear(); else SORTED.forEach(v => S.open.add(v.v1[0])); renderList(); renderTools(); break; }
+    case 'selLetter': { e.stopPropagation(); const l = el.dataset.l, ids = filtered().filter(v => v.v1[0] === l).map(v => v.id); const s = selSet(); const on = ids.every(i => s.has(i)); ids.forEach(i => on ? s.delete(i) : s.add(i)); setSel([...s]); refreshSel(); break; }
     case 'selFound': { const s = selSet(); filtered().forEach(v => s.add(v.id)); setSel([...s]); refreshSel(); break; }
     case 'tab': S.tab = el.dataset.t; renderTools(); renderList(); break;
     case 'clearQ': S.q = ''; $('#q').value = ''; el.classList.add('hidden'); renderList(); break;
-    case 'jump': { const t = document.getElementById('sec-' + el.dataset.l); if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'}); break; }
+    case 'jump': { const l = el.dataset.l; S.open.add(l); renderList(); renderTools(); const t = document.getElementById('sec-' + l); if (t) t.scrollIntoView({behavior: 'smooth', block: 'start'}); break; }
     case 'flash': startFlash(); break;
+    case 'learnThen': startFlash(null, {then: true}); break;
+    case 'practiceAll': startQuiz(F.base.map(v => v.id)); break;
     case 'practice': startQuiz(store.sel.slice()); break;
     case 'home': case 'fquit': renderHome(); break;
     case 'flipc': F.flip = !F.flip; document.querySelector('.fcard').classList.toggle('flip', F.flip); sfxClick(); break;
     case 'fsay': { const v = F.list[F.i]; sayV(v, F.mode === 'A' ? 1 : 0); break; }
-    case 'fshuf': F.shuffled = !F.shuffled; F.list = F.shuffled ? shuffle(F.list.slice()) : SORTED.filter(v => F.base.includes(v)); F.i = 0; F.flip = false; renderFlash(); break;
+    case 'fshuf': F.shuffled = !F.shuffled; F.list = F.shuffled ? shuffle(SORTED.filter(v => F.base.includes(v))) : SORTED.filter(v => F.base.includes(v)); F.i = 0; F.flip = false; renderFlash(); break;
     case 'funk': flashMark(false); break;
     case 'fknow': flashMark(true); break;
     case 'fprev': if (F.i) { F.i--; F.flip = false; renderFlash(); } break;
