@@ -709,17 +709,6 @@
       "updated": "2026-10-23T02:46:30.000Z"
     },
     {
-      "id": "dap-chuot-irregular-verbs-m7q2",
-      "title": "Đập Chuột – Irregular Verbs",
-      "cur": "grammar-irregular",
-      "unit": "",
-      "file": "apps/grammar/irregular-verbs/dap-chuot-irregular-verbs.html",
-      "kind": "game",
-      "desc": "Game đập chuột pastel: 4 vòng Nghĩa → V2 → V3 → Tổng hợp, combo, tim, boss, hộp quà, cửa hàng nâng cấp, Fix it!",
-      "added": "2026-10-23T07:00:00.000Z",
-      "updated": "2026-10-23T07:00:00.000Z"
-    },
-    {
       "id": "dao-vang-tu-vung-template-g7k1",
       "title": "Đào Vàng Từ Vựng",
       "cur": "template-game-html-wod",
