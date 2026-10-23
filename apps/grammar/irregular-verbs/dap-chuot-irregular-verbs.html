@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Đập Chuột – Irregular Verbs</title>
+<script src="../../../js/gameset.js"></script>
 <style>
 :root{--ink:#5b3b63;--pink:#ff8fbd;--pink2:#ffc2dc;--pink3:#fff0f7;--lav:#cdbbf7;--lav2:#efe8ff;--mint:#b6ecd5;--yel:#ffe08a;--sky:#bfe3ff;--card:#fffafd;--red:#ff6b8b;--green:#53c79a}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
@@ -51,6 +52,7 @@ button{border:0;cursor:pointer}
 .qcard{position:relative;display:flex;align-items:center;gap:12px;background:var(--card);border:4px solid var(--ink);border-radius:24px;padding:8px 14px;box-shadow:0 5px 0 rgba(91,59,99,.2);min-height:84px}
 .qcard.boss{background:#f3e8ff;border-color:#7a4ba8}
 .qcard.bonus{background:#e8fbf3}
+.qpic.bigpic{width:112px;height:112px}
 .qpic{width:72px;height:72px;border-radius:16px;background:#fff;border:3px solid var(--pink2);object-fit:cover;flex:none}
 .qmain{flex:1;min-width:0;text-align:left}
 .qtag{display:inline-block;font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;color:#fff;background:var(--pink);padding:1px 9px;border-radius:999px}
@@ -143,9 +145,9 @@ details{text-align:left;margin-top:8px}summary{font-weight:800;cursor:pointer;pa
     </div>
     <div class="poster">
       <h1>ĐẬP CHUỘT!</h1>
-      <h2>Irregular Verbs · V1 → V2 → V3</h2>
+      <h2 id="hTitle">Irregular Verbs · V1 → V2 → V3</h2>
       <div class="heroRow" id="hero"></div>
-      <div class="mini">Đập đúng chuột cầm bảng đáp án · đập sai mất tim 💔</div>
+      <div class="mini">Đập đúng chuột cầm bảng đáp án · đập sai mất tim 💔</div><div class="mini" id="hErr" style="color:#d13a62"></div>
     </div>
     <div class="panel">
       <div class="grid2">
@@ -233,8 +235,7 @@ details{text-align:left;margin-top:8px}summary{font-weight:800;cursor:pointer;pa
    Phần 1: dữ liệu + bộ sinh câu hỏi  (đổi phần này cho bộ từ/unit khác)
    Phần 2: engine game (chuột, tim, combo, boss, xu, cửa hàng, Fix it!)
    ============================================================ */
-const VERBS = [{"id": "be", "v1": "be", "v2": ["was", "were"], "v3": ["been"], "vi": "thì, là, ở", "part": 1}, {"id": "become", "v1": "become", "v2": ["became"], "v3": ["become"], "vi": "trở thành, trở nên", "part": 1}, {"id": "begin", "v1": "begin", "v2": ["began"], "v3": ["begun"], "vi": "bắt đầu", "part": 1}, {"id": "break", "v1": "break", "v2": ["broke"], "v3": ["broken"], "vi": "làm vỡ, làm gãy, bẻ gãy", "part": 1}, {"id": "bring", "v1": "bring", "v2": ["brought"], "v3": ["brought"], "vi": "mang đến, đem đến", "part": 1}, {"id": "buy", "v1": "buy", "v2": ["bought"], "v3": ["bought"], "vi": "mua", "part": 1}, {"id": "catch", "v1": "catch", "v2": ["caught"], "v3": ["caught"], "vi": "bắt, nắm lấy", "part": 1}, {"id": "choose", "v1": "choose", "v2": ["chose"], "v3": ["chosen"], "vi": "chọn, lựa chọn", "part": 1}, {"id": "come", "v1": "come", "v2": ["came"], "v3": ["come"], "vi": "đến, tới", "part": 1}, {"id": "do", "v1": "do", "v2": ["did"], "v3": ["done"], "vi": "làm", "part": 1}, {"id": "draw", "v1": "draw", "v2": ["drew"], "v3": ["drawn"], "vi": "vẽ", "part": 1}, {"id": "drink", "v1": "drink", "v2": ["drank"], "v3": ["drunk"], "vi": "uống", "part": 1}, {"id": "drive", "v1": "drive", "v2": ["drove"], "v3": ["driven"], "vi": "lái xe", "part": 2}, {"id": "eat", "v1": "eat", "v2": ["ate"], "v3": ["eaten"], "vi": "ăn", "part": 2}, {"id": "fall", "v1": "fall", "v2": ["fell"], "v3": ["fallen"], "vi": "ngã, rơi", "part": 2}, {"id": "find", "v1": "find", "v2": ["found"], "v3": ["found"], "vi": "tìm thấy", "part": 2}, {"id": "fly", "v1": "fly", "v2": ["flew"], "v3": ["flown"], "vi": "bay", "part": 2}, {"id": "forget", "v1": "forget", "v2": ["forgot"], "v3": ["forgotten"], "vi": "quên", "part": 2}, {"id": "get", "v1": "get", "v2": ["got"], "v3": ["got", "gotten"], "vi": "được, lấy", "part": 2}, {"id": "give", "v1": "give", "v2": ["gave"], "v3": ["given"], "vi": "cho, tặng", "part": 2}, {"id": "go", "v1": "go", "v2": ["went"], "v3": ["gone"], "vi": "đi", "part": 2}, {"id": "grow", "v1": "grow", "v2": ["grew"], "v3": ["grown"], "vi": "lớn lên", "part": 2}, {"id": "have", "v1": "have", "v2": ["had"], "v3": ["had"], "vi": "có", "part": 2}, {"id": "hear", "v1": "hear", "v2": ["heard"], "v3": ["heard"], "vi": "nghe", "part": 2}, {"id": "hide", "v1": "hide", "v2": ["hid"], "v3": ["hidden"], "vi": "giấu, che giấu", "part": 3}, {"id": "hit", "v1": "hit", "v2": ["hit"], "v3": ["hit"], "vi": "đụng, đánh, đập", "part": 3}, {"id": "hold", "v1": "hold", "v2": ["held"], "v3": ["held"], "vi": "cầm, nắm, giữ", "part": 3}, {"id": "hurt", "v1": "hurt", "v2": ["hurt"], "v3": ["hurt"], "vi": "làm đau, bị thương", "part": 3}, {"id": "keep", "v1": "keep", "v2": ["kept"], "v3": ["kept"], "vi": "giữ, duy trì", "part": 3}, {"id": "know", "v1": "know", "v2": ["knew"], "v3": ["known"], "vi": "biết, hiểu", "part": 3}, {"id": "leave", "v1": "leave", "v2": ["left"], "v3": ["left"], "vi": "rời đi, bỏ lại", "part": 3}, {"id": "lend", "v1": "lend", "v2": ["lent"], "v3": ["lent"], "vi": "cho mượn, cho vay", "part": 3}, {"id": "let", "v1": "let", "v2": ["let"], "v3": ["let"], "vi": "cho phép, để", "part": 3}, {"id": "lose", "v1": "lose", "v2": ["lost"], "v3": ["lost"], "vi": "mất, bị lạc", "part": 3}, {"id": "make", "v1": "make", "v2": ["made"], "v3": ["made"], "vi": "làm, chế tạo", "part": 3}, {"id": "meet", "v1": "meet", "v2": ["met"], "v3": ["met"], "vi": "gặp gỡ, hội họp", "part": 3}, {"id": "pay", "v1": "pay", "v2": ["paid"], "v3": ["paid"], "vi": "trả tiền", "part": 4}, {"id": "put", "v1": "put", "v2": ["put"], "v3": ["put"], "vi": "đặt, để", "part": 4}, {"id": "read", "v1": "read", "v2": ["read"], "v3": ["read"], "vi": "đọc", "part": 4}, {"id": "ride", "v1": "ride", "v2": ["rode"], "v3": ["ridden"], "vi": "đi xe đạp", "part": 4}, {"id": "ring", "v1": "ring", "v2": ["rang"], "v3": ["rung"], "vi": "rung chuông, reo", "part": 4}, {"id": "run", "v1": "run", "v2": ["ran"], "v3": ["run"], "vi": "chạy", "part": 4}, {"id": "say", "v1": "say", "v2": ["said"], "v3": ["said"], "vi": "nói", "part": 4}, {"id": "see", "v1": "see", "v2": ["saw"], "v3": ["seen"], "vi": "nhìn thấy", "part": 4}, {"id": "sell", "v1": "sell", "v2": ["sold"], "v3": ["sold"], "vi": "bán", "part": 4}, {"id": "send", "v1": "send", "v2": ["sent"], "v3": ["sent"], "vi": "gửi", "part": 4}, {"id": "sing", "v1": "sing", "v2": ["sang"], "v3": ["sung"], "vi": "hát", "part": 4}, {"id": "sit", "v1": "sit", "v2": ["sat"], "v3": ["sat"], "vi": "ngồi", "part": 4}, {"id": "sleep", "v1": "sleep", "v2": ["slept"], "v3": ["slept"], "vi": "ngủ", "part": 5}, {"id": "speak", "v1": "speak", "v2": ["spoke"], "v3": ["spoken"], "vi": "nói", "part": 5}, {"id": "spend", "v1": "spend", "v2": ["spent"], "v3": ["spent"], "vi": "tiêu tiền, dành thời gian", "part": 5}, {"id": "stand", "v1": "stand", "v2": ["stood"], "v3": ["stood"], "vi": "đứng", "part": 5}, {"id": "swim", "v1": "swim", "v2": ["swam"], "v3": ["swum"], "vi": "bơi", "part": 5}, {"id": "take", "v1": "take", "v2": ["took"], "v3": ["taken"], "vi": "lấy, cầm", "part": 5}, {"id": "teach", "v1": "teach", "v2": ["taught"], "v3": ["taught"], "vi": "dạy", "part": 5}, {"id": "tell", "v1": "tell", "v2": ["told"], "v3": ["told"], "vi": "kể, bảo", "part": 5}, {"id": "think", "v1": "think", "v2": ["thought"], "v3": ["thought"], "vi": "nghĩ", "part": 5}, {"id": "throw", "v1": "throw", "v2": ["threw"], "v3": ["thrown"], "vi": "ném", "part": 5}, {"id": "understand", "v1": "understand", "v2": ["understood"], "v3": ["understood"], "vi": "hiểu", "part": 5}, {"id": "wear", "v1": "wear", "v2": ["wore"], "v3": ["worn"], "vi": "mặc", "part": 5}, {"id": "blow", "v1": "blow", "v2": ["blew"], "v3": ["blown"], "vi": "thổi, thổi khí", "part": 6}, {"id": "build", "v1": "build", "v2": ["built"], "v3": ["built"], "vi": "xây dựng", "part": 6}, {"id": "cost", "v1": "cost", "v2": ["cost"], "v3": ["cost"], "vi": "trị giá, có giá", "part": 6}, {"id": "cut", "v1": "cut", "v2": ["cut"], "v3": ["cut"], "vi": "cắt", "part": 6}, {"id": "dig", "v1": "dig", "v2": ["dug"], "v3": ["dug"], "vi": "đào, đào đất", "part": 6}, {"id": "feed", "v1": "feed", "v2": ["fed"], "v3": ["fed"], "vi": "cho ăn, nuôi", "part": 6}, {"id": "feel", "v1": "feel", "v2": ["felt"], "v3": ["felt"], "vi": "cảm thấy", "part": 6}, {"id": "fight", "v1": "fight", "v2": ["fought"], "v3": ["fought"], "vi": "đấu tranh, chiến đấu", "part": 6}, {"id": "shake", "v1": "shake", "v2": ["shook"], "v3": ["shaken"], "vi": "rung, lắc, bắt tay", "part": 6}, {"id": "wake", "v1": "wake", "v2": ["woke"], "v3": ["woken"], "vi": "thức dậy", "part": 6}, {"id": "win", "v1": "win", "v2": ["won"], "v3": ["won"], "vi": "thắng, chiến thắng", "part": 6}, {"id": "write", "v1": "write", "v2": ["wrote"], "v3": ["written"], "vi": "viết", "part": 6}, {"id": "bite", "v1": "bite", "v2": ["bit"], "v3": ["bitten"], "vi": "cắn", "part": 7}, {"id": "burn", "v1": "burn", "v2": ["burnt", "burned"], "v3": ["burnt", "burned"], "vi": "đốt, đốt cháy, bị cháy", "part": 7}, {"id": "dream", "v1": "dream", "v2": ["dreamt", "dreamed"], "v3": ["dreamt", "dreamed"], "vi": "mơ", "part": 7}, {"id": "forgive", "v1": "forgive", "v2": ["forgave"], "v3": ["forgiven"], "vi": "tha thứ", "part": 7}, {"id": "freeze", "v1": "freeze", "v2": ["froze"], "v3": ["frozen"], "vi": "đóng băng", "part": 7}, {"id": "hang", "v1": "hang", "v2": ["hung"], "v3": ["hung"], "vi": "treo", "part": 7}, {"id": "shine", "v1": "shine", "v2": ["shone"], "v3": ["shone"], "vi": "chiếu sáng", "part": 7}, {"id": "shut", "v1": "shut", "v2": ["shut"], "v3": ["shut"], "vi": "đóng, đóng chặt", "part": 7}, {"id": "sink", "v1": "sink", "v2": ["sank"], "v3": ["sunk"], "vi": "chìm", "part": 7}, {"id": "steal", "v1": "steal", "v2": ["stole"], "v3": ["stolen"], "vi": "ăn trộm, lấy trộm", "part": 7}, {"id": "sweep", "v1": "sweep", "v2": ["swept"], "v3": ["swept"], "vi": "quét, quét dọn", "part": 7}, {"id": "tear", "v1": "tear", "v2": ["tore"], "v3": ["torn"], "vi": "xé, làm rách", "part": 7}];
-const BY = {}; VERBS.forEach(v => BY[v.id] = v);
+const VERBS = [{"id": "be", "v1": "be", "v2": ["was", "were"], "v3": ["been"], "vi": "thì, là, ở", "part": 1}, {"id": "become", "v1": "become", "v2": ["became"], "v3": ["become"], "vi": "trở thành, trở nên", "part": 1}, {"id": "begin", "v1": "begin", "v2": ["began"], "v3": ["begun"], "vi": "bắt đầu", "part": 1}, {"id": "break", "v1": "break", "v2": ["broke"], "v3": ["broken"], "vi": "làm vỡ, làm gãy, bẻ gãy", "part": 1}, {"id": "bring", "v1": "bring", "v2": ["brought"], "v3": ["brought"], "vi": "mang đến, đem đến", "part": 1}, {"id": "buy", "v1": "buy", "v2": ["bought"], "v3": ["bought"], "vi": "mua", "part": 1}, {"id": "catch", "v1": "catch", "v2": ["caught"], "v3": ["caught"], "vi": "bắt, nắm lấy", "part": 1}, {"id": "choose", "v1": "choose", "v2": ["chose"], "v3": ["chosen"], "vi": "chọn, lựa chọn", "part": 1}, {"id": "come", "v1": "come", "v2": ["came"], "v3": ["come"], "vi": "đến, tới", "part": 1}, {"id": "do", "v1": "do", "v2": ["did"], "v3": ["done"], "vi": "làm", "part": 1}, {"id": "draw", "v1": "draw", "v2": ["drew"], "v3": ["drawn"], "vi": "vẽ", "part": 1}, {"id": "drink", "v1": "drink", "v2": ["drank"], "v3": ["drunk"], "vi": "uống", "part": 1}, {"id": "drive", "v1": "drive", "v2": ["drove"], "v3": ["driven"], "vi": "lái xe", "part": 2}, {"id": "eat", "v1": "eat", "v2": ["ate"], "v3": ["eaten"], "vi": "ăn", "part": 2}, {"id": "fall", "v1": "fall", "v2": ["fell"], "v3": ["fallen"], "vi": "ngã, rơi", "part": 2}, {"id": "find", "v1": "find", "v2": ["found"], "v3": ["found"], "vi": "tìm thấy", "part": 2}, {"id": "fly", "v1": "fly", "v2": ["flew"], "v3": ["flown"], "vi": "bay", "part": 2}, {"id": "forget", "v1": "forget", "v2": ["forgot"], "v3": ["forgotten"], "vi": "quên", "part": 2}, {"id": "get", "v1": "get", "v2": ["got"], "v3": ["got", "gotten"], "vi": "được, lấy", "part": 2}, {"id": "give", "v1": "give", "v2": ["gave"], "v3": ["given"], "vi": "cho, tặng", "part": 2}, {"id": "go", "v1": "go", "v2": ["went"], "v3": ["gone"], "vi": "đi", "part": 2}, {"id": "grow", "v1": "grow", "v2": ["grew"], "v3": ["grown"], "vi": "lớn lên", "part": 2}, {"id": "have", "v1": "have", "v2": ["had"], "v3": ["had"], "vi": "có", "part": 2}, {"id": "hear", "v1": "hear", "v2": ["heard"], "v3": ["heard"], "vi": "nghe", "part": 2}, {"id": "hide", "v1": "hide", "v2": ["hid"], "v3": ["hidden"], "vi": "giấu, che giấu", "part": 3}, {"id": "hit", "v1": "hit", "v2": ["hit"], "v3": ["hit"], "vi": "đụng, đánh, đập", "part": 3}, {"id": "hold", "v1": "hold", "v2": ["held"], "v3": ["held"], "vi": "cầm, nắm, giữ", "part": 3}, {"id": "hurt", "v1": "hurt", "v2": ["hurt"], "v3": ["hurt"], "vi": "làm đau, bị thương", "part": 3}, {"id": "keep", "v1": "keep", "v2": ["kept"], "v3": ["kept"], "vi": "giữ, duy trì", "part": 3}, {"id": "know", "v1": "know", "v2": ["knew"], "v3": ["known"], "vi": "biết, hiểu", "part": 3}, {"id": "leave", "v1": "leave", "v2": ["left"], "v3": ["left"], "vi": "rời đi, bỏ lại", "part": 3}, {"id": "lend", "v1": "lend", "v2": ["lent"], "v3": ["lent"], "vi": "cho mượn, cho vay", "part": 3}, {"id": "let", "v1": "let", "v2": ["let"], "v3": ["let"], "vi": "cho phép, để", "part": 3}, {"id": "lose", "v1": "lose", "v2": ["lost"], "v3": ["lost"], "vi": "mất, bị lạc", "part": 3}, {"id": "make", "v1": "make", "v2": ["made"], "v3": ["made"], "vi": "làm, chế tạo", "part": 3}, {"id": "meet", "v1": "meet", "v2": ["met"], "v3": ["met"], "vi": "gặp gỡ, hội họp", "part": 3}, {"id": "pay", "v1": "pay", "v2": ["paid"], "v3": ["paid"], "vi": "trả tiền", "part": 4}, {"id": "put", "v1": "put", "v2": ["put"], "v3": ["put"], "vi": "đặt, để", "part": 4}, {"id": "read", "v1": "read", "v2": ["read"], "v3": ["read"], "vi": "đọc", "part": 4}, {"id": "ride", "v1": "ride", "v2": ["rode"], "v3": ["ridden"], "vi": "đi xe đạp", "part": 4}, {"id": "ring", "v1": "ring", "v2": ["rang"], "v3": ["rung"], "vi": "rung chuông, reo", "part": 4}, {"id": "run", "v1": "run", "v2": ["ran"], "v3": ["run"], "vi": "chạy", "part": 4}, {"id": "say", "v1": "say", "v2": ["said"], "v3": ["said"], "vi": "nói", "part": 4}, {"id": "see", "v1": "see", "v2": ["saw"], "v3": ["seen"], "vi": "nhìn thấy", "part": 4}, {"id": "sell", "v1": "sell", "v2": ["sold"], "v3": ["sold"], "vi": "bán", "part": 4}, {"id": "send", "v1": "send", "v2": ["sent"], "v3": ["sent"], "vi": "gửi", "part": 4}, {"id": "sing", "v1": "sing", "v2": ["sang"], "v3": ["sung"], "vi": "hát", "part": 4}, {"id": "sit", "v1": "sit", "v2": ["sat"], "v3": ["sat"], "vi": "ngồi", "part": 4}, {"id": "sleep", "v1": "sleep", "v2": ["slept"], "v3": ["slept"], "vi": "ngủ", "part": 5}, {"id": "speak", "v1": "speak", "v2": ["spoke"], "v3": ["spoken"], "vi": "nói", "part": 5}, {"id": "spend", "v1": "spend", "v2": ["spent"], "v3": ["spent"], "vi": "tiêu tiền, dành thời gian", "part": 5}, {"id": "stand", "v1": "stand", "v2": ["stood"], "v3": ["stood"], "vi": "đứng", "part": 5}, {"id": "swim", "v1": "swim", "v2": ["swam"], "v3": ["swum"], "vi": "bơi", "part": 5}, {"id": "take", "v1": "take", "v2": ["took"], "v3": ["taken"], "vi": "lấy, cầm", "part": 5}, {"id": "teach", "v1": "teach", "v2": ["taught"], "v3": ["taught"], "vi": "dạy", "part": 5}, {"id": "tell", "v1": "tell", "v2": ["told"], "v3": ["told"], "vi": "kể, bảo", "part": 5}, {"id": "think", "v1": "think", "v2": ["thought"], "v3": ["thought"], "vi": "nghĩ", "part": 5}, {"id": "throw", "v1": "throw", "v2": ["threw"], "v3": ["thrown"], "vi": "ném", "part": 5}, {"id": "understand", "v1": "understand", "v2": ["understood"], "v3": ["understood"], "vi": "hiểu", "part": 5}, {"id": "wear", "v1": "wear", "v2": ["wore"], "v3": ["worn"], "vi": "mặc", "part": 5}, {"id": "blow", "v1": "blow", "v2": ["blew"], "v3": ["blown"], "vi": "thổi, thổi khí", "part": 6}, {"id": "build", "v1": "build", "v2": ["built"], "v3": ["built"], "vi": "xây dựng", "part": 6}, {"id": "cost", "v1": "cost", "v2": ["cost"], "v3": ["cost"], "vi": "trị giá, có giá", "part": 6}, {"id": "cut", "v1": "cut", "v2": ["cut"], "v3": ["cut"], "vi": "cắt", "part": 6}, {"id": "dig", "v1": "dig", "v2": ["dug"], "v3": ["dug"], "vi": "đào, đào đất", "part": 6}, {"id": "feed", "v1": "feed", "v2": ["fed"], "v3": ["fed"], "vi": "cho ăn, nuôi", "part": 6}, {"id": "feel", "v1": "feel", "v2": ["felt"], "v3": ["felt"], "vi": "cảm thấy", "part": 6}, {"id": "fight", "v1": "fight", "v2": ["fought"], "v3": ["fought"], "vi": "đấu tranh, chiến đấu", "part": 6}, {"id": "shake", "v1": "shake", "v2": ["shook"], "v3": ["shaken"], "vi": "rung, lắc, bắt tay", "part": 6}, {"id": "wake", "v1": "wake", "v2": ["woke"], "v3": ["woken"], "vi": "thức dậy", "part": 6}, {"id": "win", "v1": "win", "v2": ["won"], "v3": ["won"], "vi": "thắng, chiến thắng", "part": 6}, {"id": "write", "v1": "write", "v2": ["wrote"], "v3": ["written"], "vi": "viết", "part": 6}, {"id": "bite", "v1": "bite", "v2": ["bit"], "v3": ["bitten"], "vi": "cắn", "part": 7}, {"id": "burn", "v1": "burn", "v2": ["burnt", "burned"], "v3": ["burnt", "burned"], "vi": "đốt, đốt cháy, bị cháy", "part": 7}, {"id": "dream", "v1": "dream", "v2": ["dreamt", "dreamed"], "v3": ["dreamt", "dreamed"], "vi": "mơ", "part": 7}, {"id": "forgive", "v1": "forgive", "v2": ["forgave"], "v3": ["forgiven"], "vi": "tha thứ", "part": 7}, {"id": "freeze", "v1": "freeze", "v2": ["froze"], "v3": ["frozen"], "vi": "đóng băng", "part": 7}, {"id": "hang", "v1": "hang", "v2": ["hung"], "v3": ["hung"], "vi": "treo", "part": 7}, {"id": "shine", "v1": "shine", "v2": ["shone"], "v3": ["shone"], "vi": "chiếu sáng", "part": 7}, {"id": "shut", "v1": "shut", "v2": ["shut"], "v3": ["shut"], "vi": "đóng, đóng chặt", "part": 7}, {"id": "sink", "v1": "sink", "v2": ["sank"], "v3": ["sunk"], "vi": "chìm", "part": 7}, {"id": "steal", "v1": "steal", "v2": ["stole"], "v3": ["stolen"], "vi": "ăn trộm, lấy trộm", "part": 7}, {"id": "sweep", "v1": "sweep", "v2": ["swept"], "v3": ["swept"], "vi": "quét, quét dọn", "part": 7}, {"id": "tear", "v1": "tear", "v2": ["tore"], "v3": ["torn"], "vi": "xé, làm rách", "part": 7}];                 // bản đứng riêng (Irregular verbs); bản Trung tâm trò chơi để rỗng và lấy từ ?set=
 const KEY = 'lse.whackMole.irv.v1', APPKEY = 'irregularVerbs.v1', IMGV = '2';
 const MAXMS = 15 * 60 * 1000;           // một lượt chơi tối đa 15 phút
 const QLIMIT = 60 * 1000;               // tối đa 60 giây mỗi câu
@@ -248,48 +249,72 @@ const fm = a => a.join(' / ');
 const toks = s => String(s).split(',').map(x => x.trim().toLowerCase());
 const sameMeaning = (a, b) => toks(a).some(t => toks(b).includes(t));
 const regEd = w => /e$/.test(w) ? w + 'd' : /[^aeiou]y$/.test(w) ? w.slice(0, -1) + 'ied' : /^[^aeiou]+[aeiou][^aeiouwxy]$/.test(w) ? w + w.slice(-1) + 'ed' : w + 'ed';
-const imgOf = v => `images/${v.id}.webp?v=${IMGV}`;
+
+/* ---------- nguồn từ: bộ từ của Trung tâm trò chơi (?set=) hoặc 84 động từ có sẵn ---------- */
+let ITEMS = [], BY = {}, VERBMODE = false, SETTITLE = 'Irregular Verbs', HASPIC = false;
+(function loadItems() {
+  const S = window.GAMESET;
+  if (S) {
+    ITEMS = S.items.map((it, i) => ({id:'i' + i, w:it.w, vi:it.vi || '', img:it.img || '', v2:it.v2, v3:it.v3, part:it.part || 0}));
+    VERBMODE = !!S.verbs && ITEMS.every(x => x.v2 && x.v3); SETTITLE = S.title || 'Bộ từ';
+  } else {
+    ITEMS = VERBS.map(v => ({id:v.id, w:v.v1, vi:v.vi, img:`images/${v.id}.webp?v=${IMGV}`, v2:v.v2, v3:v.v3, part:v.part}));
+    VERBMODE = ITEMS.length > 0;
+  }
+  ITEMS.forEach(x => BY[x.id] = x); HASPIC = ITEMS.filter(x => x.img).length >= 6;
+})();
+const imgOf = x => x.img || '';
 const lse = (kind, o) => { try { if (window.parent && window.parent !== window) window.parent.postMessage(Object.assign({lse:1, kind}, o), '*'); } catch (e) {} };
 
 /* ---------- bộ sinh câu hỏi ---------- */
 function wrongForms(v, kind) {          // kind = 'v2' | 'v3'
   const ok = new Set(v[kind]), out = [];
   const add = w => { if (w && !ok.has(w) && !out.includes(w)) out.push(w); };
-  if (v.v1 !== 'be' && v.v1 !== 'do') add(regEd(v.v1));      // lỗi hay gặp: thêm -ed
+  if (v.w !== 'be' && v.w !== 'do') add(regEd(v.w));         // lỗi hay gặp: thêm -ed
   (kind === 'v2' ? v.v3 : v.v2).forEach(add);                // nhầm V2 ↔ V3
-  add(v.v1);                                                 // nhầm với nguyên mẫu
-  for (const x of shuffle(VERBS.filter(x => x !== v))) { if (out.length >= 4) break; add(rnd(x[kind])); }
+  add(v.w);                                                  // nhầm với nguyên mẫu
+  for (const x of shuffle(ITEMS.filter(x => x !== v))) { if (out.length >= 4) break; add(rnd(x[kind])); }
   return out.slice(0, 4);
 }
 function wrongMeans(v) {
   const out = [];
-  for (const x of shuffle(VERBS.filter(x => x !== v && !sameMeaning(x.vi, v.vi)))) {
+  for (const x of shuffle(ITEMS.filter(x => x !== v && x.vi && !sameMeaning(x.vi, v.vi)))) {
     if (out.length >= 4) break;
     if (!out.some(o => sameMeaning(o, x.vi))) out.push(x.vi);
   }
   return out;
 }
+function wrongWords(v) {
+  const out = [];
+  for (const x of shuffle(ITEMS.filter(x => x !== v && x.w.toLowerCase() !== v.w.toLowerCase()))) {
+    if (out.length >= 4) break;
+    if (!out.some(o => o.toLowerCase() === x.w.toLowerCase())) out.push(x.w);
+  }
+  return out;
+}
 function makeQ(v, type) {
-  const q = {vid:v.id, type, key:v.id + ':' + type, pic:imgOf(v), big:v.v1, vi:v.vi, retry:0,
-             full:`${v.v1} – ${fm(v.v2)} – ${fm(v.v3)}`};
-  if (type === 'mean') { q.ask = 'Nghĩa tiếng Việt là gì?'; q.correct = [v.vi]; q.wrongs = wrongMeans(v); q.say = v.v1; }
-  else { q.ask = type === 'v2' ? 'Tìm quá khứ đơn (V2)' : 'Tìm phân từ II (V3)'; q.correct = v[type].slice(); q.wrongs = wrongForms(v, type); q.say = v[type][0]; }
+  const q = {vid:v.id, type, key:v.id + ':' + type, pic:imgOf(v), big:v.w, vi:v.vi, retry:0,
+             full:VERBMODE ? `${v.w} – ${fm(v.v2)} – ${fm(v.v3)}` : `${v.w} = ${v.vi}`};
+  if (type === 'mean' || type === 'en2vi') { q.ask = 'Nghĩa tiếng Việt là gì?'; q.correct = [v.vi]; q.wrongs = wrongMeans(v); q.say = v.w; q.label = `${v.w} = ${v.vi}`; }
+  else if (type === 'vi2en') { q.big = v.vi; q.pic = ''; q.ask = 'Từ tiếng Anh là gì?'; q.correct = [v.w]; q.wrongs = wrongWords(v); q.say = v.w; q.label = `${v.vi} → ${v.w}`; }
+  else if (type === 'pic') { q.big = '❓'; q.bigPic = true; q.ask = 'Nhìn hình, đập chuột cầm từ đúng!'; q.correct = [v.w]; q.wrongs = wrongWords(v); q.say = v.w; q.label = `🖼️ → ${v.w}`; }
+  else { q.ask = type === 'v2' ? 'Tìm quá khứ đơn (V2)' : 'Tìm phân từ II (V3)'; q.correct = v[type].slice(); q.wrongs = wrongForms(v, type); q.say = v[type][0]; q.label = `${v.w} → ${fm(q.correct)}`; }
   q.ans = fm(q.correct);
-  q.label = type === 'mean' ? `${v.v1} = ${v.vi}` : `${v.v1} → ${q.ans}`;
   return q;
 }
-const TYPES_MIX = ['mean', 'v2', 'v3'];
-const ROUND_NAMES = {mean:'Nghĩa', v2:'V2 quá khứ', v3:'V3 phân từ II', mix:'Tổng hợp'};
-function partLabel(p) { const a = VERBS.filter(v => v.part === p); return a.length ? `Nhóm ${p}: ${a[0].v1} … ${a[a.length - 1].v1} (${a.length} từ)` : ''; }
-function appSelected() { try { const s = JSON.parse(localStorage.getItem(APPKEY)); return Array.isArray(s && s.sel) ? s.sel.filter(id => BY[id]) : []; } catch (e) { return []; } }
+const typesMix = () => VERBMODE ? ['mean', 'v2', 'v3'] : (HASPIC ? ['pic', 'en2vi', 'vi2en'] : ['en2vi', 'vi2en']);
+const ROUND_NAMES = {mean:'Nghĩa', v2:'V2 quá khứ', v3:'V3 phân từ II', mix:'Tổng hợp', en2vi:'Anh → Việt', vi2en:'Việt → Anh', pic:'Nhìn hình'};
+const journeyModes = () => VERBMODE ? ['mean', 'v2', 'v3', 'mix'] : (HASPIC ? ['pic', 'en2vi', 'vi2en', 'mix'] : ['en2vi', 'vi2en', 'en2vi', 'mix']);
+function partLabel(p) { const a = ITEMS.filter(v => v.part === p); return a.length ? `Nhóm ${p}: ${a[0].w} … ${a[a.length - 1].w} (${a.length} từ)` : ''; }
+function appSelected() { if (!VERBMODE) return []; try { const s = JSON.parse(localStorage.getItem(APPKEY)); return Array.isArray(s && s.sel) ? ITEMS.filter(x => s.sel.includes(x.id) || s.sel.includes(x.w)).map(x => x.id) : []; } catch (e) { return []; } }
 function getPool(src) {
   if (src === 'sel') { const s = appSelected(); if (s.length >= 6) return s.map(id => BY[id]); }
-  if (/^p\d$/.test(src)) { const p = +src.slice(1); const a = VERBS.filter(v => v.part === p); if (a.length >= 6) return a; }
-  return VERBS.slice();
+  if (/^p\d$/.test(src)) { const p = +src.slice(1); const a = ITEMS.filter(v => v.part === p); if (a.length >= 6) return a; }
+  return ITEMS.slice();
 }
 function buildRounds(set) {
   const pool = getPool(set.src), per = +set.per || 15;
-  const modes = set.mode === 'journey' ? ['mean', 'v2', 'v3', 'mix'] : [set.mode, set.mode, set.mode, set.mode];
+  const modes = set.mode === 'journey' ? journeyModes() : [set.mode, set.mode, set.mode, set.mode];
   const used = new Set(), rounds = [];
   modes.forEach((m, i) => {
     let cand = shuffle(pool.filter(v => !used.has(v.id)));
@@ -297,7 +322,7 @@ function buildRounds(set) {
     let vs = cand.slice(0, per);
     while (vs.length < per) vs = vs.concat(shuffle(pool.slice()).slice(0, per - vs.length));
     vs.forEach(v => used.add(v.id));
-    const qs = vs.map(v => makeQ(v, m === 'mix' ? rnd(TYPES_MIX) : m));
+    const qs = vs.map(v => makeQ(v, m === 'mix' ? rnd(typesMix()) : m));
     qs.slice(-3).forEach(q => q.boss = true);
     rounds.push({title:`Vòng ${i + 1} · ${ROUND_NAMES[m]}`, mode:m, qs});
   });
@@ -417,14 +442,25 @@ function decorate() {
 }
 function homeInit() {
   const sel = $('#sSrc'); sel.innerHTML = '';
-  const s = appSelected();
-  if (s.length >= 6) sel.add(new Option(`Các từ đã tick trong app Irregular verbs (${s.length} từ)`, 'sel'));
-  sel.add(new Option(`Tất cả ${VERBS.length} từ`, 'all'));
-  for (let p = 1; p <= 7; p++) if (partLabel(p)) sel.add(new Option(partLabel(p), 'p' + p));
+  $('label[for=sSrc]').textContent = VERBMODE ? '📚 Động từ để chơi' : '📚 Từ vựng để chơi';
+  const ok = ITEMS.length >= 3;
+  if (VERBMODE) {
+    const s = appSelected();
+    if (s.length >= 6) sel.add(new Option(`Các từ đã tick trong app Irregular verbs (${s.length} từ)`, 'sel'));
+    sel.add(new Option(`Tất cả ${ITEMS.length} từ`, 'all'));
+    for (let p = 1; p <= 7; p++) if (partLabel(p)) sel.add(new Option(partLabel(p), 'p' + p));
+  } else sel.add(new Option(ok ? `Cả bộ từ (${ITEMS.length} từ)` : 'Chưa có bộ từ', 'all'));
   const want = SV.set.src; sel.value = [...sel.options].some(o => o.value === want) ? want : sel.options[0].value;
-  $('#sMode').value = SV.set.mode; $('#sPer').value = SV.set.per; $('#sSpeed').value = SV.set.speed;
+  const md = $('#sMode'); md.innerHTML = '';
+  const MO = VERBMODE ? [['journey', 'Hành trình 4 vòng (Nghĩa → V2 → V3 → Tổng hợp)'], ['v2', 'Chỉ V2 (quá khứ đơn)'], ['v3', 'Chỉ V3 (phân từ II)'], ['mean', 'Chỉ nghĩa tiếng Việt']]
+    : [['journey', 'Hành trình 4 vòng (' + journeyModes().map(m => ROUND_NAMES[m]).join(' → ') + ')'], ['en2vi', 'Chỉ Anh → Việt'], ['vi2en', 'Chỉ Việt → Anh']].concat(HASPIC ? [['pic', 'Chỉ nhìn hình']] : []);
+  MO.forEach(o => md.add(new Option(o[1], o[0]))); md.value = MO.some(o => o[0] === SV.set.mode) ? SV.set.mode : 'journey';
+  $('#sPer').value = SV.set.per; $('#sSpeed').value = SV.set.speed;
   $('#hCoins').textContent = SV.coins; $('#hStreak').textContent = `🔥 ${SV.streak.n} ngày`;
+  $('#hTitle').textContent = VERBMODE && !window.GAMESET ? 'Irregular Verbs · V1 → V2 → V3' : SETTITLE + (VERBMODE ? ' · V1 → V2 → V3' : '');
   $('#hero').innerHTML = [SKINS[1], KING_OR(), SKINS[2]].map(k => `<div class="hm">${moleSVG(k)}</div>`).join('') + `<img class="hammerHero" src="${HAMMER_URL}" alt="">`;
+  $('#bPlay').disabled = !ok;
+  $('#hErr').textContent = ok ? '' : (window.GAMESET_ERROR || 'Chưa có bộ từ. Hãy mở game từ trang 🎮 Trò chơi và chọn bài nhé.');
   setSound(SV.sound);
 }
 const KING_OR = () => SKINS.every(s => SV.skins.includes(s.id)) ? KING : SKINS[0];
@@ -480,7 +516,7 @@ function startQ(q) {
   Q = {q, opts, elapsed:0, active:true, spawnIn:250, sinceOk:0, first:!q.bonus && !q.again && !q.fixq};
   holes.forEach(h => { h.state = 'down'; h.opt = null; h.el.className = 'hole'; });
   const card = $('#qcard'); card.classList.toggle('boss', !!q.boss && !q.bonus); card.classList.toggle('bonus', !!q.bonus);
-  $('#qpic').src = q.pic; $('#qpic').onerror = function () { this.style.visibility = 'hidden'; }; $('#qpic').style.visibility = '';
+  const qp = $('#qpic'); qp.classList.toggle('bigpic', !!q.bigPic); qp.onerror = function () { this.style.display = 'none'; }; if (q.pic) { qp.style.display = ''; qp.src = q.pic; } else { qp.style.display = 'none'; qp.removeAttribute('src'); }
   const tag = $('#qtag'); tag.className = 'qtag' + (q.bonus ? ' bonusTag' : q.boss ? ' bossTag' : '');
   tag.textContent = q.bonus ? '✨ Câu bổ sung' : q.boss ? `👑 Boss ${R.bossMax - R.bossHP + 1}/${R.bossMax}` : q.again ? `🔁 Làm lại · câu ${R.idx + 1}/${R.queue.length}` : `Câu ${R.idx + 1}/${R.queue.length}`;
   $('#qbig').textContent = q.big; $('#qask').textContent = q.ask;
@@ -600,7 +636,7 @@ setInterval(() => { const n = performance.now(); const dt = Math.min(120, n - la
 function revive() {
   P.paused = true; show('#ovRevive', true);
   const pool = Object.values(P.missed).map(m => BY[m.vid]).filter(Boolean);
-  const v = rnd(pool.length ? pool : VERBS), q = makeQ(v, rnd(TYPES_MIX));
+  const v = rnd(pool.length ? pool : ITEMS), q = makeQ(v, rnd(typesMix().filter(t => t !== 'pic' || v.img)));
   $('#rvBig').textContent = q.big; $('#rvAsk').textContent = q.ask; $('#rvMsg').textContent = `📖 ${q.full} · ${q.vi}`;
   const opts = shuffle([{t:q.correct[0], ok:true}].concat(q.wrongs.slice(0, 2).map(t => ({t, ok:false}))));
   const box = $('#rvBtns'); box.innerHTML = '';
@@ -643,7 +679,7 @@ function finishGame(reason) {
   $('#fTitle').textContent = reason === 'time' ? '⏱ Hết 15 phút – tổng kết' : P.fix ? '🔧 Fix it! xong' : '🏁 Tổng kết';
   $('#fStat').innerHTML = `<span class="pill">⭐ ${P.score}</span><span class="pill">✅ ${P.firstOk}/${P.firstTotal} đúng ngay (${acc}%)</span><span class="pill">🪙 +${P.gain}</span><span class="pill">🔥 combo cao nhất ${P.bestCombo}</span>`;
   $('#fMsg').textContent = miss.length ? `Còn ${miss.length} câu cần ôn lại. Bấm Fix it! để sửa ngay nhé.` : '🎉 Không còn câu nào sai – xuất sắc!';
-  $('#fMiss').innerHTML = miss.map(m => { const v = BY[m.vid]; return `<div class="mrow"><img src="${imgOf(v)}" alt="" onerror="this.style.display='none'"><div class="w">${esc(v.v1)} – ${esc(fm(v.v2))} – ${esc(fm(v.v3))}<small>${esc(v.vi)} · sai ${m.n} lần</small></div></div>`; }).join('');
+  $('#fMiss').innerHTML = miss.map(m => { const v = BY[m.vid]; return `<div class="mrow">${v.img ? `<img src="${esc(imgOf(v))}" alt="" onerror="this.style.display='none'">` : ''}<div class="w">${esc(VERBMODE ? v.w + ' – ' + fm(v.v2) + ' – ' + fm(v.v3) : v.w)}<small>${esc(v.vi)} · sai ${m.n} lần</small></div></div>`; }).join('');
   show('#bFix', miss.length > 0);
   $('#fAllList').innerHTML = P.log.map(l => `<div class="ans ${l.ok ? '' : 'ng'}"><span>${l.ok ? '✅' : '❌'} ${esc(l.label)}</span></div>`).join('');
   show('#ovFinal', true); if (!miss.length) confetti(); sfx.win();
@@ -690,7 +726,7 @@ $('#bFix').onclick = startFix;
 document.addEventListener('visibilitychange', () => { if (document.hidden && P && P.running && !P.paused) $('#pPause').click(); });
 
 decorate(); homeInit();
-window.__G = {get P() { return P; }, get Q() { return Q; }, get R() { return R; }, holes, makeQ, VERBS, SV, buildRounds, getPool};
+window.__G = {get P() { return P; }, get Q() { return Q; }, get R() { return R; }, holes, makeQ, ITEMS, SV, buildRounds, getPool, journeyModes};
 </script>
 </body>
 </html>

@@ -108,6 +108,7 @@
     const link = (href, ico, text, on) => h("a.ni" + (on ? ".on" : ""), { href, title: text }, h("span.nico.n-" + ico, { html: ICONS[ico] }), h("span.nlab", text));
     nav.append(
       link("#/", "home", "Trang chủ", route === "/" || route.startsWith("/c/")),
+      link("#/games", "game", "Trò chơi", route.startsWith("/games")),
       link("#/hw", "book", "Bài tập", route.startsWith("/hw")),
       link("#/me", "star", "Lịch sử", route.startsWith("/me")));
     if (isTeacher()) nav.append(link("#/teacher", "sprout", "Khu của cô", route.startsWith("/teacher")));
@@ -131,6 +132,7 @@
   const greeting = () => { const hr = new Date().getHours(); return hr < 11 ? "Chào buổi sáng" : hr < 14 ? "Chào buổi trưa" : hr < 18 ? "Chào buổi chiều" : "Chào buổi tối"; };
   /* biểu tượng menu: SVG tự vẽ, tô gradient pastel (không phụ thuộc phông/emoji của máy) */
   const ICONS = {
+    game: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><rect x="3" y="8" width="26" height="16" rx="8" fill="url(#gg)"/><path d="M10 12v8M6 16h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="21.5" cy="14" r="1.9" fill="#FFE08A"/><circle cx="25" cy="18" r="1.9" fill="#fff"/></svg>',
     home: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gh" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF9EBB"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M4 15.5 16 5l12 10.5" fill="none" stroke="url(#gh)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 14.5V26a1.5 1.5 0 0 0 1.5 1.5H13V19h6v8.5h4.5A1.5 1.5 0 0 0 25 26V14.5L16 7z" fill="url(#gh)"/><circle cx="24" cy="7" r="1.6" fill="#FFE08A"/></svg>',
     book: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ED8FF"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><rect x="5" y="5" width="18" height="23" rx="3.5" fill="url(#gb)"/><path d="M9.5 11h9M9.5 15.5h9M9.5 20h5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="m22 21 6-9a1.7 1.7 0 0 1 2.4 2.3L24.5 23.5 21 25z" fill="#FFB38A"/><path d="m22 21 3 2" stroke="#fff" stroke-width="1.2"/></svg>',
     star: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gs" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE08A"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M16 3.5l3.8 7.7 8.5 1.2-6.15 6 1.45 8.45L16 22.8l-7.6 4 1.45-8.45-6.15-6 8.5-1.2z" fill="url(#gs)" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/><circle cx="26.5" cy="5.5" r="1.5" fill="#B9A8F0"/><circle cx="5" cy="26" r="1.2" fill="#9ED8FF"/></svg>',
@@ -184,7 +186,7 @@
     const who = isTeacher() ? "cô " + L.auth.name : L.auth.name;
     const hero = h("div.card.hero",
       h("div", h("div.bubble", TIPS[Math.floor(Math.random() * TIPS.length)]), h("h1", CFG.siteName), h("p", greeting() + ", " + who + "! Chọn giáo trình, chọn unit rồi chơi và ôn tập thật vui nhé."), statBox,
-        h("div.row", h("a.btn", { href: "#/hw" }, "📝 Bài tập của em"), h("a.btn.ghost", { href: "#/me" }, "📈 Lịch sử chơi"))),
+        h("div.row", h("a.btn", { href: "#/hw" }, "📝 Bài tập của em"), h("a.btn.rose", { href: "#/games" }, "🎮 Trò chơi"), h("a.btn.ghost", { href: "#/me" }, "📈 Lịch sử chơi"))),
       h("div.hero-art", h("div.halo"), h("span.sp", "✨"), h("span.sp", "⭐"), h("span.sp", "🌿"), L.mascot.el({ pose: L.mascot.homePose(), height: 270, idleSleep: 60000 })));
     const hwBox = h("div");
     show(hero, isTeacher() ? null : L.extras.homeBlock(), h("h2", { style: "margin:22px 2px 12px;font-size:24px" }, "Giáo trình"), h("div.grid", cards), hwBox);
@@ -216,6 +218,7 @@
       try { await loadMine(); } catch (e) { }
       show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
         h("h1", { style: "font-size:30px;margin-bottom:12px;display:flex;align-items:center;gap:10px" }, L.ei(c.emoji || "📘", 40), c.name),
+        h("div", { style: "margin-bottom:10px" }, h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" }, "🎮 Chơi game với bài này")),
         h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), loose.map(appItem)));
       return;
     }
@@ -286,7 +289,7 @@
     const box = h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), apps.length ? apps.map(appItem) : h("div.empty", "Chưa có app nào trong unit này."));
     const hwBox = h("div.card", h("h3", { style: "margin-bottom:4px" }, "Bài tập"), h("div.empty", h("span.spinner")));
     show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), h("a", { href: "#/c/" + cid }, c.name), " › ", name),
-      h("h1", { style: "font-size:30px;margin-bottom:12px" }, name), box, hwBox);
+      h("div.row.space", { style: "margin-bottom:12px" }, h("h1", { style: "font-size:30px" }, name), h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" + encodeURIComponent(real) }, "🎮 Chơi game với bài này")), box, hwBox);
     try {
       const list = (await loadHw()).filter(x => x.curId === cid && (x.unitId || "") === real);
       hwBox.innerHTML = ""; hwBox.append(h("h3", { style: "margin-bottom:4px" }, "Bài tập"), list.length ? list.map(hwRow) : h("div.empty", "Chưa có bài tập cho unit này."));
@@ -300,9 +303,9 @@
     try { const r = await s.flush(false); if (r) { toast("Đã lưu lần chơi thứ " + r.attempt + " ✓"); state.plays = null; } } catch (e) { toast("Chưa lưu được kết quả: " + e.message); }
     s.stop();
   }
-  async function playView(aid) {
+  async function playView(aid, appObj) {
     show(spinner()); await loadManifest();
-    const app = (state.manifest.apps || []).find(a => a.id === aid);
+    const app = appObj || (state.manifest.apps || []).find(a => a.id === aid);
     if (!app) { show(h("div.card.empty", "Không tìm thấy app này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
     const c = cur(app.cur);
     const sess = L.adapters.createSession(app); playSession = sess;
@@ -350,11 +353,13 @@
       if (on) wrap.prepend(exitFull); else exitFull.remove();
     };
     show(
-      h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
+      app.hub ? h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", h("a", { href: L.gamehub.backHref(app.cur, app.unit) }, "Trò chơi"), " › ", app.title)
+        : h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
       h("div.player",
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
-          openLink, h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
-          h("button.btn.sm.mint", { onclick: async () => { await endPlay(); go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); } }, "Lưu & thoát")),
+          openLink, app.hub ? null : h("a.btn.sm.rose", { href: L.gamehub.backHref(app.cur, app.unit), title: "Chơi game khác với bài này" }, "🎮 Game khác"),
+          h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
+          h("button.btn.sm.mint", { onclick: async () => { await endPlay(); if (app.hub) go(L.gamehub.backHref(app.cur, app.unit).slice(1)); else go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); } }, "Lưu & thoát")),
         wrap,
         wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
         app.desc ? h("div.small.muted", app.desc) : null));
@@ -531,6 +536,7 @@
       if (p[0] === "c" && p[1] && p[2] === "u") return await unitView(p[1], p[3] || "_");
       if (p[0] === "c" && p[1]) return await curView(p[1]);
       if (p[0] === "play" && p[1]) return await playView(p[1]);
+      if (p[0] === "games") return await L.gamehub.route(p.slice(1));
       if (p[0] === "practice" && p[1]) return await L.practiceView(p[1]);
       if (p[0] === "shop") return await L.shopView();
       if (p[0] === "review") return await L.extras.reviewView();
@@ -546,6 +552,7 @@
   }
   L.prof.onChange(() => { const l = document.querySelector(".coinchip .nlab"); if (l) l.textContent = L.prof.coins() + " xu"; });
   L.route = route;
+  L.playApp = app => playView(null, app);
   L.ui = { show, spinner, loadManifest, repaint: () => paintChrome() };
 
   async function boot() {

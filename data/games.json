@@ -1,0 +1,58 @@
+{
+ "version": 1,
+ "games": [
+  {
+   "id": "dap-chuot",
+   "title": "Đập Chuột",
+   "desc": "Chuột chui lên cầm bảng đáp án. Đập đúng chuột, tránh chuột sai, đánh Boss và nâng cấp búa!",
+   "file": "apps/games/dap-chuot.html",
+   "tags": [
+    "Tốc độ",
+    "Từ vựng"
+   ],
+   "cats": [
+    "speed",
+    "vocab"
+   ],
+   "poster": "mole",
+   "color": "pink",
+   "needs": "3 từ trở lên; có hình thì có thêm vòng Nhìn hình",
+   "v": "20261023140000"
+  },
+  {
+   "id": "dao-vang",
+   "title": "Đào Vàng Từ Vựng",
+   "desc": "Đào mỏ bằng cách trả lời: Anh→Việt, Việt→Anh, trắc nghiệm, điền chữ, xếp chữ. Có xu, nhân vật và cửa hàng.",
+   "file": "apps/games/dao-vang.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab"
+   ],
+   "poster": "gold",
+   "color": "yellow",
+   "needs": "từ vựng có nghĩa tiếng Việt",
+   "v": "20261023140000"
+  },
+  {
+   "id": "xi-ngau",
+   "title": "Xí Ngầu Săn Số",
+   "desc": "Trả lời đúng để lắc xí ngầu, săn số thật nhanh. Chơi với Bot hoặc đấu 1-1 với bạn.",
+   "file": "apps/games/xi-ngau.html",
+   "tags": [
+    "Đấu đôi",
+    "Từ vựng"
+   ],
+   "cats": [
+    "duo",
+    "vocab"
+   ],
+   "poster": "dice",
+   "color": "sky",
+   "needs": "từ vựng có nghĩa tiếng Việt",
+   "v": "20261023140000"
+  }
+ ]
+}

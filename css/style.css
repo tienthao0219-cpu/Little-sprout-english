@@ -719,3 +719,40 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 @keyframes lnflash{0%,40%{background:rgba(255,70,70,.65)}100%{background:rgba(255,70,70,.2)}}
 .secbox.secflash{animation:secflash 1.6s ease-out}
 @keyframes secflash{0%,40%{box-shadow:0 0 0 4px #e53935}100%{box-shadow:none}}
+
+/* ---------- Trung tâm trò chơi (pastel kawaii) ---------- */
+.gh-hero{position:relative;overflow:hidden;text-align:center;padding:26px 18px 20px;background:linear-gradient(135deg,#FFD6E8 0%,#EADCFF 55%,#D5F0FF 100%);border:4px solid #fff;box-shadow:0 10px 0 rgba(222,84,129,.16),var(--shadow)}
+.gh-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.75) 2px,transparent 2.6px);background-size:24px 24px;pointer-events:none}
+.gh-hero h1{position:relative;font-size:clamp(28px,6vw,42px);color:#E0508A;text-shadow:0 3px 0 #fff,0 6px 0 rgba(222,84,129,.2)}
+.gh-hero p{position:relative;margin:8px auto 14px;max-width:560px;color:#6B5A86;font-weight:700}
+.gh-sp{position:absolute;font-size:26px;animation:ghFloat 4.5s ease-in-out infinite;pointer-events:none}
+.gh-sp.s1{left:6%;top:16%;color:#FFC94D}.gh-sp.s2{right:8%;top:20%;color:#FF7FB0;animation-delay:-1s}.gh-sp.s3{left:14%;bottom:12%;color:#9C86E8;animation-delay:-2s}.gh-sp.s4{right:16%;bottom:14%;color:#5DCDA3;animation-delay:-3s}
+@keyframes ghFloat{50%{transform:translateY(-9px) rotate(14deg)}}
+.gh-steps{position:relative;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.gh-steps span{background:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:14.5px;box-shadow:0 3px 0 rgba(122,100,212,.18)}
+.gh-steps b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#FF7FB0;color:#fff;margin-right:4px;font-size:13px}
+.gh-pick h2,.gh-bar h2{font-size:22px;margin-bottom:10px}
+.gh-row{display:flex;gap:10px;flex-wrap:wrap}
+.gh-sel{flex:1;min-width:200px;min-height:46px;padding:8px 12px;border:3px solid #E9D9F5;border-radius:16px;background:#fff;font-weight:800;color:var(--ink)}
+.gh-info{margin-top:10px}
+.gh-hint{background:#FFF4D6;border-radius:14px;padding:9px 13px;font-weight:700;color:#8A6A10}
+.gh-ok{background:#DDF6EA;border-radius:14px;padding:9px 13px;font-weight:700;color:#1F7A5A}
+.gh-paste{margin-top:10px}
+.gh-paste textarea{width:100%;border:3px solid #E9D9F5;border-radius:16px;padding:10px 12px;background:#fff;font-weight:700;resize:vertical}
+.gh-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:22px 2px 12px}
+.gh-bar h2{margin:0}
+.gh-chips{display:flex;gap:8px;flex-wrap:wrap;flex:1}
+.gh-chip{border:0;border-radius:999px;padding:7px 15px;background:#fff;color:#7A64D4;font-family:var(--hfont);font-weight:800;font-size:15px;box-shadow:inset 0 0 0 2px #E7DFFF;cursor:pointer}
+.gh-chip.on{background:#FF7FB0;color:#fff;box-shadow:0 3px 0 rgba(222,84,129,.3)}
+.gh-search{min-width:170px;border:3px solid #E9D9F5;border-radius:999px;padding:7px 14px;background:#fff;font-weight:700}
+.gh-grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.gh-card{background:#fff;border:4px solid #fff;border-radius:26px;overflow:hidden;box-shadow:0 8px 0 rgba(222,84,129,.14),var(--shadow);transition:transform .15s}
+.gh-card:hover{transform:translateY(-4px) rotate(-.4deg)}
+.gh-card.c-yellow{box-shadow:0 8px 0 rgba(227,170,40,.22),var(--shadow)}.gh-card.c-sky{box-shadow:0 8px 0 rgba(59,136,208,.2),var(--shadow)}
+.gh-poster{aspect-ratio:320/210;overflow:hidden;border-bottom:4px solid #fff}
+.gh-poster svg{display:block;width:100%;height:100%}
+.gh-body{padding:12px 14px 16px}
+.gh-body h3{font-size:21px;margin-bottom:4px}
+.gh-body p{margin:0 0 8px;color:var(--soft);font-size:14px;min-height:60px}
+.gh-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.gh-body .btn{width:100%}
