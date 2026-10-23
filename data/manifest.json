@@ -731,17 +731,6 @@
       "updated": "2026-10-23T07:20:00.000Z"
     },
     {
-      "id": "candy-drop-quiz-bouncy-dumping-c4p8",
-      "title": "Candy Drop Quiz (Bouncy Dumping)",
-      "cur": "template-game-html-wod",
-      "unit": "",
-      "file": "apps/template-game-html-wod/candy-drop-quiz-bouncy-dumping.html",
-      "kind": "game",
-      "desc": "Trắc nghiệm 4 đáp án + thả kẹo ghép (template)",
-      "added": "2026-10-23T07:20:00.000Z",
-      "updated": "2026-10-23T07:20:00.000Z"
-    },
-    {
       "id": "xi-ngau-san-so-d2m5",
       "title": "Xí Ngầu Săn Số",
       "cur": "template-game-html-wod",
