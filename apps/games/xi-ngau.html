@@ -666,7 +666,7 @@ function setMuted(v){ muted=!!v; const b=$("#muteBtn"); if(b) b.textContent=mute
    ===================================================================== */
 function parseVocab(txt){
   return String(txt||"").split(/\n/).map(l=>l.trim()).filter(Boolean).map(l=>{
-    let p=l.includes("\t")?l.split("\t"):l.split(/\s+[-–—]\s+/); p=p.map(s=>s.trim());
+    let p=l.includes("\t")?l.split("\t"):(l.includes(" | ")?l.split(" | "):l.split(/\s+[-–—]\s+/)); p=p.map(s=>s.trim());
     return {en:p[0]||"",vi:p[1]||"",def:p.slice(2).join(" - ").trim()};
   }).filter(v=>v.en);
 }

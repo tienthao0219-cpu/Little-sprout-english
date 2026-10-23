@@ -17,7 +17,7 @@
    "poster": "mole",
    "color": "pink",
    "needs": "3 từ trở lên; có hình thì có thêm vòng Nhìn hình",
-   "v": "20261023140000"
+   "v": "20261023152000"
   },
   {
    "id": "dao-vang",
@@ -34,7 +34,7 @@
    "poster": "gold",
    "color": "yellow",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261023140000",
+   "v": "20261023152000",
    "posterImg": "apps/games/img/poster-dao-vang.webp"
   },
   {
@@ -53,7 +53,7 @@
    "poster": "dice",
    "color": "sky",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261023140000"
+   "v": "20261023152000"
   }
  ]
 }
