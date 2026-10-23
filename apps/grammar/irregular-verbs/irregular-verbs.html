@@ -305,13 +305,38 @@ function getVoice() {
   voice = en[0] || null; return voice;
 }
 if (TTS_OK) { try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => { voice = null; }; } catch (e) {} }
+const IS_IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+let toastT = null;
+function toast(msg) {
+  let t = $('#toast'); if (!t) { t = document.createElement('div'); t.id = 'toast'; t.style.cssText = 'position:fixed;left:50%;bottom:92px;transform:translateX(-50%);max-width:88vw;background:#3a3f5c;color:#fff;font-weight:700;padding:10px 16px;border-radius:14px;z-index:80;text-align:center;font-size:15px'; document.body.appendChild(t); }
+  t.textContent = msg; t.style.display = 'block'; clearTimeout(toastT); toastT = setTimeout(() => { t.style.display = 'none'; }, 4500);
+}
 function speak(text) {
-  if (!TTS_OK) return;
+  if (!TTS_OK) { toast('Máy/trình duyệt này chưa hỗ trợ đọc giọng nói 😢 (hãy thử Chrome, Edge hoặc Safari mới)'); return false; }
   try {
     const ss = speechSynthesis;
-    const go = () => { const u = new SpeechSynthesisUtterance(text); const v = getVoice(); u.lang = v ? v.lang : 'en-GB'; if (v) u.voice = v; u.rate = 0.85; u.pitch = 1; u.volume = 1; ss.speak(u); if (ss.paused) ss.resume(); };
-    if (ss.speaking || ss.pending) { ss.cancel(); setTimeout(go, 80); } else go();
-  } catch (e) {}
+    const go = () => { const u = new SpeechSynthesisUtterance(text); const v = getVoice(); u.lang = v ? v.lang : 'en-GB'; if (v) u.voice = v; u.rate = 0.85; u.pitch = 1; u.volume = 1;
+      u.onerror = e => { if (e && e.error && e.error !== 'interrupted' && e.error !== 'canceled') toast('Không phát được giọng đọc (' + e.error + '). Kiểm tra âm lượng / chế độ im lặng của máy nhé.'); };
+      ss.speak(u); if (ss.paused) ss.resume(); };
+    if (ss.speaking || ss.pending) { ss.cancel(); if (IS_IOS) go(); else setTimeout(go, 80); } else go();
+    return true;
+  } catch (e) { toast('Không phát được giọng đọc: ' + e.message); return false; }
+}
+function audioDiag() {
+  const out = [];
+  out.push(TTS_OK ? '✅ Trình duyệt có hỗ trợ đọc giọng nói' : '❌ Trình duyệt KHÔNG hỗ trợ đọc giọng nói');
+  if (TTS_OK) { let vs = []; try { vs = speechSynthesis.getVoices(); } catch (e) {}
+    const en = vs.filter(v => /^en([-_]|$)/i.test(v.lang));
+    out.push(`Số giọng trong máy: ${vs.length} · giọng tiếng Anh: ${en.length}`);
+    const v = getVoice(); out.push(v ? '🎙 Đang dùng giọng: ' + v.name + ' (' + v.lang + ')' : '⚠️ Chưa tìm thấy giọng tiếng Anh — máy sẽ dùng giọng mặc định (có thể không có tiếng)'); }
+  out.push(store.sound ? '🔊 Âm báo đúng/sai: đang BẬT' : '🔇 Âm báo đúng/sai: đang TẮT');
+  out.push('Nếu vẫn không nghe: tăng âm lượng, tắt chế độ im lặng (iPhone/iPad: gạt công tắc bên hông), thử mở bằng Chrome/Safari.');
+  return out.join('<br>');
+}
+function testSound() {
+  const prev = store.sound; store.sound = true; sfxOk(); store.sound = prev;
+  speak('go, went, gone');
+  const d = $('#diag'); if (d) d.innerHTML = audioDiag();
 }
 const sayV = (v, which) => speak(which === 1 ? v.v1 : which === 2 ? v.v2[0] : which === 3 ? v.v3[0] : [v.v1, v.v2[0], v.v3[0]].join(', '));
 function tone(seq) {
@@ -464,6 +489,9 @@ function settings() {
     <div class="row2">${[10, 20, 30, 0].map(n => `<button class="chip ${store.size === n ? 'on' : ''}" data-act="setSize" data-n="${n}">${n ? n + ' câu' : 'Mỗi từ 1 lần'}</button>`).join('')}</div>
     <div class="lab">Dạng bài cho kiểu “${MODES[store.mode].name}” <span class="muted">(bật/tắt từng dạng, chọn nhiều dạng = Mixed Practice)</span></div>
     <div class="row2">${tys.map(t => `<button class="chip ${isOn(t) ? 'on' : ''}" data-act="setType" data-t="${t}">${TYPES[t].icon} ${TYPES[t].label}</button>`).join('')}</div>
+    <div class="lab">Âm thanh không nghe được?</div>
+    <button class="btn sm" data-act="testSound">🔔 Kiểm tra âm thanh &amp; giọng đọc</button>
+    <div id="diag" class="note" style="margin-top:8px;display:none"></div>
     <div class="lab">Dữ liệu</div>
     <button class="btn sm" data-act="resetProg">🗑 Xoá tiến trình học (từ cần ôn, thống kê)</button>
     <div class="rbtns"><button class="btn pri" data-act="closeOv">Xong</button></div>`);
@@ -831,6 +859,7 @@ document.addEventListener('click', e => {
       store.off[store.mode] = off; save(); settings(); break; }
     case 'resetProg': store.words = {}; save(); closeOv(); refreshSel(); break;
     case 'closeOv': closeOv(); break;
+    case 'testSound': { testSound(); const d = $('#diag'); if (d) { d.style.display = 'block'; d.innerHTML = audioDiag(); } break; }
     case 'mode': store.mode = el.dataset.k; save(); document.querySelectorAll('.mode').forEach(b => b.classList.toggle('on', b.dataset.k === store.mode)); renderBar(); break;
     case 'selAll': { const all = VERBS.every(v => selSet().has(v.id)); setSel(all ? [] : VERBS.map(v => v.id)); refreshSel(); break; }
     case 'selNone': setSel([]); refreshSel(); break;
@@ -869,6 +898,7 @@ document.addEventListener('click', e => {
     case 'again': startQuiz(store.sel.slice()); break;
   }
 });
+document.addEventListener('pointerdown', function prime() { try { if (TTS_OK) speechSynthesis.getVoices(); const C = window.AudioContext || window.webkitAudioContext; if (C) { actx = actx || new C(); if (actx.state === 'suspended') actx.resume(); } } catch (e) {} document.removeEventListener('pointerdown', prime); }, {once: true});
 renderHome();
 window.__iv = {VERBS, store, S, get Q() { return Q; }, startQuiz, build, nextQ, finishQuiz};
 </script>
