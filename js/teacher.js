@@ -604,21 +604,16 @@
       stu.forEach(x => { cb[x.name] = {}; curs.forEach(c => { const ns = cass[c.id]; const on = ns ? ns.some(n => L.sameName(n, x.name)) : true; cb[x.name][c.id] = h("input", { type: "checkbox", style: "width:22px;height:22px", checked: on }); }); });
       const setCol = (cid, v) => stu.forEach(x => cb[x.name][cid].checked = v);
       const setRow = (nm, v) => curs.forEach(c => cb[nm][c.id].checked = v);
-      const th = { style: "padding:6px 4px;text-align:center;position:sticky;top:0;background:var(--card,#fff);z-index:1;font-size:13px;vertical-align:bottom" };
       const mini = "padding:2px 8px;font-size:12px";
-      const head = h("tr", h("th", { style: "text-align:left;padding:8px;position:sticky;left:0;top:0;background:var(--card,#fff);z-index:2" }, "Học viên"));
-      curs.forEach(c => head.append(h("th", th, h("div", nameOf(c)),
-        h("div", { style: "margin-top:4px" },
-          h("button.btn.sm.ghost", { style: mini, title: "Tick cả cột", onclick: () => setCol(c.id, true) }, "Tất cả"), " ",
-          h("button.btn.sm.ghost", { style: mini, title: "Bỏ tick cả cột", onclick: () => setCol(c.id, false) }, "Không")))));
-      const rows = stu.map(x => {
-        const tr = h("tr", { style: "border-top:1px solid var(--line)" },
-          h("td", { style: "padding:6px 8px;font-weight:700;position:sticky;left:0;background:var(--card,#fff)" }, h("div", x.name),
-            h("div", h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, true) }, "Hết"), " ", h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, false) }, "Bỏ"))));
-        curs.forEach(c => tr.append(h("td", { style: "text-align:center;padding:6px" }, cb[x.name][c.id])));
-        return tr;
-      });
-      const table = h("table", { style: "border-collapse:collapse;width:100%;min-width:" + (150 + curs.length * 92) + "px;font-size:14px" }, h("thead", head), h("tbody", rows));
+      /* mỗi em một khối, các giáo trình xếp dọc/đủ hàng → không bị cắt cột trên điện thoại */
+      const blocks = stu.map(x => h("div", { style: "border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:10px" },
+        h("div.row", { style: "margin-bottom:6px" }, h("b", x.name), h("span.grow"),
+          h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, true) }, "Tick hết"), h("button.btn.sm.ghost", { style: mini, onclick: () => setRow(x.name, false) }, "Bỏ hết")),
+        h("div", curs.map(c => h("label.row", { style: "gap:10px;padding:6px 2px;cursor:pointer" }, cb[x.name][c.id], h("span", nameOf(c)))))));
+      const table = h("div", { style: "max-height:65vh;overflow:auto" },
+        h("div.row", { style: "flex-wrap:wrap;margin-bottom:8px;gap:6px" }, h("span.small.muted", "Cả lớp:"), curs.map(c => h("span.row", { style: "gap:4px" }, h("span.small", nameOf(c)),
+          h("button.btn.sm.ghost", { style: mini, title: "Tick giáo trình này cho tất cả các em", onclick: () => setCol(c.id, true) }, "✓ tất cả"), h("button.btn.sm.ghost", { style: mini, onclick: () => setCol(c.id, false) }, "✗")))),
+        blocks);
       const saveBtn = h("button.btn", { onclick: async () => {
         saveBtn.disabled = true; saveBtn.textContent = "Đang lưu…";
         try {
