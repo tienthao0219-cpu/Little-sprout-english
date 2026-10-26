@@ -3643,8 +3643,8 @@ null,
 "hints": {
 "p1": "tent = lều; torch = đèn pin; bat = con dơi; rabbit = con thỏ; car = xe hơi; umbrella = cái ô; backpack = ba lô; hammer = cái búa; kneel = quỳ gối; hold = cầm; ponytail = tóc đuôi ngựa; tent peg = cọc lều; house = ngôi nhà; tree = cây; stand = đứng; window = cửa sổ",
 "p2q": [
-"Is it big or small?",
-"How old is it?",
+"Is Tom's house big or small?",
+"How old is the house?",
 "How many people live there?",
 "Where does Tom do his homework?",
 "What colour is the front door?"
@@ -3653,71 +3653,82 @@ null,
 "p3": "kitchen = nhà bếp; bowl = cái tô; stir = khuấy; bake = nướng bánh; oven = lò nướng; cake = bánh kem; birthday = sinh nhật; candle = nến; balloon = bóng bay; present = quà; surprise = bất ngờ; sleep = ngủ; bed = giường; door = cửa; tiptoe = đi nhón chân"
 },
 "p4": {
-"intro": "Now let's talk about your home.",
+"intro": "Now, let's talk about your school.",
 "qs": [
 {
-"q": "What's your home like?",
-"a": "It's a small flat.",
-"back": "Is your home big or small?"
+"q": "What time do you go to school?",
+"a": "(at) 8 o'clock",
+"back": "Do you go to school at 8 o'clock?"
 },
 {
-"q": "Which is your favourite room?",
-"a": "My bedroom.",
-"back": "Do you like your bedroom?"
+"q": "How do you go to school?",
+"a": "by bus",
+"back": "Do you go by bus?"
 },
 {
-"q": "Who do you share your bedroom with?",
-"a": "My brother.",
-"back": "Do you share your bedroom?"
+"q": "What's your favourite lesson?",
+"a": "English",
+"back": "Do you like English?"
 },
 {
-"q": "What do you do in the living room?",
-"a": "We watch TV.",
-"back": "Do you watch TV in the living room?"
+"q": "What sports do you play at school?",
+"a": "football",
+"back": "Do you play football?"
 },
 {
-"q": "Tell me about your bedroom.",
-"a": "My bedroom's small. I've got a bed, a desk and lots of books. I like it because it's quiet.",
-"back": "What's in your bedroom? Do you like it? Why?"
+"q": "Tell me about your best friend at school.",
+"a": "His/Her name's … He's/She's tall. He/She has short hair.",
+"back": "What's his/her name? Is he/she tall? Does he/she have short hair?"
 }
-],
-"draft": true
+]
 },
 "dif": [
 {
 "b": [
+0.48,
+0.42,
+0.3,
+0.36
+],
+"w": [
+"the car is blue",
+"the car is yellow"
+]
+},
+{
+"b": [
 0.21,
-0.11,
 0.14,
-0.14
+0.13,
+0.12
 ],
 "w": [
-"a bat in a night sky",
-"a butterfly in a day sky"
+"there's a bat above the tent",
+"there's a butterfly above the tent"
 ]
 },
 {
 "b": [
-0.72,
-0.27,
-0.26,
-0.24
+0.84,
+0.74,
+0.14,
+0.22
 ],
 "w": [
-"a house behind the trees",
-"no house (more trees)"
+"the girl is wearing trousers",
+"the girl is wearing a skirt"
 ]
 },
 {
 "b": [
-0.47,
-0.39,
-0.32,
-0.38
+0.8,
+0.61,
+0.16,
+0.12
 ],
 "w": [
-"a blue car",
-"a yellow car"
+"the girl is holding a torch",
+"the girl is holding a flag"
 ]
 },
 {
@@ -3728,44 +3739,20 @@ null,
 0.14
 ],
 "w": [
-"a rabbit in the car",
-"no rabbit"
+"there's a rabbit in the car",
+"there isn't a rabbit in the car"
 ]
 },
 {
 "b": [
-0.81,
-0.58,
-0.11,
-0.15
-],
-"w": [
-"a girl holding a torch",
-"a girl holding a flag"
-]
-},
-{
-"b": [
-0.27,
-0.39,
-0.2,
-0.44
-],
-"w": [
-"a woman walking into the tent",
-"a woman standing and smiling"
-]
-},
-{
-"b": [
-0.41,
-0.51,
+0.28,
+0.4,
 0.16,
-0.38
+0.42
 ],
 "w": [
-"a boy standing and holding an umbrella",
-"a boy sitting down, umbrella on the floor"
+"the woman is going into the tent",
+"the woman is coming out of the tent"
 ]
 }
 ],
@@ -4168,17 +4155,12 @@ null,
 ]
 },
 "story": [
-"Betty stands on a chair in the kitchen. She wants something from the cupboard. Mum is cooking.",
-"Betty falls down. She hurts her leg. Mum is surprised.",
-"Betty has a broken leg. She sits on the bed. Mum helps her.",
-"Betty is sleeping. Her friends come in.",
-"Betty wakes up. Mum and her friends have a cake and presents for her. Betty is very happy."
+"It's Betty's birthday today. Her mother's making a cake. Betty's getting some sugar for the cake. She has to stand on a chair.",
+"Betty has fallen. She has hurt her leg. Betty can't walk. She's going to bed.",
+"She's very sad.",
+"Betty's sleeping. Her friends have come to see her.",
+"Betty's friends are giving her presents. Her mother's bringing the birthday cake. Everyone's enjoying the party."
 ],
-"p3open": {
-"title": "Betty's birthday party",
-"line": "Betty is looking in the cupboard and her mum is making something in a bowl.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Betty = Betty; Mum = mẹ",
@@ -4201,7 +4183,7 @@ null,
 {
 "s": "Betty = Betty; her friends = bạn của Betty",
 "l": "in the bedroom = trong phòng ngủ; at the door = ở cửa; in bed = trên giường",
-"v": "sleep = ngủ; walk in quietly = đi vào nhẹ nhàng; look = nhìn",
+"v": "sleep = ngủ; walk in = đi vào; look = nhìn",
 "f": "excited = hào hứng; tired = mệt"
 },
 {
@@ -4210,7 +4192,123 @@ null,
 "v": "hold a cake = cầm bánh; open a present = mở quà; hold a balloon = cầm bóng bay; say happy birthday = chúc mừng sinh nhật",
 "f": "happy = vui; surprised = ngạc nhiên"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture there are two trees, but in your picture there are three.",
+"items": [
+{
+"ex": "In my picture, the car is blue.",
+"cand": "In my picture, it's yellow.",
+"back": "What colour is the car?"
+},
+{
+"ex": "In my picture, there's a bat above the tent.",
+"cand": "In my picture, there's a butterfly above the tent.",
+"back": "Is there a bat above the tent?"
+},
+{
+"ex": "In my picture, the girl's wearing trousers.",
+"cand": "In my picture, the girl's wearing a skirt.",
+"back": "Is the girl wearing trousers?"
+},
+{
+"ex": "In my picture, the girl's holding a torch/flashlight.",
+"cand": "In my picture, she's holding a flag.",
+"back": "What's the girl holding?"
+},
+{
+"ex": "In my picture, there's a rabbit in the car.",
+"cand": "In my picture, there isn't a rabbit in the car.",
+"back": "Is there a rabbit in the car?"
+},
+{
+"ex": "In my picture, the woman's going into the tent.",
+"cand": "In my picture, the woman's coming out of the tent.",
+"back": "Is the woman going into the tent?"
+}
 ]
+},
+"p2": {
+"intro": "Mary's house and Tom's house are in this street. I don't know anything about Mary's house, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "Mary's house",
+"qa": [
+[
+"How many people live in Mary's house?",
+"8 (people)"
+],
+[
+"How old is the house?",
+"5 years old"
+],
+[
+"Is Mary's house big or small?",
+"(It's) big"
+],
+[
+"What colour is the front door?",
+"(It's) blue"
+],
+[
+"Where does Mary do her homework?",
+"(in her) bedroom"
+]
+]
+},
+"candidateAsks": {
+"title": "Tom's house",
+"qa": [
+[
+"Is Tom's house big or small?",
+"It's small"
+],
+[
+"How old is the house?",
+"100 years old"
+],
+[
+"How many people live there?",
+"4 people"
+],
+[
+"Where does Tom do his homework?",
+"in the dining room"
+],
+[
+"What colour is the front door?",
+"It's white"
+]
+]
+}
+},
+"p3": {
+"title": "Betty's birthday party",
+"intro": "It's Betty's birthday today. Her mother's making a cake. Betty's getting some sugar for the cake. She has to stand on a chair.",
+"pics": [
+{
+"n": 2,
+"say": "Betty has fallen. She has hurt her leg. Betty can't walk. She's going to bed.",
+"back": "What has happened? What has Betty hurt? Why is Betty going to bed?"
+},
+{
+"n": 3,
+"say": "She's very sad.",
+"back": "How is she feeling?"
+},
+{
+"n": 4,
+"say": "Betty's sleeping. Her friends have come to see her.",
+"back": "What is Betty doing now? Who has come to see her?"
+},
+{
+"n": 5,
+"say": "Betty's friends are giving her presents. Her mother's bringing the birthday cake. Everyone's enjoying the party.",
+"back": "What are Betty's friends giving her? What's her mother bringing? Is it a good party?"
+}
+]
+}
+}
 },
 {
 "id": "cam1-t2",
@@ -4221,117 +4319,116 @@ null,
 "hints": {
 "p1": "castle = lâu đài; octopus = con bạch tuộc; elephant = con voi; swan = thiên nga; camel = con lạc đà; train = tàu hỏa; clown = chú hề; striped tent = lều sọc; ice cream stall = quầy kem; pond = cái ao; palm tree = cây cọ; plane = máy bay; ride = trò chơi / cưỡi; sit = ngồi; funfair = công viên giải trí; flag = lá cờ",
 "p2q": [
-"What's the magazine called?",
+"What's the name of the magazine?",
 "What's it about?",
 "Is it expensive?",
-"What day does she get the magazine?",
-"Who buys it?"
+"What day does Emma get the magazine?",
+"Who buys the magazine for Emma?"
 ],
 "p2w": "magazine = tạp chí; about = nói về; music / animals / sport / fashion = âm nhạc / động vật / thể thao / thời trang; expensive / cheap = đắt / rẻ; Friday / Tuesday = thứ Sáu / thứ Ba; father / mother / brother = ba / mẹ / anh (em) trai",
 "p3": "key = chìa khóa; lost = bị mất; bag = túi xách; door = cửa ra vào; window = cửa sổ; climb = trèo; open = mở; knock = gõ cửa; laugh = cười; shopping = đi mua sắm; worried = lo lắng; surprised = ngạc nhiên; home = nhà; wait = chờ; find = tìm thấy"
 },
 "p4": {
-"intro": "Now let's talk about your family.",
+"intro": "Now let's talk about the things you do.",
 "qs": [
 {
-"q": "How many people are there in your family?",
-"a": "Four.",
-"back": "Are there four people in your family?"
+"q": "What do you do in the morning before school?",
+"a": "have breakfast",
+"back": "Do you have breakfast?"
 },
 {
-"q": "Who do you live with?",
-"a": "My mum, my dad and my sister.",
-"back": "Do you live with your grandparents?"
+"q": "Where do you play after school?",
+"a": "(in the) park",
+"back": "Do you play in the park?"
 },
 {
-"q": "What does your mum do?",
-"a": "She's a nurse.",
-"back": "Is your mum a teacher?"
+"q": "What do you like doing at weekends?",
+"a": "shopping",
+"back": "Do you like shopping?"
 },
 {
-"q": "How often do you see your grandparents?",
-"a": "Every weekend.",
-"back": "Do you see your grandparents every weekend?"
+"q": "What are your hobbies?",
+"a": "computer games",
+"back": "Do you play computer games?"
 },
 {
-"q": "Tell me about your brother or sister.",
-"a": "My sister's eight. She likes drawing. We play games together.",
-"back": "How old is he / she? What does he / she like? What do you do together?"
+"q": "Tell me about the things you do in the evenings.",
+"a": "I watch TV. I do my homework. I go to bed at nine o'clock.",
+"back": "Do you watch TV? Do you do your homework? What time do you go to bed?"
 }
-],
-"draft": true
+]
 },
 "dif": [
 {
 "b": [
-0.71,
-0.41,
-0.26,
-0.4
+0.72,
+0.5,
+0.21,
+0.38
 ],
 "w": [
-"red and white striped tent",
-"red tent with white spots"
+"there are stripes on the tent",
+"there are spots on the tent"
 ]
 },
 {
 "b": [
-0.15,
+0.0,
+0.46,
+0.36,
+0.38
+],
+"w": [
+"there are four planes",
+"there are five planes"
+]
+},
+{
+"b": [
+0.8,
+0.1,
+0.17,
+0.38
+],
+"w": [
+"the man with the white hat is selling ice-cream",
+"the man with the white hat is selling burgers"
+]
+},
+{
+"b": [
+0.7,
+0.08,
+0.16,
+0.15
+],
+"w": [
+"the elephant is behind the trees",
+"the elephant is in front of the trees"
+]
+},
+{
+"b": [
+0.48,
+0.64,
 0.2,
-0.19,
-0.37
+0.32
 ],
 "w": [
-"an orange train",
-"a purple train"
+"the woman with the umbrella is talking to a girl",
+"the woman with the umbrella is talking to a boy"
 ]
 },
 {
 "b": [
-0.49,
-0.12,
-0.19,
-0.11
-],
-"w": [
-"octopus with a hat",
-"octopus without a hat"
-]
-},
-{
-"b": [
-0.33,
-0.29,
-0.09,
-0.17
-],
-"w": [
-"a swan on the island",
-"no swan on the island"
-]
-},
-{
-"b": [
-0.85,
-0.07,
-0.12,
-0.17
-],
-"w": [
-"an ice cream sign",
-"a hamburger sign"
-]
-},
-{
-"b": [
-0.01,
-0.47,
+0.3,
+0.3,
 0.14,
 0.18
 ],
 "w": [
-"boy in an orange top on the plane",
-"boy in a yellow striped top on the plane"
+"there's a swan on the island",
+"there isn't a swan on the island"
 ]
 }
 ],
@@ -4667,17 +4764,12 @@ null,
 ]
 },
 "story": [
-"Sarah and Mum are at the door. Mum looks for the key in her bag. She can't find it.",
-"Sarah has an idea. The window is open.",
-"Mum helps Sarah climb through the window.",
-"Sarah opens the door from the inside. Mum is happy.",
-"Mum finds the key in her pocket. They laugh."
+"Sarah and her mum have come home from the shops. Mum is looking for the front door key.",
+"Mum can't find her key. Sarah's saying, 'Look! That window's open.'",
+"Sarah's climbing in the window.",
+"Sarah's opening the door.",
+"Mum has found the key. It was in her pocket. Sarah and her mum are laughing."
 ],
-"p3open": {
-"title": "The key",
-"line": "Sarah and her mum are at the front door with their shopping bags. Mum looks worried because she can't find the key.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Sarah = Sarah; Mum = mẹ",
@@ -4709,7 +4801,123 @@ null,
 "v": "find the key = tìm thấy chìa khóa; laugh = cười lớn; hold the key = cầm chìa khóa",
 "f": "surprised = ngạc nhiên; happy = vui"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture the camel's got a short tail, but in your picture it's got a long tail.",
+"items": [
+{
+"ex": "In my picture, there are stripes on the tent.",
+"cand": "In my picture, there are spots on the tent.",
+"back": "Are there stripes on the tent?"
+},
+{
+"ex": "In my picture, there are four planes.",
+"cand": "In my picture, there are five planes.",
+"back": "How many planes are there?"
+},
+{
+"ex": "In my picture, I can see a man with a white hat. He's selling ice-cream.",
+"cand": "In my picture, the man with the white hat is selling burgers.",
+"back": "What's the man with the white hat selling?"
+},
+{
+"ex": "In my picture, the elephant is behind the trees.",
+"cand": "In my picture, the elephant is in front of the trees.",
+"back": "Where's the elephant?"
+},
+{
+"ex": "In my picture, the woman with the umbrella is talking to a girl.",
+"cand": "In my picture, the woman with the umbrella is talking to a boy.",
+"back": "Who's the woman with the umbrella talking to?"
+},
+{
+"ex": "In my picture, there's a swan on the island.",
+"cand": "In my picture, there isn't a swan on the island.",
+"back": "Is there a swan on the island?"
+}
 ]
+},
+"p2": {
+"intro": "Charlie and Emma get a magazine every week. I don't know anything about Charlie's magazine, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "Charlie's magazine",
+"qa": [
+[
+"What day does Charlie get the magazine?",
+"(on) Tuesday"
+],
+[
+"What's the name of the magazine?",
+"Our Planet"
+],
+[
+"Who buys the magazine for Charlie?",
+"(his) mother"
+],
+[
+"Is it expensive?",
+"yes"
+],
+[
+"What's it about?",
+"animals"
+]
+]
+},
+"candidateAsks": {
+"title": "Emma's magazine",
+"qa": [
+[
+"What's the name of the magazine?",
+"New Faces"
+],
+[
+"What's it about?",
+"music"
+],
+[
+"Is it expensive?",
+"No, it isn't"
+],
+[
+"What day does Emma get the magazine?",
+"on Friday"
+],
+[
+"Who buys the magazine for Emma?",
+"her father"
+]
+]
+}
+},
+"p3": {
+"title": "The key",
+"intro": "Sarah and her mum have come home from the shops. Mum is looking for the front door key.",
+"pics": [
+{
+"n": 2,
+"say": "Mum can't find her key. Sarah's saying, 'Look! That window's open.'",
+"back": "Can Mum find the key? What's Sarah saying?"
+},
+{
+"n": 3,
+"say": "Sarah's climbing in the window.",
+"back": "What's Sarah doing now?"
+},
+{
+"n": 4,
+"say": "Sarah's opening the door.",
+"back": "And what's Sarah doing now?"
+},
+{
+"n": 5,
+"say": "Mum has found the key. It was in her pocket. Sarah and her mum are laughing.",
+"back": "Why are they laughing?"
+}
+]
+}
+}
 },
 {
 "id": "cam1-t3",
@@ -4720,141 +4928,116 @@ null,
 "hints": {
 "p1": "monkey = con khỉ; parrot = con vẹt; palm tree = cây cọ; river = dòng sông; jeep = xe jeep; umbrella = cái ô; picnic blanket = khăn trải picnic; ducklings = vịt con; dog = con chó; life jacket = áo phao; splash = té nước; take a photo = chụp ảnh; sunglasses = kính râm; banana = quả chuối; paddle = lội nước",
 "p2q": [
-"What's the school called?",
+"What's the name of David's school?",
 "Where is it?",
-"How many children are there?",
+"How many children study there?",
 "What time does school start?",
-"What sport do they play?"
+"What sport does David play there?"
 ],
 "p2w": "school = trường học; near the cinema / behind the park / next to the post office = gần rạp phim / sau công viên / cạnh bưu điện; children = trẻ em; start at = bắt đầu lúc; basketball / tennis / football = bóng rổ / quần vợt / bóng đá",
 "p3": "picnic table = bàn picnic; read a book = đọc sách; elephant = con voi; trunk = vòi voi; fruit = trái cây; feed = cho ăn; hungry = đói; lorry = xe tải; circus = rạp xiếc; trainer = người huấn luyện; hat = cái mũ; stage = sân khấu; surprised = ngạc nhiên; hide = trốn; ball = quả bóng"
 },
 "p4": {
-"intro": "Now let's talk about your hobbies.",
+"intro": "Now let's talk about your holidays.",
 "qs": [
 {
-"q": "What do you like doing in your free time?",
-"a": "Reading comics.",
-"back": "Do you like reading?"
+"q": "When do you have holidays?",
+"a": "(in the) summer",
+"back": "Do you have holidays in the summer?"
 },
 {
-"q": "Do you have a hobby?",
-"a": "Yes, I collect stickers.",
-"back": "Do you collect anything?"
+"q": "Where do you like to go on holiday?",
+"a": "(to the) beach",
+"back": "Do you like going to the beach?"
 },
 {
-"q": "Who do you do your hobby with?",
-"a": "My cousin.",
-"back": "Do you do it with your friends?"
+"q": "What do you like doing on holiday?",
+"a": "swimming",
+"back": "Do you like swimming?"
 },
 {
-"q": "How often do you do your hobby?",
-"a": "Every Sunday.",
-"back": "Do you do it every day?"
+"q": "Who do you go on holiday with?",
+"a": "my family",
+"back": "Do you go with your family?"
 },
 {
-"q": "Tell me about your favourite hobby.",
-"a": "I love painting. I paint animals and flowers. I usually paint on Saturday afternoons.",
-"back": "What do you like doing? What do you paint? When do you do it?"
+"q": "Tell me about your last holiday.",
+"a": "We went to the mountains. I went skiing. I had fun.",
+"back": "Where did you go last holiday? What did you do? Did you have fun?"
 }
-],
-"draft": true
+]
 },
 "dif": [
 {
 "b": [
-0.59,
-0.01,
-0.24,
-0.16
-],
-"w": [
-"two parrots",
-"two butterflies"
-]
-},
-{
-"b": [
-0.02,
-0.04,
-0.23,
-0.19
-],
-"w": [
-"two monkeys in the palm tree",
-"two monkeys on the grass"
-]
-},
-{
-"b": [
+0.8,
+0.4,
 0.16,
-0.38,
-0.16,
-0.16
+0.22
 ],
 "w": [
-"a boy with a yellow helmet",
-"a boy without a helmet"
+"the man's wearing red shorts",
+"the man's wearing white shorts"
 ]
 },
 {
 "b": [
-0.56,
-0.39,
+0.6,
+0.03,
+0.22,
+0.14
+],
+"w": [
+"two parrots are flying in the sky",
+"two butterflies are flying in the sky"
+]
+},
+{
+"b": [
+0.18,
+0.42,
 0.2,
 0.3
 ],
 "w": [
-"woman in a dress with spots",
-"woman in a dress with stripes"
+"the boy in the water has got a rucksack on his back",
+"the boy in the water hasn't got a rucksack"
 ]
 },
 {
 "b": [
-0.75,
-0.44,
-0.18,
-0.22
+0.58,
+0.14,
+0.38,
+0.3
 ],
 "w": [
-"man in red shorts",
-"man in white shorts"
+"the car doors are open",
+"the car doors are closed"
 ]
 },
 {
 "b": [
-0.5,
-0.61,
-0.13,
-0.22
+0.52,
+0.74,
+0.12,
+0.12
 ],
 "w": [
-"a girl talking on the phone",
-"a girl taking a photo"
+"there's a frog in the girl's pocket",
+"there's a mouse in the girl's pocket"
 ]
 },
 {
 "b": [
-0.28,
-0.86,
-0.15,
-0.1
+0.6,
+0.4,
+0.14,
+0.24
 ],
 "w": [
-"white swans",
-"brown ducks"
-]
-},
-{
-"b": [
-0.65,
-0.24,
-0.2,
-0.25
-],
-"w": [
-"an open umbrella",
-"a closed umbrella"
+"the woman is wearing a spotted dress",
+"the woman is wearing a striped dress"
 ]
 }
 ],
@@ -5256,17 +5439,12 @@ null,
 ]
 },
 "story": [
-"Charlie eats an apple in the garden. Mum reads a book.",
-"An elephant comes to the garden. Charlie and Mum are surprised.",
-"Charlie gives a banana to the elephant. The elephant is happy.",
-"A circus man takes the elephant to the truck. Charlie and Mum wave.",
-"Charlie and Mum go to the circus. They watch the elephant and clap."
+"Charlie's in the garden with his mother. He's eating some fruit and his mother's reading a book.",
+"Charlie can see an elephant. It's coming into the garden.",
+"Charlie is giving the elephant a banana. The elephant likes bananas.",
+"A man from the circus has come to get the elephant.",
+"Charlie and his mother are watching the elephant in the circus. They're very happy."
 ],
-"p3open": {
-"title": "Charlie and the elephant",
-"line": "Charlie and his mum are in the garden. Mum is reading a book and Charlie is eating an apple.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Charlie = Charlie; Mum = mẹ",
@@ -5298,7 +5476,123 @@ null,
 "v": "watch = xem; clap = vỗ tay; stand on a ball = đứng trên quả bóng",
 "f": "excited = hào hứng; happy = vui"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture there are three banana trees, but in your picture there are four.",
+"items": [
+{
+"ex": "In my picture, the man's wearing red shorts.",
+"cand": "In my picture, he's wearing white shorts.",
+"back": "What colour are the man's shorts?"
+},
+{
+"ex": "In my picture, two parrots are flying in the sky.",
+"cand": "In my picture, two butterflies are flying in the sky.",
+"back": "What's flying in the sky?"
+},
+{
+"ex": "In my picture, the boy in the water has got a rucksack on his back.",
+"cand": "In my picture, the boy hasn't got a rucksack.",
+"back": "Has the boy got a rucksack on his back?"
+},
+{
+"ex": "In my picture, the car doors are open.",
+"cand": "In my picture, the car doors are closed.",
+"back": "Are the car doors open?"
+},
+{
+"ex": "In my picture, there's a frog in the girl's pocket.",
+"cand": "In my picture, there's a mouse in the girl's pocket.",
+"back": "What's in the girl's pocket?"
+},
+{
+"ex": "In my picture, the woman is wearing a spotted dress.",
+"cand": "In my picture, she's wearing a striped dress.",
+"back": "Is the woman wearing a spotted dress?"
+}
 ]
+},
+"p2": {
+"intro": "Betty and David go to different schools. I don't know anything about Betty's school, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "Betty's school",
+"qa": [
+[
+"What's the name of Betty's school?",
+"Park School"
+],
+[
+"What time does school start?",
+"(at) 8.30"
+],
+[
+"How many children study there?",
+"500"
+],
+[
+"What sport does Betty play there?",
+"tennis"
+],
+[
+"Where's the school?",
+"(It's) near the post office"
+]
+]
+},
+"candidateAsks": {
+"title": "David's school",
+"qa": [
+[
+"What's the name of David's school?",
+"Greenhill School"
+],
+[
+"Where is it?",
+"It's behind the cinema"
+],
+[
+"How many children study there?",
+"450"
+],
+[
+"What time does school start?",
+"at 9 o'clock"
+],
+[
+"What sport does David play there?",
+"basketball"
+]
+]
+}
+},
+"p3": {
+"title": "Charlie and the elephant",
+"intro": "Charlie's in the garden with his mother. He's eating some fruit and his mother's reading a book.",
+"pics": [
+{
+"n": 2,
+"say": "Charlie can see an elephant. It's coming into the garden.",
+"back": "What can Charlie see?"
+},
+{
+"n": 3,
+"say": "Charlie is giving the elephant a banana. The elephant likes bananas.",
+"back": "What is Charlie giving the elephant? Does the elephant like bananas?"
+},
+{
+"n": 4,
+"say": "A man from the circus has come to get the elephant.",
+"back": "Who has come to the house?"
+},
+{
+"n": 5,
+"say": "Charlie and his mother are watching the elephant in the circus. They're very happy.",
+"back": "Where are Charlie and his mother? What are they watching?"
+}
+]
+}
+}
 },
 {
 "id": "cam2-t1",
