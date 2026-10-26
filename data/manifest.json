@@ -8,6 +8,10 @@
       "tint": 0,
       "units": [
         {
+          "id": "speaking",
+          "name": "SPEAKING"
+        },
+        {
           "id": "unit-1-143s",
           "name": "UNIT 1"
         },
@@ -769,6 +773,16 @@
       "kind": "app",
       "desc": "Luyện nói Flyers: Part 1–2 hai hình song song, Part 3 xoay ngang, Part 4 câu hỏi; có hint từ vựng",
       "added": "2026-10-26T03:30:00.000Z"
+    },
+    {
+      "id": "starters-speaking-test",
+      "title": "Starters Speaking – bản xem trước (Test 1)",
+      "cur": "starters",
+      "unit": "speaking",
+      "file": "apps/starters/speaking/speaking.html",
+      "kind": "app",
+      "desc": "Luyện nói Starters như thi thật: cô giám khảo hỏi, em chạm tranh, đặt thẻ, lật thẻ; có sao và sticker sưu tầm",
+      "added": "2026-10-26T12:00:00.000Z"
     }
   ]
 }
