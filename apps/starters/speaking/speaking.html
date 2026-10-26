@@ -475,7 +475,7 @@ function scoreVoice(v){let sc=0;const n=v.name+' '+v.lang;
 function pickVoice(){const vs=enVoices();if(!vs.length)return null;
   if(S.voice){const f=vs.find(v=>v.name===S.voice);if(f)return f}
   return vs.slice().sort((a,b)=>scoreVoice(b)-scoreVoice(a))[0]}
-let spkTimer=null,curAudio=null;
+let spkTimer=null,curAudio=null,spkU=null;   // spkU: giữ tham chiếu để Chrome không thu hồi giọng đọc giữa chừng
 function cleanSay(t){return String(t||'').replace(/\([^)]*\)/g,'').replace(/[“”]/g,'"').replace(/\s+/g,' ').trim()}
 function speak(t){
   if(!S.sound||!t)return;t=cleanSay(t);if(!t)return;
@@ -483,10 +483,18 @@ function speak(t){
   const file=(D.audio||{})[t];                       // có file thu sẵn (mp3) cho câu này thì ưu tiên dùng
   if(file){try{curAudio=new Audio(A(file));curAudio.play().catch(()=>{});return}catch(e){}}
   if(!('speechSynthesis' in window))return;
-  spkTimer=setTimeout(()=>{try{const u=new SpeechSynthesisUtterance(t),v=pickVoice();
-    u.lang=v?v.lang:'en-GB';if(v)u.voice=v;u.rate=S.rate;u.pitch=1;u.volume=1;speechSynthesis.speak(u)}catch(e){}},70);
+  spkTimer=setTimeout(()=>{try{                    // chờ một nhịp sau cancel(): Chrome/Safari hay im lặng nếu speak() ngay
+    if(speechSynthesis.paused)speechSynthesis.resume();
+    const u=new SpeechSynthesisUtterance(t),v=pickVoice();
+    u.lang=v?v.lang:'en-GB';if(v)u.voice=v;u.rate=S.rate;u.pitch=1;u.volume=1;
+    u.onend=u.onerror=()=>{if(spkU===u)spkU=null};
+    spkU=u;speechSynthesis.speak(u)}catch(e){}},90);
 }
-function stopSpeak(){clearTimeout(spkTimer);try{if(curAudio){curAudio.pause();curAudio=null}}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+function stopSpeak(){clearTimeout(spkTimer);spkU=null;try{if(curAudio){curAudio.pause();curAudio=null}}catch(e){}try{speechSynthesis.cancel()}catch(e){}}
+/* mở khoá âm thanh ở lần chạm đầu tiên (iPad/Safari) và khi quay lại tab */
+function unlockAudio(){try{audioCtx();if('speechSynthesis' in window&&speechSynthesis.paused)speechSynthesis.resume()}catch(e){}}
+['pointerdown','keydown','touchend'].forEach(ev=>document.addEventListener(ev,unlockAudio,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSpeak();else unlockAudio()});
 function voiceDialog(){
   const vs=enVoices().slice().sort((a,b)=>scoreVoice(b)-scoreVoice(a));
   const auto=pickVoice();
