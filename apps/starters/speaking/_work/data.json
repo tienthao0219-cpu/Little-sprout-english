@@ -216,8 +216,7 @@
       "vi": "Chiếc xe ô tô ở đâu?",
       "hints": [
        "Look at the street. Where is the car?",
-       "Is this the car?",
-       "Here's the car! Point to the car."
+       "Is this the car?"
       ]
      },
      {
@@ -227,8 +226,7 @@
       "vi": "Những em bé ở đâu?",
       "hints": [
        "Look at the park. Where are the children?",
-       "Are these the children?",
-       "Here are the children! Point to the children."
+       "Are these the children?"
       ]
      }
     ],
@@ -255,8 +253,7 @@
        "vi": "Thẻ nào là cây đàn guitar?",
        "hints": [
         "Look at the cards. Which one is the guitar?",
-        "Is this the guitar?",
-        "This is the guitar. Touch the guitar."
+        "Is this the guitar?"
        ]
       },
       "demo": {
@@ -271,8 +268,7 @@
        "vi": "Bây giờ em đặt cây đàn dưới những chú chim.",
        "hints": [
         "Look at the birds. Where are the birds?",
-        "Where are the birds? Under the birds.",
-        "Put the guitar here. (the pink box)"
+        "Where are the birds? Under the birds."
        ]
       }
      },
@@ -284,8 +280,7 @@
        "vi": "Thẻ nào là con dê?",
        "hints": [
         "Look at the cards. Which one is the goat?",
-        "Is this the goat?",
-        "This is the goat. Touch the goat."
+        "Is this the goat?"
        ]
       },
       "place": {
@@ -295,8 +290,7 @@
        "vi": "Bây giờ đặt con dê vào giữa con chó và em bé.",
        "hints": [
         "Look at the dog. Look at the baby.",
-        "Where are the dog and the baby? Between the dog and the baby.",
-        "Put the goat here. (the pink box)"
+        "Where are the dog and the baby? Between the dog and the baby."
        ]
       }
      }
@@ -313,8 +307,7 @@
      "vi": "Đây là gì?",
      "hints": [
       "Is it a flower?",
-      "Is it a flower or a tree?",
-      "It's a flower. Say: flower."
+      "Is it a flower or a tree?"
      ]
     },
     {
@@ -327,8 +320,7 @@
      "vi": "Nó màu gì?",
      "hints": [
       "Is it blue or yellow?",
-      "Look at the flower. Is it red or blue? Is it yellow or green?",
-      "It's red and yellow. Say: red and yellow."
+      "Look at the flower. Is it red or blue? Is it yellow or green?"
      ]
     },
     {
@@ -341,8 +333,7 @@
      "vi": "Có bao nhiêu bông hoa?",
      "hints": [
       "Are there one or two?",
-      "Let's count. One, two, three … How many flowers?",
-      "There are five flowers. Say: five."
+      "Let's count. One, two, three … How many flowers?"
      ]
     },
     {
@@ -355,8 +346,7 @@
      "vi": "Em bé đang làm gì?",
      "hints": [
       "Is the baby sleeping?",
-      "Look at the baby. Is the baby sleeping or running?",
-      "The baby is sleeping. Say: sleeping."
+      "Look at the baby. Is the baby sleeping or running?"
      ]
     },
     {
@@ -370,8 +360,7 @@
      "vi": "Hãy nói về người đàn ông.",
      "hints": [
       "Is he sleeping?",
-      "Look at the man. Is he sitting or standing?",
-      "He's sitting. Say: He's sitting."
+      "Look at the man. Is he sitting or standing?"
      ]
     }
    ],
@@ -388,8 +377,7 @@
        "vi": "Đây là gì?",
        "hints": [
         "Is it a jacket?",
-        "Is it a jacket or a hat?",
-        "It's a jacket. Say: jacket."
+        "Is it a jacket or a hat?"
        ]
       },
       {
@@ -401,8 +389,7 @@
        "vi": "Nó màu gì?",
        "hints": [
         "Is it grey?",
-        "Is it grey or pink?",
-        "It's grey. Say: grey."
+        "Is it grey or pink?"
        ]
       },
       {
@@ -415,8 +402,7 @@
        "free": true,
        "hints": [
         "Yes or no? Do you wear a jacket to school?",
-        "Do you wear a jacket when it's cold?",
-        "Say: Yes, I do. / No, I don't."
+        "Do you wear a jacket when it's cold?"
        ]
       }
      ]
@@ -433,8 +419,7 @@
        "vi": "Đây là gì?",
        "hints": [
         "Is it an apple?",
-        "Is it an apple or a banana?",
-        "It's an apple. Say: apple."
+        "Is it an apple or a banana?"
        ]
       },
       {
@@ -447,8 +432,7 @@
        "free": true,
        "hints": [
         "Yes or no? Do you eat apples?",
-        "Do you like apples?",
-        "Say: Yes, I do. / No, I don't."
+        "Do you like apples?"
        ]
       },
       {
@@ -461,8 +445,7 @@
        "free": true,
        "hints": [
         "Do you eat cereal?",
-        "Do you eat bread or rice for breakfast?",
-        "Say: I eat bread. / I eat rice."
+        "Do you eat bread or rice for breakfast?"
        ]
       }
      ]
@@ -479,8 +462,7 @@
        "vi": "Đây là gì?",
        "hints": [
         "Is it a frog?",
-        "Is it a frog or a fish?",
-        "It's a frog. Say: frog."
+        "Is it a frog or a fish?"
        ]
       },
       {
@@ -493,8 +475,7 @@
        "free": true,
        "hints": [
         "Yes or no? Do you like frogs?",
-        "Do you like frogs? Is it a yes, or a no?",
-        "Say: Yes, I do. / No, I don't."
+        "Do you like frogs? Is it a yes, or a no?"
        ]
       },
       {
@@ -507,8 +488,7 @@
        "free": true,
        "hints": [
         "Do you like cats?",
-        "Do you like dogs or cats?",
-        "Say: I like cats. / I like dogs."
+        "Do you like dogs or cats?"
        ]
       }
      ]
@@ -526,8 +506,7 @@
        "vi": "Đây là gì?",
        "hints": [
         "Is it a ball?",
-        "Is it a ball or a book?",
-        "It's a ball. Say: ball."
+        "Is it a ball or a book?"
        ]
       },
       {
@@ -540,8 +519,7 @@
        "free": true,
        "hints": [
         "Yes or no? Have you got a ball?",
-        "Have you got a ball at home?",
-        "Say: Yes, I have. / No, I haven't."
+        "Have you got a ball at home?"
        ]
       },
       {
@@ -555,8 +533,7 @@
        "alt": "What games do you play at school?",
        "hints": [
         "Do you play football?",
-        "Do you play football or basketball?",
-        "Say: I play football. / I play basketball."
+        "Do you play football or basketball?"
        ]
       }
      ]
@@ -573,22 +550,21 @@
      "free": true,
      "hints": [
       "Is your friend's name Mary?",
-      "Is your friend a boy or a girl? What's his or her name?",
-      "Say: His name's … / Her name's …"
+      "Think of your best friend. What's your friend's name?"
      ]
     },
     {
-     "say": "How old is he / she?",
+     "say": "How old is your friend?",
      "ans": [
       "10"
      ],
-     "back": "Is he / she 8?",
-     "vi": "Bạn ấy bao nhiêu tuổi?",
+     "back": "Is your friend 8?",
+     "vi": "Bạn của em bao nhiêu tuổi?",
      "free": true,
+     "note": "Sách ghi “How old is he / she?”. Đã đổi thành “your friend” cho học sinh dễ hiểu. Claude đã chỉnh, không phải nguyên văn sách.",
      "hints": [
-      "Is he / she 8?",
-      "Is he / she 8, 9 or 10?",
-      "Say: He's nine. / She's nine."
+      "Is your friend 8?",
+      "Is your friend 8, 9 or 10?"
      ]
     },
     {
@@ -597,12 +573,11 @@
       "School"
      ],
      "back": "Do you go to the park?",
-     "vi": "Em đi đâu cùng bạn?",
+     "vi": "Em cùng bạn đi đâu?",
      "free": true,
      "hints": [
       "Do you go to the park?",
-      "Do you go to the park or to school?",
-      "Say: I go to school. / I go to the park."
+      "Do you go to the park or to school with your friend?"
      ]
     }
    ],

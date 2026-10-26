@@ -331,7 +331,7 @@ body{background:
 .fliphint{background:var(--pd);color:#fff}
 .chip{border-width:3px;border-radius:18px}
 .slot{border-radius:18px;background:rgba(255,255,255,.7)}
-.trayhd{font-size:17px}
+.trayhd{font-size:17px;display:flex;align-items:center;gap:6px}
 
 /* --- màn khen --- */
 .burst{position:relative;display:grid;place-items:center;width:min(66vw,290px,34vh);aspect-ratio:1;margin:4px auto}
@@ -360,6 +360,39 @@ body{background:
 .tsub{color:var(--soft);font-weight:700;font-size:17px}
 @media (max-width:640px){.hero2 .mascot{--mh:150px}}
 @media (max-width:480px){.btn{font-size:18px;padding:0 16px;min-height:54px}.acts .btn{flex:1 1 130px}.hero2 h1{font-size:40px}}
+
+
+/* --- thanh bar đồng bộ với website (logo viền trắng + bóng hồng, ô icon bo tròn, icon SVG phẳng) --- */
+.slogo img{width:44px;height:44px;border:0;background:var(--rose);object-position:50% 20%;box-shadow:0 0 0 3px #fff,0 4px 12px rgba(222,84,129,.2)}
+.ni{min-width:58px;padding:5px 10px;border-radius:16px;gap:1px}
+.ni .nico{width:34px;height:34px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.85);box-shadow:0 4px 10px rgba(140,110,200,.18),inset 0 0 0 1.5px #fff;transition:transform .2s;font-size:inherit;line-height:0}
+.ni .nico svg{width:24px;height:24px}
+.ni .nlab{font-size:11.5px;font-weight:800}
+.ni.on{background:rgba(255,255,255,.7);box-shadow:0 4px 14px rgba(140,110,200,.2);color:var(--ink)}
+.ni.on .nico{background:linear-gradient(135deg,#FFE3EE,#E3D6FF)}
+@media (hover:hover){.ni:hover .nico{transform:translateY(-2px) rotate(-6deg)}}
+.ni:active .nico{transform:translateY(2px)}
+@media (max-width:640px){.ni{min-width:50px;padding:4px 6px}.ni .nico{width:30px;height:30px}.ni .nico svg{width:21px;height:21px}}
+.ic{display:inline-grid;place-items:center;line-height:0;vertical-align:middle;flex:none}
+.ic svg{width:1.3em;height:1.3em;display:block}
+.ic.sm svg{width:26px;height:26px}.ic.xs svg{width:17px;height:17px}
+.node .ic svg{width:27px;height:27px}
+.ptag{gap:6px}.ptag .ic svg{width:28px;height:28px}
+.pico .ic svg{width:42px;height:42px}
+.btn .ic svg{width:28px;height:28px}
+.spk .ic svg{width:30px;height:30px}
+.hbadge{display:flex;align-items:center;gap:4px;width:max-content}
+/* nút loa trên flashcard */
+.fspk{position:absolute;right:12px;top:12px;z-index:5;width:54px;height:54px;border-radius:50%;background:#fff;border:3px solid var(--pc);box-shadow:0 6px 14px rgba(43,53,80,.18);display:grid;place-items:center;line-height:0;transition:transform .12s}
+.fspk svg{width:30px;height:30px}
+.fspk:active{transform:scale(.92)}
+.face.front::before{left:16px;top:12px}
+
+@media (max-width:480px){
+  .sbar-in{gap:2px}.slogo{gap:8px}.slogo img{width:40px;height:40px}.slogo b{font-size:17px}
+  .ni{min-width:46px;padding:3px 3px}.ni .nlab{font-size:11px}
+  .btn{font-size:17px;padding:0 12px}.btn .ic svg{width:24px;height:24px}
+}
 </style>
 <link rel="icon" href="../../../assets/favicon.png">
 </head><body>
@@ -435,6 +468,10 @@ const STK=['cat','dog','bunny','bear','panda','frog','chick','fox','penguin','pi
 const STKN={cat:'Mèo Mimi',dog:'Cún Bông',bunny:'Thỏ Mochi',bear:'Gấu Nâu',panda:'Panda Bi',frog:'Ếch Xanh',chick:'Gà Con',fox:'Cáo Cam',penguin:'Cánh Cụt',pig:'Heo Hồng',unicorn:'Kỳ Lân',sun:'Mặt Trời'};
 const totalStars=()=>Object.keys(loadProg().stars).length;
 
+/* ======================= icon (cùng phong cách bộ icon của website) ======================= */
+const SVG={"back": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gk\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFC4A8\"/><stop offset=\"1\" stop-color=\"#FF9EBB\"/></linearGradient></defs><path d=\"M19.5 6 9.5 16l10 10\" fill=\"none\" stroke=\"url(#gk)\" stroke-width=\"3.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg>", "sound": "<svg viewBox=\"0 0 32 32\"><path d=\"M5 12h5l7-6v20l-7-6H5z\" fill=\"#9ED8FF\"/><path d=\"M21 11.5a6.5 6.5 0 0 1 0 9M24.5 8a11 11 0 0 1 0 16\" fill=\"none\" stroke=\"#B9A8F0\" stroke-width=\"2.6\" stroke-linecap=\"round\"/></svg>", "mute": "<svg viewBox=\"0 0 32 32\"><path d=\"M5 12h5l7-6v20l-7-6H5z\" fill=\"#CBD2E0\"/><path d=\"m22 12 7 8m0-8-7 8\" stroke=\"#FF9EBB\" stroke-width=\"2.8\" stroke-linecap=\"round\"/></svg>", "voice": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gv\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#9ED8FF\"/><stop offset=\"1\" stop-color=\"#B9A8F0\"/></linearGradient></defs><path d=\"M8 4h16a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5h-7l-6 5.5V22H8a5 5 0 0 1-5-5V9a5 5 0 0 1 5-5z\" fill=\"url(#gv)\"/><path d=\"M10 11.5v3M13.8 9v8M17.6 10.5v5M21.4 11.5v3\" stroke=\"#fff\" stroke-width=\"2.3\" stroke-linecap=\"round\"/></svg>", "student": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gf\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFE9DA\"/><stop offset=\"1\" stop-color=\"#FFCFB8\"/></linearGradient></defs><path d=\"M16 10V6.5\" stroke=\"#5FBF98\" stroke-width=\"2.2\" stroke-linecap=\"round\"/><path d=\"M16 7.4C16 4.2 13.4 2.6 10.4 3.1 10.6 6.2 12.9 7.9 16 7.4z\" fill=\"#8FDDBA\"/><path d=\"M16 6.9c0-3.2 2.5-4.7 5.6-4.2 0 3.2-2.2 4.9-5.6 4.2z\" fill=\"#B9F0D4\"/><circle cx=\"16\" cy=\"19.5\" r=\"10\" fill=\"url(#gf)\" stroke=\"#fff\" stroke-width=\"1.4\"/><circle cx=\"12.4\" cy=\"19\" r=\"1.4\" fill=\"#2B3550\"/><circle cx=\"19.6\" cy=\"19\" r=\"1.4\" fill=\"#2B3550\"/><ellipse cx=\"9.8\" cy=\"22.4\" rx=\"2.1\" ry=\"1.5\" fill=\"#FF9EBB\" opacity=\".55\"/><ellipse cx=\"22.2\" cy=\"22.4\" rx=\"2.1\" ry=\"1.5\" fill=\"#FF9EBB\" opacity=\".55\"/><path d=\"M14 22.6 c1.2 1.3 2.8 1.3 4 0\" fill=\"none\" stroke=\"#2B3550\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>", "teacher": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gf\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFE9DA\"/><stop offset=\"1\" stop-color=\"#FFCFB8\"/></linearGradient></defs><defs><linearGradient id=\"gt\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#B9A8F0\"/><stop offset=\"1\" stop-color=\"#FF9EBB\"/></linearGradient></defs><circle cx=\"16\" cy=\"21\" r=\"8.6\" fill=\"url(#gf)\" stroke=\"#fff\" stroke-width=\"1.4\"/><path d=\"M9.6 10.6v3.4c0 1.9 2.9 3.2 6.4 3.2s6.4-1.3 6.4-3.2v-3.4L16 13z\" fill=\"#9C86E8\"/><path d=\"M16 3 28.5 7.6 16 12.2 3.5 7.6z\" fill=\"url(#gt)\" stroke=\"#fff\" stroke-width=\"1.2\" stroke-linejoin=\"round\"/><path d=\"M27 8.4v5\" stroke=\"#FFE08A\" stroke-width=\"2\" stroke-linecap=\"round\"/><circle cx=\"27\" cy=\"14.6\" r=\"1.7\" fill=\"#FFE08A\"/><circle cx=\"12.8\" cy=\"21.3\" r=\"1.4\" fill=\"#2B3550\"/><circle cx=\"19.2\" cy=\"21.3\" r=\"1.4\" fill=\"#2B3550\"/><ellipse cx=\"10.6\" cy=\"24.2\" rx=\"2.1\" ry=\"1.5\" fill=\"#FF9EBB\" opacity=\".55\"/><ellipse cx=\"21.4\" cy=\"24.2\" rx=\"2.1\" ry=\"1.5\" fill=\"#FF9EBB\" opacity=\".55\"/><path d=\"M14 24.4 c1.2 1.3 2.8 1.3 4 0\" fill=\"none\" stroke=\"#2B3550\" stroke-width=\"1.7\" stroke-linecap=\"round\"/></svg>", "ask": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"ga\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FF9EBB\"/><stop offset=\"1\" stop-color=\"#FFB388\"/></linearGradient></defs><path d=\"M7 4h18a5 5 0 0 1 5 5v9a5 5 0 0 1-5 5h-8l-6 5.5V23H7a5 5 0 0 1-5-5V9a5 5 0 0 1 5-5z\" fill=\"url(#ga)\"/><path d=\"M12.6 12c0-2 1.6-3.4 3.4-3.4s3.4 1.2 3.4 3.1c0 2.4-3.4 2.6-3.4 5\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><circle cx=\"16\" cy=\"19.6\" r=\"1.5\" fill=\"#fff\"/></svg>", "bulb": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gl\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFE08A\"/><stop offset=\"1\" stop-color=\"#FFB388\"/></linearGradient></defs><path d=\"M16 3.5a8.5 8.5 0 0 0-4.6 15.7c.9.6 1.4 1.6 1.4 2.6v.7h6.4v-.7c0-1 .5-2 1.4-2.6A8.5 8.5 0 0 0 16 3.5z\" fill=\"url(#gl)\"/><path d=\"M12.8 24.2h6.4v1.8a2.4 2.4 0 0 1-2.4 2.4h-1.6a2.4 2.4 0 0 1-2.4-2.4z\" fill=\"#B9A8F0\"/><path d=\"M12.4 10.6a4.6 4.6 0 0 1 3-2.7\" fill=\"none\" stroke=\"#fff\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg>", "point": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gpt\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FF9EBB\"/><stop offset=\"1\" stop-color=\"#B9A8F0\"/></linearGradient></defs><circle cx=\"13\" cy=\"13\" r=\"8\" fill=\"none\" stroke=\"url(#gpt)\" stroke-width=\"3\"/><circle cx=\"13\" cy=\"13\" r=\"2.4\" fill=\"#FFE08A\"/><path d=\"M18 17.5 28.5 21.4l-4.5 2L22 28.5z\" fill=\"#B9A8F0\" stroke=\"#fff\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/></svg>", "look": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gm\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#9ED8FF\"/><stop offset=\"1\" stop-color=\"#B9A8F0\"/></linearGradient></defs><circle cx=\"13.5\" cy=\"13.5\" r=\"9\" fill=\"url(#gm)\" stroke=\"#fff\" stroke-width=\"1.4\"/><circle cx=\"13.5\" cy=\"13.5\" r=\"6\" fill=\"#fff\" opacity=\".32\"/><path d=\"M9.4 11.4a5 5 0 0 1 3.3-2.7\" fill=\"none\" stroke=\"#fff\" stroke-width=\"1.8\" stroke-linecap=\"round\"/><path d=\"M20.6 20.6 28 28\" stroke=\"#FF9EBB\" stroke-width=\"4.4\" stroke-linecap=\"round\"/></svg>", "cards": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gc1\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#9ED8FF\"/><stop offset=\"1\" stop-color=\"#B9A8F0\"/></linearGradient></defs><defs><linearGradient id=\"gc2\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FFE08A\"/><stop offset=\"1\" stop-color=\"#FF9EBB\"/></linearGradient></defs><rect x=\"4.5\" y=\"7\" width=\"15\" height=\"20\" rx=\"3.2\" transform=\"rotate(-12 12 17)\" fill=\"url(#gc1)\" stroke=\"#fff\" stroke-width=\"1.2\"/><rect x=\"12.5\" y=\"5\" width=\"15\" height=\"20\" rx=\"3.2\" transform=\"rotate(9 20 15)\" fill=\"url(#gc2)\" stroke=\"#fff\" stroke-width=\"1.2\"/><path d=\"M20 9.6l1.6 3.3 3.6.5-2.6 2.5.6 3.6-3.2-1.7-3.2 1.7.6-3.6-2.6-2.5 3.6-.5z\" fill=\"#fff\"/></svg>", "chat": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gch\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#FF9EBB\"/><stop offset=\"1\" stop-color=\"#B9A8F0\"/></linearGradient></defs><path d=\"M20 15.5h7a3.5 3.5 0 0 1 3.5 3.5v3a3.5 3.5 0 0 1-3.5 3.5h-.4v3.3l-3.9-3.3H20a3.5 3.5 0 0 1-3.5-3.5v-3a3.5 3.5 0 0 1 3.5-3.5z\" fill=\"#9ED8FF\"/><path d=\"M6 4h14a4.5 4.5 0 0 1 4.5 4.5v5A4.5 4.5 0 0 1 20 18h-7l-5.5 4.6V18H6a4.5 4.5 0 0 1-4.5-4.5v-5A4.5 4.5 0 0 1 6 4z\" fill=\"url(#gch)\"/><circle cx=\"8.2\" cy=\"11\" r=\"1.7\" fill=\"#fff\"/><circle cx=\"13\" cy=\"11\" r=\"1.7\" fill=\"#fff\"/><circle cx=\"17.8\" cy=\"11\" r=\"1.7\" fill=\"#fff\"/></svg>"};
+function ico(name,cls){const e=document.createElement('span');e.className='ic'+(cls?' '+cls:'');e.innerHTML=SVG[name]||'';e.setAttribute('aria-hidden','true');return e}
+
 /* ======================= âm thanh (có nút tắt) ======================= */
 const S={sound:store.get('lss_sound','1')!=='0',teach:store.get('lss_teach','0')==='1',rate:parseFloat(store.get('lss_rate','0.9'))||0.9,voice:store.get('lss_voice','')};
 let ac=null,master=null;
@@ -505,7 +542,7 @@ function voiceDialog(){
   const rv=h('b',S.rate.toFixed(2)+'×');
   const close=()=>m.remove();
   const m=h('div.modal',{onclick:e=>{if(e.target===m)close()}},h('div.mcard',
-    h('h2','🗣️ Giọng giám khảo'),
+    h('h2',ico('voice','sm'),' Giọng giám khảo'),
     h('p.mnote',vs.length?'Giọng đọc do máy của cô cung cấp. Nếu nghe còn rè, thử chọn giọng có chữ “Natural”, “Online”, “Google”… rồi bấm Nghe thử.':'Máy này chưa có giọng tiếng Anh. Cô thử Chrome hoặc Edge, hoặc cài thêm giọng tiếng Anh trong cài đặt hệ thống.'),
     h('label','Giọng',sel),h('label','Tốc độ đọc ',rv,rate),
     h('div.macts',h('button.btn.soft',{onclick:()=>{const was=S.sound;S.sound=true;speak("Hello! What's your name? My name's Miss Thao.");S.sound=was}},'▶ Nghe thử'),h('button.btn.pri',{onclick:close},'Xong'))));
@@ -551,10 +588,10 @@ function toast(t){document.querySelectorAll('.toast').forEach(x=>x.remove());con
 
 /* ======================= trạng thái ======================= */
 const PART_INFO=[
-  {n:1,en:'Point & Place',vi:'Chỉ tranh và đặt thẻ',ico:'👆',how:'Cô hỏi “Where is…?”. Em chạm vào đúng chỗ trên tranh. Sau đó em đặt thẻ vào đúng vị trí cô nói.'},
-  {n:2,en:'Look & Answer',vi:'Nhìn tranh trả lời',ico:'🔎',how:'Cô chỉ vào tranh và hỏi. Em trả lời bằng miệng, rồi bấm “Em đã trả lời”.'},
-  {n:3,en:'Card Time',vi:'Thẻ đồ vật',ico:'🃏',how:'Cô đưa em từng thẻ. Em nhìn thẻ, trả lời bằng miệng. Chạm vào thẻ để lật xem từ.'},
-  {n:4,en:'About You',vi:'Nói về em',ico:'💬',how:'Cô hỏi vài câu về em và bạn của em. Em trả lời bằng miệng.'}
+  {n:1,en:'Point & Place',vi:'Chỉ tranh và đặt thẻ',ico:'point',how:'Cô hỏi “Where is…?”. Em chạm vào đúng chỗ trên tranh. Sau đó em đặt thẻ vào đúng vị trí cô nói.'},
+  {n:2,en:'Look & Answer',vi:'Nhìn tranh trả lời',ico:'look',how:'Cô chỉ vào tranh và hỏi. Em trả lời bằng miệng, rồi bấm “Em đã trả lời”.'},
+  {n:3,en:'Card Time',vi:'Thẻ đồ vật',ico:'cards',how:'Cô đưa em từng thẻ. Em nhìn thẻ, trả lời bằng miệng. Chạm vào thẻ để lật xem từ.'},
+  {n:4,en:'About You',vi:'Nói về em',ico:'chat',how:'Cô hỏi vài câu về em và bạn của em. Em trả lời bằng miệng.'}
 ];
 const st={view:'home',set:null,part:0,steps:[],i:0,wrong:0,help:false,hl:0,ring:false,placed:{},held:null,fails:{},firstTry:{},partsDone:[false,false,false,false],started:0};
 function setHl(n){st.hl=n;st.help=n>0;st.ring=n>=2}
@@ -586,7 +623,7 @@ function buildSteps(s,p){
   }else if(p===2){
     s.p3.forEach(c=>c.qs.forEach((q,j)=>out.push({t:'card',card:c.card,qi:j,last:j===c.qs.length-1,say:q.say,back:q.back,hints:hintsOf(q),vi:q.vi,ans:q.ans,alt:q.alt,check:j===0?c.check:'',ex:'dung'})));
   }else{
-    s.p4.forEach(q=>out.push({t:'ask',talk:true,say:fmt(q.say),back:q.back,hints:hintsOf(q),vi:q.vi,ans:q.ans,ex:'dung'}));
+    s.p4.forEach(q=>out.push({t:'ask',talk:true,say:fmt(q.say),back:q.back,hints:hintsOf(q),vi:q.vi,ans:q.ans,note:q.note,ex:'dung'}));
     out.push({t:'bye',talk:true,say:fmt(s.bye.say),vi:s.bye.vi,ex:'vay-tay'});
   }
   return out;
@@ -625,17 +662,17 @@ function saveReward(){
 function topbar(title,sub,opts){
   opts=opts||{};
   return h('header.sbar',h('div.sbar-in',
-    opts.back?h('button.ni',{onclick:opts.back,'aria-label':'Quay lại'},h('span.nico','←'),h('span.nlab',opts.backLab||'Về')):null,
+    opts.back?h('button.ni',{onclick:opts.back,'aria-label':'Quay lại'},h('span.nico',ico('back')),h('span.nlab',opts.backLab||'Về')):null,
     h('div.slogo',h('img',{src:LOGO(),alt:'Miss Thảo'}),h('span',h('b',title),sub?h('small',sub):null)),
-    isTeacherAllowed()?h('button.ni',{onclick:voiceDialog,'aria-label':'Chọn giọng giám khảo'},h('span.nico','🗣️'),h('span.nlab','Giọng')):null,
-    h('button.ni',{onclick:()=>{S.sound=!S.sound;store.set('lss_sound',S.sound?'1':'0');if(!S.sound)stopSpeak();render()},'aria-label':S.sound?'Tắt tiếng':'Bật tiếng'},h('span.nico',S.sound?'🔊':'🔇'),h('span.nlab',S.sound?'Tiếng':'Tắt')),
-    isTeacherAllowed()?h('button.ni'+(S.teach?'.on':''),{onclick:()=>{S.teach=!S.teach;store.set('lss_teach',S.teach?'1':'0');render()},title:'Bật để xem đáp án và gợi ý của cô'},h('span.nico',S.teach?'🧑‍🏫':'🙂'),h('span.nlab',S.teach?'Cô: BẬT':'Cô: TẮT')):null));
+    isTeacherAllowed()?h('button.ni',{onclick:voiceDialog,'aria-label':'Chọn giọng giám khảo'},h('span.nico',ico('voice')),h('span.nlab','Giọng')):null,
+    h('button.ni',{onclick:()=>{S.sound=!S.sound;store.set('lss_sound',S.sound?'1':'0');if(!S.sound)stopSpeak();render()},'aria-label':S.sound?'Tắt tiếng':'Bật tiếng'},h('span.nico',ico(S.sound?'sound':'mute')),h('span.nlab',S.sound?'Tiếng':'Tắt')),
+    isTeacherAllowed()?h('button.ni'+(S.teach?'.on':''),{onclick:()=>{S.teach=!S.teach;store.set('lss_teach',S.teach?'1':'0');render()},title:'Bật để xem đáp án và gợi ý của cô'},h('span.nico',ico(S.teach?'teacher':'student')),h('span.nlab',S.teach?'Cô: BẬT':'Cô: TẮT')):null));
 }
 function progRow(pct){
   const cur=st.view==='step'?st.part:-1,kids=[];
   PART_INFO.forEach((P,i)=>{
     const done=st.partsDone[i];
-    kids.push(h('div.node'+(done?'.done':'')+(cur===i?'.cur':''),{title:'Part '+P.n+' · '+P.vi,'aria-label':'Part '+P.n+(done?' (xong)':cur===i?' (đang làm)':'')},done?'⭐':P.ico));
+    kids.push(h('div.node'+(done?'.done':'')+(cur===i?'.cur':''),{title:'Part '+P.n+' · '+P.vi,'aria-label':'Part '+P.n+(done?' (xong)':cur===i?' (đang làm)':'')},done?'⭐':ico(P.ico)));
     if(i<3)kids.push(h('div.tline',h('i',{style:{width:(done?100:(cur===i?pct:0))+'%'}})));
   });
   return h('div.track',{'aria-label':'Tiến trình các Part'},kids);
@@ -679,7 +716,7 @@ function homeView(){
   app.append(g);
   app.append(h('details.guide',h('summary','📖 Cách dùng (bấm để xem)'),h('ol',
     h('li','Chọn một bộ test. Mỗi bộ có 4 phần giống đề thi Cambridge Starters.'),
-    h('li','Cô (giám khảo) hỏi bằng bong bóng chữ — bấm 🔊 để nghe lại. Em trả lời bằng miệng.'),
+    h('li','Cô (giám khảo) hỏi bằng bong bóng chữ — bấm nút loa để nghe lại. Em trả lời bằng miệng.'),
     h('li','Phần 1: chạm vào tranh và kéo thẻ vào đúng chỗ. Phần 3: chạm thẻ để lật.'),
     h('li','Xong mỗi phần được 1 ⭐. Hoàn thành cả bộ sẽ được sao sưu tầm và có thể mở sticker mới!'),
     h('li','Nút “Cô: BẬT” hiện đáp án mẫu, câu hỏi dự phòng và nghĩa tiếng Việt (dành cho cô).'))));
@@ -694,7 +731,7 @@ function introView(){
     h('h2','Ready for '+s.title+'?'),
     h('p',{style:{color:'var(--soft)'}},'4 phần · khoảng 5 phút. Em sẽ làm từng phần một nhé.'),
     h('div',{style:{display:'grid',gap:'10px',margin:'14px 0',textAlign:'left'}},p.map((x,i)=>h('div',{style:{display:'flex',gap:'12px',alignItems:'center',background:['#EAF8F2','#FFF2EB','#EEF6FF','#FFEEF4'][i],borderRadius:'18px',padding:'12px 14px'}},
-      h('span',{style:{fontSize:'30px'}},x.ico),h('div',h('b',{style:{fontFamily:'var(--hfont)',fontSize:'18px'}},'Part '+x.n+' · '+x.en),h('div',{style:{color:'var(--soft)',fontSize:'14px'}},x.vi))))),
+      h('span.pico',ico(x.ico)),h('div',h('b',{style:{fontFamily:'var(--hfont)',fontSize:'18px'}},'Part '+x.n+' · '+x.en),h('div',{style:{color:'var(--soft)',fontSize:'14px'}},x.vi))))),
     h('div',{style:{display:'flex',gap:'10px',justifyContent:'center',flexWrap:'wrap'}},
       h('button.btn.pri',{onclick:()=>{ac=ac||null;startPart(0)}},'Start ▶'),
       teach()?p.map((x,i)=>h('button.btn.sm',{onclick:()=>startPart(i)},'Part '+x.n)):null)));
@@ -708,7 +745,7 @@ function stepView(){
   if(teach()){
     app.append(h('div.tabs',PART_INFO.map((x,i)=>h('button.tab'+(i===st.part?'.on':''),{onclick:()=>startPart(i)},'Part '+x.n))));
   }
-  app.append(h('div.ptag',P.ico+' Part '+P.n+' · '+P.vi));
+  app.append(h('div.ptag',ico(P.ico,'sm'),' Part '+P.n+' · '+P.vi));
   const stage=h('div.stage');app.append(stage);
   if(step.scene)stage.append(sceneBlock(s,step)); else if(step.t==='card')stage.append(flashBlock(s,step)); else stage.append(talkStage(step));
   if(teach())stage.before(teacherNote(s,step));
@@ -722,6 +759,7 @@ function teacherNote(s,step){
   if(step.back)bits.push(h('div',h('b','Câu hỏi dự phòng (back-up): '),step.back));
   if(step.hints&&step.hints.length>(step.back?1:0))bits.push(h('div',h('b','Gợi ý khi em chưa hiểu: '),step.hints.map((x,i)=>(i+1)+') '+x).join('   '),' ',h('span.tg',step.back?'mức 1 = back-up của sách; mức sau do Claude soạn':'do Claude soạn')));
   if(step.alt)bits.push(h('div',h('b','Hoặc hỏi: '),step.alt));
+  if(step.note)bits.push(h('div',h('b','Ghi chú: '),step.note));
   if(step.vi)bits.push(h('div',h('b','Nghĩa: '),step.vi,' ',h('span.tg','do Claude soạn')));
   if(step.t==='find'||step.t==='point')bits.push(h('div',h('b','Vị trí đúng: '),'vùng khoanh nét hồng trên tranh'));
   if(step.t==='pick'||step.t==='place'||step.t==='demo')bits.push(h('div',h('b','Thẻ: '),s.cards[step.card].w,step.zone?'  →  '+s.zones[step.zone].label:''));
@@ -763,7 +801,7 @@ function sceneBlock(s,step){
   if(!(step.t==='find'||step.t==='place'))sc.style.cursor='default';
   wrap.append(sc);
   if(showTray){
-    const tray=h('div.tray',h('div.trayhd','🃏 Bàn thẻ (chạm hoặc kéo thẻ)'));
+    const tray=h('div.tray',h('div.trayhd',ico('cards','sm'),' Bàn thẻ (chạm hoặc kéo thẻ)'));
     const g=h('div.trayg');
     s.p1.order.forEach(id=>{
       const slot=h('div.slot');
@@ -881,12 +919,20 @@ function runDemo(step){
 }
 
 /* ----- thẻ lật (Part 3) ----- */
+/* nút loa trên thẻ: bấm để nghe lại từ / câu mẫu nếu em quên (không làm thẻ lật) */
+function fspk(text,label){
+  const b=h('button.fspk',{type:'button','aria-label':label,title:label},ico(S.sound?'sound':'mute'));
+  const stop=e=>e.stopPropagation();
+  b.addEventListener('click',e=>{e.stopPropagation();if(!S.sound){toast('Đang tắt tiếng. Bật loa ở thanh trên nhé');return}speak(text)});
+  b.addEventListener('keydown',stop);b.addEventListener('pointerdown',stop);
+  return b;
+}
 function flashBlock(s,step){
   const c=s.cards[step.card];
   const fc=h('div.fc'+(st.flip?'.flip':''),{role:'button',tabindex:'0','aria-label':'Thẻ '+c.w+'. Chạm để lật.'},
     h('div.fc-in',
-      h('div.face.front',h('img',{src:A(c.img),alt:'',draggable:'false'})),
-      h('div.face.back',h('div.w',c.w),h('div.s',c.s),h('div.hint','Chạm để lật lại'))),
+      h('div.face.front',h('img',{src:A(c.img),alt:'',draggable:'false'}),fspk(c.w,'Nghe từ “'+c.w+'”')),
+      h('div.face.back',fspk(c.s,'Nghe câu mẫu'),h('div.w',c.w),h('div.s',c.s),h('div.hint','Chạm để lật lại'))),
     h('span.fliphint','👆 chạm để lật'));
   if(st.dealt===step.card)fc.style.animation='none';else st.dealt=step.card;
   const flip=()=>{fc.classList.toggle('flip');st.flip=fc.classList.contains('flip');sfx.flip()};
@@ -921,11 +967,11 @@ function fillDock(d,step){
   const done=st.stepDone;
   const ex=done?(st.reveal?'dung':'nhay-mat'):(st.help?'co-vu':step.ex);
   const exImg=h('img.ex.swap',{src:EXA(ex),alt:'Miss Thảo'});
-  const nH=(step.hints||[]).length,text=done?st.praise:curText(step),isModel=!done&&st.hl>0&&nH>=2&&st.hl===nH;
-  const q=h('div.q'+(st.hl>0&&!done?'.back':'')+(isModel?'.model':''),(!done&&st.hl>0&&nH?h('span.hbadge',(isModel?'💬 Cô nói mẫu · ':'💡 Gợi ý ')+st.hl+'/'+nH):null),text,
+  const nH=(step.hints||[]).length,text=done?st.praise:curText(step);
+  const q=h('div.q'+(st.hl>0&&!done?'.back':'')+'',(!done&&st.hl>0&&nH?h('span.hbadge',ico('bulb','xs'),' Gợi ý '+st.hl+'/'+nH):null),text,
     (!done&&step.vi&&teach())?h('small',step.vi):null,
     (!done&&step.alt&&teach())?h('small','or: '+step.alt):null);
-  const spk=h('button.spk',{onclick:()=>speak(done?st.praise:curText(step)),'aria-label':'Nghe lại câu hỏi'},'🔊');
+  const spk=h('button.spk',{onclick:()=>speak(done?st.praise:curText(step)),'aria-label':'Nghe lại câu hỏi'},ico(S.sound?'sound':'mute'));
   const bub=h('div.bub',q,S.sound?spk:null);
   const acts=h('div.acts');
   const next=(label)=>h('button.btn.pri'+(done?'.pulse':''),{onclick:()=>advance(step)},label||'Tiếp ▶');
@@ -955,8 +1001,8 @@ function fillDock(d,step){
 }
 function helpBtn(step){
   const n=(step.hints||[]).length;if(!n)return null;
-  const lab=st.hl===0?'🙋 Em chưa hiểu':st.hl<n?'💡 Gợi ý tiếp ('+st.hl+'/'+n+')':'↩ Hỏi lại câu đầu';
-  return h('button.btn.soft',{onclick:()=>{if(st.hl>=n)setHl(0);else setHl(st.hl+1);render()}},lab);
+  const kids=st.hl===0?[ico('ask'),' Em chưa hiểu']:st.hl<n?[ico('bulb'),' Gợi ý tiếp ('+st.hl+'/'+n+')']:['↩ Hỏi lại câu đầu'];
+  return h('button.btn.soft',{onclick:()=>{if(st.hl>=n)setHl(0);else setHl(st.hl+1);render()}},kids);
 }
 function advance(step){
   if(step.t==='card'&&step.last){

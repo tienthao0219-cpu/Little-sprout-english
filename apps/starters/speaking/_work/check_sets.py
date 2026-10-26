@@ -42,7 +42,7 @@ def check(s):
     def q(path, x, need_hints=True):
         if not x.get('say'): E.append(path + ': thiếu say')
         if not x.get('vi'): Wn.append(path + ': thiếu nghĩa tiếng Việt (vi)')
-        if need_hints and len(x.get('hints') or []) < 2: Wn.append(path + ': chưa đủ gợi ý (nên 3 mức)')
+        if need_hints and len(x.get('hints') or []) < 2: Wn.append(path + ': chưa đủ gợi ý (nên 2 mức)')
     if P['example'].get('target') not in s['hot']: E.append('p1.example.target không có trong hot')
     for i, f in enumerate(P['find']):
         q('p1.find[%d]' % i, f)

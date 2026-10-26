@@ -22,5 +22,6 @@ Mỗi bộ là một phần tử trong `data.json → sets[]`. Mẫu đầy đ�
 
 ## Quy tắc nội dung
 - Chỉ chép từ sách những gì đọc được. Câu nào Claude tự soạn thì đánh dấu (`gen:true` hoặc `origin:"claude"`), không ghi là của sách.
-- `hints[]` (nên 3 mức): (1) câu back-up của sách nếu có, hoặc câu Yes/No dễ hơn; (2) câu lựa chọn "A or B?"; (3) câu mẫu để em nói theo. Từ vựng đơn giản, câu ngắn.
+- `hints[]` (2 mức, KHÔNG đưa đáp án cho em): (1) câu back-up của sách nếu có, hoặc câu Yes/No dễ hơn; (2) câu lựa chọn "A or B?". Từ vựng đơn giản, câu ngắn.
+- Part 4: dùng "your friend", không dùng "he / she". Chỗ nào đổi so với sách thì ghi vào `note` của câu đó.
 - Ảnh/phần nào mờ, thiếu hoặc không chắc: ghi vào `check` và hỏi cô, không đoán.
