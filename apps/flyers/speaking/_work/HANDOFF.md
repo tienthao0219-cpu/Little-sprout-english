@@ -17,9 +17,10 @@ Images: `apps/flyers/speaking/img/<id>/p1ex.webp`, `p1cand.webp`, etc. Local ser
 `ops.py` = per-set rename/absent/add rules (by dot index), `ops_pos.py` = manual position overrides, `apply_ca.py` rebuilds `data.json` from `data.before_ca.json` (+ `align0.json` template-matching shifts). Don't re-run it blindly if data.json was hand-edited afterwards.
 I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs chicken leg).
 
-## TODO
-- Run `_work/pwtest.py` (Playwright, all 40 sets x laptop/phone). NOTE: update its Part 2 check to click each `.qitem button` twice (step cycle) before counting `.qh`. Add checks: `.vcw` exists in Part 1, `.dring` count = dif count when hint on.
-- Look at element screenshots: Part 1 (curtain closed/open, laptop + phone), Part 2 hint steps, Part 3 cards.
-- Quick re-check dots for sets ai-t5..ai-t12 (contact sheets m16–m19 were not reviewed; others were).
-- Commit, merge to main (`git push origin HEAD:main` after fetch), tell the teacher in Vietnamese to hard refresh (Ctrl+Shift+R).
-- Commit trailer: Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
+## Trạng thái (cập nhật 26 Oct 2026, phiên tiếp theo)
+- `pwtest.py` đã cập nhật (Part 2: bấm mỗi `.qitem button` 2 lần rồi đếm `.qdet:not(.hidden) .qh`; thêm check `p1vcw`: có đúng 1 `.vcw`, có hàng từ vựng, số `.dring` hiển thị = 2 × số điểm khác khi bật 💡). Chạy từ thư mục `_work` (cần Playwright; Python bản 1.63.0 cùng bản với Chromium cài sẵn). Kết quả: 402 phép đo, 0 lỗi, không có lỗi console (40 bộ × laptop/điện thoại).
+- Đã xem ảnh: Part 1 (màn che đóng/mở, vòng khoanh, laptop + điện thoại), Part 2 (3 bước gợi ý), Part 3 (thẻ).
+- Màn che từ vựng: lúc đóng chỉ cao ~150px (bảng ẩn phía sau), bấm để mở.
+- Đã rà lại chấm ai-t5…ai-t12 và sửa: ai-t6 mũ hồng chỉ có ở tranh cô; ai-t5 ba lô tranh em chuyển sang ghế; ai-t7 đổi nhãn "man (building)" → "man"; ai-t12 bao bột chỉ có ở tranh cô, mèo tranh em ở trên quầy. (Đã sửa cả `data.json` lẫn `ops.py`/`ops_pos.py`.)
+- Part 2: nút ❓ luôn hiện cụm cấu trúc (vd. "what / buy"); bước 1 = từ hỏi + nghĩa; bước 2 = câu mẫu tô màu + công thức + đáp án (+ "Cách hỏi khác" nếu có). Cần cô Thảo xác nhận có đúng ý "bấm 1 = từ hỏi, bấm 2 = cấu trúc what/name" hay chưa.
+- Việc còn lại: cô hard refresh (Ctrl+Shift+R) sau khi bản mới lên.
