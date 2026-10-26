@@ -32,12 +32,22 @@ def run(only=None):
           tot=sum(x['on'] for x in st); nd=sum(x['dots'] for x in st)
           res.append((vn,sid,'p%d'%(part+1),nd,tot,sum(x['n'] for x in st),sum(x['ov'] for x in st),sum(x['oob'] for x in st)))
           if part==0:
-            vcw=pg.evaluate("document.querySelectorAll('.vcw').length"); vrows=pg.evaluate("document.querySelectorAll('.vcw tr:not(.band)').length")
+            # bảng so sánh: có đúng 1, mở được, số hàng = số điểm khác; đã bỏ hẳn bảng từ vựng 2 tranh
+            old=pg.evaluate("document.querySelectorAll('.vcw').length")
+            pg.evaluate("document.querySelector('.dtbl>button')&&document.querySelector('.dtbl>button').click()")
+            vcw=pg.evaluate("document.querySelectorAll('.dtbl').length")-old
+            vrows=pg.evaluate("document.querySelectorAll('.dtbl .cmp-r').length")
             dr=pg.evaluate("[...document.querySelectorAll('.dring')].filter(e=>getComputedStyle(e).display!='none').length")
             nd_=pg.evaluate("(st.set.dif||[]).length")
             res.append((vn,sid,'p1vcw',vcw,vrows,dr,nd_*2,0))
           if part==2:
-            cards=pg.evaluate("document.querySelectorAll('.pcard').length"); rows=pg.evaluate("document.querySelectorAll('.pcard .pr').length"); pat=pg.evaluate("document.querySelectorAll('.pat').length")
+            cards=pg.evaluate("document.querySelectorAll('.pcol').length")
+            pre=pg.evaluate("document.querySelectorAll('.pcol .prow:not(.hidden)').length")      # lúc đầu: chưa hiện dòng nào
+            pg.evaluate("document.querySelectorAll('.pcol').forEach(c=>{for(let i=0;i<4;i++)c.click()})")
+            rows=pg.evaluate("document.querySelectorAll('.pcol .prow:not(.hidden)').length")   # chạm 4 lần: hiện đủ 20 dòng
+            pg.evaluate("document.querySelectorAll('.pcol').forEach(c=>c.click())")             # chạm thêm 1 lần: ẩn lại
+            post=pg.evaluate("document.querySelectorAll('.pcol .prow:not(.hidden)').length")
+            pat=pg.evaluate("document.querySelectorAll('.pat').length")+(0 if pre==0 and post==0 else -99)
             res.append((vn,sid,'p3cards',cards,rows,pat,0,0))
           if vn=='laptop' and sid in ('ai-t6','suc-t5','cam3-t2') :
             pg.screenshot(path=f'shots/{vn}_{sid}_p{part+1}.png',full_page=True)
@@ -53,7 +63,7 @@ def run(only=None):
 if __name__=='__main__':
   import os; os.makedirs('shots',exist_ok=True)
   r=run(sys.argv[1:] or None)
-  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]<1 or x[5]!=x[6])) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
+  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
   json.dump(r,open('pw_res.json','w'))
   print('total',len(r),'flagged',len(bad))
   for x in bad[:80]: print(x)

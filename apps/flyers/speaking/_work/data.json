@@ -31,10 +31,10 @@
 "hints": {
 "p1": "elephant = con voi; fence = hàng rào; monkey = con khỉ; tree = cái cây; take a photo = chụp ảnh; ice cream = cây kem; pram = xe đẩy em bé; baby = em bé; bench = ghế dài; backpack = ba lô; dustbin = thùng rác; dog = con chó; path = lối đi; read a book = đọc sách; cry = khóc; sleep = ngủ",
 "p2q": [
-"Who gave it to him/her?",
+"Who gave it to her?",
 "What's the book called?",
 "What's it about?",
-"When did he/she finish it?",
+"When did she finish it?",
 "Was it interesting or boring?"
 ],
 "p2w": "book = quyển sách; cousin / aunt / friend = anh chị em họ / dì (cô) / bạn; a singer / a footballer / animals = một ca sĩ / một cầu thủ / động vật; last week / yesterday = tuần trước / hôm qua; interesting / boring = thú vị / chán",
@@ -2137,11 +2137,11 @@ null,
 "hints": {
 "p1": "bus = xe buýt; bus driver = tài xế xe buýt; policeman = cảnh sát; clock = đồng hồ; ice cream stand = quầy kem; suitcase = va-li; passenger = hành khách; old man = ông cụ; walking stick = cây gậy; birds = những chú chim; ticket = vé; luggage = hành lý; talk = nói chuyện; sit = ngồi; queue = xếp hàng; stall = quầy hàng",
 "p2q": [
-"Where did he/she go?",
-"Who did he/she go with?",
-"How long did he/she stay?",
-"What did he/she do?",
-"What did he/she buy?"
+"Where did he go?",
+"Who did he go with?",
+"How long did he stay?",
+"What did he do?",
+"What did he buy?"
 ],
 "p2w": "holiday = kỳ nghỉ; beach / mountains / lake = bãi biển / núi / hồ; parents / grandparents / cousins = ba mẹ / ông bà / anh chị em họ; one week / two weeks = một tuần / hai tuần; swimming / skiing / sailing = bơi / trượt tuyết / chèo thuyền; T-shirt / scarf / postcards = áo thun / khăn quàng / bưu thiếp",
 "p3": "beach = bãi biển; towel = khăn tắm; umbrella = cái dù; sandwich = bánh mì kẹp; seagull = hải âu; steal = lấy trộm; fly = bay; chase = đuổi theo; hungry = đói; sand = cát; sea = biển; café = quán ăn; ice cream = kem; look for = tìm kiếm; surprised = ngạc nhiên"
@@ -4171,7 +4171,7 @@ null,
 "Betty stands on a chair in the kitchen. She wants something from the cupboard. Mum is cooking.",
 "Betty falls down. She hurts her leg. Mum is surprised.",
 "Betty has a broken leg. She sits on the bed. Mum helps her.",
-"Betty is sleeping. Her friends come in quietly.",
+"Betty is sleeping. Her friends come in.",
 "Betty wakes up. Mum and her friends have a cake and presents for her. Betty is very happy."
 ],
 "p3open": {
@@ -7121,7 +7121,7 @@ null,
 {
 "s": "Emma, David, Mum = Emma, David, mẹ; Grandma and Grandpa = ông bà",
 "l": "in the living room = trong phòng khách; at the table = ở bàn; on the sofa = trên ghế sofa",
-"v": "pack the basket = xếp giỏ; read a book = đọc sách; help = giúp",
+"v": "put things in the basket = bỏ đồ vào giỏ; read a book = đọc sách; help = giúp",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -7162,8 +7162,8 @@ null,
 "What's the teacher's name?",
 "How many students are there?",
 "When is the class?",
-"What do they like painting?",
-"Is he/she a good artist?"
+"What does she like painting?",
+"Is she a good artist?"
 ],
 "p2w": "art class = lớp mỹ thuật; paint = vẽ màu; draw = vẽ; brush = cọ vẽ; Miss / Mr = cô / thầy; Friday / Saturday = thứ Sáu / thứ Bảy; animals / flowers / people = động vật / hoa / người; good / not bad / very good = giỏi / khá ổn / rất giỏi",
 "p3": "late = muộn; hurry = vội vàng; run = chạy; school = trường học; teacher = giáo viên; classroom = lớp học; alone = một mình; hospital = bệnh viện; doctor = bác sĩ; hurt = bị đau; leg = cái chân; bed = giường bệnh; worried = lo lắng; mum = mẹ; look through the window = nhìn qua cửa sổ"
@@ -7721,7 +7721,7 @@ null,
 "What colour is the car?",
 "How many doors has it got?",
 "How old is it?",
-"Is it cheap or expensive?",
+"Was it cheap or expensive?",
 "Where is it now?"
 ],
 "p2w": "car = xe hơi; silver / black / red / green = bạc / đen / đỏ / xanh lá; three / five doors = 3 / 5 cửa; months old / years old = tháng tuổi / năm tuổi; cheap / expensive = rẻ / đắt; at home / at the station / in the garage = ở nhà / ở nhà ga / trong gara",
@@ -8295,7 +8295,7 @@ null,
 "hints": {
 "p1": "lifeguard tower = tháp cứu hộ; sea = biển; sailing boat = thuyền buồm; surfer = người lướt sóng; swim = bơi; helicopter = trực thăng; seagull = hải âu; flag = lá cờ; deckchair = ghế bãi biển; parasol = dù che nắng; lizard = thằn lằn; rubbish bin = thùng rác; mobile phone = điện thoại di động; sunglasses = kính râm; palm tree = cây cọ; cave = hang động; island = hòn đảo; sunbathe = tắm nắng",
 "p2q": [
-"Where is the apartment?",
+"Where is Emma's apartment?",
 "Which floor is it on?",
 "How many bedrooms has it got?",
 "What colour is the kitchen?",
@@ -9423,7 +9423,7 @@ null,
 "p3c": [
 {
 "s": "Mum = mẹ; Ben = Ben; the seller = người bán hàng",
-"l": "at the market = ở chợ; next to the stall = bên cạnh quầy hàng",
+"l": "at the market = ở chợ; next to the shop = cạnh cửa hàng nhỏ",
 "v": "buy fruit = mua trái cây; carry bags = xách túi; walk = đi bộ",
 "f": "happy = vui"
 },
@@ -9441,7 +9441,7 @@ null,
 },
 {
 "s": "the neighbours = hàng xóm; Mum = mẹ; Ben = Ben",
-"l": "in front of the door = trước cửa; on the pavement = trên vỉa hè",
+"l": "in front of the door = trước cửa; on the street = trên đường phố",
 "v": "give fruit = đưa trái cây; say thank you = nói cảm ơn; smile = cười",
 "f": "happy = vui; kind = tốt bụng"
 },
@@ -11198,7 +11198,7 @@ null,
 {
 "s": "Mum = mẹ; Richard = Richard",
 "l": "at home = ở nhà; at the table = ở bàn; next to the window = cạnh cửa sổ",
-"v": "pack a picnic basket = xếp giỏ dã ngoại; put food in the basket = cho thức ăn vào giỏ; hold bread = cầm bánh mì",
+"v": "put food in the basket = bỏ đồ ăn vào giỏ; hold bread = cầm bánh mì",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -12788,7 +12788,7 @@ null,
 "s": "Harry = Harry",
 "l": "in his bedroom = trong phòng ngủ; in bed = trên giường; under the blanket = dưới chăn",
 "v": "wake up = thức dậy; hold the clock = cầm đồng hồ; look at the clock = nhìn đồng hồ",
-"f": "shocked = hoảng hốt; worried = lo lắng"
+"f": "surprised = ngạc nhiên; worried = lo lắng"
 },
 {
 "s": "Harry = Harry; the bus = xe buýt",
@@ -13330,7 +13330,7 @@ null,
 "s": "the man = người đàn ông; the children = các bạn nhỏ",
 "l": "in the park = trong công viên; at the start = ở vạch xuất phát; in front of the people = trước đám đông",
 "v": "hold a gun = cầm súng lệnh; get ready = sẵn sàng; wait = chờ",
-"f": "excited = hào hứng; nervous = hồi hộp"
+"f": "excited = hào hứng; worried = lo lắng"
 },
 {
 "s": "Bill = Bill; the boy in the green shirt = bạn mặc áo xanh lá",
@@ -13341,7 +13341,7 @@ null,
 {
 "s": "Bill = Bill; the other children = các bạn khác",
 "l": "at the end of the race = ở cuối cuộc đua; at the finish line = ở vạch đích; in front of the others = phía trước các bạn",
-"v": "run = chạy; win the race = thắng cuộc đua; touch the ribbon = chạm dải băng đích",
+"v": "run = chạy; win the race = thắng cuộc đua; touch the line = chạm vạch đích",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -13880,7 +13880,7 @@ null,
 {
 "s": "Paul = Paul",
 "l": "in his bedroom = trong phòng ngủ; in bed = trên giường; under the blanket = dưới chăn; next to the window = cạnh cửa sổ",
-"v": "lie in bed = nằm trên giường; sleep = ngủ; have a cold bag on his head = có túi lạnh trên đầu",
+"v": "be in bed = nằm trên giường; sleep = ngủ; have a cold bag on his head = có túi lạnh trên đầu",
 "f": "ill = ốm; tired = mệt"
 },
 {
@@ -14486,7 +14486,7 @@ null,
 ]
 },
 "story": [
-"Tom and Kim are at a camp. They clean the camp. Tom sweeps and Kim picks up the rubbish.",
+"Tom and Kim are at a camp. They clean the camp. Tom cleans the floor and Kim picks up the rubbish.",
 "A man cuts wood. Tom and Kim carry the wood.",
 "They make a fire. Kim cooks and Tom helps.",
 "Tom and his friends run on the tyres. They have fun.",
@@ -14501,13 +14501,13 @@ null,
 {
 "s": "Tom = Tom; Kim = Kim; the children = các bạn nhỏ",
 "l": "at the camp = ở khu cắm trại; on the grass = trên bãi cỏ; next to the bag = cạnh cái túi",
-"v": "clean = dọn dẹp; sweep = quét; pick up rubbish = nhặt rác; put rubbish in the bag = bỏ rác vào túi",
+"v": "clean = dọn dẹp; clean the floor = lau sàn; pick up rubbish = nhặt rác; put rubbish in the bag = bỏ rác vào túi",
 "f": "happy = vui; busy = bận"
 },
 {
 "s": "the man = người đàn ông; Kim = Kim; Tom = Tom",
-"l": "at the camp = ở khu cắm trại; on the grass = trên bãi cỏ; next to the tree trunk = cạnh gốc cây",
-"v": "cut wood = chẻ củi; carry wood = mang củi; hold the axe = cầm rìu; kneel = quỳ",
+"l": "at the camp = ở khu cắm trại; on the grass = trên bãi cỏ; next to the big tree = cạnh cây lớn",
+"v": "cut wood = chẻ củi; carry wood = mang củi; hold the axe = cầm rìu; sit down = ngồi xuống",
 "f": "busy = bận; happy = vui"
 },
 {
@@ -14525,7 +14525,7 @@ null,
 {
 "s": "Tom = Tom; Kim = Kim; the boy = bạn nam",
 "l": "at the lake = ở hồ; in the water = dưới nước; next to the wooden platform = cạnh bến gỗ",
-"v": "jump = nhảy; swim = bơi; splash = té nước; put clothes on the platform = để quần áo trên bến gỗ",
+"v": "jump = nhảy; swim = bơi; play in the water = chơi nước; put clothes on the platform = để quần áo trên bến gỗ",
 "f": "happy = vui; excited = hào hứng"
 }
 ]
@@ -15006,32 +15006,32 @@ null,
 {
 "s": "Betty = Betty",
 "l": "in her bedroom = trong phòng ngủ; in bed = trên giường; next to the window = cạnh cửa sổ; under the blanket = dưới chăn",
-"v": "sleep = ngủ; lie in bed = nằm trên giường; the sun shines = mặt trời chiếu sáng",
-"f": "tired = mệt; relaxed = thư giãn"
+"v": "sleep = ngủ; be in bed = nằm trên giường; it's sunny = trời nắng",
+"f": "tired = mệt; happy = vui"
 },
 {
 "s": "Betty = Betty; the dog = con chó",
 "l": "at home = ở nhà; on the floor = trên sàn; next to the dog = cạnh con chó",
 "v": "sit = ngồi; play with the dog = chơi với chó; touch the dog = vuốt ve chó; look at the dog = nhìn con chó",
-"f": "happy = vui; relaxed = thư giãn"
+"f": "happy = vui"
 },
 {
 "s": "Betty = Betty; the woman = người phụ nữ",
-"l": "in the street = ngoài đường; on the pavement = trên vỉa hè; near the houses = gần những ngôi nhà; behind Betty = phía sau Betty",
+"l": "in the street = ngoài đường; on the street = trên đường phố; near the houses = gần những ngôi nhà; behind Betty = phía sau Betty",
 "v": "walk = đi bộ; carry books = mang sách; push a pram = đẩy xe nôi",
-"f": "happy = vui; calm = bình tĩnh"
+"f": "happy = vui"
 },
 {
 "s": "Betty = Betty",
 "l": "at home = ở nhà; at her desk = ở bàn học; on a chair = trên ghế",
 "v": "sit = ngồi; write = viết; do homework = làm bài tập; hold a pen = cầm bút",
-"f": "busy = bận; calm = bình tĩnh"
+"f": "busy = bận; happy = vui"
 },
 {
 "s": "Betty = Betty; her friend = bạn của Betty",
 "l": "in the street = ngoài đường; next to her friend = cạnh bạn; in front of the wall = trước bức tường",
 "v": "talk = nói chuyện; point to herself = chỉ vào mình; smile = mỉm cười; listen = lắng nghe",
-"f": "happy = vui; interested = thích thú"
+"f": "happy = vui; excited = hào hứng"
 }
 ]
 },
@@ -15557,7 +15557,7 @@ null,
 },
 "story": [
 "It is Harry's birthday. It is 27 April. Harry wakes up and he is very happy.",
-"Harry puts on his school bag. He goes downstairs.",
+"Harry puts on his school bag. He goes down the stairs.",
 "Harry goes to the kitchen. Mum and Dad do not say happy birthday. Dad is reading the newspaper.",
 "Harry walks to school. He is sad.",
 "At school, his friends have a birthday party for him. Harry is very surprised and happy!"
@@ -15577,7 +15577,7 @@ null,
 {
 "s": "Harry = Harry",
 "l": "at home = ở nhà; on the stairs = trên cầu thang; next to the window = cạnh cửa sổ",
-"v": "go downstairs = đi xuống cầu thang; carry a bag = mang cặp; walk = đi bộ; smile = mỉm cười",
+"v": "go down the stairs = đi xuống cầu thang; carry a bag = mang cặp; walk = đi bộ; smile = mỉm cười",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -15590,11 +15590,11 @@ null,
 "s": "Harry = Harry",
 "l": "outside = ở ngoài; on the grass = trên bãi cỏ; near the school = gần trường",
 "v": "walk = đi bộ; carry a bag = mang cặp; go to school = đi học",
-"f": "sad = buồn; lonely = cô đơn"
+"f": "sad = buồn"
 },
 {
 "s": "Harry = Harry; his friends = các bạn của Harry",
-"l": "at school = ở trường; around the cake = quanh cái bánh; under the banner = dưới băng rôn",
+"l": "at school = ở trường; around the cake = quanh cái bánh; under the sign = dưới tấm biển",
 "v": "have a party = tổ chức tiệc; blow out the candles = thổi nến; put hands up = giơ tay lên; smile = mỉm cười",
 "f": "surprised = ngạc nhiên; happy = vui"
 }
@@ -16163,7 +16163,7 @@ null,
 {
 "s": "Sam = Sam; the puppy = chú chó con",
 "l": "at the birthday party = ở bữa tiệc sinh nhật; under the balloons = dưới những quả bóng bay; next to the table = cạnh cái bàn",
-"v": "get a puppy = nhận một chú chó con; hold the puppy = ôm chú chó; kneel down = quỳ xuống",
+"v": "get a puppy = nhận một chú chó con; hold the puppy = ôm chú chó; sit down = ngồi xuống",
 "f": "surprised = ngạc nhiên; happy = vui"
 },
 {
@@ -16175,7 +16175,7 @@ null,
 {
 "s": "Sam = Sam; the dog = con chó",
 "l": "in the park = trong công viên; on the grass = trên cỏ; next to the tree = cạnh cái cây",
-"v": "walk = đi bộ; hold the lead = cầm dây dắt; walk the dog = dắt chó đi dạo",
+"v": "walk = đi bộ; hold the rope = cầm dây dắt; walk the dog = dắt chó đi dạo",
 "f": "happy = vui"
 },
 {
@@ -16187,7 +16187,7 @@ null,
 {
 "s": "Sam = Sam; the dog = chó mẹ; the puppies = những chú chó con",
 "l": "in the park = trong công viên; on the grass = trên cỏ; under the tree = dưới gốc cây",
-"v": "find the puppy = tìm thấy chó con; hold the puppy = ôm chó con; kneel down = quỳ xuống; look at = nhìn",
+"v": "find the puppy = tìm thấy chó con; hold the puppy = ôm chó con; sit down = ngồi xuống; look at = nhìn",
 "f": "surprised = ngạc nhiên; happy = vui"
 }
 ]
@@ -16722,7 +16722,7 @@ null,
 "f": "worried = lo lắng; scared = sợ"
 },
 {
-"s": "Jim = Jim; Nick = Nick; the dark shape = bóng đen",
+"s": "Jim = Jim; Nick = Nick; the shadow = cái bóng đen",
 "l": "in the living room = trong phòng khách; at the door = ở cửa; behind the door = sau cánh cửa",
 "v": "open the door = mở cửa; look = nhìn; laugh = cười; point = chỉ",
 "f": "scared = sợ; surprised = ngạc nhiên; funny = buồn cười"
@@ -17496,8 +17496,8 @@ null,
 {
 "s": "Tom = Tom; the dog = con chó",
 "l": "in the park = trong công viên; on the grass = trên cỏ; under the tree = dưới gốc cây; next to the trophy = cạnh chiếc cúp",
-"v": "hug the dog = ôm con chó; kneel = quỳ; find the dog = tìm thấy con chó; smile = mỉm cười",
-"f": "happy = vui; relieved = nhẹ nhõm"
+"v": "hug the dog = ôm con chó; sit down = ngồi xuống; find the dog = tìm thấy con chó; smile = mỉm cười",
+"f": "happy = vui"
 }
 ]
 },
@@ -17549,6 +17549,10 @@ null,
 "toys"
 ],
 [
+"What's the shop called?",
+"Toy Town"
+],
+[
 "Where is it?",
 "next to the bank"
 ],
@@ -17557,12 +17561,8 @@ null,
 "9 a.m."
 ],
 [
-"How often does she go there?",
-"once a month"
-],
-[
-"What did she buy last time?",
-"a puzzle"
+"Is it big or small?",
+"small"
 ]
 ]
 },
@@ -17574,6 +17574,10 @@ null,
 "sports clothes"
 ],
 [
+"What's the shop called?",
+"Sport Star"
+],
+[
 "Where is it?",
 "opposite the cinema"
 ],
@@ -17582,12 +17586,8 @@ null,
 "10 a.m."
 ],
 [
-"How often does he go there?",
-"every Saturday"
-],
-[
-"What did he buy last time?",
-"a football"
+"Is it big or small?",
+"big"
 ]
 ]
 }
@@ -17629,6 +17629,10 @@ null,
 "toys"
 ],
 [
+"Name",
+"Toy Town"
+],
+[
 "Where",
 "next to the bank"
 ],
@@ -17637,12 +17641,8 @@ null,
 "9 a.m."
 ],
 [
-"How often / go",
-"once a month"
-],
-[
-"What / buy",
-"a puzzle"
+"Big / small",
+"small"
 ]
 ]
 },
@@ -17654,6 +17654,10 @@ null,
 "sports clothes"
 ],
 [
+"Name",
+"Sport Star"
+],
+[
 "Where",
 "opposite the cinema"
 ],
@@ -17662,12 +17666,8 @@ null,
 "10 a.m."
 ],
 [
-"How often / go",
-"every Saturday"
-],
-[
-"What / buy",
-"a football"
+"Big / small",
+"big"
 ]
 ]
 }
@@ -17676,12 +17676,12 @@ null,
 "p1": "supermarket = siêu thị; trolley = xe đẩy; basket = giỏ; shelf = kệ hàng; cashier = thu ngân; till = quầy tính tiền; fridge = tủ lạnh; apples = táo; oranges = cam; bread = bánh mì; milk = sữa; clock = đồng hồ; push = đẩy; carry = xách; choose = chọn",
 "p2q": [
 "What does the shop sell?",
+"What's the shop called?",
 "Where is it?",
 "What time does it open?",
-"How often does he/she go?",
-"What did he/she buy?"
+"Is it big or small?"
 ],
-"p2w": "shop = cửa hàng; toys / sports clothes / books / shoes = đồ chơi / quần áo thể thao / sách / giày; next to / opposite / behind = cạnh / đối diện / sau; open = mở cửa; once a month / every Saturday = mỗi tháng một lần / mỗi thứ Bảy; puzzle / football = trò xếp hình / quả bóng đá",
+"p2w": "shop = cửa hàng; sell = bán; toys / sports clothes / books / shoes = đồ chơi / quần áo thể thao / sách / giày; called = tên là; next to / opposite / behind = cạnh / đối diện / phía sau; open = mở cửa; big / small = to / nhỏ",
 "p3": "shopping list = danh sách mua sắm; trolley = xe đẩy; pocket = túi áo; fall out = rơi ra; supermarket = siêu thị; till = quầy tính tiền; bag = túi; worried = lo lắng; find = tìm thấy; forget = quên; laugh = cười; notice = nhận ra"
 },
 "p4": {
@@ -18270,7 +18270,7 @@ null,
 "s": "Max = Max; Mum = mẹ",
 "l": "in the supermarket = trong siêu thị; next to the shelves = cạnh kệ hàng; behind Max = phía sau Max",
 "v": "push the trolley = đẩy xe mua hàng; take an apple = lấy quả táo; choose vegetables = chọn rau; drop the list = làm rơi danh sách",
-"f": "happy = vui; careless = không để ý"
+"f": "happy = vui; sad = buồn"
 },
 {
 "s": "Mum = mẹ; Max = Max; the shop assistant = nhân viên thu ngân",
@@ -18282,7 +18282,7 @@ null,
 "s": "Max = Max; Mum = mẹ",
 "l": "at home = ở nhà; at the table = ở bàn; behind the bags = phía sau những túi đồ",
 "v": "show the list = đưa danh sách; hold the list = cầm danh sách; laugh = cười; put hands together = chắp tay",
-"f": "happy = vui; relieved = nhẹ nhõm"
+"f": "happy = vui"
 }
 ]
 },
@@ -18327,7 +18327,7 @@ null,
 "p2": {
 "intro": "Zoe and Sam are both going on a train trip. I don't know anything about Zoe's trip but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Zoe's a train trip",
+"title": "Zoe's train trip",
 "qa": [
 [
 "Where is Zoe going?",
@@ -18338,21 +18338,21 @@ null,
 "8.30 a.m."
 ],
 [
-"How long does the trip take?",
+"How long is the trip?",
 "two hours"
 ],
 [
-"Who is she going with?",
+"Who does she go with?",
 "her aunt"
 ],
 [
-"What is she taking with her?",
+"What does she take?",
 "a book"
 ]
 ]
 },
 "candidateAsks": {
-"title": "Sam's a train trip",
+"title": "Sam's train trip",
 "qa": [
 [
 "Where is Sam going?",
@@ -18363,15 +18363,15 @@ null,
 "7.15 a.m."
 ],
 [
-"How long does the trip take?",
+"How long is the trip?",
 "three hours"
 ],
 [
-"Who is he going with?",
+"Who does he go with?",
 "his grandparents"
 ],
 [
-"What is he taking with him?",
+"What does he take?",
 "a camera"
 ]
 ]
@@ -18405,7 +18405,7 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A train trip",
+"topic": "Train trip",
 "a": {
 "name": "Zoe",
 "rows": [
@@ -18418,7 +18418,7 @@ null,
 "8.30 a.m."
 ],
 [
-"How long / take",
+"How long",
 "two hours"
 ],
 [
@@ -18443,7 +18443,7 @@ null,
 "7.15 a.m."
 ],
 [
-"How long / take",
+"How long",
 "three hours"
 ],
 [
@@ -18460,13 +18460,13 @@ null,
 "hints": {
 "p1": "railway station = ga tàu; platform = sân ga; train = tàu hỏa; suitcase = va-li; hat = cái mũ; ice cream = kem; bench = ghế dài; comic = truyện tranh; kiosk = quầy bán báo; pushchair = xe đẩy em bé; baby = em bé; pigeon = chim bồ câu; roof = mái nhà; clock = đồng hồ; sign = biển báo",
 "p2q": [
-"Where is he/she going?",
+"Where is Sam going?",
 "What time does the train leave?",
-"How long does the trip take?",
-"Who is he/she going with?",
-"What is he/she taking?"
+"How long is the trip?",
+"Who does he go with?",
+"What does he take?"
 ],
-"p2w": "train trip = chuyến đi tàu; seaside = bờ biển; capital city = thủ đô; leave = rời đi; take (time) = mất (thời gian); two hours / three hours = 2 giờ / 3 giờ; aunt / grandparents = dì (cô) / ông bà; camera / book / sandwiches = máy ảnh / sách / bánh mì",
+"p2w": "train trip = chuyến đi bằng tàu; seaside = bờ biển; capital city = thủ đô; leave = rời đi; two hours / three hours = 2 giờ / 3 giờ; aunt / grandparents = dì (cô) / ông bà; book / camera = quyển sách / máy ảnh",
 "p3": "platform = sân ga; ticket = vé; wrong train = nhầm tàu; get on = lên (tàu); get off = xuống (tàu); station = nhà ga; map = bản đồ; worried = lo lắng; surprised = ngạc nhiên; grandma = bà; wave = vẫy tay; arrive = đến nơi"
 },
 "p4": {
@@ -19042,7 +19042,7 @@ null,
 "s": "Kim = Kim; Leo = Leo",
 "l": "at a small station = ở một nhà ga nhỏ; on the platform = trên sân ga; next to the railway = cạnh đường ray; under the sign = dưới tấm biển",
 "v": "stand = đứng; hold a map = cầm bản đồ; look at the map = nhìn bản đồ; put her hand on her mouth = đưa tay lên miệng",
-"f": "worried = lo lắng; confused = bối rối"
+"f": "worried = lo lắng"
 },
 {
 "s": "Kim = Kim; Leo = Leo; Grandma = bà",
@@ -19093,15 +19093,15 @@ null,
 "p2": {
 "intro": "Mia and Leo have both got a new book. I don't know anything about Mia's book but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Mia's a new book",
+"title": "Mia's new book",
 "qa": [
 [
-"What is Mia's book called?",
+"What's Mia's book called?",
 "The Magic Dragon"
 ],
 [
-"Who wrote it?",
-"a famous author"
+"What's it about?",
+"a dragon"
 ],
 [
 "How many pages has it got?",
@@ -19118,15 +19118,15 @@ null,
 ]
 },
 "candidateAsks": {
-"title": "Leo's a new book",
+"title": "Leo's new book",
 "qa": [
 [
-"What is Leo's book called?",
+"What's Leo's book called?",
 "Football Stars"
 ],
 [
-"Who wrote it?",
-"a teacher"
+"What's it about?",
+"football"
 ],
 [
 "How many pages has it got?",
@@ -19171,7 +19171,7 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A new book",
+"topic": "New book",
 "a": {
 "name": "Mia",
 "rows": [
@@ -19180,8 +19180,8 @@ null,
 "The Magic Dragon"
 ],
 [
-"Who / write it",
-"a famous author"
+"What / about",
+"a dragon"
 ],
 [
 "How many pages",
@@ -19205,8 +19205,8 @@ null,
 "Football Stars"
 ],
 [
-"Who / write it",
-"a teacher"
+"What / about",
+"football"
 ],
 [
 "How many pages",
@@ -19226,13 +19226,13 @@ null,
 "hints": {
 "p1": "library = thư viện; librarian = thủ thư; shelf = kệ sách; globe = quả địa cầu; lamp = đèn; poster = áp phích; rocket = tên lửa; dinosaur = khủng long; plant = cây cảnh; computer = máy tính; glasses = kính mắt; hold = cầm; read = đọc; share = dùng chung; sleep = ngủ",
 "p2q": [
-"What's the book called?",
-"Who wrote it?",
+"What's Leo's book called?",
+"What's it about?",
 "How many pages has it got?",
-"Where did he/she get it?",
+"Where did he get it?",
 "Is it interesting or boring?"
 ],
-"p2w": "book = quyển sách; write – wrote = viết – đã viết; author = tác giả; pages = số trang; library = thư viện; cousin = anh chị em họ; interesting / boring = thú vị / chán; fantasy / football = truyện thần tiên / bóng đá",
+"p2w": "book = quyển sách; called = tên là; be about = nói về; dragon / football = rồng / bóng đá; pages = số trang; library = thư viện; cousin = anh chị em họ; interesting / boring = thú vị / chán",
 "p3": "librarian = thủ thư; desk = bàn làm việc; pile of books = chồng sách; fall asleep = ngủ thiếp đi; quietly = một cách yên lặng; tidy = dọn dẹp; shelf = kệ sách; put back = đặt lại; wake up = tỉnh dậy; surprised = ngạc nhiên; happy = vui; give = tặng"
 },
 "p4": {
@@ -19809,7 +19809,7 @@ null,
 "s": "the librarian = cô thủ thư; the boy = bạn nam; the girl = bạn gái",
 "l": "in the library = trong thư viện; at her desk = ở bàn làm việc; at the table = ở cái bàn; in front of the desk = trước bàn làm việc",
 "v": "write = viết; read a book = đọc sách; sit = ngồi; work = làm việc",
-"f": "happy = vui; interested = thích thú; calm = bình tĩnh"
+"f": "happy = vui; excited = hào hứng"
 },
 {
 "s": "the librarian = cô thủ thư; the boy = bạn nam; the girl = bạn gái",
@@ -19826,7 +19826,7 @@ null,
 {
 "s": "the teacher = cô giáo; the boy = bạn nam; the girl = bạn gái",
 "l": "at the door = ở cửa ra vào; in the library = trong thư viện; behind the children = phía sau các bạn nhỏ",
-"v": "open the door = mở cửa; put a finger on his/her lips = đặt ngón tay lên môi; say \"Shh\" = nói \"suỵt\"; sleep = ngủ",
+"v": "open the door = mở cửa; put a finger on his/her lips = đặt ngón tay lên môi; say \"Be quiet\" = nói \"Giữ yên lặng\"; sleep = ngủ",
 "f": "surprised = ngạc nhiên; quiet = yên lặng"
 },
 {
@@ -19881,7 +19881,7 @@ null,
 "title": "Kate's school trip",
 "qa": [
 [
-"Where is Kate's class going?",
+"Where does the class go?",
 "to a science museum"
 ],
 [
@@ -19889,11 +19889,11 @@ null,
 "Wednesday"
 ],
 [
-"How are they travelling?",
-"by coach"
+"What time does the trip start?",
+"9 o'clock"
 ],
 [
-"What will they see?",
+"What do they see?",
 "a robot"
 ],
 [
@@ -19906,7 +19906,7 @@ null,
 "title": "Omar's school trip",
 "qa": [
 [
-"Where is Omar's class going?",
+"Where does the class go?",
 "to the zoo"
 ],
 [
@@ -19914,11 +19914,11 @@ null,
 "Friday"
 ],
 [
-"How are they travelling?",
-"by bus"
+"What time does the trip start?",
+"8.30"
 ],
 [
-"What will they see?",
+"What do they see?",
 "pandas"
 ],
 [
@@ -19969,8 +19969,8 @@ null,
 "Wednesday"
 ],
 [
-"How / travel",
-"by coach"
+"What time / start",
+"9 o'clock"
 ],
 [
 "What / see",
@@ -19994,8 +19994,8 @@ null,
 "Friday"
 ],
 [
-"How / travel",
-"by bus"
+"What time / start",
+"8.30"
 ],
 [
 "What / see",
@@ -20011,13 +20011,13 @@ null,
 "hints": {
 "p1": "science museum = bảo tàng khoa học; solar system = hệ mặt trời; planet = hành tinh; telescope = kính thiên văn; microscope = kính hiển vi; robot = người máy; guide = hướng dẫn viên; skeleton = bộ xương; dinosaur = khủng long; backpack = ba lô; map = bản đồ; take a photo = chụp ảnh; button = nút bấm; floor = sàn nhà; chair = cái ghế",
 "p2q": [
-"Where is the class going?",
+"Where does the class go?",
 "What day is the trip?",
-"How are they travelling?",
-"What will they see?",
-"What does he/she buy?"
+"What time does the trip start?",
+"What do they see?",
+"What does Omar buy?"
 ],
-"p2w": "school trip = chuyến tham quan; science museum / zoo = bảo tàng khoa học / sở thú; by coach / by bus / by train = bằng xe khách / xe buýt / tàu; robot / pandas = người máy / gấu trúc; postcard / T-shirt / poster = bưu thiếp / áo thun / áp phích; Wednesday / Friday = thứ Tư / thứ Sáu",
+"p2w": "school trip = chuyến tham quan của trường; science museum / zoo = bảo tàng khoa học / sở thú; Wednesday / Friday = thứ Tư / thứ Sáu; start = bắt đầu; o'clock = giờ đúng; robot / pandas = người máy / gấu trúc; postcard / T-shirt = bưu thiếp / áo phông",
 "p3": "robot = người máy; find = tìm thấy; museum = bảo tàng; hall = đại sảnh; button = nút bấm; press = ấn; lost bag = chiếc túi bị bỏ quên; roll = lăn; pick up = nhặt lên; carry = mang; clever = thông minh; thank you = cảm ơn; take a photo = chụp ảnh"
 },
 "p4": {
@@ -20557,12 +20557,12 @@ null,
 "s": "Nina = Nina; the robot = người máy; the teacher = cô giáo; the children = các bạn",
 "l": "at the science museum = ở bảo tàng khoa học; in the big hall = trong đại sảnh; in front of the robot = trước người máy; behind Nina = phía sau Nina",
 "v": "look at the robot = nhìn người máy; walk = đi bộ; bend down = cúi xuống; smile = mỉm cười",
-"f": "curious = tò mò; excited = hào hứng"
+"f": "surprised = ngạc nhiên; excited = hào hứng"
 },
 {
 "s": "Nina = Nina; the robot = người máy",
 "l": "at the museum = ở bảo tàng; in front of the robot = trước người máy; next to the rocket = cạnh tên lửa",
-"v": "press a button = ấn nút; point = chỉ; light up = sáng lên; bend = cúi người",
+"v": "push a button = ấn nút; point = chỉ; light up = sáng lên; bend = cúi người",
 "f": "surprised = ngạc nhiên; happy = vui"
 },
 {
@@ -21316,7 +21316,7 @@ null,
 "p3c": [
 {
 "s": "Ben = Ben; Mum = mẹ",
-"l": "in a clothes shop = trong cửa hàng quần áo; next to the rack = cạnh giá treo đồ; in front of the jackets = trước những chiếc áo khoác",
+"l": "in a clothes shop = trong cửa hàng quần áo; next to the clothes = cạnh quần áo; in front of the jackets = trước những chiếc áo khoác",
 "v": "point at the jacket = chỉ vào chiếc áo khoác; look at the jackets = nhìn những chiếc áo khoác; carry a bag = mang túi; smile = mỉm cười",
 "f": "excited = hào hứng; happy = vui"
 },
@@ -21330,7 +21330,7 @@ null,
 "s": "the shop assistant = nhân viên cửa hàng; Ben = Ben; Mum = mẹ",
 "l": "in the clothes shop = trong cửa hàng quần áo; next to the shelves = cạnh kệ hàng; between the assistant and Mum = giữa nhân viên và mẹ",
 "v": "bring a jacket = mang áo khoác đến; hold a jacket = cầm áo khoác; try on = mặc thử; smile = mỉm cười",
-"f": "happy = vui; pleased = hài lòng"
+"f": "happy = vui"
 },
 {
 "s": "Mum = mẹ; Ben = Ben; the shop assistant = nhân viên thu ngân",
@@ -21387,7 +21387,7 @@ null,
 "p2": {
 "intro": "Nora and Jack both went on a winter holiday. I don't know anything about Nora's holiday but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Nora's a winter holiday",
+"title": "Nora's winter holiday",
 "qa": [
 [
 "Where did Nora stay?",
@@ -21412,7 +21412,7 @@ null,
 ]
 },
 "candidateAsks": {
-"title": "Jack's a winter holiday",
+"title": "Jack's winter holiday",
 "qa": [
 [
 "Where did Jack stay?",
@@ -22058,7 +22058,7 @@ null,
 "p3c": [
 {
 "s": "Ana = Ana; her father = bố của Ana",
-"l": "at the ski place = ở khu trượt tuyết; in front of the wooden cabin = trước căn nhà gỗ; in the snow = trên tuyết",
+"l": "at the ski place = ở khu trượt tuyết; in front of the wooden house = trước căn nhà gỗ; in the snow = trên tuyết",
 "v": "put on skis = đeo ván trượt; bend down = cúi xuống; smile = mỉm cười; get ready = chuẩn bị",
 "f": "excited = hào hứng; happy = vui"
 },
@@ -22070,7 +22070,7 @@ null,
 },
 {
 "s": "Ana = Ana",
-"l": "at the ski place = ở khu trượt tuyết; in the snow = trên tuyết; near the cabin = gần căn nhà gỗ; behind Ana = phía sau Ana",
+"l": "at the ski place = ở khu trượt tuyết; in the snow = trên tuyết; near the house = gần căn nhà; behind Ana = phía sau Ana",
 "v": "look at her hands = nhìn vào đôi tay; stop = dừng lại; wave = vẫy tay; stand = đứng",
 "f": "sad = buồn; worried = lo lắng; surprised = ngạc nhiên"
 },
@@ -22084,7 +22084,7 @@ null,
 "s": "the boy = cậu bé; Ana = Ana; the dog = con chó; her father = bố của Ana",
 "l": "on the snow = trên tuyết; between Ana and her father = giữa Ana và bố; next to the dog = cạnh con chó",
 "v": "give the glove = trả găng tay; hold a biscuit = cầm bánh quy; give the dog a biscuit = cho chó ăn bánh quy; smile = mỉm cười",
-"f": "happy = vui; grateful = biết ơn"
+"f": "happy = vui"
 }
 ]
 },
@@ -22129,10 +22129,10 @@ null,
 "p2": {
 "intro": "Lily and Max both saw a film at the cinema. I don't know anything about Lily's film but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Lily's a film",
+"title": "Lily's film",
 "qa": [
 [
-"What's the name of Lily's film?",
+"What's Lily's film called?",
 "The Space Dog"
 ],
 [
@@ -22154,10 +22154,10 @@ null,
 ]
 },
 "candidateAsks": {
-"title": "Max's a film",
+"title": "Max's film",
 "qa": [
 [
-"What's the name of Max's film?",
+"What's Max's film called?",
 "The Big Race"
 ],
 [
@@ -22207,7 +22207,7 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A film",
+"topic": "Film",
 "a": {
 "name": "Lily",
 "rows": [
@@ -22262,13 +22262,13 @@ null,
 "hints": {
 "p1": "cinema = rạp chiếu phim; popcorn = bắp rang; poster = áp phích; ticket = vé; window = quầy bán vé; cap = mũ lưỡi trai; clock = đồng hồ; share = chia sẻ; bucket = cái xô; cola = nước cola; mobile phone = điện thoại di động; bin = thùng rác; arrow = mũi tên; space = vũ trụ; buy = mua",
 "p2q": [
-"What's the film called?",
+"What's Max's film called?",
 "What's it about?",
-"When did he/she see it?",
-"Who did he/she go with?",
-"Was it funny, sad or exciting?"
+"When did he see it?",
+"Who did he go with?",
+"Was it funny or sad?"
 ],
-"p2w": "film = bộ phim; be about = nói về; space = vũ trụ; horse / dog = ngựa / chó; last Saturday / yesterday = thứ Bảy tuần trước / hôm qua; brother / cousins = anh em trai / anh chị em họ; funny / sad / exciting / scary = hài hước / buồn / hấp dẫn / đáng sợ",
+"p2w": "film = bộ phim; called = tên là; be about = nói về; space = vũ trụ; horse / dog = ngựa / chó; last Saturday / yesterday = thứ Bảy tuần trước / hôm qua; brother / cousins = anh em trai / anh chị em họ; funny / sad = hài hước / buồn",
 "p3": "cinema = rạp phim; birthday = sinh nhật; party hat = mũ tiệc; present = quà; popcorn = bắp rang; wallet = ví; forget = quên; pocket = túi áo; worried = lo lắng; give = đưa; thank = cảm ơn; film = bộ phim"
 },
 "p4": {
@@ -22821,7 +22821,7 @@ null,
 "s": "the man = người bán hàng; Tom = Tom; Amy = Amy",
 "l": "in the cinema = trong rạp chiếu phim; next to the seats = cạnh hàng ghế; in front of Tom = trước mặt Tom",
 "v": "bring the wallet = mang cái ví đến; give the wallet = đưa cái ví; take the wallet = nhận cái ví; sit = ngồi",
-"f": "happy = vui; relieved = nhẹ nhõm; surprised = ngạc nhiên"
+"f": "happy = vui; surprised = ngạc nhiên"
 },
 {
 "s": "Tom = Tom; Amy = Amy",
@@ -22872,7 +22872,7 @@ null,
 "p2": {
 "intro": "Grace and Ryan are both staying in a hotel. I don't know anything about Grace's hotel but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Grace's a hotel",
+"title": "Grace's hotel",
 "qa": [
 [
 "Where is Grace's hotel?",
@@ -22880,11 +22880,11 @@ null,
 ],
 [
 "How many floors has it got?",
-"ten floors"
+"ten"
 ],
 [
-"What is there in the hotel?",
-"a pool"
+"What colour is it?",
+"white"
 ],
 [
 "What time is breakfast?",
@@ -22897,7 +22897,7 @@ null,
 ]
 },
 "candidateAsks": {
-"title": "Ryan's a hotel",
+"title": "Ryan's hotel",
 "qa": [
 [
 "Where is Ryan's hotel?",
@@ -22905,11 +22905,11 @@ null,
 ],
 [
 "How many floors has it got?",
-"three floors"
+"three"
 ],
 [
-"What is there in the hotel?",
-"a playground"
+"What colour is it?",
+"green"
 ],
 [
 "What time is breakfast?",
@@ -22950,7 +22950,7 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A hotel",
+"topic": "Hotel",
 "a": {
 "name": "Grace",
 "rows": [
@@ -22960,11 +22960,11 @@ null,
 ],
 [
 "How many floors",
-"ten floors"
+"ten"
 ],
 [
-"What / in the hotel",
-"a pool"
+"Colour",
+"white"
 ],
 [
 "Breakfast time",
@@ -22985,11 +22985,11 @@ null,
 ],
 [
 "How many floors",
-"three floors"
+"three"
 ],
 [
-"What / in the hotel",
-"a playground"
+"Colour",
+"green"
 ],
 [
 "Breakfast time",
@@ -23005,13 +23005,13 @@ null,
 "hints": {
 "p1": "hotel = khách sạn; swimming pool = hồ bơi; lifeguard = nhân viên cứu hộ; ring = phao tròn; sunbed = ghế nằm tắm nắng; umbrella = cái dù; juice = nước ép; balcony = ban công; flowers = hoa; towel = khăn tắm; magazine = tạp chí; sunglasses = kính râm; jump = nhảy; edge = mép; hat = cái mũ",
 "p2q": [
-"Where is the hotel?",
+"Where is Ryan's hotel?",
 "How many floors has it got?",
-"What is there in the hotel?",
+"What colour is it?",
 "What time is breakfast?",
-"What's his/her room number?"
+"What's his room number?"
 ],
-"p2w": "hotel = khách sạn; by the sea / in a forest = cạnh biển / trong rừng; floors = tầng; pool / playground / restaurant / garden = hồ bơi / sân chơi / nhà hàng / vườn; breakfast = bữa sáng; room number = số phòng; seven thirty / eight o'clock = 7 giờ 30 / 8 giờ",
+"p2w": "hotel = khách sạn; by the sea / in a forest = cạnh biển / trong rừng; floors = tầng; white / green = trắng / xanh lá; breakfast = bữa sáng; room number = số phòng; fifteen / twenty-two = 15 / 22",
 "p3": "towel = khăn tắm; sunbed = ghế tắm nắng; jump = nhảy; splash = tiếng tõm; pool = hồ bơi; missing = bị mất; worried = lo lắng; cape = áo choàng; run around = chạy vòng quanh; sorry = xin lỗi; laugh = cười; hot = nóng"
 },
 "p4": {
@@ -23598,7 +23598,7 @@ null,
 {
 "s": "Jim = Jim; the people = những người trong hồ",
 "l": "at the swimming pool = ở hồ bơi; next to the sunbed = cạnh ghế nằm; under the umbrella = dưới cái ô lớn",
-"v": "jump into the pool = nhảy xuống hồ; put the towel on the sunbed = để khăn lên ghế nằm; splash = bắn nước; swim = bơi",
+"v": "jump into the pool = nhảy xuống hồ; put the towel on the sunbed = để khăn lên ghế nằm; play in the water = chơi nước; swim = bơi",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -23617,7 +23617,7 @@ null,
 "s": "Mum = mẹ; Jim = Jim; the girl = bạn gái nhỏ; Dad = bố",
 "l": "at the swimming pool = ở hồ bơi; next to the pool = cạnh hồ bơi; in front of the sunbeds = trước những ghế nằm",
 "v": "give a towel = đưa khăn tắm; hold a towel = cầm khăn tắm; smile = mỉm cười; put hands together = chắp tay",
-"f": "happy = vui; relieved = nhẹ nhõm"
+"f": "happy = vui"
 }
 ]
 },
@@ -23662,15 +23662,15 @@ null,
 "p2": {
 "intro": "Hana and Ali both have a hobby. I don't know anything about Hana's hobby but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Hana's a hobby",
+"title": "Hana's hobby",
 "qa": [
 [
-"What is Hana's hobby?",
+"What's Hana's hobby?",
 "painting"
 ],
 [
-"How often does she do it?",
-"twice a week"
+"What day does she do it?",
+"Saturday"
 ],
 [
 "Where does she do it?",
@@ -23681,21 +23681,21 @@ null,
 "her grandma"
 ],
 [
-"When did she start?",
-"last year"
+"What time does she do it?",
+"4 o'clock"
 ]
 ]
 },
 "candidateAsks": {
-"title": "Ali's a hobby",
+"title": "Ali's hobby",
 "qa": [
 [
-"What is Ali's hobby?",
+"What's Ali's hobby?",
 "chess"
 ],
 [
-"How often does he do it?",
-"every day"
+"What day does he do it?",
+"Sunday"
 ],
 [
 "Where does he do it?",
@@ -23706,8 +23706,8 @@ null,
 "his dad"
 ],
 [
-"When did he start?",
-"two years ago"
+"What time does he do it?",
+"5 o'clock"
 ]
 ]
 }
@@ -23740,7 +23740,7 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A hobby",
+"topic": "Hobby",
 "a": {
 "name": "Hana",
 "rows": [
@@ -23749,8 +23749,8 @@ null,
 "painting"
 ],
 [
-"How often",
-"twice a week"
+"What day",
+"Saturday"
 ],
 [
 "Where / do it",
@@ -23761,8 +23761,8 @@ null,
 "her grandma"
 ],
 [
-"Since when",
-"last year"
+"What time",
+"4 o'clock"
 ]
 ]
 },
@@ -23774,8 +23774,8 @@ null,
 "chess"
 ],
 [
-"How often",
-"every day"
+"What day",
+"Sunday"
 ],
 [
 "Where / do it",
@@ -23786,8 +23786,8 @@ null,
 "his dad"
 ],
 [
-"Since when",
-"two years ago"
+"What time",
+"5 o'clock"
 ]
 ]
 }
@@ -23795,13 +23795,13 @@ null,
 "hints": {
 "p1": "autumn = mùa thu; park = công viên; leaves = lá cây; pile = đống; kite = con diều; pond = cái ao; duck = con vịt; swan = thiên nga; jog = chạy bộ; squirrel = con sóc; nut = quả hạt; umbrella = cái ô; bench = ghế dài; clock tower = tháp đồng hồ; feed = cho ăn",
 "p2q": [
-"What's his/her hobby?",
-"How often does he/she do it?",
-"Where does he/she do it?",
-"Who does he/she do it with?",
-"When did he/she start?"
+"What's Ali's hobby?",
+"What day does he do it?",
+"Where does he do it?",
+"Who does he do it with?",
+"What time does he do it?"
 ],
-"p2w": "hobby = sở thích; painting / chess / cooking / swimming = vẽ / cờ vua / nấu ăn / bơi; twice a week / every day / once a month = 2 lần một tuần / mỗi ngày / mỗi tháng một lần; at home / at school / at the club = ở nhà / ở trường / ở câu lạc bộ; grandma / dad / friend = bà / ba / bạn; last year / two years ago = năm ngoái / 2 năm trước",
+"p2w": "hobby = sở thích; painting / chess = vẽ / cờ vua; Saturday / Sunday = thứ Bảy / Chủ nhật; at home / at school = ở nhà / ở trường; grandma / dad = bà / ba; o'clock = giờ đúng",
 "p3": "kite = con diều; windy = có gió; string = sợi dây; break – broke = đứt; fly away = bay mất; sky = bầu trời; stuck = mắc kẹt; ladder = cái thang; hill = ngọn đồi; clap = vỗ tay; surprise = ngạc nhiên; help = giúp đỡ"
 },
 "p4": {
@@ -24401,7 +24401,7 @@ null,
 "s": "the man = người đàn ông; the children = các bạn nhỏ; the dog = con chó",
 "l": "in the park = trong công viên; under the big tree = dưới cái cây lớn; next to the ladder = cạnh cái thang",
 "v": "climb the ladder = leo lên thang; get the kite = lấy con diều; look up = nhìn lên; sit = ngồi",
-"f": "happy = vui; excited = hào hứng; grateful = biết ơn"
+"f": "happy = vui; excited = hào hứng"
 }
 ]
 },
@@ -24446,14 +24446,14 @@ null,
 "p2": {
 "intro": "Isla and Noah both have a costume for a party. I don't know anything about Isla's costume but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Isla's a party costume",
+"title": "Isla's party costume",
 "qa": [
 [
-"What is Isla going to be at the party?",
+"What's Isla's costume?",
 "a witch"
 ],
 [
-"What colour is her costume?",
+"What colour is it?",
 "black and purple"
 ],
 [
@@ -24461,24 +24461,24 @@ null,
 "her mum"
 ],
 [
-"Where will she wear it?",
+"Where does she wear it?",
 "at a school party"
 ],
 [
-"How much did it cost?",
+"How much was it?",
 "ten pounds"
 ]
 ]
 },
 "candidateAsks": {
-"title": "Noah's a party costume",
+"title": "Noah's party costume",
 "qa": [
 [
-"What is Noah going to be at the carnival?",
+"What's Noah's costume?",
 "an astronaut"
 ],
 [
-"What colour is his costume?",
+"What colour is it?",
 "white and silver"
 ],
 [
@@ -24486,11 +24486,11 @@ null,
 "his uncle"
 ],
 [
-"Where will he wear it?",
+"Where does he wear it?",
 "at the carnival"
 ],
 [
-"How much did it cost?",
+"How much was it?",
 "twenty pounds"
 ]
 ]
@@ -24524,12 +24524,12 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A party costume",
+"topic": "Party costume",
 "a": {
 "name": "Isla",
 "rows": [
 [
-"What / be",
+"What / costume",
 "a witch"
 ],
 [
@@ -24545,7 +24545,7 @@ null,
 "at a school party"
 ],
 [
-"How much / cost",
+"How much",
 "ten pounds"
 ]
 ]
@@ -24554,7 +24554,7 @@ null,
 "name": "Noah",
 "rows": [
 [
-"What / be",
+"What / costume",
 "an astronaut"
 ],
 [
@@ -24570,7 +24570,7 @@ null,
 "at the carnival"
 ],
 [
-"How much / cost",
+"How much",
 "twenty pounds"
 ]
 ]
@@ -24579,13 +24579,13 @@ null,
 "hints": {
 "p1": "carnival = lễ hội hóa trang; costume = trang phục; pirate = cướp biển; eye patch = miếng che mắt; lion = sư tử; clown = chú hề; stilts = cà kheo; balloon = bóng bay; princess = công chúa; crown = vương miện; robot = người máy; drum = cái trống; flag = lá cờ; bee = con ong; hot chocolate = sô-cô-la nóng",
 "p2q": [
-"What is he/she going to be?",
-"What colour is the costume?",
+"What's Noah's costume?",
+"What colour is it?",
 "Who made it?",
-"Where will he/she wear it?",
-"How much did it cost?"
+"Where does he wear it?",
+"How much was it?"
 ],
-"p2w": "costume = trang phục; witch / astronaut / pirate / clown = phù thủy / phi hành gia / cướp biển / chú hề; black and purple / white and silver = đen tím / trắng bạc; make – made = làm – đã làm; mum / uncle = mẹ / chú; school party / carnival = tiệc ở trường / lễ hội; pounds = bảng Anh",
+"p2w": "costume = trang phục hóa trang; witch / astronaut = phù thủy / phi hành gia; black and purple / white and silver = đen tím / trắng bạc; make – made = làm – đã làm; mum / uncle = mẹ / chú (cậu); carnival = lễ hội hóa trang; pounds = bảng Anh",
 "p3": "costume = trang phục; princess = công chúa; crown = vương miện; mirror = cái gương; dressed as = hóa trang thành; animals = động vật; shy = nhút nhát; hide = trốn; tail = cái đuôi; ears = đôi tai; dance = nhảy múa; excited = hào hứng"
 },
 "p4": {
@@ -25208,7 +25208,7 @@ null,
 {
 "s": "the boy = cậu bé; Lara = Lara",
 "l": "at the party = ở bữa tiệc; in the living room = trong phòng khách; in front of Lara = trước mặt Lara",
-"v": "give ears and a tail = tặng tai và đuôi; kneel = quỳ; hold the ears = cầm cái tai; smile = mỉm cười",
+"v": "give ears and a tail = tặng tai và đuôi; sit down = ngồi xuống; hold the ears = cầm cái tai; smile = mỉm cười",
 "f": "happy = vui; kind = tốt bụng; surprised = ngạc nhiên"
 },
 {
@@ -25260,51 +25260,51 @@ null,
 "p2": {
 "intro": "Poppy and Finn both have a cake. I don't know anything about Poppy's cake but you do. So I'm going to ask you some questions.",
 "examinerAsks": {
-"title": "Poppy's a cake",
+"title": "Poppy's cake",
 "qa": [
 [
-"What kind of cake has Poppy got?",
-"strawberry cake"
+"What colour is Poppy's cake?",
+"pink"
 ],
 [
 "Who made it?",
 "her dad"
 ],
 [
-"What is on top of the cake?",
+"What's on top?",
 "strawberries"
 ],
 [
-"How many people are going to eat it?",
+"How many candles has it got?",
 "eight"
 ],
 [
-"When will they eat it?",
+"When is the party?",
 "on Sunday"
 ]
 ]
 },
 "candidateAsks": {
-"title": "Finn's a cake",
+"title": "Finn's cake",
 "qa": [
 [
-"What kind of cake has Finn got?",
-"chocolate cake"
+"What colour is Finn's cake?",
+"brown"
 ],
 [
 "Who made it?",
 "a baker"
 ],
 [
-"What is on top of the cake?",
+"What's on top?",
 "orange slices"
 ],
 [
-"How many people are going to eat it?",
+"How many candles has it got?",
 "twelve"
 ],
 [
-"When will they eat it?",
+"When is the party?",
 "on Friday"
 ]
 ]
@@ -25338,13 +25338,13 @@ null,
 }
 },
 "p2tbl": {
-"topic": "A cake",
+"topic": "Cake",
 "a": {
 "name": "Poppy",
 "rows": [
 [
-"What kind of cake",
-"strawberry cake"
+"Colour",
+"pink"
 ],
 [
 "Who / make it",
@@ -25355,11 +25355,11 @@ null,
 "strawberries"
 ],
 [
-"How many people / eat it",
+"How many candles",
 "eight"
 ],
 [
-"When / eat it",
+"When / party",
 "on Sunday"
 ]
 ]
@@ -25368,8 +25368,8 @@ null,
 "name": "Finn",
 "rows": [
 [
-"What kind of cake",
-"chocolate cake"
+"Colour",
+"brown"
 ],
 [
 "Who / make it",
@@ -25380,11 +25380,11 @@ null,
 "orange slices"
 ],
 [
-"How many people / eat it",
+"How many candles",
 "twelve"
 ],
 [
-"When / eat it",
+"When / party",
 "on Friday"
 ]
 ]
@@ -25393,13 +25393,13 @@ null,
 "hints": {
 "p1": "bakery = tiệm bánh; baker = thợ làm bánh; oven = lò nướng; loaf of bread = ổ bánh mì; cake = bánh kem; candle = nến; biscuit = bánh quy; counter = quầy; coins = đồng xu; card = thẻ; flour = bột mì; sack = bao tải; cat = con mèo; basket = giỏ; raindrops = giọt mưa",
 "p2q": [
-"What kind of cake is it?",
+"What colour is Finn's cake?",
 "Who made it?",
-"What is on top?",
-"How many people will eat it?",
-"When will they eat it?"
+"What's on top?",
+"How many candles has it got?",
+"When is the party?"
 ],
-"p2w": "cake = bánh kem; strawberry / chocolate / lemon = dâu / sô-cô-la / chanh; make – made = làm – đã làm; dad / baker = ba / thợ làm bánh; on top = ở trên; strawberries / orange slices = dâu tây / lát cam; eight / twelve = 8 / 12; on Sunday / on Friday = vào Chủ nhật / thứ Sáu",
+"p2w": "cake = bánh kem; pink / brown = hồng / nâu; make – made = làm – đã làm; dad / baker = ba / thợ làm bánh; on top = ở trên cùng; strawberries / orange slices = dâu tây / lát cam; candles = nến; party = bữa tiệc",
 "p3": "mix = trộn; flour = bột mì; eggs = trứng; bowl = cái tô; oven = lò nướng; smoke = khói; smell = ngửi thấy; burnt = bị cháy; black = đen; bakery = tiệm bánh; candles = nến; blow out = thổi tắt"
 },
 "p4": {
@@ -26039,7 +26039,7 @@ null,
 "story": [
 "Ruby and her grandpa want to make a birthday cake for Ruby's mum. They are in the kitchen. Ruby stirs. Grandpa puts in the flour.",
 "They put the cake in the oven. Then they go to the garden. They play football.",
-"Ruby smells something. There is smoke from the kitchen. Ruby and Grandpa are shocked.",
+"Ruby smells something. There is smoke from the kitchen. Ruby and Grandpa are surprised.",
 "Grandpa takes the cake out of the oven. It is black. Ruby is sad.",
 "They go to the cake shop and buy a new cake. At home, Mum blows out the candles. Ruby's mum is happy."
 ],
@@ -26047,7 +26047,7 @@ null,
 {
 "s": "Ruby = Ruby; Grandpa = ông",
 "l": "at home = ở nhà; in the kitchen = trong bếp; at the table = ở bàn bếp; next to Grandpa = cạnh ông",
-"v": "make a cake = làm bánh; mix the cake = trộn bột bánh; pour flour = đổ bột mì; smile = mỉm cười",
+"v": "make a cake = làm bánh; make the cake = làm bánh; put flour in the bowl = cho bột vào tô; smile = mỉm cười",
 "f": "happy = vui; excited = hào hứng"
 },
 {
@@ -26060,13 +26060,13 @@ null,
 "s": "Ruby = Ruby; Grandpa = ông",
 "l": "in the garden = trong vườn; next to the house = cạnh ngôi nhà; in front of the window = trước cửa sổ",
 "v": "smell smoke = ngửi thấy khói; cover her nose = che mũi; look at the house = nhìn ngôi nhà; open his mouth = há miệng",
-"f": "shocked = hoảng hốt; worried = lo lắng; surprised = ngạc nhiên"
+"f": "surprised = ngạc nhiên; worried = lo lắng"
 },
 {
 "s": "Grandpa = ông; Ruby = Ruby; the cake = chiếc bánh",
 "l": "in the kitchen = trong bếp; next to the oven = cạnh lò nướng; in front of the table = trước cái bàn",
 "v": "take the cake out = lấy bánh ra; hold the cake = cầm chiếc bánh; wear an oven glove = đeo găng lò nướng; cover her nose = che mũi",
-"f": "sad = buồn; shocked = hoảng hốt"
+"f": "sad = buồn; surprised = ngạc nhiên"
 },
 {
 "s": "Ruby = Ruby; Grandpa = ông; the shop assistant = nhân viên cửa hàng; Mum = mẹ",
