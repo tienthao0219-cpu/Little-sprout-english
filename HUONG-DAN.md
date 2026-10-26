@@ -270,8 +270,8 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - Nhập file Word có đoạn văn "(21) ____" + các câu "Question 21. A. … B. … C. …": app tự gộp thành **một bài "Điền từ (chọn trong danh sách)"**, ô chọn nằm ngay trong đoạn văn, học sinh không phải kéo xuống. (Cần file Word có bảng đáp án để biết đáp án đúng; nếu thiếu, app giữ dạng trắc nghiệm cũ.)
 - Bài đọc hiểu (đoạn văn dài + câu hỏi): đoạn văn được **ghim** cạnh câu hỏi (2 cột trên máy tính; dính ở đầu trang trên điện thoại, có nút "▲ Thu gọn").
 ## Speaking Test Flyers (mới)
-- Vào lớp **Cambridge Flyers → SPEAKING → "Speaking Test – 28 bộ đề (4 Parts)"**.
-- 28 bộ: 5 bộ Practice Tests Plus (có script giám khảo, đáp án Part 1–3 và câu Part 4 chính thức), 12 bộ Cambridge Authentic Papers (Flyers 1–4), 3 bộ Collins, 8 bộ Succeed.
+- Vào lớp **Cambridge Flyers → SPEAKING → "Speaking Test – 40 bộ đề (4 Parts)"**.
+- 40 bộ (28 từ sách + 12 bộ Claude soạn, ảnh AI): 5 bộ Practice Tests Plus (có script giám khảo, đáp án Part 1–3 và câu Part 4 chính thức), 12 bộ Cambridge Authentic Papers (Flyers 1–4), 3 bộ Collins, 8 bộ Succeed, 12 bộ "Bộ soạn thêm (ảnh AI)".
 - Part 1 và Part 2: hai hình đặt cạnh nhau. Part 3: hình xoay ngang. Part 4: câu hỏi từng câu một.
 - **Hint**: chạm vào hình để hiện từ vựng / giới từ / mẫu câu, chạm lần nữa để ẩn. Hint và câu Part 4 của các bộ ngoài Practice Tests Plus là **Claude soạn**, không phải đề gốc.
 - Nút 👩‍🏫 hiện/ẩn gợi ý và đáp án cho cô.
