@@ -22,5 +22,6 @@ I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs
 - Đã xem ảnh: Part 1 (màn che đóng/mở, vòng khoanh, laptop + điện thoại), Part 2 (3 bước gợi ý), Part 3 (thẻ).
 - Màn che từ vựng: lúc đóng chỉ cao ~150px (bảng ẩn phía sau), bấm để mở.
 - Đã rà lại chấm ai-t5…ai-t12 và sửa: ai-t6 mũ hồng chỉ có ở tranh cô; ai-t5 ba lô tranh em chuyển sang ghế; ai-t7 đổi nhãn "man (building)" → "man"; ai-t12 bao bột chỉ có ở tranh cô, mèo tranh em ở trên quầy. (Đã sửa cả `data.json` lẫn `ops.py`/`ops_pos.py`.)
-- Part 2: nút ❓ luôn hiện cụm cấu trúc (vd. "what / buy"); bước 1 = từ hỏi + nghĩa; bước 2 = câu mẫu tô màu + công thức + đáp án (+ "Cách hỏi khác" nếu có). Cần cô Thảo xác nhận có đúng ý "bấm 1 = từ hỏi, bấm 2 = cấu trúc what/name" hay chưa.
+- Part 2 (đã đổi theo đề xuất, cô Thảo đồng ý thử): mỗi câu có nút "❓ Câu N"; bấm 1 = từ hỏi + nghĩa, bấm 2 = cấu trúc (vd. what / buy), bấm 3 = câu hỏi mẫu tô màu + công thức + đáp án (+ "Cách hỏi khác"), bấm 4 = ẩn. Cô sẽ kiểm tra lại trên máy.
+- Giao diện chung (CSS cuối `template.html`, khối "Giao diện chung"): 4 Part nằm một hàng; nút Phần trước/Phần tiếp dính đáy (`.nav.pnav`); thanh tiêu đề dính trên từ 700px; nút ≥ 40px, chữ ≥ 12px; hover chỉ cho chuột; safe-area iPhone/iPad; trang chủ 2 cột trên điện thoại. Quét tự động (tràn ngang / nút nhỏ / chữ nhỏ) ở 5 kích thước: điện thoại dọc + ngang, iPad dọc + ngang, laptop → sạch.
 - Việc còn lại: cô hard refresh (Ctrl+Shift+R) sau khi bản mới lên.

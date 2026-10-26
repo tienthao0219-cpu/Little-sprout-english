@@ -43,7 +43,7 @@ def run(only=None):
             pg.screenshot(path=f'shots/{vn}_{sid}_p{part+1}.png',full_page=True)
         # part 2 accordions
         pg.evaluate('st.part=1;resetPartUI();testView()'); pg.evaluate('if(!st.hint)toggleHint()')
-        nq=pg.evaluate("(()=>{const b=[...document.querySelectorAll('.qitem button')];b.forEach(x=>{x.click();x.click()});return b.length})()")
+        nq=pg.evaluate("(()=>{const b=[...document.querySelectorAll('.qitem button')];b.forEach(x=>{x.click();x.click();x.click()});return b.length})()")
         res.append((vn,sid,'p2q',nq,pg.evaluate("document.querySelectorAll('.qitem .qdet:not(.hidden) .qh').length"),pg.evaluate("document.querySelectorAll('.qh .t-wh').length"),0,0))
         if vn=='laptop' and sid in('ai-t6','suc-t5'): pg.screenshot(path=f'shots/{vn}_{sid}_p2.png',full_page=True)
       res.append((vn,'ERRORS',len(errs),errs[:3],0,0,0,0))
