@@ -20,7 +20,7 @@ def run(only=None):
         if only and sid not in only: continue
         pg.evaluate(f'openSet("{sid}")'); pg.wait_for_timeout(120)
         for part in (0,2):
-          pg.evaluate(f'st.part={part};resetPartUI();testView()'); pg.evaluate('if(!st.hint)toggleHint()'); pg.wait_for_timeout(150)
+          pg.evaluate(f'st.part={part};resetPartUI();testView()'); pg.evaluate('if(!st.hint)toggleHint()'); pg.evaluate('if(st.part===0&&st.hlvl<2)toggleHint()'); pg.wait_for_timeout(150)
           # click each dot via real mouse at its centre
           pg.evaluate("document.querySelectorAll('.iw').forEach(e=>e.scrollIntoView({block:'center'}))")
           n=pg.evaluate("document.querySelectorAll('.hot').length")
@@ -51,6 +51,18 @@ def run(only=None):
             res.append((vn,sid,'p3cards',cards,rows,pat,0,0))
           if vn=='laptop' and sid in ('ai-t6','suc-t5','cam3-t2') :
             pg.screenshot(path=f'shots/{vn}_{sid}_p{part+1}.png',full_page=True)
+        # chế độ học viên: có khung tự đánh giá, không có khung chấm của cô, không có nút Cô ở Part 4
+        pg.evaluate('st.teach=false;st.part=3;resetPartUI();testView()')
+        stu=pg.evaluate("[document.querySelectorAll('.selfbox').length,document.querySelectorAll('.score').length,document.querySelectorAll('.tbtn').length]")
+        pg.evaluate('st.part=2;resetPartUI();testView()')
+        pg.evaluate("[...document.querySelectorAll('button')].find(b=>b.textContent.includes('Xem từng tranh')).click()")
+        pg.wait_for_timeout(120)
+        sv=pg.evaluate("(()=>{const c=document.querySelector('.sv-crop');const r=c.getBoundingClientRect();return [r.width>50&&r.height>50,document.querySelectorAll('.sv-dots i').length]})()")
+        pg.evaluate("document.querySelectorAll('.sv-nav .btn')[1].click();document.querySelectorAll('.sv-nav .btn')[1].click()")
+        i3=pg.evaluate("document.querySelector('.lbt span').textContent")
+        pg.evaluate("[...document.querySelectorAll('.lbt button')].find(b=>b.textContent.includes('Đóng')).click()")
+        res.append((vn,sid,'student',stu[0],stu[1],stu[2],int(sv[0]) if sv[0] else 0,sv[1] if i3=='Tranh 3 / 5' else -1))
+        pg.evaluate('st.teach=true')
         # part 2 accordions
         pg.evaluate('st.part=1;resetPartUI();testView()'); pg.evaluate('if(!st.hint)toggleHint()')
         nq=pg.evaluate("(()=>{const b=[...document.querySelectorAll('.qitem button')];b.forEach(x=>{x.click();x.click();x.click()});return b.length})()")
@@ -63,7 +75,7 @@ def run(only=None):
 if __name__=='__main__':
   import os; os.makedirs('shots',exist_ok=True)
   r=run(sys.argv[1:] or None)
-  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
+  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='student' and (x[3]!=1 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=5)) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
   json.dump(r,open('pw_res.json','w'))
   print('total',len(r),'flagged',len(bad))
   for x in bad[:80]: print(x)

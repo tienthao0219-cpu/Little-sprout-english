@@ -101,7 +101,7 @@ details.guide li{margin:4px 0}
 .qleg span{border-radius:7px;padding:1px 7px;font-weight:800}
 .qans{background:#f3fbf7;border-radius:8px;padding:3px 8px;margin-top:4px;font-weight:700;color:#1d7a58}
 .dring{display:none;position:absolute;border:3px dashed #ff5d8f;border-radius:50%;pointer-events:none;z-index:2;background:rgba(255,93,143,.06)}
-.showdots .dring{display:block}
+.showrings .dring{display:block}
 .dn{display:none;position:absolute;transform:translate(-45%,-45%);width:clamp(26px,3.3vw,40px);aspect-ratio:1;border-radius:50%;background:#ff5d8f;color:#fff;font-family:var(--fh);font-weight:800;display:grid;place-items:center;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.35);z-index:3;font-size:clamp(14px,1.9vw,21px);line-height:1;cursor:pointer;padding:0}
 .dsum{background:#fff0f5;border:2px solid #ffc4d6;border-radius:14px;padding:8px 12px;margin-top:10px;font-weight:700;font-size:14.5px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .dsum .dnc{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:#ff5d8f;color:#fff;font-family:var(--fh);font-weight:800;font-size:15px}
@@ -215,7 +215,7 @@ details.guide li{margin:4px 0}
 .sum .row span:last-child{margin-left:auto;letter-spacing:2px}
 
 /* ---------- phóng to ---------- */
-#lb{position:fixed;inset:0;background:rgba(36,26,64,.98);z-index:50;display:flex;flex-direction:column}
+#lb{position:fixed;inset:0;background:#241a40;z-index:50;display:flex;flex-direction:column}
 #lb .lbt{display:flex;gap:8px;align-items:center;padding:10px 12px;color:#fff;font-weight:800}
 #lb .lbt span{flex:1}
 #lb .lbt button{background:#fff;color:#6a4fcb;border-radius:12px;min-height:44px;min-width:44px;padding:0 12px;font-weight:800}
@@ -264,6 +264,25 @@ body{overflow-x:clip;background-color:#FFF9F2;
 .p2t td:first-child{width:46%;font-family:var(--fh);font-weight:800;font-size:14.5px;color:#5a6485;background:#fbfaff}
 .p2t td:last-child{color:var(--ink)}
 @media (max-width:560px){.p2tg{grid-template-columns:1fr}}
+
+
+/* ---------- xem từng tranh Part 3 / tự đánh giá / gợi ý Part 4 ---------- */
+#lb.hidden{display:none}
+.sv-stage{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 10px;touch-action:pan-y}
+.sv-crop{background-repeat:no-repeat;background-color:#fff;border-radius:12px;box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.sv-dots{display:flex;justify-content:center;gap:10px;padding:8px 0}
+.sv-dots i{width:14px;height:14px;border-radius:50%;background:#6f64a8;display:block;cursor:pointer}
+.sv-dots i.cur{background:#ffd86b;transform:scale(1.25)}
+.sv-hints{background:#fff;margin:0 10px;border-radius:14px;padding:8px 10px;max-height:34vh;overflow:auto}
+.sv-hints:empty{display:none}
+.sv-row{padding:4px 0}.sv-row+.sv-row{border-top:1px solid #eee}
+.sv-row .hchip{background:#fff7d6;border:1.5px solid #f1dc8a;font-size:15px}
+.sv-hints .hbtn{margin-top:6px}
+.sv-nav{display:flex;gap:10px;padding:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
+.sv-nav .btn{flex:1;justify-content:center}
+.selfbox{margin-top:14px}
+.hbtn.pulse{animation:pulse 1s ease-in-out 4}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 3px 0 #f1dc8a}50%{transform:scale(1.07);box-shadow:0 0 0 6px rgba(255,216,107,.55)}}
 
 /* ---------- Part 3: 5 cột pastel, chạm để hiện ---------- */
 .p3ctl{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px}
@@ -411,7 +430,12 @@ function saveP(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch 
 function getTeach() { try { return localStorage.getItem(KEY + '_teach') === '1'; } catch (e) { return !!mem._t; } }
 function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); } catch (e) { mem._t = v; } }
 
-const st = { ans: false, hint: false, view: 'home', filter: 'all', set: null, part: 0, q: 0, showA: false, teach: getTeach(), sc: {}, story: false, dsc: {}, t0: 0, tAcc: 0, tRun: false };
+function setName(s) {
+  const m = /^cam(\d)-t(\d)$/.exec(s.id); if (m) return 'Authentic ' + m[1] + ' · Test ' + m[2];
+  const g = { ptp: 'Practice Tests Plus', suc: 'Succeed', col: 'Collins', ai: 'Bộ soạn thêm' }[s.id.split('-')[0]];
+  return (g || s.src) + ' · Test ' + s.t;
+}
+const st = { ans: false, hint: false, hlvl: 0, view: 'home', filter: 'all', set: null, part: 0, q: 0, showA: false, teach: getTeach(), sc: {}, story: false, dsc: {}, t0: 0, tAcc: 0, tRun: false };
 let tick = null;
 
 function h(tag, attrs, ...kids) {
@@ -440,14 +464,21 @@ const GEN = {
 function patBox(title, arr, vi) { return h('div.pat', h('div.pt', title), vi ? h('div.muted', { style: 'font-size:12.5px;font-weight:700;margin:-2px 0 4px' }, vi) : null, h('div.pl', arr.map(f => h('div.hline', f)))); }
 function chips(arr) { return h('div.hchips', arr.map(x => h('span.hchip', h('b', x[0]), x[1] && x[1].toLowerCase() !== x[0].toLowerCase() ? h('small', x[1]) : null))); }
 function hsec(title, body) { return h('div.hsec', h('div.hh', title), body); }
-function hov(...secs) { return h('div.hintov' + (st.hint ? '.show' : ''), secs); }
-function toggleHint() {
-  st.hint = !st.hint;
-  document.querySelectorAll('.hintov').forEach(e => e.classList.toggle('show', st.hint));
-  $app.classList.toggle('showdots', st.hint);
-  document.querySelectorAll('.hbtn.hh1').forEach(b => { b.textContent = st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'; });
+function hov(...secs) { return h('div.hintov' + ((st.part === 0 ? st.hlvl >= 3 : st.hint) ? '.show' : ''), secs); }
+const P1LAB = ['💡 Gợi ý 1: chấm vàng', '💡 Gợi ý 2: vòng khoanh', '💡 Gợi ý 3: giới từ', '💡 Ẩn gợi ý'];
+function hintLabel() { return st.part === 0 ? P1LAB[st.hlvl] : (st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'); }
+function applyHint() {
+  const p1 = st.part === 0, lv = p1 ? st.hlvl : (st.hint ? 3 : 0);
+  document.querySelectorAll('.hintov').forEach(e => e.classList.toggle('show', p1 ? lv >= 3 : st.hint));
+  $app.classList.toggle('showdots', p1 ? lv >= 1 : st.hint);
+  $app.classList.toggle('showrings', lv >= 2);
+  document.querySelectorAll('.hbtn.hh1').forEach(b => { b.textContent = hintLabel(); });
 }
-function hintBar(note, z) { return h('div.hbar', h('button.hbtn.hh1', { onclick: toggleHint }, st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'), z ? h('button.bigbtn', { onclick: () => zoom2(st.set, z[0], z[1], z[2], z[3]) }, '🔍 Xem 2 hình vừa màn hình') : null, h('span', note || '')); }
+function toggleHint() {
+  if (st.part === 0) { st.hlvl = (st.hlvl + 1) % 4; st.hint = st.hlvl > 0; } else st.hint = !st.hint;
+  applyHint();
+}
+function hintBar(note, z) { return h('div.hbar', h('button.hbtn.hh1', { onclick: toggleHint }, hintLabel()), z ? h('button.bigbtn', { onclick: () => zoom2(st.set, z[0], z[1], z[2], z[3]) }, '🔍 Xem 2 hình vừa màn hình') : null, h('span', note || '')); }
 
 /* ----- mũi tên + từ vựng khi chạm vào từng vật ----- */
 const SVGNS = 'http://www.w3.org/2000/svg';
@@ -600,8 +631,8 @@ function homeView() {
       const p = prog[s.id] || {}; const R = p.sc ? shieldCalc(p.sc) : null; const done = !!(p.sc && PARTS.every(x => scoredPart(p.sc[x.id])));
       return h('button.tcard' + (done ? '.done' : ''), { onclick: () => openSet(s.id) },
         h('img.th', { src: img(s, 'p3'), alt: '', loading: 'lazy', onerror: function () { this.style.visibility = 'hidden'; } }),
-        h('div.tb', h('div.tn', 'Test ' + s.no, R ? h('span.tstar', { style: 'display:inline-flex;align-items:center;gap:2px' }, shieldSvg(true, 18), h('span', { style: 'font-size:14px' }, R.shields + '/5')) : null),
-          h('div.ts', s.src + ' · Test ' + s.t), s.teacher ? h('div', h('span.tag.teach', 'có script')) : null));
+        h('div.tb', h('div.tn', setName(s), R ? h('span.tstar', { style: 'display:inline-flex;align-items:center;gap:2px' }, shieldSvg(true, 18), h('span', { style: 'font-size:14px' }, R.shields + '/5')) : null),
+          h('div.ts', s.src), s.teacher ? h('div', h('span.tag.teach', 'có script')) : null));
     })),
     list.length ? null : h('div.panel.muted', 'Chưa có bộ nào trong mục này.'),
     h('p.muted', { style: 'text-align:center;font-size:12.5px;margin-top:18px' }, 'Hình lấy từ các sách luyện thi trong thư viện của cô, dùng để luyện tập trong lớp.'));
@@ -651,7 +682,7 @@ function shieldCalc(scAll) {
   return { avg, sum, shields: Math.max(0, Math.min(5, Math.round(sum / 3))), n: used.length };
 }
 function openSet(id) {
-  st.view = 'test'; st.p3rev = null; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; st.hint = false; st.ans = false; st.story = false; st.dsc = {};
+  st.view = 'test'; st.p3rev = null; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; st.hint = false; st.hlvl = 0; st.ans = false; st.story = false; st.dsc = {};
   const p = loadP()[id] || {}; st.sc = { p1: [null, null, null], p2: [null, null, null], p3: [null, null, null], p4: [null, null, null] };
   if (p.sc) PARTS.forEach(x => { if (p.sc[x.id]) st.sc[x.id] = p.sc[x.id].slice(); });
   st.t0 = Date.now(); st.tAcc = 0; st.tRun = false; clearInterval(tick);
@@ -663,22 +694,22 @@ function timerEl() {
   clearInterval(tick); tick = setInterval(() => { span.textContent = fmt(elapsed()); }, 500);
   return t;
 }
-function resetPartUI() { st.p3rev = null; st.q = 0; st.showA = false; st.hint = false; st.ans = false; st.story = false; }
+function resetPartUI() { st.p3rev = null; st.hlvl = 0; st.q = 0; st.showA = false; st.hint = false; st.ans = false; st.story = false; }
 function testView() {
   const s = st.set, P = PARTS[st.part];
   const bar = h('header.sbar', h('div.sbar-in',
     ni('←', 'Các bộ', { onclick: goHome, title: 'Về danh sách bộ đề' }),
-    h('div.ttl', h('b', 'Test ' + s.no), h('small', s.src + ' · Test ' + s.t)),
+    h('div.ttl', h('b', setName(s)), h('small', s.src)),
     timerEl(),
     ni(st.tRun ? '⏸' : '▶', st.tRun ? 'Dừng' : 'Chạy', { onclick: () => { if (st.tRun) { st.tAcc = elapsed(); st.tRun = false; } else { st.t0 = Date.now(); st.tRun = true; } testView(); } }),
     ni('↺', 'Đặt lại', { onclick: () => { st.tAcc = 0; st.tRun = false; testView(); }, title: 'Đặt lại đồng hồ' }),
     ni(tIcon(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => { st.teach = !st.teach; setTeach(st.teach); testView(); }, title: 'Bật/tắt gợi ý và đáp án của cô' }, st.teach)));
-  const steps = h('div.steps', PARTS.map((p, i) => h('button.step' + (i === st.part ? '.on' : '') + (scoredPart(st.sc[p.id]) ? '.done' : ''), { onclick: () => { st.part = i; resetPartUI(); testView(); window.scrollTo(0, 0); } },
+  const steps = h('div.steps', PARTS.map((p, i) => h('button.step' + (i === st.part ? '.on' : '') + (scoredPart(st.sc[p.id]) || selfOf(p.id) != null ? '.done' : ''), { onclick: () => { st.part = i; resetPartUI(); testView(); window.scrollTo(0, 0); } },
     h('b', 'Part ' + p.n), h('small', p.vi))));
   let body;
   if (P.id === 'p1') body = part1(s); else if (P.id === 'p2') body = part2(s); else if (P.id === 'p3') body = part3(s); else body = part4(s);
-  $app.replaceChildren(bar, steps, body, scoreBox(P), navBox());
-  $app.classList.toggle('showdots', st.hint);
+  $app.replaceChildren(bar, steps, body, st.teach ? scoreBox(P) : selfBox(P), navBox());
+  applyHint();
 }
 function howBox(en, vi) { return h('div.how', h('b.en', en), h('div.vi', vi)); }
 function teachBox(inner) { if (!st.teach) return null; const d = h('details.teach', { open: st.ans }, h('summary', tIcon(), ' Bấm để hiện / ẩn gợi ý & đáp án cho cô'), inner); d.addEventListener('toggle', () => { st.ans = d.open; }); return d; }
@@ -736,7 +767,7 @@ function part1(s) {
   wrap.append(howBox('Look at the two pictures. They are nearly the same, but some things are different.',
     'Cô nói về tranh của cô: "In my picture, …". Em nhìn tranh của em rồi nói điểm khác: "In my picture, …". Hai tranh đặt cạnh nhau để em đối chiếu.'),
     h('div.rotate-hint', '📱 Điện thoại: xoay ngang máy để xem hai hình cạnh nhau.'),
-    hintBar('Chạm vào từng vật trong tranh để xem từ vựng (mũi tên + chữ); chạm lần nữa để ẩn. Nút 💡 hiện điểm chạm, vòng khoanh điểm khác và giới từ.', ['p1ex', 'p1cand', "Tranh của cô (Examiner's copy)", "Tranh của em (Candidate's copy)"]),
+    hintBar('Chạm vào từng vật trong tranh để xem từ vựng (mũi tên + chữ); chạm lần nữa để ẩn. Bấm 💡 từng bước: ① chấm vàng chỉ chỗ có vật → ② vòng khoanh chỗ khác nhau → ③ giới từ.', ['p1ex', 'p1cand', "Tranh của cô (Examiner's copy)", "Tranh của em (Candidate's copy)"]),
     h('div.pics', picBox(s, 'p1ex', 'ex', "Tranh của cô (Examiner's copy)", '', null, null, { hot, dif, side: 'ex' }),
       picBox(s, 'p1cand', 'ca', "Tranh của em (Candidate's copy)", '', hov(hsec('📍 Giới từ', chips(GEN.prep))), null, { hot, dif, side: 'ca' })),
     patBox('💬 Mẫu câu để nói (luôn hiện – em cứ dùng nhé)', GEN.p1frames), difTable(s));
@@ -875,6 +906,18 @@ function qitem(q, n) {
   } }, '❓ ', lab, hintTxt);
   return h('div.qitem', b, s1, s2, d);
 }
+/* mẫu câu TRẢ LỜI cho thẻ của bộ này, suy ra từ các câu hỏi gợi ý */
+const ANSF = [[/^what time/, "It's at … / At … o'clock."], [/^what colou?r/, "It's … (colour)."], [/^(what day|when)\b/, 'On … / In … / Last …'],
+  [/^how many/, 'There are … / (a number)'], [/^how old/, "It's … years old."], [/^how much/, "It's … pounds."], [/^how long/, "It's … / For … days."],
+  [/^how often/, 'Every … / Once a …'], [/^where.*\blive/, 'She / He lives in …'], [/^where/, "It's in / at / near …"], [/^who/, 'His / Her … (mum, friend …)'],
+  [/^why/, 'Because …'], [/^what.*(called|name)/, "It's called … / Her / His name's …"], [/^what.*about/, "It's about …"], [/^what.*hobby/, 'Her / His hobby is …'],
+  [/^what.*(sport|play)/, 'She / He plays …'], [/^what.*(subject|teach)/, 'She / He teaches …'], [/^what.*(buy|bought)/, 'She / He bought …'], [/^what/, "It's a … / They are …"],
+  [/^(is|are|was|were|has|have|does|do|did|can)\b.* or /, "It's … / It was …"], [/^(is|are|was|were|has|have|does|do|did|can)\b/, "Yes, it is. / No, it isn't."]];
+function p2frames(s) {
+  const out = [];
+  ((s.hints && s.hints.p2q) || []).forEach(q => { const w = q.toLowerCase().replace(/\?/g, '').replace(/[’]/g, "'").trim(); const m = ANSF.find(r => r[0].test(w)); if (m && out.indexOf(m[1]) < 0) out.push(m[1]); });
+  return out.length ? out : GEN.p2frames;
+}
 function part2(s) {
   const T = s.teacher && s.teacher.p2, pq = (s.hints && s.hints.p2q) || [];
   const wrap = h('div');
@@ -892,10 +935,10 @@ function part2(s) {
   wrap.append(howBox('You and the examiner have different information. Ask and answer questions.',
     'Cô hỏi em về thẻ của em, rồi em hỏi cô về thẻ còn lại. Mỗi người chỉ có nửa thông tin: đáp án của câu em hỏi nằm ở thẻ của cô, và ngược lại.'),
     h('div.rotate-hint', '📱 Điện thoại: xoay ngang máy để xem hai thẻ cạnh nhau.'),
-    hintBar('Nút 💡 hiện câu hỏi mẫu cho em (bấm từng câu: lần 1 = từ hỏi, lần 2 = cấu trúc, lần 3 = câu hỏi mẫu). Gợi ý cho cô nằm ngay dưới thẻ của cô khi bật biểu tượng quả táo.', s.p2tbl ? null : ['p2ex', 'p2cand', "Thẻ của cô (Examiner's copy)", "Thẻ của em (Candidate's copy)"]),
+    hintBar('Nút 💡 hiện câu hỏi mẫu cho em (bấm từng câu: lần 1 = từ hỏi, lần 2 = cấu trúc, lần 3 = câu hỏi mẫu).' + (st.teach ? ' Gợi ý cho cô nằm ngay dưới thẻ của cô.' : ''), s.p2tbl ? null : ['p2ex', 'p2cand', "Thẻ của cô (Examiner's copy)", "Thẻ của em (Candidate's copy)"]),
     h('div.pics', h('div.col', picBox(s, s.p2tbl ? 'p2pic' : 'p2ex', 'ex', "Thẻ của cô (Examiner's copy)", '', null, s.p2tbl ? p2tables(s, 'ex') : null), tHelp),
       h('div.col', picBox(s, s.p2tbl ? 'p2pic' : 'p2cand', 'ca', "Thẻ của em (Candidate's copy)", '', sHelp, s.p2tbl ? p2tables(s, 'ca') : null))),
-    patBox('💬 Mẫu câu trả lời (luôn hiện – em cứ dùng nhé)', GEN.p2frames));
+    patBox('💬 Mẫu câu trả lời cho thẻ này (luôn hiện – em cứ dùng nhé)', p2frames(s)));
   if (st.teach && T) wrap.append(teachBox(h('div.note', srcNote(s))));
   return wrap;
 }
@@ -942,6 +985,41 @@ function p3cards(s) {
     h('span', 'Chạm vào từng cột (hoặc bấm “Hiện tiếp”): WHO (ai) → WHERE (ở đâu) → ACTION (làm gì) → FEELING (cảm xúc)'));
   return hsec('🧩 Gợi ý từng tranh – chạm để hiện', h('div', ctl, grid));
 }
+/* Part 3: xem lần lượt từng tranh (cắt từ ảnh ghép theo s.p3box) */
+function storyView(s, i0) {
+  const bx = s.p3box;
+  if (!bx || bx.length < 5) { zoom(s, 'p3', 'Picture Story'); return; }
+  const lb = document.getElementById('lb'); lb.classList.remove('hidden'); lb.replaceChildren();
+  let i = i0 || 0; const C = s.p3c || [];
+  if (!st.p3rev || st.p3rev.length !== C.length) st.p3rev = C.map(() => 0);
+  const im = new Image(); im.src = img(s, 'p3');
+  const stage = h('div.sv-stage'), crop = h('div.sv-crop'), hints = h('div.sv-hints'), top = h('span'), dots = h('div.sv-dots');
+  stage.append(crop);
+  const close = () => { lb.classList.add('hidden'); document.removeEventListener('keydown', key); window.removeEventListener('resize', fit); testView(); };
+  const go = d => { i = Math.max(0, Math.min(4, i + d)); paint(); };
+  const key = e => { if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1); };
+  const fit = () => {
+    if (!im.naturalWidth) return; const b = bx[i], pw = b[2] * im.naturalWidth, ph = b[3] * im.naturalHeight;
+    const k = Math.min(stage.clientWidth / pw, stage.clientHeight / ph); crop.style.width = Math.floor(pw * k) + 'px'; crop.style.height = Math.floor(ph * k) + 'px';
+    crop.style.backgroundImage = 'url(' + im.src + ')'; crop.style.backgroundSize = (100 / b[2]) + '% ' + (100 / b[3]) + '%';
+    crop.style.backgroundPosition = (b[2] >= 1 ? 0 : b[0] / (1 - b[2]) * 100) + '% ' + (b[3] >= 1 ? 0 : b[1] / (1 - b[3]) * 100) + '%';
+  };
+  const paint = () => {
+    top.textContent = 'Tranh ' + (i + 1) + ' / 5';
+    dots.replaceChildren(...[0, 1, 2, 3, 4].map(k => h('i' + (k === i ? '.cur' : ''), { onclick: () => { i = k; paint(); } })));
+    prev.disabled = i === 0; next.disabled = i === 4;
+    const c = C[i], rows = c ? P3ROWS.filter(r => c[r[0]]) : [], n = st.p3rev[i];
+    hints.replaceChildren(...rows.map((r, k) => k < n ? h('div.sv-row.' + r[0], h('span.pl2', r[1] + ' ' + r[2], h('small', ' (' + r[3] + ')')), chips(hl(c[r[0]]))) : null).filter(Boolean),
+      rows.length ? h('button.hbtn.sm', { onclick: () => { st.p3rev[i] = n >= rows.length ? 0 : n + 1; paint(); } }, n >= rows.length ? '↺ Ẩn gợi ý' : '👆 Gợi ý: ' + rows[n][2] + ' (' + rows[n][3] + ')') : null);
+    fit();
+  };
+  const prev = h('button.btn.ghost', { onclick: () => go(-1) }, '← Trước'), next = h('button.btn', { onclick: () => go(1) }, 'Sau →');
+  lb.append(h('div.lbt', top, h('button', { onclick: close }, '✕ Đóng')), stage, dots, hints, h('div.sv-nav', prev, next));
+  let x0 = null; stage.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener('touchend', e => { if (x0 != null) { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1); x0 = null; } });
+  document.addEventListener('keydown', key); window.addEventListener('resize', fit);
+  im.onload = paint; paint();
+}
 function part3(s) {
   const T = s.teacher && s.teacher.p3, hot = (s.hot && s.hot.p3) || [];
   const wrap = h('div.story');
@@ -950,8 +1028,9 @@ function part3(s) {
     'Cô kể tranh 1 làm mẫu, em kể tiếp tranh 2, 3, 4, 5. Nói rõ ai đang làm gì, ở đâu, cảm xúc ra sao.'),
     h('div.p3open', h('div.who', '🗣 Cô mở đầu – tranh 1 (cô đọc, em nghe và nhìn):'),
       op ? h('div', '“These pictures tell a story' + (op.title ? '. It\'s called \'' + op.title + '\'' : '') + '. ' + op.line + '” → “Now you tell the story.”') : h('div', '“These pictures tell a story. Look at the first picture: …” → “Now you tell the story.”'),
-      s.p3open && s.p3open.draft ? h('div.dn2', '✏️ Câu mở đầu và tên truyện do Claude soạn theo tranh, không phải đề gốc của sách.') : null),
+      s.p3open && s.p3open.draft && st.teach ? h('div.dn2', '✏️ Câu mở đầu và tên truyện do Claude soạn theo tranh, không phải đề gốc của sách.') : null),
     hintBar('Chạm vào từng vật trong tranh để xem từ vựng (mũi tên + chữ); chạm lần nữa để ẩn. Nút 💡 hiện 5 cột gợi ý (mỗi tranh một màu): chạm vào cột để hiện lần lượt WHO (ai) → WHERE (ở đâu) → ACTION (làm gì) → FEELING (cảm xúc).'),
+    h('div.hbar', h('button.bigbtn', { onclick: () => storyView(s, 0) }, '📖 Xem từng tranh (1 → 5)'), h('span', 'Mỗi tranh to hết màn hình, vuốt hoặc bấm ← → để chuyển.')),
     h('div.pics.one', picBox(s, 'p3', 'ca', 'Picture Story', op && op.title ? '“' + op.title + '”' : '', hov(p3cards(s), h('div.cols', hsec('😊 Thêm từ chỉ cảm xúc', chips(GEN.feel)))), null, { hot })),
     patBox('💬 Mẫu câu để kể chuyện (luôn hiện – em cứ dùng nhé)', GEN.p3frames));
   if (st.teach) {
@@ -973,12 +1052,14 @@ function part3(s) {
 function part4(s) {
   const P4 = s.p4, wrap = h('div'), q = P4.qs[st.q];
   wrap.append(howBox(P4.intro, 'Cô hỏi từng câu, em trả lời bằng câu ngắn (câu cuối "Tell me about …" nói dài hơn). Không có hình ở phần này.'));
-  if (P4.draft) wrap.append(h('div.draftnote', '✏️ Câu hỏi gợi ý do Claude soạn theo dạng Part 4 (không phải đề gốc của sách). Cô có thể sửa trong dữ liệu của app.'));
+  if (P4.draft && st.teach) wrap.append(h('div.draftnote', '✏️ Câu hỏi gợi ý do Claude soạn theo dạng Part 4 (không phải đề gốc của sách). Cô có thể sửa trong dữ liệu của app.'));
   const card = h('div.qcard', h('div.qn', 'Câu ' + (st.q + 1) + ' / ' + P4.qs.length), h('div.qt', q.q));
   const hb = h('div'), tb = h('div'); let hopen = false, topen = false;
-  const bHint = h('button.hbtn', { onclick: () => { hopen = !hopen; hb.replaceChildren(hopen ? p4hint(q) : ''); } }, '💡 Hint');
+  let hstep = 0; const HL = ['💡 Hint', '💡 Thêm gợi ý', '💡 Ẩn hint'];
+  const bHint = h('button.hbtn', { onclick: () => { hstep = (hstep + 1) % 3; hb.replaceChildren(hstep === 1 ? p4starter(q) : hstep === 2 ? p4hint(q) : ''); bHint.textContent = HL[hstep]; bHint.classList.remove('pulse'); clearTimeout(window.p4t); } }, HL[0]);
+  clearTimeout(window.p4t); window.p4t = setTimeout(() => bHint.classList.add('pulse'), 10000);
   const bTeach = h('button.hbtn.tbtn', { onclick: () => { topen = !topen; tb.replaceChildren(topen ? p4teach(q) : ''); }, title: 'Dành riêng cho cô' }, tIcon(), ' Cô');
-  card.append(h('div.p4btns', h('div.p4b', bHint, h('small', 'cho học viên')), h('div.p4b', bTeach, h('small', 'dành cho cô'))), hb, tb);
+  card.append(h('div.p4btns', h('div.p4b', bHint, h('small', 'cho học viên')), st.teach ? h('div.p4b', bTeach, h('small', 'dành cho cô')) : null), hb, tb);
   wrap.append(card, h('div.dots', P4.qs.map((_, i) => h('i' + (i < st.q ? '.on' : '') + (i === st.q ? '.cur' : '')))),
     h('div.nav', h('button.btn.ghost', { disabled: st.q === 0, onclick: () => { st.q--; testView(); } }, '← Câu trước'),
       h('button.btn', { disabled: st.q >= P4.qs.length - 1, onclick: () => { st.q++; testView(); } }, 'Câu tiếp →')));
@@ -997,8 +1078,8 @@ function p4teach(q) {
     h('div.tr', h('b', '🗣 Nếu em bí, cô hỏi gợi: '), q.back),
     h('div.tr', h('b', '➕ Hỏi mở rộng khi em trả lời tốt: '), e.join('  ·  ')));
 }
-function p4hint(qo) {
-  const q = qo.q, w = q.toLowerCase(), fr = [];
+function p4frames(q) {
+  const w = q.toLowerCase(), fr = [];
   if (/^tell me/.test(w)) fr.push('I like … because …', 'There is / There are …', 'I usually … and then …', 'My favourite … is …');
   else if (/^what time/.test(w)) fr.push("I … at (seven) o'clock.", 'At half past …');
   else if (/^what colou?r/.test(w)) fr.push("It's … (red / blue / green …)");
@@ -1013,10 +1094,30 @@ function p4hint(qo) {
   else if (/^why/.test(w)) fr.push('Because …');
   else if (/^(do|does|did|is|are|can|have|has)\b/.test(w)) fr.push('Yes, I do. / No, I don\'t. / Yes, it is. / No, it isn\'t.', 'Then add one more sentence: I … because …');
   else fr.push('Answer with a full sentence: I … / It\'s … / We …');
+  return fr;
+}
+function p4starter(qo) { const fr = p4frames(qo.q); return h('div.p4hint', h('div', '💬 Em bắt đầu câu trả lời bằng: '), h('div.hline', fr[0])); }
+function p4hint(qo) {
+  const fr = p4frames(qo.q);
   return h('div.p4hint', qo.back ? h('div', { style: 'margin-bottom:6px' }, '❓ Câu hỏi gợi ý (nếu em chưa trả lời được): ', h('b', qo.back)) : null,
     h('div', '💬 Mẫu câu: '), fr.map(f => h('div.hline', f)), h('div', { style: 'margin-top:4px' }, '🔤 Có thể dùng: ', chips([['because', 'vì'], ['and', 'và'], ['but', 'nhưng'], ['usually', 'thường'], ['sometimes', 'thỉnh thoảng'], ['also', 'cũng']])));
 }
 
+/* ---------- học viên tự đánh giá (khi chế độ Cô đang tắt) ---------- */
+const FACES = [['😕', 'Còn khó'], ['🙂', 'Tạm ổn'], ['😄', 'Tự tin']];
+function selfOf(pid) { try { return ((loadP()[st.set.id] || {}).self || {})[pid]; } catch (e) { return null; } }
+function selfBox(P) {
+  const cur = selfOf(P.id), box = h('div.rate.selfbox');
+  box.append(h('b', 'Em thấy Part ' + P.n + ' thế nào?'),
+    h('div.rr', FACES.map((f, i) => h('button.rbtn' + (cur === i ? '.on' : ''), {
+      onclick: () => {
+        const pr = loadP(), o = pr[st.set.id] || {}; o.self = o.self || {}; o.self[P.id] = (cur === i ? null : i); pr[st.set.id] = o; saveP(pr);
+        box.replaceWith(selfBox(P));
+        document.querySelectorAll('.step')[PARTS.indexOf(P)].classList.toggle('done', o.self[P.id] != null || scoredPart(st.sc[P.id]));
+      }
+    }, f[0], ' ', f[1]))));
+  return box;
+}
 /* ---------- chấm điểm ---------- */
 function scoreBox(P) {
   const sc = st.sc[P.id], box = h('div.score');
@@ -1054,18 +1155,20 @@ function finish() {
   const idx = SETS.findIndex(x => x.id === st.set.id), next = SETS[idx + 1];
   const ch = h('img.ch', { src: '../../../assets/ui/chibi-an-mung.png', alt: '', onerror: function () { this.replaceWith(h('div', { style: 'font-size:90px' }, '🎉')); } });
   const un = PARTS.filter(p => !scoredPart(st.sc[p.id])).length;
+  const showT = st.teach && R, mine = (loadP()[st.set.id] || {}).self || {};
+  const face = pid => mine[pid] == null ? '—' : FACES[mine[pid]][0] + ' ' + FACES[mine[pid]][1];
   $app.replaceChildren(h('div.panel.sum', ch,
-    R ? h('div', h('div.big', 'Speaking: ' + R.shields + ' / 5 khiên'), h('div.shields', shieldRow(R.shields, 40)),
+    showT ? h('div', h('div.big', 'Speaking: ' + R.shields + ' / 5 khiên'), h('div.shields', shieldRow(R.shields, 40)),
       h('div', { style: 'font-weight:800;font-size:17px' }, 'Điểm trung bình ba tiêu chí: ' + (R.sum / 3).toFixed(1) + ' / 5 · ⏱ ' + fmt(st.tAcc)))
-      : h('div', h('div.big', 'Chưa có điểm'), h('div.muted', 'Cô chưa chấm điểm phần nào. Quay lại từng Part để chấm nhé.')),
-    un && R ? h('div.muted', 'Còn ' + un + ' phần chưa chấm đủ 3 tiêu chí (chưa tính vào kết quả).') : null,
-    h('div.rows', PARTS.map(p => { const sc = st.sc[p.id], a = partAvg(sc); return h('div.row', h('span', 'Part ' + p.n), h('span.muted', p.vi), h('span', { style: 'font-size:14px;letter-spacing:0' }, a == null ? '—' : sc.map(v => v == null ? '–' : v).join(' · ') + '  (TB ' + a.toFixed(1) + ')')); })),
-    R ? h('div.rows', CR.map((c, i) => h('div.row', h('span', c.en), h('span.muted', c.vi), h('span', { style: 'letter-spacing:0' }, R.avg[i].toFixed(1) + ' / 5')))) : null,
-    h('div.sumn', 'Cách tính của app: lấy điểm trung bình của từng tiêu chí qua các Part đã chấm, cộng ba tiêu chí lại, chia 3 rồi làm tròn ra số khiên (tối đa 5). Cambridge chấm cả bài Speaking bằng 3 tiêu chí 0–5 và đặt ngưỡng khiên theo từng kỳ thi, nên đây chỉ là ước tính để luyện tập, không phải kết quả chính thức.'),
+      : h('div', h('div.big', 'Giỏi lắm! 🎉'), h('div.muted', 'Em đã luyện xong bộ đề này · ⏱ ' + fmt(st.tAcc) + '. Part nào còn khó thì luyện lại nhé.')),
+    showT && un ? h('div.muted', 'Còn ' + un + ' phần chưa chấm đủ 3 tiêu chí (chưa tính vào kết quả).') : null,
+    h('div.rows', PARTS.map(p => { const sc = st.sc[p.id], a = partAvg(sc); return h('div.row', h('span', 'Part ' + p.n), h('span.muted', p.vi), h('span', { style: 'font-size:14px;letter-spacing:0' }, showT ? (a == null ? '—' : sc.map(v => v == null ? '–' : v).join(' · ') + '  (TB ' + a.toFixed(1) + ')') : face(p.id))); })),
+    showT ? h('div.rows', CR.map((c, i) => h('div.row', h('span', c.en), h('span.muted', c.vi), h('span', { style: 'letter-spacing:0' }, R.avg[i].toFixed(1) + ' / 5')))) : null,
+    showT ? h('div.sumn', 'Cách tính của app: lấy điểm trung bình của từng tiêu chí qua các Part đã chấm, cộng ba tiêu chí lại, chia 3 rồi làm tròn ra số khiên (tối đa 5). Cambridge chấm cả bài Speaking bằng 3 tiêu chí 0–5 và đặt ngưỡng khiên theo từng kỳ thi, nên đây chỉ là ước tính để luyện tập, không phải kết quả chính thức.') : null,
     h('div.nav', { style: 'justify-content:center;margin-top:14px' },
       h('button.btn.ghost', { onclick: () => openSet(st.set.id) }, '↺ Làm lại'),
       h('button.btn.ghost', { onclick: goHome }, '☰ Chọn bộ khác'),
-      next ? h('button.btn', { onclick: () => openSet(next.id) }, 'Test ' + next.no + ' →') : null)));
+      next ? h('button.btn', { onclick: () => openSet(next.id) }, setName(next) + ' →') : null)));
   window.scrollTo(0, 0);
 }
 function goHome() { clearInterval(tick); st.view = 'home'; homeView(); window.scrollTo(0, 0); }

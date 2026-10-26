@@ -38,3 +38,12 @@ I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs
 - cam1-t1/t2/t3: ĐÃ thay Part 1–4 theo Flyers 1 Answer Booklet (cô Thảo gửi ảnh chụp trang Speaking: Test 1 tr.10–11, Test 2 tr.16–17, Test 3 tr.22–23) – `cam1_book.py` (chạy lại được). Truyện Part 3: Betty's birthday party / The key / Charlie and the elephant. Vị trí vòng khoanh là ước lượng từ ảnh.
 - GHI CHÚ TRUNG THỰC: lần đầu làm cam3 (`cam3_book.py`) phần Part 3–4 được nhập khi chưa xem được trang 11/17/23 của PDF; sau đó đã mở lại 3 trang này và đối chiếu từng câu: khớp sách. Cam3 Part 1–2 lấy từ trang 10/16/22 đã xem.
 - cam2-t1/t2/t3: ĐÃ thay Part 1–4 theo Flyers 2 Answer Booklet (ảnh cô Thảo chụp, Test 1 tr.10–11, Test 2 tr.16–17, Test 3 tr.22–23) – `cam2_book.py`. Truyện: The aliens go for a ride / A very good dog / Grandma and Grandpa come to help. Còn chưa theo sách: cam4, col, suc, ptp, ai.
+
+## Phiên 4: rà soát từ góc nhìn học viên (cô Thảo bảo "làm hết")
+- Chế độ **Cô: TẮT** = học viên: không thấy khung chấm Cambridge (thay bằng 😕🙂😄 "Em thấy Part N thế nào?", lưu `p.self`), không thấy nút "Cô" ở Part 4, không thấy ghi chú "do Claude soạn / dành cho cô". Tổng kết học viên: "Giỏi lắm!" + mặt cười từng Part. Bật **Cô: BẬT** = như cũ (khung chấm 0–5, khiên, đáp án).
+- Tên bộ: `setName(s)` → "Authentic 2 · Test 2" (không còn "Test 10").
+- Part 1: gợi ý 3 mức (`st.hlvl`): chấm vàng → vòng khoanh (`.showrings`) → giới từ.
+- Part 2: mẫu câu TRẢ LỜI theo chủ đề của bộ (`p2frames`, suy ra từ `hints.p2q`).
+- Part 3: nút "📖 Xem từng tranh" (`storyView`): cắt 5 ô từ ảnh ghép theo `s.p3box` (tọa độ chuẩn hóa [x,y,w,h]); có vuốt/phím ←→, gợi ý WHO/WHERE/ACTION/FEELING từng tranh. `p3box` dò tự động từ ảnh (dải trắng giữa các ô + tinh chỉnh), đã kiểm tra bằng ảnh phủ khung cho 40 bộ; bộ AI (ai-t6, ai-t7) chỉnh tay. Nếu ô nào lệch, sửa số trong `data.json` (`p3box`).
+- Part 4: gợi ý 2 bước (câu mở đầu → đầy đủ); nút 💡 nhấp nháy sau 10 giây.
+- `pwtest.py`: 482 phép đo (thêm kiểm tra chế độ học viên và viewer).
