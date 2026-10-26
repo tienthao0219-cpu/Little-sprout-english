@@ -234,7 +234,22 @@ function profileMerge_(s, c, bc, be) {
   // thống kê & bản đồ: lấy số lớn hơn
   const st = {}; [(s && s.st) || {}, c.st || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { st[k] = Math.max(num(st[k], 0), num(o[k], 0)); }); }); out.st = st;
   const mp = {}; [(s && s.map) || {}, c.map || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (Object.keys(mp).length < 300 || mp[k] != null) mp[k] = Math.max(num(mp[k], 0), num(o[k], 0)); }); }); out.map = mp;
+  out.spk = spkMerge_(s && s.spk, c.spk);   // Speaking Starters: sao + sticker
   return out;
+}
+/** gộp tiến trình Speaking Starters (sao theo bộ đề + sticker): sao lấy số lớn hơn, sticker lấy hợp */
+function spkMerge_(a, b) {
+  const stars = {}, stk = [];
+  [a, b].forEach(function (o) {
+    const m = (o && o.stars && typeof o.stars === 'object') ? o.stars : {};
+    Object.keys(m).slice(0, 200).forEach(function (k) {
+      const v = m[k] || {}, key = String(k).slice(0, 40), cur = stars[key] || { n: 0, t: 0 };
+      stars[key] = { n: Math.max(cur.n, Number(v.n) || 0), t: Math.max(cur.t, Number(v.t) || 0) };
+    });
+    (o && Array.isArray(o.stk) ? o.stk : []).forEach(function (x) { const n = Number(x); if (isFinite(n) && n >= 0 && n < 100 && stk.indexOf(n) < 0) stk.push(n); });
+  });
+  stk.sort(function (x, y) { return x - y; });
+  return { stars: stars, stk: stk };
 }
 function profileSave_(name, b) {
   if (!name) throw new Error('Thiếu tên học viên');
@@ -251,7 +266,7 @@ function profileSave_(name, b) {
 function profileList_() {
   return { ok: true, list: rows_('profiles').map(function (r) {
     const d = parseObj_(r.data), pet = d.pet || {}, st = d.streak || {};
-    return { name: String(r.name), coins: d.coins || 0, earned: d.earned || 0, pet: pet.kind || '', petXp: pet.xp || 0, streak: st.n || 0, lastDay: st.last || '', updated: r.updated };
+    const spk = d.spk || {}; return { name: String(r.name), spkStars: Object.keys(spk.stars || {}).length, spkStickers: (spk.stk || []).length, coins: d.coins || 0, earned: d.earned || 0, pet: pet.kind || '', petXp: pet.xp || 0, streak: st.n || 0, lastDay: st.last || '', updated: r.updated };
   }) };
 }
 

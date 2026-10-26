@@ -80,8 +80,23 @@
     // thống kê & bản đồ: lấy số lớn hơn
     const st = {}; [(s && s.st) || {}, c.st || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { st[k] = Math.max(num(st[k], 0), num(o[k], 0)); }); }); out.st = st;
     const mp = {}; [(s && s.map) || {}, c.map || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (Object.keys(mp).length < 300 || mp[k] != null) mp[k] = Math.max(num(mp[k], 0), num(o[k], 0)); }); }); out.map = mp;
+    out.spk = L.spkMerge(s && s.spk, c.spk);   // Speaking Starters: sao + sticker
     return out;
   }
+  /** gộp tiến trình Speaking Starters: sao lấy số lớn hơn, sticker lấy hợp (bản sao của spkMerge_ trong Code.gs) */
+  L.spkMerge = function (a, b) {
+    const stars = {}, stk = [];
+    [a, b].forEach(function (o) {
+      const m = (o && o.stars && typeof o.stars === 'object') ? o.stars : {};
+      Object.keys(m).slice(0, 200).forEach(function (k) {
+        const v = m[k] || {}, key = String(k).slice(0, 40), cur = stars[key] || { n: 0, t: 0 };
+        stars[key] = { n: Math.max(cur.n, Number(v.n) || 0), t: Math.max(cur.t, Number(v.t) || 0) };
+      });
+      (o && Array.isArray(o.stk) ? o.stk : []).forEach(function (x) { const n = Number(x); if (isFinite(n) && n >= 0 && n < 100 && stk.indexOf(n) < 0) stk.push(n); });
+    });
+    stk.sort(function (x, y) { return x - y; });
+    return { stars: stars, stk: stk };
+  };
   
   /* ---------- bộ nhớ DEMO (cùng giao thức với Apps Script) ---------- */
   const DK = "lse_demo_v1";

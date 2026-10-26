@@ -1,0 +1,637 @@
+{
+ "version": 1,
+ "note": "Test 1 lấy từ YLE Practice Tests Plus Starters (2nd ed.). Trường 'gen:true' = do Claude soạn (không có trong sách). Toạ độ rect = [x,y,w,h] tính theo % khung tranh (ước lượng từ ảnh, có thể chỉnh).",
+ "sets": [
+  {
+   "id": "ptp-t1",
+   "no": 1,
+   "group": "ptp",
+   "origin": "book",
+   "title": "Test 1",
+   "theme": "In the street",
+   "themeVi": "Ngoài phố",
+   "src": "YLE Practice Tests Plus Starters (2nd ed.) · Teacher's Guide Test 1, Speaking frame (tr.28) · hình: Student's Book tr.19 (thẻ) và tr.21 (tranh)",
+   "scene": {
+    "img": "img/ptp-t1/scene.webp",
+    "alt": "A street: a café, children, a dog, a cat, birds, a baby, a car"
+   },
+   "hot": {
+    "car": {
+     "rect": [
+      2.5,
+      63,
+      72.5,
+      32
+     ],
+     "label": "car"
+    },
+    "children": {
+     "rect": [
+      50,
+      20,
+      21,
+      31
+     ],
+     "label": "children"
+    },
+    "cat": {
+     "rect": [
+      20.5,
+      51.5,
+      11.5,
+      12
+     ],
+     "label": "cat"
+    },
+    "dog": {
+     "rect": [
+      35.5,
+      50,
+      16,
+      12.5
+     ],
+     "label": "dog"
+    },
+    "birds": {
+     "rect": [
+      36.5,
+      1,
+      17,
+      17
+     ],
+     "label": "birds"
+    },
+    "baby": {
+     "rect": [
+      69.5,
+      49,
+      9.5,
+      10
+     ],
+     "label": "baby"
+    },
+    "bicycle": {
+     "rect": [
+      90,
+      25,
+      10,
+      13
+     ],
+     "label": "bicycle"
+    },
+    "flower": {
+     "rect": [
+      41,
+      23,
+      8.5,
+      17
+     ],
+     "label": "flower"
+    },
+    "man": {
+     "rect": [
+      4,
+      19,
+      15,
+      38
+     ],
+     "label": "man"
+    }
+   },
+   "zones": {
+    "bicycle": {
+     "rect": [
+      89,
+      24,
+      11,
+      15
+     ],
+     "at": [
+      94.5,
+      30.5
+     ],
+     "label": "on the bicycle",
+     "tol": 3
+    },
+    "underBirds": {
+     "rect": [
+      36,
+      17,
+      18,
+      26
+     ],
+     "label": "under the birds",
+     "at": [
+      45,
+      28
+     ]
+    },
+    "betweenDogBaby": {
+     "rect": [
+      52,
+      45,
+      17,
+      20
+     ],
+     "label": "between the dog and the baby"
+    }
+   },
+   "cards": {
+    "guitar": {
+     "w": "guitar",
+     "img": "img/ptp-t1/guitar.webp",
+     "s": "It's a guitar.",
+     "gen": true
+    },
+    "goat": {
+     "w": "goat",
+     "img": "img/ptp-t1/goat.webp",
+     "s": "It's a goat.",
+     "gen": true
+    },
+    "apple": {
+     "w": "apple",
+     "img": "img/ptp-t1/apple.webp",
+     "s": "It's an apple.",
+     "gen": true
+    },
+    "ball": {
+     "w": "ball",
+     "img": "img/ptp-t1/ball.webp",
+     "s": "It's a ball.",
+     "gen": true
+    },
+    "frog": {
+     "w": "frog",
+     "img": "img/ptp-t1/frog.webp",
+     "s": "It's a frog.",
+     "gen": true
+    },
+    "watermelon": {
+     "w": "watermelon",
+     "img": "img/ptp-t1/watermelon.webp",
+     "s": "It's a watermelon.",
+     "gen": true
+    },
+    "jacket": {
+     "w": "jacket",
+     "img": "img/ptp-t1/jacket.webp",
+     "s": "It's a jacket.",
+     "gen": true
+    },
+    "icecream": {
+     "w": "ice cream",
+     "img": "img/ptp-t1/icecream.webp",
+     "s": "It's an ice cream.",
+     "gen": true
+    }
+   },
+   "p1": {
+    "hello": {
+     "say": "Hello! My name's Miss Thao. What's your name?",
+     "ans": [
+      "(the child's name)"
+     ],
+     "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+     "gen": true,
+     "hints": [
+      "What's your name?",
+      "Say: My name is … / I'm …"
+     ]
+    },
+    "intro": {
+     "say": "Look at this. This is a street. There are some people and the sun is shining.",
+     "vi": "Nhìn này. Đây là một con phố. Có vài người và mặt trời đang chiếu sáng."
+    },
+    "example": {
+     "say": "Here's a cat.",
+     "target": "cat",
+     "vi": "Đây là một con mèo. (cô chỉ vào tranh)"
+    },
+    "find": [
+     {
+      "say": "Where is the car?",
+      "target": "car",
+      "back": "Is this the car?",
+      "vi": "Chiếc xe ô tô ở đâu?",
+      "hints": [
+       "Look at the street. Where is the car?",
+       "Is this the car?",
+       "Here's the car! Point to the car."
+      ]
+     },
+     {
+      "say": "Where are the children?",
+      "target": "children",
+      "back": "Are these the children?",
+      "vi": "Những em bé ở đâu?",
+      "hints": [
+       "Look at the park. Where are the children?",
+       "Are these the children?",
+       "Here are the children! Point to the children."
+      ]
+     }
+    ],
+    "tableSay": {
+     "say": "Look at these, (name).",
+     "vi": "Nhìn những thẻ này nhé."
+    },
+    "order": [
+     "guitar",
+     "apple",
+     "ball",
+     "frog",
+     "goat",
+     "watermelon",
+     "jacket",
+     "icecream"
+    ],
+    "cardSteps": [
+     {
+      "card": "guitar",
+      "pick": {
+       "say": "Which is the guitar?",
+       "back": "Is this the guitar?",
+       "vi": "Thẻ nào là cây đàn guitar?",
+       "hints": [
+        "Look at the cards. Which one is the guitar?",
+        "Is this the guitar?",
+        "This is the guitar. Touch the guitar."
+       ]
+      },
+      "demo": {
+       "say": "I'm putting the guitar on the bicycle.",
+       "zone": "bicycle",
+       "vi": "Cô đặt cây đàn lên chiếc xe đạp."
+      },
+      "place": {
+       "say": "Now you put the guitar under the birds.",
+       "zone": "underBirds",
+       "back": "Where are the birds? Under the birds.",
+       "vi": "Bây giờ em đặt cây đàn dưới những chú chim.",
+       "hints": [
+        "Look at the birds. Where are the birds?",
+        "Where are the birds? Under the birds.",
+        "Put the guitar here. (the pink box)"
+       ]
+      }
+     },
+     {
+      "card": "goat",
+      "pick": {
+       "say": "Which is the goat?",
+       "back": "Is this the goat?",
+       "vi": "Thẻ nào là con dê?",
+       "hints": [
+        "Look at the cards. Which one is the goat?",
+        "Is this the goat?",
+        "This is the goat. Touch the goat."
+       ]
+      },
+      "place": {
+       "say": "Now put the goat between the dog and the baby.",
+       "zone": "betweenDogBaby",
+       "back": "Between the dog and the baby.",
+       "vi": "Bây giờ đặt con dê vào giữa con chó và em bé.",
+       "hints": [
+        "Look at the dog. Look at the baby.",
+        "Where are the dog and the baby? Between the dog and the baby.",
+        "Put the goat here. (the pink box)"
+       ]
+      }
+     }
+    ]
+   },
+   "p2": [
+    {
+     "point": "flower",
+     "say": "What's this?",
+     "ans": [
+      "Flower"
+     ],
+     "back": "Is it a flower?",
+     "vi": "Đây là gì?",
+     "hints": [
+      "Is it a flower?",
+      "Is it a flower or a tree?",
+      "It's a flower. Say: flower."
+     ]
+    },
+    {
+     "point": "flower",
+     "say": "What colour is it?",
+     "ans": [
+      "Red and yellow"
+     ],
+     "back": "Is it blue or yellow?",
+     "vi": "Nó màu gì?",
+     "hints": [
+      "Is it blue or yellow?",
+      "Look at the flower. Is it red or blue? Is it yellow or green?",
+      "It's red and yellow. Say: red and yellow."
+     ]
+    },
+    {
+     "point": "flower",
+     "say": "How many flowers are there?",
+     "ans": [
+      "Five"
+     ],
+     "back": "Are there one or two?",
+     "vi": "Có bao nhiêu bông hoa?",
+     "hints": [
+      "Are there one or two?",
+      "Let's count. One, two, three … How many flowers?",
+      "There are five flowers. Say: five."
+     ]
+    },
+    {
+     "point": "baby",
+     "say": "What's the baby doing?",
+     "ans": [
+      "Sleeping"
+     ],
+     "back": "Is the baby sleeping?",
+     "vi": "Em bé đang làm gì?",
+     "hints": [
+      "Is the baby sleeping?",
+      "Look at the baby. Is the baby sleeping or running?",
+      "The baby is sleeping. Say: sleeping."
+     ]
+    },
+    {
+     "point": "man",
+     "say": "Tell me about the man.",
+     "ans": [
+      "He's sitting.",
+      "Sitting"
+     ],
+     "back": "Is he sleeping?",
+     "vi": "Hãy nói về người đàn ông.",
+     "hints": [
+      "Is he sleeping?",
+      "Look at the man. Is he sitting or standing?",
+      "He's sitting. Say: He's sitting."
+     ]
+    }
+   ],
+   "p3": [
+    {
+     "card": "jacket",
+     "qs": [
+      {
+       "say": "What's this?",
+       "ans": [
+        "Jacket"
+       ],
+       "back": "Is it a jacket?",
+       "vi": "Đây là gì?",
+       "hints": [
+        "Is it a jacket?",
+        "Is it a jacket or a hat?",
+        "It's a jacket. Say: jacket."
+       ]
+      },
+      {
+       "say": "What colour is it?",
+       "ans": [
+        "Grey"
+       ],
+       "back": "Is it grey?",
+       "vi": "Nó màu gì?",
+       "hints": [
+        "Is it grey?",
+        "Is it grey or pink?",
+        "It's grey. Say: grey."
+       ]
+      },
+      {
+       "say": "Do you wear a jacket to school?",
+       "ans": [
+        "Yes / No"
+       ],
+       "back": "",
+       "vi": "Em có mặc áo khoác đi học không?",
+       "free": true,
+       "hints": [
+        "Yes or no? Do you wear a jacket to school?",
+        "Do you wear a jacket when it's cold?",
+        "Say: Yes, I do. / No, I don't."
+       ]
+      }
+     ]
+    },
+    {
+     "card": "apple",
+     "qs": [
+      {
+       "say": "What's this?",
+       "ans": [
+        "Apple"
+       ],
+       "back": "Is it an apple?",
+       "vi": "Đây là gì?",
+       "hints": [
+        "Is it an apple?",
+        "Is it an apple or a banana?",
+        "It's an apple. Say: apple."
+       ]
+      },
+      {
+       "say": "Do you eat apples?",
+       "ans": [
+        "Yes / No"
+       ],
+       "back": "",
+       "vi": "Em có ăn táo không?",
+       "free": true,
+       "hints": [
+        "Yes or no? Do you eat apples?",
+        "Do you like apples?",
+        "Say: Yes, I do. / No, I don't."
+       ]
+      },
+      {
+       "say": "What do you eat for breakfast?",
+       "ans": [
+        "Toast"
+       ],
+       "back": "Do you eat cereal?",
+       "vi": "Bữa sáng em ăn gì?",
+       "free": true,
+       "hints": [
+        "Do you eat cereal?",
+        "Do you eat bread or rice for breakfast?",
+        "Say: I eat bread. / I eat rice."
+       ]
+      }
+     ]
+    },
+    {
+     "card": "frog",
+     "qs": [
+      {
+       "say": "What's this?",
+       "ans": [
+        "Frog"
+       ],
+       "back": "Is it a frog?",
+       "vi": "Đây là gì?",
+       "hints": [
+        "Is it a frog?",
+        "Is it a frog or a fish?",
+        "It's a frog. Say: frog."
+       ]
+      },
+      {
+       "say": "Do you like frogs?",
+       "ans": [
+        "Yes / No"
+       ],
+       "back": "",
+       "vi": "Em có thích ếch không?",
+       "free": true,
+       "hints": [
+        "Yes or no? Do you like frogs?",
+        "Do you like frogs? Is it a yes, or a no?",
+        "Say: Yes, I do. / No, I don't."
+       ]
+      },
+      {
+       "say": "What's your favourite animal?",
+       "ans": [
+        "Horse"
+       ],
+       "back": "Do you like cats?",
+       "vi": "Con vật em thích nhất là gì?",
+       "free": true,
+       "hints": [
+        "Do you like cats?",
+        "Do you like dogs or cats?",
+        "Say: I like cats. / I like dogs."
+       ]
+      }
+     ]
+    },
+    {
+     "card": "ball",
+     "check": "Sách ghi 'Take three object cards' nhưng bảng có 4 nhóm câu hỏi; nhóm cuối (What's this? / Have you got a ball? / What sports do you do? or What games do you play at school?) không ghi tên thẻ. Mình suy ra là thẻ ball vì đó là thẻ còn lại. Cô xác nhận giúp.",
+     "qs": [
+      {
+       "say": "What's this?",
+       "ans": [
+        "Ball"
+       ],
+       "back": "",
+       "vi": "Đây là gì?",
+       "hints": [
+        "Is it a ball?",
+        "Is it a ball or a book?",
+        "It's a ball. Say: ball."
+       ]
+      },
+      {
+       "say": "Have you got a ball?",
+       "ans": [
+        "Yes / No"
+       ],
+       "back": "",
+       "vi": "Em có quả bóng không?",
+       "free": true,
+       "hints": [
+        "Yes or no? Have you got a ball?",
+        "Have you got a ball at home?",
+        "Say: Yes, I have. / No, I haven't."
+       ]
+      },
+      {
+       "say": "What sports do you do?",
+       "ans": [
+        "(any answer)"
+       ],
+       "back": "",
+       "vi": "Em chơi môn thể thao nào?",
+       "free": true,
+       "alt": "What games do you play at school?",
+       "hints": [
+        "Do you play football?",
+        "Do you play football or basketball?",
+        "Say: I play football. / I play basketball."
+       ]
+      }
+     ]
+    }
+   ],
+   "p4": [
+    {
+     "say": "Now, (name). What's your friend's name?",
+     "ans": [
+      "Mary / John"
+     ],
+     "back": "Is your friend's name Mary?",
+     "vi": "Bạn của em tên là gì?",
+     "free": true,
+     "hints": [
+      "Is your friend's name Mary?",
+      "Is your friend a boy or a girl? What's his or her name?",
+      "Say: His name's … / Her name's …"
+     ]
+    },
+    {
+     "say": "How old is he / she?",
+     "ans": [
+      "10"
+     ],
+     "back": "Is he / she 8?",
+     "vi": "Bạn ấy bao nhiêu tuổi?",
+     "free": true,
+     "hints": [
+      "Is he / she 8?",
+      "Is he / she 8, 9 or 10?",
+      "Say: He's nine. / She's nine."
+     ]
+    },
+    {
+     "say": "Where do you go with your friend?",
+     "ans": [
+      "School"
+     ],
+     "back": "Do you go to the park?",
+     "vi": "Em đi đâu cùng bạn?",
+     "free": true,
+     "hints": [
+      "Do you go to the park?",
+      "Do you go to the park or to school?",
+      "Say: I go to school. / I go to the park."
+     ]
+    }
+   ],
+   "bye": {
+    "say": "Thank you, (name). Bye bye!",
+    "vi": "Cảm ơn em. Tạm biệt!"
+   }
+  }
+ ],
+ "soon": [
+  {
+   "no": 2,
+   "title": "Test 2",
+   "src": "YLE Practice Tests Plus Starters · Test 2"
+  },
+  {
+   "no": 3,
+   "title": "Test 3",
+   "src": "YLE Practice Tests Plus Starters · Test 3"
+  },
+  {
+   "no": 4,
+   "title": "Test 4",
+   "src": "YLE Practice Tests Plus Starters · Test 4"
+  },
+  {
+   "no": 5,
+   "title": "Test 5",
+   "src": "YLE Practice Tests Plus Starters · Test 5"
+  }
+ ]
+}

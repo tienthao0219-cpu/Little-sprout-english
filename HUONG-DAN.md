@@ -276,3 +276,16 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - **Hint**: chạm vào hình để hiện từ vựng / giới từ / mẫu câu, chạm lần nữa để ẩn. Hint và câu Part 4 của các bộ ngoài Practice Tests Plus là **Claude soạn**, không phải đề gốc.
 - Nút 👩‍🏫 hiện/ẩn gợi ý và đáp án cho cô.
 - Hình nằm ở `apps/flyers/speaking/img/<mã bộ>/`. Dữ liệu (hint, câu Part 4) nằm trong thẻ `<script id="DATA">` ở đầu file `speaking.html`, cô sửa trực tiếp được.
+
+## Starters Speaking (mới)
+- Vào lớp **Cambridge Starters → SPEAKING → "Starters Speaking – bộ đề (4 Parts)"**. Hiện có **Test 1** (từ sách YLE Practice Tests Plus Starters); Test 2–5 hiện ổ "Sắp có" cho đến khi có ảnh.
+- 4 Part: (1) chỉ tranh + kéo thẻ đặt lên tranh, (2) nhìn tranh trả lời, (3) thẻ đồ vật (chạm để lật), (4) nói về em. Giám khảo là chibi Miss Thảo hỏi bằng bong bóng chữ.
+- **Nút "Em chưa hiểu"** cho nhiều mức gợi ý liên tiếp (câu hỏi dễ hơn → câu hỏi lựa chọn → câu mẫu để em nói theo). Mức 1 là câu back-up của sách (nếu có); các mức sau do Claude soạn (chế độ Cô sẽ ghi rõ).
+- **Thẻ đã tách nền**: khi kéo thẻ lên tranh chỉ còn hình đồ vật (có viền trắng kiểu sticker), không còn khung trắng.
+- **Âm thanh**: hiệu ứng là tiếng chuông mềm. Giọng giám khảo dùng giọng đọc của máy; bấm nút **🗣️ Giọng** (chỉ hiện với cô) để chọn giọng và tốc độ. Nếu nghe còn rè, chọn giọng có chữ "Natural", "Online" hoặc "Google". Muốn giọng thật tự nhiên hơn: bỏ file mp3 vào thư mục `img/` rồi khai báo trong `data.json` ở mục `audio` (câu tiếng Anh → đường dẫn file); app ưu tiên file mp3, không có thì dùng giọng máy.
+- **Sao và sticker được lưu lên Google Sheets** (cùng trang tính `profiles` với xu, thú nuôi). Để bật: dán lại **`apps-script/Code.gs` mới** vào Apps Script (giữ nguyên 2 mật khẩu) → Lưu → **Triển khai → Quản lý bản triển khai → ✏️ → Phiên bản mới → Triển khai**. Chưa dán thì app vẫn chạy và lưu trên máy, sao sẽ tự đồng bộ lên Sheet sau khi cập nhật.
+- **Thêm bộ mới** (thư mục `apps/starters/speaking/_work/`):
+  1. Bỏ ảnh thẻ (nền trắng) vào `_work/raw/<mã bộ>/<tên>.png` và ảnh tranh cảnh vào `img/<mã bộ>/scene.webp`.
+  2. Chạy `python3 _work/cutout.py <mã bộ>` để tách nền (cần `pip install pillow numpy`).
+  3. Thêm bộ vào `_work/data.json` (sao chép cấu trúc của `ptp-t1`: vùng chỉ trên tranh `hot`, vùng đặt thẻ `zones`, câu Part 1–4 và `hints`).
+  4. Chạy `python3 _work/build.py` để tạo lại `speaking.html`.
