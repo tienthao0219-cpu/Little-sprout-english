@@ -7160,7 +7160,7 @@ null,
 "p1": "snowman = người tuyết; sledge = xe trượt tuyết; snowboard = ván trượt tuyết; eagle = đại bàng; penguin = chim cánh cụt; log = khúc gỗ; dog = con chó; snowball = quả cầu tuyết; mountain = ngọn núi; cabin = nhà gỗ; scarf = khăn quàng; hat = cái mũ; bare tree = cây trụi lá; ice = băng; backpack = ba lô",
 "p2q": [
 "What's the teacher's name?",
-"How many students are there?",
+"How many students are there in the class?",
 "When is the class?",
 "What does she like painting?",
 "Is she a good artist?"
@@ -7169,61 +7169,36 @@ null,
 "p3": "late = muộn; hurry = vội vàng; run = chạy; school = trường học; teacher = giáo viên; classroom = lớp học; alone = một mình; hospital = bệnh viện; doctor = bác sĩ; hurt = bị đau; leg = cái chân; bed = giường bệnh; worried = lo lắng; mum = mẹ; look through the window = nhìn qua cửa sổ"
 },
 "p4": {
-"intro": "Now let's talk about animals.",
+"intro": "Now let's talk about your best friend.",
 "qs": [
 {
-"q": "What's your favourite animal?",
-"a": "A dolphin.",
-"back": "Do you like dolphins?"
+"q": "What's your best friend's name?",
+"a": "He's / She's called …",
+"back": "Is your best friend's name …?"
 },
 {
-"q": "Have you got a pet?",
-"a": "Yes, I've got a cat.",
-"back": "Do you have a pet at home?"
+"q": "Where do you see him/her?",
+"a": "(at) school",
+"back": "Do you see him/her at school?"
 },
 {
-"q": "Where can you see wild animals?",
-"a": "At the zoo.",
-"back": "Can you see animals at the zoo?"
+"q": "Is he/she tall or short?",
+"a": "He's / She's tall.",
+"back": "Is he/she tall?"
 },
 {
-"q": "What do you give your pet to eat?",
-"a": "Fish.",
-"back": "Do you give your pet fish?"
+"q": "What do you like doing with your friend?",
+"a": "playing computer games",
+"back": "Do you like playing computer games with him/her?"
 },
 {
-"q": "Tell me about an animal you like.",
-"a": "I like pandas. They live in China. They eat bamboo and sleep a lot.",
-"back": "What animal do you like? Where does it live? What does it eat?"
+"q": "Tell me about your best friend's family.",
+"a": "He / She lives with his / her mum and dad. They live in … They've got two cats.",
+"back": "Who does he/she live with? / Where do they live? / Have they got any pets?"
 }
-],
-"draft": true
+]
 },
 "dif": [
-{
-"b": [
-0.1,
-0.71,
-0.19,
-0.23
-],
-"w": [
-"a backpack at the end of the sledge",
-"a backpack on the sledge"
-]
-},
-{
-"b": [
-0.19,
-0.02,
-0.2,
-0.16
-],
-"w": [
-"an eagle on the left",
-"an eagle on the right"
-]
-},
 {
 "b": [
 0.49,
@@ -7232,44 +7207,74 @@ null,
 0.3
 ],
 "w": [
-"a small fir tree next to the cabin",
-"a big fir tree next to the cabin"
+"a small tree behind the house",
+"a big tree behind the house"
 ]
 },
 {
 "b": [
-0.53,
+0.16,
+0.34,
+0.16,
+0.26
+],
+"w": [
+"the boy on the snowboard isn't wearing gloves",
+"the boy on the snowboard is wearing gloves"
+]
+},
+{
+"b": [
+0.54,
 0.57,
-0.2,
+0.19,
+0.24
+],
+"w": [
+"the dog is lying in the snow",
+"the dog is running in the snow"
+]
+},
+{
+"b": [
+0.29,
+0.23,
+0.23,
+0.1
+],
+"w": [
+"some traffic on the road",
+"no traffic on the road"
+]
+},
+{
+"b": [
+0.42,
+0.34,
+0.13,
 0.25
 ],
 "w": [
-"a dog lying down",
-"a dog jumping"
+"a girl holding a hat, wearing boots",
+"a girl wearing trainers"
 ]
 },
 {
 "b": [
-0.61,
-0.37,
-0.21,
+0.19,
+0.04,
+0.2,
 0.14
 ],
 "w": [
-"two penguins on the ice",
-"one penguin and water in the ice"
-]
-},
-{
-"b": [
-0.27,
-0.22,
-0.11,
-0.08
+"an eagle flying on the left",
+"an eagle flying on the right"
 ],
-"w": [
-"cars on the road",
-"no cars on the road"
+"b2": [
+0.84,
+0.02,
+0.15,
+0.14
 ]
 }
 ],
@@ -7665,17 +7670,12 @@ null,
 ]
 },
 "story": [
-"Vicky says goodbye to Mum. She goes to school.",
-"Vicky is late. She runs to school.",
-"Vicky falls down outside the school. Her leg hurts. The teacher comes out.",
-"The teacher takes Vicky to the hospital.",
-"Vicky is in bed. The doctor gives her some medicine. She smiles."
+"Vicky's mum is a doctor. She says, 'I've got to go to work. Be quick! You're late for school!'",
+"Vicky is running to her school.",
+"She's fallen over. She's crying because her leg hurts. A teacher is coming to help her.",
+"Now the teacher is taking Vicky to the hospital.",
+"Now a doctor is looking after Vicky – and the doctor is her mum! Now Vicky feels better and she's smiling."
 ],
-"p3open": {
-"title": "Vicky's strange day",
-"line": "Vicky is at the front door. She is saying goodbye to her mum.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Vicky = Vicky; Mum = mẹ",
@@ -7692,7 +7692,7 @@ null,
 {
 "s": "Vicky = Vicky; the teacher = cô giáo; the pupils = học sinh",
 "l": "outside the school = bên ngoài trường; on the ground = trên mặt đất; in the classroom = trong lớp học",
-"v": "fall down = ngã; hold her leg = ôm chân; come out = đi ra; look at = nhìn",
+"v": "cry = khóc; fall down = ngã; hold her leg = ôm chân; come out = đi ra",
 "f": "sad = buồn; worried = lo lắng"
 },
 {
@@ -7707,7 +7707,123 @@ null,
 "v": "sit on the bed = ngồi trên giường; give medicine = đưa thuốc; smile = cười",
 "f": "happy = vui; better = đỡ hơn"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture two penguins are by the water, but in your picture there is only one penguin by the water.",
+"items": [
+{
+"ex": "In my picture, there's a tree behind the house. It's smaller than the house.",
+"cand": "In my picture, the tree is bigger than the house.",
+"back": "Is the tree behind the house small?"
+},
+{
+"ex": "In my picture, the boy on the snowboard isn't wearing gloves.",
+"cand": "In my picture, the boy's wearing gloves.",
+"back": "Is the boy on the snowboard wearing gloves?"
+},
+{
+"ex": "In my picture, the dog is lying in the snow.",
+"cand": "In my picture, the dog's running in the snow.",
+"back": "What's the dog doing?"
+},
+{
+"ex": "In my picture, there's some traffic on the road.",
+"cand": "In my picture, there's no traffic on the road.",
+"back": "Can you see any traffic on the road?"
+},
+{
+"ex": "In my picture, there's a girl holding a hat. She's wearing boots.",
+"cand": "In my picture, she's wearing trainers.",
+"back": "What's the girl wearing?"
+},
+{
+"ex": "In my picture, there's an eagle flying in the sky. It's on the left.",
+"cand": "In my picture, the eagle's on the right.",
+"back": "Where's the eagle?"
+}
 ]
+},
+"p2": {
+"intro": "John and Daisy both go to an art class. I don't know anything about John's art class, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "John's art class",
+"qa": [
+[
+"What's the teacher's name?",
+"Miss Bird"
+],
+[
+"When is the class?",
+"on Saturday"
+],
+[
+"How many students are there in the class?",
+"ten"
+],
+[
+"Is John a good artist?",
+"Yes, he's very good"
+],
+[
+"What does he like painting?",
+"people"
+]
+]
+},
+"candidateAsks": {
+"title": "Daisy's art class",
+"qa": [
+[
+"What's the teacher's name?",
+"Mr Black"
+],
+[
+"How many students are there in the class?",
+"eight"
+],
+[
+"When is the class?",
+"on Friday"
+],
+[
+"What does she like painting?",
+"animals"
+],
+[
+"Is she a good artist?",
+"She's not bad"
+]
+]
+}
+},
+"p3": {
+"title": "Vicky's strange day",
+"intro": "Vicky's mum is a doctor. She's saying to Vicky, 'I've got to go to work. Be quick! You're late for school!'",
+"pics": [
+{
+"n": 2,
+"say": "Vicky is running to her school.",
+"back": "What is Vicky doing?"
+},
+{
+"n": 3,
+"say": "She's fallen over. She's crying because her leg hurts. A teacher is coming to help her.",
+"back": "Why is Vicky crying? Who's coming to help her?"
+},
+{
+"n": 4,
+"say": "Now the teacher is taking Vicky to the hospital.",
+"back": "Where's Vicky now?"
+},
+{
+"n": 5,
+"say": "Now a doctor is looking after Vicky – and the doctor is her mum! Now Vicky feels better and she's smiling.",
+"back": "Who is looking after Vicky? How does Vicky feel now?"
+}
+]
+}
+}
 },
 {
 "id": "cam3-t2",
@@ -7728,115 +7844,54 @@ null,
 "p3": "coconut = quả dừa; palm tree = cây cọ; goat = con dê; climb = trèo; chair = cái ghế; fall down = ngã / rơi xuống; hut = túp lều; hungry = đói; eat = ăn; drink = uống; share = chia sẻ; pick = hái; push = đẩy; village = ngôi làng; happy = vui"
 },
 "p4": {
-"intro": "Now let's talk about TV and films.",
+"intro": "Now let's talk about your school.",
 "qs": [
 {
-"q": "What's your favourite TV programme?",
-"a": "A cartoon.",
-"back": "Do you like cartoons?"
+"q": "How many children are there in your class?",
+"a": "thirty",
+"back": "Are there thirty children in your class?"
 },
 {
-"q": "How often do you watch TV?",
-"a": "Every evening.",
-"back": "Do you watch TV every day?"
+"q": "What time does school start?",
+"a": "(at) 7:30",
+"back": "Does school start at 7:30?"
 },
 {
-"q": "Who do you watch TV with?",
-"a": "My family.",
-"back": "Do you watch TV with your family?"
+"q": "What subject do you like best?",
+"a": "science",
+"back": "Do you like science best?"
 },
 {
-"q": "What time does your favourite programme start?",
-"a": "At seven o'clock.",
-"back": "Does it start at seven o'clock?"
+"q": "What games do you play at school?",
+"a": "football",
+"back": "Do you play football at school?"
 },
 {
-"q": "Tell me about a film you like.",
-"a": "I like a film about a robot. He helps children. I watched it with my cousin last weekend.",
-"back": "What's the film about? Who did you watch it with? When did you watch it?"
+"q": "Tell me about your best friend at school.",
+"a": "His / Her name's … He / She sits next to me. He's / She's ten years old.",
+"back": "What's his/her name? / Does he/she sit next to you? / How old is he/she?"
 }
-],
-"draft": true
+]
 },
 "dif": [
 {
 "b": [
-0.72,
-0.18,
-0.13,
-0.21
-],
-"w": [
-"a picture of a building",
-"a picture of a singer"
-]
-},
-{
-"b": [
-0.65,
+0.59,
 0.17,
-0.1,
-0.36
+0.15,
+0.3
 ],
 "w": [
-"a blue guitar",
-"a brown guitar"
+"the guitars on the wall are different",
+"the guitars on the wall are the same"
 ]
 },
 {
 "b": [
-0.21,
-0.19,
-0.14,
+0.13,
+0.43,
+0.13,
 0.16
-],
-"w": [
-"one butterfly at the window",
-"two butterflies at the window"
-]
-},
-{
-"b": [
-0.78,
-0.82,
-0.13,
-0.14
-],
-"w": [
-"a pot of pencils on the floor",
-"a pot of pencils on the piano"
-]
-},
-{
-"b": [
-0.45,
-0.76,
-0.11,
-0.13
-],
-"w": [
-"a laptop on the rug",
-"a book on the rug"
-]
-},
-{
-"b": [
-0.44,
-0.49,
-0.14,
-0.11
-],
-"w": [
-"green drums",
-"red drums"
-]
-},
-{
-"b": [
-0.13,
-0.41,
-0.12,
-0.18
 ],
 "w": [
 "the teacher has a beard",
@@ -7845,14 +7900,50 @@ null,
 },
 {
 "b": [
-0.65,
-0.41,
-0.13,
-0.16
+0.72,
+0.17,
+0.14,
+0.2
 ],
 "w": [
-"a radio on the table",
-"no radio on the table"
+"a poster of a building on the wall",
+"a poster of a pop star on the wall"
+]
+},
+{
+"b": [
+0.58,
+0.5,
+0.15,
+0.35
+],
+"w": [
+"the girl with the violin has a blue belt",
+"the girl with the violin has a yellow belt"
+]
+},
+{
+"b": [
+0.44,
+0.74,
+0.12,
+0.13
+],
+"w": [
+"a laptop on the rug",
+"a magazine on the rug"
+]
+},
+{
+"b": [
+0.02,
+0.52,
+0.14,
+0.42
+],
+"w": [
+"four children are playing instruments",
+"five children are playing instruments"
 ]
 }
 ],
@@ -8242,17 +8333,12 @@ null,
 ]
 },
 "story": [
-"Alex and Lucy want some coconuts. Alex has a chair.",
-"Alex stands on the chair to get a coconut. A goat comes.",
-"The goat pushes the chair. The coconuts fall down.",
-"Alex and Lucy hold the coconuts. They are happy.",
-"They eat the coconuts and give some to the goat."
+"Alex and Lucy want to get some coconuts. The coconut tree is very tall so Alex is bringing a chair.",
+"Alex still can't get the coconuts. A goat's watching him.",
+"The goat's hitting the tree with its head. Some coconuts are falling.",
+"Now Alex and Lucy have a lot of coconuts. They're very happy.",
+"Alex is drinking from a coconut. Lucy's eating some coconut and giving some to the goat."
 ],
-"p3open": {
-"title": "The goat and the coconuts",
-"line": "Alex and Lucy are in a village. They are hungry and Lucy is pointing at the coconuts in the tree.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Alex = Alex; Lucy = Lucy",
@@ -8269,7 +8355,7 @@ null,
 {
 "s": "the goat = con dê; Alex = Alex; Lucy = Lucy",
 "l": "next to the tree = cạnh cái cây; on the ground = trên mặt đất",
-"v": "push = húc / đẩy; fall = rơi; fall down = ngã xuống",
+"v": "hit the tree = húc vào cây; fall = rơi; watch = nhìn",
 "f": "surprised = ngạc nhiên"
 },
 {
@@ -8284,7 +8370,123 @@ null,
 "v": "eat = ăn; drink = uống; share = chia sẻ",
 "f": "happy = vui"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture the smaller drums are green, but in your picture they're red.",
+"items": [
+{
+"ex": "In my picture, the guitars on the wall are different.",
+"cand": "In my picture, the guitars are the same.",
+"back": "Do the guitars look different?"
+},
+{
+"ex": "In my picture, the teacher has got a beard.",
+"cand": "In my picture, he's got a moustache.",
+"back": "Has the teacher got a beard?"
+},
+{
+"ex": "In my picture, there's a poster of a building on the wall.",
+"cand": "In my picture, there's a poster of a pop star on the wall.",
+"back": "What can you see on the poster?"
+},
+{
+"ex": "In my picture, the girl with the violin is wearing a blue belt.",
+"cand": "In my picture, her belt is yellow.",
+"back": "What colour is the girl's belt?"
+},
+{
+"ex": "In my picture, there's a laptop on the rug.",
+"cand": "In my picture, there's a magazine on the rug.",
+"back": "What's on the rug?"
+},
+{
+"ex": "In my picture, four children are playing instruments.",
+"cand": "In my picture, five children are playing instruments.",
+"back": "How many children are playing instruments?"
+}
 ]
+},
+"p2": {
+"intro": "Katy and Robert are friends. Their mums have just bought cars. I don't know anything about Katy's mum's car, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "Katy's mum's car",
+"qa": [
+[
+"What colour is the car?",
+"silver"
+],
+[
+"How old is it?",
+"two years old"
+],
+[
+"How many doors has it got?",
+"three"
+],
+[
+"Where's the car now?",
+"at home"
+],
+[
+"Was it cheap or expensive?",
+"It was cheap"
+]
+]
+},
+"candidateAsks": {
+"title": "Robert's mum's car",
+"qa": [
+[
+"What colour is the car?",
+"black"
+],
+[
+"How many doors has it got?",
+"five"
+],
+[
+"How old is it?",
+"six months old"
+],
+[
+"Was it cheap or expensive?",
+"It was expensive"
+],
+[
+"Where is it now?",
+"at the station"
+]
+]
+}
+},
+"p3": {
+"title": "The goat and the coconuts",
+"intro": "Alex and Lucy want to get some coconuts. The coconut tree is very tall so Alex is bringing a chair.",
+"pics": [
+{
+"n": 2,
+"say": "Alex still can't get the coconuts. A goat's watching him.",
+"back": "Can Alex get the coconuts now? What's watching Alex?"
+},
+{
+"n": 3,
+"say": "The goat's hitting the tree with its head. Some coconuts are falling.",
+"back": "What's the goat doing?"
+},
+{
+"n": 4,
+"say": "Now Alex and Lucy have a lot of coconuts. They're very happy.",
+"back": "How are Alex and Lucy feeling? Why?"
+},
+{
+"n": 5,
+"say": "Alex is drinking from a coconut. Lucy's eating some coconut and giving some to the goat.",
+"back": "What are the children doing now?"
+}
+]
+}
+}
 },
 {
 "id": "cam3-t3",
@@ -8297,115 +8499,120 @@ null,
 "p2q": [
 "Where is Emma's apartment?",
 "Which floor is it on?",
-"How many bedrooms has it got?",
+"How many bedrooms has the apartment got?",
 "What colour is the kitchen?",
-"Has it got a balcony?"
+"Has Emma's apartment got a balcony?"
 ],
 "p2w": "apartment = căn hộ; block of flats = tòa nhà chung cư; floor = tầng; first / second / third / fourth / fifth = thứ nhất / hai / ba / tư / năm; bedroom = phòng ngủ; kitchen = nhà bếp; balcony = ban công; yellow / blue / white = vàng / xanh dương / trắng; street / road = đường",
 "p3": "frog = con ếch; pond = cái ao; school bag = cặp sách; classroom = lớp học; teacher = giáo viên; jump = nhảy; catch = bắt; afraid = sợ hãi; laugh = cười; playground = sân chơi; shout = la hét; surprised = ngạc nhiên; friends = bạn bè; go home = về nhà; put (in the bag) = bỏ vào (cặp)"
 },
 "p4": {
-"intro": "Now let's talk about clothes.",
+"intro": "Now let's talk about holidays.",
 "qs": [
 {
-"q": "What are you wearing today?",
-"a": "A white T-shirt and blue jeans.",
-"back": "Are you wearing jeans?"
+"q": "When do you have holidays?",
+"a": "(in the) summer",
+"back": "Do you have holidays in the summer?"
 },
 {
-"q": "What's your favourite colour for clothes?",
-"a": "Pink.",
-"back": "Do you like pink clothes?"
+"q": "Where do you like going on holiday?",
+"a": "(to) the beach",
+"back": "Do you like going to the beach?"
 },
 {
-"q": "What do you wear when it's cold?",
-"a": "A coat and a scarf.",
-"back": "Do you wear a coat?"
+"q": "Who do you go on holiday with?",
+"a": "my family",
+"back": "Do you go with your family?"
 },
 {
-"q": "Who buys your clothes?",
-"a": "My mum.",
-"back": "Does your mum buy your clothes?"
+"q": "What weather do you like on holiday?",
+"a": "sunny weather",
+"back": "Do you like sunny weather?"
 },
 {
-"q": "Tell me about your favourite clothes.",
-"a": "I love my red jacket. It's warm and soft. I wear it on cold days.",
-"back": "What's your favourite thing to wear? What's it like? When do you wear it?"
+"q": "Tell me about what you do on holiday.",
+"a": "We go swimming. We eat in restaurants. We go shopping.",
+"back": "Do you go swimming? / Do you eat in restaurants? / Do you go shopping?"
 }
-],
-"draft": true
+]
 },
 "dif": [
 {
 "b": [
-0.26,
-0.13,
-0.08,
-0.09
-],
-"w": [
-"an orange flag",
-"a green flag"
-]
-},
-{
-"b": [
-0.27,
-0.49,
-0.14,
-0.16
-],
-"w": [
-"an empty deckchair",
-"a man sitting in the deckchair"
-]
-},
-{
-"b": [
-0.45,
+0.74,
 0.48,
-0.36,
-0.19
+0.18,
+0.17
 ],
 "w": [
-"a girl with a toy boat in the sea",
-"a girl building a sandcastle"
+"a green and white umbrella",
+"a red and white umbrella"
 ]
 },
 {
 "b": [
-0.74,
-0.49,
-0.19,
-0.15
+0.16,
+0.63,
+0.2,
+0.14
 ],
 "w": [
-"a green parasol",
-"a red and white parasol"
+"the man on the towel is wearing sunglasses",
+"the man on the towel isn't wearing sunglasses"
 ]
 },
 {
 "b": [
-0.74,
-0.57,
-0.22,
-0.24
-],
-"w": [
-"a woman sunbathing",
-"a woman reading a newspaper"
-]
-},
-{
-"b": [
-0.13,
-0.61,
+0.09,
+0.8,
 0.14,
-0.12
+0.14
 ],
 "w": [
-"a man with red sunglasses",
-"a man without sunglasses"
+"four steps down to the beach",
+"three steps down to the beach"
+]
+},
+{
+"b": [
+0.28,
+0.48,
+0.14,
+0.17
+],
+"w": [
+"no one is sitting in the striped chair",
+"a woman is sitting in the striped chair"
+]
+},
+{
+"b": [
+0.22,
+0.86,
+0.09,
+0.1
+],
+"w": [
+"the bin is empty",
+"the bin is full"
+]
+},
+{
+"b": [
+0.46,
+0.5,
+0.15,
+0.14
+],
+"w": [
+"the girl in the white T-shirt is playing with a boat",
+"the girl in the white T-shirt is making a sand castle"
+],
+"b2": [
+0.62,
+0.5,
+0.18,
+0.16
 ]
 }
 ],
@@ -8849,17 +9056,12 @@ null,
 ]
 },
 "story": [
-"Charlie walks to school. He sees a frog near the pond and picks it up.",
-"In class, the frog is in Charlie's pocket. The teacher points at it. Charlie is worried.",
-"The frog is outside the school. It hides under a leaf.",
-"Charlie goes out with his friends. The frog jumps away.",
-"Charlie walks home. The frog is back in the pond. Charlie is happy."
+"Charlie is walking to school. He can see a frog. The frog is jumping into his pocket. Charlie is going to take the frog to school.",
+"Charlie is in his classroom now. The teacher has seen the frog. She's saying, 'Put that frog outside!'",
+"The frog's outside the school now. It's sad. It's waiting for Charlie.",
+"Charlie's coming out of school. The frog's jumping into his pocket again.",
+"Charlie's going home. The frog's on the lake. Charlie's saying, 'Goodbye, frog!'"
 ],
-"p3open": {
-"title": "A frog goes to school",
-"line": "Charlie is walking to school. He sees a frog next to the pond.",
-"draft": true
-},
 "p3c": [
 {
 "s": "Charlie = Charlie; Mum = mẹ; the frog = con ếch",
@@ -8877,7 +9079,7 @@ null,
 "s": "the frog = con ếch; Charlie = Charlie",
 "l": "outside the school = bên ngoài trường; under the leaf = dưới cái lá; in the playground = ở sân chơi",
 "v": "hide = trốn; look out of the window = nhìn ra cửa sổ; sit = ngồi",
-"f": "scared = sợ; worried = lo lắng"
+"f": "sad = buồn"
 },
 {
 "s": "Charlie = Charlie; his friends = bạn của Charlie; the teacher = cô giáo; the frog = con ếch",
@@ -8891,7 +9093,123 @@ null,
 "v": "walk home = đi bộ về nhà; wave = vẫy tay; sit = ngồi",
 "f": "happy = vui"
 }
+],
+"teacher": {
+"p1": {
+"example": "In my picture, the helicopter is on the hill but in your picture it's in the air.",
+"items": [
+{
+"ex": "In my picture, the umbrella's green and white.",
+"cand": "In my picture, the umbrella's red and white.",
+"back": "What colour is the umbrella?"
+},
+{
+"ex": "In my picture, there's a man lying on a towel. He's wearing sunglasses.",
+"cand": "In my picture, the man isn't wearing sunglasses.",
+"back": "Is the man on the towel wearing sunglasses?"
+},
+{
+"ex": "In my picture, there are four steps down to the beach.",
+"cand": "In my picture, there are three steps.",
+"back": "How many steps are there down to the beach?"
+},
+{
+"ex": "In my picture, no one is sitting in the striped chair.",
+"cand": "In my picture, a woman is sitting in the striped chair.",
+"back": "Is someone sitting in the striped chair?"
+},
+{
+"ex": "In my picture, the bin's empty.",
+"cand": "In my picture, the bin's full.",
+"back": "Is the bin empty?"
+},
+{
+"ex": "In my picture, the girl in the white T-shirt is playing with a boat.",
+"cand": "In my picture, she's making a sand castle.",
+"back": "What's the girl in the white T-shirt doing?"
+}
 ]
+},
+"p2": {
+"intro": "Robert and Emma both live in apartments. I don't know anything about Robert's apartment, but you do. So I'm going to ask you some questions.",
+"examinerAsks": {
+"title": "Robert's apartment",
+"qa": [
+[
+"How many bedrooms has Robert's apartment got?",
+"three"
+],
+[
+"What colour is the kitchen?",
+"blue"
+],
+[
+"Where is the apartment?",
+"in Winter Street"
+],
+[
+"Which floor is it on?",
+"on the fourth floor"
+],
+[
+"Has Robert's apartment got a balcony?",
+"Yes, it has"
+]
+]
+},
+"candidateAsks": {
+"title": "Emma's apartment",
+"qa": [
+[
+"Where is Emma's apartment?",
+"in River Road"
+],
+[
+"Which floor is it on?",
+"on the fifth floor"
+],
+[
+"How many bedrooms has the apartment got?",
+"four"
+],
+[
+"What colour is the kitchen?",
+"yellow"
+],
+[
+"Has Emma's apartment got a balcony?",
+"No, it hasn't"
+]
+]
+}
+},
+"p3": {
+"title": "A frog goes to school",
+"intro": "Charlie is walking to school. He can see a frog. The frog is jumping into his pocket. Charlie is going to take the frog to school.",
+"pics": [
+{
+"n": 2,
+"say": "Charlie is in his classroom now. The teacher has seen the frog. She's saying, 'Put that frog outside!'",
+"back": "Where's Charlie now? What's the teacher saying?"
+},
+{
+"n": 3,
+"say": "The frog's outside the school now. It's sad. It's waiting for Charlie.",
+"back": "Where's the frog now? Why is it sad?"
+},
+{
+"n": 4,
+"say": "Charlie's coming out of school. The frog's jumping into his pocket again.",
+"back": "Has school finished? What's the frog doing?"
+},
+{
+"n": 5,
+"say": "Charlie's going home. The frog's on the lake. Charlie's saying, 'Goodbye, frog!'",
+"back": "Where's Charlie going? What's he saying?"
+}
+]
+}
+}
 },
 {
 "id": "cam4-t1",

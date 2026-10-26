@@ -37,7 +37,7 @@ def run(only=None):
             pg.evaluate("document.querySelector('.dtbl>button')&&document.querySelector('.dtbl>button').click()")
             vcw=pg.evaluate("document.querySelectorAll('.dtbl').length")-old
             vrows=pg.evaluate("document.querySelectorAll('.dtbl .cmp-r').length")
-            dr=pg.evaluate("[...document.querySelectorAll('.dring')].filter(e=>getComputedStyle(e).display!='none').length")
+            dr=pg.evaluate("[...document.querySelectorAll('.dring')].filter(e=>{const c=getComputedStyle(e);return c.display!='none'&&c.position=='absolute'&&parseFloat(c.borderTopWidth)>=2&&e.getBoundingClientRect().height>10}).length")
             nd_=pg.evaluate("(st.set.dif||[]).length")
             res.append((vn,sid,'p1vcw',vcw,vrows,dr,nd_*2,0))
           if part==2:
