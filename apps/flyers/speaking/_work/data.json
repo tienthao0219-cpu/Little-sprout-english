@@ -3646,7 +3646,7 @@ null,
 "Is it big or small?",
 "How old is it?",
 "How many people live there?",
-"Where does he/she do his/her homework?",
+"Where does Tom do his homework?",
 "What colour is the front door?"
 ],
 "p2w": "big / small = to / nhỏ; years old = tuổi; dining room = phòng ăn; bedroom = phòng ngủ; kitchen = bếp; living room = phòng khách; front door = cửa trước; white / blue / red / green = trắng / xanh dương / đỏ / xanh lá",
@@ -4224,7 +4224,7 @@ null,
 "What's the magazine called?",
 "What's it about?",
 "Is it expensive?",
-"What day does he/she get the magazine?",
+"What day does she get the magazine?",
 "Who buys it?"
 ],
 "p2w": "magazine = tạp chí; about = nói về; music / animals / sport / fashion = âm nhạc / động vật / thể thao / thời trang; expensive / cheap = đắt / rẻ; Friday / Tuesday = thứ Sáu / thứ Ba; father / mother / brother = ba / mẹ / anh (em) trai",
@@ -5310,9 +5310,9 @@ null,
 "p1": "canal boat = thuyền trên kênh; rope = sợi dây thừng; swan = thiên nga; bicycle = xe đạp; radio = đài radio; newspaper = tờ báo; deckchair = ghế xếp; flowers = hoa; dog = con chó; shop = cửa hàng; autumn tree = cây mùa thu; run = chạy; lean = dựa vào; sit = ngồi; throw = ném; play = chơi",
 "p2q": [
 "Where is the sports club?",
-"When does he/she go?",
-"Who does he/she go with?",
-"What does he/she play?",
+"When does she go?",
+"Who does she go with?",
+"What does she play?",
 "Is it expensive?"
 ],
 "p2w": "sports club = câu lạc bộ thể thao; Long Road / Park Street = tên đường; weekends / Monday evenings = cuối tuần / các tối thứ Hai; with my cousin / sister / friend = với anh chị em họ / chị gái / bạn; football / tennis / golf / basketball = bóng đá / quần vợt / gôn / bóng rổ; expensive / cheap = đắt / rẻ",
@@ -5909,11 +5909,11 @@ null,
 "hints": {
 "p1": "waiter = bồi bàn; café = quán cà phê; table = cái bàn; menu = thực đơn; rain = mưa; traffic light = đèn giao thông; bicycle = xe đạp; helmet = mũ bảo hiểm; clock = đồng hồ; butterfly = con bướm; newspaper = tờ báo; vase = bình hoa; coins = đồng xu; straw = ống hút; hat = cái mũ; under the table = dưới bàn",
 "p2q": [
-"What's his/her name?",
-"What subject does he/she teach?",
-"What's his/her hobby?",
-"Where does he/she live?",
-"Has he/she got long or short hair?"
+"What's her name?",
+"What subject does she teach?",
+"What's her hobby?",
+"Where does she live?",
+"Has she got long or short hair?"
 ],
 "p2w": "favourite teacher = giáo viên yêu thích; maths / history / geography / science / English = toán / lịch sử / địa lý / khoa học / tiếng Anh; hobby = sở thích; doing puzzles / playing chess / swimming = giải đố / chơi cờ / bơi; street = đường; long hair / short hair = tóc dài / tóc ngắn",
 "p3": "glove = găng tay; boot = giày ống; newspaper = tờ báo; ball = quả bóng; lost = bị mất; look for = tìm kiếm; find = tìm thấy; bring = mang đến; give = đưa; sofa = ghế sofa; garden = khu vườn; fence = hàng rào; thank = cảm ơn; happy = vui; clever dog = chú chó thông minh"
@@ -6528,10 +6528,10 @@ null,
 "hints": {
 "p1": "bridge = cây cầu; river = dòng sông; boat = thuyền; life belt = phao cứu sinh; swing = xích đu; waiter = bồi bàn; tray = cái khay; swan = thiên nga; table = bàn; chairs = ghế; waterfall = thác nước; baby = em bé; push chair = xe đẩy em bé; fence = hàng rào; wave = vẫy tay; drink = uống",
 "p2q": [
-"Where did he/she go?",
-"Who did he/she go with?",
-"When did he/she go?",
-"What did he/she buy?",
+"Where did she go?",
+"Who did she go with?",
+"When did she go?",
+"What did she buy?",
 "What was the weather like?"
 ],
 "p2w": "holiday = kỳ nghỉ; mountains / beach / lake / city = núi / bãi biển / hồ / thành phố; cousins / grandparents / friends = anh chị em họ / ông bà / bạn bè; January / August = tháng 1 / tháng 8; trainers / bracelet / hat / T-shirt = giày thể thao / vòng tay / mũ / áo thun; sunny / windy / rainy / snowy = nắng / gió / mưa / tuyết",
@@ -9221,8 +9221,8 @@ null,
 "p1": "dinosaur = khủng long; tent = lều; tiger = con hổ; parrot = con vẹt; butterfly = con bướm; log = khúc gỗ; snake = con rắn; pineapple = quả dứa; fish = con cá; pond = cái ao; rocks = những tảng đá; map = bản đồ; backpack = ba lô; explorer hat = mũ thám hiểm; campfire = lửa trại; jungle = rừng rậm",
 "p2q": [
 "What's the book called?",
-"Where did he/she buy it?",
-"When did he/she buy it?",
+"Where did she buy it?",
+"When did she buy it?",
 "How many pages has it got?",
 "Is it funny or sad?"
 ],
@@ -9781,9 +9781,9 @@ null,
 "p1": "bed = giường; computer = máy tính; desk = bàn học; guitar = đàn ghi-ta; shelf = kệ sách; lamp = đèn bàn; robot = người máy đồ chơi; alarm clock = đồng hồ báo thức; chest of drawers = tủ ngăn kéo; coat stand = giá treo áo; school bag = cặp sách; rug = tấm thảm; toy car = xe đồ chơi; tortoise = con rùa; magazines = tạp chí; train track = đường ray đồ chơi; curtains = rèm cửa; castle = lâu đài; mirror = gương; lie on = nằm trên",
 "p2q": [
 "What's the present?",
-"Who gave it to him/her?",
-"Where did he/she put it?",
-"When did he/she get it?",
+"Who gave it to her?",
+"Where did she put it?",
+"When did she get it?",
 "What colour is it?"
 ],
 "p2w": "present = món quà; computer / football shirt / bike / book = máy tính / áo bóng đá / xe đạp / sách; aunt / uncle / grandma / friend = dì (cô) / chú (bác) / bà / bạn; bedroom / living room / garden = phòng ngủ / phòng khách / vườn; yesterday / this morning = hôm qua / sáng nay; grey / red and black = xám / đỏ và đen",
@@ -10411,10 +10411,10 @@ null,
 "p1": "airport = sân bay; aeroplane = máy bay; control tower = tháp điều khiển; passenger = hành khách; suitcase = va-li; flight attendant = tiếp viên hàng không; ticket = vé; steps = cầu thang; truck = xe tải; luggage = hành lý; dog = con chó; bus = xe buýt; ambulance = xe cứu thương; carry = mang / xách; run = chạy; sunny = trời nắng",
 "p2q": [
 "Where is the sports club?",
-"Which day does he/she go?",
-"What sport does he/she do?",
-"What time does he/she go?",
-"Who does he/she go with?"
+"Which day does she go?",
+"What sport does she do?",
+"What time does she go?",
+"Who does she go with?"
 ],
 "p2w": "sports club = câu lạc bộ thể thao; Hill Street / Lake Road = tên đường; Monday / Saturday = thứ Hai / thứ Bảy; tennis / sailing / swimming / basketball = quần vợt / chèo thuyền / bơi / bóng rổ; 6.30 / 2.30 = 6 giờ 30 / 2 giờ 30; with my brother / best friend = với anh (em) trai / bạn thân",
 "p3": "hospital = bệnh viện; ambulance = xe cứu thương; patient = bệnh nhân; nurse = y tá; doctor = bác sĩ; bed = giường bệnh; visit = thăm; chocolates = sô-cô-la; fruit = trái cây; bananas = chuối; bandage = băng gạc; pyjamas = bộ đồ ngủ; smile = mỉm cười; thank you = cảm ơn; get well soon = chóng khỏe nhé"
@@ -10988,9 +10988,9 @@ null,
 "p2q": [
 "What's the restaurant called?",
 "Is it expensive or cheap?",
-"How often does he/she visit it?",
+"How often does she visit it?",
 "What time does it close?",
-"Is it near his/her home?"
+"Is it near her home?"
 ],
 "p2w": "restaurant = nhà hàng; pizza / pasta / burgers = pizza / mì Ý / bánh mì kẹp; expensive / cheap = đắt / rẻ; once a month / every Saturday = mỗi tháng một lần / mỗi thứ Bảy; midnight / ten o'clock = nửa đêm / mười giờ; near / far from home = gần / xa nhà",
 "p3": "picnic = buổi dã ngoại; basket = cái giỏ; sandwich = bánh mì kẹp; bread = bánh mì; car = xe hơi; drive = lái xe; sing = hát; blanket = khăn trải; cow = con bò; field = cánh đồng; flowers = hoa; football = quả bóng đá; eat = ăn; hungry = đói; surprised = ngạc nhiên"
@@ -11554,11 +11554,11 @@ null,
 "hints": {
 "p1": "window = cửa sổ; sun = mặt trời; clock = đồng hồ; cupboard = tủ bếp; tap = vòi nước; sink = bồn rửa; cloth = khăn lau; bowl = cái tô; newspaper = tờ báo; table = cái bàn; chair = cái ghế; dog = con chó; dog bowl = bát ăn của chó; glass = cái ly; wash = rửa; read = đọc; eat = ăn; sit = ngồi",
 "p2q": [
-"What club does he/she do?",
+"What club does Katy go to?",
 "What day is it?",
 "What time does it finish?",
 "How many children are there?",
-"Does he/she like it?"
+"Does she like it?"
 ],
 "p2w": "after-school club = câu lạc bộ sau giờ học; football / chess / art / drama / dance = bóng đá / cờ vua / mỹ thuật / kịch / nhảy; Wednesday / Tuesday = thứ Tư / thứ Ba; finish at half past five = kết thúc lúc 5 giờ rưỡi; twenty-three children = 23 em; like / don't like = thích / không thích",
 "p3": "cat = con mèo; tree = cái cây; branch = cành cây; climb up = trèo lên; stuck = mắc kẹt; scared = sợ hãi; get down = leo xuống; fire engine = xe cứu hỏa; firefighter = lính cứu hỏa; ladder = cái thang; rescue = giải cứu; help = giúp đỡ; call = gọi; look up = nhìn lên; surprised = ngạc nhiên"
@@ -12085,7 +12085,7 @@ null,
 "What's the programme called?",
 "When is it on TV?",
 "How long is it?",
-"Do his/her parents like it?",
+"Do Emma's parents like it?",
 "Is it funny or exciting?"
 ],
 "p2w": "TV programme = chương trình ti-vi; Find the Treasure = tên chương trình; Saturday at half past five = thứ Bảy lúc 5 giờ rưỡi; one hour / thirty minutes = một giờ / ba mươi phút; cartoon / quiz / film = phim hoạt hình / đố vui / phim; funny / exciting / boring = hài hước / hấp dẫn / chán",
@@ -12606,11 +12606,11 @@ null,
 "hints": {
 "p1": "beach = bãi biển; sea = biển; sailing boats = thuyền buồm; cliff = vách đá; sunbathe = tắm nắng; sunglasses = kính râm; towel = khăn tắm; flowers = hoa; drink = nước uống; watermelon = dưa hấu; beach ball = bóng bãi biển; sun = mặt trời; clouds = mây; swimming trunks = quần bơi; dress = váy",
 "p2q": [
-"How old is he/she?",
-"Is he/she married?",
-"What's his/her job?",
-"Where does he/she live?",
-"What's his/her favourite colour?"
+"How old is she?",
+"Is she married?",
+"What's her job?",
+"Where does she live?",
+"What's her favourite colour?"
 ],
 "p2w": "age: twenty-eight / thirty-one = 28 / 31 tuổi; married / single = đã kết hôn / độc thân; engineer / nurse / teacher / doctor / driver = kỹ sư / y tá / giáo viên / bác sĩ / tài xế; in the city / in a village / in the country = ở thành phố / trong làng / ở quê; green / purple / blue = xanh lá / tím / xanh dương",
 "p3": "alarm clock = đồng hồ báo thức; wake up late = thức dậy muộn; oversleep = ngủ quên; bed = giường; hurry = vội vã; bus = xe buýt; school bell = chuông trường; late = muộn; teacher = giáo viên; angry = tức giận; desk = bàn học; parents = ba mẹ; worried = lo lắng; sorry = xin lỗi; promise = hứa"
@@ -13682,7 +13682,7 @@ null,
 "What sport do they play at school?",
 "Where is the school?",
 "Is it big or small?",
-"Where do they go for their school holiday?",
+"Where do they go on school holiday?",
 "What's the school called?"
 ],
 "p2w": "sport = môn thể thao; tennis / football / basketball = quần vợt / bóng đá / bóng rổ; in East Street / in Boat Street = ở đường East / đường Boat; big / small = lớn / nhỏ; school holiday = kỳ nghỉ của trường; to a castle / to the zoo / to the museum = đến lâu đài / sở thú / bảo tàng",
@@ -14224,11 +14224,11 @@ null,
 "hints": {
 "p1": "kitchen = nhà bếp; cook = nấu ăn; knife = con dao; cut = cắt; apple = quả táo; pizza = bánh pizza; sandwich = bánh mì kẹp; bowl = cái tô; bag = cái túi; salt = muối; milk = sữa; oven = lò nướng; apron = tạp dề; vegetables = rau củ; counter = mặt bàn bếp",
 "p2q": [
-"Where does he/she have lunch?",
-"What does he/she eat?",
-"What does he/she drink?",
+"Where does he have lunch?",
+"What does he eat?",
+"What does he drink?",
 "Who cooks the lunch?",
-"What does he/she do after the meal?"
+"What does he do after the meal?"
 ],
 "p2w": "canteen = căn tin; dining room = phòng ăn; school = trường học; sandwich / chicken and vegetables = bánh mì kẹp / gà và rau; milk / grape juice / water = sữa / nước nho / nước lọc; school cook / big sister / mum = đầu bếp trường / chị gái / mẹ; read a book / play with cars / watch TV = đọc sách / chơi xe / xem ti-vi",
 "p3": "camp = trại; rubbish = rác; broom = cái chổi; clean up = dọn dẹp; chop wood = chẻ củi; axe = cái rìu; campfire = lửa trại; pot = cái nồi; spoon = cái muỗng; stir = khuấy; soup = món súp; obstacle course = đường chạy vượt chướng ngại; tyres = lốp xe; jump = nhảy; lake = hồ"
@@ -14859,7 +14859,7 @@ null,
 "p2q": [
 "What day is the party?",
 "What time is it?",
-"Why is it?",
+"Why is Harry having a party?",
 "Where is it?",
 "Who is going to the party?"
 ],
@@ -15362,11 +15362,11 @@ null,
 "hints": {
 "p1": "tent = cái lều; campfire = lửa trại; stick = cây que; sausage = xúc xích; cook = nấu; log = khúc gỗ; backpack = ba lô; dog = con chó; moon = mặt trăng; sun = mặt trời; flowers = hoa; cup = cái cốc; sit = ngồi; hold = cầm; night = ban đêm",
 "p2q": [
-"What's his/her favourite toy?",
-"Why is it his/her favourite?",
+"What's his favourite toy?",
+"Why is it his favourite?",
 "Is it old or new?",
 "Is it cheap or expensive?",
-"Where does he/she keep it?"
+"Where does he keep it?"
 ],
 "p2w": "toy = đồ chơi; doll / toy train / teddy bear = búp bê / tàu hỏa đồ chơi / gấu bông; present from parents / first toy = quà của ba mẹ / món đồ chơi đầu tiên; old / new = cũ / mới; cheap / expensive = rẻ / đắt; in her bed / in the toy cupboard / in a box = trên giường / trong tủ đồ chơi / trong hộp",
 "p3": "calendar = tờ lịch; birthday = sinh nhật; wake up = thức dậy; stairs = cầu thang; downstairs = tầng dưới; newspaper = tờ báo; school = trường học; run = chạy; birthday cake = bánh sinh nhật; candles = những cây nến; party = bữa tiệc; friends = bạn bè; forget = quên; sad = buồn; surprise = bất ngờ"
@@ -15929,7 +15929,7 @@ null,
 "p2q": [
 "What's the pet shop called?",
 "What are the puppies doing?",
-"How many parrots are there / What do they say?",
+"How many languages do the parrots speak?",
 "What time does the shop open?",
 "Where is it?"
 ],
@@ -17229,8 +17229,8 @@ null,
 "p2q": [
 "Where is the camp?",
 "How long is it?",
-"Who does he/she go with?",
-"What does he/she do there?",
+"Who does he go with?",
+"What does he do there?",
 "Is it expensive or cheap?"
 ],
 "p2w": "summer camp = trại hè; lake = hồ; mountains = núi; seaside = bờ biển; two weeks / one week = 2 tuần / 1 tuần; cousin / friends / brother = anh chị em họ / bạn / anh em; sailing / climbing / swimming / fishing = chèo thuyền / leo núi / bơi / câu cá; expensive / cheap = đắt / rẻ",
@@ -21077,9 +21077,9 @@ null,
 "hints": {
 "p1": "clothes shop = cửa hàng quần áo; mannequin = ma-nơ-canh; dress = váy; jacket = áo khoác; try on = mặc thử; mirror = cái gương; shoes = giày; boots = giày ống; hat = mũ; scarf = khăn quàng; shop assistant = nhân viên bán hàng; measuring tape = thước dây; scissors = cái kéo; sale = giảm giá; shopping bag = túi mua sắm",
 "p2q": [
-"What did he/she buy?",
+"What did he buy?",
 "What colour is it?",
-"Where did he/she buy it?",
+"Where did he buy it?",
 "How much was it?",
 "Who paid for it?"
 ],
@@ -21838,10 +21838,10 @@ null,
 "hints": {
 "p1": "ski resort = khu trượt tuyết; cable car = cáp treo; ski = trượt tuyết; snowboard = ván trượt tuyết; sledge = xe trượt tuyết; snowman = người tuyết; snowball = quả cầu tuyết; cafe = quán cà phê; steam = hơi nước; dog = con chó; scarf = khăn quàng; pine tree = cây thông; mountain = núi; jacket = áo khoác; throw = ném",
 "p2q": [
-"Where did he/she stay?",
-"How long did he/she stay?",
-"Who did he/she go with?",
-"What did he/she do?",
+"Where did he stay?",
+"How long did he stay?",
+"Who did he go with?",
+"What did he do?",
 "What was the weather like?"
 ],
 "p2w": "winter holiday = kỳ nghỉ đông; stay = ở lại; hotel / wooden house = khách sạn / nhà gỗ; five days / a week = 5 ngày / 1 tuần; family / friends = gia đình / bạn bè; skiing / sledging / snowboarding = trượt tuyết / đi xe trượt / trượt ván tuyết; snowy / windy / cold / sunny = có tuyết / có gió / lạnh / nắng",
