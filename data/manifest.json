@@ -80,6 +80,10 @@
       "tint": 4,
       "units": [
         {
+          "id": "speaking",
+          "name": "SPEAKING"
+        },
+        {
           "id": "review-0759",
           "name": "REVIEW"
         },
@@ -755,6 +759,16 @@
       "desc": "Template Đập Chuột của cô (từ vựng + ngữ pháp, dữ liệu mẫu Things We Can Do). Khi chơi qua Trung tâm trò chơi sẽ dùng từ vựng của unit đã chọn.",
       "added": "2026-10-23T08:20:00.000Z",
       "updated": "2026-10-23T08:20:00.000Z"
+    },
+    {
+      "id": "speaking-test",
+      "title": "Speaking Test – 28 bộ đề (4 Parts)",
+      "cur": "flyers",
+      "unit": "speaking",
+      "file": "apps/flyers/speaking/speaking.html",
+      "kind": "app",
+      "desc": "Luyện nói Flyers: Part 1–2 hai hình song song, Part 3 xoay ngang, Part 4 câu hỏi; có hint từ vựng",
+      "added": "2026-10-26T03:30:00.000Z"
     }
   ]
 }
