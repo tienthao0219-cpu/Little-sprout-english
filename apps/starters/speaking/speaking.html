@@ -281,12 +281,31 @@ const totalStars=()=>Object.keys(loadProg().stars).length;
 /* ======================= âm thanh (có nút tắt) ======================= */
 const S={sound:store.get('lss_sound','1')!=='0',teach:store.get('lss_teach','0')==='1'};
 let ac=null;
-function tone(f,d,type,v,delay){if(!S.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime+(delay||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.1,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
+function tone(f,d,type,v,delay){if(!S.sound)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state!=='running')ac.resume();const t=ac.currentTime+(delay||0),o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v||.1,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02)}catch(e){}}
 const sfx={ok(){tone(660,.14);tone(880,.2,'sine',.1,.1)},no(){tone(240,.2,'triangle',.09)},pop(){tone(520,.07,'square',.04)},star(){[660,830,990,1320].forEach((f,i)=>tone(f,.18,'sine',.1,i*.09))},flip(){tone(400,.08,'triangle',.07);tone(600,.1,'triangle',.07,.06)},deal(){tone(300,.12,'sawtooth',.03);tone(450,.12,'sawtooth',.03,.05)}};
 let voice=null;
 function pickVoice(){try{const v=speechSynthesis.getVoices();return v.find(x=>/en-GB/i.test(x.lang)&&/female|samantha|kate|serena|google uk english female/i.test(x.name))||v.find(x=>/^en/i.test(x.lang))||null}catch(e){return null}}
-function speak(t){if(!S.sound||!('speechSynthesis' in window)||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\([^)]*\)/g,'').replace(/\s+/g,' ').trim());u.lang='en-GB';u.rate=.85;u.pitch=1.1;voice=voice||pickVoice();if(voice)u.voice=voice;speechSynthesis.speak(u)}catch(e){}}
-function stopSpeak(){try{speechSynthesis.cancel()}catch(e){}}
+let spkTimer=null,spkU=null;
+function speak(t){
+  if(!S.sound||!('speechSynthesis' in window)||!t)return;
+  clearTimeout(spkTimer);
+  try{speechSynthesis.cancel()}catch(e){}
+  /* Chrome/Safari hay im lặng hoặc kẹt nếu speak() ngay sau cancel(): chờ một nhịp rồi mới đọc */
+  spkTimer=setTimeout(()=>{try{
+    if(speechSynthesis.paused)speechSynthesis.resume();
+    const u=new SpeechSynthesisUtterance(t.replace(/\([^)]*\)/g,'').replace(/\s+/g,' ').trim());
+    u.lang='en-GB';u.rate=.85;u.pitch=1.1;voice=voice||pickVoice();if(voice)u.voice=voice;
+    u.onend=u.onerror=()=>{if(spkU===u)spkU=null};
+    spkU=u;                                   /* giữ tham chiếu để trình duyệt không thu hồi giữa chừng */
+    speechSynthesis.speak(u);
+  }catch(e){}},90);
+}
+function stopSpeak(){clearTimeout(spkTimer);spkU=null;try{speechSynthesis.cancel()}catch(e){}}
+/* mở khoá âm thanh ở lần chạm đầu tiên (iPad/Safari) và khi quay lại tab */
+function unlockAudio(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state!=='running')ac.resume();if('speechSynthesis' in window&&speechSynthesis.paused)speechSynthesis.resume()}catch(e){}}
+['pointerdown','keydown','touchend'].forEach(ev=>document.addEventListener(ev,unlockAudio,{passive:true}));
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopSpeak();else unlockAudio()});
+try{speechSynthesis.addEventListener('voiceschanged',()=>{voice=null})}catch(e){}
 
 /* ======================= báo kết quả về website (giao thức LSE) ======================= */
 window.LSE_REPORT=window.LSE_REPORT||{
