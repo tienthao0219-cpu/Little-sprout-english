@@ -151,12 +151,18 @@ details.guide li{margin:4px 0}
 .sum .row span:last-child{margin-left:auto;letter-spacing:2px}
 
 /* ---------- phóng to ---------- */
-#lb{position:fixed;inset:0;background:rgba(40,30,70,.88);z-index:50;display:flex;flex-direction:column}
+#lb{position:fixed;inset:0;background:rgba(36,26,64,.98);z-index:50;display:flex;flex-direction:column}
 #lb .lbt{display:flex;gap:8px;align-items:center;padding:10px 12px;color:#fff;font-weight:800}
 #lb .lbt span{flex:1}
 #lb .lbt button{background:#fff;color:#6a4fcb;border-radius:12px;min-height:44px;min-width:44px;padding:0 12px;font-weight:800}
 #lb .lbc{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;padding:0 8px 16px;touch-action:pan-x pan-y pinch-zoom}
 #lb img{display:block;margin:0 auto;background:#fff;border-radius:8px}
+#lb .lb2{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 10px 10px;min-height:0}
+#lb .lb2 figure{margin:0;display:flex;flex-direction:column;min-height:0;min-width:0}
+#lb .lb2 figcaption{color:#fff;font-weight:800;font-size:14px;padding:0 2px 4px}
+#lb .lb2 img{flex:1;min-height:0;width:100%;object-fit:contain;background:#fff;border-radius:10px}
+@media (max-aspect-ratio:1/1){#lb .lb2{grid-template-columns:1fr;grid-template-rows:1fr 1fr}}
+.bigbtn{background:var(--lav-s);border:3px solid #d9cdf5;border-radius:14px;padding:8px 14px;font-weight:800;font-size:15px;min-height:48px;color:#6a4fcb;box-shadow:0 3px 0 #e2d8f6}
 </style>
 </head>
 <body>
@@ -189,7 +195,7 @@ function saveP(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch 
 function getTeach() { try { return localStorage.getItem(KEY + '_teach') === '1'; } catch (e) { return !!mem._t; } }
 function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); } catch (e) { mem._t = v; } }
 
-const st = { hint: false, view: 'home', filter: 'all', set: null, part: 0, q: 0, showA: false, teach: getTeach(), stars: {}, t0: 0, tAcc: 0, tRun: false };
+const st = { ans: false, hint: false, view: 'home', filter: 'all', set: null, part: 0, q: 0, showA: false, teach: getTeach(), stars: {}, t0: 0, tAcc: 0, tRun: false };
 let tick = null;
 
 function h(tag, attrs, ...kids) {
@@ -223,12 +229,20 @@ function toggleHint() {
   document.querySelectorAll('.hintov').forEach(e => e.classList.toggle('show', st.hint));
   document.querySelectorAll('.hbtn').forEach(b => { b.textContent = st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'; });
 }
-function hintBar(note) { return h('div.hbar', h('button.hbtn', { onclick: toggleHint }, st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'), h('span', note || 'Chạm vào hình để hiện từ vựng gợi ý, chạm lần nữa để ẩn.')); }
+function hintBar(note, z) { return h('div.hbar', h('button.hbtn', { onclick: toggleHint }, st.hint ? '💡 Ẩn hint' : '💡 Hiện hint'), z ? h('button.bigbtn', { onclick: () => zoom2(st.set, z[0], z[1], z[2], z[3]) }, '🔍 Xem 2 hình vừa màn hình') : null, h('span', note || 'Chạm vào hình để hiện từ vựng gợi ý, chạm lần nữa để ẩn.')); }
 function picBox(set, key, cls, title, sub, overlay) {
   const box = h('div.pic.' + cls);
   const im = h('img', { src: img(set, key), alt: title, loading: 'lazy', onclick: toggleHint, onerror: () => { im.replaceWith(h('div.miss', 'Chưa có hình này')); } });
   box.append(h('div.cap', h('span', title), sub ? h('span.muted', { style: 'font-weight:700;font-size:12.5px' }, sub) : null, h('button.zoom', { onclick: () => zoom(set, key, title) }, '🔍 Phóng to')), im, overlay || null);
   return box;
+}
+function zoom2(set, k1, k2, t1, t2) {
+  const lb = document.getElementById('lb'); lb.classList.remove('hidden'); lb.replaceChildren();
+  const fig = (k, t) => h('figure', h('figcaption', t), h('img', { src: img(set, k), alt: t }));
+  const close = () => { if (document.fullscreenElement && document.exitFullscreen) { try { document.exitFullscreen(); } catch (e) { } } lb.classList.add('hidden'); };
+  lb.append(h('div.lbt', h('span', 'Hai hình vừa màn hình'),
+    h('button', { onclick: () => { try { if (document.fullscreenElement) document.exitFullscreen(); else lb.requestFullscreen(); } catch (e) { } } }, '⛶ Toàn màn hình'),
+    h('button', { onclick: close }, '✕ Đóng')), h('div.lb2', fig(k1, t1), fig(k2, t2)));
 }
 function zoom(set, key, title) {
   const lb = document.getElementById('lb'); lb.classList.remove('hidden'); lb.replaceChildren();
@@ -272,7 +286,7 @@ function homeView() {
 
 /* ================== LÀM BÀI ================== */
 function openSet(id) {
-  st.view = 'test'; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; st.hint = false;
+  st.view = 'test'; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; st.hint = false; st.ans = false;
   const p = loadP()[id] || {}; st.stars = { p1: 0, p2: 0, p3: 0, p4: 0 };
   st.t0 = Date.now(); st.tAcc = 0; st.tRun = false; clearInterval(tick);
   testView(); window.scrollTo(0, 0);
@@ -291,14 +305,14 @@ function testView() {
     h('button.ibtn', { onclick: () => { if (st.tRun) { st.tAcc = elapsed(); st.tRun = false; } else { st.t0 = Date.now(); st.tRun = true; } testView(); } }, st.tRun ? '⏸' : '▶'),
     h('button.ibtn', { onclick: () => { st.tAcc = 0; st.tRun = false; testView(); }, title: 'Đặt lại đồng hồ' }, '↺'),
     h('button.ibtn' + (st.teach ? '.on' : ''), { onclick: () => { st.teach = !st.teach; setTeach(st.teach); testView(); }, title: 'Bật/tắt gợi ý và đáp án của cô' }, '👩‍🏫'));
-  const steps = h('div.steps', PARTS.map((p, i) => h('button.step' + (i === st.part ? '.on' : '') + (st.stars[p.id] ? '.done' : ''), { onclick: () => { st.part = i; st.q = 0; st.showA = false; st.hint = false; testView(); window.scrollTo(0, 0); } },
+  const steps = h('div.steps', PARTS.map((p, i) => h('button.step' + (i === st.part ? '.on' : '') + (st.stars[p.id] ? '.done' : ''), { onclick: () => { st.part = i; st.q = 0; st.showA = false; st.hint = false; st.ans = false; testView(); window.scrollTo(0, 0); } },
     h('b', 'Part ' + p.n), h('small', p.vi))));
   let body;
   if (P.id === 'p1') body = part1(s); else if (P.id === 'p2') body = part2(s); else if (P.id === 'p3') body = part3(s); else body = part4(s);
   $app.replaceChildren(bar, steps, body, rateBox(P), navBox());
 }
 function howBox(en, vi) { return h('div.how', h('b.en', en), h('div.vi', vi)); }
-function teachBox(inner) { if (!st.teach) return null; return h('details.teach', { open: true }, h('summary', '👩‍🏫 Gợi ý & đáp án cho cô'), inner); }
+function teachBox(inner) { if (!st.teach) return null; const d = h('details.teach', { open: st.ans }, h('summary', '👩‍🏫 Bấm để hiện / ẩn gợi ý & đáp án cho cô'), inner); d.addEventListener('toggle', () => { st.ans = d.open; }); return d; }
 function generic(title, lines) { return h('div', h('h4', title), lines.map(l => h('div.note', l))); }
 
 function hl(str) { return (str || '').split(';').map(x => x.trim()).filter(Boolean).map(x => { const i = x.indexOf(' = '); return i < 0 ? [x, ''] : [x.slice(0, i), x.slice(i + 3)]; }); }
@@ -309,7 +323,7 @@ function part1(s) {
   wrap.append(howBox('Look at the two pictures. They are nearly the same, but some things are different.',
     'Cô nói về tranh của cô: "In my picture, …". Em nhìn tranh của em rồi nói điểm khác: "In my picture, …". Hai tranh đặt cạnh nhau để em đối chiếu.'),
     h('div.rotate-hint', '📱 Điện thoại: xoay ngang máy để xem hai hình cạnh nhau.'),
-    hintBar('Chạm vào hình để hiện từ vựng, giới từ và mẫu câu; chạm lần nữa để ẩn.'),
+    hintBar('Chạm vào hình để hiện từ vựng, giới từ và mẫu câu; chạm lần nữa để ẩn.', ['p1ex', 'p1cand', "Tranh của cô (Examiner's copy)", "Tranh của em (Candidate's copy)"]),
     h('div.pics', picBox(s, 'p1ex', 'ex', "Tranh của cô (Examiner's copy)", '', hov(hsec('📚 Từ vựng trong tranh', chips(hl(s.hints && s.hints.p1))))),
       picBox(s, 'p1cand', 'ca', "Tranh của em (Candidate's copy)", '', hov(hsec('📍 Giới từ', chips(GEN.prep)), hsec('💬 Mẫu câu', h('div', GEN.p1frames.map(f => h('div.hline', f))))))));
   if (st.teach) {
@@ -331,7 +345,7 @@ function part2(s) {
   wrap.append(howBox('You and the examiner have different information. Ask and answer questions.',
     'Cô hỏi em về thẻ của em, rồi em hỏi cô về thẻ còn lại. Mỗi người chỉ có nửa thông tin: đáp án của câu em hỏi nằm ở thẻ của cô, và ngược lại.'),
     h('div.rotate-hint', '📱 Điện thoại: xoay ngang máy để xem hai thẻ cạnh nhau.'),
-    hintBar('Chạm vào hình để hiện câu hỏi và từ vựng gợi ý; chạm lần nữa để ẩn.'),
+    hintBar('Chạm vào hình để hiện câu hỏi và từ vựng gợi ý; chạm lần nữa để ẩn.', ['p2ex', 'p2cand', "Thẻ của cô (Examiner's copy)", "Thẻ của em (Candidate's copy)"]),
     h('div.pics', picBox(s, 'p2ex', 'ex', "Thẻ của cô (Examiner's copy)", '', hov(hsec('❓ Câu hỏi gợi ý (theo các dòng của bảng)', h('div', hq(s.hints && s.hints.p2q))), hsec('🔤 Từ để hỏi', chips(GEN.qwords)))),
       picBox(s, 'p2cand', 'ca', "Thẻ của em (Candidate's copy)", '', hov(hsec('📚 Từ vựng gợi ý cho câu trả lời', chips(hl(s.hints && s.hints.p2w))), hsec('💬 Mẫu câu trả lời', h('div', GEN.p2frames.map(f => h('div.hline', f))))))));
   if (st.teach) {
@@ -372,7 +386,8 @@ function part4(s) {
   if (P4.draft) wrap.append(h('div.draftnote', '✏️ Câu hỏi gợi ý do Claude soạn theo dạng Part 4 (không phải đề gốc của sách). Cô có thể sửa trong dữ liệu của app.'));
   const card = h('div.qcard', h('div.qn', 'Câu ' + (st.q + 1) + ' / ' + P4.qs.length), h('div.qt', q.q));
   if (st.teach) {
-    card.append(h('div.qa', '✅ Trả lời mẫu: ' + q.a), h('div.qb', '💡 Gợi ý nếu em bí: ' + q.back));
+    const ab = h('div'); let aopen = false;
+    card.append(h('div', { style: 'margin-top:8px' }, h('button.btn.ghost', { style: 'min-height:44px;font-size:15px;padding:8px 16px', onclick: () => { aopen = !aopen; ab.replaceChildren(aopen ? h('div', h('div.qa', '✅ Trả lời mẫu: ' + q.a), h('div.qb', '💡 Gợi ý nếu em bí: ' + q.back)) : ''); } }, '👁 Hiện / ẩn trả lời mẫu')), ab);
   }
   const hb = h('div'); let hopen = false;
   card.append(h('div', { style: 'margin-top:10px' }, h('button.hbtn', { onclick: () => { hopen = !hopen; hb.replaceChildren(hopen ? p4hint(q.q) : ''); } }, '💡 Hint')), hb);
@@ -410,8 +425,8 @@ function reportPart(P, v) { LSE_REPORT.answer('speak-' + st.set.id + '-' + P.id,
 function navBox() {
   const last = st.part === 3;
   return h('div.nav', { style: 'margin-top:14px' },
-    h('button.btn.ghost', { disabled: st.part === 0, onclick: () => { st.part--; st.q = 0; st.hint = false; testView(); window.scrollTo(0, 0); } }, '← Phần trước'),
-    last ? h('button.btn.mint', { onclick: finish }, '🎉 Hoàn thành') : h('button.btn', { onclick: () => { st.part++; st.q = 0; st.hint = false; testView(); window.scrollTo(0, 0); } }, 'Phần tiếp →'));
+    h('button.btn.ghost', { disabled: st.part === 0, onclick: () => { st.part--; st.q = 0; st.hint = false; st.ans = false; testView(); window.scrollTo(0, 0); } }, '← Phần trước'),
+    last ? h('button.btn.mint', { onclick: finish }, '🎉 Hoàn thành') : h('button.btn', { onclick: () => { st.part++; st.q = 0; st.hint = false; st.ans = false; testView(); window.scrollTo(0, 0); } }, 'Phần tiếp →'));
 }
 function finish() {
   clearInterval(tick); st.tAcc = elapsed(); st.tRun = false; st.view = 'sum';
