@@ -913,6 +913,7 @@ function rebuildStage(){
 
 /* ----- demo: giám khảo đặt thẻ ----- */
 function runDemo(step){
+  if(st.view!=='step'||st.steps[st.i]!==step)return;   // em đã sang bước khác / thoát ra rồi thì không đặt thẻ nữa
   const z=st.set.zones[step.zone];
   st.placed[step.card]=zonePos(z);
   sfx.deal();rebuildStage();
