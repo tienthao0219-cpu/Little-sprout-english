@@ -17,8 +17,9 @@ Sách có 30 bộ; để đủ 40 cần 10 bộ thêm. Mỗi bộ cần **2 ản
 ## Tiến độ
 - ai-t1 (Extra 1, At the zoo): XONG 27/10, đã kiểm thử.
 - ai-t2 (Extra 2, On the farm): XONG 27/10, đã kiểm thử.
-- ai-t3 (nhà bếp): CHƯA CÓ ẢNH (cô gửi ảnh nhưng không lưu được thành file; cần cô gửi lại).
+- ai-t3 (Extra 3, In the kitchen): XONG 27/10.
 - ai-t4 (Extra 4, In the bedroom): XONG 27/10, đã kiểm thử.
-- ai-t7 (Extra 7, At the swimming pool): XONG 27/10, đã kiểm thử. (ai-t5, ai-t6 chờ cô gửi lại ảnh)
+- ai-t7 (Extra 7, At the swimming pool): XONG 27/10, đã kiểm thử.
 - ai-t9 (Extra 9, At the station): XONG 27/10, đã kiểm thử. cutout.py giờ bỏ mảnh vụn nhỏ của vật bên cạnh.
 - Ảnh ChatGPT thường có NỀN TRONG SUỐT (kênh alpha): các công cụ đã tự ghép lên nền trắng.
+- ai-t6 (Extra 6, sân thể thao), ai-t8 (Extra 8, dã ngoại), ai-t10 (Extra 10, chợ): XONG 27/10. CÒN THIẾU ảnh ai-t5 (tiệc sinh nhật).
