@@ -7415,6 +7415,563 @@
         "say": "OK. Thank you, (name). Goodbye.",
         "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
       }
+    },
+    {
+      "id": "ai-t4",
+      "no": 34,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 4",
+      "theme": "In the bedroom",
+      "themeVi": "Trong phòng ngủ",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t4/scene.webp",
+        "alt": "In the bedroom: a blue BED in the centre; a tall brown WARDROBE on the left; a yellow LAMP on a small table on the right of the bed; a white DOOR on the right wall"
+      },
+      "hot": {
+        "bed": {
+          "rect": [
+            19,
+            31,
+            46,
+            43
+          ],
+          "label": "bed"
+        },
+        "lamp": {
+          "rect": [
+            65,
+            28,
+            12,
+            18
+          ],
+          "label": "lamp"
+        },
+        "teddy": {
+          "rect": [
+            29,
+            36,
+            12,
+            16
+          ],
+          "label": "teddy bear"
+        },
+        "cars": {
+          "rect": [
+            2,
+            75,
+            52,
+            17
+          ],
+          "label": "toy cars"
+        },
+        "girl": {
+          "rect": [
+            36,
+            4,
+            26,
+            45
+          ],
+          "label": "girl"
+        },
+        "boy": {
+          "rect": [
+            71,
+            43,
+            23,
+            48
+          ],
+          "label": "boy"
+        }
+      },
+      "zones": {
+        "wardrobe": {
+          "rect": [
+            0,
+            2,
+            20,
+            62
+          ],
+          "label": "on the wardrobe",
+          "at": [
+            10,
+            8
+          ]
+        },
+        "bed": {
+          "rect": [
+            24,
+            65,
+            30,
+            9
+          ],
+          "label": "under the bed",
+          "at": [
+            39,
+            70
+          ]
+        },
+        "door": {
+          "rect": [
+            66,
+            2,
+            15,
+            22
+          ],
+          "label": "next to the door",
+          "at": [
+            73,
+            12
+          ]
+        }
+      },
+      "cards": {
+        "doll": {
+          "w": "doll",
+          "img": "img/ai-t4/doll.webp",
+          "s": "It's a doll.",
+          "gen": true
+        },
+        "egg": {
+          "w": "egg",
+          "img": "img/ai-t4/egg.webp",
+          "s": "It's an egg.",
+          "gen": true
+        },
+        "bird": {
+          "w": "bird",
+          "img": "img/ai-t4/bird.webp",
+          "s": "It's a bird.",
+          "gen": true
+        },
+        "coat": {
+          "w": "coat",
+          "img": "img/ai-t4/coat.webp",
+          "s": "It's a coat.",
+          "gen": true
+        },
+        "cake": {
+          "w": "cake",
+          "img": "img/ai-t4/cake.webp",
+          "s": "It's a cake.",
+          "gen": true
+        },
+        "bike": {
+          "w": "bike",
+          "img": "img/ai-t4/bike.webp",
+          "s": "It's a bike.",
+          "gen": true
+        },
+        "flower": {
+          "w": "flower",
+          "img": "img/ai-t4/flower.webp",
+          "s": "It's a flower.",
+          "gen": true
+        },
+        "tomato": {
+          "w": "tomato",
+          "img": "img/ai-t4/tomato.webp",
+          "s": "It's a tomato.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a bedroom.",
+          "vi": "Nhìn này. Đây là phòng ngủ."
+        },
+        "example": {
+          "say": "Here's the bed.",
+          "target": "bed",
+          "vi": "Đây là cái giường. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the lamp?",
+            "target": "lamp",
+            "back": "Is this the lamp?",
+            "vi": "Cái đèn ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the lamp?",
+              "Is this the lamp?"
+            ]
+          },
+          {
+            "say": "Where's the teddy bear?",
+            "target": "teddy",
+            "back": "Is this the teddy bear?",
+            "vi": "Con gấu bông ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the teddy bear?",
+              "Is this the teddy bear?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "coat",
+          "cake",
+          "bike",
+          "flower",
+          "tomato",
+          "doll",
+          "egg",
+          "bird"
+        ],
+        "cardSteps": [
+          {
+            "card": "doll",
+            "pick": {
+              "say": "Which is the doll?",
+              "back": "Is this the doll?",
+              "vi": "Thẻ nào là búp bê?",
+              "hints": [
+                "Look at the cards. Which is the doll?",
+                "Is this the doll?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the doll on the wardrobe.",
+              "zone": "wardrobe",
+              "vi": "Cô đặt búp bê lên tủ quần áo."
+            },
+            "place": {
+              "say": "Now you put the doll under the bed.",
+              "zone": "bed",
+              "back": "Where's the bed? Under the bed.",
+              "vi": "Bây giờ em đặt búp bê dưới cái giường.",
+              "hints": [
+                "Look at the bed. Where's the bed?",
+                "Where's the bed? Under the bed."
+              ]
+            }
+          },
+          {
+            "card": "egg",
+            "pick": {
+              "say": "Which is the egg?",
+              "back": "Is this the egg?",
+              "vi": "Thẻ nào là quả trứng?",
+              "hints": [
+                "Look at the cards. Which is the egg?",
+                "Is this the egg?"
+              ]
+            },
+            "place": {
+              "say": "Put the egg next to the door.",
+              "zone": "door",
+              "back": "Where's the door? Next to the door.",
+              "vi": "Đặt quả trứng bên cạnh cánh cửa.",
+              "hints": [
+                "Look at the door. Where's the door?",
+                "Where's the door? Next to the door."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "cars",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Toy cars"
+          ],
+          "back": "Are they toy cars?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they toy cars?",
+            "Are they toy cars or toy trains?"
+          ]
+        },
+        {
+          "point": "cars",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "cars",
+          "say": "How many toy cars are there?",
+          "ans": [
+            "Four"
+          ],
+          "back": "Are there three? Four?",
+          "vi": "Có bao nhiêu xe đồ chơi?",
+          "hints": [
+            "Are there three? Four?",
+            "Are there three or four?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "What's the girl doing?",
+          "ans": [
+            "Jumping"
+          ],
+          "back": "Is she jumping?",
+          "vi": "Cô bé đang làm gì?",
+          "hints": [
+            "Is she jumping?",
+            "Is she jumping or sleeping?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "Tell me about this boy.",
+          "ans": [
+            "He's drawing.",
+            "He's got a red pencil."
+          ],
+          "back": "What's he doing? (Is he drawing?) / What's he got? (Has he got a red pencil?)",
+          "vi": "Hãy nói về cậu bé này.",
+          "hints": [
+            "What's he doing? Is he drawing?",
+            "What's he got? Has he got a red pencil?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "bird",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Bird"
+              ],
+              "back": "Is it a bird?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a bird?",
+                "Is it a bird or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like birds?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con chim không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like birds?",
+                "Is a bird big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "coat",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Coat"
+              ],
+              "back": "Is it a coat?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a coat?",
+                "Is it a coat or a hat?"
+              ]
+            },
+            {
+              "say": "Do you wear a coat to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc áo khoác đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear a coat to school?",
+                "Do you wear a coat at home?"
+              ]
+            },
+            {
+              "say": "What colour is your coat?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Is your coat blue?",
+              "vi": "Áo khoác của em màu gì?",
+              "free": true,
+              "hints": [
+                "Is your coat blue?",
+                "Is your coat blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "cake",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Cake"
+              ],
+              "back": "Is it a cake?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a cake?",
+                "Is it a cake or a ball?"
+              ]
+            },
+            {
+              "say": "Do you like cakes?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích bánh ngọt không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like cakes?",
+                "Do you eat cakes?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "flower",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Flower"
+              ],
+              "back": "Is it a flower?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a flower?",
+                "Is it a flower or a book?"
+              ]
+            },
+            {
+              "say": "Have you got a flower?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có bông hoa không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Have you got a flower?",
+                "Do you like flowers?"
+              ]
+            },
+            {
+              "say": "What colour is it?",
+              "ans": [
+                "Pink"
+              ],
+              "back": "Is it pink?",
+              "vi": "Nó màu gì?",
+              "hints": [
+                "Is it pink?",
+                "Is it pink or red?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you have your own bedroom?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có phòng ngủ riêng không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you have your own bedroom?",
+            "Is your bedroom big or small?"
+          ]
+        },
+        {
+          "say": "What's in your bedroom?",
+          "ans": [
+            "A bed"
+          ],
+          "back": "Is there a bed in your bedroom?",
+          "vi": "Trong phòng ngủ của em có gì?",
+          "free": true,
+          "hints": [
+            "Is there a bed in your bedroom?",
+            "Is there a bed or a car in your bedroom?"
+          ]
+        },
+        {
+          "say": "What do you do in your bedroom?",
+          "ans": [
+            "Sleep / read"
+          ],
+          "back": "Do you sleep in your bedroom?",
+          "vi": "Em làm gì trong phòng ngủ?",
+          "free": true,
+          "hints": [
+            "Do you sleep in your bedroom?",
+            "Do you sleep or play in your bedroom?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
     }
   ],
   "soon": []

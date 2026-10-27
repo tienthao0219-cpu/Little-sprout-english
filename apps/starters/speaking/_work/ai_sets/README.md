@@ -17,4 +17,6 @@ Sách có 30 bộ; để đủ 40 cần 10 bộ thêm. Mỗi bộ cần **2 ản
 ## Tiến độ
 - ai-t1 (Extra 1, At the zoo): XONG 27/10, đã kiểm thử.
 - ai-t2 (Extra 2, On the farm): XONG 27/10, đã kiểm thử.
+- ai-t3 (nhà bếp): CHƯA CÓ ẢNH (cô gửi ảnh nhưng không lưu được thành file; cần cô gửi lại).
+- ai-t4 (Extra 4, In the bedroom): XONG 27/10, đã kiểm thử.
 - Ảnh ChatGPT thường có NỀN TRONG SUỐT (kênh alpha): các công cụ đã tự ghép lên nền trắng.
