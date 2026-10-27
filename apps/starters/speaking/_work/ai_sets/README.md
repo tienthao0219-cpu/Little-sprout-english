@@ -13,3 +13,7 @@ Sách có 30 bộ; để đủ 40 cần 10 bộ thêm. Mỗi bộ cần **2 ản
 5. Đối chiếu tranh với đặc tả: số lượng (vd. đúng 3 quả bóng bay), màu, hành động. Tranh khác đặc tả thì sửa đặc tả/kịch bản cho khớp tranh, không ép tranh theo chữ.
 6. `python3 ai_sets/gen_set.py ai-t1` → `python3 _work/check_sets.py ai-t1` (mở `_work/check/ai-t1.png` xem khung) → `python3 _work/build.py` → `node _work/handoff/tools/test_sets.js ai-t1` (cần server `python3 -m http.server 8765` ở gốc repo).
 7. Commit + push.
+
+## Tiến độ
+- ai-t1 (Extra 1, At the zoo): XONG 27/10, đã kiểm thử.
+- Ảnh ChatGPT thường có NỀN TRONG SUỐT (kênh alpha): các công cụ đã tự ghép lên nền trắng.

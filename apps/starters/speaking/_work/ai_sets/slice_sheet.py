@@ -12,13 +12,19 @@ from PIL import Image, ImageFilter, ImageDraw
 
 W = os.path.dirname(os.path.abspath(__file__)) + '/../'
 
+def open_rgb(path):
+    """mở ảnh; nếu có nền trong suốt (ChatGPT hay xuất kiểu này) thì ghép lên nền trắng"""
+    im = Image.open(path).convert('RGBA')
+    bg = Image.new('RGBA', im.size, (255, 255, 255, 255))
+    return Image.alpha_composite(bg, im).convert('RGB')
+
 def components(im):
     """trả về danh sách bbox (x0,y0,x1,y1, diện tích) trên ảnh gốc, các vật được gộp bằng cách giãn mặt nạ"""
     sw = 520; k = sw / im.width; sh = round(im.height * k)
     small = im.resize((sw, sh), Image.BILINEAR)
     a = np.asarray(small).astype(np.int16)
     nonwhite = (a.min(axis=2) < 232) | ((a.max(axis=2) - a.min(axis=2)) > 28)
-    m = Image.fromarray((nonwhite * 255).astype(np.uint8), 'L').filter(ImageFilter.MaxFilter(21))
+    m = Image.fromarray((nonwhite * 255).astype(np.uint8), 'L').filter(ImageFilter.MaxFilter(9))
     mask = np.asarray(m) > 127
     seen = np.zeros_like(mask); comps = []
     for y in range(sh):
@@ -43,7 +49,7 @@ def main():
     if len(sys.argv) != 11:
         print(__doc__); sys.exit(1)
     sid, sheet, names = sys.argv[1], sys.argv[2], sys.argv[3:]
-    im = Image.open(sheet).convert('RGB'); w, h = im.size
+    im = open_rgb(sheet); w, h = im.size
     comps = [c for c in components(im) if c[4] > 40]
     comps.sort(key=lambda c: -c[4]); big = comps[:8]
     method = 'tự tìm vật'

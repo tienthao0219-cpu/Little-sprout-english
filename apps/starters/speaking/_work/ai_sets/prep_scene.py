@@ -7,7 +7,7 @@ import os, sys
 from PIL import Image
 W = os.path.dirname(os.path.abspath(__file__)) + '/../../img/'
 sid, src = sys.argv[1], sys.argv[2]
-im = Image.open(src).convert('RGB'); w, h = im.size; r = w / h; target = 4 / 3
+_im = Image.open(src).convert('RGBA'); im = Image.alpha_composite(Image.new('RGBA', _im.size, (255, 255, 255, 255)), _im).convert('RGB'); w, h = im.size; r = w / h; target = 4 / 3
 if abs(r - target) > 0.005:
     if r > target:
         nw = round(h * target); x0 = (w - nw) // 2; lost = 1 - nw / w; im = im.crop((x0, 0, x0 + nw, h))
