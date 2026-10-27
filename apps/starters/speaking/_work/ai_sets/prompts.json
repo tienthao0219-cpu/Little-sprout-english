@@ -1,0 +1,290 @@
+[
+ {
+  "id": "ai-t1",
+  "no": 31,
+  "theme": "At the zoo",
+  "themeVi": "Ở sở thú",
+  "scene_file": "ai-t1-scene.png",
+  "cards_file": "ai-t1-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny zoo with green grass and a blue sky. Draw exactly these items:\n1. a big grey ELEPHANT standing in the centre.\n2. a ZOOKEEPER (a woman in a green uniform and a brown hat) standing on the left of the elephant, giving it a carrot.\n3. a brown MONKEY sitting in a big green TREE at the top left.\n4. a tall yellow GIRAFFE standing at the back on the right.\n5. a girl in a yellow dress holding THREE RED BALLOONS, at the right in front.\n6. a boy in a red T-shirt sitting on a blue bench and eating a pink ICE CREAM, at the bottom left.\n7. a long brown wooden FENCE across the middle in front of the animals.\n8. a green BIN at the bottom, in the middle, with clear empty space on its right.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) tiger, 2) glasses, 3) sandwich, 4) drum.\nBottom row, left to right: 5) bed, 6) banana, 7) teddy bear, 8) shoes.",
+  "cards": [
+   "tiger",
+   "glasses",
+   "sandwich",
+   "drum",
+   "bed",
+   "banana",
+   "teddy bear",
+   "shoes"
+  ],
+  "objs": [
+   "a big grey ELEPHANT standing in the centre",
+   "a ZOOKEEPER (a woman in a green uniform and a brown hat) standing on the left of the elephant, giving it a carrot",
+   "a brown MONKEY sitting in a big green TREE at the top left",
+   "a tall yellow GIRAFFE standing at the back on the right",
+   "a girl in a yellow dress holding THREE RED BALLOONS, at the right in front",
+   "a boy in a red T-shirt sitting on a blue bench and eating a pink ICE CREAM, at the bottom left",
+   "a long brown wooden FENCE across the middle in front of the animals",
+   "a green BIN at the bottom, in the middle, with clear empty space on its right"
+  ]
+ },
+ {
+  "id": "ai-t2",
+  "no": 32,
+  "theme": "On the farm",
+  "themeVi": "Ở nông trại",
+  "scene_file": "ai-t2-scene.png",
+  "cards_file": "ai-t2-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny farm with green fields and a blue sky. Draw exactly these items:\n1. a big red BARN with a white door, on the right.\n2. a green TRACTOR at the bottom left.\n3. a black-and-white COW standing in the green field in the centre.\n4. FOUR WHITE DUCKS swimming on a small blue pond at the bottom in the middle.\n5. an APPLE TREE with red apples at the left, with clear empty grass under it.\n6. a FARMER (a man in a red shirt and a yellow hat) carrying a basket of apples, standing next to the apple tree (not under it).\n7. a boy in an orange T-shirt riding a brown HORSE at the right in front.\n8. a low wooden FENCE along the back.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) lamp, 2) car, 3) pizza, 4) jeans.\nBottom row, left to right: 5) grapes, 6) train, 7) cheese, 8) ruler.",
+  "cards": [
+   "lamp",
+   "car",
+   "pizza",
+   "jeans",
+   "grapes",
+   "train",
+   "cheese",
+   "ruler"
+  ],
+  "objs": [
+   "a big red BARN with a white door, on the right",
+   "a green TRACTOR at the bottom left",
+   "a black-and-white COW standing in the green field in the centre",
+   "FOUR WHITE DUCKS swimming on a small blue pond at the bottom in the middle",
+   "an APPLE TREE with red apples at the left, with clear empty grass under it",
+   "a FARMER (a man in a red shirt and a yellow hat) carrying a basket of apples, standing next to the apple tree (not under it)",
+   "a boy in an orange T-shirt riding a brown HORSE at the right in front",
+   "a low wooden FENCE along the back"
+  ]
+ },
+ {
+  "id": "ai-t3",
+  "no": 33,
+  "theme": "In the kitchen",
+  "themeVi": "Trong nhà bếp",
+  "scene_file": "ai-t3-scene.png",
+  "cards_file": "ai-t3-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a bright kitchen at home. Draw exactly these items:\n1. a big white FRIDGE on the left.\n2. a round CLOCK on the wall at the top in the middle.\n3. an orange CAT sleeping on the floor at the bottom right (not under the table).\n4. a wooden TABLE in the centre with a bowl of FIVE RED APPLES on it, with clear empty floor under the table.\n5. a girl in a pink apron COOKING at the cooker on the right.\n6. a man sitting at the table reading a newspaper, wearing GLASSES.\n7. a WINDOW with yellow curtains on the back wall, on the left of the clock.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) bag, 2) boat, 3) horse, 4) skirt.\nBottom row, left to right: 5) orange, 6) bread, 7) spider, 8) sock.",
+  "cards": [
+   "bag",
+   "boat",
+   "horse",
+   "skirt",
+   "orange",
+   "bread",
+   "spider",
+   "sock"
+  ],
+  "objs": [
+   "a big white FRIDGE on the left",
+   "a round CLOCK on the wall at the top in the middle",
+   "an orange CAT sleeping on the floor at the bottom right (not under the table)",
+   "a wooden TABLE in the centre with a bowl of FIVE RED APPLES on it, with clear empty floor under the table",
+   "a girl in a pink apron COOKING at the cooker on the right",
+   "a man sitting at the table reading a newspaper, wearing GLASSES",
+   "a WINDOW with yellow curtains on the back wall, on the left of the clock"
+  ]
+ },
+ {
+  "id": "ai-t4",
+  "no": 34,
+  "theme": "In the bedroom",
+  "themeVi": "Trong phòng ngủ",
+  "scene_file": "ai-t4-scene.png",
+  "cards_file": "ai-t4-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a bright children's bedroom. Draw exactly these items:\n1. a blue BED in the centre, raised on legs so you can clearly see the empty floor under it, with a brown TEDDY BEAR on it.\n2. a tall brown WARDROBE on the left.\n3. a yellow LAMP on a small table on the right of the bed.\n4. a white DOOR on the right wall, with clear empty floor next to it.\n5. FOUR RED TOY CARS in a row on the floor at the bottom left.\n6. a girl in purple pyjamas JUMPING on the bed.\n7. a boy in a blue T-shirt sitting at a small desk on the right, drawing with a RED PENCIL.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) doll, 2) egg, 3) bird, 4) coat.\nBottom row, left to right: 5) cake, 6) bike, 7) flower, 8) tomato.",
+  "cards": [
+   "doll",
+   "egg",
+   "bird",
+   "coat",
+   "cake",
+   "bike",
+   "flower",
+   "tomato"
+  ],
+  "objs": [
+   "a blue BED in the centre, raised on legs so you can clearly see the empty floor under it, with a brown TEDDY BEAR on it",
+   "a tall brown WARDROBE on the left",
+   "a yellow LAMP on a small table on the right of the bed",
+   "a white DOOR on the right wall, with clear empty floor next to it",
+   "FOUR RED TOY CARS in a row on the floor at the bottom left",
+   "a girl in purple pyjamas JUMPING on the bed",
+   "a boy in a blue T-shirt sitting at a small desk on the right, drawing with a RED PENCIL"
+  ]
+ },
+ {
+  "id": "ai-t5",
+  "no": 35,
+  "theme": "At the birthday party",
+  "themeVi": "Ở tiệc sinh nhật",
+  "scene_file": "ai-t5-scene.png",
+  "cards_file": "ai-t5-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a birthday party in a bright room with a window. Draw exactly these items:\n1. a long TABLE in the centre with a big pink birthday CAKE with five candles on it, with clear empty floor under the table.\n2. FOUR BLUE BALLOONS tied to a red CHAIR on the left.\n3. a girl in a pink dress and a yellow party hat holding a green PRESENT with a red ribbon, on the right.\n4. a boy in a green T-shirt playing a GUITAR at the left in front.\n5. a brown DOG wearing a party hat sitting at the bottom right, with clear empty space next to it.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) computer, 2) TV, 3) sausage, 4) rabbit.\nBottom row, left to right: 5) shorts, 6) juice, 7) snake, 8) sweater.",
+  "cards": [
+   "computer",
+   "TV",
+   "sausage",
+   "rabbit",
+   "shorts",
+   "juice",
+   "snake",
+   "sweater"
+  ],
+  "objs": [
+   "a long TABLE in the centre with a big pink birthday CAKE with five candles on it, with clear empty floor under the table",
+   "FOUR BLUE BALLOONS tied to a red CHAIR on the left",
+   "a girl in a pink dress and a yellow party hat holding a green PRESENT with a red ribbon, on the right",
+   "a boy in a green T-shirt playing a GUITAR at the left in front",
+   "a brown DOG wearing a party hat sitting at the bottom right, with clear empty space next to it"
+  ]
+ },
+ {
+  "id": "ai-t6",
+  "no": 36,
+  "theme": "At the sports field",
+  "themeVi": "Ở sân thể thao",
+  "scene_file": "ai-t6-scene.png",
+  "cards_file": "ai-t6-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny green sports field. Draw exactly these items:\n1. a big green TREE on the right, with clear empty grass under it.\n2. a long brown wooden BENCH at the left.\n3. a boy in a red shirt kicking a black-and-white FOOTBALL in the centre.\n4. a girl in a blue T-shirt RUNNING at the back on the left.\n5. FOUR RED BALLS on the grass at the bottom right.\n6. a black DOG running at the bottom in the middle, with clear empty space next to it.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) bus, 2) milk, 3) hippo, 4) ruler.\nBottom row, left to right: 5) ice cream, 6) crocodile, 7) rice, 8) jacket.",
+  "cards": [
+   "bus",
+   "milk",
+   "hippo",
+   "ruler",
+   "ice cream",
+   "crocodile",
+   "rice",
+   "jacket"
+  ],
+  "objs": [
+   "a big green TREE on the right, with clear empty grass under it",
+   "a long brown wooden BENCH at the left",
+   "a boy in a red shirt kicking a black-and-white FOOTBALL in the centre",
+   "a girl in a blue T-shirt RUNNING at the back on the left",
+   "FOUR RED BALLS on the grass at the bottom right",
+   "a black DOG running at the bottom in the middle, with clear empty space next to it"
+  ]
+ },
+ {
+  "id": "ai-t7",
+  "no": 37,
+  "theme": "At the swimming pool",
+  "themeVi": "Ở bể bơi",
+  "scene_file": "ai-t7-scene.png",
+  "cards_file": "ai-t7-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny swimming pool with a blue sky. Draw exactly these items:\n1. a big blue SWIMMING POOL in the centre.\n2. a girl in a red swimsuit SWIMMING in the pool.\n3. a boy in green shorts JUMPING into the water at the left side of the pool.\n4. THREE YELLOW RUBBER DUCKS floating in the pool, with clear empty water next to them.\n5. a yellow BEACH BALL on the grass at the bottom right.\n6. a tall green PALM TREE at the left.\n7. a white BENCH at the right with an orange BAG on it, with clear empty space next to the bench.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) sofa, 2) door, 3) pig, 4) sock.\nBottom row, left to right: 5) sweater, 6) pasta, 7) salad, 8) desk.",
+  "cards": [
+   "sofa",
+   "door",
+   "pig",
+   "sock",
+   "sweater",
+   "pasta",
+   "salad",
+   "desk"
+  ],
+  "objs": [
+   "a big blue SWIMMING POOL in the centre",
+   "a girl in a red swimsuit SWIMMING in the pool",
+   "a boy in green shorts JUMPING into the water at the left side of the pool",
+   "THREE YELLOW RUBBER DUCKS floating in the pool, with clear empty water next to them",
+   "a yellow BEACH BALL on the grass at the bottom right",
+   "a tall green PALM TREE at the left",
+   "a white BENCH at the right with an orange BAG on it, with clear empty space next to the bench"
+  ]
+ },
+ {
+  "id": "ai-t8",
+  "no": 38,
+  "theme": "At the picnic",
+  "themeVi": "Đi dã ngoại",
+  "scene_file": "ai-t8-scene.png",
+  "cards_file": "ai-t8-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny park with green grass. Draw exactly these items:\n1. a big green TREE on the left, with clear empty space under it.\n2. a red-and-white BLANKET on the grass in the centre, with a PLATE of THREE GREEN APPLES on it.\n3. a mother in a blue dress sitting on the blanket, drinking juice.\n4. a girl in a yellow dress sitting on the grass at the right, reading a book.\n5. a boy in an orange T-shirt RUNNING with a red KITE at the right.\n6. a brown DOG lying on the grass at the bottom, with clear empty space next to it.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) bear, 2) lemonade, 3) cow, 4) camera.\nBottom row, left to right: 5) chair, 6) lion, 7) hat, 8) window.",
+  "cards": [
+   "bear",
+   "lemonade",
+   "cow",
+   "camera",
+   "chair",
+   "lion",
+   "hat",
+   "window"
+  ],
+  "objs": [
+   "a big green TREE on the left, with clear empty space under it",
+   "a red-and-white BLANKET on the grass in the centre, with a PLATE of THREE GREEN APPLES on it",
+   "a mother in a blue dress sitting on the blanket, drinking juice",
+   "a girl in a yellow dress sitting on the grass at the right, reading a book",
+   "a boy in an orange T-shirt RUNNING with a red KITE at the right",
+   "a brown DOG lying on the grass at the bottom, with clear empty space next to it"
+  ]
+ },
+ {
+  "id": "ai-t9",
+  "no": 39,
+  "theme": "At the station",
+  "themeVi": "Ở nhà ga",
+  "scene_file": "ai-t9-scene.png",
+  "cards_file": "ai-t9-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a bright railway station. Draw exactly these items:\n1. a big red TRAIN at the back, with its doors open.\n2. a round CLOCK hanging on the wall at the top in the middle, with clear empty space under it.\n3. a man with a blue hat sitting on a brown BENCH on the right, reading a book.\n4. THREE YELLOW BAGS in a pile at the left.\n5. a girl in a yellow jacket WAVING at the train, in the centre in front.\n6. a green BIN at the bottom left, with clear empty space next to it.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) plane, 2) monkey, 3) shirt, 4) chicken.\nBottom row, left to right: 5) bath, 6) picture, 7) rubber, 8) lemon.",
+  "cards": [
+   "plane",
+   "monkey",
+   "shirt",
+   "chicken",
+   "bath",
+   "picture",
+   "rubber",
+   "lemon"
+  ],
+  "objs": [
+   "a big red TRAIN at the back, with its doors open",
+   "a round CLOCK hanging on the wall at the top in the middle, with clear empty space under it",
+   "a man with a blue hat sitting on a brown BENCH on the right, reading a book",
+   "THREE YELLOW BAGS in a pile at the left",
+   "a girl in a yellow jacket WAVING at the train, in the centre in front",
+   "a green BIN at the bottom left, with clear empty space next to it"
+  ]
+ },
+ {
+  "id": "ai-t10",
+  "no": 40,
+  "theme": "At the market",
+  "themeVi": "Ở chợ",
+  "scene_file": "ai-t10-scene.png",
+  "cards_file": "ai-t10-cards.png",
+  "scene_prompt": "Flat 2D vector-style children's picture-book illustration for a young learners' English speaking test (similar in spirit to Cambridge YLE Starters pictures, but an original drawing): bright cheerful colours, clean dark outlines, friendly cartoon children about 6-8 years old, simple shapes, landscape 4:3 ratio, full-bleed scene, NO border, NO frame. Absolutely no text, letters, numbers, logos or speech bubbles anywhere in the picture.\n\nScene: a sunny outdoor market. Draw exactly these items:\n1. a yellow SUN at the top left.\n2. a market stall with a red-and-white striped roof and a wooden TABLE in front, in the centre.\n3. a seller (a man in a white apron) standing behind the table.\n4. FOUR RED TOMATOES in a blue box on the table, next to some oranges and bananas.\n5. a boy in a green T-shirt riding a red BIKE at the bottom left, with clear empty space next to the bike.\n6. a woman in a blue dress walking at the right, carrying a big green BAG.\n7. a white DOG sitting at the bottom in the middle.\n8. a big green TREE at the right at the back, with clear empty ground under it.\n\nRules: draw each listed item clearly and fully visible, large enough to see easily, and NOT overlapping other listed items. Use exactly the numbers and colours given. Do not add extra people or animals that are not listed. Keep the background simple (a few plain trees, sky or walls only).",
+  "cards_prompt": "Create ONE image: an object card sheet on a PURE WHITE background (#FFFFFF). Show 8 separate cartoon clipart objects arranged in a neat grid of 4 columns x 2 rows, with wide empty white gaps between the objects. Each object is alone, whole (not cropped), centred in its own cell, drawn in a flat bright cartoon style with thick dark outlines, no ground shadow, no text, no labels, no numbers, no frames, no cell borders, nothing else on the page.\n\nTop row, left to right: 1) cow, 2) lion, 3) sheep, 4) kite.\nBottom row, left to right: 5) hat, 6) egg, 7) watermelon, 8) juice.",
+  "cards": [
+   "cow",
+   "lion",
+   "sheep",
+   "kite",
+   "hat",
+   "egg",
+   "watermelon",
+   "juice"
+  ],
+  "objs": [
+   "a yellow SUN at the top left",
+   "a market stall with a red-and-white striped roof and a wooden TABLE in front, in the centre",
+   "a seller (a man in a white apron) standing behind the table",
+   "FOUR RED TOMATOES in a blue box on the table, next to some oranges and bananas",
+   "a boy in a green T-shirt riding a red BIKE at the bottom left, with clear empty space next to the bike",
+   "a woman in a blue dress walking at the right, carrying a big green BAG",
+   "a white DOG sitting at the bottom in the middle",
+   "a big green TREE at the right at the back, with clear empty ground under it"
+  ]
+ }
+]
