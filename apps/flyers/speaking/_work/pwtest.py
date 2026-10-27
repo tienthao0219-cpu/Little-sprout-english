@@ -63,6 +63,13 @@ def run(only=None):
         pg.evaluate("[...document.querySelectorAll('.lbt button')].find(b=>b.textContent.includes('Đóng')).click()")
         res.append((vn,sid,'student',stu[0],stu[1],stu[2],int(sv[0]) if sv[0] else 0,sv[1] if i3=='Tranh 3 / 5' else -1))
         pg.evaluate('st.teach=true')
+        # khoá Part (chế độ học viên): bấm Part 2 khi chưa xong Part 1 thì bị chặn; chọn mặt cười thì mở
+        pg.evaluate("st.teach=false;localStorage.removeItem(KEY);openSet('%s');startSet(0)"%sid)
+        lka=pg.evaluate("[document.querySelectorAll('.node.locked').length,(document.querySelectorAll('.node')[1].click(),st.part)]")
+        pg.evaluate("document.querySelectorAll('.nav.pnav .btn')[1].click()"); lkb=pg.evaluate('st.part')
+        pg.evaluate("document.querySelector('.selfbox .rbtn').click()"); pg.evaluate("document.querySelectorAll('.nav.pnav .btn')[1].click()"); lkc=pg.evaluate('st.part')
+        res.append((vn,sid,'lock',lka[0],lka[1],lkb,lkc,pg.evaluate("document.querySelectorAll('.node.locked').length")))
+        pg.evaluate('st.teach=true;localStorage.removeItem(KEY)')
         # part 2 accordions
         pg.evaluate('st.part=1;resetPartUI();testView()'); pg.evaluate('if(!st.hint)toggleHint()')
         nq=pg.evaluate("(()=>{const b=[...document.querySelectorAll('.qitem button')];b.forEach(x=>{x.click();x.click();x.click()});return b.length})()")
@@ -75,7 +82,7 @@ def run(only=None):
 if __name__=='__main__':
   import os; os.makedirs('shots',exist_ok=True)
   r=run(sys.argv[1:] or None)
-  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='student' and (x[3]!=1 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=5)) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
+  bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='student' and (x[3]!=1 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=5)) or (x[2]=='lock' and (x[3]!=3 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=2)) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
   json.dump(r,open('pw_res.json','w'))
   print('total',len(r),'flagged',len(bad))
   for x in bad[:80]: print(x)

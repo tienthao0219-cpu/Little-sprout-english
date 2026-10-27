@@ -47,3 +47,9 @@ I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs
 - Part 3: nút "📖 Xem từng tranh" (`storyView`): cắt 5 ô từ ảnh ghép theo `s.p3box` (tọa độ chuẩn hóa [x,y,w,h]); có vuốt/phím ←→, gợi ý WHO/WHERE/ACTION/FEELING từng tranh. `p3box` dò tự động từ ảnh (dải trắng giữa các ô + tinh chỉnh), đã kiểm tra bằng ảnh phủ khung cho 40 bộ; bộ AI (ai-t6, ai-t7) chỉnh tay. Nếu ô nào lệch, sửa số trong `data.json` (`p3box`).
 - Part 4: gợi ý 2 bước (câu mở đầu → đầy đủ); nút 💡 nhấp nháy sau 10 giây.
 - `pwtest.py`: 482 phép đo (thêm kiểm tra chế độ học viên và viewer).
+
+## Phiên 5: giao diện kiểu Starters + khoá Part (cô Thảo yêu cầu)
+- Giao diện: hero (`.hero2`, chibi vay-tay), thẻ bộ đề (`.tile2`: ảnh tranh Part 1, số bộ, nhãn NEW / n/4 / ⭐ Xong), màn "Ready for …?" (`introView`, `.card2`, 4 hàng Part màu), thanh 4 chặng bằng icon (`trackEl`, `.node`), màu theo Part (`body[data-part]`), nút pill gradient, nền bong bóng `.bg`. Icon lấy từ `apps/starters/speaking` (dòng `const SVG=`).
+- KHOÁ: học viên (Cô: TẮT) phải chọn mặt cười ở cuối Part thì Part sau mới mở (`markDone`, `p.done` trong localStorage `lse_speaking_v2`); Part khoá hiện 🔒, bấm sẽ rung + toast. Cô: BẬT mở hết, bấm "Phần tiếp" tự đánh dấu xong. Màn Ready có "Tiếp tục Part N" / "Làm lại từ đầu".
+- Chưa làm: khoá cả bộ đề (làm xong Test này mới mở Test sau) và đồng bộ sao/sticker lên Google Sheets như Starters (`spk`, profile.js, Code.gs).
+- `pwtest.py`: 562 phép đo (thêm kiểm tra khoá).
