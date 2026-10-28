@@ -1157,16 +1157,18 @@ function p3cards(s) {
   return hsec('🧩 Gợi ý từng tranh – chạm để hiện', h('div', ctl, grid));
 }
 /* Part 3: xem lần lượt từng tranh (cắt từ ảnh ghép theo s.p3box) */
+/* trên điện thoại (app nằm trong khung của website) xin website mở toàn màn hình để khung đủ cao, không bị thanh Safari che */
+function askFull(on) { try { if (window.parent !== window && Math.min(innerWidth, screen.width || 9999) <= 700) window.parent.postMessage({ lse: 1, kind: 'full', on: on }, '*'); } catch (e) { } }
 function storyView(s, i0) {
   const bx = s.p3box;
   if (!bx || bx.length < 5) { zoom(s, 'p3', 'Picture Story'); return; }
-  const lb = document.getElementById('lb'); lb.classList.remove('hidden'); lb.classList.add('sv'); lb.replaceChildren();
+  const lb = document.getElementById('lb'); lb.classList.remove('hidden'); lb.classList.add('sv'); lb.replaceChildren(); askFull(true);
   let i = i0 || 0, svGrew = false; const C = s.p3c || [];
   if (!st.p3rev || st.p3rev.length !== C.length) st.p3rev = C.map(() => 0);
   const im = new Image(); im.src = img(s, 'p3');
   const stage = h('div.sv-stage'), crop = h('div.sv-crop'), hints = h('div.sv-hints'), hbar = h('div.sv-hbar'), top = h('span'), dots = h('div.sv-dots');
   stage.append(crop);
-  const close = () => { lb.classList.add('hidden'); lb.classList.remove('sv'); document.removeEventListener('keydown', key); window.removeEventListener('resize', fit); testView(); };
+  const close = () => { lb.classList.add('hidden'); lb.classList.remove('sv'); askFull(false); document.removeEventListener('keydown', key); window.removeEventListener('resize', fit); testView(); };
   const go = d => { i = Math.max(0, Math.min(4, i + d)); paint(); };
   const key = e => { if (e.key === 'ArrowRight') go(1); else if (e.key === 'ArrowLeft') go(-1); };
   const fit = () => {

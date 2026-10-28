@@ -358,7 +358,9 @@
     const quit = async () => { await endPlay(); if (app.hub) go(L.gamehub.backHref(app.cur, app.unit).slice(1)); else go(c ? "/c/" + c.id + (app.unit ? "/u/" + app.unit : "") : "/"); };
     const goHome = async () => { await endPlay(); go("/"); };
     /* nút 🏠 Trang chủ bên trong app gửi lệnh nav: về trang unit (hoặc Trung tâm trò chơi), lưu lượt chơi trước */
-    L.playCur = { win: () => content.contentWindow, nav: to => (to === "home" ? goHome() : quit()) };
+    L.playCur = { win: () => content.contentWindow, nav: to => (to === "home" ? goHome() : quit()),
+      /* app con (vd. màn xem tranh Speaking) xin toàn màn hình trên điện thoại; chỉ thu nhỏ lại nếu chính app đã bật */
+      full: on => { const isFull = wrap.classList.contains("full"); if (on && !isFull) { toggle(); L.playCur.autoFull = true; } else if (!on && isFull && L.playCur.autoFull) { toggle(); L.playCur.autoFull = false; } else if (!on) L.playCur.autoFull = false; } };
     const exitFull = h("div.exitfull", h("button.btn.sm.ghost", { onclick: () => toggle() }, "✕ Thu nhỏ"), h("button.btn.sm.sky", { onclick: goHome }, "🏠"), h("button.btn.sm.mint", { onclick: quit }, "💾 Lưu & thoát"));
     /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
     const toggle = () => {
@@ -571,7 +573,7 @@
   L.prof.onChange(() => { const l = document.querySelector(".coinchip .nlab"); if (l) l.textContent = L.prof.coins() + " xu"; });
   L.route = route;
   L.playApp = app => playView(null, app);
-  window.addEventListener("message", e => { const d = e.data; if (!d || d.lse !== 1 || d.kind !== "nav" || !L.playCur) return; try { if (e.source === L.playCur.win()) L.playCur.nav(d.to); } catch (x) { } });
+  window.addEventListener("message", e => { const d = e.data; if (!d || d.lse !== 1 || !L.playCur) return; try { if (e.source !== L.playCur.win()) return; if (d.kind === "nav") L.playCur.nav(d.to); else if (d.kind === "full" && L.playCur.full) L.playCur.full(!!d.on); } catch (x) { } });
   L.ui = { show, spinner, loadManifest, repaint: () => paintChrome() };
 
   async function boot() {
