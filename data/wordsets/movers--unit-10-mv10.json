@@ -1,0 +1,78 @@
+{
+ "id": "movers--unit-10-mv10",
+ "title": "Unit 10 · The weather",
+ "cur": "movers",
+ "unit": "unit-10-mv10",
+ "items": [
+  {
+   "w": "cloud",
+   "vi": "mây",
+   "topic": "Weather & nature",
+   "ipa": "klaʊd",
+   "img": "img/movers--unit-10-mv10/cloud.webp"
+  },
+  {
+   "w": "cloudy",
+   "vi": "có mây",
+   "topic": "Weather & nature",
+   "ipa": "ˈklaʊdi",
+   "img": "img/movers--unit-10-mv10/cloudy.webp"
+  },
+  {
+   "w": "ice",
+   "vi": "băng",
+   "topic": "Weather & nature",
+   "ipa": "aɪs",
+   "img": "img/movers--unit-10-mv10/ice.webp"
+  },
+  {
+   "w": "rain",
+   "vi": "mưa",
+   "topic": "Weather & nature",
+   "ipa": "reɪn",
+   "img": "img/movers--unit-10-mv10/rain.webp"
+  },
+  {
+   "w": "rainbow",
+   "vi": "cầu vồng",
+   "topic": "Weather & nature",
+   "ipa": "ˈreɪnbəʊ",
+   "img": "img/movers--unit-9-mv09/rainbow.webp"
+  },
+  {
+   "w": "snow",
+   "vi": "tuyết",
+   "topic": "Weather & nature",
+   "ipa": "snəʊ",
+   "img": "img/movers--unit-10-mv10/snow.webp"
+  },
+  {
+   "w": "sun",
+   "vi": "mặt trời",
+   "topic": "Weather & nature",
+   "ipa": "sʌn",
+   "img": "img/movers--unit-10-mv10/sun.webp"
+  },
+  {
+   "w": "sunny",
+   "vi": "có nắng",
+   "topic": "Weather & nature",
+   "ipa": "ˈsʌni",
+   "img": "img/movers--unit-10-mv10/sunny.webp"
+  },
+  {
+   "w": "wind",
+   "vi": "gió",
+   "topic": "Weather & nature",
+   "ipa": "wɪnd",
+   "img": "img/movers--unit-10-mv10/wind.webp"
+  },
+  {
+   "w": "windy",
+   "vi": "có gió",
+   "topic": "Weather & nature",
+   "ipa": "ˈwɪndi",
+   "img": "img/movers--unit-10-mv10/windy.webp"
+  }
+ ]
+}
