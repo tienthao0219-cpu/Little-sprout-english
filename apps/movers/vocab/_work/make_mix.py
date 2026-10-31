@@ -80,6 +80,12 @@ def main():
     # nạp từ vựng các unit đã tick qua ?set=custom
     i = s.index('const TEMPLATES = '); j = s.index('const fmtT = ')
     s = s[:i] + TEMPLATE_JS + s[j:]
+    # Dạng bài: đưa lên ngay dưới phần đầu trang (trước "Chọn unit") cho dễ thấy; đánh số lại các mục
+    NOTE = '<p class="note">Các dạng bài được trộn lẫn cho mỗi từ. Từ càng thuộc thì bài càng khó (gõ chữ thay vì chọn đáp án). Từ nào em bấm 🚩 <b>Chưa thuộc</b> (ở phần Flashcard) sẽ xuất hiện nhiều hơn.</p>'
+    OLD3 = '    <div class="sec-h"><h2>3. Dạng bài</h2></div>\n    <div class="chips">${chips}</div>\n    ' + NOTE + '\n'
+    rep(OLD3, '')
+    rep('<div class="sec-h"><h2>1. Chọn unit</h2>', "${tab==='games' ? '' : `<div class=\"sec-h\"><h2>1. Dạng bài</h2></div>\n    <div class=\"chips\">${chips}</div>\n    " + NOTE + "`}\n    <div class=\"sec-h\"><h2>2. Chọn unit</h2>")
+    rep('<h2>2. Số từ mỗi lượt</h2>', '<h2>3. Số từ mỗi lượt</h2>')
     rep("const IMGBASE = 'images/';", "const IMGBASE = '../../../data/wordsets/img/';")
     rep("const KEY = 'flyersVocabQuest.v1';", "const KEY = 'moversVocabQuest.v1';")
     rep("'Từ vựng Flyers – '", "'Từ vựng Movers – '")
