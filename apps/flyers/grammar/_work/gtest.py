@@ -1,48 +1,80 @@
-# Kiểm tra tự động trang ngữ pháp (cần: python3 -m http.server 8765 ở thư mục gốc repo)
-import sys,json
+# Kiểm tra tự động trang ngữ pháp:  python3 -I? không cần;  python3 _work/gtest.py unit-1
+# (cần: python3 -m http.server 8765 ở gốc repo + Playwright)
+import sys
 from playwright.sync_api import sync_playwright
 U='http://localhost:8765/apps/flyers/grammar/grammar-%s.html'
 unit=sys.argv[1] if len(sys.argv)>1 else 'unit-1'
-res=[];bad=[]
+bad=[];rep=[]
+def drag_all(pg):
+  """kéo thả bằng chuột thật; nếu chữ và đích không cùng một màn hình thì chạm chữ rồi cuộn và chạm đích"""
+  guard=0
+  while pg.evaluate("document.querySelectorAll('.act:not(.fin) .bank .chip:not(.placed)').length") and guard<60:
+    guard+=1
+    pick=pg.evaluate("""(()=>{const act=document.querySelector('.act:not(.fin)');const chip=act.querySelector('.bank .chip:not(.placed)');
+      const c=chip._c;const ts=[...act.querySelectorAll('[data-drop]')];
+      const t=ts.find(t=>t._s&&(act.querySelector('.bk')?c.g===t.dataset.id:String(t._s.ans).toLowerCase()===String(c.label).toLowerCase())&&!t.classList.contains('done'));
+      chip.setAttribute('data-pk','1');t.setAttribute('data-pt','1');chip.scrollIntoView({block:'center'});
+      const a=chip.getBoundingClientRect(),b=t.getBoundingClientRect();return {fit:b.top>110&&b.bottom<innerHeight-30&&a.top>110&&a.bottom<innerHeight-30}})()""")
+    def rects():
+      return pg.evaluate("(()=>{const a=document.querySelector('[data-pk]').getBoundingClientRect(),b=document.querySelector('[data-pt]').getBoundingClientRect();return [a.x+a.width/2,a.y+a.height/2,b.x+b.width/2,b.y+b.height/2]})()")
+    r=rects()
+    if pick['fit']:
+      pg.mouse.move(r[0],r[1]); pg.mouse.down(); pg.mouse.move((r[0]+r[2])/2,(r[1]+r[3])/2,steps=4); pg.mouse.move(r[2],r[3],steps=4); pg.mouse.up()
+    else:   # chạm chữ -> cuộn -> chạm đích
+      if not pg.evaluate("document.querySelector('[data-pk]').classList.contains('sel')"): pg.mouse.click(r[0],r[1])
+      pg.evaluate("document.querySelector('[data-pt]').scrollIntoView({block:'center'})"); r=rects(); pg.mouse.click(r[2],r[3])
+    pg.evaluate("document.querySelectorAll('[data-pk],[data-pt]').forEach(e=>{e.removeAttribute('data-pk');e.removeAttribute('data-pt')})"); pg.wait_for_timeout(40)
 with sync_playwright() as p:
   b=p.chromium.launch()
   for name,(w,h) in {'phone':(390,844),'ipad':(820,1180),'laptop':(1366,768)}.items():
-    ctx=b.new_context(viewport=dict(width=w,height=h),has_touch=name!='laptop',is_mobile=name!='laptop'); pg=ctx.new_page(); errs=[]
-    pg.on('pageerror',lambda e:errs.append(str(e)))
-    pg.on('console',lambda m:errs.append(m.text) if m.type=='error' else None)
-    pg.route('**/*',lambda r:r.continue_()) 
+    ctx=b.new_context(viewport=dict(width=w,height=h),has_touch=False); pg=ctx.new_page(); errs=[]
+    pg.on('pageerror',lambda e:errs.append(str(e))); pg.on('console',lambda m:errs.append(m.text) if m.type=='error' else None)
     pg.goto(U%unit); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(500)
-    msgs=pg.evaluate("window.__m=[];window.LSE_REPORT.answer=(a,b,c,d)=>__m.push(['a',a,c]);window.LSE_REPORT.finish=(s,m)=>__m.push(['f',s,m]);1")
+    pg.evaluate("window.__m=[];window.LSE_REPORT.answer=(a,b,c,d)=>__m.push(['a',a,c]);window.LSE_REPORT.finish=(s,m)=>__m.push(['f',s,m]);1")
     n=pg.evaluate("U.lessons.length")
-    # khoá: chỉ bài 1 mở, bài tập khoá
     lock=pg.evaluate("[U.lessons.map((_,i)=>lessonOpen(i)),quizOpen()]")
-    ok_lock = lock[0][0] and not any(lock[0][1:]) and not lock[1]
-    # học lần lượt 4 bài
+    assert lock[0][0] and not any(lock[0][1:]) and not lock[1],('lock',lock)
     for i in range(n):
-      pg.evaluate(f"lessonView({i})"); pg.wait_for_timeout(150)
-      cards=pg.evaluate("document.querySelectorAll('.ex').length"); imgs=pg.evaluate("[...document.querySelectorAll('.vart img')].every(i=>i.complete&&i.naturalWidth>0)")
+      pg.evaluate(f"lessonView({i})"); pg.wait_for_timeout(200)
+      disabled=pg.evaluate("document.getElementById('goPractice').disabled")
       overflow=pg.evaluate("document.documentElement.scrollWidth-document.documentElement.clientWidth")
-      res.append((name,'lesson',i+1,cards,imgs,overflow))
-      pg.evaluate("document.querySelector('.nav .btn.pulse').click()"); pg.wait_for_timeout(100)
-    unlocked=pg.evaluate("quizOpen()")
-    # làm bài tập: cố ý sai câu 1, còn lại đúng
-    pg.evaluate("quizStart()")
-    total=pg.evaluate("U.quiz.length"); first=True
+      imgs=pg.evaluate("[...document.querySelectorAll('.vart img')].every(i=>i.complete&&i.naturalWidth>0)")
+      blocks=pg.evaluate("document.querySelectorAll('.box,.ex').length")
+      # nút khoá cho tới khi làm xong luyện nhanh
+      drag_all(pg); pg.wait_for_timeout(100)
+      acts=pg.evaluate("[document.querySelectorAll('.act').length,document.querySelectorAll('.act.fin').length]")
+      enabled=not pg.evaluate("document.getElementById('goPractice').disabled")
+      if not(disabled and enabled and acts[0]==acts[1]>0 and imgs and overflow<=1 and blocks>=5): bad.append((name,'lesson',i+1,disabled,enabled,acts,imgs,overflow,blocks))
+      pg.evaluate("document.getElementById('goPractice').click()"); pg.wait_for_timeout(100)
+      # luyện tập: câu đầu cố ý sai
+      total=pg.evaluate("Q.o.qs.length"); types=pg.evaluate("Q.o.qs.map(q=>q.t||'mcq')")
+      for k in range(total):
+        q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]"); t=q.get('t','mcq')
+        if t=='mcq':
+          tap=(q['a']+1)%3 if k==0 else q['a']; pg.evaluate(f"document.querySelectorAll('.opt')[{tap}].click()")
+        else:
+          ans=q['ans'][0] if k!=0 else 'zzz'; pg.fill('input.fin',ans); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+        pg.evaluate("document.getElementById('qnext').click()"); pg.wait_for_timeout(30)
+      fix=pg.evaluate("document.querySelector('.qn .fix')!==null")
+      if fix:
+        q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
+        if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+        else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
+        pg.evaluate("document.getElementById('qnext').click()")
+      res=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length,document.querySelector('.result h2').textContent]")
+      pd=pg.evaluate(f"pdone({i})"); nxt=pg.evaluate(f"{i+1}<U.lessons.length?lessonOpen({i+1}):quizOpen()")
+      if not(total==20 and types.count('mcq')==10 and types.count('fill')==10 and fix and res[0] and pd and nxt): bad.append((name,'practice',i+1,total,types.count('fill'),fix,res,pd,nxt))
+      rep.append((name,i+1,res[2]))
+    m=pg.evaluate("__m"); answers=[x for x in m if x[0]=='a']
+    wrong_first=sum(1 for x in answers if not x[2])
+    if len(answers)!=80 or wrong_first!=4 or len([x for x in m if x[0]=='f'])!=4: bad.append((name,'report',len(answers),wrong_first))
+    # bài tập tổng hợp
+    pg.evaluate("quizStart()"); total=pg.evaluate("Q.o.qs.length")
     for k in range(total):
-      idx=pg.evaluate("Q.order[Q.pos]"); a=pg.evaluate(f"U.quiz[{idx}].a")
-      tap=(a+1)%3 if (first and k==0) else a
-      pg.evaluate(f"document.querySelectorAll('.opt')[{tap}].click()"); pg.wait_for_timeout(40); pg.evaluate("document.querySelector('.qcard .nav .btn').click()"); pg.wait_for_timeout(40)
-    # vòng Fix it: câu sai quay lại
-    fix=pg.evaluate("document.querySelector('.qn .fix')!==null")
-    if fix:
-      idx=pg.evaluate("Q.order[Q.pos]"); a=pg.evaluate(f"U.quiz[{idx}].a"); pg.evaluate(f"document.querySelectorAll('.opt')[{a}].click()"); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
-    pg.wait_for_timeout(200)
-    result=pg.evaluate("[!!document.querySelector('.result'),document.querySelector('.result h2')&&document.querySelector('.result h2').textContent,document.querySelectorAll('.stars span:not(.off)').length]")
-    m=pg.evaluate("__m"); answers=[x for x in m if x[0]=='a']; fin=[x for x in m if x[0]=='f']
-    res.append((name,'quiz',ok_lock,unlocked,fix,result[0],result[2],len(answers),sum(1 for x in answers if x[2]),fin[-1][1:] if fin else None,len(errs)))
-    if not(ok_lock and unlocked and fix and result[0] and len(answers)==total and sum(1 for x in answers if x[2])==total-1 and fin and fin[-1][1]==total-1 and not errs): bad.append(res[-1])
-    for r in res:
-      if r[1]=='lesson' and r[0]==name and (r[3]<3 or not r[4] or r[5]>1): bad.append(r)
+      q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]"); pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()"); pg.evaluate("document.getElementById('qnext').click()")
+    r=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length]")
+    if not(r[0] and r[1]==3): bad.append((name,'quiz',r))
+    if errs: bad.append((name,'errors',errs[:3]))
     ctx.close()
   b.close()
-print('kết quả',len(res),'lỗi',len(bad)); [print(x) for x in bad]
+print('hoàn tất, lỗi:',len(bad)); [print(x) for x in bad]

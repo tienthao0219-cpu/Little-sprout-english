@@ -171,11 +171,92 @@ img{max-width:100%;display:block}
 }
 @media (max-width:420px){.tiles{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.t-pink{background:#FFD3E0;color:#a3234d}
+.pat{border:3px solid var(--bc,#fff)}.pat.sky{--bc:var(--sky)}.pat.rose{--bc:var(--rose)}.pat.mint{--bc:var(--mint)}
+.cks{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ck{display:inline-block;padding:2px 12px;border-radius:12px;font-family:var(--hfont);font-size:22px;line-height:1.35;font-weight:700}
+.ck:not([class*="t-"]){padding:2px 4px}
+.pexs{display:grid;gap:10px;margin-top:12px}
+.pex{display:flex;gap:12px;align-items:center;background:var(--ps);border-radius:20px;padding:8px 12px}
+.pex .pa{width:150px;flex:none}.pex .pa .vart{min-height:64px;flex-wrap:nowrap;gap:2px}.pex .pa .vart img{height:auto;max-height:62px;flex:1 1 0;min-width:0;object-fit:contain}
+.pvi{color:var(--soft);font-weight:700;font-size:15px;margin-top:2px}
+.drow{display:flex;gap:10px;align-items:flex-end;margin:10px 0}
+.drow.r{flex-direction:row-reverse}
+.dch{width:74px;height:auto;flex:none;filter:drop-shadow(0 4px 4px rgba(43,53,80,.15))}
+.dbub{position:relative;background:#fff;border:3px solid var(--pc);border-radius:22px;padding:8px 14px;flex:0 1 auto;max-width:calc(100% - 90px)}
+.dbub.a{background:var(--ps);border-color:var(--pd)}
+.dwho{font-family:var(--hfont);font-size:14px;color:var(--pdd);margin-bottom:2px}
+.da{margin-top:4px}.da .vart{min-height:56px;flex-wrap:nowrap;justify-content:flex-start;gap:2px;width:170px}.da .vart img{height:auto;max-height:54px;flex:1 1 0;min-width:0;object-fit:contain}.da .vart.no::after{font-size:44px}
+@media (max-width:520px){.pex .pa{width:110px}.ck{font-size:19px;padding:2px 9px}.dch{width:58px}.dbub{max-width:calc(100% - 70px)}}
+/* ===== bài học cụ thể: khi nào dùng, bảng, đừng nhầm, luyện nhanh ===== */
+.whens{display:grid;gap:12px}
+.when{display:flex;gap:12px;align-items:flex-start;background:var(--ps);border-radius:20px;padding:12px 14px}
+.when .wi{width:46px;height:46px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:26px;flex:none;box-shadow:var(--shadow)}
+.wt{font-size:18px;font-weight:800;line-height:1.35}.wt b{color:var(--pdd)}
+.wex{font-family:var(--hfont);font-size:21px;margin-top:4px}
+.wex mark{background:none;color:var(--pdd)}
+.wvi{color:var(--soft);font-size:15px;font-weight:700}
+.grid6{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.g6{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;background:var(--ps);border:3px solid var(--pc);border-radius:20px;padding:10px 8px}
+.g6 .gi{font-size:30px;line-height:1.1}.g6 b{font-family:var(--hfont);font-size:24px;color:var(--pdd)}.g6 .gv{font-weight:800;font-size:15px}.g6 small{color:var(--soft);font-size:13px;font-weight:700;line-height:1.3}
+.tw{overflow-x:auto;border-radius:18px}
+.gt{width:100%;border-collapse:separate;border-spacing:6px;min-width:520px}
+.gt th{font-family:var(--hfont);font-size:16px;text-align:center;padding:8px 6px;border-radius:14px;background:var(--lav-s);color:var(--lav-dd)}
+.gt tbody th{background:var(--ps);color:var(--pdd);font-size:15px;text-align:left}
+.gt td{padding:10px 8px;border-radius:14px;background:#fff;border:2px solid var(--pc);text-align:center;font-family:var(--hfont);font-size:20px;line-height:1.35}
+.gt tr.r0 td{background:#FFF3EA}.gt tr.r1 td{background:#EEF6FF}.gt tr.r2 td{background:#F3EEFF}.gt tr.r3 td{background:#EAF8F2}
+.tnote{margin-top:6px;color:var(--soft);font-weight:700;font-size:14px}
+.stepsl{display:grid;gap:8px}.stp{background:var(--ps);border-radius:16px;padding:10px 14px;font-size:18px;font-weight:700}.stp b{color:var(--pdd)}
+.mis{background:#FFFBF0}
+.mi{background:#fff;border-radius:18px;padding:10px 12px;margin-bottom:10px;border:2px solid #F3E7C9}
+.mi .bad,.mi .good{display:flex;gap:10px;align-items:center;font-family:var(--hfont);font-size:20px}
+.mi .bad span{color:#fff;background:var(--bad);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;flex:none}
+.mi .bad s{color:#a82b43;text-decoration-thickness:2px}
+.mi .good span{color:#fff;background:var(--good);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;flex:none}
+.mi .why{color:var(--soft);font-weight:700;font-size:14.5px;margin:2px 0 0 36px}
+.tile small.steps3{font-size:12.5px;color:var(--pdd)}
+.act{background:linear-gradient(160deg,#fff,var(--ps));border:3px dashed var(--pd);border-radius:26px;padding:14px;margin-bottom:14px}
+.act.fin{border-style:solid;border-color:var(--good)}
+.act h3{font-size:19px;color:var(--pdd);margin-bottom:2px}.ainstr{margin:0 0 10px;color:var(--soft);font-weight:700;font-size:15px}
+.tgts.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.sl{background:#fff;border:3px solid var(--pc);border-radius:20px;padding:8px;text-align:center;transition:transform .12s,border-color .12s}
+.sl .slart svg{width:100%;max-width:190px;height:auto;border-radius:14px}
+.slt{font-family:var(--hfont);font-size:20px;line-height:1.35;margin-top:4px}
+.sl small{color:var(--soft);font-weight:700}
+.blank{display:inline-block;min-width:78px;border-bottom:4px dashed var(--pd);text-align:center;color:var(--pdd);padding:0 4px;margin:0 2px}
+.blank.ok{border-bottom-style:solid;border-color:var(--good);color:#17734d;background:#DDF6E8;border-radius:8px}
+.sl.done{border-color:var(--good)}
+.tgts.buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bk{border:3px dashed var(--pd);border-radius:20px;padding:8px;min-height:120px;background:#fff}
+.bk.peach{background:#FFF3EA}.bk.sky{background:#EEF6FF}.bk.mint{background:#EAF8F2}.bk.rose{background:#FFEEF4}
+.bkh{font-family:var(--hfont);font-size:18px;text-align:center;margin-bottom:6px}
+.bchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.hov{outline:4px solid var(--pd);outline-offset:2px;transform:scale(1.02)}
+.banklab{font-weight:800;color:var(--soft);font-size:14px;margin:10px 2px 4px}
+.bank{display:flex;flex-wrap:wrap;gap:10px;min-height:56px;padding:8px;border-radius:18px;background:rgba(255,255,255,.7)}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:50px;padding:6px 16px;border-radius:999px;background:#fff;border:3px solid var(--pd);font-family:var(--hfont);font-size:20px;font-weight:700;color:var(--pdd);box-shadow:0 4px 0 rgba(43,53,80,.12);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.chip.big{flex-direction:column;border-radius:20px;padding:6px 10px;font-size:16px;text-align:center}
+.chip .ce{font-size:34px;line-height:1}
+.chip .cart .vart{min-height:56px}.chip .cart .vart img{height:54px}.chip .cart .vart.no::after,.chip .cart .vart.q::before{display:none}
+.chip.sel{background:var(--butter);box-shadow:0 0 0 4px var(--pd)}
+.chip.lift{opacity:.35}
+.chip.placed{cursor:default;border-color:var(--good);background:#DDF6E8;box-shadow:none}
+.chip.ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-50%) scale(1.08);box-shadow:0 12px 24px rgba(0,0,0,.3);opacity:.95}
+.chip.shake,.sl.shake,.bk.shake{animation:shake .35s}
+.amsg{min-height:24px;margin-top:8px;font-weight:800;text-align:center}.amsg.ok{color:#17734d;font-size:18px}.amsg.no{color:#a82b43}
+.fin{font-family:var(--hfont);font-size:inherit}
+input.fin{display:inline-block;width:170px;max-width:60vw;height:50px;border:3px solid var(--pd);border-radius:16px;text-align:center;font-family:var(--hfont);font-size:26px;color:var(--pdd);background:#fff;padding:0 8px;vertical-align:middle;margin:0 4px}
+input.fin.ok{border-color:var(--good);background:#DDF6E8;color:#17734d}input.fin.no{border-color:var(--bad);background:#FFE6EA;color:#a82b43}
+.qhint{color:var(--soft);font-weight:800;margin:-6px 0 10px;font-size:16px}
+.fbank{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px}
+.wchip{min-height:46px;padding:4px 16px;border-radius:999px;background:var(--ps);border:3px solid var(--pc);font-family:var(--hfont);font-size:19px;font-weight:700;color:var(--pdd)}
+.wchip:disabled{opacity:.5}
 </style>
 </head>
 <body data-c="lav">
 <div class="wrap" id="app"></div>
-<script id="DATA" type="application/json">{"id":"unit-1","no":1,"title":"Our home","vi":"Ngôi nhà của chúng ta","emoji":"🏠","vocabDir":"flyers--unit-1-tfka","src":"Get Ready for Flyers · Unit 1 (chủ điểm ngữ pháp do cô Thảo cung cấp)","lessons":[{"id":"l1","color":"mint","icon":"📍","title":"Prepositions of place","vi":"Giới từ chỉ vị trí","char":"Mimi","say":"Mimi chơi trốn tìm! Em đoán xem Mimi đang ở đâu nhé?","formula":[["The cat","sub","chủ ngữ"],["is","aux","is / are"],["under","pre","giới từ"],["the table","obj","nơi chốn"]],"cards":[{"art":{"t":"prep","v":"in"},"en":"The cat is [[in]] the box.","vi":"Mèo ở trong cái hộp."},{"art":{"t":"prep","v":"on"},"en":"The cat is [[on]] the table.","vi":"Mèo ở trên bàn."},{"art":{"t":"prep","v":"under"},"en":"The cat is [[under]] the table.","vi":"Mèo ở dưới bàn."},{"art":{"t":"prep","v":"next"},"en":"The cat is [[next to]] the table.","vi":"Mèo ở bên cạnh cái bàn."},{"art":{"t":"prep","v":"behind"},"en":"The cat is [[behind]] the sofa.","vi":"Mèo ở phía sau ghế sofa."},{"art":{"t":"prep","v":"front"},"en":"The cat is [[in front of]] the sofa.","vi":"Mèo ở phía trước ghế sofa."}],"tip":"in = bên trong · on = bên trên (chạm vào) · under = bên dưới · next to = bên cạnh · behind = phía sau · in front of = phía trước"},{"id":"l2","color":"peach","icon":"👥","title":"Indefinite pronouns","vi":"Đại từ bất định","char":"Bông","say":"Có ai ở nhà không? Có gì trong tủ lạnh không? Cùng học cách nói nhé!","formula":[["some-","pre","có (câu bình thường)"],["any-","aux","câu hỏi / không"],["no-","obj","không có"],["every-","sub","tất cả"]],"cards":[{"art":{"t":"people","v":"some"},"en":"[[Someone]] is in the kitchen.","vi":"Có ai đó đang ở trong bếp."},{"art":{"t":"thing","v":"some"},"en":"There is [[something]] in the fridge.","vi":"Có thứ gì đó trong tủ lạnh."},{"art":{"t":"people","v":"any"},"en":"Is there [[anyone]] at home?","vi":"Có ai ở nhà không? (câu hỏi)"},{"art":{"t":"thing","v":"any"},"en":"I can't see [[anything]].","vi":"Mình không thấy gì cả. (câu phủ định)"},{"art":{"t":"people","v":"no"},"en":"[[No one]] is in the bathroom.","vi":"Không có ai trong phòng tắm."},{"art":{"t":"people","v":"every"},"en":"[[Everyone]] is here!","vi":"Mọi người đều ở đây!"},{"art":{"t":"thing","v":"every"},"en":"I looked [[everywhere]], but I can't find my key.","vi":"Mình đã tìm khắp nơi mà không thấy chìa khoá.","pic":"key"}],"tip":"some- = có · any- = dùng khi HỎI hoặc KHÔNG · no one = không ai (không thêm not) · everyone = mọi người (dùng với is)"},{"id":"l3","color":"sky","icon":"🔢","title":"There is / There are","vi":"Có … (chỉ sự tồn tại)","char":"Mochi","say":"Nhà em có gì? Đếm thử nhé: có một thì dùng is, có nhiều thì dùng are!","formula":[[["There is","aux","1 thứ"],["a / an + danh từ số ít","obj","a cooker, an oven"]],[["There are","pre","2 thứ trở lên"],["số / some + danh từ số nhiều","obj","two cushions"]]],"cards":[{"art":{"t":"vocab","w":"cooker","n":1},"en":"[[There is]] a cooker in the kitchen.","vi":"Trong bếp có một cái bếp nấu."},{"art":{"t":"vocab","w":"cushion","n":2},"en":"[[There are]] two cushions on the sofa.","vi":"Trên ghế có hai cái gối."},{"art":{"t":"vocab","w":"fridge","n":1,"no":true},"en":"[[There isn't]] a fridge.","vi":"Không có cái tủ lạnh nào."},{"art":{"t":"vocab","w":"shelf","n":1,"q":true},"en":"[[Is there]] a shelf? – Yes, there is. / No, there isn't.","vi":"Có cái kệ không? – Có. / Không."},{"art":{"t":"vocab","w":"violin","n":3,"q":true},"en":"[[Are there]] any violins? – Yes, there are. / No, there aren't.","vi":"Có cây đàn vi-ô-lông nào không? – Có. / Không."}],"tip":"Có 1 → There is · Có nhiều → There are · Không có → isn't / aren't · Hỏi → Is there…? / Are there…?"},{"id":"l4","color":"rose","icon":"💪","title":"can","vi":"Có thể / được phép","char":"Gấu Nâu","say":"Em làm được gì? Em có thể mượn đồ không? Từ can giúp em nói điều đó!","formula":[["I / He / She","sub","chủ ngữ"],["can / can't","aux","có thể / không thể"],["play","v","động từ nguyên mẫu"],["the violin","obj","tân ngữ"]],"cards":[{"art":{"t":"vocab","w":"violin","n":1},"en":"I [[can]] play the violin.","vi":"Mình biết chơi đàn vi-ô-lông."},{"art":{"t":"vocab","w":"drums","n":1,"no":true},"en":"I [[can't]] play the drums.","vi":"Mình không biết chơi trống."},{"art":{"t":"vocab","w":"key","n":1,"q":true},"en":"[[Can]] I borrow your key? – Yes, you can.","vi":"Mình mượn chìa khoá của bạn được không? – Được."},{"art":{"t":"vocab","w":"drums","n":1,"q":true},"en":"[[Can]] you play the drums? – No, I can't.","vi":"Bạn chơi trống được không? – Không."}],"tip":"can + động từ nguyên mẫu (không thêm to, không thêm s) · She can play ✔  She cans play ✘"}],"quiz":[{"topic":"Prepositions","art":{"t":"prep","v":"under"},"q":"The cat is ___ the table.","opts":["in","on","under"],"a":2,"why":"Mèo ở dưới bàn → under."},{"topic":"Prepositions","art":{"t":"prep","v":"behind"},"q":"The cat is ___ the sofa.","opts":["in front of","behind","on"],"a":1,"why":"Mèo ở phía sau ghế → behind."},{"topic":"Prepositions","art":{"t":"prep","v":"in"},"q":"The cat is ___ the box.","opts":["in","on","next to"],"a":0,"why":"Mèo ở bên trong hộp → in."},{"topic":"Pronouns","q":"Look! ___ is at the door. I can see a girl.","opts":["Someone","No one","Anyone"],"a":0,"why":"Có một người ở cửa → Someone (có ai đó)."},{"topic":"Pronouns","q":"I'm hungry, but there isn't ___ in the fridge.","opts":["something","anything","everything"],"a":1,"why":"Câu phủ định (isn't) → dùng anything."},{"topic":"Pronouns","q":"The room is empty. ___ is here.","opts":["Everyone","Someone","No one"],"a":2,"why":"Phòng trống → No one (không ai)."},{"topic":"There is / are","art":{"t":"vocab","w":"cushion","n":2},"q":"There ___ two cushions on the sofa.","opts":["is","are","can"],"a":1,"why":"Có hai cái (nhiều) → There are."},{"topic":"There is / are","art":{"t":"vocab","w":"cooker","n":1,"q":true},"q":"___ there a cooker in the kitchen?","opts":["Are","Is","Can"],"a":1,"why":"Một cái bếp (số ít) → Is there…?"},{"topic":"can","art":{"t":"vocab","w":"violin","n":1},"q":"I ___ play the violin. It's easy for me!","opts":["can","can't","cans"],"a":0,"why":"Mình chơi được → can. Không viết cans."},{"topic":"can","art":{"t":"vocab","w":"drums","n":1,"no":true},"q":"I ___ play the drums. They are too difficult.","opts":["can","can't","am"],"a":1,"why":"Chơi không được (khó quá) → can't."}]}</script>
+<script id="DATA" type="application/json">{"id":"unit-1","no":1,"title":"Our home","vi":"Ngôi nhà của chúng ta","emoji":"🏠","vocabDir":"flyers--unit-1-tfka","src":"Get Ready for Flyers · Unit 1 (chủ điểm ngữ pháp do cô Thảo cung cấp)","lessons":[{"id":"l1","color":"mint","icon":"📍","title":"Prepositions of place","vi":"Giới từ chỉ vị trí","char":"Mimi","say":"Mimi chơi trốn tìm! Em đoán xem Mimi đang ở đâu nhé?","practice":[{"t":"mcq","q":"The dog is ___ the box.","opts":["in","on","under"],"a":0,"why":"Chó ở bên trong hộp → in.","art":{"t":"prep","v":"in","a":"dog"}},{"t":"fill","q":"The rabbit is ___ the table.","ans":["on"],"bank":["in","on","under"],"why":"Thỏ ở trên bàn → on.","art":{"t":"prep","v":"on","a":"bunny"}},{"t":"mcq","q":"The pig is ___ the table.","opts":["on","under","behind"],"a":1,"why":"Heo ở dưới bàn → under.","art":{"t":"prep","v":"under","a":"pig"}},{"t":"fill","q":"The frog is ___ the sofa.","ans":["behind"],"bank":["behind","in front of","on"],"why":"Ếch ở phía sau ghế → behind.","art":{"t":"prep","v":"behind","a":"frog"}},{"t":"mcq","q":"The bear is ___ the sofa.","opts":["in front of","behind","in"],"a":0,"why":"Gấu ở phía trước ghế → in front of.","art":{"t":"prep","v":"front","a":"bear"}},{"t":"fill","q":"The chick is ___ the table.","ans":["next to"],"bank":["next to","in","under"],"why":"Gà con ở bên cạnh bàn → next to.","art":{"t":"prep","v":"next","a":"chick"}},{"t":"mcq","q":"The pen is ___ the bag.","opts":["in","on","under"],"a":0,"why":"Bút ở bên trong cặp → in.","hint":"(bên trong)"},{"t":"fill","q":"The cup is ___ the table.","ans":["on"],"bank":["in","on","under"],"why":"Cái cốc ở trên bàn → on.","hint":"(bên trên, chạm vào bàn)"},{"t":"mcq","q":"The shoes are ___ the bed.","opts":["under","on","in"],"a":0,"why":"Giày ở dưới giường → under.","hint":"(bên dưới)"},{"t":"fill","q":"The cat is ___ the door.","ans":["behind"],"bank":["behind","in front of","in"],"why":"Mèo ở phía sau cánh cửa → behind.","hint":"(phía sau)"},{"t":"mcq","q":"The fox is ___ the table.","opts":["under","on","next to"],"a":1,"why":"Cáo ở trên bàn → on.","art":{"t":"prep","v":"on","a":"fox"}},{"t":"fill","q":"The penguin is ___ the box.","ans":["in"],"bank":["in","on","under"],"why":"Cánh cụt ở trong hộp → in.","art":{"t":"prep","v":"in","a":"penguin"}},{"t":"mcq","q":"The panda is ___ the table.","opts":["next to","on","behind"],"a":0,"why":"Gấu trúc ở bên cạnh bàn → next to.","art":{"t":"prep","v":"next","a":"panda"}},{"t":"fill","q":"The dog is ___ the table.","ans":["under"],"bank":["in","on","under"],"why":"Chó ở dưới bàn → under.","art":{"t":"prep","v":"under","a":"dog"}},{"t":"mcq","q":"The cat is ___ the sofa.","opts":["in front of","behind","under"],"a":1,"why":"Mèo ở phía sau ghế → behind.","art":{"t":"prep","v":"behind","a":"cat"}},{"t":"fill","q":"The pig is ___ the sofa.","ans":["in front of"],"bank":["behind","in front of","on"],"why":"Heo ở phía trước ghế → in front of.","art":{"t":"prep","v":"front","a":"pig"}},{"t":"mcq","q":"The fridge is ___ the cooker.","opts":["next to","under","in"],"a":0,"why":"Tủ lạnh ở bên cạnh bếp → next to.","hint":"(bên cạnh)"},{"t":"fill","q":"The key is ___ the box.","ans":["in"],"bank":["in","on","under"],"why":"Chìa khoá ở trong hộp → in.","hint":"(ở bên trong)"},{"t":"mcq","q":"The ball is ___ the chair.","opts":["on","under","behind"],"a":1,"why":"Quả bóng ở dưới ghế → under.","hint":"(bên dưới)"},{"t":"fill","q":"My bag is ___ the desk.","ans":["on"],"bank":["in","on","under"],"why":"Cặp ở trên bàn học → on.","hint":"(ở trên mặt bàn)"}],"blocks":[{"title":"🧭 Khi nào dùng?","items":[{"icon":"❓","t":"Dùng để nói **một người / một vật đang Ở ĐÂU**.","ex":"The cat is under the table.","vi":"Mèo ở dưới cái bàn."}],"k":"when"},{"title":"🧩 Mẫu câu","rows":[[["The cat","sub","ai / cái gì"],["is","aux","is (số ít) · are (số nhiều)"],["under","pre","giới từ"],["the table","obj","nơi chốn"]]],"k":"formula"},{"title":"📍 6 giới từ cần nhớ","items":[{"icon":"📦","en":"in","vi":"bên trong","tip":"nằm TRONG hộp, cặp, phòng"},{"icon":"🔝","en":"on","vi":"ở trên, chạm vào","tip":"đặt TRÊN mặt bàn, giường"},{"icon":"⬇️","en":"under","vi":"ở dưới","tip":"nằm DƯỚI bàn, ghế"},{"icon":"↔️","en":"next to","vi":"bên cạnh","tip":"đứng SÁT BÊN"},{"icon":"🔙","en":"behind","vi":"phía sau","tip":"bị vật ở trước che"},{"icon":"🔜","en":"in front of","vi":"phía trước","tip":"đứng TRƯỚC mặt vật đó"}],"k":"grid"},{"title":"👀 Xem hình","items":[{"art":{"t":"prep","v":"in"},"en":"The cat is [[in]] the box.","vi":"Mèo ở trong cái hộp."},{"art":{"t":"prep","v":"on"},"en":"The cat is [[on]] the table.","vi":"Mèo ở trên bàn."},{"art":{"t":"prep","v":"under"},"en":"The cat is [[under]] the table.","vi":"Mèo ở dưới bàn."},{"art":{"t":"prep","v":"next"},"en":"The cat is [[next to]] the table.","vi":"Mèo ở bên cạnh cái bàn."},{"art":{"t":"prep","v":"behind"},"en":"The cat is [[behind]] the sofa.","vi":"Mèo ở phía sau ghế sofa."},{"art":{"t":"prep","v":"front"},"en":"The cat is [[in front of]] the sofa.","vi":"Mèo ở phía trước ghế sofa."}],"k":"cards"},{"items":[{"bad":"The cat is on front of the sofa.","good":"The cat is in front of the sofa.","why":"Phía trước là in front of (không phải on)."},{"bad":"The cat is next the table.","good":"The cat is next to the table.","why":"next to luôn có chữ to."},{"bad":"The cat in the box.","good":"The cat is in the box.","why":"Đừng quên is / are trong câu."},{"bad":"The book is in the table.","good":"The book is on the table.","why":"Đặt lên mặt bàn → on (bàn không có \"bên trong\")."}],"k":"mistakes"},{"items":["a1"],"k":"acts"}]},{"id":"l2","color":"peach","icon":"👥","title":"Indefinite pronouns","vi":"Đại từ bất định","char":"Bông","say":"Có ai ở nhà không? Có gì trong tủ lạnh không? Cùng học cách nói nhé!","practice":[{"t":"mcq","q":"Look! ___ is in the kitchen. I can see a boy.","opts":["Someone","No one","Anyone"],"a":0,"why":"Có một người (một cậu bé) → Someone."},{"t":"fill","q":"Is there ___ at home?","ans":["anyone"],"bank":["anyone","no one","everyone"],"why":"Câu hỏi 'có ai không' → anyone.","hint":"(có ai không?)"},{"t":"mcq","q":"The classroom is empty. ___ is here.","opts":["No one","Everyone","Someone"],"a":0,"why":"Lớp trống → No one (không ai)."},{"t":"fill","q":"It's my birthday party and ___ is here! All my friends came.","ans":["everyone"],"bank":["everyone","no one","anyone"],"why":"Tất cả bạn đều đến → everyone."},{"t":"mcq","q":"I'm hungry, but there isn't ___ in the fridge.","opts":["anything","something","everything"],"a":0,"why":"Câu phủ định (isn't) → anything."},{"t":"fill","q":"There is ___ in the box. It's a toy car.","ans":["something"],"bank":["something","anything","no one"],"why":"Có một thứ trong hộp → something."},{"t":"mcq","q":"I can't find my key. I looked ___!","opts":["everywhere","someone","anything"],"a":0,"why":"Tìm khắp mọi nơi → everywhere."},{"t":"fill","q":"Can you see ___?","ans":["anything"],"bank":["anything","everyone","no one"],"why":"Câu hỏi 'có thấy gì không' → anything.","hint":"(có thấy gì không?)"},{"t":"mcq","q":"___ is knocking at the door. Let's open it!","opts":["Someone","No one","Anyone"],"a":0,"why":"Có người gõ cửa → Someone."},{"t":"fill","q":"There isn't ___ in the bathroom. It's empty.","ans":["anyone"],"bank":["anyone","someone","everyone"],"why":"Câu phủ định (isn't) → anyone."},{"t":"mcq","q":"Did you see ___ in the garden?","opts":["anyone","no one","everyone"],"a":0,"why":"Câu hỏi 'có thấy ai không' → anyone.","hint":"(có thấy ai không?)"},{"t":"fill","q":"We all love pizza. ___ likes pizza.","ans":["everyone"],"bank":["everyone","no one","anyone"],"why":"Ai cũng thích → Everyone."},{"t":"mcq","q":"I have ___ for you. It's a present!","opts":["something","anything","no one"],"a":0,"why":"Mình có một thứ cho bạn → something."},{"t":"fill","q":"The shop is closed. ___ is in the shop.","ans":["no one"],"bank":["no one","everyone","anyone"],"why":"Cửa hàng đóng → No one (không ai)."},{"t":"mcq","q":"Is there ___ in your bag?","opts":["anything","no one","everywhere"],"a":0,"why":"Câu hỏi 'có gì không' → anything.","hint":"(có gì không?)"},{"t":"fill","q":"I can't see ___ in the dark room.","ans":["anything"],"bank":["anything","something","everyone"],"why":"Câu phủ định (can't) → anything.","hint":"(không thấy gì cả)"},{"t":"mcq","q":"Our dog is lost! We looked ___.","opts":["everywhere","someone","anything"],"a":0,"why":"Tìm khắp nơi → everywhere."},{"t":"fill","q":"Look! ___ is on the roof. It's a cat!","ans":["something"],"bank":["something","anything","no one"],"why":"Có một vật trên mái nhà → Something."},{"t":"mcq","q":"Hello? Is ___ there?","opts":["anyone","no one","everywhere"],"a":0,"why":"Hỏi 'có ai ở đó không' → anyone.","hint":"(có ai ở đó không?)"},{"t":"fill","q":"The whole class is here. ___ is here today.","ans":["everyone"],"bank":["everyone","no one","someone"],"why":"Cả lớp có mặt → Everyone."}],"blocks":[{"title":"🧭 Khi nào dùng?","items":[{"icon":"✅","t":"**some-** = **có** (ai đó, cái gì đó). Dùng trong câu **bình thường** (khẳng định).","ex":"Someone is in the kitchen.","vi":"Có ai đó đang ở trong bếp."},{"icon":"❓","t":"**any-** dùng khi **HỎI** hoặc khi câu có **not** (phủ định).","ex":"Is there anyone at home? · I can't see anything.","vi":"Có ai ở nhà không? · Mình không thấy gì cả."},{"icon":"🚫","t":"**no-** = **không có**. Nghĩa đã là \"không\", nên câu **KHÔNG** thêm not.","ex":"No one is in the bathroom.","vi":"Không có ai trong phòng tắm."},{"icon":"🌈","t":"**every-** = **tất cả, mọi**. Động từ dùng **is** (số ít).","ex":"Everyone is here!","vi":"Mọi người đều ở đây!"}],"k":"when"},{"title":"🗂 Bảng 4 nhóm × 3 loại (người · vật · nơi)","head":["","👤 người (-one)","🎁 vật (-thing)","📍 nơi (-where)"],"rows":[["some- · có","someone","something","somewhere"],["any- · hỏi / not","anyone","anything","anywhere"],["no- · không có","no one","nothing","nowhere"],["every- · tất cả","everyone","everything","everywhere"]],"note":"Ghép đầu từ (some, any, no, every) + đuôi (one, thing, where).","k":"table"},{"title":"🧠 Chọn từ nào? Hỏi mình 4 câu","items":["1️⃣ Muốn nói **tất cả**? → **every-** (everyone, everything, everywhere)","2️⃣ Câu có **not** hoặc là **câu hỏi**? → **any-** (anyone, anything)","3️⃣ Muốn nói **không có** mà **không dùng not**? → **no-** (no one, nothing)","4️⃣ Muốn nói **có** (câu bình thường)? → **some-** (someone, something)"],"k":"steps"},{"title":"👀 Xem hình","items":[{"art":{"t":"people","v":"some"},"en":"[[Someone]] is in the kitchen.","vi":"Có ai đó đang ở trong bếp."},{"art":{"t":"thing","v":"some"},"en":"There is [[something]] in the fridge.","vi":"Có thứ gì đó trong tủ lạnh."},{"art":{"t":"people","v":"any"},"en":"Is there [[anyone]] at home?","vi":"Có ai ở nhà không? (câu hỏi)"},{"art":{"t":"thing","v":"any"},"en":"I can't see [[anything]].","vi":"Mình không thấy gì cả. (câu phủ định)"},{"art":{"t":"people","v":"no"},"en":"[[No one]] is in the bathroom.","vi":"Không có ai trong phòng tắm."},{"art":{"t":"people","v":"every"},"en":"[[Everyone]] is here!","vi":"Mọi người đều ở đây!"},{"art":{"t":"thing","v":"every"},"en":"I looked [[everywhere]], but I can't find my key.","vi":"Mình đã tìm khắp nơi mà không thấy chìa khoá.","pic":"key"}],"k":"cards"},{"items":[{"bad":"I can't see something.","good":"I can't see anything.","why":"Câu có not → dùng any- (anything)."},{"bad":"There isn't someone in the room.","good":"There isn't anyone in the room.","why":"Câu có not → dùng anyone."},{"bad":"No one isn't here.","good":"No one is here.","why":"No one đã có nghĩa \"không\", không thêm not."},{"bad":"Everyone are happy.","good":"Everyone is happy.","why":"Everyone đi với is (số ít)."}],"k":"mistakes"},{"items":["a2","a3"],"k":"acts"}]},{"id":"l3","color":"sky","icon":"🔢","title":"There is / There are","vi":"Có … (chỉ sự tồn tại)","char":"Mochi","say":"Nhà em có gì? Nhìn số lượng nhé: có MỘT thì dùng is, có NHIỀU thì dùng are!","practice":[{"t":"mcq","q":"There ___ a cooker in the kitchen.","opts":["is","are","can"],"a":0,"why":"Có 1 cái bếp → There is.","art":{"t":"vocab","w":"cooker","n":1,"no":false,"q":false}},{"t":"fill","q":"There ___ two cushions on the sofa.","ans":["are"],"bank":["is","are"],"why":"Có 2 cái gối (nhiều) → There are.","art":{"t":"vocab","w":"cushion","n":2,"no":false,"q":false}},{"t":"mcq","q":"There ___ three violins.","opts":["is","are","isn't"],"a":1,"why":"Có 3 cây đàn (nhiều) → There are.","art":{"t":"vocab","w":"violin","n":3,"no":false,"q":false}},{"t":"fill","q":"There ___ a shelf on the wall.","ans":["is"],"bank":["is","are"],"why":"Có 1 cái kệ → There is.","art":{"t":"vocab","w":"shelf","n":1,"no":false,"q":false}},{"t":"mcq","q":"There ___ a cat in the garden.","opts":["is","are","aren't"],"a":0,"why":"Có 1 con mèo → There is."},{"t":"fill","q":"There ___ five apples in the bag.","ans":["are"],"bank":["is","are"],"why":"Có 5 quả táo (nhiều) → There are."},{"t":"mcq","q":"There ___ a fridge. (không có)","opts":["isn't","aren't","is"],"a":0,"why":"Không có 1 cái tủ lạnh → There isn't.","art":{"t":"vocab","w":"fridge","n":1,"no":true,"q":false}},{"t":"fill","q":"There ___ any chairs in the room. (không có)","ans":["aren't"],"bank":["isn't","aren't"],"why":"Không có cái ghế nào (nhiều) → There aren't any.","hint":"(không có)"},{"t":"mcq","q":"___ there a key on the table?","opts":["Is","Are","Can"],"a":0,"why":"Hỏi về 1 chiếc chìa khoá → Is there…?","art":{"t":"vocab","w":"key","n":1,"no":false,"q":true}},{"t":"fill","q":"___ there any drums in the music room?","ans":["are"],"bank":["Is","Are"],"why":"Hỏi về nhiều cái trống → Are there any…?","art":{"t":"vocab","w":"drums","n":1,"no":false,"q":true}},{"t":"mcq","q":"Is there a cooker? – Yes, ___.","opts":["there is","there are","I can"],"a":0,"why":"Trả lời ngắn cho Is there…? → Yes, there is."},{"t":"fill","q":"Are there any violins? – No, there ___.","ans":["aren't"],"bank":["isn't","aren't"],"why":"Trả lời ngắn cho Are there…? → No, there aren't."},{"t":"mcq","q":"There ___ some stamps in the box.","opts":["is","are","isn't"],"a":1,"why":"Stamps là nhiều → There are."},{"t":"fill","q":"There ___ a diary on the shelf.","ans":["is"],"bank":["is","are"],"why":"Có 1 quyển nhật ký → There is."},{"t":"mcq","q":"There ___ three brushes in the bathroom.","opts":["is","are","am"],"a":1,"why":"Có 3 cái bàn chải → There are."},{"t":"fill","q":"___ there a brush in the bathroom?","ans":["is"],"bank":["Is","Are"],"why":"Hỏi về 1 cái bàn chải → Is there…?","hint":"(1 cái)"},{"t":"mcq","q":"There is ___ oven in the kitchen.","opts":["a","an","some"],"a":1,"why":"oven bắt đầu bằng âm nguyên âm → an oven."},{"t":"fill","q":"There are ___ cushions on the bed.","ans":["some"],"bank":["some","a","an"],"why":"Nhiều cái gối → some cushions.","hint":"(một vài)"},{"t":"mcq","q":"There ___ any envelopes on the desk. (không có)","opts":["isn't","aren't","is"],"a":1,"why":"Phong bì là nhiều → There aren't any."},{"t":"fill","q":"Are there two beds? – Yes, there ___.","ans":["are"],"bank":["is","are"],"why":"Trả lời Yes cho Are there…? → Yes, there are."}],"blocks":[{"title":"🧭 There is / There are nghĩa là gì?","items":[{"icon":"👀","t":"**There is / There are** = **Có …** (ở đâu đó). Đếm số lượng để chọn **is** hay **are**.","ex":"There is a cooker. · There are two cushions.","vi":"Có một cái bếp. · Có hai cái gối."}],"k":"when"},{"title":"1️⃣ Có MỘT thứ → There is","color":"sky","parts":[{"t":"There is","c":"aux","s":"có 1 thứ"},{"t":"a / an","c":"pre","s":"một"},{"t":"danh từ số ít","c":"obj","s":"cooker, oven…"},{"t":"nơi chốn","c":"v","s":"in the kitchen"}],"exs":[{"c":[{"t":"There is","c":"aux"},{"t":"a","c":"pre"},{"t":"cooker","c":"obj"},{"t":"in the kitchen.","c":"v"}],"vi":"Trong bếp có một cái bếp nấu.","art":{"t":"vocab","w":"cooker","n":1,"no":false}},{"c":[{"t":"There is","c":"aux"},{"t":"an","c":"pre"},{"t":"oven","c":"obj"},{"t":"in the kitchen.","c":"v"}],"vi":"Trong bếp có một cái lò nướng. (oven bắt đầu bằng o → an)","art":{"t":"vocab","w":"oven","n":1,"no":false}},{"c":[{"t":"There is","c":"aux"},{"t":"a","c":"pre"},{"t":"shelf","c":"obj"},{"t":"on the wall.","c":"v"}],"vi":"Trên tường có một cái kệ.","art":{"t":"vocab","w":"shelf","n":1,"no":false}}],"k":"pattern"},{"title":"2️⃣ Có NHIỀU thứ → There are","color":"rose","parts":[{"t":"There are","c":"pink","s":"có 2 thứ trở lên"},{"t":"số / some","c":"v","s":"two, three, some"},{"t":"danh từ số nhiều","c":"obj","s":"cushions, violins…"},{"t":"nơi chốn","c":"sub","s":"on the sofa"}],"exs":[{"c":[{"t":"There are","c":"pink"},{"t":"two","c":"v"},{"t":"cushions","c":"obj"},{"t":"on the sofa.","c":"sub"}],"vi":"Trên ghế có hai cái gối.","art":{"t":"vocab","w":"cushion","n":2,"no":false}},{"c":[{"t":"There are","c":"pink"},{"t":"three","c":"v"},{"t":"violins","c":"obj"},{"t":"in the room.","c":"sub"}],"vi":"Trong phòng có ba cây đàn vi-ô-lông.","art":{"t":"vocab","w":"violin","n":3,"no":false}},{"c":[{"t":"There are","c":"pink"},{"t":"some","c":"v"},{"t":"stamps","c":"obj"},{"t":"in the box.","c":"sub"}],"vi":"Trong hộp có một vài con tem.","art":{"t":"vocab","w":"stamps","n":3,"no":false}}],"k":"pattern"},{"title":"3️⃣ KHÔNG có → isn't / aren't","color":"mint","parts":[{"t":"There isn't","c":"aux","s":"1 thứ"},{"t":"a / an","c":"pre","s":""},{"t":"There aren't","c":"pink","s":"nhiều thứ"},{"t":"any","c":"v","s":"nào"}],"exs":[{"c":[{"t":"There isn't","c":"aux"},{"t":"a","c":"pre"},{"t":"fridge.","c":"obj"}],"vi":"Không có cái tủ lạnh nào.","art":{"t":"vocab","w":"fridge","n":1,"no":true}},{"c":[{"t":"There aren't","c":"pink"},{"t":"any","c":"v"},{"t":"drums.","c":"obj"}],"vi":"Không có cái trống nào.","art":{"t":"vocab","w":"drums","n":2,"no":true}}],"k":"pattern"},{"title":"❓ Hỏi và trả lời","askFormula":[{"t":"Is there","c":"aux"},{"t":"a / an","c":"pre"},{"t":"danh từ số ít","c":"obj"},{"t":"?","c":null}],"rounds":[{"q":[{"t":"Is there","c":"aux"},{"t":"a","c":"pre"},{"t":"shelf","c":"obj"},{"t":"?","c":null}],"a":[{"t":"Yes,","c":"sub"},{"t":"there is.","c":"aux"}],"qvi":"Có cái kệ không?","avi":"Có.","art":{"t":"vocab","w":"shelf","n":1,"no":false}},{"q":[{"t":"Is there","c":"aux"},{"t":"a","c":"pre"},{"t":"fridge","c":"obj"},{"t":"?","c":null}],"a":[{"t":"No,","c":"sub"},{"t":"there isn't.","c":"aux"}],"qvi":"Có cái tủ lạnh không?","avi":"Không."}],"k":"dialog"},{"title":"❓ Hỏi nhiều thứ","askFormula":[{"t":"Are there","c":"pink"},{"t":"any","c":"v"},{"t":"danh từ số nhiều","c":"obj"},{"t":"?","c":null}],"rounds":[{"q":[{"t":"Are there","c":"pink"},{"t":"any","c":"v"},{"t":"violins","c":"obj"},{"t":"?","c":null}],"a":[{"t":"Yes,","c":"sub"},{"t":"there are.","c":"pink"}],"qvi":"Có cây đàn vi-ô-lông nào không?","avi":"Có.","art":{"t":"vocab","w":"violin","n":3,"no":false}},{"q":[{"t":"Are there","c":"pink"},{"t":"any","c":"v"},{"t":"drums","c":"obj"},{"t":"?","c":null}],"a":[{"t":"No,","c":"sub"},{"t":"there aren't.","c":"pink"}],"qvi":"Có cái trống nào không?","avi":"Không."}],"k":"dialog"},{"t":"💡 Mẹo: **1 → is · nhiều → are**. Muốn hỏi? Đưa **Is / Are** lên đầu câu!","k":"tip2"},{"items":[{"bad":"There is two cushions.","good":"There are two cushions.","why":"2 cái → There are."},{"bad":"There are a cooker.","good":"There is a cooker.","why":"1 cái → There is."},{"bad":"There is a oven.","good":"There is an oven.","why":"oven bắt đầu bằng o → an."},{"bad":"There aren't a chair.","good":"There isn't a chair.","why":"1 cái → isn't (không dùng aren't)."}],"k":"mistakes"},{"items":["a4"],"k":"acts"}]},{"id":"l4","color":"rose","icon":"💪","title":"can","vi":"Có thể / được phép","char":"Gấu Nâu","say":"Em làm được gì? Em có thể mượn đồ không? Từ can giúp em nói điều đó!","practice":[{"t":"mcq","q":"I ___ play the violin.","opts":["can","can't","cans"],"a":0,"why":"Mình biết chơi đàn → can.","art":{"t":"vocab","w":"violin","n":1,"no":false,"q":false},"hint":"(biết chơi)"},{"t":"fill","q":"I ___ play the drums.","ans":["can't"],"bank":["can","can't"],"why":"Mình không biết chơi trống → can't.","art":{"t":"vocab","w":"drums","n":1,"no":true,"q":false},"hint":"(không biết)"},{"t":"mcq","q":"A fish ___ swim.","opts":["can","can't","cans"],"a":0,"why":"Cá biết bơi → can."},{"t":"fill","q":"A dog ___ fly.","ans":["can't"],"bank":["can","can't"],"why":"Chó không biết bay → can't.","hint":"(không thể)"},{"t":"mcq","q":"She ___ ride a bike. She is only two.","opts":["can","can't","cans"],"a":1,"why":"Em bé 2 tuổi chưa đi xe đạp được → can't."},{"t":"fill","q":"___ you swim? – Yes, I can.","ans":["can"],"bank":["Can","Are","Is"],"why":"Hỏi khả năng → Can you…?"},{"t":"mcq","q":"He can ___ the piano.","opts":["plays","play","to play"],"a":1,"why":"Sau can dùng động từ nguyên mẫu → play."},{"t":"fill","q":"My mum can ___ delicious food.","ans":["cook","make"],"bank":["cook","cooks","to cook"],"why":"Sau can dùng động từ nguyên mẫu → cook.","hint":"(nấu ăn)"},{"t":"mcq","q":"___ I borrow your key?","opts":["Can","Is","Are"],"a":0,"why":"Xin phép mượn → Can I…?","art":{"t":"vocab","w":"key","n":1,"no":false,"q":true},"hint":"(xin phép)"},{"t":"fill","q":"Can I open the window? – Yes, you ___.","ans":["can"],"bank":["can","can't"],"why":"Trả lời Yes → Yes, you can."},{"t":"mcq","q":"Can you play the drums? – No, I ___.","opts":["can't","can","am not"],"a":0,"why":"Trả lời No → No, I can't."},{"t":"fill","q":"Birds can ___.","ans":["fly"],"bank":["fly","flies","to fly"],"why":"Sau can dùng động từ nguyên mẫu → fly.","hint":"(bay)"},{"t":"mcq","q":"We ___ talk in the library. (không được phép)","opts":["can't","can","cans"],"a":0,"why":"Không được phép → can't."},{"t":"fill","q":"Tom ___ run very fast.","ans":["can"],"bank":["can","can't"],"why":"Tom chạy nhanh được → can.","hint":"(chạy nhanh được)"},{"t":"mcq","q":"A baby ___ walk. (chưa biết đi)","opts":["can't","can","cans"],"a":0,"why":"Em bé chưa biết đi → can't."},{"t":"fill","q":"Can she ___ the violin?","ans":["play"],"bank":["play","plays","playing"],"why":"Sau Can she… dùng động từ nguyên mẫu → play."},{"t":"mcq","q":"I can ___ English.","opts":["speak","speaks","speaking"],"a":0,"why":"Sau can dùng động từ nguyên mẫu → speak."},{"t":"fill","q":"___ you help me, please?","ans":["can"],"bank":["Can","Are","Is"],"why":"Nhờ giúp đỡ lịch sự → Can you…?"},{"t":"mcq","q":"Câu nào đúng?","opts":["She can swim.","She cans swim.","She can swims."],"a":0,"why":"Sau can không thêm s: She can swim."},{"t":"fill","q":"Can your brother play the drums? – No, he ___.","ans":["can't"],"bank":["can","can't"],"why":"Trả lời No → No, he can't."}],"blocks":[{"title":"🇻🇳 Nghĩa của can","items":[{"icon":"✅","en":"can","vi":"có thể · biết (làm gì)","tip":"I can swim."},{"icon":"❌","en":"can't","vi":"không thể · không biết · không được","tip":"A dog can't fly."},{"icon":"🙋","en":"Can …?","vi":"… được không? (xin phép, nhờ giúp)","tip":"Can I borrow your key?"}],"k":"grid"},{"title":"1️⃣ can = có thể / biết","color":"mint","parts":[{"t":"I / He / She","c":"sub","s":"ai"},{"t":"can","c":"aux","s":"có thể / biết"},{"t":"động từ","c":"v","s":"nguyên mẫu"},{"t":"tân ngữ","c":"obj","s":"the violin"}],"exs":[{"c":[{"t":"I","c":"sub"},{"t":"can","c":"aux"},{"t":"play","c":"v"},{"t":"the violin.","c":"obj"}],"vi":"Mình biết chơi đàn vi-ô-lông.","art":{"t":"vocab","w":"violin","n":1,"no":false}},{"c":[{"t":"She","c":"sub"},{"t":"can","c":"aux"},{"t":"swim.","c":"v"}],"vi":"Cô ấy biết bơi."},{"c":[{"t":"A bird","c":"sub"},{"t":"can","c":"aux"},{"t":"fly.","c":"v"}],"vi":"Chim bay được."}],"k":"pattern"},{"title":"2️⃣ can't = không thể / không biết","color":"rose","parts":[{"t":"I / He / She","c":"sub","s":"ai"},{"t":"can't","c":"pink","s":"không thể"},{"t":"động từ","c":"v","s":"nguyên mẫu"},{"t":"tân ngữ","c":"obj","s":"the drums"}],"exs":[{"c":[{"t":"I","c":"sub"},{"t":"can't","c":"pink"},{"t":"play","c":"v"},{"t":"the drums.","c":"obj"}],"vi":"Mình không biết chơi trống.","art":{"t":"vocab","w":"drums","n":1,"no":true}},{"c":[{"t":"A dog","c":"sub"},{"t":"can't","c":"pink"},{"t":"fly.","c":"v"}],"vi":"Chó không bay được."}],"k":"pattern"},{"title":"❓ Hỏi và trả lời với Can","askFormula":[{"t":"Can","c":"aux"},{"t":"you / he / she","c":"sub"},{"t":"động từ","c":"v"},{"t":"…?","c":null}],"rounds":[{"q":[{"t":"Can","c":"aux"},{"t":"you","c":"sub"},{"t":"play","c":"v"},{"t":"the violin?","c":"obj"}],"a":[{"t":"Yes,","c":"sub"},{"t":"I can.","c":"aux"}],"qvi":"Bạn chơi đàn vi-ô-lông được không?","avi":"Được.","art":{"t":"vocab","w":"violin","n":1,"no":false}},{"q":[{"t":"Can","c":"aux"},{"t":"you","c":"sub"},{"t":"play","c":"v"},{"t":"the drums?","c":"obj"}],"a":[{"t":"No,","c":"sub"},{"t":"I can't.","c":"pink"}],"qvi":"Bạn chơi trống được không?","avi":"Không.","art":{"t":"vocab","w":"drums","n":1,"no":false}},{"q":[{"t":"Can","c":"aux"},{"t":"I","c":"sub"},{"t":"borrow","c":"v"},{"t":"your key?","c":"obj"}],"a":[{"t":"Yes,","c":"sub"},{"t":"you can.","c":"aux"}],"qvi":"Mình mượn chìa khoá của bạn được không?","avi":"Được, bạn mượn đi.","art":{"t":"vocab","w":"key","n":1,"no":false}}],"k":"dialog"},{"t":"💡 Mẹo: **can + động từ nguyên mẫu** (không thêm s, không có to). Hỏi: đưa **Can** lên đầu câu!","k":"tip2"},{"items":[{"bad":"She cans swim.","good":"She can swim.","why":"can không thêm s."},{"bad":"She can swims.","good":"She can swim.","why":"Sau can dùng động từ nguyên mẫu (không thêm s)."},{"bad":"I can to swim.","good":"I can swim.","why":"Sau can không có to."},{"bad":"Does she can swim?","good":"Can she swim?","why":"Câu hỏi: đưa can lên trước chủ ngữ."}],"k":"mistakes"},{"items":["a5"],"k":"acts"}]}],"quiz":[{"topic":"Prepositions","art":{"t":"prep","v":"under"},"q":"The cat is ___ the table.","opts":["in","on","under"],"a":2,"why":"Mèo ở dưới bàn → under."},{"topic":"Prepositions","art":{"t":"prep","v":"behind"},"q":"The cat is ___ the sofa.","opts":["in front of","behind","on"],"a":1,"why":"Mèo ở phía sau ghế → behind."},{"topic":"Prepositions","art":{"t":"prep","v":"in"},"q":"The cat is ___ the box.","opts":["in","on","next to"],"a":0,"why":"Mèo ở bên trong hộp → in."},{"topic":"Pronouns","q":"Look! ___ is at the door. I can see a girl.","opts":["Someone","No one","Anyone"],"a":0,"why":"Có một người ở cửa → Someone (có ai đó)."},{"topic":"Pronouns","q":"I'm hungry, but there isn't ___ in the fridge.","opts":["something","anything","everything"],"a":1,"why":"Câu phủ định (isn't) → dùng anything."},{"topic":"Pronouns","q":"The room is empty. ___ is here.","opts":["Everyone","Someone","No one"],"a":2,"why":"Phòng trống → No one (không ai)."},{"topic":"There is / are","art":{"t":"vocab","w":"cushion","n":2},"q":"There ___ two cushions on the sofa.","opts":["is","are","can"],"a":1,"why":"Có hai cái (nhiều) → There are."},{"topic":"There is / are","art":{"t":"vocab","w":"cooker","n":1,"q":true},"q":"___ there a cooker in the kitchen?","opts":["Are","Is","Can"],"a":1,"why":"Một cái bếp (số ít) → Is there…?"},{"topic":"can","art":{"t":"vocab","w":"violin","n":1},"q":"I ___ play the violin. It's easy for me!","opts":["can","can't","cans"],"a":0,"why":"Mình chơi được → can. Không viết cans."},{"topic":"can","art":{"t":"vocab","w":"drums","n":1,"no":true},"q":"I ___ play the drums. They are too difficult.","opts":["can","can't","am"],"a":1,"why":"Chơi không được (khó quá) → can't."}],"acts":{"a1":{"id":"a1","mode":"slot","title":"⚡ Luyện nhanh: kéo giới từ vào đúng hình","instr":"Chạm giữ một chữ rồi kéo vào chỗ trống dưới mỗi hình (hoặc chạm chữ rồi chạm hình).","slots":[{"id":"s1","art":{"t":"prep","v":"in","a":"dog"},"text":"The dog is ___ the box.","ans":"in"},{"id":"s2","art":{"t":"prep","v":"on","a":"bunny"},"text":"The rabbit is ___ the table.","ans":"on"},{"id":"s3","art":{"t":"prep","v":"under","a":"pig"},"text":"The pig is ___ the table.","ans":"under"},{"id":"s4","art":{"t":"prep","v":"next","a":"chick"},"text":"The chick is ___ the table.","ans":"next to"},{"id":"s5","art":{"t":"prep","v":"behind","a":"frog"},"text":"The frog is ___ the sofa.","ans":"behind"},{"id":"s6","art":{"t":"prep","v":"front","a":"bear"},"text":"The bear is ___ the sofa.","ans":"in front of"}],"chips":["in","on","under","next to","behind","in front of"]},"a2":{"id":"a2","mode":"bucket","title":"⚡ Luyện nhanh 1: xếp từ vào đúng nhóm (người · vật · nơi)","instr":"Kéo mỗi từ vào đúng cột. Mẹo: nhìn phần đuôi của từ (-one, -thing, -where).","buckets":[{"id":"p","label":"👤 người (-one)","c":"peach"},{"id":"t","label":"🎁 vật (-thing)","c":"sky"},{"id":"w","label":"📍 nơi (-where)","c":"mint"}],"chips":[{"label":"someone","g":"p"},{"label":"no one","g":"p"},{"label":"everyone","g":"p"},{"label":"something","g":"t"},{"label":"anything","g":"t"},{"label":"nothing","g":"t"},{"label":"everywhere","g":"w"},{"label":"somewhere","g":"w"},{"label":"anywhere","g":"w"}]},"a3":{"id":"a3","mode":"slot","title":"⚡ Luyện nhanh 2: kéo đúng từ vào câu","instr":"Đọc câu rồi kéo từ hợp nghĩa vào chỗ trống. Mỗi từ dùng một lần.","slots":[{"id":"s1","text":"Is there ___ at home?","hint":"câu hỏi","ans":"anyone"},{"id":"s2","text":"___ is at the door. I can see a girl.","hint":"có một người","ans":"someone"},{"id":"s3","text":"The room is empty. ___ is here.","hint":"không có ai","ans":"no one"},{"id":"s4","text":"My whole class is here! ___ is happy.","hint":"tất cả mọi người","ans":"everyone"}],"chips":["someone","anyone","no one","everyone"]},"a4":{"id":"a4","mode":"bucket","title":"⚡ Luyện nhanh: There is hay There are?","instr":"Đếm số lượng trong hình. Có 1 → There is. Có nhiều → There are. Kéo hình vào đúng ô.","buckets":[{"id":"is","label":"There is (1 thứ)","c":"sky"},{"id":"are","label":"There are (nhiều thứ)","c":"rose"}],"chips":[{"label":"a cooker","art":{"t":"vocab","w":"cooker","n":1},"g":"is"},{"label":"two cushions","art":{"t":"vocab","w":"cushion","n":2},"g":"are"},{"label":"a shelf","art":{"t":"vocab","w":"shelf","n":1},"g":"is"},{"label":"three violins","art":{"t":"vocab","w":"violin","n":3},"g":"are"},{"label":"a key","art":{"t":"vocab","w":"key","n":1},"g":"is"},{"label":"two drums","art":{"t":"vocab","w":"drums","n":2},"g":"are"}]},"a5":{"id":"a5","mode":"bucket","title":"⚡ Luyện nhanh: can hay can't?","instr":"Con vật này làm được việc đó không? Kéo vào ô can (làm được) hoặc can't (không làm được).","buckets":[{"id":"can","label":"✅ can (làm được)","c":"mint"},{"id":"cant","label":"❌ can't (không làm được)","c":"rose"}],"chips":[{"label":"A fish – swim","emo":"🐟","g":"can"},{"label":"A bird – fly","emo":"🐦","g":"can"},{"label":"A dog – fly","emo":"🐶","g":"cant"},{"label":"A baby – drive a car","emo":"👶","g":"cant"},{"label":"A cat – climb a tree","emo":"🐱","g":"can"},{"label":"A turtle – run fast","emo":"🐢","g":"cant"}]}}}</script>
 <script>
 'use strict';
 /* ===== báo kết quả về trang Little Sprout English (giao thức LSE) ===== */
@@ -218,7 +299,7 @@ function h(tag, attrs, ...kids) {
   kids.flat(Infinity).forEach(k => { if (k == null || k === false) return; el.append(k instanceof Node ? k : document.createTextNode(k)); });
   return el;
 }
-const paint = (...k) => { $app.replaceChildren(...k.filter(x => x != null && x !== false)); window.scrollTo(0, 0); };
+const paint = (...k) => { $app.replaceChildren(...k.flat(Infinity).filter(x => x != null && x !== false)); window.scrollTo(0, 0); };
 const CHIBI = n => '../../../assets/ui/chibi-' + n + '.png';
 const IMG = w => '../../../data/wordsets/img/' + U.vocabDir + '/' + w + '.webp';
 function toast(t) { document.querySelectorAll('.toast').forEach(x => x.remove()); const e = h('div.toast', t); document.body.append(e); setTimeout(() => e.remove(), 2200); }
@@ -228,26 +309,32 @@ const NAME = (() => { try { return String(JSON.parse(localStorage.getItem('lse_a
 const ROLE = (() => { try { return String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').role || ''); } catch (e) { return ''; } })();
 const OPEN = (ROLE && ROLE !== 'student') || /[?&]teach=1/.test(location.search);
 const PK = 'lse_grammar_flyers:' + U.id + ':' + (NAME || 'guest').toLowerCase();
-function load() { try { return Object.assign({ seen: [], best: 0, stars: 0 }, JSON.parse(localStorage.getItem(PK) || '{}')); } catch (e) { return { seen: [], best: 0, stars: 0 }; } }
+const blank = () => ({ seen: [], act: {}, pdone: {}, best: 0, stars: 0 });
+function load() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(PK) || '{}')); } catch (e) { return blank(); } }
 function save(p) { try { localStorage.setItem(PK, JSON.stringify(p)); } catch (e) { } }
-const seen = i => load().seen.includes(U.lessons[i].id);
-const lessonOpen = i => OPEN || i === 0 || seen(i - 1);
-const quizOpen = () => OPEN || U.lessons.every((_, i) => seen(i));
+function upd(fn) { const p = load(); fn(p); save(p); return p; }
+const pdone = i => !!load().pdone[U.lessons[i].id];
+const lessonOpen = i => OPEN || i === 0 || pdone(i - 1);
+const quizOpen = () => OPEN || U.lessons.every((_, i) => pdone(i));
+const actsOf = l => ((l.blocks.find(b => b.k === 'acts') || { items: [] }).items);
+const actsDone = l => OPEN || actsOf(l).every(id => load().act[id]);
+const nextLesson = () => { const i = U.lessons.findIndex((_, j) => !pdone(j)); return i < 0 ? 1 : i + 1; };
 
 /* ===== hình minh hoạ ===== */
 const OUT = 'stroke="#2B3550" stroke-width="2.4" stroke-linejoin="round"';
-function cat(x, y, s) { return kawaii('cat').replace('<svg ', '<svg x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" '); }
+function animal(id, x, y, s) { return kawaii(id).replace('<svg ', '<svg x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" '); }
 function table(x) { return '<g ' + OUT + '><rect x="' + (x + 8) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + (x + 87) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + x + '" y="88" width="104" height="11" rx="5" fill="#E2B27C"/></g>'; }
 function sofa(x) { return '<g ' + OUT + '><rect x="' + x + '" y="76" width="120" height="58" rx="16" fill="#8FB8E8"/><rect x="' + (x - 10) + '" y="100" width="140" height="48" rx="14" fill="#A9CCF2"/><rect x="' + (x - 10) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><rect x="' + (x + 110) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><ellipse cx="' + (x + 28) + '" cy="104" rx="20" ry="11" fill="#FFB8CC"/></g>'; }
-function prepSVG(v) {
+function prepSVG(v, A) {
+  A = A || 'cat';
   const bg = '<rect width="240" height="170" rx="22" fill="#FFF7E8"/><rect y="148" width="240" height="22" fill="#F3E3C3"/>';
   let body = '';
-  if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + cat(92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
-  else if (v === 'on') body = table(68) + cat(96, 38, 56);
-  else if (v === 'under') body = cat(96, 100, 56) + table(68);
-  else if (v === 'next') body = table(30) + cat(168, 100, 56);
-  else if (v === 'behind') body = cat(92, 44, 56) + sofa(60);
-  else body = sofa(60) + cat(92, 98, 56);
+  if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + animal(A, 92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
+  else if (v === 'on') body = table(68) + animal(A, 96, 38, 56);
+  else if (v === 'under') body = animal(A, 96, 100, 56) + table(68);
+  else if (v === 'next') body = table(30) + animal(A, 168, 100, 56);
+  else if (v === 'behind') body = animal(A, 92, 44, 56) + sofa(60);
+  else body = sofa(60) + animal(A, 92, 98, 56);
   return '<svg viewBox="0 24 240 146" role="img" aria-label="' + v + '">' + bg + body + '</svg>';
 }
 function person(x, y, c, dash, k) {
@@ -273,118 +360,211 @@ function roomSVG(t, v) {
 }
 function artEl(a) {
   if (!a) return null;
-  if (a.t === 'prep') return h('div', { html: prepSVG(a.v) });
+  if (a.t === 'prep') return h('div', { html: prepSVG(a.v, a.a) });
   if (a.t === 'people' || a.t === 'thing') return h('div', { html: roomSVG(a.t, a.v) });
   if (a.t === 'vocab') return h('div.vart' + (a.no ? '.no' : '') + (a.q ? '.q' : ''), Array.from({ length: a.n || 1 }, () => h('img', { src: IMG(a.w), alt: a.w, draggable: 'false' })));
   return null;
 }
-const mark = s => String(s).split(/(\[\[.*?\]\])/).map(p => p.startsWith('[[') ? h('mark', p.slice(2, -2)) : p);
 
-/* ===== màn hình ===== */
-function topbar(sub, back) {
+
+
+/* ===== khung chung ===== */
+const mark = s => String(s).split(/(\*\*.*?\*\*|\[\[.*?\]\])/).map(p => p.startsWith('**') ? h('b', p.slice(2, -2)) : p.startsWith('[[') ? h('mark', p.slice(2, -2)) : p);
+function topbar(sub, back, backLab) {
   return h('header.sbar', h('div.sbar-in',
-    back ? h('button.ni', { onclick: back, 'aria-label': 'Quay lại' }, h('span.nico', '←'), h('span', 'Unit')) : null,
+    back ? h('button.ni', { onclick: back, 'aria-label': 'Quay lại' }, h('span.nico', '←'), h('span', backLab || 'Unit')) : null,
     h('div.slogo', h('img', { src: '../../../assets/chibi.png', alt: 'Miss Thảo' }), h('span', h('b', 'Flyers Grammar · Unit ' + U.no), h('small', sub || U.title + ' · ' + U.vi)))));
 }
 function trackEl(cur) {
   const k = [];
   U.lessons.forEach((l, i) => {
-    const d = seen(i), lk = !lessonOpen(i);
-    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học bài ' + nextLesson() + ' trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : l.icon));
+    const d = pdone(i), lk = !lessonOpen(i);
+    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : l.icon));
     k.push(h('div.tline' + (d ? '.on' : '')));
   });
-  k.push(h('button.node' + (!quizOpen() ? '.lock' : '') + (cur === 'q' ? '.cur' : ''), { 'aria-label': 'Bài tập', onclick: () => quizOpen() ? quizStart() : toast('🔒 Em học xong 4 bài ngữ pháp trước nhé!') }, '📝'));
+  k.push(h('button.node' + (!quizOpen() ? '.lock' : '') + (cur === 'q' ? '.cur' : ''), { 'aria-label': 'Bài tập tổng hợp', onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') }, '📝'));
   return h('div.track', k);
 }
-const nextLesson = () => { const i = U.lessons.findIndex((_, j) => !seen(j)); return i < 0 ? 1 : i + 1; };
 
 function hubView() {
   document.body.dataset.c = 'lav';
-  const p = load(), allSeen = U.lessons.every((_, i) => seen(i));
+  const p = load(), nd = U.lessons.filter((_, i) => pdone(i)).length;
   paint(topbar(),
     h('section.hero', h('div.mascot', h('img', { src: CHIBI('vay-tay'), alt: 'Miss Thảo' })),
       h('div', h('div.hello', 'Hi' + (NAME ? ', ' + NAME : '') + '! 👋'), h('h1', h('span', 'Grammar'), ' ', h('span', 'Unit ' + U.no)),
-        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Học 4 bài ngữ pháp thật dễ, rồi làm bài tập vui nhé!'),
-        h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, h('span.pill', '📖 ' + U.lessons.filter((_, i) => seen(i)).length + '/' + U.lessons.length + ' bài'), p.stars ? h('span.pill', '⭐'.repeat(p.stars) + ' Bài tập') : null))),
+        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Mỗi bài: học → luyện nhanh → làm 20 câu. Xong mới mở bài sau!'),
+        h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, h('span.pill', '📖 ' + nd + '/' + U.lessons.length + ' bài xong'), p.stars ? h('span.pill', '⭐'.repeat(p.stars) + ' Bài tập tổng hợp') : null))),
     h('h2.sec', '🎒 Các bài ngữ pháp'),
     h('div.tiles', U.lessons.map((l, i) => {
-      const lk = !lessonOpen(i), d = seen(i);
-      return h('button.tile.' + l.color + (lk ? '.lock' : '') + (d ? '.done' : ''), { onclick: () => lk ? toast('🔒 Em học bài ' + nextLesson() + ' trước nhé!') : lessonView(i) },
-        h('span.ico', l.icon), h('b', l.title), h('small', l.vi), h('span.st', d ? '⭐' : lk ? '🔒' : ''));
-    }).concat([h('button.tile.lav' + (quizOpen() ? '' : '.lock') + (p.stars ? '.done' : ''), { onclick: () => quizOpen() ? quizStart() : toast('🔒 Em học xong 4 bài ngữ pháp trước nhé!') },
-      h('span.ico', '📝'), h('b', 'Bài tập'), h('small', '10 câu trắc nghiệm · chọn A, B hoặc C'), h('span.st', p.stars ? '⭐' : quizOpen() ? '' : '🔒'))])),
+      const lk = !lessonOpen(i), d = pdone(i), r = load().pdone[l.id];
+      return h('button.tile.' + l.color + (lk ? '.lock' : '') + (d ? '.done' : ''), { onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) },
+        h('span.ico', l.icon), h('b', l.title), h('small', l.vi), h('small.steps3', '📖 học · ⚡ luyện nhanh · ✏️ ' + l.practice.length + ' câu'), h('span.st', d ? '⭐'.repeat(Math.max(1, r.stars)) : lk ? '🔒' : ''));
+    }).concat([h('button.tile.lav' + (quizOpen() ? '' : '.lock') + (p.stars ? '.done' : ''), { onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') },
+      h('span.ico', '📝'), h('b', 'Bài tập tổng hợp'), h('small', U.quiz.length + ' câu trắc nghiệm · cả 4 điểm ngữ pháp'), h('span.st', p.stars ? '⭐' : quizOpen() ? '' : '🔒'))])),
     h('p', { style: 'text-align:center;color:var(--soft);font-size:13px;margin-top:18px' }, U.src));
+}
+
+/* ===== các khối nội dung của bài ===== */
+const cks = arr => h('span.cks', arr.map(c => h('span.ck' + (c.c ? '.t-' + c.c : ''), c.t)));
+function blockEl(b, l) {
+  if (b.k === 'when') return h('div.box', h('h3', b.title), h('div.whens', b.items.map(w => h('div.when', h('span.wi', w.icon), h('div', h('div.wt', mark(w.t)), h('div.wex', mark('[[' + w.ex + ']]')), h('div.wvi', w.vi))))));
+  if (b.k === 'formula') return h('div.box', h('h3', b.title), b.rows.map(row => h('div.formula', { style: 'margin-bottom:8px' }, row.map(f => h('div.fp', h('b.t-' + f[1], f[0]), h('small', f[2]))))));
+  if (b.k === 'grid') return h('div.box', h('h3', b.title), h('div.grid6', b.items.map(g => h('div.g6', h('span.gi', g.icon), h('b', g.en), h('span.gv', g.vi), h('small', g.tip)))));
+  if (b.k === 'table') return h('div.box', h('h3', b.title), h('div.tw', h('table.gt', h('thead', h('tr', b.head.map(c => h('th', c)))), h('tbody', b.rows.map((r, i) => h('tr.r' + (i % 4), r.map((c, j) => (j ? h('td', String(c).split('\n').map((t, k) => h('div', t))) : h('th', c)))))))), b.note ? h('div.tnote', b.note) : null);
+  if (b.k === 'steps') return h('div.box', h('h3', b.title), h('div.stepsl', b.items.map(t => h('div.stp', mark(t)))));
+  if (b.k === 'cards') return h('div', h('h2.sec', b.title), h('div.exs', b.items.map((c, k) => h('div.ex', { style: 'animation-delay:' + (k * 60) + 'ms' }, h('div.art', artEl(c.art)), h('div.tx', h('div.en', mark(c.en)), h('div.vi', c.vi))))));
+  if (b.k === 'mistakes') return h('div.box.mis', h('h3', '⚠️ Đừng nhầm nhé!'), b.items.map(m => h('div.mi', h('div.bad', h('span', '✘'), h('s', m.bad)), h('div.good', h('span', '✔'), h('b', m.good)), h('div.why', m.why))));
+  if (b.k === 'pattern') return h('div.box.pat.' + (b.color || ''), h('h3', b.title),
+    h('div.formula', b.parts.map(f => h('div.fp', h('b.t-' + f.c, f.t), f.s ? h('small', f.s) : null))),
+    h('div.pexs', b.exs.map(e => h('div.pex', e.art ? h('div.pa', artEl(e.art)) : null, h('div.pt', cks(e.c), h('div.pvi', e.vi))))));
+  if (b.k === 'dialog') return h('div.box', h('h3', b.title),
+    h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub', h('div.dwho', 'Công thức câu hỏi:'), cks(b.askFormula))),
+    b.rounds.map(r => [h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub.q', cks(r.q), h('div.pvi', r.qvi), r.art ? h('div.da', artEl(r.art)) : null)),
+      h('div.drow.r', h('img.dch', { src: CHIBI('nhay-mat'), alt: '' }), h('div.dbub.a', cks(r.a), h('div.pvi', r.avi)))]));
+  if (b.k === 'tip2') return h('div.tip', h('span.bulb', '💡'), h('div', mark(b.t.replace('💡 ', ''))));
+  if (b.k === 'acts') return h('div', b.items.map(id => actEl(U.acts[id], l)));
+  return null;
+}
+
+/* ===== luyện nhanh: kéo thả (có thể chạm chữ rồi chạm đích) ===== */
+function actEl(a, l) {
+  const wrap = h('div.act'), bank = h('div.bank'), tgt = h('div.tgts' + (a.mode === 'bucket' ? '.buckets' : '.slots')), msg = h('div.amsg');
+  let sel = null, left = 0, wrongN = 0;
+  const norm = t => String(t).trim().toLowerCase();
+  const chips = (a.mode === 'bucket' ? a.chips : a.chips.map(c => ({ label: c })));
+  const chipEl = (c, i) => { const e = h('div.chip' + (c.art || c.emo ? '.big' : ''), { 'data-i': i, tabindex: '0', role: 'button' }, c.emo ? h('span.ce', c.emo) : null, c.art ? h('div.cart', artEl(c.art)) : null, h('span', c.label)); e._c = c; return e; };
+  const doneAll = () => { upd(p => { p.act[a.id] = true; }); msg.className = 'amsg ok'; msg.textContent = '🎉 Giỏi quá! Em làm đúng hết rồi!'; wrap.classList.add('fin'); const btn = document.getElementById('goPractice'); if (btn && actsDone(l)) { btn.disabled = false; btn.classList.add('pulse'); btn.textContent = 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →'; } };
+  const attempt = (chip, t) => {
+    const c = chip._c, ok = a.mode === 'bucket' ? c.g === t.dataset.id : norm(c.label) === norm(t._s.ans);
+    if (!ok) { wrongN++; chip.classList.remove('shake'); void chip.offsetWidth; chip.classList.add('shake'); t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake'); msg.className = 'amsg no'; msg.textContent = 'Chưa đúng, thử lại nhé 💪'; return; }
+    chip.classList.remove('sel'); sel = null; msg.className = 'amsg'; msg.textContent = '';
+    if (a.mode === 'bucket') { t.querySelector('.bchips').append(chip); chip.classList.add('placed'); }
+    else { const bl = t.querySelector('.blank'); bl.textContent = c.label; bl.classList.add('ok'); chip.remove(); t.classList.add('done'); }
+    if (--left === 0) doneAll();
+  };
+  (a.mode === 'bucket' ? a.buckets : a.slots).forEach(x => {
+    const t = a.mode === 'bucket'
+      ? h('div.bk.' + x.c, { 'data-drop': '1', 'data-id': x.id }, h('div.bkh', x.label), h('div.bchips'))
+      : h('div.sl', { 'data-drop': '1' }, x.art ? h('div.slart', artEl(x.art)) : null, h('div.slt', String(x.text).split('___').flatMap((p, k, arr) => k < arr.length - 1 ? [p, h('span.blank', ' ')] : [p])), x.hint ? h('small', '(' + x.hint + ')') : null);
+    t._s = x; tgt.append(t);
+  });
+  chips.forEach((c, i) => { bank.append(chipEl(c, i)); left++; });
+  // kéo thả bằng pointer events + chạm chữ rồi chạm đích
+  bank.addEventListener('pointerdown', downEv); tgt.addEventListener('click', e => { const t = e.target.closest('[data-drop]'); if (t && sel) attempt(sel, t); });
+  function downEv(ev) {
+    const chip = ev.target.closest('.chip'); if (!chip || chip.classList.contains('placed')) return;
+    const sx = ev.clientX, sy = ev.clientY; let ghost = null, moved = false;
+    const mv = e => {
+      if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) > 8) { moved = true; ghost = chip.cloneNode(true); ghost.classList.add('ghost'); document.body.append(ghost); chip.classList.add('lift'); }
+      if (ghost) { ghost.style.left = e.clientX + 'px'; ghost.style.top = e.clientY + 'px'; document.querySelectorAll('.hov').forEach(x => x.classList.remove('hov')); const t = document.elementFromPoint(e.clientX, e.clientY); const d = t && t.closest('[data-drop]'); if (d) d.classList.add('hov'); }
+    };
+    const up = e => {
+      document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up);
+      document.querySelectorAll('.hov').forEach(x => x.classList.remove('hov'));
+      if (moved) { chip.classList.remove('lift'); const t = document.elementFromPoint(e.clientX, e.clientY), d = t && t.closest('[data-drop]'); ghost.remove(); if (d && wrap.contains(d)) attempt(chip, d); }
+      else { if (sel) sel.classList.remove('sel'); sel = sel === chip ? null : chip; if (sel) sel.classList.add('sel'); }
+    };
+    document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
+  }
+  wrap.append(h('h3', a.title), h('p.ainstr', a.instr), tgt, h('div.banklab', 'Chữ để kéo:'), bank, msg);
+  if (load().act[a.id]) { msg.className = 'amsg ok'; msg.textContent = '✅ Em đã làm xong phần này. Chơi lại cho vui nhé!'; }
+  return wrap;
 }
 
 function lessonView(i) {
   const l = U.lessons[i]; document.body.dataset.c = l.color;
-  const last = i === U.lessons.length - 1;
+  const ok = actsDone(l);
+  const go = h('button.btn' + (ok ? '.pulse' : ''), { id: 'goPractice', disabled: !ok, onclick: () => { upd(p => { if (!p.seen.includes(l.id)) p.seen.push(l.id); }); practiceStart(i); } }, ok ? 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →' : '🔒 Làm xong ⚡ Luyện nhanh để mở bài tập');
   paint(topbar(l.title, hubView), trackEl(i),
     h('div.ptag', h('span.e', l.icon), h('span', l.title, ' ', h('small', '· ' + l.vi))),
     h('div.say', h('div.ch', h('img', { src: CHIBI('vay-tay'), alt: '' })), h('div.bubble', h('span.who', 'Miss Thảo nói:'), l.say)),
-    h('div.box', h('h3', '🧩 Công thức'), (Array.isArray(l.formula[0][0]) ? l.formula : [l.formula]).map(row => h('div.formula', { style: 'margin-bottom:8px' }, row.map(f => h('div.fp', h('b.t-' + f[1], f[0]), h('small', f[2])))))),
-    h('h2.sec', '👀 Xem ví dụ'),
-    h('div.exs', l.cards.map((c, k) => h('div.ex', { style: 'animation-delay:' + (k * 60) + 'ms' }, h('div.art', artEl(c.art)), h('div.tx', h('div.en', mark(c.en)), h('div.vi', c.vi))))),
-    h('div.tip', { style: 'margin-top:14px' }, h('span.bulb', '💡'), h('div', h('div', { style: 'font-family:var(--hfont);font-size:18px' }, 'Mẹo nhớ'), l.tip)),
-    h('div.nav', h('button.btn.ghost', { onclick: i ? () => lessonView(i - 1) : hubView }, i ? '← Bài trước' : '← Về Unit'),
-      h('button.btn.pulse', { onclick: () => { const p = load(); if (!p.seen.includes(l.id)) { p.seen.push(l.id); save(p); } last ? (quizOpen() ? quizStart() : hubView()) : lessonView(i + 1); } }, last ? 'Em đã hiểu ✓ Làm bài tập!' : 'Em đã hiểu ✓ Bài tiếp →')));
+    l.blocks.map(b => blockEl(b, l)),
+    h('div.nav', h('button.btn.ghost', { onclick: i && lessonOpen(i - 1) ? () => lessonView(i - 1) : hubView }, i ? '← Bài trước' : '← Về Unit'), go));
 }
 
-/* ===== bài tập trắc nghiệm ===== */
+/* ===== luyện tập / bài tập: trắc nghiệm + điền từ ===== */
 let Q = null;
-function quizStart() {
-  document.body.dataset.c = 'lav';
-  Q = { order: U.quiz.map((_, i) => i), pos: 0, first: {}, wrong: [], pending: [], round: 0 };
+function session(o) {   // o: {key, title, qs, topic, onFinish(score,total), stars(score,total)}
+  Q = Object.assign({ order: o.qs.map((_, i) => i), pos: 0, first: {}, wrong: [], pending: [], round: 0 }, { o });
   quizView();
 }
-function quizView() {
-  const idx = Q.order[Q.pos], q = U.quiz[idx], total = U.quiz.length, fix = Q.round > 0;
-  document.body.dataset.c = ['mint', 'peach', 'sky', 'rose'][idx % 4];
-  const art = q.art ? artEl(q.art) : null;
-  const parts = q.q.split('___');
-  const card = h('div.qcard',
-    h('div.qn', h('span', fix ? '' : 'Câu ' + (idx + 1) + ' / ' + total), fix ? h('span.fix', '🔁 Fix it! Làm lại câu sai') : null, h('span.tag', q.topic)),
-    art ? h('div.qart', art) : null,
-    h('div.qq', parts[0], h('u', ' '), parts[1] || ''),
-    h('div.opts', q.opts.map((o, k) => h('button.opt', { onclick: ev => pick(k, ev.currentTarget) }, h('span.l', 'ABC'[k]), h('span', o)))));
-  const fbox = h('div');
-  card.append(fbox);
-  paint(topbar('Bài tập · ' + U.title, hubView), trackEl('q'), h('div.qprog', h('i', { style: 'width:' + Math.min(100, Math.round(Object.keys(Q.first).length / total * 100)) + '%' })), card);
-  Q.card = card; Q.fbox = fbox; Q.locked = false;
+function practiceStart(i) {
+  const l = U.lessons[i];
+  session({ key: 'p' + (i + 1), title: 'Luyện tập · ' + l.title, qs: l.practice, color: l.color, back: () => lessonView(i), backLab: 'Bài',
+    stars: s => s >= 18 ? 3 : s >= 14 ? 2 : s >= 8 ? 1 : 0, lesson: i });
 }
-function pick(k, btn) {
-  if (Q.locked) return; Q.locked = true;
-  const idx = Q.order[Q.pos], q = U.quiz[idx], ok = k === q.a, first = !(idx in Q.first);
-  if (first) { Q.first[idx] = ok; LSE_REPORT.answer('gram-' + U.id + '-q' + (idx + 1), 'Flyers Grammar ' + U.no + ' · ' + q.topic, ok, q.q + ' → ' + q.opts[q.a]); if (!ok) { Q.wrong.push(idx); Q.pending.push(idx); } }
+function quizStart() { session({ key: 'quiz', title: 'Bài tập tổng hợp · ' + U.title, qs: U.quiz, color: null, back: hubView, backLab: 'Unit', stars: s => s >= 9 ? 3 : s >= 7 ? 2 : s >= 4 ? 1 : 0 }); }
+const fixNorm = t => String(t).replace(/[’‘`]/g, "'").trim().toLowerCase().replace(/\s+/g, ' ');
+function quizView() {
+  const o = Q.o, idx = Q.order[Q.pos], q = o.qs[idx], total = o.qs.length, fix = Q.round > 0, type = q.t || 'mcq';
+  document.body.dataset.c = o.color || ['mint', 'peach', 'sky', 'rose'][idx % 4];
+  const art = q.art ? artEl(q.art) : null, parts = q.q.split('___');
+  const blank = type === 'fill' ? h('input.fin', { type: 'text', autocapitalize: 'off', autocomplete: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'Điền từ', placeholder: '…' }) : h('u', ' ');
+  const card = h('div.qcard',
+    h('div.qn', h('span', fix ? '' : 'Câu ' + (idx + 1) + ' / ' + total), fix ? h('span.fix', '🔁 Fix it! Làm lại câu sai') : null, h('span.tag', type === 'fill' ? '✍️ Điền từ' : '🔘 Chọn đáp án')),
+    art ? h('div.qart', art) : null,
+    h('div.qq', parts.length > 1 ? [parts[0], blank, parts[1]] : q.q), q.hint ? h('div.qhint', q.hint) : null);
+  const fbox = h('div'); Q.card = card; Q.fbox = fbox; Q.locked = false;
+  if (type === 'mcq') card.append(h('div.opts', q.opts.map((t, k) => h('button.opt', { onclick: ev => pickMcq(k, ev.currentTarget) }, h('span.l', 'ABC'[k]), h('span', t)))));
+  else {
+    const bank = h('div.fbank', (q.bank || []).map(w => h('button.wchip', { onclick: () => { if (!Q.locked) { blank.value = w; blank.focus(); } } }, w)));
+    const chk = h('button.btn', { onclick: () => checkFill(blank) }, 'Kiểm tra ✓');
+    blank.addEventListener('keydown', e => { if (e.key === 'Enter') checkFill(blank); });
+    card.append(q.bank ? h('div.banklab', 'Gợi ý chữ (chạm để điền):') : null, bank, h('div.nav', chk));
+    Q.blank = blank; setTimeout(() => { try { blank.focus({ preventScroll: true }); } catch (e) { } }, 50);
+  }
+  card.append(fbox);
+  paint(topbar(o.title, o.back, o.backLab), o.lesson != null ? trackEl(o.lesson) : trackEl('q'),
+    h('div.qprog', h('i', { style: 'width:' + Math.min(100, Math.round(Object.keys(Q.first).length / total * 100)) + '%' })), card);
+}
+function finishQ(ok, shownAnswer) {
+  const o = Q.o, idx = Q.order[Q.pos], q = o.qs[idx], first = !(idx in Q.first);
+  if (first) { Q.first[idx] = ok; LSE_REPORT.answer('gram-' + U.id + '-' + o.key + '-q' + (idx + 1), 'Flyers Grammar ' + U.no + ' · ' + (o.title.split('·')[1] || o.title).trim(), ok, q.q + ' → ' + shownAnswer); if (!ok) { Q.wrong.push(idx); Q.pending.push(idx); } }
   else if (ok) Q.pending = Q.pending.filter(x => x !== idx);
-  const bs = Q.card.querySelectorAll('.opt');
-  bs.forEach((b, j) => { b.classList.add(j === q.a ? 'ok' : j === k ? 'no' : 'dim'); b.disabled = true; });
-  const u = Q.card.querySelector('.qq u'); u.textContent = q.opts[q.a];
+  Q.locked = true;
   Q.fbox.replaceChildren(ok
     ? h('div.fb.good', h('img', { src: CHIBI('co-vu'), alt: '' }), h('div', h('b', 'Giỏi quá! 🎉'), q.why))
-    : h('div.fb.bad', h('span.em', '💪'), h('div', h('b', 'Gần đúng rồi, cố lên!'), 'Đáp án đúng: ' + q.opts[q.a] + '. ' + q.why)));
+    : h('div.fb.bad', h('span.em', '💪'), h('div', h('b', 'Gần đúng rồi, cố lên!'), 'Đáp án đúng: ' + shownAnswer + '. ' + q.why)));
   const last = Q.pos >= Q.order.length - 1;
-  Q.fbox.append(h('div.nav', h('button.btn', { onclick: () => next() }, last ? 'Xem kết quả →' : 'Câu tiếp →')));
-  Q.fbox.querySelector('.btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  Q.fbox.append(h('div.nav', h('button.btn', { id: 'qnext', onclick: nextQ }, last ? 'Xem kết quả →' : 'Câu tiếp →')));
+  const b = document.getElementById('qnext'); if (b) b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
-function next() {
+function pickMcq(k, btn) {
+  if (Q.locked) return; const q = Q.o.qs[Q.order[Q.pos]], ok = k === q.a;
+  Q.card.querySelectorAll('.opt').forEach((b, j) => { b.classList.add(j === q.a ? 'ok' : j === k ? 'no' : 'dim'); b.disabled = true; });
+  const u = Q.card.querySelector('.qq u'); if (u) u.textContent = q.opts[q.a];
+  finishQ(ok, q.opts[q.a]);
+}
+function checkFill(inp) {
+  if (Q.locked) return; const q = Q.o.qs[Q.order[Q.pos]], v = fixNorm(inp.value); if (!v) { inp.focus(); return; }
+  const ok = q.ans.some(a => fixNorm(a) === v) || (q.ans.some(a => fixNorm(a) === "can't") && v === 'cannot');
+  inp.readOnly = true; inp.classList.add(ok ? 'ok' : 'no'); if (!ok) inp.value = q.ans[0];
+  Q.card.querySelectorAll('.wchip').forEach(b => { b.disabled = true; });
+  const c = Q.card.querySelector('.nav .btn'); if (c) c.remove();
+  finishQ(ok, q.ans[0]);
+}
+function nextQ() {
   if (Q.pos < Q.order.length - 1) { Q.pos++; quizView(); return; }
-  // hết vòng: câu sai quay lại cho tới khi đúng (tối đa 3 vòng)
   if (Q.pending.length && Q.round < 3) { Q.order = Q.pending.slice(); Q.pos = 0; Q.round++; quizView(); return; }
   resultView();
 }
 function resultView() {
-  document.body.dataset.c = 'lav';
-  const total = U.quiz.length, score = Object.values(Q.first).filter(Boolean).length, st = score >= 9 ? 3 : score >= 7 ? 2 : score >= 4 ? 1 : 0;
-  const p = load(); p.best = Math.max(p.best, score); p.stars = Math.max(p.stars, st); save(p);
-  LSE_REPORT.finish(score, total);
-  paint(topbar('Kết quả', hubView), trackEl('q'),
+  const o = Q.o, total = o.qs.length, score = Object.values(Q.first).filter(Boolean).length, st = o.stars(score);
+  document.body.dataset.c = o.color || 'lav';
+  if (o.lesson != null) upd(p => { const old = p.pdone[U.lessons[o.lesson].id]; p.pdone[U.lessons[o.lesson].id] = { score: Math.max(score, old ? old.score : 0), stars: Math.max(st, old ? old.stars : 0) }; });
+  else upd(p => { p.best = Math.max(p.best, score); p.stars = Math.max(p.stars, st); LSE_REPORT.finish(score, total); });
+  if (o.lesson != null) LSE_REPORT.finish(score, total);
+  const li = o.lesson, hasNext = li != null && li < U.lessons.length - 1;
+  paint(topbar('Kết quả', o.back, o.backLab), o.lesson != null ? trackEl(o.lesson) : trackEl('q'),
     h('div.result', h('img.ch', { src: CHIBI('an-mung'), alt: '' }),
       h('div.stars', [0, 1, 2].map(i => h('span' + (i < st ? '' : '.off'), { style: 'animation-delay:' + (i * 180) + 'ms' }, '⭐'))),
       h('h2', score + ' / ' + total + ' câu đúng ngay lần đầu'),
-      h('p', { style: 'color:var(--soft);font-size:17px;margin:4px 0' }, st === 3 ? 'Tuyệt vời! Em nắm ngữ pháp Unit ' + U.no + ' rất chắc!' : st === 2 ? 'Rất tốt! Xem lại các câu sai là em sẽ giỏi hơn nữa.' : 'Cố lên nào! Em xem lại bài học rồi thử lại nhé.'),
-      Q.wrong.length ? h('div.wrong', Q.wrong.map(i => h('div', h('b', U.quiz[i].q.replace('___', U.quiz[i].opts[U.quiz[i].a])), ' — ', U.quiz[i].why))) : null,
-      h('div.nav', { style: 'justify-content:center' }, h('button.btn.ghost', { onclick: hubView }, '☰ Về Unit'), h('button.btn.ghost', { onclick: () => lessonView(0) }, '📖 Xem lại bài'), h('button.btn', { onclick: quizStart }, '↺ Làm lại'))));
+      h('p', { style: 'color:var(--soft);font-size:17px;margin:4px 0' }, st === 3 ? 'Tuyệt vời! Em nắm rất chắc rồi!' : st === 2 ? 'Rất tốt! Xem lại các câu sai là em sẽ giỏi hơn nữa.' : 'Em đã làm đến cùng, giỏi lắm! Xem lại bài rồi thử lại để được nhiều sao hơn nhé.'),
+      Q.wrong.length ? h('div.wrong', Q.wrong.slice(0, 12).map(i => { const q = o.qs[i], a = q.t === 'fill' ? q.ans[0] : q.opts[q.a]; return h('div', h('b', q.q.indexOf('___') >= 0 ? q.q.replace('___', a) : q.q + ' → ' + a), ' — ', q.why); })) : null,
+      h('div.nav', { style: 'justify-content:center' }, h('button.btn.ghost', { onclick: hubView }, '☰ Về Unit'),
+        li != null ? h('button.btn.ghost', { onclick: () => lessonView(li) }, '📖 Xem lại bài') : h('button.btn.ghost', { onclick: () => lessonView(0) }, '📖 Xem lại bài'),
+        h('button.btn.ghost', { onclick: () => li != null ? practiceStart(li) : quizStart() }, '↺ Làm lại'),
+        li != null ? h('button.btn', { onclick: () => hasNext ? lessonView(li + 1) : (quizOpen() ? quizStart() : hubView()) }, hasNext ? 'Bài tiếp →' : 'Bài tập tổng hợp →') : null)));
 }
 hubView();
 </script>

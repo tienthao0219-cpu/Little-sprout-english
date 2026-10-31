@@ -1,6 +1,13 @@
 # Flyers Grammar (Get Ready for Flyers) – bàn giao
 Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình dễ thương, chữ tiếng Anh trước + tiếng Việt, từ vựng cơ bản. KHÔNG tự bịa nội dung sách: chủ điểm ngữ pháp từng unit do cô gửi (xem `units.md` bên dưới).
 
+## Cập nhật v2 (theo góp ý của cô Thảo)
+- Mỗi bài ngữ pháp gồm các KHỐI (`lesson.blocks[]`, thứ tự hiển thị): `when` (khi nào dùng, có ví dụ), `grid` (thẻ nhỏ: 6 giới từ / nghĩa của can), `table` (bảng nhóm, vd 4 nhóm × người/vật/nơi), `steps` (các bước chọn từ), `pattern` (công thức MỖI PHẦN MỘT MÀU + ví dụ tô cùng màu, có ảnh), `dialog` (chibi hỏi – chibi đáp, công thức câu hỏi), `cards` (hình ví dụ), `mistakes` (✘ sai / ✔ đúng / vì sao), `tip2` (mẹo 1 dòng), `acts` (luyện nhanh kéo thả).
+- Luyện nhanh (`U.acts`): `bucket` = kéo chữ/hình vào nhóm; `slot` = kéo chữ vào chỗ trống dưới hình/câu. Kéo bằng ngón tay/chuột hoặc chạm chữ rồi chạm đích (điện thoại). Làm xong tất cả hoạt động của bài thì mở nút "Luyện tập".
+- Luyện tập mỗi bài 20 câu (`lesson.practice[]`: 10 `mcq` + 10 `fill` điền từ, có "gợi ý chữ"); câu sai quay lại (Fix it, tối đa 3 vòng); xong thì mới mở bài sau; bài tập tổng hợp 10 câu mở sau 4 bài.
+- Màu thành phần câu: sub=xanh lá, aux=xanh dương, pre=cam, obj=tím, v=vàng, pink=hồng (are / can't).
+- `data.json` là nguồn chính. Các script `lessons_u1.py`, `lessons_u1_b.py`, `practice_u1.py` là lịch sử soạn nội dung Unit 1 (không chạy lại độc lập, vì chúng sửa tiếp data.json).
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).

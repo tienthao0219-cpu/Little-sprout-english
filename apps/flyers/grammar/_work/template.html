@@ -171,6 +171,87 @@ img{max-width:100%;display:block}
 }
 @media (max-width:420px){.tiles{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
+
+.t-pink{background:#FFD3E0;color:#a3234d}
+.pat{border:3px solid var(--bc,#fff)}.pat.sky{--bc:var(--sky)}.pat.rose{--bc:var(--rose)}.pat.mint{--bc:var(--mint)}
+.cks{display:inline-flex;flex-wrap:wrap;gap:4px;align-items:center}
+.ck{display:inline-block;padding:2px 12px;border-radius:12px;font-family:var(--hfont);font-size:22px;line-height:1.35;font-weight:700}
+.ck:not([class*="t-"]){padding:2px 4px}
+.pexs{display:grid;gap:10px;margin-top:12px}
+.pex{display:flex;gap:12px;align-items:center;background:var(--ps);border-radius:20px;padding:8px 12px}
+.pex .pa{width:150px;flex:none}.pex .pa .vart{min-height:64px;flex-wrap:nowrap;gap:2px}.pex .pa .vart img{height:auto;max-height:62px;flex:1 1 0;min-width:0;object-fit:contain}
+.pvi{color:var(--soft);font-weight:700;font-size:15px;margin-top:2px}
+.drow{display:flex;gap:10px;align-items:flex-end;margin:10px 0}
+.drow.r{flex-direction:row-reverse}
+.dch{width:74px;height:auto;flex:none;filter:drop-shadow(0 4px 4px rgba(43,53,80,.15))}
+.dbub{position:relative;background:#fff;border:3px solid var(--pc);border-radius:22px;padding:8px 14px;flex:0 1 auto;max-width:calc(100% - 90px)}
+.dbub.a{background:var(--ps);border-color:var(--pd)}
+.dwho{font-family:var(--hfont);font-size:14px;color:var(--pdd);margin-bottom:2px}
+.da{margin-top:4px}.da .vart{min-height:56px;flex-wrap:nowrap;justify-content:flex-start;gap:2px;width:170px}.da .vart img{height:auto;max-height:54px;flex:1 1 0;min-width:0;object-fit:contain}.da .vart.no::after{font-size:44px}
+@media (max-width:520px){.pex .pa{width:110px}.ck{font-size:19px;padding:2px 9px}.dch{width:58px}.dbub{max-width:calc(100% - 70px)}}
+/* ===== bài học cụ thể: khi nào dùng, bảng, đừng nhầm, luyện nhanh ===== */
+.whens{display:grid;gap:12px}
+.when{display:flex;gap:12px;align-items:flex-start;background:var(--ps);border-radius:20px;padding:12px 14px}
+.when .wi{width:46px;height:46px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:26px;flex:none;box-shadow:var(--shadow)}
+.wt{font-size:18px;font-weight:800;line-height:1.35}.wt b{color:var(--pdd)}
+.wex{font-family:var(--hfont);font-size:21px;margin-top:4px}
+.wex mark{background:none;color:var(--pdd)}
+.wvi{color:var(--soft);font-size:15px;font-weight:700}
+.grid6{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.g6{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;background:var(--ps);border:3px solid var(--pc);border-radius:20px;padding:10px 8px}
+.g6 .gi{font-size:30px;line-height:1.1}.g6 b{font-family:var(--hfont);font-size:24px;color:var(--pdd)}.g6 .gv{font-weight:800;font-size:15px}.g6 small{color:var(--soft);font-size:13px;font-weight:700;line-height:1.3}
+.tw{overflow-x:auto;border-radius:18px}
+.gt{width:100%;border-collapse:separate;border-spacing:6px;min-width:520px}
+.gt th{font-family:var(--hfont);font-size:16px;text-align:center;padding:8px 6px;border-radius:14px;background:var(--lav-s);color:var(--lav-dd)}
+.gt tbody th{background:var(--ps);color:var(--pdd);font-size:15px;text-align:left}
+.gt td{padding:10px 8px;border-radius:14px;background:#fff;border:2px solid var(--pc);text-align:center;font-family:var(--hfont);font-size:20px;line-height:1.35}
+.gt tr.r0 td{background:#FFF3EA}.gt tr.r1 td{background:#EEF6FF}.gt tr.r2 td{background:#F3EEFF}.gt tr.r3 td{background:#EAF8F2}
+.tnote{margin-top:6px;color:var(--soft);font-weight:700;font-size:14px}
+.stepsl{display:grid;gap:8px}.stp{background:var(--ps);border-radius:16px;padding:10px 14px;font-size:18px;font-weight:700}.stp b{color:var(--pdd)}
+.mis{background:#FFFBF0}
+.mi{background:#fff;border-radius:18px;padding:10px 12px;margin-bottom:10px;border:2px solid #F3E7C9}
+.mi .bad,.mi .good{display:flex;gap:10px;align-items:center;font-family:var(--hfont);font-size:20px}
+.mi .bad span{color:#fff;background:var(--bad);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;flex:none}
+.mi .bad s{color:#a82b43;text-decoration-thickness:2px}
+.mi .good span{color:#fff;background:var(--good);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:15px;flex:none}
+.mi .why{color:var(--soft);font-weight:700;font-size:14.5px;margin:2px 0 0 36px}
+.tile small.steps3{font-size:12.5px;color:var(--pdd)}
+.act{background:linear-gradient(160deg,#fff,var(--ps));border:3px dashed var(--pd);border-radius:26px;padding:14px;margin-bottom:14px}
+.act.fin{border-style:solid;border-color:var(--good)}
+.act h3{font-size:19px;color:var(--pdd);margin-bottom:2px}.ainstr{margin:0 0 10px;color:var(--soft);font-weight:700;font-size:15px}
+.tgts.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.sl{background:#fff;border:3px solid var(--pc);border-radius:20px;padding:8px;text-align:center;transition:transform .12s,border-color .12s}
+.sl .slart svg{width:100%;max-width:190px;height:auto;border-radius:14px}
+.slt{font-family:var(--hfont);font-size:20px;line-height:1.35;margin-top:4px}
+.sl small{color:var(--soft);font-weight:700}
+.blank{display:inline-block;min-width:78px;border-bottom:4px dashed var(--pd);text-align:center;color:var(--pdd);padding:0 4px;margin:0 2px}
+.blank.ok{border-bottom-style:solid;border-color:var(--good);color:#17734d;background:#DDF6E8;border-radius:8px}
+.sl.done{border-color:var(--good)}
+.tgts.buckets{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.bk{border:3px dashed var(--pd);border-radius:20px;padding:8px;min-height:120px;background:#fff}
+.bk.peach{background:#FFF3EA}.bk.sky{background:#EEF6FF}.bk.mint{background:#EAF8F2}.bk.rose{background:#FFEEF4}
+.bkh{font-family:var(--hfont);font-size:18px;text-align:center;margin-bottom:6px}
+.bchips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.hov{outline:4px solid var(--pd);outline-offset:2px;transform:scale(1.02)}
+.banklab{font-weight:800;color:var(--soft);font-size:14px;margin:10px 2px 4px}
+.bank{display:flex;flex-wrap:wrap;gap:10px;min-height:56px;padding:8px;border-radius:18px;background:rgba(255,255,255,.7)}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:50px;padding:6px 16px;border-radius:999px;background:#fff;border:3px solid var(--pd);font-family:var(--hfont);font-size:20px;font-weight:700;color:var(--pdd);box-shadow:0 4px 0 rgba(43,53,80,.12);touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab}
+.chip.big{flex-direction:column;border-radius:20px;padding:6px 10px;font-size:16px;text-align:center}
+.chip .ce{font-size:34px;line-height:1}
+.chip .cart .vart{min-height:56px}.chip .cart .vart img{height:54px}.chip .cart .vart.no::after,.chip .cart .vart.q::before{display:none}
+.chip.sel{background:var(--butter);box-shadow:0 0 0 4px var(--pd)}
+.chip.lift{opacity:.35}
+.chip.placed{cursor:default;border-color:var(--good);background:#DDF6E8;box-shadow:none}
+.chip.ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-50%) scale(1.08);box-shadow:0 12px 24px rgba(0,0,0,.3);opacity:.95}
+.chip.shake,.sl.shake,.bk.shake{animation:shake .35s}
+.amsg{min-height:24px;margin-top:8px;font-weight:800;text-align:center}.amsg.ok{color:#17734d;font-size:18px}.amsg.no{color:#a82b43}
+.fin{font-family:var(--hfont);font-size:inherit}
+input.fin{display:inline-block;width:170px;max-width:60vw;height:50px;border:3px solid var(--pd);border-radius:16px;text-align:center;font-family:var(--hfont);font-size:26px;color:var(--pdd);background:#fff;padding:0 8px;vertical-align:middle;margin:0 4px}
+input.fin.ok{border-color:var(--good);background:#DDF6E8;color:#17734d}input.fin.no{border-color:var(--bad);background:#FFE6EA;color:#a82b43}
+.qhint{color:var(--soft);font-weight:800;margin:-6px 0 10px;font-size:16px}
+.fbank{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px}
+.wchip{min-height:46px;padding:4px 16px;border-radius:999px;background:var(--ps);border:3px solid var(--pc);font-family:var(--hfont);font-size:19px;font-weight:700;color:var(--pdd)}
+.wchip:disabled{opacity:.5}
 </style>
 </head>
 <body data-c="lav">
@@ -196,7 +277,7 @@ function h(tag, attrs, ...kids) {
   kids.flat(Infinity).forEach(k => { if (k == null || k === false) return; el.append(k instanceof Node ? k : document.createTextNode(k)); });
   return el;
 }
-const paint = (...k) => { $app.replaceChildren(...k.filter(x => x != null && x !== false)); window.scrollTo(0, 0); };
+const paint = (...k) => { $app.replaceChildren(...k.flat(Infinity).filter(x => x != null && x !== false)); window.scrollTo(0, 0); };
 const CHIBI = n => '../../../assets/ui/chibi-' + n + '.png';
 const IMG = w => '../../../data/wordsets/img/' + U.vocabDir + '/' + w + '.webp';
 function toast(t) { document.querySelectorAll('.toast').forEach(x => x.remove()); const e = h('div.toast', t); document.body.append(e); setTimeout(() => e.remove(), 2200); }
@@ -206,26 +287,32 @@ const NAME = (() => { try { return String(JSON.parse(localStorage.getItem('lse_a
 const ROLE = (() => { try { return String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').role || ''); } catch (e) { return ''; } })();
 const OPEN = (ROLE && ROLE !== 'student') || /[?&]teach=1/.test(location.search);
 const PK = 'lse_grammar_flyers:' + U.id + ':' + (NAME || 'guest').toLowerCase();
-function load() { try { return Object.assign({ seen: [], best: 0, stars: 0 }, JSON.parse(localStorage.getItem(PK) || '{}')); } catch (e) { return { seen: [], best: 0, stars: 0 }; } }
+const blank = () => ({ seen: [], act: {}, pdone: {}, best: 0, stars: 0 });
+function load() { try { return Object.assign(blank(), JSON.parse(localStorage.getItem(PK) || '{}')); } catch (e) { return blank(); } }
 function save(p) { try { localStorage.setItem(PK, JSON.stringify(p)); } catch (e) { } }
-const seen = i => load().seen.includes(U.lessons[i].id);
-const lessonOpen = i => OPEN || i === 0 || seen(i - 1);
-const quizOpen = () => OPEN || U.lessons.every((_, i) => seen(i));
+function upd(fn) { const p = load(); fn(p); save(p); return p; }
+const pdone = i => !!load().pdone[U.lessons[i].id];
+const lessonOpen = i => OPEN || i === 0 || pdone(i - 1);
+const quizOpen = () => OPEN || U.lessons.every((_, i) => pdone(i));
+const actsOf = l => ((l.blocks.find(b => b.k === 'acts') || { items: [] }).items);
+const actsDone = l => OPEN || actsOf(l).every(id => load().act[id]);
+const nextLesson = () => { const i = U.lessons.findIndex((_, j) => !pdone(j)); return i < 0 ? 1 : i + 1; };
 
 /* ===== hình minh hoạ ===== */
 const OUT = 'stroke="#2B3550" stroke-width="2.4" stroke-linejoin="round"';
-function cat(x, y, s) { return kawaii('cat').replace('<svg ', '<svg x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" '); }
+function animal(id, x, y, s) { return kawaii(id).replace('<svg ', '<svg x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" '); }
 function table(x) { return '<g ' + OUT + '><rect x="' + (x + 8) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + (x + 87) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + x + '" y="88" width="104" height="11" rx="5" fill="#E2B27C"/></g>'; }
 function sofa(x) { return '<g ' + OUT + '><rect x="' + x + '" y="76" width="120" height="58" rx="16" fill="#8FB8E8"/><rect x="' + (x - 10) + '" y="100" width="140" height="48" rx="14" fill="#A9CCF2"/><rect x="' + (x - 10) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><rect x="' + (x + 110) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><ellipse cx="' + (x + 28) + '" cy="104" rx="20" ry="11" fill="#FFB8CC"/></g>'; }
-function prepSVG(v) {
+function prepSVG(v, A) {
+  A = A || 'cat';
   const bg = '<rect width="240" height="170" rx="22" fill="#FFF7E8"/><rect y="148" width="240" height="22" fill="#F3E3C3"/>';
   let body = '';
-  if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + cat(92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
-  else if (v === 'on') body = table(68) + cat(96, 38, 56);
-  else if (v === 'under') body = cat(96, 100, 56) + table(68);
-  else if (v === 'next') body = table(30) + cat(168, 100, 56);
-  else if (v === 'behind') body = cat(92, 44, 56) + sofa(60);
-  else body = sofa(60) + cat(92, 98, 56);
+  if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + animal(A, 92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
+  else if (v === 'on') body = table(68) + animal(A, 96, 38, 56);
+  else if (v === 'under') body = animal(A, 96, 100, 56) + table(68);
+  else if (v === 'next') body = table(30) + animal(A, 168, 100, 56);
+  else if (v === 'behind') body = animal(A, 92, 44, 56) + sofa(60);
+  else body = sofa(60) + animal(A, 92, 98, 56);
   return '<svg viewBox="0 24 240 146" role="img" aria-label="' + v + '">' + bg + body + '</svg>';
 }
 function person(x, y, c, dash, k) {
@@ -251,118 +338,211 @@ function roomSVG(t, v) {
 }
 function artEl(a) {
   if (!a) return null;
-  if (a.t === 'prep') return h('div', { html: prepSVG(a.v) });
+  if (a.t === 'prep') return h('div', { html: prepSVG(a.v, a.a) });
   if (a.t === 'people' || a.t === 'thing') return h('div', { html: roomSVG(a.t, a.v) });
   if (a.t === 'vocab') return h('div.vart' + (a.no ? '.no' : '') + (a.q ? '.q' : ''), Array.from({ length: a.n || 1 }, () => h('img', { src: IMG(a.w), alt: a.w, draggable: 'false' })));
   return null;
 }
-const mark = s => String(s).split(/(\[\[.*?\]\])/).map(p => p.startsWith('[[') ? h('mark', p.slice(2, -2)) : p);
 
-/* ===== màn hình ===== */
-function topbar(sub, back) {
+
+
+/* ===== khung chung ===== */
+const mark = s => String(s).split(/(\*\*.*?\*\*|\[\[.*?\]\])/).map(p => p.startsWith('**') ? h('b', p.slice(2, -2)) : p.startsWith('[[') ? h('mark', p.slice(2, -2)) : p);
+function topbar(sub, back, backLab) {
   return h('header.sbar', h('div.sbar-in',
-    back ? h('button.ni', { onclick: back, 'aria-label': 'Quay lại' }, h('span.nico', '←'), h('span', 'Unit')) : null,
+    back ? h('button.ni', { onclick: back, 'aria-label': 'Quay lại' }, h('span.nico', '←'), h('span', backLab || 'Unit')) : null,
     h('div.slogo', h('img', { src: '../../../assets/chibi.png', alt: 'Miss Thảo' }), h('span', h('b', 'Flyers Grammar · Unit ' + U.no), h('small', sub || U.title + ' · ' + U.vi)))));
 }
 function trackEl(cur) {
   const k = [];
   U.lessons.forEach((l, i) => {
-    const d = seen(i), lk = !lessonOpen(i);
-    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học bài ' + nextLesson() + ' trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : l.icon));
+    const d = pdone(i), lk = !lessonOpen(i);
+    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : l.icon));
     k.push(h('div.tline' + (d ? '.on' : '')));
   });
-  k.push(h('button.node' + (!quizOpen() ? '.lock' : '') + (cur === 'q' ? '.cur' : ''), { 'aria-label': 'Bài tập', onclick: () => quizOpen() ? quizStart() : toast('🔒 Em học xong 4 bài ngữ pháp trước nhé!') }, '📝'));
+  k.push(h('button.node' + (!quizOpen() ? '.lock' : '') + (cur === 'q' ? '.cur' : ''), { 'aria-label': 'Bài tập tổng hợp', onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') }, '📝'));
   return h('div.track', k);
 }
-const nextLesson = () => { const i = U.lessons.findIndex((_, j) => !seen(j)); return i < 0 ? 1 : i + 1; };
 
 function hubView() {
   document.body.dataset.c = 'lav';
-  const p = load(), allSeen = U.lessons.every((_, i) => seen(i));
+  const p = load(), nd = U.lessons.filter((_, i) => pdone(i)).length;
   paint(topbar(),
     h('section.hero', h('div.mascot', h('img', { src: CHIBI('vay-tay'), alt: 'Miss Thảo' })),
       h('div', h('div.hello', 'Hi' + (NAME ? ', ' + NAME : '') + '! 👋'), h('h1', h('span', 'Grammar'), ' ', h('span', 'Unit ' + U.no)),
-        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Học 4 bài ngữ pháp thật dễ, rồi làm bài tập vui nhé!'),
-        h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, h('span.pill', '📖 ' + U.lessons.filter((_, i) => seen(i)).length + '/' + U.lessons.length + ' bài'), p.stars ? h('span.pill', '⭐'.repeat(p.stars) + ' Bài tập') : null))),
+        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Mỗi bài: học → luyện nhanh → làm 20 câu. Xong mới mở bài sau!'),
+        h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, h('span.pill', '📖 ' + nd + '/' + U.lessons.length + ' bài xong'), p.stars ? h('span.pill', '⭐'.repeat(p.stars) + ' Bài tập tổng hợp') : null))),
     h('h2.sec', '🎒 Các bài ngữ pháp'),
     h('div.tiles', U.lessons.map((l, i) => {
-      const lk = !lessonOpen(i), d = seen(i);
-      return h('button.tile.' + l.color + (lk ? '.lock' : '') + (d ? '.done' : ''), { onclick: () => lk ? toast('🔒 Em học bài ' + nextLesson() + ' trước nhé!') : lessonView(i) },
-        h('span.ico', l.icon), h('b', l.title), h('small', l.vi), h('span.st', d ? '⭐' : lk ? '🔒' : ''));
-    }).concat([h('button.tile.lav' + (quizOpen() ? '' : '.lock') + (p.stars ? '.done' : ''), { onclick: () => quizOpen() ? quizStart() : toast('🔒 Em học xong 4 bài ngữ pháp trước nhé!') },
-      h('span.ico', '📝'), h('b', 'Bài tập'), h('small', '10 câu trắc nghiệm · chọn A, B hoặc C'), h('span.st', p.stars ? '⭐' : quizOpen() ? '' : '🔒'))])),
+      const lk = !lessonOpen(i), d = pdone(i), r = load().pdone[l.id];
+      return h('button.tile.' + l.color + (lk ? '.lock' : '') + (d ? '.done' : ''), { onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) },
+        h('span.ico', l.icon), h('b', l.title), h('small', l.vi), h('small.steps3', '📖 học · ⚡ luyện nhanh · ✏️ ' + l.practice.length + ' câu'), h('span.st', d ? '⭐'.repeat(Math.max(1, r.stars)) : lk ? '🔒' : ''));
+    }).concat([h('button.tile.lav' + (quizOpen() ? '' : '.lock') + (p.stars ? '.done' : ''), { onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') },
+      h('span.ico', '📝'), h('b', 'Bài tập tổng hợp'), h('small', U.quiz.length + ' câu trắc nghiệm · cả 4 điểm ngữ pháp'), h('span.st', p.stars ? '⭐' : quizOpen() ? '' : '🔒'))])),
     h('p', { style: 'text-align:center;color:var(--soft);font-size:13px;margin-top:18px' }, U.src));
+}
+
+/* ===== các khối nội dung của bài ===== */
+const cks = arr => h('span.cks', arr.map(c => h('span.ck' + (c.c ? '.t-' + c.c : ''), c.t)));
+function blockEl(b, l) {
+  if (b.k === 'when') return h('div.box', h('h3', b.title), h('div.whens', b.items.map(w => h('div.when', h('span.wi', w.icon), h('div', h('div.wt', mark(w.t)), h('div.wex', mark('[[' + w.ex + ']]')), h('div.wvi', w.vi))))));
+  if (b.k === 'formula') return h('div.box', h('h3', b.title), b.rows.map(row => h('div.formula', { style: 'margin-bottom:8px' }, row.map(f => h('div.fp', h('b.t-' + f[1], f[0]), h('small', f[2]))))));
+  if (b.k === 'grid') return h('div.box', h('h3', b.title), h('div.grid6', b.items.map(g => h('div.g6', h('span.gi', g.icon), h('b', g.en), h('span.gv', g.vi), h('small', g.tip)))));
+  if (b.k === 'table') return h('div.box', h('h3', b.title), h('div.tw', h('table.gt', h('thead', h('tr', b.head.map(c => h('th', c)))), h('tbody', b.rows.map((r, i) => h('tr.r' + (i % 4), r.map((c, j) => (j ? h('td', String(c).split('\n').map((t, k) => h('div', t))) : h('th', c)))))))), b.note ? h('div.tnote', b.note) : null);
+  if (b.k === 'steps') return h('div.box', h('h3', b.title), h('div.stepsl', b.items.map(t => h('div.stp', mark(t)))));
+  if (b.k === 'cards') return h('div', h('h2.sec', b.title), h('div.exs', b.items.map((c, k) => h('div.ex', { style: 'animation-delay:' + (k * 60) + 'ms' }, h('div.art', artEl(c.art)), h('div.tx', h('div.en', mark(c.en)), h('div.vi', c.vi))))));
+  if (b.k === 'mistakes') return h('div.box.mis', h('h3', '⚠️ Đừng nhầm nhé!'), b.items.map(m => h('div.mi', h('div.bad', h('span', '✘'), h('s', m.bad)), h('div.good', h('span', '✔'), h('b', m.good)), h('div.why', m.why))));
+  if (b.k === 'pattern') return h('div.box.pat.' + (b.color || ''), h('h3', b.title),
+    h('div.formula', b.parts.map(f => h('div.fp', h('b.t-' + f.c, f.t), f.s ? h('small', f.s) : null))),
+    h('div.pexs', b.exs.map(e => h('div.pex', e.art ? h('div.pa', artEl(e.art)) : null, h('div.pt', cks(e.c), h('div.pvi', e.vi))))));
+  if (b.k === 'dialog') return h('div.box', h('h3', b.title),
+    h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub', h('div.dwho', 'Công thức câu hỏi:'), cks(b.askFormula))),
+    b.rounds.map(r => [h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub.q', cks(r.q), h('div.pvi', r.qvi), r.art ? h('div.da', artEl(r.art)) : null)),
+      h('div.drow.r', h('img.dch', { src: CHIBI('nhay-mat'), alt: '' }), h('div.dbub.a', cks(r.a), h('div.pvi', r.avi)))]));
+  if (b.k === 'tip2') return h('div.tip', h('span.bulb', '💡'), h('div', mark(b.t.replace('💡 ', ''))));
+  if (b.k === 'acts') return h('div', b.items.map(id => actEl(U.acts[id], l)));
+  return null;
+}
+
+/* ===== luyện nhanh: kéo thả (có thể chạm chữ rồi chạm đích) ===== */
+function actEl(a, l) {
+  const wrap = h('div.act'), bank = h('div.bank'), tgt = h('div.tgts' + (a.mode === 'bucket' ? '.buckets' : '.slots')), msg = h('div.amsg');
+  let sel = null, left = 0, wrongN = 0;
+  const norm = t => String(t).trim().toLowerCase();
+  const chips = (a.mode === 'bucket' ? a.chips : a.chips.map(c => ({ label: c })));
+  const chipEl = (c, i) => { const e = h('div.chip' + (c.art || c.emo ? '.big' : ''), { 'data-i': i, tabindex: '0', role: 'button' }, c.emo ? h('span.ce', c.emo) : null, c.art ? h('div.cart', artEl(c.art)) : null, h('span', c.label)); e._c = c; return e; };
+  const doneAll = () => { upd(p => { p.act[a.id] = true; }); msg.className = 'amsg ok'; msg.textContent = '🎉 Giỏi quá! Em làm đúng hết rồi!'; wrap.classList.add('fin'); const btn = document.getElementById('goPractice'); if (btn && actsDone(l)) { btn.disabled = false; btn.classList.add('pulse'); btn.textContent = 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →'; } };
+  const attempt = (chip, t) => {
+    const c = chip._c, ok = a.mode === 'bucket' ? c.g === t.dataset.id : norm(c.label) === norm(t._s.ans);
+    if (!ok) { wrongN++; chip.classList.remove('shake'); void chip.offsetWidth; chip.classList.add('shake'); t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake'); msg.className = 'amsg no'; msg.textContent = 'Chưa đúng, thử lại nhé 💪'; return; }
+    chip.classList.remove('sel'); sel = null; msg.className = 'amsg'; msg.textContent = '';
+    if (a.mode === 'bucket') { t.querySelector('.bchips').append(chip); chip.classList.add('placed'); }
+    else { const bl = t.querySelector('.blank'); bl.textContent = c.label; bl.classList.add('ok'); chip.remove(); t.classList.add('done'); }
+    if (--left === 0) doneAll();
+  };
+  (a.mode === 'bucket' ? a.buckets : a.slots).forEach(x => {
+    const t = a.mode === 'bucket'
+      ? h('div.bk.' + x.c, { 'data-drop': '1', 'data-id': x.id }, h('div.bkh', x.label), h('div.bchips'))
+      : h('div.sl', { 'data-drop': '1' }, x.art ? h('div.slart', artEl(x.art)) : null, h('div.slt', String(x.text).split('___').flatMap((p, k, arr) => k < arr.length - 1 ? [p, h('span.blank', ' ')] : [p])), x.hint ? h('small', '(' + x.hint + ')') : null);
+    t._s = x; tgt.append(t);
+  });
+  chips.forEach((c, i) => { bank.append(chipEl(c, i)); left++; });
+  // kéo thả bằng pointer events + chạm chữ rồi chạm đích
+  bank.addEventListener('pointerdown', downEv); tgt.addEventListener('click', e => { const t = e.target.closest('[data-drop]'); if (t && sel) attempt(sel, t); });
+  function downEv(ev) {
+    const chip = ev.target.closest('.chip'); if (!chip || chip.classList.contains('placed')) return;
+    const sx = ev.clientX, sy = ev.clientY; let ghost = null, moved = false;
+    const mv = e => {
+      if (!moved && Math.hypot(e.clientX - sx, e.clientY - sy) > 8) { moved = true; ghost = chip.cloneNode(true); ghost.classList.add('ghost'); document.body.append(ghost); chip.classList.add('lift'); }
+      if (ghost) { ghost.style.left = e.clientX + 'px'; ghost.style.top = e.clientY + 'px'; document.querySelectorAll('.hov').forEach(x => x.classList.remove('hov')); const t = document.elementFromPoint(e.clientX, e.clientY); const d = t && t.closest('[data-drop]'); if (d) d.classList.add('hov'); }
+    };
+    const up = e => {
+      document.removeEventListener('pointermove', mv); document.removeEventListener('pointerup', up); document.removeEventListener('pointercancel', up);
+      document.querySelectorAll('.hov').forEach(x => x.classList.remove('hov'));
+      if (moved) { chip.classList.remove('lift'); const t = document.elementFromPoint(e.clientX, e.clientY), d = t && t.closest('[data-drop]'); ghost.remove(); if (d && wrap.contains(d)) attempt(chip, d); }
+      else { if (sel) sel.classList.remove('sel'); sel = sel === chip ? null : chip; if (sel) sel.classList.add('sel'); }
+    };
+    document.addEventListener('pointermove', mv); document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
+  }
+  wrap.append(h('h3', a.title), h('p.ainstr', a.instr), tgt, h('div.banklab', 'Chữ để kéo:'), bank, msg);
+  if (load().act[a.id]) { msg.className = 'amsg ok'; msg.textContent = '✅ Em đã làm xong phần này. Chơi lại cho vui nhé!'; }
+  return wrap;
 }
 
 function lessonView(i) {
   const l = U.lessons[i]; document.body.dataset.c = l.color;
-  const last = i === U.lessons.length - 1;
+  const ok = actsDone(l);
+  const go = h('button.btn' + (ok ? '.pulse' : ''), { id: 'goPractice', disabled: !ok, onclick: () => { upd(p => { if (!p.seen.includes(l.id)) p.seen.push(l.id); }); practiceStart(i); } }, ok ? 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →' : '🔒 Làm xong ⚡ Luyện nhanh để mở bài tập');
   paint(topbar(l.title, hubView), trackEl(i),
     h('div.ptag', h('span.e', l.icon), h('span', l.title, ' ', h('small', '· ' + l.vi))),
     h('div.say', h('div.ch', h('img', { src: CHIBI('vay-tay'), alt: '' })), h('div.bubble', h('span.who', 'Miss Thảo nói:'), l.say)),
-    h('div.box', h('h3', '🧩 Công thức'), (Array.isArray(l.formula[0][0]) ? l.formula : [l.formula]).map(row => h('div.formula', { style: 'margin-bottom:8px' }, row.map(f => h('div.fp', h('b.t-' + f[1], f[0]), h('small', f[2])))))),
-    h('h2.sec', '👀 Xem ví dụ'),
-    h('div.exs', l.cards.map((c, k) => h('div.ex', { style: 'animation-delay:' + (k * 60) + 'ms' }, h('div.art', artEl(c.art)), h('div.tx', h('div.en', mark(c.en)), h('div.vi', c.vi))))),
-    h('div.tip', { style: 'margin-top:14px' }, h('span.bulb', '💡'), h('div', h('div', { style: 'font-family:var(--hfont);font-size:18px' }, 'Mẹo nhớ'), l.tip)),
-    h('div.nav', h('button.btn.ghost', { onclick: i ? () => lessonView(i - 1) : hubView }, i ? '← Bài trước' : '← Về Unit'),
-      h('button.btn.pulse', { onclick: () => { const p = load(); if (!p.seen.includes(l.id)) { p.seen.push(l.id); save(p); } last ? (quizOpen() ? quizStart() : hubView()) : lessonView(i + 1); } }, last ? 'Em đã hiểu ✓ Làm bài tập!' : 'Em đã hiểu ✓ Bài tiếp →')));
+    l.blocks.map(b => blockEl(b, l)),
+    h('div.nav', h('button.btn.ghost', { onclick: i && lessonOpen(i - 1) ? () => lessonView(i - 1) : hubView }, i ? '← Bài trước' : '← Về Unit'), go));
 }
 
-/* ===== bài tập trắc nghiệm ===== */
+/* ===== luyện tập / bài tập: trắc nghiệm + điền từ ===== */
 let Q = null;
-function quizStart() {
-  document.body.dataset.c = 'lav';
-  Q = { order: U.quiz.map((_, i) => i), pos: 0, first: {}, wrong: [], pending: [], round: 0 };
+function session(o) {   // o: {key, title, qs, topic, onFinish(score,total), stars(score,total)}
+  Q = Object.assign({ order: o.qs.map((_, i) => i), pos: 0, first: {}, wrong: [], pending: [], round: 0 }, { o });
   quizView();
 }
-function quizView() {
-  const idx = Q.order[Q.pos], q = U.quiz[idx], total = U.quiz.length, fix = Q.round > 0;
-  document.body.dataset.c = ['mint', 'peach', 'sky', 'rose'][idx % 4];
-  const art = q.art ? artEl(q.art) : null;
-  const parts = q.q.split('___');
-  const card = h('div.qcard',
-    h('div.qn', h('span', fix ? '' : 'Câu ' + (idx + 1) + ' / ' + total), fix ? h('span.fix', '🔁 Fix it! Làm lại câu sai') : null, h('span.tag', q.topic)),
-    art ? h('div.qart', art) : null,
-    h('div.qq', parts[0], h('u', ' '), parts[1] || ''),
-    h('div.opts', q.opts.map((o, k) => h('button.opt', { onclick: ev => pick(k, ev.currentTarget) }, h('span.l', 'ABC'[k]), h('span', o)))));
-  const fbox = h('div');
-  card.append(fbox);
-  paint(topbar('Bài tập · ' + U.title, hubView), trackEl('q'), h('div.qprog', h('i', { style: 'width:' + Math.min(100, Math.round(Object.keys(Q.first).length / total * 100)) + '%' })), card);
-  Q.card = card; Q.fbox = fbox; Q.locked = false;
+function practiceStart(i) {
+  const l = U.lessons[i];
+  session({ key: 'p' + (i + 1), title: 'Luyện tập · ' + l.title, qs: l.practice, color: l.color, back: () => lessonView(i), backLab: 'Bài',
+    stars: s => s >= 18 ? 3 : s >= 14 ? 2 : s >= 8 ? 1 : 0, lesson: i });
 }
-function pick(k, btn) {
-  if (Q.locked) return; Q.locked = true;
-  const idx = Q.order[Q.pos], q = U.quiz[idx], ok = k === q.a, first = !(idx in Q.first);
-  if (first) { Q.first[idx] = ok; LSE_REPORT.answer('gram-' + U.id + '-q' + (idx + 1), 'Flyers Grammar ' + U.no + ' · ' + q.topic, ok, q.q + ' → ' + q.opts[q.a]); if (!ok) { Q.wrong.push(idx); Q.pending.push(idx); } }
+function quizStart() { session({ key: 'quiz', title: 'Bài tập tổng hợp · ' + U.title, qs: U.quiz, color: null, back: hubView, backLab: 'Unit', stars: s => s >= 9 ? 3 : s >= 7 ? 2 : s >= 4 ? 1 : 0 }); }
+const fixNorm = t => String(t).replace(/[’‘`]/g, "'").trim().toLowerCase().replace(/\s+/g, ' ');
+function quizView() {
+  const o = Q.o, idx = Q.order[Q.pos], q = o.qs[idx], total = o.qs.length, fix = Q.round > 0, type = q.t || 'mcq';
+  document.body.dataset.c = o.color || ['mint', 'peach', 'sky', 'rose'][idx % 4];
+  const art = q.art ? artEl(q.art) : null, parts = q.q.split('___');
+  const blank = type === 'fill' ? h('input.fin', { type: 'text', autocapitalize: 'off', autocomplete: 'off', autocorrect: 'off', spellcheck: 'false', 'aria-label': 'Điền từ', placeholder: '…' }) : h('u', ' ');
+  const card = h('div.qcard',
+    h('div.qn', h('span', fix ? '' : 'Câu ' + (idx + 1) + ' / ' + total), fix ? h('span.fix', '🔁 Fix it! Làm lại câu sai') : null, h('span.tag', type === 'fill' ? '✍️ Điền từ' : '🔘 Chọn đáp án')),
+    art ? h('div.qart', art) : null,
+    h('div.qq', parts.length > 1 ? [parts[0], blank, parts[1]] : q.q), q.hint ? h('div.qhint', q.hint) : null);
+  const fbox = h('div'); Q.card = card; Q.fbox = fbox; Q.locked = false;
+  if (type === 'mcq') card.append(h('div.opts', q.opts.map((t, k) => h('button.opt', { onclick: ev => pickMcq(k, ev.currentTarget) }, h('span.l', 'ABC'[k]), h('span', t)))));
+  else {
+    const bank = h('div.fbank', (q.bank || []).map(w => h('button.wchip', { onclick: () => { if (!Q.locked) { blank.value = w; blank.focus(); } } }, w)));
+    const chk = h('button.btn', { onclick: () => checkFill(blank) }, 'Kiểm tra ✓');
+    blank.addEventListener('keydown', e => { if (e.key === 'Enter') checkFill(blank); });
+    card.append(q.bank ? h('div.banklab', 'Gợi ý chữ (chạm để điền):') : null, bank, h('div.nav', chk));
+    Q.blank = blank; setTimeout(() => { try { blank.focus({ preventScroll: true }); } catch (e) { } }, 50);
+  }
+  card.append(fbox);
+  paint(topbar(o.title, o.back, o.backLab), o.lesson != null ? trackEl(o.lesson) : trackEl('q'),
+    h('div.qprog', h('i', { style: 'width:' + Math.min(100, Math.round(Object.keys(Q.first).length / total * 100)) + '%' })), card);
+}
+function finishQ(ok, shownAnswer) {
+  const o = Q.o, idx = Q.order[Q.pos], q = o.qs[idx], first = !(idx in Q.first);
+  if (first) { Q.first[idx] = ok; LSE_REPORT.answer('gram-' + U.id + '-' + o.key + '-q' + (idx + 1), 'Flyers Grammar ' + U.no + ' · ' + (o.title.split('·')[1] || o.title).trim(), ok, q.q + ' → ' + shownAnswer); if (!ok) { Q.wrong.push(idx); Q.pending.push(idx); } }
   else if (ok) Q.pending = Q.pending.filter(x => x !== idx);
-  const bs = Q.card.querySelectorAll('.opt');
-  bs.forEach((b, j) => { b.classList.add(j === q.a ? 'ok' : j === k ? 'no' : 'dim'); b.disabled = true; });
-  const u = Q.card.querySelector('.qq u'); u.textContent = q.opts[q.a];
+  Q.locked = true;
   Q.fbox.replaceChildren(ok
     ? h('div.fb.good', h('img', { src: CHIBI('co-vu'), alt: '' }), h('div', h('b', 'Giỏi quá! 🎉'), q.why))
-    : h('div.fb.bad', h('span.em', '💪'), h('div', h('b', 'Gần đúng rồi, cố lên!'), 'Đáp án đúng: ' + q.opts[q.a] + '. ' + q.why)));
+    : h('div.fb.bad', h('span.em', '💪'), h('div', h('b', 'Gần đúng rồi, cố lên!'), 'Đáp án đúng: ' + shownAnswer + '. ' + q.why)));
   const last = Q.pos >= Q.order.length - 1;
-  Q.fbox.append(h('div.nav', h('button.btn', { onclick: () => next() }, last ? 'Xem kết quả →' : 'Câu tiếp →')));
-  Q.fbox.querySelector('.btn').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  Q.fbox.append(h('div.nav', h('button.btn', { id: 'qnext', onclick: nextQ }, last ? 'Xem kết quả →' : 'Câu tiếp →')));
+  const b = document.getElementById('qnext'); if (b) b.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
-function next() {
+function pickMcq(k, btn) {
+  if (Q.locked) return; const q = Q.o.qs[Q.order[Q.pos]], ok = k === q.a;
+  Q.card.querySelectorAll('.opt').forEach((b, j) => { b.classList.add(j === q.a ? 'ok' : j === k ? 'no' : 'dim'); b.disabled = true; });
+  const u = Q.card.querySelector('.qq u'); if (u) u.textContent = q.opts[q.a];
+  finishQ(ok, q.opts[q.a]);
+}
+function checkFill(inp) {
+  if (Q.locked) return; const q = Q.o.qs[Q.order[Q.pos]], v = fixNorm(inp.value); if (!v) { inp.focus(); return; }
+  const ok = q.ans.some(a => fixNorm(a) === v) || (q.ans.some(a => fixNorm(a) === "can't") && v === 'cannot');
+  inp.readOnly = true; inp.classList.add(ok ? 'ok' : 'no'); if (!ok) inp.value = q.ans[0];
+  Q.card.querySelectorAll('.wchip').forEach(b => { b.disabled = true; });
+  const c = Q.card.querySelector('.nav .btn'); if (c) c.remove();
+  finishQ(ok, q.ans[0]);
+}
+function nextQ() {
   if (Q.pos < Q.order.length - 1) { Q.pos++; quizView(); return; }
-  // hết vòng: câu sai quay lại cho tới khi đúng (tối đa 3 vòng)
   if (Q.pending.length && Q.round < 3) { Q.order = Q.pending.slice(); Q.pos = 0; Q.round++; quizView(); return; }
   resultView();
 }
 function resultView() {
-  document.body.dataset.c = 'lav';
-  const total = U.quiz.length, score = Object.values(Q.first).filter(Boolean).length, st = score >= 9 ? 3 : score >= 7 ? 2 : score >= 4 ? 1 : 0;
-  const p = load(); p.best = Math.max(p.best, score); p.stars = Math.max(p.stars, st); save(p);
-  LSE_REPORT.finish(score, total);
-  paint(topbar('Kết quả', hubView), trackEl('q'),
+  const o = Q.o, total = o.qs.length, score = Object.values(Q.first).filter(Boolean).length, st = o.stars(score);
+  document.body.dataset.c = o.color || 'lav';
+  if (o.lesson != null) upd(p => { const old = p.pdone[U.lessons[o.lesson].id]; p.pdone[U.lessons[o.lesson].id] = { score: Math.max(score, old ? old.score : 0), stars: Math.max(st, old ? old.stars : 0) }; });
+  else upd(p => { p.best = Math.max(p.best, score); p.stars = Math.max(p.stars, st); LSE_REPORT.finish(score, total); });
+  if (o.lesson != null) LSE_REPORT.finish(score, total);
+  const li = o.lesson, hasNext = li != null && li < U.lessons.length - 1;
+  paint(topbar('Kết quả', o.back, o.backLab), o.lesson != null ? trackEl(o.lesson) : trackEl('q'),
     h('div.result', h('img.ch', { src: CHIBI('an-mung'), alt: '' }),
       h('div.stars', [0, 1, 2].map(i => h('span' + (i < st ? '' : '.off'), { style: 'animation-delay:' + (i * 180) + 'ms' }, '⭐'))),
       h('h2', score + ' / ' + total + ' câu đúng ngay lần đầu'),
-      h('p', { style: 'color:var(--soft);font-size:17px;margin:4px 0' }, st === 3 ? 'Tuyệt vời! Em nắm ngữ pháp Unit ' + U.no + ' rất chắc!' : st === 2 ? 'Rất tốt! Xem lại các câu sai là em sẽ giỏi hơn nữa.' : 'Cố lên nào! Em xem lại bài học rồi thử lại nhé.'),
-      Q.wrong.length ? h('div.wrong', Q.wrong.map(i => h('div', h('b', U.quiz[i].q.replace('___', U.quiz[i].opts[U.quiz[i].a])), ' — ', U.quiz[i].why))) : null,
-      h('div.nav', { style: 'justify-content:center' }, h('button.btn.ghost', { onclick: hubView }, '☰ Về Unit'), h('button.btn.ghost', { onclick: () => lessonView(0) }, '📖 Xem lại bài'), h('button.btn', { onclick: quizStart }, '↺ Làm lại'))));
+      h('p', { style: 'color:var(--soft);font-size:17px;margin:4px 0' }, st === 3 ? 'Tuyệt vời! Em nắm rất chắc rồi!' : st === 2 ? 'Rất tốt! Xem lại các câu sai là em sẽ giỏi hơn nữa.' : 'Em đã làm đến cùng, giỏi lắm! Xem lại bài rồi thử lại để được nhiều sao hơn nhé.'),
+      Q.wrong.length ? h('div.wrong', Q.wrong.slice(0, 12).map(i => { const q = o.qs[i], a = q.t === 'fill' ? q.ans[0] : q.opts[q.a]; return h('div', h('b', q.q.indexOf('___') >= 0 ? q.q.replace('___', a) : q.q + ' → ' + a), ' — ', q.why); })) : null,
+      h('div.nav', { style: 'justify-content:center' }, h('button.btn.ghost', { onclick: hubView }, '☰ Về Unit'),
+        li != null ? h('button.btn.ghost', { onclick: () => lessonView(li) }, '📖 Xem lại bài') : h('button.btn.ghost', { onclick: () => lessonView(0) }, '📖 Xem lại bài'),
+        h('button.btn.ghost', { onclick: () => li != null ? practiceStart(li) : quizStart() }, '↺ Làm lại'),
+        li != null ? h('button.btn', { onclick: () => hasNext ? lessonView(li + 1) : (quizOpen() ? quizStart() : hubView()) }, hasNext ? 'Bài tiếp →' : 'Bài tập tổng hợp →') : null)));
 }
 hubView();
 </script>
