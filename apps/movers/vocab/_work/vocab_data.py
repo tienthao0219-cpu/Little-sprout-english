@@ -66,15 +66,15 @@ unit(2, 'A busy week', [
  ('text', 'nhắn tin', 'Activities', 'a cartoon child typing a text message on a mobile phone, empty chat bubbles floating above the phone'),
  ('email', 'gửi email', 'Activities', 'a cartoon child at a laptop with an envelope icon flying out of the screen'),
  ('call', 'gọi điện', 'Activities', 'a cartoon child talking on a mobile phone held to the ear, smiling'),
- ('CD', '', 'Things & media', 'a shiny round CD disc leaning against its plastic case'),
- ('DVD', '', 'Things & media', 'a DVD disc next to a DVD box case with a blank colourful cover'),
+ ('CD', 'đĩa CD', 'Things & media', 'a shiny round CD disc leaning against its plastic case'),
+ ('DVD', 'đĩa DVD', 'Things & media', 'a DVD disc next to a DVD box case with a blank colourful cover'),
  ('e-book', 'sách điện tử', 'Things & media', 'a tablet computer showing an open book page, with a small book icon'),
  ('homework', 'bài về nhà', 'Things & media', 'a cartoon child doing homework at a desk with exercise books, a pencil and a lamp'),
- ('internet', '', 'Things & media', 'a laptop with a globe symbol floating above it and wifi signal waves'),
- ('website', '', 'Things & media', 'a laptop screen showing a web page with picture boxes, blank text lines and a cursor arrow'),
+ ('internet', 'mạng internet', 'Things & media', 'a laptop with a globe symbol floating above it and wifi signal waves'),
+ ('website', 'trang web', 'Things & media', 'a laptop screen showing a web page with picture boxes, blank text lines and a cursor arrow'),
  ('film / movie', 'phim', 'Things & media', 'a cinema scene: a film clapperboard, a bucket of popcorn and a film reel'),
- ('Monday', '', 'Days of the week', None), ('Tuesday', '', 'Days of the week', None), ('Wednesday', '', 'Days of the week', None),
- ('Thursday', '', 'Days of the week', None), ('Friday', '', 'Days of the week', None), ('Saturday', '', 'Days of the week', None), ('Sunday', '', 'Days of the week', None),
+ ('Monday', 'Thứ Hai', 'Days of the week', None), ('Tuesday', 'Thứ Ba', 'Days of the week', None), ('Wednesday', 'Thứ Tư', 'Days of the week', None),
+ ('Thursday', 'Thứ Năm', 'Days of the week', None), ('Friday', 'Thứ Sáu', 'Days of the week', None), ('Saturday', 'Thứ Bảy', 'Days of the week', None), ('Sunday', 'Chủ nhật', 'Days of the week', None),
 ])
 
 unit(3, 'In the town', [

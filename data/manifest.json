@@ -232,6 +232,14 @@
         {
           "id": "speaking",
           "name": "SPEAKING"
+        },
+        {
+          "id": "unit-1-mv01",
+          "name": "UNIT 1"
+        },
+        {
+          "id": "unit-2-mv02",
+          "name": "UNIT 2"
         }
       ]
     }
@@ -823,6 +831,28 @@
       "added": "2026-10-31T12:06:22.000Z",
       "desc": "Luyện nói Movers như thi thật: Part 1 hai tranh song song, Part 2 kể chuyện 4 tranh, Part 3 tìm tranh khác loại, Part 4 câu hỏi cá nhân; có gợi ý và chế độ cô",
       "updated": "2026-10-31T14:40:09.000Z"
+    },
+    {
+      "id": "unit-1-at-the-park-the-tu-vung-mv01",
+      "title": "Unit 1 · At the park - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-1-mv01",
+      "file": "apps/movers/unit-1-mv01/unit-1-at-the-park-the-tu-vung-mv01.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:47:21.000Z",
+      "updated": "2026-10-31T14:50:58.000Z"
+    },
+    {
+      "id": "unit-2-a-busy-week-the-tu-vung-mv02",
+      "title": "Unit 2 · A busy week - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-2-mv02",
+      "file": "apps/movers/unit-2-mv02/unit-2-a-busy-week-the-tu-vung-mv02.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:49:12.000Z",
+      "updated": "2026-10-31T14:51:06.000Z"
     }
   ]
 }

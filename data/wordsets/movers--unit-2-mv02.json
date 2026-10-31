@@ -1,0 +1,145 @@
+{
+ "id": "movers--unit-2-mv02",
+ "title": "Unit 2 · A busy week",
+ "cur": "movers",
+ "unit": "unit-2-mv02",
+ "items": [
+  {
+   "w": "cook",
+   "vi": "nấu ăn",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/cook.webp"
+  },
+  {
+   "w": "drive",
+   "vi": "lái xe",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/drive.webp"
+  },
+  {
+   "w": "ride",
+   "vi": "cưỡi / đi xe",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/ride.webp"
+  },
+  {
+   "w": "sail",
+   "vi": "chèo thuyền",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/sail.webp"
+  },
+  {
+   "w": "swim",
+   "vi": "bơi",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/swim.webp"
+  },
+  {
+   "w": "wash",
+   "vi": "rửa",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/wash.webp"
+  },
+  {
+   "w": "watch",
+   "vi": "xem",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/watch.webp"
+  },
+  {
+   "w": "text",
+   "vi": "nhắn tin",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/text.webp"
+  },
+  {
+   "w": "email",
+   "vi": "gửi email",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/email.webp"
+  },
+  {
+   "w": "call",
+   "vi": "gọi điện",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/call.webp"
+  },
+  {
+   "w": "CD",
+   "vi": "đĩa CD",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/cd.webp"
+  },
+  {
+   "w": "DVD",
+   "vi": "đĩa DVD",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/dvd.webp"
+  },
+  {
+   "w": "e-book",
+   "vi": "sách điện tử",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/e-book.webp"
+  },
+  {
+   "w": "homework",
+   "vi": "bài về nhà",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/homework.webp"
+  },
+  {
+   "w": "internet",
+   "vi": "mạng internet",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/internet.webp"
+  },
+  {
+   "w": "website",
+   "vi": "trang web",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/website.webp"
+  },
+  {
+   "w": "film / movie",
+   "vi": "phim",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/film-movie.webp"
+  },
+  {
+   "w": "Monday",
+   "vi": "Thứ Hai",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Tuesday",
+   "vi": "Thứ Ba",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Wednesday",
+   "vi": "Thứ Tư",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Thursday",
+   "vi": "Thứ Năm",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Friday",
+   "vi": "Thứ Sáu",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Saturday",
+   "vi": "Thứ Bảy",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Sunday",
+   "vi": "Chủ nhật",
+   "topic": "Days of the week"
+  }
+ ]
+}

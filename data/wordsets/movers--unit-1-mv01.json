@@ -1,0 +1,260 @@
+{
+ "id": "movers--unit-1-mv01",
+ "title": "Unit 1 · At the park",
+ "cur": "movers",
+ "unit": "unit-1-mv01",
+ "items": [
+  {
+   "w": "hop",
+   "vi": "nhảy lò cò",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/hop.webp"
+  },
+  {
+   "w": "skip",
+   "vi": "nhảy dây",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/skip.webp"
+  },
+  {
+   "w": "walk",
+   "vi": "đi bộ",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/walk.webp"
+  },
+  {
+   "w": "climb",
+   "vi": "trèo, leo",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/climb.webp"
+  },
+  {
+   "w": "laugh",
+   "vi": "cười",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/laugh.webp"
+  },
+  {
+   "w": "roller skate",
+   "vi": "trượt patin",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/roller-skate.webp"
+  },
+  {
+   "w": "dance",
+   "vi": "nhảy múa",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/dance.webp"
+  },
+  {
+   "w": "cry",
+   "vi": "khóc",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/cry.webp"
+  },
+  {
+   "w": "fish",
+   "vi": "câu cá",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/fish.webp"
+  },
+  {
+   "w": "hide",
+   "vi": "trốn",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/hide.webp"
+  },
+  {
+   "w": "carry",
+   "vi": "mang, vác",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/carry.webp"
+  },
+  {
+   "w": "fall",
+   "vi": "ngã, rơi",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/fall.webp"
+  },
+  {
+   "w": "coat",
+   "vi": "áo khoác dáng dài",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/coat.webp"
+  },
+  {
+   "w": "sweater",
+   "vi": "áo len",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/sweater.webp"
+  },
+  {
+   "w": "scarf",
+   "vi": "khăn quàng",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/scarf.webp"
+  },
+  {
+   "w": "socks",
+   "vi": "tất / vớ",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/socks.webp"
+  },
+  {
+   "w": "trousers",
+   "vi": "quần dài",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/trousers.webp"
+  },
+  {
+   "w": "shoes",
+   "vi": "giày",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/shoes.webp"
+  },
+  {
+   "w": "T-shirt",
+   "vi": "áo phông",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/t-shirt.webp"
+  },
+  {
+   "w": "glasses",
+   "vi": "kính mắt",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/glasses.webp"
+  },
+  {
+   "w": "jacket",
+   "vi": "áo khoác ngắn",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/jacket.webp"
+  },
+  {
+   "w": "swimsuit",
+   "vi": "đồ bơi",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/swimsuit.webp"
+  },
+  {
+   "w": "tennis",
+   "vi": "môn quần vợt",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/tennis.webp"
+  },
+  {
+   "w": "basketball",
+   "vi": "môn bóng rổ",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/basketball.webp"
+  },
+  {
+   "w": "drawing",
+   "vi": "hoạt động vẽ tranh",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/drawing.webp"
+  },
+  {
+   "w": "tall",
+   "vi": "cao",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/tall.webp"
+  },
+  {
+   "w": "short",
+   "vi": "thấp / ngắn",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/short.webp"
+  },
+  {
+   "w": "long",
+   "vi": "dài",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/long.webp"
+  },
+  {
+   "w": "big",
+   "vi": "to, lớn",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/big.webp"
+  },
+  {
+   "w": "small",
+   "vi": "nhỏ, bé",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/small.webp"
+  },
+  {
+   "w": "young",
+   "vi": "trẻ",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/young.webp"
+  },
+  {
+   "w": "old",
+   "vi": "già / cũ",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/old.webp"
+  },
+  {
+   "w": "orange",
+   "vi": "cam",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/orange.webp"
+  },
+  {
+   "w": "pink",
+   "vi": "hồng",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/pink.webp"
+  },
+  {
+   "w": "yellow",
+   "vi": "vàng",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/yellow.webp"
+  },
+  {
+   "w": "black",
+   "vi": "đen",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/black.webp"
+  },
+  {
+   "w": "green",
+   "vi": "xanh lá",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/green.webp"
+  },
+  {
+   "w": "purple",
+   "vi": "tím",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/purple.webp"
+  },
+  {
+   "w": "brown",
+   "vi": "nâu",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/brown.webp"
+  },
+  {
+   "w": "blue",
+   "vi": "xanh dương",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/blue.webp"
+  },
+  {
+   "w": "red",
+   "vi": "đỏ",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/red.webp"
+  },
+  {
+   "w": "grey",
+   "vi": "xám",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/grey.webp"
+  }
+ ]
+}
