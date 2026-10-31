@@ -276,6 +276,10 @@
         {
           "id": "unit-11-mv11",
           "name": "UNIT 11"
+        },
+        {
+          "id": "unit-12-mv12",
+          "name": "UNIT 12"
         }
       ]
     }
@@ -988,6 +992,17 @@
       "desc": "",
       "added": "2026-10-31T15:12:55.000Z",
       "updated": "2026-10-31T15:12:55.000Z"
+    },
+    {
+      "id": "unit-12-in-the-countryside-the-tu-vung-mv12",
+      "title": "Unit 12 · In the countryside - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-12-mv12",
+      "file": "apps/movers/unit-12-mv12/unit-12-in-the-countryside-the-tu-vung-mv12.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T15:15:22.000Z",
+      "updated": "2026-10-31T15:15:22.000Z"
     }
   ]
 }
