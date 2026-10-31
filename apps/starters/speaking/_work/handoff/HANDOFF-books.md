@@ -5,15 +5,18 @@ Không bịa nội dung sách / số trang / chuẩn Cambridge. Chỗ nào Claud
 **KHÔNG merge vào main.** Commit/push vào `starters-speaking-books`. Commit kết thúc bằng 2 dòng:
 `Co-Authored-By: Claude <noreply@anthropic.com>` (dùng đúng trailer mà phiên Code hiện tại yêu cầu).
 
-## Cập nhật 27/10 (phiên cloud, cô Thảo hết dung lượng bên máy)
-- Auth 2 xong (xem bảng). Công cụ mới: `tools/test_sets.js` (kiểm thử mọi bộ), `ai_sets/` (10 bộ ảnh AI 31–40: đặc tả, prompt, công cụ cắt thẻ/đo toạ độ/dựng kịch bản; xem `ai_sets/README.md`).
-- Phiên cloud KHÔNG đọc được ổ đĩa của cô nên chưa làm: auth3, auth4, collins, mini, succeed (19 bộ). Khi dung lượng reset: đọc file này và làm tiếp từ **Authentic 3**.
-- Sửa app: `runDemo` bỏ qua nếu đã sang bước khác (lỗi hẹn giờ khi đổi bộ nhanh).
+## Cập nhật 31/10 (phiên cloud, đọc được ổ đĩa: `MI HAO HAO /MÌ HẢO HẢO/CAMBRIDGE/...`, tên ổ có dấu cách cuối, nhớ để trong ngoặc kép)
+- XONG: auth3, auth4 (script Claude soạn), collins-t1..3, succ-t1..t8. Auth 2 đã dùng script sách (thay bản Claude).
+- data.json có **37 bộ**: 28 bộ từ sách (ptp 5, auth1 3, auth2 3, auth3 3, auth4 3 [script Claude], collins 3, succ 8) + 9 bộ ảnh AI (ai-t1,2,3,4,6,7,8,9,10 = no 31–34, 36–40; thiếu ai-t5/no 35).
+- no 21–22 dành cho Mini Trainer: CHƯA làm vì sách chỉ có scene + thẻ, KHÔNG có script giám khảo (test 2 ở pdf trang 40–42 của `MINI TESST/MINI START/pre_a1_starters_mini_trainer Đủ .pdf`). Cần cô quyết: soạn script kiểu auth4 (`origin:"claude"`) hay bỏ.
+- Chưa xét: Pearson "YLE Practice Tests Plus Starter" (thư mục PRACTICE), Oxford Starters 4 test, Skills Builder Starters 1–2 → có thể thành no 41+ hoặc thay các bộ AI.
+- Công cụ mới trong `tools/`: `collins_cards.py`, `t_collins.py`, `succ_scripts.py`, `succ_cards.py`, `t_succeed.py`, `test_sets.js` (chạy: `cd _work && NODE_PATH=$(npm root -g) node handoff/tools/test_sets.js <id...>`, cần `python3 -m http.server 8765` ở gốc repo).
+- Succeed: thẻ `computer`, `shell` là hình chữ nhật bo góc (cutout hỏng). Collins gộp Part 1+2 vào Part 1 của app.
 
 ## Mục tiêu
-~40 bộ Speaking. Sách có **30** bộ; thiếu 10 so với 40 (cần báo cô ở cuối, và đề xuất tạo thêm bộ do Claude soạn, `origin:"claude"`, kèm image prompt).
+~40 bộ Speaking. Sách đã nhập 28 bộ (+9 bộ AI = 37); Mini Trainer (2 bộ) chưa có script (cần báo cô ở cuối, và đề xuất tạo thêm bộ do Claude soạn, `origin:"claude"`, kèm image prompt).
 
-## Tiến độ (data.json hiện có 8 bộ, 0 lỗi check_sets)
+## Tiến độ (bảng cũ; xem mục Cập nhật 31/10 ở trên cho trạng thái mới nhất)
 | no | id | trạng thái |
 |---|---|---|
 | 1–5 | ptp-t1..t5 | XONG (có cảnh báo `check` cô cần xác nhận, xem dưới) |
@@ -70,6 +73,7 @@ AUTH 1/2 (scan màu): trang answer-booklet speaking nằm ở các trang PDF 10�
 4. AUTH 4 không có script sách → do Claude soạn.
 5. Collins có 5 part → gộp Part 1+2 vào 4 part của app.
 6. Get Ready bị loại.
-7. Thư mục tạm trên máy cô `Downloads/_claude_tmp_speaking` và `_claude_tmp_speaking2` cần cô tự xoá.
+7. Thư mục tạm trên máy cô `Downloads/_claude_tmp_speaking`, `_claude_tmp_speaking2`, `_claude_tmp_speaking3` cần cô tự xoá.
 8. Âm thanh "nghẹt": đã sửa (resume AudioContext, trễ 90ms sau cancel, giữ tham chiếu utterance); chưa được cô xác nhận trên thiết bị.
 9. Kết quả cuối: số bộ nhập từ sách / còn thiếu so với 40.
+10. Mục `check` còn mở: succ-t2 (cô tóc nâu, vùng cửa), succ-t6 (quả táo nhỏ), vùng đặt thẻ xấp xỉ ở succ-t4 (lorry/motorbike, table), succ-t5 (behind), succ-t6 (in front of), succ-t7 (dresses, lorry); Collins: lỗi chính tả back-up football ("Is it a television?") và jacket ("Is it a bike?"), vùng "behind the chair"/"behind the young boy"; auth2-t3 "white boat".
