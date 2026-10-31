@@ -495,6 +495,28 @@ body[data-part="0"]{--pc:var(--lav);--pd:var(--lav-d);--pdd:#5E48B8;--ps:#F3EEFF
 @media (max-width:640px){.sbar.intro .sbar-in{flex-wrap:nowrap}.sbar.intro .ttl{order:0;flex:1 1 0;min-width:0}.sbar.intro .ttl b{font-size:18px}.sbar.intro>.sbar-in>.ni:first-child{margin-right:0}}
 @media (prefers-reduced-motion:reduce){.bg i,.bg b,.hero2 .mascot img,.burst::before,.node.cur{animation:none!important}}
 
+@keyframes starpop{0%{transform:scale(0) rotate(-60deg)}70%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.sticker{position:relative;width:112px;text-align:center}
+.sticker .sv{width:112px;height:112px;border-radius:26px;background:#fff;box-shadow:var(--shadow);border:3px solid #fff;display:grid;place-items:center;transition:transform .2s}
+.sticker svg{width:92px;height:92px}
+.sticker.lock .sv{background:rgba(255,255,255,.55);border:2px dashed rgba(43,53,80,.2);box-shadow:none}
+.sticker.lock svg{filter:grayscale(1) brightness(1.35) contrast(.55);opacity:.55}
+.sticker small{display:block;margin-top:4px;font-weight:800;font-size:13px;color:var(--soft)}
+.sticker.new .sv{animation:starpop .9s cubic-bezier(.3,1.7,.5,1);box-shadow:0 0 0 4px var(--butter),var(--shadow)}
+.albumgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:14px;justify-items:center}
+.conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:150}
+.conf i{position:absolute;top:-20px;width:10px;height:16px;border-radius:3px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+.sticker .sv{border-radius:30px}
+.sticker small{font-size:13px}
+.card2 .albumgrid{margin-top:12px}
+.cdlg{position:fixed;inset:0;z-index:90;background:rgba(36,26,64,.55);display:grid;place-items:center;padding:16px}
+.cbox{background:#fff;border-radius:28px;padding:22px 20px;width:min(92vw,380px);text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.cbox h3{font-size:24px;margin:0 0 6px}.cbox p{margin:0 0 12px;color:var(--soft);font-weight:700}
+.cbox input{width:100%;min-height:52px;border:3px solid var(--pc);border-radius:16px;padding:0 14px;font-size:20px;text-align:center;font-family:var(--font)}
+.cmsg{min-height:22px;margin:6px 0;color:#c23f6b;font-weight:800}
+.crow2{display:flex;gap:10px;justify-content:center}
+.crow2 .btn{flex:1;justify-content:center}
 /* ================= Giao diện chung: gọn · dễ chạm · đồng bộ mọi thiết bị ================= */
 :focus-visible{outline:3px solid #7a5cd6;outline-offset:2px;border-radius:10px}
 .app{padding-left:max(14px,env(safe-area-inset-left));padding-right:max(14px,env(safe-area-inset-right));padding-bottom:calc(32px + env(safe-area-inset-bottom))}
@@ -606,6 +628,7 @@ function prevSet(s) { const L = SETS.filter(x => x.group === s.group), k = L.fin
 function setUnlocked(s) { if (st.teach || !lockSets()) return true; const pv = prevSet(s); return !pv || setDone(pv.id); }
 function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); } catch (e) { mem._t = v; } }
 
+function paint$(...k) { $app.replaceChildren(...k.filter(x => x != null && x !== false)); }
 function setName(s) {
   if (s.name) return s.name;
   const m = /^cam(\d)-t(\d)$/.exec(s.id); if (m) return 'Authentic ' + m[1] + ' · Test ' + m[2];
@@ -791,15 +814,15 @@ function homeView() {
   const prog = loadP();
   const groups = [{ id: 'all', name: 'Tất cả' }].concat(D.groups.map(g => ({ id: g.id, name: g.name })));
   const list = SETS.filter(s => st.filter === 'all' || s.group === st.filter);
-  $app.replaceChildren(
+  paint$(
     h('header.sbar', h('div.sbar-in', h('div.slogo', h('img', { src: '../../../assets/chibi.png', alt: 'Miss Thảo' }), h('span', h('b', 'Movers Speaking'), h('small', 'Luyện nói như thi thật'))),
-      ni(tchIco(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => { st.teach = !st.teach; setTeach(st.teach); homeView(); }, title: 'Bật để xem gợi ý và đáp án của cô' }, st.teach))),
+      teachBtn(homeView, 'Bật để xem gợi ý và đáp án của cô'))),
     h('section.hero2', h('div.mascot', h('img', { src: '../../../assets/ui/chibi-vay-tay.png', alt: 'Miss Thảo' })),
       h('div.htext', h('div.hello', 'Hi' + (authName() ? ', ' + authName() : '') + '! 👋'), h('h1', h('span.g1', 'Movers'), ' ', h('span.g2', 'Speaking')),
         h('p', 'Cô là giám khảo, em là thí sinh. Chọn một bộ test, làm lần lượt 4 phần. Xong Part này mới mở Part tiếp theo nhé!'),
-        h('div.pillrow', h('span.pill', '⭐ ' + SETS.reduce((n, x) => n + PARTS.filter(q => isDone(q.id, x.id)).length, 0) + ' phần đã xong'), h('span.pill', '🏆 ' + SETS.filter(x => PARTS.every(q => isDone(q.id, x.id))).length + ' / ' + SETS.length + ' bộ')))),
+        h('div.pillrow', h('button.pill', { onclick: albumView }, '⭐ ' + Object.keys(loadProg().stars).length + ' sao', h('span', '·'), '🎁 Sticker ' + loadProg().stk.length + '/' + STK.length), h('span.pill', '🏆 ' + SETS.filter(x => PARTS.every(q => isDone(q.id, x.id))).length + ' / ' + SETS.length + ' bộ')))),
     h('h2.sec', '🎒 Chọn bộ test'),
-    st.teach ? h('div', { style: 'margin:-4px 0 12px' }, h('button.pill', { onclick: () => { setLockSets(!lockSets()); homeView(); } }, lockSets() ? '🔒 Khoá bộ đề: BẬT (bấm để tắt)' : '🔓 Khoá bộ đề: TẮT (bấm để bật)')) : null,
+    h('div', { style: 'margin:-4px 0 12px' + (st.teach ? '' : ';display:none') }, h('button.pill', { onclick: () => { setLockSets(!lockSets()); homeView(); } }, lockSets() ? '🔒 Khoá bộ đề: BẬT (bấm để tắt)' : '🔓 Khoá bộ đề: TẮT (bấm để bật)')),
     h('details.guide', h('summary', '📖 Cách dùng (bấm để xem)'), h('div.gb',
       h('ol', h('li', 'Chọn một bộ test bên dưới.'),
         h('li', h('b', '🔒 Khoá Part: '), 'em tự chọn mặt cười ở cuối mỗi Part thì Part tiếp theo mới mở. Cô bật “Cô: BẬT” để mở hết.'),
@@ -878,10 +901,10 @@ function startSet(i) { st.part = i; resetPartUI(); st.t0 = Date.now(); testView(
 function introView() {
   const s = st.set; st.view = 'intro'; document.body.dataset.part = '0';
   const nd = PARTS.filter(q => isDone(q.id)).length, next = nextOpenPart();
-  $app.replaceChildren(
+  paint$(
     h('header.sbar.intro', h('div.sbar-in', ni(ico('back'), 'Các bộ', { onclick: goHome, title: 'Về danh sách bộ đề' }),
       h('div.ttl', h('b', setName(s)), h('small', s.src)),
-      ni(tchIco(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => { st.teach = !st.teach; setTeach(st.teach); introView(); }, title: 'Bật để mở hết các Part' }, st.teach))),
+      teachBtn(introView, 'Bật để mở hết các Part'))),
     h('div.card2', h('div.burst', h('img', { src: '../../../assets/ui/chibi-vay-tay.png', alt: '' })),
       h('h2', 'Ready for ' + setName(s) + '?'),
       h('p', { style: 'color:var(--soft);margin:0 0 6px' }, '4 phần · khoảng 5–7 phút. Em làm từng phần một nhé, xong Part này mới mở Part sau.'),
@@ -909,11 +932,11 @@ function testView() {
     timerEl(),
     ni(st.tRun ? '⏸' : '▶', st.tRun ? 'Dừng' : 'Chạy', { onclick: () => { if (st.tRun) { st.tAcc = elapsed(); st.tRun = false; } else { st.t0 = Date.now(); st.tRun = true; } testView(); } }),
     ni('↺', 'Đặt lại', { onclick: () => { st.tAcc = 0; st.tRun = false; testView(); }, title: 'Đặt lại đồng hồ' }),
-    ni(tchIco(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => { st.teach = !st.teach; setTeach(st.teach); testView(); }, title: 'Bật/tắt gợi ý và đáp án của cô' }, st.teach)));
+    teachBtn(testView, 'Bật/tắt gợi ý và đáp án của cô')));
   const steps = h('div', trackEl(), h('div.ptag', ico(PICO[st.part]), 'Part ' + P.n + ' · ' + P.en, h('small', P.vi)));
   let body;
   if (P.id === 'p1') body = part1(s); else if (P.id === 'p2') body = part2(s); else if (P.id === 'p3') body = part3(s); else body = part4(s);
-  $app.replaceChildren(bar, steps, body, st.teach ? scoreBox(P) : selfBox(P), navBox());
+  paint$(bar, steps, body, st.teach ? scoreBox(P) : selfBox(P), navBox());
   applyHint();
 }
 function howBox(en, vi) { return h('div.how', h('b.en', en), h('div.vi', vi)); }
@@ -1267,6 +1290,105 @@ function trackEl() {
   return h('div.track', kids);
 }
 function refreshTrack() { const t = document.querySelector('.track'); if (t) t.replaceWith(trackEl()); }
+/* ---------- mã của cô + quyền bật chế độ Cô ---------- */
+const AUTHROLE = (() => { try { return String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').role || ''); } catch (e) { return ''; } })();
+const teachAllowed = () => AUTHROLE !== 'student';
+function codeHash(t) { let x = 2166136261; for (const c of String(t).trim().toLowerCase()) { x ^= c.charCodeAt(0); x = Math.imul(x, 16777619) >>> 0; } return x.toString(16); }
+function tokOk() { try { return localStorage.getItem(KEY + '_tok') === D.tcode; } catch (e) { return false; } }
+function askCode(done) {
+  const ov = h('div.cdlg'), inp = h('input', { type: 'password', placeholder: 'Mã của cô', autocomplete: 'off', 'aria-label': 'Mã của cô' }), msg = h('div.cmsg');
+  const close = () => ov.remove();
+  const go = () => { if (codeHash(inp.value) === D.tcode) { try { localStorage.setItem(KEY + '_tok', D.tcode); } catch (e) { } close(); done(); } else { msg.textContent = 'Chưa đúng mã rồi 🙈'; ov.firstChild.classList.remove('shake'); void ov.firstChild.offsetWidth; ov.firstChild.classList.add('shake'); inp.select(); } };
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') go(); if (e.key === 'Escape') close(); });
+  ov.append(h('div.cbox', h('h3', '🔑 Dành cho cô'), h('p', 'Nhập mã của cô để mở khoá các Part, hiện đáp án và chấm điểm.'), inp, msg,
+    h('div.crow2', h('button.btn.ghost', { onclick: close }, 'Hủy'), h('button.btn', { onclick: go }, 'Mở'))));
+  ov.addEventListener('click', e => { if (e.target === ov) close(); });
+  document.body.append(ov); setTimeout(() => inp.focus(), 50);
+}
+function toggleTeach(rerender) {
+  if (st.teach) { st.teach = false; setTeach(false); rerender(); return; }
+  if (!teachAllowed()) return;
+  const on = () => { st.teach = true; setTeach(true); rerender(); };
+  if (AUTHROLE || tokOk() || !D.tcode) on(); else askCode(on);
+}
+function teachBtn(rerender, title) { return teachAllowed() ? ni(tchIco(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => toggleTeach(rerender), title }, st.teach) : null; }
+if (!teachAllowed() || (!AUTHROLE && D.tcode && !tokOk())) { st.teach = false; setTeach(false); }
+
+/* ---------- sao + sticker (lưu trong hồ sơ website -> Google Sheets, trường mov) ---------- */
+function kawaii(id){
+  const O='#2B3550',cheek='<circle cx="30" cy="62" r="5.5" fill="#FF9DB7" opacity=".55"/><circle cx="70" cy="62" r="5.5" fill="#FF9DB7" opacity=".55"/>';
+  const eyes='<ellipse cx="38" cy="54" rx="3.2" ry="4" fill="'+O+'"/><ellipse cx="62" cy="54" rx="3.2" ry="4" fill="'+O+'"/><circle cx="39.2" cy="52.6" r="1.1" fill="#fff"/><circle cx="63.2" cy="52.6" r="1.1" fill="#fff"/>';
+  const mouth='<path d="M44 63 Q50 69 56 63" fill="none" stroke="'+O+'" stroke-width="2.4" stroke-linecap="round"/>';
+  const face=eyes+cheek+mouth, st='stroke="'+O+'" stroke-width="2.4" stroke-linejoin="round"';
+  const head=(c,extra)=>'<circle cx="50" cy="56" r="33" fill="'+c+'" '+st+'/>';
+  const P={
+   cat:'<path d="M20 42 L24 14 L44 28Z" fill="#FFD0BA" '+st+'/><path d="M80 42 L76 14 L56 28Z" fill="#FFD0BA" '+st+'/><path d="M26 34 L28 22 L37 29Z" fill="#FF9DB7"/><path d="M74 34 L72 22 L63 29Z" fill="#FF9DB7"/>'+head('#FFE0D2')+face+'<path d="M12 56 L26 58M12 66 L26 63M88 56 L74 58M88 66 L74 63" stroke="'+O+'" stroke-width="2" stroke-linecap="round"/><path d="M47 58 L53 58 L50 61Z" fill="#FF8FAE"/>',
+   dog:'<ellipse cx="21" cy="52" rx="10" ry="19" fill="#C99A6B" '+st+' transform="rotate(12 21 52)"/><ellipse cx="79" cy="52" rx="10" ry="19" fill="#C99A6B" '+st+' transform="rotate(-12 79 52)"/>'+head('#F3D9B1')+'<ellipse cx="50" cy="66" rx="15" ry="11" fill="#FFF3DD" '+st+'/><ellipse cx="50" cy="60" rx="5.5" ry="4" fill="'+O+'"/>'+eyes+cheek+'<path d="M45 70 Q50 74 55 70" fill="none" stroke="'+O+'" stroke-width="2.2" stroke-linecap="round"/><ellipse cx="50" cy="75" rx="4" ry="2.8" fill="#FF8FAE"/>',
+   bunny:'<ellipse cx="36" cy="22" rx="9" ry="22" fill="#fff" '+st+'/><ellipse cx="64" cy="22" rx="9" ry="22" fill="#fff" '+st+'/><ellipse cx="36" cy="24" rx="4" ry="15" fill="#FFB8CC"/><ellipse cx="64" cy="24" rx="4" ry="15" fill="#FFB8CC"/>'+head('#fff')+face+'<path d="M47 59 L53 59 L50 62Z" fill="#FF8FAE"/>',
+   bear:'<circle cx="24" cy="30" r="12" fill="#D9A877" '+st+'/><circle cx="76" cy="30" r="12" fill="#D9A877" '+st+'/><circle cx="24" cy="30" r="5.5" fill="#F3C9A0"/><circle cx="76" cy="30" r="5.5" fill="#F3C9A0"/>'+head('#E3B98C')+'<ellipse cx="50" cy="65" rx="13" ry="10" fill="#F8E3CB" '+st+'/><ellipse cx="50" cy="61" rx="4.5" ry="3.3" fill="'+O+'"/>'+eyes+cheek+'<path d="M46 68 Q50 72 54 68" fill="none" stroke="'+O+'" stroke-width="2.2" stroke-linecap="round"/>',
+   panda:'<circle cx="23" cy="30" r="12" fill="'+O+'"/><circle cx="77" cy="30" r="12" fill="'+O+'"/>'+head('#fff')+'<ellipse cx="36" cy="54" rx="9" ry="11" fill="'+O+'" transform="rotate(20 36 54)"/><ellipse cx="64" cy="54" rx="9" ry="11" fill="'+O+'" transform="rotate(-20 64 54)"/><circle cx="37" cy="53" r="3.4" fill="#fff"/><circle cx="63" cy="53" r="3.4" fill="#fff"/><circle cx="37.4" cy="53.4" r="1.7" fill="'+O+'"/><circle cx="62.6" cy="53.4" r="1.7" fill="'+O+'"/><ellipse cx="50" cy="64" rx="4.5" ry="3.2" fill="'+O+'"/><path d="M45 69 Q50 74 55 69" fill="none" stroke="'+O+'" stroke-width="2.4" stroke-linecap="round"/>'+cheek,
+   frog:'<circle cx="30" cy="28" r="14" fill="#9BE08A" '+st+'/><circle cx="70" cy="28" r="14" fill="#9BE08A" '+st+'/><circle cx="30" cy="28" r="8" fill="#fff"/><circle cx="70" cy="28" r="8" fill="#fff"/><circle cx="31" cy="29" r="4" fill="'+O+'"/><circle cx="69" cy="29" r="4" fill="'+O+'"/><ellipse cx="50" cy="60" rx="36" ry="30" fill="#A9E89A" '+st+'/>'+cheek+'<path d="M34 62 Q50 78 66 62" fill="none" stroke="'+O+'" stroke-width="2.6" stroke-linecap="round"/><circle cx="44" cy="52" r="1.8" fill="'+O+'" opacity=".5"/><circle cx="56" cy="52" r="1.8" fill="'+O+'" opacity=".5"/>',
+   chick:'<path d="M44 20 Q50 6 56 20 M50 22 Q60 8 62 22" fill="none" stroke="#F2B63C" stroke-width="3.4" stroke-linecap="round"/>'+head('#FFE98A')+eyes+cheek+'<path d="M43 61 L57 61 L50 71Z" fill="#FF9F43" '+st+'/><path d="M14 58 Q8 50 16 46 M86 58 Q92 50 84 46" fill="none" stroke="#F2B63C" stroke-width="5" stroke-linecap="round"/>',
+   fox:'<path d="M16 46 L20 12 L46 30Z" fill="#FFA45C" '+st+'/><path d="M84 46 L80 12 L54 30Z" fill="#FFA45C" '+st+'/><path d="M24 36 L25 22 L37 30Z" fill="'+O+'" opacity=".85"/><path d="M76 36 L75 22 L63 30Z" fill="'+O+'" opacity=".85"/>'+head('#FFB472')+'<path d="M17 62 Q36 56 50 76 Q64 56 83 62 Q70 88 50 88 Q30 88 17 62Z" fill="#fff" '+st+'/>'+eyes+'<ellipse cx="50" cy="66" rx="4.2" ry="3" fill="'+O+'"/><circle cx="26" cy="62" r="4.5" fill="#FF9DB7" opacity=".55"/><circle cx="74" cy="62" r="4.5" fill="#FF9DB7" opacity=".55"/>',
+   penguin:'<ellipse cx="50" cy="56" rx="34" ry="36" fill="#3B4A6B" '+st+'/><ellipse cx="50" cy="62" rx="23" ry="26" fill="#fff"/>'+eyes.replace(/38|62/g,m=>m==='38'?'39':'61')+'<path d="M42 62 L58 62 L50 72Z" fill="#FF9F43" '+st+'/><circle cx="31" cy="62" r="5" fill="#FF9DB7" opacity=".55"/><circle cx="69" cy="62" r="5" fill="#FF9DB7" opacity=".55"/><path d="M16 60 Q8 74 20 82 M84 60 Q92 74 80 82" fill="none" stroke="#3B4A6B" stroke-width="7" stroke-linecap="round"/>',
+   pig:'<path d="M20 40 L22 16 L42 28Z" fill="#FFB3C8" '+st+'/><path d="M80 40 L78 16 L58 28Z" fill="#FFB3C8" '+st+'/>'+head('#FFC6D6')+eyes+'<ellipse cx="50" cy="65" rx="14" ry="10.5" fill="#FF9DB7" '+st+'/><ellipse cx="45" cy="65" rx="2.6" ry="3.6" fill="#C2456E"/><ellipse cx="55" cy="65" rx="2.6" ry="3.6" fill="#C2456E"/><circle cx="27" cy="62" r="5" fill="#FF8FAE" opacity=".5"/><circle cx="73" cy="62" r="5" fill="#FF8FAE" opacity=".5"/>',
+   unicorn:'<path d="M44 26 L50 2 L56 26Z" fill="#FFD76A" '+st+'/><path d="M45 20 L55 15M46 25 L56 20" stroke="#fff" stroke-width="2"/><path d="M18 40 L24 18 L42 30Z" fill="#fff" '+st+'/><path d="M82 40 L76 18 L58 30Z" fill="#fff" '+st+'/><path d="M16 46 Q8 70 22 84 Q10 62 22 48Z" fill="#C9B6FF" '+st+'/><path d="M84 46 Q92 70 78 84 Q90 62 78 48Z" fill="#9FD8FF" '+st+'/>'+head('#fff')+face,
+   sun:'<g stroke="#F2B63C" stroke-width="5" stroke-linecap="round"><path d="M50 4 V14 M50 98 V88 M4 50 H14 M96 50 H86 M17 17 L24 24 M83 83 L76 76 M83 17 L76 24 M17 83 L24 76"/></g><circle cx="50" cy="50" r="31" fill="#FFE27A" '+st+'/>'+eyes.replace(/cy="54"/g,'cy="48"').replace(/cy="52.6"/g,'cy="46.6"')+'<circle cx="30" cy="57" r="5.5" fill="#FF9DB7" opacity=".6"/><circle cx="70" cy="57" r="5.5" fill="#FF9DB7" opacity=".6"/><path d="M44 58 Q50 64 56 58" fill="none" stroke="'+O+'" stroke-width="2.4" stroke-linecap="round"/>'
+  };
+  return '<svg viewBox="0 0 100 100" role="img" aria-label="'+(STKN[id]||id)+'" xmlns="http://www.w3.org/2000/svg">'+(P[id]||'')+'</svg>';
+}
+
+const MILESTONES = [1, 3, 5, 7, 10, 13, 16, 20, 24, 28, 34, 40];
+const STK = ['cat', 'dog', 'bunny', 'bear', 'panda', 'frog', 'chick', 'fox', 'penguin', 'pig', 'unicorn', 'sun'];
+const STKN = { cat: 'Mèo Mimi', dog: 'Cún Bông', bunny: 'Thỏ Mochi', bear: 'Gấu Nâu', panda: 'Panda Bi', frog: 'Ếch Xanh', chick: 'Gà Con', fox: 'Cáo Cam', penguin: 'Cánh Cụt', pig: 'Heo Hồng', unicorn: 'Kỳ Lân', sun: 'Mặt Trời' };
+const FKEY = () => 'lsm_prog_v1:' + (authName() || 'guest').toLowerCase().replace(/\s+/g, ' ');
+const parentProf = () => { try { const L = window.parent && window.parent !== window && window.parent.LSE; return (L && L.prof && L.prof.mut) ? L.prof : null; } catch (e) { return null; } };
+function mergeProg(a, b) {
+  const stars = {}, stk = [];
+  [a, b].forEach(o => {
+    const m = (o && o.stars && typeof o.stars === 'object') ? o.stars : {};
+    Object.keys(m).forEach(k => { const v = m[k] || {}, c = stars[k] || { n: 0, t: 0 }; stars[k] = { n: Math.max(c.n, +v.n || 0), t: Math.max(c.t, +v.t || 0) }; });
+    (o && Array.isArray(o.stk) ? o.stk : []).forEach(x => { const n = Number(x); if (isFinite(n) && n >= 0 && n < STK.length && !stk.includes(n)) stk.push(n); });
+  });
+  return { stars, stk: stk.sort((x, y) => x - y) };
+}
+function loadProg() {
+  let local = { stars: {}, stk: [] };
+  try { local = mergeProg(JSON.parse(localStorage.getItem(FKEY()) || '{}'), null); } catch (e) { }
+  let remote = null; try { const pp = parentProf(); remote = pp && pp.get().mov; } catch (e) { }
+  return remote ? mergeProg(local, remote) : local;
+}
+function saveProg(pg) {
+  try { localStorage.setItem(FKEY(), JSON.stringify(pg)); } catch (e) { }
+  const pp = parentProf(); if (pp) { try { pp.mut(pr => { pr.mov = mergeProg(pr.mov, pg); }); } catch (e) { } }
+}
+function syncLabel() {
+  const pp = parentProf(); if (!pp) return '💾 Lưu trên máy này';
+  const z = (pp.sync && pp.sync.state) || '';
+  return z === 'ok' ? '☁️ Đã lưu trên Google Sheets' : z === 'pending' ? '⏳ Đang lưu lên Google Sheets…' : z === 'offline' ? '📴 Chưa kết nối (đã lưu trên máy, sẽ gửi sau)' : '☁️ Gắn với hồ sơ của em';
+}
+function awardSet(sid) {
+  const pg = loadProg(), had = Object.keys(pg.stars).length, first = !pg.stars[sid], newStk = [];
+  pg.stars[sid] = { n: ((pg.stars[sid] || {}).n || 0) + 1, t: Date.now() };
+  const now = Object.keys(pg.stars).length;
+  if (first) MILESTONES.forEach((m, i) => { if (m > had && m <= now && !pg.stk.includes(i)) { pg.stk.push(i); newStk.push(i); } });
+  saveProg(pg); return { first, now, newStk };
+}
+function stickerEl(i, un, isNew) {
+  const id = STK[i], ok = un.has(i), s = h('div.sticker' + (ok ? '' : '.lock') + (isNew ? '.new' : ''), h('div.sv'), h('small', ok ? STKN[id] : '🔒 ' + MILESTONES[i] + ' bộ'));
+  s.firstChild.innerHTML = kawaii(id); return s;
+}
+function confetti(n){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;const c=h('div.conf');const cols=['#FFB8CC','#D3F1E5','#FFE59A','#DCEEFF','#E7DFFF','#FFE0D2'];for(let i=0;i<(n||40);i++){const p=h('i');p.style.left=Math.random()*100+'%';p.style.background=cols[i%cols.length];p.style.animationDuration=(2+Math.random()*2)+'s';p.style.animationDelay=Math.random()*.6+'s';c.append(p)}document.body.append(c);setTimeout(()=>c.remove(),5200)}
+function albumView() {
+  st.view = 'album'; document.body.dataset.part = '0';
+  const pg = loadProg(), un = new Set(pg.stk), n = Object.keys(pg.stars).length;
+  paint$(
+    h('header.sbar', h('div.sbar-in', ni(ico('back'), 'Về', { onclick: goHome }), h('div.ttl', h('b', 'Sticker của em'), h('small', '⭐ ' + n + ' sao')))),
+    h('div.card2', h('h2', '🎁 Bộ sưu tập'), h('p', { style: 'color:var(--soft)' }, 'Hoàn thành đủ 4 Part của một bộ test để nhận ⭐. Đủ mốc sẽ mở sticker mới!'),
+      h('div.albumgrid', STK.map((_, i) => stickerEl(i, un, false))),
+      st.teach ? h('div', { style: 'margin-top:14px;color:var(--soft);font-size:14px;font-weight:700' }, 'Cô: mốc mở sticker (số bộ đã xong): ' + MILESTONES.join(', ') + ' · ' + syncLabel()) : null));
+}
+
 /* ---------- học viên tự đánh giá (khi chế độ Cô đang tắt) ---------- */
 const FACES = [['😕', 'Còn khó'], ['🙂', 'Tạm ổn'], ['😄', 'Tự tin']];
 function selfOf(pid) { try { return ((loadP()[st.set.id] || {}).self || {})[pid]; } catch (e) { return null; } }
@@ -1321,25 +1443,28 @@ function navBox() {
 }
 function finish() {
   clearInterval(tick); st.tAcc = elapsed(); st.tRun = false; st.view = 'sum'; document.body.dataset.part = '0';
-  const R = shieldCalc(st.sc);
+  const R = shieldCalc(st.sc), aw = awardSet(st.set.id);
   LSE_REPORT.finish(R ? Math.round(R.sum * 4) : 0, 60);
   const idx = SETS.findIndex(x => x.id === st.set.id), next = SETS[idx + 1];
   const ch = h('img.ch', { src: '../../../assets/ui/chibi-an-mung.png', alt: '', onerror: function () { this.replaceWith(h('div', { style: 'font-size:90px' }, '🎉')); } });
   const un = PARTS.filter(p => !scoredPart(st.sc[p.id])).length;
   const showT = st.teach && R, mine = (loadP()[st.set.id] || {}).self || {};
   const face = pid => mine[pid] == null ? '—' : FACES[mine[pid]][0] + ' ' + FACES[mine[pid]][1];
-  $app.replaceChildren(h('div.panel.sum', ch,
+  paint$(h('div.panel.sum', ch,
     showT ? h('div', h('div.big', 'Speaking: ' + R.shields + ' / 5 khiên'), h('div.shields', shieldRow(R.shields, 40)),
       h('div', { style: 'font-weight:800;font-size:17px' }, 'Điểm trung bình ba tiêu chí: ' + (R.sum / 3).toFixed(1) + ' / 5 · ⏱ ' + fmt(st.tAcc)))
-      : h('div', h('div.big', 'Giỏi lắm! 🎉'), h('div.muted', 'Em đã luyện xong bộ đề này · ⏱ ' + fmt(st.tAcc) + '. Part nào còn khó thì luyện lại nhé.')),
+      : h('div', h('div.big', 'Giỏi lắm! 🎉'), h('div', { style: 'font-weight:800;font-size:18px;margin:4px 0;color:var(--butter-d)' }, aw.first ? '⭐ +1 sao mới! Em có ' + aw.now + ' sao' : '⭐ Em đã có ' + aw.now + ' sao'), h('div.muted', 'Em đã luyện xong bộ đề này · ⏱ ' + fmt(st.tAcc) + '. Part nào còn khó thì luyện lại nhé.')),
     showT && un ? h('div.muted', 'Còn ' + un + ' phần chưa chấm đủ 3 tiêu chí (chưa tính vào kết quả).') : null,
     h('div.rows', PARTS.map(p => { const sc = st.sc[p.id], a = partAvg(sc); return h('div.row', h('span', 'Part ' + p.n), h('span.muted', p.vi), h('span', { style: 'font-size:14px;letter-spacing:0' }, showT ? (a == null ? '—' : sc.map(v => v == null ? '–' : v).join(' · ') + '  (TB ' + a.toFixed(1) + ')') : face(p.id))); })),
     showT ? h('div.rows', CR.map((c, i) => h('div.row', h('span', c.en), h('span.muted', c.vi), h('span', { style: 'letter-spacing:0' }, R.avg[i].toFixed(1) + ' / 5')))) : null,
     showT ? h('div.sumn', 'Cách tính của app: lấy điểm trung bình của từng tiêu chí qua các Part đã chấm, cộng ba tiêu chí lại, chia 3 rồi làm tròn ra số khiên (tối đa 5). Cambridge chấm cả bài Speaking bằng 3 tiêu chí 0–5 và đặt ngưỡng khiên theo từng kỳ thi, nên đây chỉ là ước tính để luyện tập, không phải kết quả chính thức.') : null,
+    aw.newStk.length ? h('div', { style: 'margin:12px 0' }, h('b', { style: 'font-family:var(--fh);font-size:20px' }, '🎁 Em mở được sticker mới!'), h('div', { style: 'display:flex;gap:12px;justify-content:center;margin-top:8px' }, aw.newStk.map(i => stickerEl(i, new Set([i]), true)))) : null,
     h('div.nav', { style: 'justify-content:center;margin-top:14px' },
+      h('button.btn.ghost', { onclick: albumView }, '🎁 Sticker của em'),
       h('button.btn.ghost', { onclick: () => openSet(st.set.id) }, '↺ Làm lại'),
       h('button.btn.ghost', { onclick: goHome }, '☰ Chọn bộ khác'),
       next && setUnlocked(next) ? h('button.btn', { onclick: () => openSet(next.id) }, setName(next) + ' →') : null)));
+  if (aw.newStk.length) confetti(60);
   window.scrollTo(0, 0);
 }
 function goHome() { clearInterval(tick); st.view = 'home'; homeView(); window.scrollTo(0, 0); }

@@ -24,3 +24,6 @@ PDF nguồn nằm trong ổ "MI HAO HAO " (có dấu cách cuối tên) › MÌ 
 - Authentic 4 và các bộ AI: sách không có script Speaking / không phải đề sách → Claude soạn, gắn nhãn; cô cần kiểm tra.
 - Part 1 và Part 3 của nhiều sách chỉ liệt kê điểm khác / câu hỏi gợi ý; câu mẫu ex/cand và lý do mẫu do Claude viết theo đó (ghi trong `note`).
 - Vòng khoanh Part 1 ước lượng từ ảnh lưới 10% → có thể lệch vài %, cô báo thì chỉnh trong `sets/*.py`.
+
+## Sao + sticker + mã cô (31/10/2026, sau khi cô duyệt)
+Chép cơ chế của Flyers (commit 20b0368): trường hồ sơ `mov` (js/profile.js, js/api.js, apps-script/Code.gs: gộp + `movStars`/`movStickers` trong profileList), mã cô `D.tcode` (mặc định băm của `thao2026`; `_work/tcode.txt` + `set_code.py`), 12 sticker, album, thưởng ở màn tổng kết. `_work/sync_patch.py` là script đã dùng (chạy 1 lần, không chạy lại). `pwtest.py` có thêm 3 phép thử đồng bộ (mã cô / học viên không có nút Cô / thưởng + đẩy lên hồ sơ giả lập). Cô cần dán lại Code.gs vào Apps Script và Triển khai phiên bản mới (một lần).

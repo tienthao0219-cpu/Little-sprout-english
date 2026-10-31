@@ -296,3 +296,8 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - **Sao + sticker:** mỗi bộ hoàn thành đủ 4 Part được ⭐; đủ mốc 1, 3, 5, 7, 10, 13, 16, 20, 24, 28, 34, 40 bộ thì mở sticker. Lưu trong hồ sơ website (trường `fly`) và đồng bộ lên Google Sheets (trang tính `profiles`).
 - **Cần làm một lần:** dán lại `apps-script/Code.gs` vào Apps Script và **Triển khai phiên bản mới**, nếu không máy chủ cũ sẽ bỏ qua trường `fly` (sao/sticker vẫn lưu trên máy, chỉ chưa lên Google Sheets).
 
+
+## Movers Speaking: sao, sticker, mã của cô (mới)
+- **Giống Flyers:** mỗi bộ hoàn thành đủ 4 Part được ⭐; đủ mốc 1, 3, 5, 7, 10, 13, 16, 20, 24, 28, 34, 40 bộ thì mở sticker (12 sticker). Lưu trong hồ sơ website (trường `mov`) và đồng bộ lên Google Sheets (trang tính `profiles`). Mở app đứng riêng (chưa đăng nhập) thì sao/sticker chỉ lưu trên máy này.
+- **Mã của cô:** mặc định `thao2026` (cùng mã với Flyers). Đổi mã: `python3 apps/movers/speaking/_work/set_code.py <mã mới>` rồi `python3 apps/movers/speaking/_work/build.py`. Học viên đã đăng nhập không thấy nút "Cô".
+- **Cần làm một lần:** dán lại `apps-script/Code.gs` vào Apps Script và **Triển khai phiên bản mới** (nếu cô đã làm bước này cho Flyers thì phải làm lại một lần nữa, vì Code.gs có thêm trường `mov`). Chưa làm thì sao/sticker vẫn lưu trên máy, chỉ chưa lên Google Sheets.
