@@ -106,7 +106,7 @@ img{max-width:100%;display:block}
 .formula{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-start}
 .fp{display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center}
 .fp b{font-family:var(--hfont);font-size:20px;border-radius:14px;padding:6px 14px;border:2px solid transparent;line-height:1.2}
-.fp small{font-size:12.5px;color:var(--soft);font-weight:700}
+.fp small{font-size:12.5px;color:var(--soft);font-weight:700;white-space:pre-line;line-height:1.3}
 .fp+.fp::before{content:none}
 .t-sub{background:#D3F3E3;color:#1d7a58}.t-aux{background:#cfe6ff;color:#1c5da3}.t-pre{background:#FFE0BF;color:#9a5300}.t-obj{background:#E5D9FF;color:#5b3ab5}.t-v{background:#FFF0A8;color:#7a6200}
 /* ví dụ */
@@ -271,6 +271,7 @@ img{max-width:100%;display:block}
 @media (max-width:520px){.ugrid{grid-template-columns:1fr}.mixp{padding:10px}.sgb{font-size:14.5px}}
 .ex .art .vart{min-height:130px}.ex .art .vart img{height:120px;max-width:44%;object-fit:contain}.ex .art .vart.no::after{font-size:90px}
 .slart .vart{min-height:84px}.slart .vart img{height:80px;max-width:44%;object-fit:contain}
+
 /* ===== bài học cụ thể: khi nào dùng, bảng, đừng nhầm, luyện nhanh ===== */
 .whens{display:grid;gap:12px}
 .when{display:flex;gap:12px;align-items:flex-start;background:var(--ps);border-radius:20px;padding:12px 14px}
@@ -334,6 +335,48 @@ input.fin.ok{border-color:var(--good);background:#DDF6E8;color:#17734d}input.fin
 .fbank{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 10px}
 .wchip{min-height:46px;padding:4px 16px;border-radius:999px;background:var(--ps);border:3px solid var(--pc);font-family:var(--hfont);font-size:19px;font-weight:700;color:var(--pdd)}
 .wchip:disabled{opacity:.5}
+/* ===== v7: bảng "khi nào dùng", so sánh, hình to, lưới biển ===== */
+.whent{border-radius:22px;overflow:hidden;border:2px solid #fff;box-shadow:0 0 0 2px var(--pc)}
+.whead{display:grid;grid-template-columns:1.25fr 1fr;gap:0;background:var(--ps);font-family:var(--hfont);font-size:16px;color:var(--pdd)}
+.whead span{padding:9px 14px}.whead small{font-family:var(--bfont);font-weight:700;color:var(--soft);font-size:12px}
+.wrow{display:grid;grid-template-columns:64px 1.25fr 1fr;align-items:center;border-top:2px solid rgba(255,255,255,.9);position:relative}
+.wrow+.wrow{border-top:2px solid #fff}
+.wrow.w0{background:#FFF3EA}.wrow.w1{background:#EEF6FF}.wrow.w2{background:#EAF8F2}
+.wico{margin:0 auto;width:48px;height:48px;border-radius:16px;background:#fff;display:grid;place-items:center;font-size:28px;box-shadow:0 4px 10px rgba(43,53,80,.12)}
+.wtx{padding:12px 10px;font-size:17px;font-weight:700;line-height:1.4}.wtx b{color:var(--pdd)}
+.wex2{padding:10px 14px;border-left:3px dashed rgba(43,53,80,.14);align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+.wen{font-family:var(--hfont);font-size:20px;color:var(--pdd);line-height:1.3}
+.wex2 .wvi{color:var(--soft);font-weight:700;font-size:14.5px}
+.g6art{width:100%;max-width:150px;margin:0 auto 2px}.g6art svg{width:100%;height:auto;border-radius:16px;display:block}
+.g6art .vart{min-height:84px}.g6art .vart img{height:84px}
+.grid6{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+/* so sánh */
+.cmpt{border-radius:22px;overflow:hidden;border:2px solid var(--pc);background:#fff}
+.chead{display:grid;grid-template-columns:.9fr 1fr 1.25fr;background:var(--ps);font-family:var(--hfont);font-size:16px;color:var(--pdd)}
+.chead span{padding:9px 14px}.chead small{font-family:var(--bfont);font-weight:700;color:var(--soft);font-size:12px}
+.crw{display:grid;grid-template-columns:.9fr 1fr 1.25fr;align-items:stretch;border-top:3px solid #E3DAFA}
+.crw:nth-of-type(odd){background:#FFFCF7}.crw:nth-of-type(even){background:#F7FAFF}
+.clab{padding:14px 12px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:6px}
+.cchip{display:inline-block;font-family:var(--hfont);font-size:21px;line-height:1.2;border-radius:14px;padding:5px 14px;font-weight:700}
+.clab small{color:var(--soft);font-weight:700;font-size:13px}
+.cuse{padding:14px 12px;font-size:16.5px;font-weight:700;line-height:1.45;display:flex;align-items:center;border-left:2px dashed rgba(43,53,80,.12)}
+.cuse b{color:var(--pdd)}
+.cexs{padding:10px 14px;border-left:2px dashed rgba(43,53,80,.12);display:flex;flex-direction:column;gap:8px;justify-content:center}
+.cex{display:flex;gap:10px;align-items:center}
+.cart2{width:96px;flex:none}.cart2 svg{width:100%;height:auto;border-radius:12px}.cart2 .vart{min-height:60px}.cart2 .vart img{height:64px;max-width:100%}
+.crep{color:#17734d;font-weight:800;font-size:14.5px;margin-top:2px}
+/* hình to hơn */
+.pex .pa{width:210px;flex:none}.pex .pa .vart{min-height:100px;flex-wrap:nowrap;gap:3px}.pex .pa .vart img{height:auto;max-height:104px;flex:1 1 0;min-width:0;object-fit:contain}.pex .pa svg{width:100%;height:auto;border-radius:16px;display:block}
+.da{margin-top:6px}.da svg{width:230px;max-width:100%;height:auto;border-radius:16px;display:block}.da .vart{min-height:110px;width:230px;max-width:100%}.da .vart img{max-height:110px}
+.sl .slart svg{max-width:230px}.slart .vart{min-height:110px}.slart .vart img{height:104px}
+.ex .art svg{max-width:420px}.ex .art .vart img{height:150px}.ex .art .vart{min-height:160px}
+.qart{max-width:380px}
+@media (max-width:700px){
+  .wrow{grid-template-columns:56px 1fr}.wico{width:44px;height:44px;font-size:24px}.wex2{grid-column:1 / -1;border-left:0;border-top:2px dashed rgba(43,53,80,.12);margin:0 12px;padding:8px 4px 12px}.whead{grid-template-columns:1fr}.whead span+span{display:none}
+  .chead{display:none}.crw{grid-template-columns:1fr}.clab{flex-direction:row;align-items:center;padding:12px 14px 4px}.cuse{border-left:0;padding:2px 14px 6px}.cexs{border-left:0;padding:4px 14px 14px}
+  .pex .pa{width:100%}.pex{flex-wrap:wrap}.pex .pa svg{max-width:300px;margin:0 auto}.pex .pa .vart img{max-height:120px}
+  .cart2{width:84px}
+}
 </style>
 </head>
 <body data-c="lav">
@@ -441,6 +484,7 @@ function signSVG(v) {
   else if (v === 'right') b = '<circle cx="120" cy="82" r="60" fill="#3B88D0" ' + OUT + '/><path d="M78 82h82M136 56l26 26-26 26" ' + W + '/>';
   else if (v === 'straight') b = '<circle cx="120" cy="82" r="60" fill="#3B88D0" ' + OUT + '/><path d="M120 124V42M94 66l26-26 26 26" ' + W + '/>';
   else if (v === 'stop') b = '<polygon points="82,24 158,24 204,70 204,126 158,164 82,164 36,126 36,70" transform="translate(-0,-14) scale(.84) translate(23,17)" fill="#E5484D" ' + OUT + '/><text x="120" y="96" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="44" font-weight="800" fill="#fff">STOP</text>';
+  else if (v === 'no') b = '<circle cx="120" cy="82" r="62" fill="#fff" stroke="#E5484D" stroke-width="14"/><text x="120" y="108" text-anchor="middle" font-size="76">🏃</text><path d="M76 38l88 88" stroke="#E5484D" stroke-width="14" stroke-linecap="round"/>';
   else if (v === 'cross') b = [0, 1, 2, 3, 4, 5].map(i => '<rect x="' + (24 + i * 34) + '" y="104" width="22" height="40" rx="4" fill="#fff" stroke="#2B3550" stroke-width="2"/>').join('') + '<g transform="translate(88,28) scale(.62)">' + kawaii('dog').replace('<svg ', '<svg width="100" height="100" ') + '</g><path d="M60 82H180M156 66l24 16-24 16" fill="none" stroke="#3B88D0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>';
   return '<svg viewBox="0 0 240 170" role="img" aria-label="' + v + '">' + bg + b + '</svg>';
 }
@@ -550,11 +594,14 @@ function hubView() {
 }
 
 /* ===== các khối nội dung của bài ===== */
+const ckText = a => a.map(c => c.t).join(' ').replace(/\s+/g, ' ').trim().toLowerCase();
 const cks = arr => h('span.cks', arr.map(c => h('span.ck' + (c.c ? '.t-' + c.c : ''), c.t)));
 function blockEl(b, l) {
-  if (b.k === 'when') return h('div.box', h('h3', b.title), h('div.whens', b.items.map(w => h('div.when', h('span.wi', w.icon), h('div', h('div.wt', mark(w.t)), h('div.wex', mark('[[' + w.ex + ']]')), h('div.wvi', w.vi))))));
+  if (b.k === 'when') return h('div.box', h('h3', b.title), h('div.whent',
+    h('div.whead', h('span', '📌 Khi nào dùng ', h('small', '(when)')), h('span', '✏️ Ví dụ ', h('small', '(example)'))),
+    b.items.map((w, i) => h('div.wrow.w' + (i % 3), h('span.wico', w.icon), h('div.wtx', mark(w.t)), h('div.wex2', h('div.wen', w.ex), h('div.wvi', w.vi))))));
   if (b.k === 'formula') return h('div.box', h('h3', b.title), b.rows.map(row => h('div.formula', { style: 'margin-bottom:8px' }, row.map(f => h('div.fp', h('b.t-' + f[1], f[0]), h('small', f[2]))))));
-  if (b.k === 'grid') return h('div.box', h('h3', b.title), h('div.grid6', b.items.map(g => h('div.g6', h('span.gi', g.icon), h('b', g.en), h('span.gv', g.vi), h('small', g.tip)))));
+  if (b.k === 'grid') return h('div.box', h('h3', b.title), h('div.grid6', b.items.map(g => h('div.g6', g.art ? h('div.g6art', artEl(g.art)) : h('span.gi', g.icon), h('b', g.en), h('span.gv', g.vi), h('small', g.tip)))));
   if (b.k === 'table') {
     const T = b.tint, tintCls = T ? '.tint' : '', sty = T ? T.map((t, i) => '--t' + i + ':var(--t-' + t + ')').join(';') : '';
     const cell = (c) => String(c).split('\n').map(t => h('div', mark(t)));
@@ -569,9 +616,13 @@ function blockEl(b, l) {
     h('div.formula', b.parts.map(f => h('div.fp', h('b.t-' + f.c, f.t), f.s ? h('small', f.s) : null))),
     h('div.pexs', b.exs.map(e => h('div.pex', e.art ? h('div.pa', artEl(e.art)) : null, h('div.pt', cks(e.c), h('div.pvi', e.vi))))));
   if (b.k === 'dialog') return h('div.box', h('h3', b.title),
-    h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub', h('div.dwho', 'Công thức câu hỏi:'), cks(b.askFormula))),
+    (ckText(b.askFormula) === ckText(b.rounds[0].q) ? null : h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub', h('div.dwho', 'Formula ', h('small', '(công thức)')), cks(b.askFormula)))),
     b.rounds.map(r => [h('div.drow', h('img.dch', { src: CHIBI('chi-bang'), alt: '' }), h('div.dbub.q', cks(r.q), h('div.pvi', r.qvi), r.art ? h('div.da', artEl(r.art)) : null)),
       h('div.drow.r', h('img.dch', { src: CHIBI('nhay-mat'), alt: '' }), h('div.dbub.a', cks(r.a), h('div.pvi', r.avi)))]));
+  if (b.k === 'compare') return h('div.box', h('h3', b.title), h('div.cmpt',
+    h('div.chead', h('span', 'Form ', h('small', '(mẫu câu)')), h('span', 'Use ', h('small', '(dùng khi)')), h('span', 'Example ', h('small', '(ví dụ)'))),
+    b.items.map(it => h('div.crw', h('div.clab', h('span.cchip.t-' + (it.c || 'aux'), it.en), h('small', '(' + it.vi + ')')), h('div.cuse', h('div', mark(it.use))),
+      h('div.cexs', (it.exs || []).map(x => h('div.cex', it.art && x === it.exs[0] ? h('div.cart2', artEl(it.art)) : null, h('div', h('div.wen', x[0]), h('div.wvi', x[1]), x[2] ? h('div.crep', '↪ ' + x[2]) : null))))))));
   if (b.k === 'tip2') return h('div.tip', h('span.bulb', '💡'), h('div', mark(b.t.replace('💡 ', ''))));
   if (b.k === 'acts') return h('div', b.items.map(id => actEl(U.acts[id], l)));
   return null;

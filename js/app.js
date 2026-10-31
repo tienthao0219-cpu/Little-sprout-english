@@ -143,6 +143,7 @@
     sprout: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8FDDBA"/><stop offset="1" stop-color="#9ED8FF"/></linearGradient></defs><path d="M16 28V15" stroke="#5FBF98" stroke-width="3" stroke-linecap="round"/><path d="M16 17C16 10 11 6 4.5 6.5 4.5 13 9 17 16 17z" fill="url(#gp)"/><path d="M16 14c0-6 4.5-9.5 11-9 0 6-4 10-11 9z" fill="#B9F0D4"/></svg>',
     sound: '<svg viewBox="0 0 32 32"><path d="M5 12h5l7-6v20l-7-6H5z" fill="#9ED8FF"/><path d="M21 11.5a6.5 6.5 0 0 1 0 9M24.5 8a11 11 0 0 1 0 16" fill="none" stroke="#B9A8F0" stroke-width="2.6" stroke-linecap="round"/></svg>',
     mute: '<svg viewBox="0 0 32 32"><path d="M5 12h5l7-6v20l-7-6H5z" fill="#CBD2E0"/><path d="m22 12 7 8m0-8-7 8" stroke="#FF9EBB" stroke-width="2.8" stroke-linecap="round"/></svg>',
+    expand: '<svg viewBox="0 0 32 32"><defs><linearGradient id="gx" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9ED8FF"/><stop offset="1" stop-color="#B9A8F0"/></linearGradient></defs><path d="M6 12V6h6M26 12V6h-6M6 20v6h6M26 20v6h-6" fill="none" stroke="url(#gx)" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     out: '<svg viewBox="0 0 32 32"><defs><linearGradient id="go" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFC4A8"/><stop offset="1" stop-color="#FF9EBB"/></linearGradient></defs><path d="M12 5h9a3 3 0 0 1 3 3v16a3 3 0 0 1-3 3h-9" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round"/><path d="M5 16h13M13.5 11 18.5 16l-5 5" fill="none" stroke="url(#go)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
   const SLOGAN = "Mỗi ngày một chút, mầm nhỏ vươn cao 🌱";
@@ -361,7 +362,9 @@
     L.playCur = { win: () => content.contentWindow, nav: to => (to === "home" ? goHome() : quit()),
       /* app con (vd. màn xem tranh Speaking) xin toàn màn hình trên điện thoại; chỉ thu nhỏ lại nếu chính app đã bật */
       full: on => { const isFull = wrap.classList.contains("full"); if (on && !isFull) { toggle(); L.playCur.autoFull = true; } else if (!on && isFull && L.playCur.autoFull) { toggle(); L.playCur.autoFull = false; } else if (!on) L.playCur.autoFull = false; } };
-    const exitFull = h("div.exitfull", h("button.btn.sm.ghost", { onclick: () => toggle() }, "✕ Thu nhỏ"), h("button.btn.sm.sky", { onclick: goHome }, "🏠"), h("button.btn.sm.mint", { onclick: quit }, "💾 Lưu & thoát"));
+    /* bốn nút của khung chơi: cùng một kiểu (ô icon + chữ) giống thanh menu trên cùng */
+    const pb = (cls, ico, label, opts) => h((opts.href ? "a" : "button") + ".pb." + cls, opts, h("span.pbi", { html: ICONS[ico] }), h("span.pbl", label));
+    const exitFull = h("div.exitfull", pb("ghost", "expand", "Thu nhỏ", { onclick: () => toggle() }), pb("sky", "home", "Trang chủ", { onclick: goHome }), pb("mint", "out", "Lưu & thoát", { onclick: quit }));
     /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
     const toggle = () => {
       const on = wrap.classList.toggle("full");
@@ -374,10 +377,10 @@
         : h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c ? h("a", { href: "#/c/" + c.id }, c.name) : "", c && app.unit ? " › " : "", c && app.unit ? h("a", { href: "#/c/" + c.id + "/u/" + app.unit }, unitName(c, app.unit)) : ""),
       h("div.player",
         h("div.player-bar", h("h2", { style: "font-size:22px" }, app.title), badge, h("span.grow"),
-          openLink, app.hub ? null : h("a.btn.sm.rose", { href: L.gamehub.backHref(app.cur, app.unit), title: "Chơi game khác với bài này" }, "🎮 Game khác"),
-          h("button.btn.sm.ghost", { onclick: toggle }, "⛶ Toàn màn hình"),
-          h("button.btn.sm.sky", { onclick: goHome, title: "Về trang chủ (các folder)" }, "🏠 Trang chủ"),
-          h("button.btn.sm.mint", { onclick: quit }, "Lưu & thoát")),
+          openLink, app.hub ? null : pb("rose", "game", "Game khác", { href: L.gamehub.backHref(app.cur, app.unit), title: "Chơi game khác với bài này" }),
+          pb("ghost", "expand", "Toàn màn hình", { onclick: toggle }),
+          pb("sky", "home", "Trang chủ", { onclick: goHome, title: "Về trang chủ (các folder)" }),
+          pb("mint", "out", "Lưu & thoát", { onclick: quit })),
         wrap,
         wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
         app.desc ? h("div.small.muted", app.desc) : null));

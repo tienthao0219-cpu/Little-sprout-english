@@ -112,6 +112,14 @@ table.tbl td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:
 /* ---------- player ---------- */
 .player{display:flex;flex-direction:column;gap:10px}
 .player-bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+/* nút khung chơi: ô icon + chữ, cùng kiểu thanh menu */
+.pb{display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:4px 16px 4px 5px;border-radius:999px;border:2px solid var(--line);background:#fff;color:var(--ink);font-family:var(--hfont);font-weight:700;font-size:15px;line-height:1.1;text-decoration:none;cursor:pointer;white-space:nowrap;box-shadow:0 3px 0 rgba(43,53,80,.08);transition:transform .08s,box-shadow .08s;-webkit-tap-highlight-color:transparent}
+.pb:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(43,53,80,.08)}
+.pb .pbi{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;background:var(--pbt,var(--lav));box-shadow:inset 0 0 0 2px #fff}
+.pb .pbi svg{width:22px;height:22px}
+.pb.rose{--pbt:var(--rose)}.pb.sky{--pbt:var(--sky)}.pb.mint{--pbt:var(--mint)}.pb.ghost{--pbt:var(--butter)}
+@media (hover:hover){.pb:hover{border-color:var(--lav-d);transform:translateY(-1px)}}
+@media(max-width:560px){.pb{padding:3px 12px 3px 4px;font-size:14px;min-height:42px}.pb .pbi{width:32px;height:32px}.pb .pbi svg{width:20px;height:20px}}
 .frame-wrap{position:relative;background:#fff;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);border:1px solid #fff}
 .frame-wrap iframe{display:block;width:100%;height:calc(100vh - 170px);min-height:520px;border:0;background:#fff}
 .frame-wrap.full{position:fixed;inset:0;z-index:90;border-radius:0;border:0;display:flex;flex-direction:column;height:100vh;height:100dvh;background:#fff}

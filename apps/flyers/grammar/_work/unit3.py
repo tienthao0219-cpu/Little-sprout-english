@@ -7,9 +7,10 @@ L1 = lesson('l1', 'mint', '🍽️', 'will (offers)', "Đề nghị giúp: I'll 
     ('🤝', "**I'll + động từ** = \"Để mình …\" (đề nghị giúp ngay lúc nói). **I'll = I will**.", "I'll get you a drink.", 'Để mình lấy cho bạn đồ uống.'),
     ('🍽️', 'Mời ai ăn / uống: **Will you have + đồ ăn?**', 'Will you have some pizza?', 'Bạn ăn chút pizza nhé?'),
     ('✅', 'Trả lời: **Yes, please.** hoặc **No, thank you.**', 'Yes, please!', 'Vâng, cảm ơn!')]),
-  table('🗂 Ba tình huống', ['🎯 Muốn…', '💬 Nói', '✏️ Ví dụ'], [
-    ['**Đề nghị giúp**', "I'll + động từ", "I'll get you a fork."], ['**Mời ăn / uống**', 'Will you have …?', 'Will you have some jam?'],
-    ['**Trả lời**', 'Yes, please. / No, thank you.', "No, thank you. I'm full."]], ['peach', 'sky', 'mint']),
+  compare('🗂 So sánh 3 tình huống', [
+    CI("I'll + verb", 'aux', 'đề nghị giúp', '**Đề nghị giúp** ngay lúc nói: "Để mình …".', [("I'll get you a fork.", 'Để mình lấy cho bạn cái nĩa.')], V('fork')),
+    CI('Will you have …?', 'pink', 'mời ăn / uống', '**Mời** ai ăn hoặc uống gì.', [('Will you have some jam?', 'Bạn dùng chút mứt nhé?', 'Yes, please. / No, thank you.')], V('jam')),
+    CI('Yes, please. / No, thank you.', 'sub', 'trả lời', '**Trả lời** lời mời: đồng ý hoặc từ chối lịch sự.', [("No, thank you. I'm full.", 'Không, cảm ơn. Mình no rồi.')], EM('🙏'))]),
   pattern("1️⃣ Đề nghị giúp: I'll + động từ", 'sky', [("I'll", 'aux', 'để mình'), ('động từ', 'v', 'get, bring, cut'), ('cho ai', 'sub', 'you'), ('cái gì', 'obj', 'a spoon, some salt')], [
     ("{I'll|aux} {bring|v} {you|sub} {a spoon.|obj}", 'Để mình mang cho bạn cái thìa.', V('spoon')),
     ("{I'll|aux} {get|v} {you|sub} {some salt.|obj}", 'Để mình lấy cho bạn ít muối.', V('salt')),
@@ -58,9 +59,10 @@ L2 = lesson('l2', 'peach', '🔗', 'Conditional & result clauses', 'Nếu / Khi 
     ('🔗', '**If / When + hiện tại đơn, + hiện tại đơn** = nói điều **thường xảy ra / luôn đúng**.', 'If you drop it, it breaks.', 'Nếu em làm rơi, nó sẽ vỡ.'),
     ('🔁', 'Có thể **đổi chỗ** hai vế. Nếu **If / When** đứng giữa câu thì **không cần dấu phẩy**.', 'I feel ill if I eat too much.', 'Mình thấy mệt nếu ăn quá nhiều.'),
     ('⏱️', '**When** = "khi" (chắc chắn xảy ra). **If** = "nếu" (có thể xảy ra).', 'When it is hot, I drink water.', 'Khi trời nóng, mình uống nước.')]),
-  table('🗂 Hai vế của câu', ['📌 Vế 1 (điều kiện)', '👉 Vế 2 (kết quả)', '✏️ Ví dụ'], [
-    ['**If** + hiện tại đơn', 'hiện tại đơn', 'If you eat too much, you feel ill.'], ['**When** + hiện tại đơn', 'hiện tại đơn', 'When it is hot, I drink water.'],
-    ['(đổi chỗ) kết quả', '**if** + điều kiện', 'I feel ill if I eat too much.']], ['peach', 'sky', 'mint']),
+  compare('🗂 So sánh If và When', [
+    CI('If + present simple', 'pink', 'nếu', '**Có thể** xảy ra hoặc không. Nói điều thường đúng.', [('If you eat too much, you feel ill.', 'Nếu ăn quá nhiều, em sẽ thấy mệt.')], V('ill')),
+    CI('When + present simple', 'aux', 'khi', '**Chắc chắn** sẽ xảy ra / lúc nào cũng vậy.', [('When it is hot, I drink water.', 'Khi trời nóng, mình uống nước.')], EM('🥵')),
+    CI('Đổi chỗ hai vế', 'sub', 'không có dấu phẩy', 'Đặt **kết quả** lên trước thì **bỏ dấu phẩy**.', [('I feel ill if I eat too much.', 'Mình thấy mệt nếu ăn quá nhiều.')])]),
   pattern('1️⃣ If + điều kiện, kết quả', 'sky', [('If', 'pink', 'nếu'), ('điều kiện', 'obj', 'you eat too much,'), ('kết quả', 'v', 'you feel ill.')], [
     ('{If|pink} {you eat too much,|obj} {you feel ill.|v}', 'Nếu em ăn quá nhiều, em sẽ thấy mệt.', V('ill')),
     ('{If|pink} {the pizza is hot,|obj} {I wait.|v}', 'Nếu pizza còn nóng, mình đợi.', V('pizza')),

@@ -1276,22 +1276,22 @@
         {
          "t": "There is",
          "c": "aux",
-         "s": "có 1 thứ"
+         "s": "(có 1 thứ)"
         },
         {
          "t": "a / an",
          "c": "pre",
-         "s": "một"
+         "s": "(một)"
         },
         {
-         "t": "danh từ số ít",
+         "t": "singular noun",
          "c": "obj",
-         "s": "cooker, oven…"
+         "s": "(danh từ số ít)\ncooker, oven…"
         },
         {
-         "t": "nơi chốn",
+         "t": "place",
          "c": "v",
-         "s": "in the kitchen"
+         "s": "(nơi chốn)\nin the kitchen"
         }
        ],
        "exs": [
@@ -1386,22 +1386,22 @@
         {
          "t": "There are",
          "c": "pink",
-         "s": "có 2 thứ trở lên"
+         "s": "(có 2 thứ trở lên)"
         },
         {
-         "t": "số / some",
+         "t": "number / some",
          "c": "v",
-         "s": "two, three, some"
+         "s": "(số / some)\ntwo, three, some"
         },
         {
-         "t": "danh từ số nhiều",
+         "t": "plural noun",
          "c": "obj",
-         "s": "cushions, violins…"
+         "s": "(danh từ số nhiều)\ncushions, violins…"
         },
         {
-         "t": "nơi chốn",
+         "t": "place",
          "c": "sub",
-         "s": "on the sofa"
+         "s": "(nơi chốn)\non the sofa"
         }
        ],
        "exs": [
@@ -1496,7 +1496,7 @@
         {
          "t": "There isn't",
          "c": "aux",
-         "s": "1 thứ"
+         "s": "(1 thứ)"
         },
         {
          "t": "a / an",
@@ -1506,12 +1506,12 @@
         {
          "t": "There aren't",
          "c": "pink",
-         "s": "nhiều thứ"
+         "s": "(nhiều thứ)"
         },
         {
          "t": "any",
          "c": "v",
-         "s": "nào"
+         "s": "(nào)"
         }
        ],
        "exs": [
@@ -1576,7 +1576,7 @@
          "c": "pre"
         },
         {
-         "t": "danh từ số ít",
+         "t": "singular noun",
          "c": "obj"
         },
         {
@@ -1670,7 +1670,7 @@
          "c": "v"
         },
         {
-         "t": "danh từ số nhiều",
+         "t": "plural noun",
          "c": "obj"
         },
         {
@@ -2101,17 +2101,17 @@
         {
          "t": "can",
          "c": "aux",
-         "s": "có thể / biết"
+         "s": "(có thể / biết)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "nguyên mẫu"
+         "s": "(động từ)\nnguyên mẫu"
         },
         {
-         "t": "tân ngữ",
+         "t": "object",
          "c": "obj",
-         "s": "the violin"
+         "s": "(tân ngữ)\nthe violin"
         }
        ],
        "exs": [
@@ -2191,17 +2191,17 @@
         {
          "t": "can't",
          "c": "pink",
-         "s": "không thể"
+         "s": "(không thể)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "nguyên mẫu"
+         "s": "(động từ)\nnguyên mẫu"
         },
         {
-         "t": "tân ngữ",
+         "t": "object",
          "c": "obj",
-         "s": "the drums"
+         "s": "(tân ngữ)\nthe drums"
         }
        ],
        "exs": [
@@ -2264,7 +2264,7 @@
          "c": "sub"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v"
         },
         {
@@ -4369,62 +4369,80 @@
        "title": "🧭 6 câu chỉ đường hay dùng",
        "items": [
         {
-         "icon": "⬆️",
          "en": "Go straight on",
          "vi": "đi thẳng",
-         "tip": "đi tiếp về phía trước"
+         "tip": "đi tiếp về phía trước",
+         "art": {
+          "t": "sign",
+          "v": "straight"
+         }
         },
         {
-         "icon": "⬅️",
          "en": "Turn left",
          "vi": "rẽ trái",
-         "tip": "quay sang bên trái"
+         "tip": "quay sang bên trái",
+         "art": {
+          "t": "sign",
+          "v": "left"
+         }
         },
         {
-         "icon": "➡️",
          "en": "Turn right",
          "vi": "rẽ phải",
-         "tip": "quay sang bên phải"
+         "tip": "quay sang bên phải",
+         "art": {
+          "t": "sign",
+          "v": "right"
+         }
         },
         {
-         "icon": "🛑",
          "en": "Stop",
          "vi": "dừng lại",
-         "tip": "khi đèn đỏ"
+         "tip": "khi đèn đỏ",
+         "art": {
+          "t": "sign",
+          "v": "stop"
+         }
         },
         {
-         "icon": "🚸",
          "en": "Cross the road",
          "vi": "qua đường",
-         "tip": "ở vạch kẻ đường"
+         "tip": "ở vạch kẻ đường",
+         "art": {
+          "t": "sign",
+          "v": "cross"
+         }
         },
         {
-         "icon": "🚫",
          "en": "Don't run",
          "vi": "đừng chạy",
-         "tip": "Don't + động từ"
+         "tip": "Don't + động từ",
+         "art": {
+          "t": "sign",
+          "v": "no"
+         }
         }
        ]
       },
       {
        "k": "pattern",
-       "title": "1️⃣ Chỉ đường: Động từ + nơi chốn",
+       "title": "1️⃣ Chỉ đường: Verb + place",
        "color": "mint",
        "parts": [
         {
-         "t": "Động từ",
+         "t": "verb",
          "c": "v",
-         "s": "Go, Turn, Cross"
+         "s": "(động từ)\nGo, Turn, Cross"
         },
         {
-         "t": "hướng / nơi chốn",
+         "t": "direction / place",
          "c": "obj",
-         "s": "straight on, left, the road"
+         "s": "(hướng / nơi chốn)\nstraight on, left, the road"
         },
         {
          "t": "please",
          "c": "pink",
-         "s": "nếu muốn lịch sự"
+         "s": "(nếu muốn lịch sự)"
         }
        ],
        "exs": [
@@ -4487,23 +4505,23 @@
       },
       {
        "k": "pattern",
-       "title": "2️⃣ Đừng làm gì → Don't + động từ",
+       "title": "2️⃣ Đừng làm gì → Don't + verb",
        "color": "rose",
        "parts": [
         {
          "t": "Don't",
          "c": "pink",
-         "s": "đừng"
+         "s": "(đừng)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "run, cross"
+         "s": "(động từ)\nrun, cross"
         },
         {
-         "t": "nơi chốn",
+         "t": "place",
          "c": "obj",
-         "s": "in the street"
+         "s": "(nơi chốn)\nin the street"
         }
        ],
        "exs": [
@@ -5052,60 +5070,91 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Ba cách nói",
-       "head": [
-        "🎯 Muốn…",
-        "💬 Nói",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**Gợi ý**",
-         "We could + động từ",
-         "We could visit the castle."
-        ],
-        [
-         "**Hỏi ý kiến**",
-         "What could we do?",
-         "What could we do today?"
-        ],
-        [
-         "**Đồng ý**",
-         "Good idea!",
-         "Good idea! Let's go."
-        ]
-       ],
-       "tint": [
-        "peach",
-        "sky",
-        "mint"
+       "k": "compare",
+       "title": "🗂 So sánh 3 cách nói",
+       "items": [
+        {
+         "en": "We could + verb",
+         "c": "aux",
+         "vi": "gợi ý",
+         "use": "**Gợi ý** nhẹ nhàng: \"Chúng ta có thể …\".",
+         "exs": [
+          [
+           "We could visit the castle.",
+           "Chúng ta có thể đi thăm lâu đài.",
+           "Good idea!"
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "castle",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "What could we do?",
+         "c": "pre",
+         "vi": "hỏi ý kiến",
+         "use": "**Hỏi ý kiến** mọi người: \"Mình làm gì nhỉ?\".",
+         "exs": [
+          [
+           "What could we do today?",
+           "Hôm nay mình làm gì nhỉ?",
+           "We could go to the museum."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "museum",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "Good idea!",
+         "c": "sub",
+         "vi": "đồng ý",
+         "use": "**Đồng ý** với gợi ý của bạn.",
+         "exs": [
+          [
+           "Good idea! Let's go.",
+           "Ý hay đó! Đi thôi."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "👍"
+         }
+        }
        ]
       },
       {
        "k": "pattern",
-       "title": "1️⃣ Gợi ý: We could + động từ",
+       "title": "1️⃣ Gợi ý: We could + verb",
        "color": "sky",
        "parts": [
         {
          "t": "We",
          "c": "sub",
-         "s": "chúng ta"
+         "s": "(chúng ta)"
         },
         {
          "t": "could",
          "c": "aux",
-         "s": "có thể"
+         "s": "(có thể)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "go, walk"
+         "s": "(động từ)\ngo, walk"
         },
         {
-         "t": "nơi chốn",
+         "t": "place",
          "c": "obj",
-         "s": "to the museum"
+         "s": "(nơi chốn)\nto the museum"
         }
        ],
        "exs": [
@@ -5681,44 +5730,104 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Nhớ nhanh 5 giới từ chuyển động",
-       "head": [
-        "🔤 Giới từ",
-        "🇻🇳 Nghĩa",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**across**",
-         "băng qua (mặt đường)",
-         "Walk across the road."
-        ],
-        [
-         "**through**",
-         "xuyên qua (bên trong)",
-         "Drive through the tunnel."
-        ],
-        [
-         "**past**",
-         "đi ngang qua (không dừng)",
-         "Walk past the shop."
-        ],
-        [
-         "**over**",
-         "đi qua phía trên",
-         "Go over the bridge."
-        ],
-        [
-         "**round the corner**",
-         "rẽ qua góc phố",
-         "Go round the corner."
-        ]
-       ],
-       "tint": [
-        "peach",
-        "sky",
-        "mint"
+       "k": "compare",
+       "title": "🗂 So sánh 5 giới từ chuyển động",
+       "items": [
+        {
+         "en": "across",
+         "c": "sub",
+         "vi": "băng qua",
+         "use": "Đi **từ bên này sang bên kia** mặt đường / sân.",
+         "exs": [
+          [
+           "Walk across the road.",
+           "Đi bộ băng qua đường."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "across",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "through",
+         "c": "aux",
+         "vi": "xuyên qua",
+         "use": "Đi **bên trong** một chỗ có hai đầu (đường hầm, công viên).",
+         "exs": [
+          [
+           "Drive through the tunnel.",
+           "Lái xe xuyên qua đường hầm."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "through",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "past",
+         "c": "pre",
+         "vi": "đi ngang qua",
+         "use": "Đi **sát bên** một nơi mà **không dừng lại**.",
+         "exs": [
+          [
+           "Walk past the shop.",
+           "Đi bộ ngang qua cửa hàng."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "past",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "over",
+         "c": "obj",
+         "vi": "qua phía trên",
+         "use": "Đi **ở phía trên** một vật (cầu, hàng rào).",
+         "exs": [
+          [
+           "Go over the bridge.",
+           "Đi qua cầu."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "bridge",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "round the corner",
+         "c": "pink",
+         "vi": "rẽ qua góc phố",
+         "use": "Đi **vòng qua** góc phố.",
+         "exs": [
+          [
+           "Go round the corner.",
+           "Rẽ qua góc phố."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "corner",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        }
        ]
       },
       {
@@ -5806,23 +5915,23 @@
       },
       {
        "k": "pattern",
-       "title": "Động từ + giới từ + nơi chốn",
+       "title": "Verb + giới từ + place",
        "color": "sky",
        "parts": [
         {
-         "t": "Động từ",
+         "t": "verb",
          "c": "v",
-         "s": "walk, go, drive"
+         "s": "(động từ)\nwalk, go, drive"
         },
         {
-         "t": "giới từ",
+         "t": "preposition",
          "c": "pre",
-         "s": "across, through, past"
+         "s": "(giới từ)\nacross, through, past"
         },
         {
-         "t": "nơi chốn",
+         "t": "place",
          "c": "obj",
-         "s": "the road, the tunnel"
+         "s": "(nơi chốn)\nthe road, the tunnel"
         }
        ],
        "exs": [
@@ -6304,60 +6413,103 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Ba mẫu nhờ vả",
-       "head": [
-        "🔤 Mẫu câu",
-        "🇻🇳 Nghĩa",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**Can you …?**",
-         "Bạn … giúp được không? (thân mật)",
-         "Can you pass the salt?"
-        ],
-        [
-         "**Could you …?**",
-         "Bạn … giúp được không ạ? (lịch sự)",
-         "Could you open the window?"
-        ],
-        [
-         "**Will you …?**",
-         "Bạn … nhé? (nhờ vả)",
-         "Will you help me?"
-        ]
-       ],
-       "tint": [
-        "peach",
-        "sky",
-        "mint"
+       "k": "compare",
+       "title": "🗂 So sánh Can / Could / Will",
+       "items": [
+        {
+         "en": "Can you …?",
+         "c": "sub",
+         "vi": "thân mật",
+         "use": "Nhờ **bạn bè, người thân**. Nghe thoải mái.",
+         "exs": [
+          [
+           "Can you pass the salt?",
+           "Bạn đưa giúp mình lọ muối nhé?",
+           "Sure! / Sorry, I can't."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "🧂"
+         }
+        },
+        {
+         "en": "Could you …?",
+         "c": "aux",
+         "vi": "lịch sự",
+         "use": "Nhờ **cô giáo, người lớn, người lạ**. Nghe **lịch sự hơn** Can.",
+         "exs": [
+          [
+           "Could you open the window, please?",
+           "Bạn mở cửa sổ giúp mình được không ạ?",
+           "Yes, of course."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "🪟"
+         }
+        },
+        {
+         "en": "Will you …?",
+         "c": "pre",
+         "vi": "nhờ vả",
+         "use": "Nhờ ai đó **giúp / chờ** việc gì. Nghe thân thiện.",
+         "exs": [
+          [
+           "Will you wait for me?",
+           "Bạn chờ mình nhé?",
+           "Yes, I will."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "⏳"
+         }
+        },
+        {
+         "en": "Can / Could I …?",
+         "c": "pink",
+         "vi": "xin phép",
+         "use": "**Xin phép** mình làm gì (chủ ngữ là **I**).",
+         "exs": [
+          [
+           "Could I use your pen?",
+           "Mình dùng bút của bạn được không?",
+           "Yes, you can."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "🖊️"
+         }
+        }
        ]
       },
       {
        "k": "pattern",
-       "title": "Nhờ ai: Could + you + động từ + please?",
+       "title": "Nhờ ai: Could + you + verb + please?",
        "color": "rose",
        "parts": [
         {
          "t": "Could / Can / Will",
          "c": "aux",
-         "s": "nhờ vả"
+         "s": "(nhờ vả)"
         },
         {
          "t": "you",
          "c": "sub",
-         "s": "bạn"
+         "s": "(bạn)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "open, help"
+         "s": "(động từ)\nopen, help"
         },
         {
          "t": "…, please?",
          "c": "pink",
-         "s": "làm ơn"
+         "s": "(làm ơn)"
         }
        ],
        "exs": [
@@ -6459,7 +6611,7 @@
          "c": "sub"
         },
         {
-         "t": "+ động từ",
+         "t": "+ verb",
          "c": "v"
         },
         {
@@ -9206,50 +9358,80 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Ba tình huống",
-       "head": [
-        "🎯 Muốn…",
-        "💬 Nói",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**Đề nghị giúp**",
-         "I'll + động từ",
-         "I'll get you a fork."
-        ],
-        [
-         "**Mời ăn / uống**",
-         "Will you have …?",
-         "Will you have some jam?"
-        ],
-        [
-         "**Trả lời**",
-         "Yes, please. / No, thank you.",
-         "No, thank you. I'm full."
-        ]
-       ],
-       "tint": [
-        "peach",
-        "sky",
-        "mint"
+       "k": "compare",
+       "title": "🗂 So sánh 3 tình huống",
+       "items": [
+        {
+         "en": "I'll + verb",
+         "c": "aux",
+         "vi": "đề nghị giúp",
+         "use": "**Đề nghị giúp** ngay lúc nói: \"Để mình …\".",
+         "exs": [
+          [
+           "I'll get you a fork.",
+           "Để mình lấy cho bạn cái nĩa."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "fork",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "Will you have …?",
+         "c": "pink",
+         "vi": "mời ăn / uống",
+         "use": "**Mời** ai ăn hoặc uống gì.",
+         "exs": [
+          [
+           "Will you have some jam?",
+           "Bạn dùng chút mứt nhé?",
+           "Yes, please. / No, thank you."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "jam",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "Yes, please. / No, thank you.",
+         "c": "sub",
+         "vi": "trả lời",
+         "use": "**Trả lời** lời mời: đồng ý hoặc từ chối lịch sự.",
+         "exs": [
+          [
+           "No, thank you. I'm full.",
+           "Không, cảm ơn. Mình no rồi."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "🙏"
+         }
+        }
        ]
       },
       {
        "k": "pattern",
-       "title": "1️⃣ Đề nghị giúp: I'll + động từ",
+       "title": "1️⃣ Đề nghị giúp: I'll + verb",
        "color": "sky",
        "parts": [
         {
          "t": "I'll",
          "c": "aux",
-         "s": "để mình"
+         "s": "(để mình)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "get, bring, cut"
+         "s": "(động từ)\nget, bring, cut"
         },
         {
          "t": "cho ai",
@@ -9257,9 +9439,9 @@
          "s": "you"
         },
         {
-         "t": "cái gì",
+         "t": "thing",
          "c": "obj",
-         "s": "a spoon, some salt"
+         "s": "(cái gì)\na spoon, some salt"
         }
        ],
        "exs": [
@@ -9351,28 +9533,28 @@
       },
       {
        "k": "pattern",
-       "title": "2️⃣ Mời ăn: Will you have + đồ ăn?",
+       "title": "2️⃣ Mời ăn: Will you have + food?",
        "color": "rose",
        "parts": [
         {
          "t": "Will",
          "c": "pink",
-         "s": "mời"
+         "s": "(mời)"
         },
         {
          "t": "you",
          "c": "sub",
-         "s": "bạn"
+         "s": "(bạn)"
         },
         {
          "t": "have",
          "c": "v",
-         "s": "dùng / ăn"
+         "s": "(dùng / ăn)"
         },
         {
-         "t": "đồ ăn",
+         "t": "food",
          "c": "obj",
-         "s": "some jam"
+         "s": "(đồ ăn)\nsome jam"
         }
        ],
        "exs": [
@@ -9986,55 +10168,77 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Hai vế của câu",
-       "head": [
-        "📌 Vế 1 (điều kiện)",
-        "👉 Vế 2 (kết quả)",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**If** + hiện tại đơn",
-         "hiện tại đơn",
-         "If you eat too much, you feel ill."
-        ],
-        [
-         "**When** + hiện tại đơn",
-         "hiện tại đơn",
-         "When it is hot, I drink water."
-        ],
-        [
-         "(đổi chỗ) kết quả",
-         "**if** + điều kiện",
-         "I feel ill if I eat too much."
-        ]
-       ],
-       "tint": [
-        "peach",
-        "sky",
-        "mint"
+       "k": "compare",
+       "title": "🗂 So sánh If và When",
+       "items": [
+        {
+         "en": "If + present simple",
+         "c": "pink",
+         "vi": "nếu",
+         "use": "**Có thể** xảy ra hoặc không. Nói điều thường đúng.",
+         "exs": [
+          [
+           "If you eat too much, you feel ill.",
+           "Nếu ăn quá nhiều, em sẽ thấy mệt."
+          ]
+         ],
+         "art": {
+          "t": "vocab",
+          "w": "ill",
+          "n": 1,
+          "no": false,
+          "q": false
+         }
+        },
+        {
+         "en": "When + present simple",
+         "c": "aux",
+         "vi": "khi",
+         "use": "**Chắc chắn** sẽ xảy ra / lúc nào cũng vậy.",
+         "exs": [
+          [
+           "When it is hot, I drink water.",
+           "Khi trời nóng, mình uống nước."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "🥵"
+         }
+        },
+        {
+         "en": "Đổi chỗ hai vế",
+         "c": "sub",
+         "vi": "không có dấu phẩy",
+         "use": "Đặt **kết quả** lên trước thì **bỏ dấu phẩy**.",
+         "exs": [
+          [
+           "I feel ill if I eat too much.",
+           "Mình thấy mệt nếu ăn quá nhiều."
+          ]
+         ]
+        }
        ]
       },
       {
        "k": "pattern",
-       "title": "1️⃣ If + điều kiện, kết quả",
+       "title": "1️⃣ If + condition, result",
        "color": "sky",
        "parts": [
         {
          "t": "If",
          "c": "pink",
-         "s": "nếu"
+         "s": "(nếu)"
         },
         {
-         "t": "điều kiện",
+         "t": "condition",
          "c": "obj",
-         "s": "you eat too much,"
+         "s": "(điều kiện)\nyou eat too much,"
         },
         {
-         "t": "kết quả",
+         "t": "result",
          "c": "v",
-         "s": "you feel ill."
+         "s": "(kết quả)\nyou feel ill."
         }
        ],
        "exs": [
@@ -10114,7 +10318,7 @@
       },
       {
        "k": "pattern",
-       "title": "2️⃣ When + điều kiện, kết quả",
+       "title": "2️⃣ When + condition, result",
        "color": "rose",
        "parts": [
         {
@@ -10123,14 +10327,14 @@
          "s": "khi"
         },
         {
-         "t": "điều kiện",
+         "t": "condition",
          "c": "obj",
-         "s": "it is hot,"
+         "s": "(điều kiện)\nit is hot,"
         },
         {
-         "t": "kết quả",
+         "t": "result",
          "c": "v",
-         "s": "I drink water."
+         "s": "(kết quả)\nI drink water."
         }
        ],
        "exs": [
@@ -11882,62 +12086,62 @@
        "title": "📚 6 câu cô giáo hay nói",
        "items": [
         {
-         "icon": "📖",
          "en": "Open your book",
          "vi": "mở sách ra",
-         "tip": "Open + your book"
+         "tip": "Open + your book",
+         "icon": "📖"
         },
         {
-         "icon": "👂",
          "en": "Listen",
          "vi": "lắng nghe",
-         "tip": "Listen to me"
+         "tip": "Listen to me",
+         "icon": "👂"
         },
         {
-         "icon": "✏️",
          "en": "Write your name",
          "vi": "viết tên",
-         "tip": "Write + your name"
+         "tip": "Write + your name",
+         "icon": "✏️"
         },
         {
-         "icon": "🔁",
          "en": "Repeat",
          "vi": "nhắc lại",
-         "tip": "Repeat after me"
+         "tip": "Repeat after me",
+         "icon": "🔁"
         },
         {
-         "icon": "🙋",
          "en": "Raise your hand",
          "vi": "giơ tay",
-         "tip": "khi muốn nói"
+         "tip": "khi muốn nói",
+         "icon": "🙋"
         },
         {
-         "icon": "🤫",
          "en": "Don't talk",
          "vi": "đừng nói chuyện",
-         "tip": "Don't + động từ"
+         "tip": "Don't + động từ",
+         "icon": "🤫"
         }
        ]
       },
       {
        "k": "pattern",
-       "title": "1️⃣ Bảo làm gì: Động từ + …",
+       "title": "1️⃣ Bảo làm gì: Verb + …",
        "color": "mint",
        "parts": [
         {
-         "t": "Động từ",
+         "t": "verb",
          "c": "v",
-         "s": "Open, Write, Listen"
+         "s": "(động từ)\nOpen, Write, Listen"
         },
         {
-         "t": "cái gì",
+         "t": "thing",
          "c": "obj",
-         "s": "your book, your name"
+         "s": "(cái gì)\nyour book, your name"
         },
         {
          "t": "please",
          "c": "pink",
-         "s": "nếu muốn lịch sự"
+         "s": "(nếu muốn lịch sự)"
         }
        ],
        "exs": [
@@ -12005,23 +12209,23 @@
       },
       {
        "k": "pattern",
-       "title": "2️⃣ Đừng làm gì → Don't + động từ",
+       "title": "2️⃣ Đừng làm gì → Don't + verb",
        "color": "rose",
        "parts": [
         {
          "t": "Don't",
          "c": "pink",
-         "s": "đừng"
+         "s": "(đừng)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "talk, run, forget"
+         "s": "(động từ)\ntalk, run, forget"
         },
         {
-         "t": "cái gì / nơi chốn",
+         "t": "thing / place",
          "c": "obj",
-         "s": "in class"
+         "s": "(cái gì / nơi chốn)\nin class"
         }
        ],
        "exs": [
@@ -12095,7 +12299,7 @@
        "title": "💬 Cô giáo nói – em đáp",
        "askFormula": [
         {
-         "t": "Động từ",
+         "t": "verb",
          "c": "v"
         },
         {
@@ -12553,29 +12757,49 @@
        ]
       },
       {
-       "k": "table",
-       "title": "🗂 Bây giờ và ngày trước",
-       "head": [
-        "⏰ Bây giờ",
-        "⏪ Ngày trước",
-        "✏️ Ví dụ"
-       ],
-       "rows": [
-        [
-         "**can**",
-         "**could**",
-         "I can read now. I could read when I was five."
-        ],
-        [
-         "**can't**",
-         "**couldn't**",
-         "I can't swim now. I couldn't swim last year."
-        ]
-       ],
-       "tint": [
-        "mint",
-        "peach",
-        "sky"
+       "k": "compare",
+       "title": "🗂 So sánh can và could",
+       "items": [
+        {
+         "en": "can / can't",
+         "c": "sub",
+         "vi": "bây giờ",
+         "use": "Nói về **bây giờ**: làm được / không làm được.",
+         "exs": [
+          [
+           "I can read now.",
+           "Bây giờ mình đọc được."
+          ],
+          [
+           "I can't swim yet.",
+           "Mình chưa biết bơi."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "⏰"
+         }
+        },
+        {
+         "en": "could / couldn't",
+         "c": "aux",
+         "vi": "ngày trước",
+         "use": "Nói về **ngày trước**: đã làm được / chưa làm được.",
+         "exs": [
+          [
+           "I could read when I was five.",
+           "Hồi 5 tuổi mình đã đọc được."
+          ],
+          [
+           "I couldn't swim last year.",
+           "Năm ngoái mình chưa biết bơi."
+          ]
+         ],
+         "art": {
+          "t": "emo",
+          "e": "⏪"
+         }
+        }
        ]
       },
       {
@@ -12591,17 +12815,17 @@
         {
          "t": "could",
          "c": "aux",
-         "s": "đã làm được"
+         "s": "(đã làm được)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "swim, read"
+         "s": "(động từ)\nswim, read"
         },
         {
-         "t": "khi nào",
+         "t": "time",
          "c": "obj",
-         "s": "when I was six"
+         "s": "(khi nào)\nwhen I was six"
         }
        ],
        "exs": [
@@ -12698,17 +12922,17 @@
         {
          "t": "couldn't",
          "c": "pink",
-         "s": "không làm được"
+         "s": "(không làm được)"
         },
         {
-         "t": "động từ",
+         "t": "verb",
          "c": "v",
-         "s": "read, walk"
+         "s": "(động từ)\nread, walk"
         },
         {
-         "t": "khi nào",
+         "t": "time",
          "c": "obj",
-         "s": "when I was two"
+         "s": "(khi nào)\nwhen I was two"
         }
        ],
        "exs": [
@@ -13188,52 +13412,52 @@
        "title": "❓ 8 từ để hỏi",
        "items": [
         {
-         "icon": "❓",
          "en": "What",
          "vi": "cái gì",
-         "tip": "What is it?"
+         "tip": "What is it?",
+         "icon": "❓"
         },
         {
-         "icon": "🕐",
          "en": "What time",
          "vi": "mấy giờ",
-         "tip": "What time is Maths?"
+         "tip": "What time is Maths?",
+         "icon": "🕐"
         },
         {
-         "icon": "👤",
          "en": "Who",
          "vi": "ai",
-         "tip": "Who is your teacher?"
+         "tip": "Who is your teacher?",
+         "icon": "👤"
         },
         {
-         "icon": "📍",
          "en": "Where",
          "vi": "ở đâu",
-         "tip": "Where is the art room?"
+         "tip": "Where is the art room?",
+         "icon": "📍"
         },
         {
-         "icon": "📅",
          "en": "When",
          "vi": "khi nào",
-         "tip": "When is the quiz?"
+         "tip": "When is the quiz?",
+         "icon": "📅"
         },
         {
-         "icon": "💭",
          "en": "Why",
          "vi": "tại sao",
-         "tip": "Why are you happy?"
+         "tip": "Why are you happy?",
+         "icon": "💭"
         },
         {
-         "icon": "🛠️",
          "en": "How",
          "vi": "như thế nào",
-         "tip": "How do you go to school?"
+         "tip": "How do you go to school?",
+         "icon": "🛠️"
         },
         {
-         "icon": "🔢",
          "en": "How many",
          "vi": "bao nhiêu",
-         "tip": "How many students?"
+         "tip": "How many students?",
+         "icon": "🔢"
         }
        ]
       },
@@ -13285,23 +13509,23 @@
       },
       {
        "k": "pattern",
-       "title": "Từ để hỏi + is / are / do + …",
+       "title": "Question word + is / are / do + …",
        "color": "sky",
        "parts": [
         {
-         "t": "Từ để hỏi",
+         "t": "question word",
          "c": "pink",
-         "s": "What time, Where"
+         "s": "(từ để hỏi)\nWhat time, Where"
         },
         {
          "t": "is / are",
          "c": "aux",
-         "s": "là"
+         "s": "(là)"
         },
         {
-         "t": "chủ ngữ",
+         "t": "subject",
          "c": "sub",
-         "s": "Maths, the library"
+         "s": "(chủ ngữ)\nMaths, the library"
         },
         {
          "t": "?",
@@ -13386,7 +13610,7 @@
        "title": "❓ Hỏi và trả lời",
        "askFormula": [
         {
-         "t": "Từ để hỏi",
+         "t": "question word",
          "c": "pink"
         },
         {

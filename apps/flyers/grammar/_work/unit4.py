@@ -56,8 +56,9 @@ L2 = lesson('l2', 'peach', '⏪', "could / couldn't (past ability)", 'Ngày trư
     ('⏪', "**could** = ngày trước **đã làm được**, **couldn't** = **không làm được**.", 'I could swim when I was five.', 'Hồi 5 tuổi mình đã biết bơi.'),
     ('🧒', 'Hay đi với **when I was …** (khi mình …) hoặc **last year** (năm ngoái).', "When I was two, I couldn't walk.", 'Hồi 2 tuổi mình chưa đi được.'),
     ('❓', "Hỏi: **Could you …?** Trả lời: **Yes, I could.** / **No, I couldn't.**", 'Could you read when you were four?', 'Lúc 4 tuổi bạn đọc được chưa?')]),
-  table('🗂 Bây giờ và ngày trước', ['⏰ Bây giờ', '⏪ Ngày trước', '✏️ Ví dụ'], [
-    ['**can**', '**could**', 'I can read now. I could read when I was five.'], ["**can't**", "**couldn't**", "I can't swim now. I couldn't swim last year."]], ['mint', 'peach', 'sky']),
+  compare('🗂 So sánh can và could', [
+    CI("can / can't", 'sub', 'bây giờ', 'Nói về **bây giờ**: làm được / không làm được.', [('I can read now.', 'Bây giờ mình đọc được.'), ("I can't swim yet.", 'Mình chưa biết bơi.')], EM('⏰')),
+    CI("could / couldn't", 'aux', 'ngày trước', 'Nói về **ngày trước**: đã làm được / chưa làm được.', [('I could read when I was five.', 'Hồi 5 tuổi mình đã đọc được.'), ("I couldn't swim last year.", 'Năm ngoái mình chưa biết bơi.')], EM('⏪'))]),
   pattern('1️⃣ could = ngày trước làm được', 'sky', [('Ai', 'sub', 'I, she, we'), ('could', 'aux', 'đã làm được'), ('động từ', 'v', 'swim, read'), ('khi nào', 'obj', 'when I was six')], [
     ('{I|sub} {could|aux} {swim|v} {when I was six.|obj}', 'Hồi 6 tuổi mình biết bơi.', EM('🏊')), ('{She|sub} {could|aux} {ride|v} {a bike last year.|obj}', 'Năm ngoái cô ấy đã biết đi xe đạp.', EM('🚲')),
     ('{We|sub} {could|aux} {study|v} {together.|obj}', 'Chúng mình đã học cùng nhau được.', V('study'))]),

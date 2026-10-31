@@ -9,9 +9,9 @@ L1 = lesson('l1', 'mint', '🧭', 'Imperatives', 'Câu mệnh lệnh: chỉ đư
     ('🚫', 'Muốn **cấm / dặn không làm** → thêm **Don\'t** trước động từ.', "Don't run in the street!", 'Đừng chạy ngoài đường!'),
     ('🙏', 'Thêm **please** cho lịch sự.', 'Go straight on, please.', 'Làm ơn đi thẳng.')]),
   grid('🧭 6 câu chỉ đường hay dùng', [
-    ('⬆️', 'Go straight on', 'đi thẳng', 'đi tiếp về phía trước'), ('⬅️', 'Turn left', 'rẽ trái', 'quay sang bên trái'),
-    ('➡️', 'Turn right', 'rẽ phải', 'quay sang bên phải'), ('🛑', 'Stop', 'dừng lại', 'khi đèn đỏ'),
-    ('🚸', 'Cross the road', 'qua đường', 'ở vạch kẻ đường'), ('🚫', "Don't run", 'đừng chạy', 'Don\'t + động từ')]),
+    (SG('straight'), 'Go straight on', 'đi thẳng', 'đi tiếp về phía trước'), (SG('left'), 'Turn left', 'rẽ trái', 'quay sang bên trái'),
+    (SG('right'), 'Turn right', 'rẽ phải', 'quay sang bên phải'), (SG('stop'), 'Stop', 'dừng lại', 'khi đèn đỏ'),
+    (SG('cross'), 'Cross the road', 'qua đường', 'ở vạch kẻ đường'), (SG('no'), "Don't run", 'đừng chạy', "Don't + động từ")]),
   pattern('1️⃣ Chỉ đường: Động từ + nơi chốn', 'mint', [('Động từ', 'v', 'Go, Turn, Cross'), ('hướng / nơi chốn', 'obj', 'straight on, left, the road'), ('please', 'pink', 'nếu muốn lịch sự')], [
     ('{Go|v} {straight on.|obj}', 'Đi thẳng.', SG('straight')), ('{Turn|v} {left|obj} {at the bank.|sub}', 'Rẽ trái ở ngân hàng.', SG('left')),
     ('{Cross|v} {the road.|obj}', 'Qua đường.', SG('cross'))]),
@@ -61,9 +61,10 @@ L2 = lesson('l2', 'peach', '💡', 'could (suggestions)', 'Gợi ý: Chúng ta c
     ('💡', '**We could + động từ** = "Chúng ta có thể …" (gợi ý nhẹ nhàng).', 'We could go to the museum.', 'Chúng ta có thể đi bảo tàng.'),
     ('❓', 'Hỏi ý kiến: **What could we do?** hoặc **Could we …?**', 'What could we do? · Could we go by taxi?', 'Mình làm gì được nhỉ? · Mình đi taxi được không?'),
     ('✅', 'Đồng ý: **Good idea!** hoặc **OK, let\'s go!**', 'Good idea!', 'Ý hay đó!')]),
-  table('🗂 Ba cách nói', ['🎯 Muốn…', '💬 Nói', '✏️ Ví dụ'], [
-    ['**Gợi ý**', 'We could + động từ', 'We could visit the castle.'], ['**Hỏi ý kiến**', 'What could we do?', 'What could we do today?'],
-    ['**Đồng ý**', 'Good idea!', 'Good idea! Let\'s go.']], ['peach', 'sky', 'mint']),
+  compare('🗂 So sánh 3 cách nói', [
+    CI('We could + verb', 'aux', 'gợi ý', '**Gợi ý** nhẹ nhàng: "Chúng ta có thể …".', [('We could visit the castle.', 'Chúng ta có thể đi thăm lâu đài.', 'Good idea!')], V('castle')),
+    CI('What could we do?', 'pre', 'hỏi ý kiến', '**Hỏi ý kiến** mọi người: "Mình làm gì nhỉ?".', [('What could we do today?', 'Hôm nay mình làm gì nhỉ?', 'We could go to the museum.')], V('museum')),
+    CI('Good idea!', 'sub', 'đồng ý', '**Đồng ý** với gợi ý của bạn.', [("Good idea! Let's go.", 'Ý hay đó! Đi thôi.')], EM('👍'))]),
   pattern('1️⃣ Gợi ý: We could + động từ', 'sky', [('We', 'sub', 'chúng ta'), ('could', 'aux', 'có thể'), ('động từ', 'v', 'go, walk'), ('nơi chốn', 'obj', 'to the museum')], [
     ('{We|sub} {could|aux} {go|v} {to the museum.|obj}', 'Chúng ta có thể đi bảo tàng.', V('museum')),
     ('{We|sub} {could|aux} {go|v} {by taxi.|obj}', 'Chúng ta có thể đi bằng taxi.', V('taxi')),
@@ -109,10 +110,12 @@ L3 = lesson('l3', 'sky', '🗺️', 'Prepositions of place & movement', 'Giới 
  [when('🧭 Khi nào dùng?', [
     ('🧭', 'Giới từ **chuyển động** cho biết **đi theo hướng nào**.', 'The boy walks across the road.', 'Cậu bé đi qua đường.'),
     ('📍', 'Giới từ **vị trí** cho biết **ở đâu**: in front of, in the middle…', 'The shop is in front of the bank.', 'Cửa hàng ở phía trước ngân hàng.')]),
-  table('🗂 Nhớ nhanh 5 giới từ chuyển động', ['🔤 Giới từ', '🇻🇳 Nghĩa', '✏️ Ví dụ'], [
-    ['**across**', 'băng qua (mặt đường)', 'Walk across the road.'], ['**through**', 'xuyên qua (bên trong)', 'Drive through the tunnel.'],
-    ['**past**', 'đi ngang qua (không dừng)', 'Walk past the shop.'], ['**over**', 'đi qua phía trên', 'Go over the bridge.'],
-    ['**round the corner**', 'rẽ qua góc phố', 'Go round the corner.']], ['peach', 'sky', 'mint']),
+  compare('🗂 So sánh 5 giới từ chuyển động', [
+    CI('across', 'sub', 'băng qua', 'Đi **từ bên này sang bên kia** mặt đường / sân.', [('Walk across the road.', 'Đi bộ băng qua đường.')], V('across')),
+    CI('through', 'aux', 'xuyên qua', 'Đi **bên trong** một chỗ có hai đầu (đường hầm, công viên).', [('Drive through the tunnel.', 'Lái xe xuyên qua đường hầm.')], V('through')),
+    CI('past', 'pre', 'đi ngang qua', 'Đi **sát bên** một nơi mà **không dừng lại**.', [('Walk past the shop.', 'Đi bộ ngang qua cửa hàng.')], V('past')),
+    CI('over', 'obj', 'qua phía trên', 'Đi **ở phía trên** một vật (cầu, hàng rào).', [('Go over the bridge.', 'Đi qua cầu.')], V('bridge')),
+    CI('round the corner', 'pink', 'rẽ qua góc phố', 'Đi **vòng qua** góc phố.', [('Go round the corner.', 'Rẽ qua góc phố.')], V('corner'))]),
   cards('👀 Xem hình', [
     (V('across'), 'The boy walks [[across]] the road.', 'Cậu bé đi băng qua đường.'), (V('through'), 'The car goes [[through]] the tunnel.', 'Xe đi xuyên qua đường hầm.'),
     (V('past'), 'The boy walks [[past]] the shop.', 'Cậu bé đi ngang qua cửa hàng.'), (V('bridge'), 'Go [[over]] the bridge.', 'Đi qua cầu.'),
@@ -158,9 +161,11 @@ L4 = lesson('l4', 'rose', '🙏', 'can / could / will for requests', 'Nhờ ai l
     ('🙏', 'Nhờ ai làm gì: **Can / Could / Will + you + động từ …, please?**', 'Could you open the door, please?', 'Bạn mở cửa giúp mình được không?'),
     ('✨', '**Could** nghe **lịch sự hơn** Can. Dùng với cô giáo, người lớn.', 'Could you help me, please?', 'Cô giúp em được không ạ?'),
     ('✅', 'Trả lời: **Yes, of course.** / **Sure!** / **Sorry, I can\'t.**', 'Yes, of course.', 'Vâng, tất nhiên rồi.')]),
-  table('🗂 Ba mẫu nhờ vả', ['🔤 Mẫu câu', '🇻🇳 Nghĩa', '✏️ Ví dụ'], [
-    ['**Can you …?**', 'Bạn … giúp được không? (thân mật)', 'Can you pass the salt?'], ['**Could you …?**', 'Bạn … giúp được không ạ? (lịch sự)', 'Could you open the window?'],
-    ['**Will you …?**', 'Bạn … nhé? (nhờ vả)', 'Will you help me?']], ['peach', 'sky', 'mint']),
+  compare('🗂 So sánh Can / Could / Will', [
+    CI('Can you …?', 'sub', 'thân mật', 'Nhờ **bạn bè, người thân**. Nghe thoải mái.', [('Can you pass the salt?', 'Bạn đưa giúp mình lọ muối nhé?', "Sure! / Sorry, I can't.")], EM('🧂')),
+    CI('Could you …?', 'aux', 'lịch sự', 'Nhờ **cô giáo, người lớn, người lạ**. Nghe **lịch sự hơn** Can.', [('Could you open the window, please?', 'Bạn mở cửa sổ giúp mình được không ạ?', 'Yes, of course.')], EM('🪟')),
+    CI('Will you …?', 'pre', 'nhờ vả', 'Nhờ ai đó **giúp / chờ** việc gì. Nghe thân thiện.', [('Will you wait for me?', 'Bạn chờ mình nhé?', 'Yes, I will.')], EM('⏳')),
+    CI('Can / Could I …?', 'pink', 'xin phép', '**Xin phép** mình làm gì (chủ ngữ là **I**).', [('Could I use your pen?', 'Mình dùng bút của bạn được không?', 'Yes, you can.')], EM('🖊️'))]),
   pattern('Nhờ ai: Could + you + động từ + please?', 'rose', [('Could / Can / Will', 'aux', 'nhờ vả'), ('you', 'sub', 'bạn'), ('động từ', 'v', 'open, help'), ('…, please?', 'pink', 'làm ơn')], [
     ('{Could|aux} {you|sub} {open|v} {the window,|obj} {please?|pink}', 'Bạn mở cửa sổ giúp mình được không?', EM('🪟')),
     ('{Can|aux} {you|sub} {help|v} {me,|obj} {please?|pink}', 'Bạn giúp mình được không?', EM('🙋')),

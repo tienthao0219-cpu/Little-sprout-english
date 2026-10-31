@@ -26,7 +26,12 @@ def table(title, head, rows, tint, big0=False, note=None):
     if big0: d['big0'] = True
     if note: d['note'] = note
     return d
-def grid(title, items): return {'k': 'grid', 'title': title, 'items': [dict(icon=i, en=en, vi=vi, tip=tip) for i, en, vi, tip in items]}
+def grid(title, items): return {'k': 'grid', 'title': title, 'items': [dict(en=en, vi=vi, tip=tip, **({'art': i} if isinstance(i, dict) else {'icon': i})) for i, en, vi, tip in items]}
+def compare(title, items): return {'k': 'compare', 'title': title, 'items': items}
+def CI(en, c, vi, use, exs, art=None):
+    d = {'en': en, 'c': c, 'vi': vi, 'use': use, 'exs': exs}
+    if art: d['art'] = art
+    return d
 def cards(title, items): return {'k': 'cards', 'title': title, 'items': [dict(art=a, en=en, vi=vi) for a, en, vi in items]}
 def dialog(title, ask, rounds):
     return {'k': 'dialog', 'title': title, 'askFormula': S(ask),
@@ -138,6 +143,7 @@ def validate(u):
         raise SystemExit('Dữ liệu unit %d có lỗi' % u['no'])
 
 def save_unit(u):
+    import enfix; enfix.fix_unit(u)
     d = json.load(open(W + 'data.json', encoding='utf8'))
     d['units'] = [x for x in d['units'] if x['no'] != u['no']] + [u]
     d['units'].sort(key=lambda x: x['no'])

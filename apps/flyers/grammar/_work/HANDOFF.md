@@ -31,6 +31,14 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Unit 2: imperatives; could (suggestions); prepositions of place & movement (dùng ảnh across/through/past/bridge/corner có sẵn); can/could/will requests. Unit 3: will (offers); conditional & result clauses. Unit 4: imperatives; could/couldn't past ability; question words.
 - Unit 5–12: chưa làm (xem danh sách chủ điểm bên dưới). Thêm unit mới: copy `unit4.py`, đổi nội dung, chạy; `meta[].ready` tự bật.
 
+## Cập nhật v7 (góp ý ảnh chụp của cô)
+- "Khi nào dùng" (`when`) = bảng pastel 2 cột (icon + quy tắc | ví dụ). Mỗi lần có nhiều dạng cần so sánh → dùng khối `compare` (ugen: `compare(title,[CI(en, màu, vi, use, [(ví dụ en, vi, trả lời?)], art)])`): 3 cột Form / Use / Example, ô màu, đường kẻ ngang giữa các loại. Đã dùng: can/could/will, could suggestions, giới từ chuyển động, will offers, If vs When, can vs could.
+- `grid` nhận `art` (hình biển) thay emoji. Thêm biển 'no' (cấm chạy). Dialog tự bỏ bong bóng công thức nếu trùng câu hỏi đầu.
+- Công thức ưu tiên tiếng Anh: `enfix.py` (tự chạy trong `ugen.save_unit`) đổi nhãn tiếng Việt sang tiếng Anh (verb, place, subject…), tiếng Việt nhỏ trong ngoặc bên dưới.
+- Ảnh minh hoạ to hơn (pattern 210px, dialog 230px, ví dụ 150px).
+- LƯU Ý khi viết file bằng Python: dùng `with open(p,'w') as f: f.write(...)`; đừng viết `open(p,'w').write(open(p).read())` (làm rỗng file).
+- Thanh nút khung chơi của CẢ WEBSITE (Game khác / Toàn màn hình / Trang chủ / Lưu & thoát) đổi sang kiểu `.pb` (ô icon + chữ, giống menu) trong `js/app.js` + `css/style.css`.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).
