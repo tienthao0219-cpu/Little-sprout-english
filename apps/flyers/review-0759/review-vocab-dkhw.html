@@ -1366,16 +1366,16 @@ function renderHome(){
       <div class="pills"><span class="pill">⭐ ${store.xp}</span><button class="pill btn-pill" data-act="toggleSound" aria-label="Bật/tắt âm thanh">${store.sound?'🔊':'🔇'}</button></div></div>
     <div class="hero"><h1>Luyện từ vựng Flyers</h1><p>Tick các unit muốn luyện rồi bắt đầu. Mỗi unit có nút <b>Flashcard</b> và <b>Practice</b> riêng!</p>
       <div class="stats"><span>📚 ${total} từ</span><span>👀 Đã gặp ${seenAll}</span><span>🏅 Đã thuộc ${mastered}</span></div></div>
-    <div class="sec-h"><h2>1. Chọn unit</h2><span><button class="link" data-act="selAll">Chọn tất cả</button><span class="sep"> · </span><button class="link" data-act="selNone">Bỏ chọn</button></span></div>
+    ${tab==='games' ? '' : `<div class="sec-h"><h2>1. Dạng bài</h2></div>
+    <div class="chips">${chips}</div>
+    <p class="note">Các dạng bài được trộn lẫn cho mỗi từ. Từ càng thuộc thì bài càng khó (gõ chữ thay vì chọn đáp án). Từ nào em bấm 🚩 <b>Chưa thuộc</b> (ở phần Flashcard) sẽ xuất hiện nhiều hơn.</p>`}
+    <div class="sec-h"><h2>2. Chọn unit</h2><span><button class="link" data-act="selAll">Chọn tất cả</button><span class="sep"> · </span><button class="link" data-act="selNone">Bỏ chọn</button></span></div>
     <div class="topics">${cards}</div>
     <div class="tabs"><button class="${tab==='quest'?'on':''}" data-act="tab" data-t="quest">📚 Luyện tập</button><button class="${tab==='games'?'on':''}" data-act="tab" data-t="games">🎮 Trò chơi nhỏ</button></div>
     ${tab==='games' ? gamesHtml : `
     ${rvHtml}
-    <div class="sec-h"><h2>2. Số từ mỗi lượt</h2></div>
+    <div class="sec-h"><h2>3. Số từ mỗi lượt</h2></div>
     ${sizeHtml}
-    <div class="sec-h"><h2>3. Dạng bài</h2></div>
-    <div class="chips">${chips}</div>
-    <p class="note">Các dạng bài được trộn lẫn cho mỗi từ. Từ càng thuộc thì bài càng khó (gõ chữ thay vì chọn đáp án). Từ nào em bấm 🚩 <b>Chưa thuộc</b> (ở phần Flashcard) sẽ xuất hiện nhiều hơn.</p>
     ${foot}
     <div class="startbar"><div class="inner two"><button class="btn" data-act="flash" ${pool.length?'':'disabled'} title="Xem lại từ vựng trước khi làm bài">📇 Flashcard</button><button class="btn primary big" data-act="start" ${(!pool.length||!store.types.length)?'disabled':''}>${pool.length?`▶ Practice · ${n} từ`:'Hãy tick ít nhất 1 unit'}</button></div></div>`}`;
 }
