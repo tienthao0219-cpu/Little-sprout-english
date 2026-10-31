@@ -252,6 +252,10 @@
         {
           "id": "unit-5-mv05",
           "name": "UNIT 5"
+        },
+        {
+          "id": "unit-6-mv06",
+          "name": "UNIT 6"
         }
       ]
     }
@@ -898,6 +902,17 @@
       "desc": "",
       "added": "2026-10-31T14:56:25.000Z",
       "updated": "2026-10-31T14:56:25.000Z"
+    },
+    {
+      "id": "unit-6-my-favourite-book-the-tu-vung-mv06",
+      "title": "Unit 6 · My favourite book - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-6-mv06",
+      "file": "apps/movers/unit-6-mv06/unit-6-my-favourite-book-the-tu-vung-mv06.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:59:37.000Z",
+      "updated": "2026-10-31T14:59:37.000Z"
     }
   ]
 }

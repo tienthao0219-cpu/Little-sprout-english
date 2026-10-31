@@ -289,6 +289,14 @@
       "unit": "unit-5-mv05",
       "n": 13,
       "pics": 13
+    },
+    {
+      "id": "movers--unit-6-mv06",
+      "title": "Unit 6 · My favourite book",
+      "cur": "movers",
+      "unit": "unit-6-mv06",
+      "n": 17,
+      "pics": 17
     }
   ]
 }
