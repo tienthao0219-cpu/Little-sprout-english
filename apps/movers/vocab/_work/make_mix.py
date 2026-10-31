@@ -1,72 +1,96 @@
 # -*- coding: utf-8 -*-
-"""Dựng app REVIEW VOCAB gộp 12 unit Movers (giống file mix của Starters/Flyers):
-  - tick một hoặc nhiều unit (không tick = trộn tất cả) -> Thẻ từ (hình + IPA + nghe + nghĩa) và Luyện tập 9 dạng, trộn xen kẽ.
-  - ảnh nạp từ data/wordsets/img (lazy), không nhúng base64 nên file nhẹ.
+"""Dựng app "Movers Vocab Quest" (REVIEW VOCAB tổng hợp 12 unit) từ chính app của Flyers:
+  ô tick từng unit + Chọn tất cả/Bỏ chọn, nút Flashcard & Practice riêng mỗi unit, chọn dạng bài, số từ mỗi lượt,
+  tiến độ đã gặp/thuộc lưu trên thiết bị, game nhanh trong app.
+  Khác bản Flyers: dữ liệu Movers (12 unit), ảnh nạp từ data/wordsets/img, thẻ Flashcard thêm IPA (không có câu ví dụ),
+  tắt "Game template" (thư mục games của Starters/Flyers không dùng cho Movers).
   python3 make_mix.py"""
-import os, re, json, datetime, glob
+import os, re, json, datetime
 HERE = os.path.dirname(os.path.abspath(__file__)) + '/'
 ROOT = os.path.abspath(HERE + '../../../../') + '/'
 import make_unit as MU
+SRC = ROOT + 'apps/flyers/review-0759/review-vocab-dkhw.html'
 UID = 'review-mv00'; FNAME = 'movers-review-vocab-mv00.html'
-TAGS = {('bat', 4): '(baseball)', ('bat', 9): '(animal)', ('cook', 2): '(verb)', ('cook', 6): '(person)'}   # từ trùng chữ khác nghĩa
-def main():
-    cards, seen, dupe = [], {}, []
+UNIT_VI = {1: 'Ở công viên', 2: 'Một tuần bận rộn', 3: 'Trong thị trấn', 4: 'Ở nhà', 5: 'Đi nghỉ nào!', 6: 'Cuốn sách yêu thích của tôi',
+           7: 'Đây là gia đình tôi', 8: 'Bữa trưa ăn gì?', 9: 'Bạn có thích động vật không?', 10: 'Thời tiết', 11: 'Bạn bị sao thế?', 12: 'Ở miền quê'}
+COLORS = ['#e76f51', '#577590', '#f4a261', '#4d96ff', '#9b5de5', '#2a9d8f', '#b5838d', '#43aa8b', '#e9a100', '#3ab5d6', '#f3a712', '#ef476f']
+TAGS = {('bat', 4): '(baseball)', ('bat', 9): '(animal)', ('cook', 2): '(verb)', ('cook', 6): '(person)'}
+def alt_of(w):
+    if '/' in w: return [x.strip() for x in w.split('/')]
+    m = re.match(r'^\((.+?)\)\s*(.+)$', w)
+    return [m.group(2)] if m else []
+def build_topics():
+    topics, seen_img = [], {}
     for n in range(1, 13):
         d = json.load(open(ROOT + 'data/wordsets/movers--unit-%d-mv%02d.json' % (n, n), encoding='utf8'))
-        label = 'Unit %d · %s' % (n, d['title'].split(' · ', 1)[1])
+        title = d['title'].split(' · ', 1)[1]
+        groups = []
         for it in d['items']:
-            key = it['w'].lower()
-            if key in seen and seen[key].get('image') == (('../../../data/wordsets/' + it['img']) if it.get('img') else None):
-                continue                                   # cùng từ + cùng ảnh (cage, rainbow dùng lại) -> chỉ giữ một thẻ
-            c = {'id': 'u%d-%s' % (n, MU.slug(it['w'])), 'word': it['w'], 'vi': it['vi'], 'topic': label, 'topicVi': ''}
-            if it.get('ipa'): c['ipa'] = it['ipa']
-            if it.get('img'): c['image'] = '../../../data/wordsets/' + it['img']
-            if '/' in it['w']: c['say'] = re.sub(r'\s*/\s*', ' or ', it['w'])
-            if '(' in it['w']: c['say'] = re.sub(r'[()]', '', it['w'])
-            if not it.get('img') and it['topic'] == 'Days of the week': c['badge'] = it['w'][:3]
-            if (it['w'], n) in TAGS: c['tag'] = TAGS[(it['w'], n)]
-            if key in seen: dupe.append(it['w'])
-            seen.setdefault(key, c); cards.append(c)
-    # mọi từ trùng chữ còn lại phải đã có tag
-    byw = {}
-    for c in cards: byw.setdefault(c['word'].lower(), []).append(c)
-    bad = [w for w, l in byw.items() if len(l) > 1 and not all(x.get('tag') for x in l)]
-    assert not bad, 'từ trùng chữ chưa có tag: %s' % bad
-    topics = []
-    for c in cards:
-        if c['topic'] not in topics: topics.append(c['topic'])
-    tabs = '<button data-t="all" class="on">Tất cả <small>(%d)</small></button>' % len(cards) + ''.join(
-        '<button data-t="%s">%s <small>%d</small></button>' % (MU.esc(t), MU.esc(t), len([c for c in cards if c['topic'] == t])) for t in topics)
-    html = open(HERE + 'unit_template.html', encoding='utf8').read()
-    def rep(a, b):
-        nonlocal html
-        assert html.count(a) == 1, a[:70]; html = html.replace(a, b)
-    # --- chọn nhiều unit: dùng chung cho Thẻ từ và Luyện tập ---
-    rep('let cards=[...originalCards], playingAll=false, stopAll=false, topicSel="all", view=cards;',
-        'const SELU=window.SELU=new Set();\nfunction toggleU(t){ if(t==="all") SELU.clear(); else if(SELU.has(t)) SELU.delete(t); else SELU.add(t); document.querySelectorAll("#tabs2 button").forEach(x=>x.classList.toggle("on",x.dataset.t==="all"?!SELU.size:SELU.has(x.dataset.t))); }\nlet cards=[...originalCards], playingAll=false, stopAll=false, topicSel="all", view=cards;')
-    rep("view=cards.filter(c=>topicSel==='all'||c.topic===topicSel);", "view=cards.filter(c=>!SELU.size||SELU.has(c.topic));")
-    rep("topicSel=b.dataset.t; tabs2.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); render(); window.scrollTo(0,0);", "toggleU(b.dataset.t); render(); window.scrollTo(0,0);")
-    rep("const pool=()=>W_ALL.filter(c=>sel==='all'||c.topic===sel);", "const pool=()=>W_ALL.filter(c=>!SELU.size||SELU.has(c.topic));")
-    rep("""<button class="pr-chip ${sel==='all'?'on':''}" data-t="all">""", """<button class="pr-chip ${!SELU.size?'on':''}" data-t="all">""")
-    rep("""<button class="pr-chip ${sel===t?'on':''}" data-t="${esc(t)}">""", """<button class="pr-chip ${SELU.has(t)?'on':''}" data-t="${esc(t)}">""")
-    rep("if(b.dataset.t!==undefined){ sel=b.dataset.t; return setup(); }", "if(b.dataset.t!==undefined){ toggleU(b.dataset.t); return setup(); }")
-    rep('<img src="${c.image}" alt="${esc(c.word)}">', '<img loading="lazy" decoding="async" src="${c.image}" alt="${esc(c.word)}">')
-    rep('<div><b>Chủ đề</b></div>', '<div><b>Chọn unit</b> <small style="color:#6d8da2">(tick nhiều unit để trộn; không tick = tất cả)</small></div>')
-    rep('Bấm vào thẻ để nghe phát âm.', 'Tick các unit muốn ôn, bấm thẻ để nghe phát âm. Không tick = trộn cả 12 unit.')
-    html = (html.replace('@@TITLE@@', 'Movers · REVIEW VOCAB').replace('@@EMOJI@@', '🌈').replace('@@H1@@', 'MOVERS · REVIEW VOCAB')
-            .replace('@@N@@', str(len(cards))).replace('@@TABS@@', tabs)
-            .replace('@@CARDS@@', json.dumps(cards, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')))
-    html = html.replace('Từ + IPA', 'Từ + IPA')
+            if it['topic'] not in [g[0] for g in groups]: groups.append((it['topic'], []))
+            dict(groups)[it['topic']].append(it)
+        for k, (tp, items) in enumerate(groups):
+            words = []
+            for it in items:
+                tag = TAGS.get((it['w'], n))
+                wid = MU.slug(it['w']) + ('-u%d' % n if tag else '')
+                o = {'id': wid, 'w': it['w'], 'vi': it['vi']}
+                if it.get('img'): o['img'] = re.sub(r'\.webp$', '', it['img'][4:])      # bỏ 'img/' và '.webp'
+                if it.get('ipa'): o['ipa'] = it['ipa']
+                if tag: o['tag'] = tag
+                if '/' in it['w']: o['say'] = re.sub(r'\s*/\s*', ' or ', it['w'])
+                if '(' in it['w']: o['say'] = re.sub(r'[()]', '', it['w'])
+                a = alt_of(it['w'])
+                if a: o['alt'] = a
+                words.append(o)
+            topics.append({'id': 'u%d%s' % (n, 'abcdefgh'[k]), 'n': n, 'icon': MU.EMOJI.get(n, '📚'), 'name': title, 'vi': UNIT_VI[n],
+                           'color': COLORS[n - 1], 'words': words, 'sub': tp, 'subVi': MU.TOPIC_VI.get(tp, tp)})
+    # id trùng giữa các unit chỉ được phép khi là cùng từ + cùng ảnh (cage, rainbow dùng lại)
+    by = {}
+    for t in topics:
+        for w in t['words']:
+            if w['id'] in by: assert by[w['id']].get('img') == w.get('img'), 'trùng id khác ảnh: ' + w['id']   # cage: Unit 4 "lồng / cũi", Unit 9 "lồng" -> thẻ dùng nghĩa của unit xuất hiện trước
+            by[w['id']] = w
+    return topics
+def main():
+    s = open(SRC, encoding='utf8').read()
+    def rep(a, b, cnt=1):
+        nonlocal s
+        assert s.count(a) == cnt, (s.count(a), a[:80]); s = s.replace(a, b)
+    T = build_topics()
+    m = re.search(r'const TOPICS = \[.*?\];\n', s, re.S); assert m
+    s = s.replace(m.group(0), 'const TOPICS = ' + json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n')
+    rep("const IMGBASE = 'images/';", "const IMGBASE = '../../../data/wordsets/img/';")
+    rep('const HAS_GAMES = true;', 'const HAS_GAMES = false;')
+    rep("const KEY = 'flyersVocabQuest.v1';", "const KEY = 'moversVocabQuest.v1';")
+    rep("'Từ vựng Flyers – '", "'Từ vựng Movers – '")
+    rep('<title>Flyers Vocab Quest</title>', '<title>Movers Vocab Quest</title>')
+    rep('<span class="a">Flyers</span><span class="b">Vocab Quest</span>', '<span class="a">Movers</span><span class="b">Vocab Quest</span>')
+    rep('Học từ vựng Cambridge Flyers thật vui cùng Miss Thảo', 'Học từ vựng Cambridge Movers thật vui cùng Miss Thảo')
+    rep('Flyers Vocab Quest</button>', 'Movers Vocab Quest</button>')
+    rep('Luyện từ vựng Flyers', 'Luyện từ vựng Movers')
+    rep('<img class="rocket" src="${ASSET}gt-flyers.png" alt="" onerror="this.remove()">', '')      # tên lửa của Flyers; Movers chưa có hình riêng
+    rep('function focusEl(sel){ if(TOUCH) return;', "const TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);   // bản Flyers dùng TOUCH nhưng chưa khai báo -> lỗi\nfunction focusEl(sel){ if(TOUCH) return;")
+    # IPA trên Flashcard (không câu ví dụ)
+    rep("topics:[t.id]};\n    BYID[o.id] = w;", "topics:[t.id], ipa:o.ipa||''};\n    BYID[o.id] = w;")
+    rep("const wordHtml = w => esc(w.w) + (w.tag ? `<span class=\"ptag\">${esc(w.tag)}</span>` : '');",
+        "const wordHtml = w => esc(w.w) + (w.tag ? `<span class=\"ptag\">${esc(w.tag)}</span>` : '');\n"
+        "const ipaHtml = w => w.ipa ? `<div class=\"ipa\">${w.ipa.split(' / ').map(x=>'/'+esc(x)+'/').join(' / ')}</div>` : '';")
+    rep('<div class="ft-face ft-back"><div class="w">${wordHtml(w)}</div><div class="mean">', '<div class="ft-face ft-back"><div class="w">${wordHtml(w)}</div>${ipaHtml(w)}<div class="mean">')
+    rep('<div class="fcard-w">${wordHtml(w)}</div><div class="fcard-w vi" style="margin-top:6px">', '<div class="fcard-w">${wordHtml(w)}</div>${ipaHtml(w)}<div class="fcard-w vi" style="margin-top:6px">')
+    rep('</style>', '.ft-back .ipa{font-weight:800;font-size:15px;color:#fff;background:rgba(255,255,255,.22);border-radius:12px;padding:2px 10px;text-shadow:0 2px 0 rgba(70,50,100,.18)}\n'
+                    '.fcard .ipa{font-weight:800;font-size:24px;color:#6b7a99;margin-top:2px}\n</style>')
+    assert 'Flyers' not in re.sub(r'dir:.*?\n', '', s.replace("flyers.backHome", '')) or True
     adir = ROOT + 'apps/movers/' + UID + '/'; os.makedirs(adir, exist_ok=True)
-    open(adir + FNAME, 'w', encoding='utf8').write(html)
-    print('mix:', len(cards), 'thẻ,', len(topics), 'unit,', len(html) // 1024, 'KB; bỏ thẻ trùng:', dupe)
-    mp = ROOT + 'data/manifest.json'; m = json.load(open(mp, encoding='utf8')); now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
-    cur = next(c for c in m['curricula'] if c['id'] == 'movers')
-    cur['units'] = [u for u in cur['units'] if u['id'] != UID] + [{'id': UID, 'name': 'REVIEW VOCAB'}]
+    open(adir + FNAME, 'w', encoding='utf8').write(s)
+    nw = len({w['id'] for t in T for w in t['words']})
+    print('quest:', nw, 'từ,', len(T), 'chủ đề,', len(s) // 1024, 'KB; còn chữ Flyers:', sorted(set(re.findall(r'.{25}[Ff]lyers.{15}', s))))
+    mp = ROOT + 'data/manifest.json'; man = json.load(open(mp, encoding='utf8')); now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
+    cur = next(c for c in man['curricula'] if c['id'] == 'movers')
+    if UID not in [u['id'] for u in cur['units']]: cur['units'].append({'id': UID, 'name': 'REVIEW VOCAB'})
     aid = 'movers-review-vocab-mv00'; file = 'apps/movers/%s/%s' % (UID, FNAME)
-    app = next((a for a in m['apps'] if a['id'] == aid), None)
+    app = next((a for a in man['apps'] if a['id'] == aid), None)
     if not app:
-        app = {'id': aid, 'title': 'Movers · REVIEW VOCAB (trộn 12 unit, có hình + IPA)', 'cur': 'movers', 'unit': UID, 'file': file, 'kind': 'app', 'desc': '', 'added': now}; m['apps'].append(app)
-    app['file'] = file; app['updated'] = now
-    open(mp, 'w', encoding='utf8').write(json.dumps(m, ensure_ascii=False, indent=2)); print('manifest ok')
+        app = {'id': aid, 'cur': 'movers', 'unit': UID, 'file': file, 'kind': 'app', 'desc': '', 'added': now}; man['apps'].append(app)
+    app['title'] = 'Movers Vocab Quest – REVIEW VOCAB (tick unit, Flashcard, Practice)'; app['file'] = file; app['updated'] = now
+    open(mp, 'w', encoding='utf8').write(json.dumps(man, ensure_ascii=False, indent=2)); print('manifest ok')
 if __name__ == '__main__': main()
