@@ -7267,13 +7267,8 @@
    "title": "The runaway sheep",
    "teacher": {
     "p1": {
-     "example": "Here there is a rainbow, but here there is a bird in the sky.",
+     "example": "Here the tractor is red, but here the tractor is green.",
      "items": [
-      {
-       "ex": "In my picture the tractor is red.",
-       "cand": "(In your picture) the tractor is green.",
-       "back": "Here the tractor is red, but here …"
-      },
       {
        "ex": "In my picture there are three sheep.",
        "cand": "(In your picture) there are two sheep.",
@@ -7283,11 +7278,6 @@
        "ex": "In my picture the horse is brown.",
        "cand": "(In your picture) the horse is black.",
        "back": "Here the horse is brown, but here …"
-      },
-      {
-       "ex": "In my picture the farmer isn't wearing a hat.",
-       "cand": "(In your picture) the farmer is wearing a hat.",
-       "back": "Here the farmer isn't wearing a hat, but here …"
       }
      ]
     },
@@ -7392,7 +7382,44 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.01,
+      0.2,
+      0.35,
+      0.18
+     ],
+     "w": [
+      "red tractor",
+      "green tractor"
+     ]
+    },
+    {
+     "b": [
+      0.07,
+      0.68,
+      0.92,
+      0.29
+     ],
+     "w": [
+      "three sheep",
+      "two sheep"
+     ]
+    },
+    {
+     "b": [
+      0.0,
+      0.37,
+      0.39,
+      0.33
+     ],
+     "w": [
+      "brown horse",
+      "black horse"
+     ]
+    }
+   ],
    "story": [
     "Peter is feeding a sheep on the farm. The gate is open.",
     "The sheep is running out of the gate. Peter is running after it.",
@@ -7400,8 +7427,34 @@
     "Peter is taking the sheep home. He is tired but happy."
    ],
    "hints": {},
+   "note": "Ảnh B của bộ này chỉ có 3 điểm khác (chưa vẽ cầu vồng/chim và nón của bác nông dân), nên lấy máy kéo làm ví dụ và còn 2 điểm khác.",
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0076,
+     0.0083,
+     0.559,
+     0.4871
+    ],
+    [
+     0.5035,
+     0.0083,
+     0.489,
+     0.4871
+    ],
+    [
+     0.0083,
+     0.5037,
+     0.4883,
+     0.4852
+    ],
+    [
+     0.5028,
+     0.5046,
+     0.489,
+     0.4843
+    ]
+   ]
   },
   {
    "id": "ai-t6",

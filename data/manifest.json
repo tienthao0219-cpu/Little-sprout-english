@@ -815,14 +815,14 @@
     },
     {
       "id": "speaking-test-movers",
-      "title": "Movers Speaking – 32 bộ đề (4 Parts)",
+      "title": "Movers Speaking – 33 bộ đề (4 Parts)",
       "cur": "movers",
       "unit": "speaking",
       "file": "apps/movers/speaking/speaking.html",
       "kind": "app",
       "added": "2026-10-31T10:33:22.000Z",
       "desc": "Luyện nói Movers như thi thật: Part 1 hai tranh song song, Part 2 kể chuyện 4 tranh, Part 3 tìm tranh khác loại, Part 4 câu hỏi cá nhân; có gợi ý và chế độ cô",
-      "updated": "2026-10-31T11:12:39.000Z"
+      "updated": "2026-10-31T11:18:08.000Z"
     }
   ]
 }
