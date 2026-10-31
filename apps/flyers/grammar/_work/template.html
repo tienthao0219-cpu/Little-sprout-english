@@ -377,6 +377,16 @@ input.fin.ok{border-color:var(--good);background:#DDF6E8;color:#17734d}input.fin
   .pex .pa{width:100%}.pex{flex-wrap:wrap}.pex .pa svg{max-width:300px;margin:0 auto}.pex .pa .vart img{max-height:120px}
   .cart2{width:84px}
 }
+/* ===== v8: ảnh từ vựng đơn lấp đầy khung (ảnh 480x480 có viền trong suốt trên/dưới → cắt 4:3) ===== */
+.ex .art{padding:6px 6px 0}
+.ex .art .vart{min-height:0;width:100%}
+.ex .art .vart img:only-child,.g6art .vart img:only-child{width:100%;max-width:none;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:16px}
+.ex .art .vart img:only-child{max-width:340px}
+.g6art{max-width:170px}.g6art .vart{min-height:0}
+.pa .vart img:only-child,.da .vart img:only-child{aspect-ratio:4/3;object-fit:cover}
+.cart2{width:120px}.cart2 .vart{min-height:0}.cart2 .vart img:only-child{width:100%;height:auto;max-width:none;aspect-ratio:4/3;object-fit:cover;border-radius:12px}
+.slart .vart{min-height:0}.slart .vart img:only-child{width:100%;max-width:none;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:12px}
+@media (max-width:520px){.cart2{width:100px}}
 </style>
 </head>
 <body data-c="lav">

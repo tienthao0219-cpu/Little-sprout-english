@@ -29,7 +29,7 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Soạn gọn bằng `ugen.py` (DSL `{chữ|màu}`, tự xáo đáp án, kiểm tra hợp lệ: 1 đáp án đúng, ảnh có tồn tại, mỗi bài đúng 20 câu = 10 trắc nghiệm + 10 điền từ) rồi `unit2.py`, `unit3.py`, `unit4.py` (chạy lại được, ghi vào data.json). Mỗi bài có thêm 6–7 câu dạng hội thoại / đoạn ngắn cho kho trộn; bài tập tổng hợp 10 câu lấy từ các bài.
 - Hình mới: `sign` (biển chỉ đường left/right/straight/stop/cross), `emo` (emoji trong khung pastel); icon bài tự sinh từ emoji (`lico`), Unit 1 giữ icon vẽ tay (`gi`).
 - Unit 2: imperatives; could (suggestions); prepositions of place & movement (dùng ảnh across/through/past/bridge/corner có sẵn); can/could/will requests. Unit 3: will (offers); conditional & result clauses. Unit 4: imperatives; could/couldn't past ability; question words.
-- Unit 5–12: chưa làm (xem danh sách chủ điểm bên dưới). Thêm unit mới: copy `unit4.py`, đổi nội dung, chạy; `meta[].ready` tự bật.
+- (Unit 5–7 đã làm ở v8; Unit 8–12 chưa làm) (xem danh sách chủ điểm bên dưới). Thêm unit mới: copy `unit4.py`, đổi nội dung, chạy; `meta[].ready` tự bật.
 
 ## Cập nhật v7 (góp ý ảnh chụp của cô)
 - "Khi nào dùng" (`when`) = bảng pastel 2 cột (icon + quy tắc | ví dụ). Mỗi lần có nhiều dạng cần so sánh → dùng khối `compare` (ugen: `compare(title,[CI(en, màu, vi, use, [(ví dụ en, vi, trả lời?)], art)])`): 3 cột Form / Use / Example, ô màu, đường kẻ ngang giữa các loại. Đã dùng: can/could/will, could suggestions, giới từ chuyển động, will offers, If vs When, can vs could.
@@ -38,6 +38,12 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Ảnh minh hoạ to hơn (pattern 210px, dialog 230px, ví dụ 150px).
 - LƯU Ý khi viết file bằng Python: dùng `with open(p,'w') as f: f.write(...)`; đừng viết `open(p,'w').write(open(p).read())` (làm rỗng file).
 - Thanh nút khung chơi của CẢ WEBSITE (Game khác / Toàn màn hình / Trang chủ / Lưu & thoát) đổi sang kiểu `.pb` (ô icon + chữ, giống menu) trong `js/app.js` + `css/style.css`.
+
+## Cập nhật v8: Unit 5, 6, 7 + sửa ảnh
+- Ảnh từ vựng đơn (480x480, viền trong suốt trên/dưới) trước đây bị ép khung `max-width:44%` nên nhỏ. Nay `img:only-child` trong `.ex .art`, `.g6art`, `.cart2`, `.slart` rộng 100% khung, tỉ lệ 4/3, `object-fit:cover` (CSS khối "v8" cuối `<style>` của template).
+- Unit 5 (A day out, 5 bài): present simple & continuous (future); could/shall/let's; going to; relative which/that/where; verbs with indirect objects. Unit 6 (Dream jobs, 4 bài): I'd like / wouldn't like; like/love/hate + -ing; Where questions; could (possibility, hiểu là "could be"). Unit 7 (At the castle, 2 bài): will vs going to; past simple. Tên unit lấy từ `data.json meta`; Unit 7 có vẻ đã đặt theo bộ từ vựng, cô cần đối chiếu.
+- Unit 7 chỉ có 2 bài nên thêm câu Cloze (mức Khó) để trộn Khó 30 câu vẫn đủ ≥50% mức Khó (gtest kiểm tra).
+- Còn lại: Unit 8–12 (soạn tiếp bằng `unit8.py`… theo khuôn unit5.py).
 
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
@@ -52,5 +58,5 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 (Danh sách cô gửi có dấu trích dẫn [1][2] như copy từ công cụ AI – cô nên đối chiếu lại với sách khi duyệt.)
 
 ## Việc còn lại
-- Unit 1 = bản MẪU chờ cô duyệt; sau đó làm Unit 2–12 cùng khuôn (thêm vào data.json + thêm app vào data/manifest.json, unit `grammar` trong lớp flyers).
+- Đã làm Unit 1–7; làm tiếp Unit 8–12 cùng khuôn (thêm vào data.json + thêm app vào data/manifest.json, unit `grammar` trong lớp flyers).
 - Dữ liệu hiện nằm trong data.json (chưa đọc từ Google Sheets). Chưa có âm thanh hiệu ứng.
