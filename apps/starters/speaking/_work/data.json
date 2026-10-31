@@ -9541,6 +9541,5025 @@
         "say": "OK. Thank you, (name). Goodbye.",
         "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
       }
+    },
+    {
+      "id": "ai-t1",
+      "no": 31,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 1",
+      "theme": "At the zoo",
+      "themeVi": "Ở sở thú",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t1/scene.webp",
+        "alt": "At the zoo: a big grey ELEPHANT standing in the centre; a ZOOKEEPER (a woman in a green uniform and a brown hat) standing on the left of the elephant; a brown MONKEY sitting in a big green TREE at the top left; a tall yellow GIRAFFE standing at the back on the right"
+      },
+      "hot": {
+        "elephant": {
+          "rect": [
+            33,
+            18,
+            39,
+            42
+          ],
+          "label": "elephant"
+        },
+        "monkey": {
+          "rect": [
+            7,
+            3,
+            11,
+            17
+          ],
+          "label": "monkey"
+        },
+        "giraffe": {
+          "rect": [
+            73,
+            3,
+            22,
+            50
+          ],
+          "label": "giraffe"
+        },
+        "balloons": {
+          "rect": [
+            87,
+            44,
+            13,
+            19
+          ],
+          "label": "balloons"
+        },
+        "boy": {
+          "rect": [
+            6,
+            56,
+            16,
+            36
+          ],
+          "label": "boy"
+        },
+        "keeper": {
+          "rect": [
+            17,
+            26,
+            17,
+            41
+          ],
+          "label": "woman"
+        }
+      },
+      "zones": {
+        "fence": {
+          "rect": [
+            34,
+            55,
+            14,
+            10
+          ],
+          "label": "on the fence",
+          "at": [
+            39.5,
+            60
+          ]
+        },
+        "tree": {
+          "rect": [
+            3,
+            34,
+            17,
+            22
+          ],
+          "label": "under the tree",
+          "at": [
+            11,
+            44
+          ]
+        },
+        "bin": {
+          "rect": [
+            53,
+            72,
+            17,
+            20
+          ],
+          "label": "next to the bin",
+          "at": [
+            60,
+            83
+          ]
+        }
+      },
+      "cards": {
+        "tiger": {
+          "w": "tiger",
+          "img": "img/ai-t1/tiger.webp",
+          "s": "It's a tiger.",
+          "gen": true
+        },
+        "glasses": {
+          "w": "glasses",
+          "img": "img/ai-t1/glasses.webp",
+          "s": "They're glasses.",
+          "gen": true
+        },
+        "sandwich": {
+          "w": "sandwich",
+          "img": "img/ai-t1/sandwich.webp",
+          "s": "It's a sandwich.",
+          "gen": true
+        },
+        "drum": {
+          "w": "drum",
+          "img": "img/ai-t1/drum.webp",
+          "s": "It's a drum.",
+          "gen": true
+        },
+        "bed": {
+          "w": "bed",
+          "img": "img/ai-t1/bed.webp",
+          "s": "It's a bed.",
+          "gen": true
+        },
+        "banana": {
+          "w": "banana",
+          "img": "img/ai-t1/banana.webp",
+          "s": "It's a banana.",
+          "gen": true
+        },
+        "teddy": {
+          "w": "teddy bear",
+          "img": "img/ai-t1/teddy.webp",
+          "s": "It's a teddy bear.",
+          "gen": true
+        },
+        "shoes": {
+          "w": "shoes",
+          "img": "img/ai-t1/shoes.webp",
+          "s": "They're shoes.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is the zoo.",
+          "vi": "Nhìn này. Đây là sở thú."
+        },
+        "example": {
+          "say": "Here's the elephant.",
+          "target": "elephant",
+          "vi": "Đây là con voi. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the monkey?",
+            "target": "monkey",
+            "back": "Is this the monkey?",
+            "vi": "Con khỉ ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the monkey?",
+              "Is this the monkey?"
+            ]
+          },
+          {
+            "say": "Where's the giraffe?",
+            "target": "giraffe",
+            "back": "Is this the giraffe?",
+            "vi": "Con hươu cao cổ ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the giraffe?",
+              "Is this the giraffe?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "drum",
+          "bed",
+          "banana",
+          "teddy",
+          "shoes",
+          "tiger",
+          "glasses",
+          "sandwich"
+        ],
+        "cardSteps": [
+          {
+            "card": "drum",
+            "pick": {
+              "say": "Which is the drum?",
+              "back": "Is this the drum?",
+              "vi": "Thẻ nào là cái trống?",
+              "hints": [
+                "Look at the cards. Which is the drum?",
+                "Is this the drum?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the drum on the fence.",
+              "zone": "fence",
+              "vi": "Cô đặt cái trống lên hàng rào."
+            },
+            "place": {
+              "say": "Now you put the drum under the tree.",
+              "zone": "tree",
+              "back": "Where's the tree? Under the tree.",
+              "vi": "Bây giờ em đặt cái trống dưới cái cây.",
+              "hints": [
+                "Look at the tree. Where's the tree?",
+                "Where's the tree? Under the tree."
+              ]
+            }
+          },
+          {
+            "card": "banana",
+            "pick": {
+              "say": "Which is the banana?",
+              "back": "Is this the banana?",
+              "vi": "Thẻ nào là quả chuối?",
+              "hints": [
+                "Look at the cards. Which is the banana?",
+                "Is this the banana?"
+              ]
+            },
+            "place": {
+              "say": "Put the banana next to the bin.",
+              "zone": "bin",
+              "back": "Where's the bin? Next to the bin.",
+              "vi": "Đặt quả chuối bên cạnh thùng rác.",
+              "hints": [
+                "Look at the bin. Where's the bin?",
+                "Where's the bin? Next to the bin."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "balloons",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Balloons"
+          ],
+          "back": "Are they balloons?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they balloons?",
+            "Are they balloons or flowers?"
+          ]
+        },
+        {
+          "point": "balloons",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "balloons",
+          "say": "How many balloons are there?",
+          "ans": [
+            "Three"
+          ],
+          "back": "Are there two? Three?",
+          "vi": "Có bao nhiêu bóng bay?",
+          "hints": [
+            "Are there two? Three?",
+            "Are there two or three?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Eating"
+          ],
+          "back": "Is he eating?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he eating?",
+            "Is he eating or sleeping?"
+          ]
+        },
+        {
+          "point": "keeper",
+          "say": "Tell me about this woman.",
+          "ans": [
+            "She's feeding the elephant.",
+            "She's got a hat."
+          ],
+          "back": "What's she doing? (Is she feeding the elephant?) / What's she got? (Has she got a hat?)",
+          "vi": "Hãy nói về cô quản thú.",
+          "hints": [
+            "What's she doing? Is she feeding the elephant?",
+            "What's she got? Has she got a hat?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "tiger",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Tiger"
+              ],
+              "back": "Is it a tiger?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a tiger?",
+                "Is it a tiger or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like tigers?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con hổ không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like tigers?",
+                "Is a tiger big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "sandwich",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Sandwich"
+              ],
+              "back": "Is it a sandwich?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a sandwich?",
+                "Is it a sandwich or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like sandwiches?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích bánh sandwich không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like sandwiches?",
+                "Do you eat sandwiches?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "teddy",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Teddy bear"
+              ],
+              "back": "Is it a teddy bear?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a teddy bear?",
+                "Is it a teddy bear or a book?"
+              ]
+            },
+            {
+              "say": "Have you got a teddy bear?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có gấu bông không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Have you got a teddy bear?",
+                "Do you like teddy bears?"
+              ]
+            },
+            {
+              "say": "What colour is it?",
+              "ans": [
+                "Brown"
+              ],
+              "back": "Is it brown?",
+              "vi": "Nó màu gì?",
+              "hints": [
+                "Is it brown?",
+                "Is it brown or red?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "shoes",
+          "qs": [
+            {
+              "say": "What are these?",
+              "ans": [
+                "Shoes"
+              ],
+              "back": "Are they shoes?",
+              "vi": "Đây là những gì?",
+              "hints": [
+                "Are they shoes?",
+                "Are they shoes or hats?"
+              ]
+            },
+            {
+              "say": "Do you wear shoes to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc đôi giày đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear shoes to school?",
+                "Do you wear shoes at home?"
+              ]
+            },
+            {
+              "say": "What colour are your shoes?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Are your shoes blue?",
+              "vi": "Đôi giày của em màu gì?",
+              "free": true,
+              "hints": [
+                "Are your shoes blue?",
+                "Are your shoes blue or white?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you like animals?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích động vật không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like animals?",
+            "Do you like dogs?"
+          ]
+        },
+        {
+          "say": "What's your favourite animal at the zoo?",
+          "ans": [
+            "Elephant"
+          ],
+          "back": "Do you like elephants?",
+          "vi": "Con vật em thích nhất ở sở thú?",
+          "free": true,
+          "hints": [
+            "Do you like elephants?",
+            "Do you like elephants or monkeys?"
+          ]
+        },
+        {
+          "say": "Who do you go to the zoo with?",
+          "ans": [
+            "My family"
+          ],
+          "back": "Do you go with your family?",
+          "vi": "Em đi sở thú cùng ai?",
+          "free": true,
+          "hints": [
+            "Do you go with your family?",
+            "Do you go with your family or your friend?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t2",
+      "no": 32,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 2",
+      "theme": "On the farm",
+      "themeVi": "Ở nông trại",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t2/scene.webp",
+        "alt": "On the farm: a big red BARN with a white door; a green TRACTOR at the bottom left; a black-and-white COW standing in the green field in the centre; FOUR WHITE DUCKS swimming on a small blue pond at the bottom in the middle"
+      },
+      "hot": {
+        "barn": {
+          "rect": [
+            74,
+            3,
+            26,
+            36
+          ],
+          "label": "barn"
+        },
+        "cow": {
+          "rect": [
+            39,
+            33,
+            28,
+            26
+          ],
+          "label": "cow"
+        },
+        "tractor": {
+          "rect": [
+            0,
+            57,
+            33,
+            35
+          ],
+          "label": "tractor"
+        },
+        "ducks": {
+          "rect": [
+            37,
+            72,
+            34,
+            18
+          ],
+          "label": "ducks"
+        },
+        "boy": {
+          "rect": [
+            69,
+            40,
+            30,
+            50
+          ],
+          "label": "boy"
+        },
+        "farmer": {
+          "rect": [
+            23,
+            27,
+            12,
+            33
+          ],
+          "label": "man"
+        }
+      },
+      "zones": {
+        "barn": {
+          "rect": [
+            74,
+            3,
+            26,
+            36
+          ],
+          "label": "on the barn",
+          "at": [
+            86,
+            22
+          ]
+        },
+        "tree": {
+          "rect": [
+            2,
+            34,
+            21,
+            19
+          ],
+          "label": "under the apple tree",
+          "at": [
+            16,
+            45
+          ]
+        },
+        "tractor": {
+          "rect": [
+            30,
+            57,
+            12,
+            16
+          ],
+          "label": "next to the tractor",
+          "at": [
+            35.5,
+            64.5
+          ]
+        }
+      },
+      "cards": {
+        "lamp": {
+          "w": "lamp",
+          "img": "img/ai-t2/lamp.webp",
+          "s": "It's a lamp.",
+          "gen": true
+        },
+        "car": {
+          "w": "car",
+          "img": "img/ai-t2/car.webp",
+          "s": "It's a car.",
+          "gen": true
+        },
+        "pizza": {
+          "w": "pizza",
+          "img": "img/ai-t2/pizza.webp",
+          "s": "It's a pizza.",
+          "gen": true
+        },
+        "jeans": {
+          "w": "jeans",
+          "img": "img/ai-t2/jeans.webp",
+          "s": "They're jeans.",
+          "gen": true
+        },
+        "grapes": {
+          "w": "grapes",
+          "img": "img/ai-t2/grapes.webp",
+          "s": "They're grapes.",
+          "gen": true
+        },
+        "train": {
+          "w": "train",
+          "img": "img/ai-t2/train.webp",
+          "s": "It's a train.",
+          "gen": true
+        },
+        "cheese": {
+          "w": "cheese",
+          "img": "img/ai-t2/cheese.webp",
+          "s": "It's cheese.",
+          "gen": true
+        },
+        "ruler": {
+          "w": "ruler",
+          "img": "img/ai-t2/ruler.webp",
+          "s": "It's a ruler.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a farm.",
+          "vi": "Nhìn này. Đây là nông trại."
+        },
+        "example": {
+          "say": "Here's the barn.",
+          "target": "barn",
+          "vi": "Đây là chuồng trại. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the cow?",
+            "target": "cow",
+            "back": "Is this the cow?",
+            "vi": "Con bò ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the cow?",
+              "Is this the cow?"
+            ]
+          },
+          {
+            "say": "Where's the tractor?",
+            "target": "tractor",
+            "back": "Is this the tractor?",
+            "vi": "Chiếc máy kéo ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the tractor?",
+              "Is this the tractor?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "jeans",
+          "grapes",
+          "train",
+          "cheese",
+          "ruler",
+          "lamp",
+          "car",
+          "pizza"
+        ],
+        "cardSteps": [
+          {
+            "card": "lamp",
+            "pick": {
+              "say": "Which is the lamp?",
+              "back": "Is this the lamp?",
+              "vi": "Thẻ nào là cái đèn?",
+              "hints": [
+                "Look at the cards. Which is the lamp?",
+                "Is this the lamp?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the lamp on the barn.",
+              "zone": "barn",
+              "vi": "Cô đặt cái đèn lên chuồng trại."
+            },
+            "place": {
+              "say": "Now you put the lamp under the apple tree.",
+              "zone": "tree",
+              "back": "Where's the apple tree? Under the apple tree.",
+              "vi": "Bây giờ em đặt cái đèn dưới cây táo.",
+              "hints": [
+                "Look at the apple tree. Where's the apple tree?",
+                "Where's the apple tree? Under the apple tree."
+              ]
+            }
+          },
+          {
+            "card": "car",
+            "pick": {
+              "say": "Which is the car?",
+              "back": "Is this the car?",
+              "vi": "Thẻ nào là chiếc ô tô?",
+              "hints": [
+                "Look at the cards. Which is the car?",
+                "Is this the car?"
+              ]
+            },
+            "place": {
+              "say": "Put the car next to the tractor.",
+              "zone": "tractor",
+              "back": "Where's the tractor? Next to the tractor.",
+              "vi": "Đặt chiếc ô tô bên cạnh máy kéo.",
+              "hints": [
+                "Look at the tractor. Where's the tractor?",
+                "Where's the tractor? Next to the tractor."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "ducks",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Ducks"
+          ],
+          "back": "Are they ducks?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they ducks?",
+            "Are they ducks or birds?"
+          ]
+        },
+        {
+          "point": "ducks",
+          "say": "What colour are they?",
+          "ans": [
+            "White"
+          ],
+          "back": "Are they white?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they white?",
+            "Are they white or red?"
+          ]
+        },
+        {
+          "point": "ducks",
+          "say": "How many ducks are there?",
+          "ans": [
+            "Four"
+          ],
+          "back": "Are there three? Four?",
+          "vi": "Có bao nhiêu con vịt?",
+          "hints": [
+            "Are there three? Four?",
+            "Are there three or four?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Riding a horse"
+          ],
+          "back": "Is he riding?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he riding?",
+            "Is he riding or running?"
+          ]
+        },
+        {
+          "point": "farmer",
+          "say": "Tell me about this man.",
+          "ans": [
+            "He's carrying apples.",
+            "He's got a yellow hat."
+          ],
+          "back": "What's he carrying? (Is he carrying apples?) / What's he got? (Has he got a hat?)",
+          "vi": "Hãy nói về người nông dân.",
+          "hints": [
+            "What's he carrying? Is he carrying apples?",
+            "What's he got? Has he got a hat?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "pizza",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Pizza"
+              ],
+              "back": "Is it a pizza?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a pizza?",
+                "Is it a pizza or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like pizzas?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích bánh pizza không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like pizzas?",
+                "Do you eat pizzas?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "jeans",
+          "qs": [
+            {
+              "say": "What are these?",
+              "ans": [
+                "Jeans"
+              ],
+              "back": "Are they jeans?",
+              "vi": "Đây là những gì?",
+              "hints": [
+                "Are they jeans?",
+                "Are they jeans or hats?"
+              ]
+            },
+            {
+              "say": "Do you wear jeans to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc quần jeans đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear jeans to school?",
+                "Do you wear jeans at home?"
+              ]
+            },
+            {
+              "say": "What colour are your jeans?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Are your jeans blue?",
+              "vi": "Quần jeans của em màu gì?",
+              "free": true,
+              "hints": [
+                "Are your jeans blue?",
+                "Are your jeans blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "grapes",
+          "qs": [
+            {
+              "say": "What are these?",
+              "ans": [
+                "Grapes"
+              ],
+              "back": "Are they grapes?",
+              "vi": "Đây là những gì?",
+              "hints": [
+                "Are they grapes?",
+                "Are they grapes or cakes?"
+              ]
+            },
+            {
+              "say": "Do you like grapes?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích nho không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like grapes?",
+                "Do you eat grapes?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "cheese",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Cheese"
+              ],
+              "back": "Is it cheese?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it cheese?",
+                "Is it cheese or cake?"
+              ]
+            },
+            {
+              "say": "Do you like cheese?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích phô mai không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like cheese?",
+                "Do you eat cheese?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you have a pet?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thú cưng không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you have a pet?",
+            "Do you have a dog or a cat?"
+          ]
+        },
+        {
+          "say": "What animals can you see on a farm?",
+          "ans": [
+            "Cows"
+          ],
+          "back": "Can you see cows?",
+          "vi": "Em thấy những con vật nào ở nông trại?",
+          "free": true,
+          "hints": [
+            "Can you see cows?",
+            "Can you see cows or lions?"
+          ]
+        },
+        {
+          "say": "Do you like apples?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích táo không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like apples?",
+            "Do you like red apples?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t3",
+      "no": 33,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 3",
+      "theme": "In the kitchen",
+      "themeVi": "Trong nhà bếp",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t3/scene.webp",
+        "alt": "In the kitchen: a big white FRIDGE on the left; a round CLOCK on the wall at the top in the middle; an orange CAT sleeping on the floor at the bottom right (not under the table); a wooden TABLE in the centre with a bowl of FIVE RED APPLES on it"
+      },
+      "hot": {
+        "fridge": {
+          "rect": [
+            0,
+            7,
+            19,
+            60
+          ],
+          "label": "fridge"
+        },
+        "clock": {
+          "rect": [
+            54,
+            5,
+            13,
+            18
+          ],
+          "label": "clock"
+        },
+        "cat": {
+          "rect": [
+            75,
+            74,
+            24,
+            19
+          ],
+          "label": "cat"
+        },
+        "apples": {
+          "rect": [
+            42,
+            43,
+            16,
+            15
+          ],
+          "label": "apples"
+        },
+        "girl": {
+          "rect": [
+            73,
+            19,
+            20,
+            52
+          ],
+          "label": "girl"
+        },
+        "man": {
+          "rect": [
+            17,
+            23,
+            25,
+            60
+          ],
+          "label": "man"
+        }
+      },
+      "zones": {
+        "fridge": {
+          "rect": [
+            0,
+            2,
+            19,
+            12
+          ],
+          "label": "on the fridge",
+          "at": [
+            9,
+            8
+          ]
+        },
+        "table": {
+          "rect": [
+            46,
+            67,
+            24,
+            14
+          ],
+          "label": "under the table",
+          "at": [
+            54,
+            76
+          ]
+        },
+        "window": {
+          "rect": [
+            51,
+            25,
+            15,
+            15
+          ],
+          "label": "next to the window",
+          "at": [
+            58,
+            32
+          ]
+        }
+      },
+      "cards": {
+        "bag": {
+          "w": "bag",
+          "img": "img/ai-t3/bag.webp",
+          "s": "It's a bag.",
+          "gen": true
+        },
+        "boat": {
+          "w": "boat",
+          "img": "img/ai-t3/boat.webp",
+          "s": "It's a boat.",
+          "gen": true
+        },
+        "horse": {
+          "w": "horse",
+          "img": "img/ai-t3/horse.webp",
+          "s": "It's a horse.",
+          "gen": true
+        },
+        "skirt": {
+          "w": "skirt",
+          "img": "img/ai-t3/skirt.webp",
+          "s": "It's a skirt.",
+          "gen": true
+        },
+        "orange": {
+          "w": "orange",
+          "img": "img/ai-t3/orange.webp",
+          "s": "It's an orange.",
+          "gen": true
+        },
+        "bread": {
+          "w": "bread",
+          "img": "img/ai-t3/bread.webp",
+          "s": "It's bread.",
+          "gen": true
+        },
+        "spider": {
+          "w": "spider",
+          "img": "img/ai-t3/spider.webp",
+          "s": "It's a spider.",
+          "gen": true
+        },
+        "sock": {
+          "w": "sock",
+          "img": "img/ai-t3/sock.webp",
+          "s": "It's a sock.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a kitchen.",
+          "vi": "Nhìn này. Đây là nhà bếp."
+        },
+        "example": {
+          "say": "Here's the fridge.",
+          "target": "fridge",
+          "vi": "Đây là tủ lạnh. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the clock?",
+            "target": "clock",
+            "back": "Is this the clock?",
+            "vi": "Cái đồng hồ ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the clock?",
+              "Is this the clock?"
+            ]
+          },
+          {
+            "say": "Where's the cat?",
+            "target": "cat",
+            "back": "Is this the cat?",
+            "vi": "Con mèo ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the cat?",
+              "Is this the cat?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "skirt",
+          "orange",
+          "bread",
+          "spider",
+          "sock",
+          "bag",
+          "boat",
+          "horse"
+        ],
+        "cardSteps": [
+          {
+            "card": "bag",
+            "pick": {
+              "say": "Which is the bag?",
+              "back": "Is this the bag?",
+              "vi": "Thẻ nào là cái túi?",
+              "hints": [
+                "Look at the cards. Which is the bag?",
+                "Is this the bag?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the bag on the fridge.",
+              "zone": "fridge",
+              "vi": "Cô đặt cái túi lên tủ lạnh."
+            },
+            "place": {
+              "say": "Now you put the bag under the table.",
+              "zone": "table",
+              "back": "Where's the table? Under the table.",
+              "vi": "Bây giờ em đặt cái túi dưới cái bàn.",
+              "hints": [
+                "Look at the table. Where's the table?",
+                "Where's the table? Under the table."
+              ]
+            }
+          },
+          {
+            "card": "boat",
+            "pick": {
+              "say": "Which is the boat?",
+              "back": "Is this the boat?",
+              "vi": "Thẻ nào là con thuyền?",
+              "hints": [
+                "Look at the cards. Which is the boat?",
+                "Is this the boat?"
+              ]
+            },
+            "place": {
+              "say": "Put the boat next to the window.",
+              "zone": "window",
+              "back": "Where's the window? Next to the window.",
+              "vi": "Đặt con thuyền bên cạnh cửa sổ.",
+              "hints": [
+                "Look at the window. Where's the window?",
+                "Where's the window? Next to the window."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "apples",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Apples"
+          ],
+          "back": "Are they apples?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they apples?",
+            "Are they apples or oranges?"
+          ]
+        },
+        {
+          "point": "apples",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "apples",
+          "say": "How many apples are there?",
+          "ans": [
+            "Five"
+          ],
+          "back": "Are there four? Five?",
+          "vi": "Có bao nhiêu quả táo?",
+          "hints": [
+            "Are there four? Five?",
+            "Are there four or five?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "What's the girl doing?",
+          "ans": [
+            "Cooking"
+          ],
+          "back": "Is she cooking?",
+          "vi": "Cô bé đang làm gì?",
+          "hints": [
+            "Is she cooking?",
+            "Is she cooking or sleeping?"
+          ]
+        },
+        {
+          "point": "man",
+          "say": "Tell me about this man.",
+          "ans": [
+            "He's reading.",
+            "He's got glasses."
+          ],
+          "back": "What's he doing? (Is he reading?) / What's he got? (Has he got glasses?)",
+          "vi": "Hãy nói về người đàn ông này.",
+          "hints": [
+            "What's he doing? Is he reading?",
+            "What's he got? Has he got glasses?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "horse",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Horse"
+              ],
+              "back": "Is it a horse?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a horse?",
+                "Is it a horse or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like horses?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con ngựa không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like horses?",
+                "Is a horse big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "skirt",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Skirt"
+              ],
+              "back": "Is it a skirt?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a skirt?",
+                "Is it a skirt or a hat?"
+              ]
+            },
+            {
+              "say": "Do you wear a skirt to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc cái váy đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear a skirt to school?",
+                "Do you wear a skirt at home?"
+              ]
+            },
+            {
+              "say": "What colour is your skirt?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Is your skirt blue?",
+              "vi": "Cái váy của em màu gì?",
+              "free": true,
+              "hints": [
+                "Is your skirt blue?",
+                "Is your skirt blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "orange",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Orange"
+              ],
+              "back": "Is it an orange?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it an orange?",
+                "Is it an orange or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like oranges?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích quả cam không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like oranges?",
+                "Do you eat oranges?"
+              ]
+            },
+            {
+              "say": "What do you eat for breakfast?",
+              "ans": [
+                "Bread"
+              ],
+              "back": "Do you eat bread?",
+              "vi": "Bữa sáng em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat bread?",
+                "Do you eat bread or rice?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "bread",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Bread"
+              ],
+              "back": "Is it bread?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it bread?",
+                "Is it bread or cake?"
+              ]
+            },
+            {
+              "say": "Do you like bread?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích bánh mì không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like bread?",
+                "Do you eat bread?"
+              ]
+            },
+            {
+              "say": "What do you eat for breakfast?",
+              "ans": [
+                "Bread"
+              ],
+              "back": "Do you eat bread?",
+              "vi": "Bữa sáng em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat bread?",
+                "Do you eat bread or rice?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you like cooking?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích nấu ăn không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like cooking?",
+            "Do you help your mum in the kitchen?"
+          ]
+        },
+        {
+          "say": "What do you eat for dinner?",
+          "ans": [
+            "Rice"
+          ],
+          "back": "Do you eat rice?",
+          "vi": "Bữa tối em ăn gì?",
+          "free": true,
+          "hints": [
+            "Do you eat rice?",
+            "Do you eat rice or noodles?"
+          ]
+        },
+        {
+          "say": "Who cooks in your house?",
+          "ans": [
+            "My mum"
+          ],
+          "back": "Does your mum cook?",
+          "vi": "Ai nấu ăn ở nhà em?",
+          "free": true,
+          "hints": [
+            "Does your mum cook?",
+            "Does your mum or your dad cook?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t4",
+      "no": 34,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 4",
+      "theme": "In the bedroom",
+      "themeVi": "Trong phòng ngủ",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t4/scene.webp",
+        "alt": "In the bedroom: a blue BED in the centre; a tall brown WARDROBE on the left; a yellow LAMP on a small table on the right of the bed; a white DOOR on the right wall"
+      },
+      "hot": {
+        "bed": {
+          "rect": [
+            19,
+            31,
+            46,
+            43
+          ],
+          "label": "bed"
+        },
+        "lamp": {
+          "rect": [
+            65,
+            28,
+            12,
+            18
+          ],
+          "label": "lamp"
+        },
+        "teddy": {
+          "rect": [
+            29,
+            36,
+            12,
+            16
+          ],
+          "label": "teddy bear"
+        },
+        "cars": {
+          "rect": [
+            2,
+            75,
+            52,
+            17
+          ],
+          "label": "toy cars"
+        },
+        "girl": {
+          "rect": [
+            36,
+            4,
+            26,
+            45
+          ],
+          "label": "girl"
+        },
+        "boy": {
+          "rect": [
+            71,
+            43,
+            23,
+            48
+          ],
+          "label": "boy"
+        }
+      },
+      "zones": {
+        "wardrobe": {
+          "rect": [
+            0,
+            2,
+            20,
+            62
+          ],
+          "label": "on the wardrobe",
+          "at": [
+            10,
+            8
+          ]
+        },
+        "bed": {
+          "rect": [
+            24,
+            65,
+            30,
+            9
+          ],
+          "label": "under the bed",
+          "at": [
+            39,
+            70
+          ]
+        },
+        "door": {
+          "rect": [
+            66,
+            2,
+            15,
+            22
+          ],
+          "label": "next to the door",
+          "at": [
+            73,
+            12
+          ]
+        }
+      },
+      "cards": {
+        "doll": {
+          "w": "doll",
+          "img": "img/ai-t4/doll.webp",
+          "s": "It's a doll.",
+          "gen": true
+        },
+        "egg": {
+          "w": "egg",
+          "img": "img/ai-t4/egg.webp",
+          "s": "It's an egg.",
+          "gen": true
+        },
+        "bird": {
+          "w": "bird",
+          "img": "img/ai-t4/bird.webp",
+          "s": "It's a bird.",
+          "gen": true
+        },
+        "coat": {
+          "w": "coat",
+          "img": "img/ai-t4/coat.webp",
+          "s": "It's a coat.",
+          "gen": true
+        },
+        "cake": {
+          "w": "cake",
+          "img": "img/ai-t4/cake.webp",
+          "s": "It's a cake.",
+          "gen": true
+        },
+        "bike": {
+          "w": "bike",
+          "img": "img/ai-t4/bike.webp",
+          "s": "It's a bike.",
+          "gen": true
+        },
+        "flower": {
+          "w": "flower",
+          "img": "img/ai-t4/flower.webp",
+          "s": "It's a flower.",
+          "gen": true
+        },
+        "tomato": {
+          "w": "tomato",
+          "img": "img/ai-t4/tomato.webp",
+          "s": "It's a tomato.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a bedroom.",
+          "vi": "Nhìn này. Đây là phòng ngủ."
+        },
+        "example": {
+          "say": "Here's the bed.",
+          "target": "bed",
+          "vi": "Đây là cái giường. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the lamp?",
+            "target": "lamp",
+            "back": "Is this the lamp?",
+            "vi": "Cái đèn ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the lamp?",
+              "Is this the lamp?"
+            ]
+          },
+          {
+            "say": "Where's the teddy bear?",
+            "target": "teddy",
+            "back": "Is this the teddy bear?",
+            "vi": "Con gấu bông ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the teddy bear?",
+              "Is this the teddy bear?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "coat",
+          "cake",
+          "bike",
+          "flower",
+          "tomato",
+          "doll",
+          "egg",
+          "bird"
+        ],
+        "cardSteps": [
+          {
+            "card": "doll",
+            "pick": {
+              "say": "Which is the doll?",
+              "back": "Is this the doll?",
+              "vi": "Thẻ nào là búp bê?",
+              "hints": [
+                "Look at the cards. Which is the doll?",
+                "Is this the doll?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the doll on the wardrobe.",
+              "zone": "wardrobe",
+              "vi": "Cô đặt búp bê lên tủ quần áo."
+            },
+            "place": {
+              "say": "Now you put the doll under the bed.",
+              "zone": "bed",
+              "back": "Where's the bed? Under the bed.",
+              "vi": "Bây giờ em đặt búp bê dưới cái giường.",
+              "hints": [
+                "Look at the bed. Where's the bed?",
+                "Where's the bed? Under the bed."
+              ]
+            }
+          },
+          {
+            "card": "egg",
+            "pick": {
+              "say": "Which is the egg?",
+              "back": "Is this the egg?",
+              "vi": "Thẻ nào là quả trứng?",
+              "hints": [
+                "Look at the cards. Which is the egg?",
+                "Is this the egg?"
+              ]
+            },
+            "place": {
+              "say": "Put the egg next to the door.",
+              "zone": "door",
+              "back": "Where's the door? Next to the door.",
+              "vi": "Đặt quả trứng bên cạnh cánh cửa.",
+              "hints": [
+                "Look at the door. Where's the door?",
+                "Where's the door? Next to the door."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "cars",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Toy cars"
+          ],
+          "back": "Are they toy cars?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they toy cars?",
+            "Are they toy cars or toy trains?"
+          ]
+        },
+        {
+          "point": "cars",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "cars",
+          "say": "How many toy cars are there?",
+          "ans": [
+            "Four"
+          ],
+          "back": "Are there three? Four?",
+          "vi": "Có bao nhiêu xe đồ chơi?",
+          "hints": [
+            "Are there three? Four?",
+            "Are there three or four?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "What's the girl doing?",
+          "ans": [
+            "Jumping"
+          ],
+          "back": "Is she jumping?",
+          "vi": "Cô bé đang làm gì?",
+          "hints": [
+            "Is she jumping?",
+            "Is she jumping or sleeping?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "Tell me about this boy.",
+          "ans": [
+            "He's drawing.",
+            "He's got a red pencil."
+          ],
+          "back": "What's he doing? (Is he drawing?) / What's he got? (Has he got a red pencil?)",
+          "vi": "Hãy nói về cậu bé này.",
+          "hints": [
+            "What's he doing? Is he drawing?",
+            "What's he got? Has he got a red pencil?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "bird",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Bird"
+              ],
+              "back": "Is it a bird?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a bird?",
+                "Is it a bird or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like birds?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con chim không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like birds?",
+                "Is a bird big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "coat",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Coat"
+              ],
+              "back": "Is it a coat?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a coat?",
+                "Is it a coat or a hat?"
+              ]
+            },
+            {
+              "say": "Do you wear a coat to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc áo khoác đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear a coat to school?",
+                "Do you wear a coat at home?"
+              ]
+            },
+            {
+              "say": "What colour is your coat?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Is your coat blue?",
+              "vi": "Áo khoác của em màu gì?",
+              "free": true,
+              "hints": [
+                "Is your coat blue?",
+                "Is your coat blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "cake",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Cake"
+              ],
+              "back": "Is it a cake?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a cake?",
+                "Is it a cake or a ball?"
+              ]
+            },
+            {
+              "say": "Do you like cakes?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích bánh ngọt không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like cakes?",
+                "Do you eat cakes?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "flower",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Flower"
+              ],
+              "back": "Is it a flower?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a flower?",
+                "Is it a flower or a book?"
+              ]
+            },
+            {
+              "say": "Have you got a flower?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có bông hoa không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Have you got a flower?",
+                "Do you like flowers?"
+              ]
+            },
+            {
+              "say": "What colour is it?",
+              "ans": [
+                "Pink"
+              ],
+              "back": "Is it pink?",
+              "vi": "Nó màu gì?",
+              "hints": [
+                "Is it pink?",
+                "Is it pink or red?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you have your own bedroom?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có phòng ngủ riêng không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you have your own bedroom?",
+            "Is your bedroom big or small?"
+          ]
+        },
+        {
+          "say": "What's in your bedroom?",
+          "ans": [
+            "A bed"
+          ],
+          "back": "Is there a bed in your bedroom?",
+          "vi": "Trong phòng ngủ của em có gì?",
+          "free": true,
+          "hints": [
+            "Is there a bed in your bedroom?",
+            "Is there a bed or a car in your bedroom?"
+          ]
+        },
+        {
+          "say": "What do you do in your bedroom?",
+          "ans": [
+            "Sleep / read"
+          ],
+          "back": "Do you sleep in your bedroom?",
+          "vi": "Em làm gì trong phòng ngủ?",
+          "free": true,
+          "hints": [
+            "Do you sleep in your bedroom?",
+            "Do you sleep or play in your bedroom?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t6",
+      "no": 36,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 6",
+      "theme": "At the sports field",
+      "themeVi": "Ở sân thể thao",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t6/scene.webp",
+        "alt": "At the sports field: a big green TREE on the right; a long brown wooden BENCH at the left; a boy in a red shirt kicking a black-and-white FOOTBALL in the centre; a girl in a blue T-shirt RUNNING at the back on the left"
+      },
+      "hot": {
+        "tree": {
+          "rect": [
+            61,
+            0,
+            39,
+            57
+          ],
+          "label": "tree"
+        },
+        "bench": {
+          "rect": [
+            0,
+            46,
+            28,
+            34
+          ],
+          "label": "bench"
+        },
+        "dog": {
+          "rect": [
+            31,
+            68,
+            27,
+            25
+          ],
+          "label": "dog"
+        },
+        "balls": {
+          "rect": [
+            74,
+            75,
+            25,
+            16
+          ],
+          "label": "balls"
+        },
+        "boy": {
+          "rect": [
+            30,
+            20,
+            30,
+            48
+          ],
+          "label": "boy"
+        },
+        "girl": {
+          "rect": [
+            8,
+            15,
+            20,
+            36
+          ],
+          "label": "girl"
+        }
+      },
+      "zones": {
+        "bench": {
+          "rect": [
+            2,
+            50,
+            25,
+            12
+          ],
+          "label": "on the bench",
+          "at": [
+            14,
+            56
+          ]
+        },
+        "tree": {
+          "rect": [
+            65,
+            57,
+            30,
+            11
+          ],
+          "label": "under the tree",
+          "at": [
+            80,
+            64
+          ]
+        },
+        "dog": {
+          "rect": [
+            58,
+            72,
+            14,
+            16
+          ],
+          "label": "next to the dog",
+          "at": [
+            65,
+            80
+          ]
+        }
+      },
+      "cards": {
+        "bus": {
+          "w": "bus",
+          "img": "img/ai-t6/bus.webp",
+          "s": "It's a bus.",
+          "gen": true
+        },
+        "milk": {
+          "w": "milk",
+          "img": "img/ai-t6/milk.webp",
+          "s": "It's milk.",
+          "gen": true
+        },
+        "hippo": {
+          "w": "hippo",
+          "img": "img/ai-t6/hippo.webp",
+          "s": "It's a hippo.",
+          "gen": true
+        },
+        "ruler": {
+          "w": "ruler",
+          "img": "img/ai-t6/ruler.webp",
+          "s": "It's a ruler.",
+          "gen": true
+        },
+        "icecream": {
+          "w": "ice cream",
+          "img": "img/ai-t6/icecream.webp",
+          "s": "It's an ice cream.",
+          "gen": true
+        },
+        "crocodile": {
+          "w": "crocodile",
+          "img": "img/ai-t6/crocodile.webp",
+          "s": "It's a crocodile.",
+          "gen": true
+        },
+        "rice": {
+          "w": "rice",
+          "img": "img/ai-t6/rice.webp",
+          "s": "It's rice.",
+          "gen": true
+        },
+        "jacket": {
+          "w": "jacket",
+          "img": "img/ai-t6/jacket.webp",
+          "s": "It's a jacket.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a sports field.",
+          "vi": "Nhìn này. Đây là sân thể thao."
+        },
+        "example": {
+          "say": "Here's the tree.",
+          "target": "tree",
+          "vi": "Đây là cái cây. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the bench?",
+            "target": "bench",
+            "back": "Is this the bench?",
+            "vi": "Cái ghế dài ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the bench?",
+              "Is this the bench?"
+            ]
+          },
+          {
+            "say": "Where's the dog?",
+            "target": "dog",
+            "back": "Is this the dog?",
+            "vi": "Con chó ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the dog?",
+              "Is this the dog?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "ruler",
+          "icecream",
+          "crocodile",
+          "rice",
+          "jacket",
+          "bus",
+          "milk",
+          "hippo"
+        ],
+        "cardSteps": [
+          {
+            "card": "bus",
+            "pick": {
+              "say": "Which is the bus?",
+              "back": "Is this the bus?",
+              "vi": "Thẻ nào là xe buýt?",
+              "hints": [
+                "Look at the cards. Which is the bus?",
+                "Is this the bus?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the bus on the bench.",
+              "zone": "bench",
+              "vi": "Cô đặt xe buýt lên ghế dài."
+            },
+            "place": {
+              "say": "Now you put the bus under the tree.",
+              "zone": "tree",
+              "back": "Where's the tree? Under the tree.",
+              "vi": "Bây giờ em đặt xe buýt dưới cái cây.",
+              "hints": [
+                "Look at the tree. Where's the tree?",
+                "Where's the tree? Under the tree."
+              ]
+            }
+          },
+          {
+            "card": "ruler",
+            "pick": {
+              "say": "Which is the ruler?",
+              "back": "Is this the ruler?",
+              "vi": "Thẻ nào là cái thước?",
+              "hints": [
+                "Look at the cards. Which is the ruler?",
+                "Is this the ruler?"
+              ]
+            },
+            "place": {
+              "say": "Put the ruler next to the dog.",
+              "zone": "dog",
+              "back": "Where's the dog? Next to the dog.",
+              "vi": "Đặt cái thước bên cạnh con chó.",
+              "hints": [
+                "Look at the dog. Where's the dog?",
+                "Where's the dog? Next to the dog."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "balls",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Balls"
+          ],
+          "back": "Are they balls?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they balls?",
+            "Are they balls or apples?"
+          ]
+        },
+        {
+          "point": "balls",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "balls",
+          "say": "How many balls are there?",
+          "ans": [
+            "Four"
+          ],
+          "back": "Are there three? Four?",
+          "vi": "Có bao nhiêu quả bóng?",
+          "hints": [
+            "Are there three? Four?",
+            "Are there three or four?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Playing football"
+          ],
+          "back": "Is he playing football?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he playing football?",
+            "Is he playing football or sleeping?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "Tell me about this girl.",
+          "ans": [
+            "She's running.",
+            "She's got a blue T-shirt."
+          ],
+          "back": "What's she doing? (Is she running?) / What's she got? (Has she got a blue T-shirt?)",
+          "vi": "Hãy nói về cô bé này.",
+          "hints": [
+            "What's she doing? Is she running?",
+            "What's she got? Has she got a blue T-shirt?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "milk",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Milk"
+              ],
+              "back": "Is it milk?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it milk?",
+                "Is it milk or cake?"
+              ]
+            },
+            {
+              "say": "Do you like milk?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích sữa không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like milk?",
+                "Do you eat milk?"
+              ]
+            },
+            {
+              "say": "What do you eat for breakfast?",
+              "ans": [
+                "Bread"
+              ],
+              "back": "Do you eat bread?",
+              "vi": "Bữa sáng em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat bread?",
+                "Do you eat bread or rice?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "hippo",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Hippo"
+              ],
+              "back": "Is it a hippo?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a hippo?",
+                "Is it a hippo or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like hippos?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích hà mã không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like hippos?",
+                "Is a hippo big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "icecream",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Ice cream"
+              ],
+              "back": "Is it an ice cream?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it an ice cream?",
+                "Is it an ice cream or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like ice cream?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích kem không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like ice cream?",
+                "Do you eat ice cream?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "crocodile",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Crocodile"
+              ],
+              "back": "Is it a crocodile?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a crocodile?",
+                "Is it a crocodile or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like crocodiles?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích cá sấu không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like crocodiles?",
+                "Is a crocodile big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you like sport?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích thể thao không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like sport?",
+            "Do you like football?"
+          ]
+        },
+        {
+          "say": "What sport do you play?",
+          "ans": [
+            "Football"
+          ],
+          "back": "Do you play football?",
+          "vi": "Em chơi môn thể thao nào?",
+          "free": true,
+          "hints": [
+            "Do you play football?",
+            "Do you play football or basketball?"
+          ]
+        },
+        {
+          "say": "Who do you play with?",
+          "ans": [
+            "My friend"
+          ],
+          "back": "Do you play with your friend?",
+          "vi": "Em chơi cùng ai?",
+          "free": true,
+          "hints": [
+            "Do you play with your friend?",
+            "Do you play with your friend or your brother?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t7",
+      "no": 37,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 7",
+      "theme": "At the swimming pool",
+      "themeVi": "Ở bể bơi",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t7/scene.webp",
+        "alt": "At the swimming pool: a big blue SWIMMING POOL in the centre; a girl in a red swimsuit SWIMMING in the pool; a boy in green shorts JUMPING into the water at the left side of the pool; THREE YELLOW RUBBER DUCKS floating in the pool"
+      },
+      "hot": {
+        "pool": {
+          "rect": [
+            0,
+            44,
+            100,
+            40
+          ],
+          "label": "pool"
+        },
+        "ball": {
+          "rect": [
+            82,
+            77,
+            15,
+            20
+          ],
+          "label": "ball"
+        },
+        "bag": {
+          "rect": [
+            89,
+            29,
+            9,
+            13
+          ],
+          "label": "bag"
+        },
+        "ducks": {
+          "rect": [
+            66,
+            52,
+            24,
+            17
+          ],
+          "label": "rubber ducks"
+        },
+        "boy": {
+          "rect": [
+            19,
+            15,
+            23,
+            31
+          ],
+          "label": "boy"
+        },
+        "girl": {
+          "rect": [
+            24,
+            50,
+            37,
+            24
+          ],
+          "label": "girl"
+        }
+      },
+      "zones": {
+        "tree": {
+          "rect": [
+            0,
+            0,
+            29,
+            42
+          ],
+          "label": "on the tree",
+          "at": [
+            12,
+            13
+          ]
+        },
+        "pool": {
+          "rect": [
+            30,
+            72,
+            28,
+            8
+          ],
+          "label": "in the pool",
+          "at": [
+            44,
+            75.5
+          ]
+        },
+        "bench": {
+          "rect": [
+            62,
+            28,
+            14,
+            16
+          ],
+          "label": "next to the bench",
+          "at": [
+            69,
+            36
+          ]
+        }
+      },
+      "cards": {
+        "sofa": {
+          "w": "sofa",
+          "img": "img/ai-t7/sofa.webp",
+          "s": "It's a sofa.",
+          "gen": true
+        },
+        "door": {
+          "w": "door",
+          "img": "img/ai-t7/door.webp",
+          "s": "It's a door.",
+          "gen": true
+        },
+        "pig": {
+          "w": "pig",
+          "img": "img/ai-t7/pig.webp",
+          "s": "It's a pig.",
+          "gen": true
+        },
+        "sock": {
+          "w": "sock",
+          "img": "img/ai-t7/sock.webp",
+          "s": "It's a sock.",
+          "gen": true
+        },
+        "sweater": {
+          "w": "sweater",
+          "img": "img/ai-t7/sweater.webp",
+          "s": "It's a sweater.",
+          "gen": true
+        },
+        "pasta": {
+          "w": "pasta",
+          "img": "img/ai-t7/pasta.webp",
+          "s": "It's pasta.",
+          "gen": true
+        },
+        "salad": {
+          "w": "salad",
+          "img": "img/ai-t7/salad.webp",
+          "s": "It's a salad.",
+          "gen": true
+        },
+        "desk": {
+          "w": "desk",
+          "img": "img/ai-t7/desk.webp",
+          "s": "It's a desk.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a swimming pool.",
+          "vi": "Nhìn này. Đây là bể bơi."
+        },
+        "example": {
+          "say": "Here's the pool.",
+          "target": "pool",
+          "vi": "Đây là bể bơi. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the ball?",
+            "target": "ball",
+            "back": "Is this the ball?",
+            "vi": "Quả bóng ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the ball?",
+              "Is this the ball?"
+            ]
+          },
+          {
+            "say": "Where's the bag?",
+            "target": "bag",
+            "back": "Is this the bag?",
+            "vi": "Cái túi ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the bag?",
+              "Is this the bag?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "sock",
+          "sweater",
+          "pasta",
+          "salad",
+          "desk",
+          "sofa",
+          "door",
+          "pig"
+        ],
+        "cardSteps": [
+          {
+            "card": "sofa",
+            "pick": {
+              "say": "Which is the sofa?",
+              "back": "Is this the sofa?",
+              "vi": "Thẻ nào là ghế sofa?",
+              "hints": [
+                "Look at the cards. Which is the sofa?",
+                "Is this the sofa?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the sofa on the tree.",
+              "zone": "tree",
+              "vi": "Cô đặt ghế sofa lên cái cây."
+            },
+            "place": {
+              "say": "Now you put the sofa in the pool.",
+              "zone": "pool",
+              "back": "Where's the pool? In the pool.",
+              "vi": "Bây giờ em đặt ghế sofa vào trong bể bơi.",
+              "hints": [
+                "Look at the pool. Where's the pool?",
+                "Where's the pool? In the pool."
+              ]
+            }
+          },
+          {
+            "card": "door",
+            "pick": {
+              "say": "Which is the door?",
+              "back": "Is this the door?",
+              "vi": "Thẻ nào là cái cửa?",
+              "hints": [
+                "Look at the cards. Which is the door?",
+                "Is this the door?"
+              ]
+            },
+            "place": {
+              "say": "Put the door next to the bench.",
+              "zone": "bench",
+              "back": "Where's the bench? Next to the bench.",
+              "vi": "Đặt cái cửa bên cạnh ghế dài.",
+              "hints": [
+                "Look at the bench. Where's the bench?",
+                "Where's the bench? Next to the bench."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "ducks",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Rubber ducks"
+          ],
+          "back": "Are they rubber ducks?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they rubber ducks?",
+            "Are they rubber ducks or toy cars?"
+          ]
+        },
+        {
+          "point": "ducks",
+          "say": "What colour are they?",
+          "ans": [
+            "Yellow"
+          ],
+          "back": "Are they yellow?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they yellow?",
+            "Are they yellow or red?"
+          ]
+        },
+        {
+          "point": "ducks",
+          "say": "How many rubber ducks are there?",
+          "ans": [
+            "Three"
+          ],
+          "back": "Are there two? Three?",
+          "vi": "Có bao nhiêu vịt cao su?",
+          "hints": [
+            "Are there two? Three?",
+            "Are there two or three?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Jumping"
+          ],
+          "back": "Is he jumping?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he jumping?",
+            "Is he jumping or sleeping?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "Tell me about this girl.",
+          "ans": [
+            "She's swimming.",
+            "She's in the water."
+          ],
+          "back": "What's she doing? (Is she swimming?) / Where is she? (Is she in the water?)",
+          "vi": "Hãy nói về cô bé này.",
+          "hints": [
+            "What's she doing? Is she swimming?",
+            "Where is she? Is she in the water?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "pig",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Pig"
+              ],
+              "back": "Is it a pig?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a pig?",
+                "Is it a pig or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like pigs?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con heo không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like pigs?",
+                "Is a pig big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "sock",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Sock"
+              ],
+              "back": "Is it a sock?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a sock?",
+                "Is it a sock or a hat?"
+              ]
+            },
+            {
+              "say": "Do you wear a sock to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc chiếc tất đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear a sock to school?",
+                "Do you wear a sock at home?"
+              ]
+            },
+            {
+              "say": "What colour is your sock?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Is your sock blue?",
+              "vi": "Chiếc tất của em màu gì?",
+              "free": true,
+              "hints": [
+                "Is your sock blue?",
+                "Is your sock blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "pasta",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Pasta"
+              ],
+              "back": "Is it pasta?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it pasta?",
+                "Is it pasta or cake?"
+              ]
+            },
+            {
+              "say": "Do you like pasta?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích mì ống không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like pasta?",
+                "Do you eat pasta?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "salad",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Salad"
+              ],
+              "back": "Is it a salad?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a salad?",
+                "Is it a salad or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like salads?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích rau trộn không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like salads?",
+                "Do you eat salads?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), can you swim?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có biết bơi không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Can you swim?",
+            "Do you like water?"
+          ]
+        },
+        {
+          "say": "Where do you swim?",
+          "ans": [
+            "In the pool"
+          ],
+          "back": "Do you swim in a pool?",
+          "vi": "Em bơi ở đâu?",
+          "free": true,
+          "hints": [
+            "Do you swim in a pool?",
+            "Do you swim in a pool or in the sea?"
+          ]
+        },
+        {
+          "say": "Who do you go swimming with?",
+          "ans": [
+            "My dad"
+          ],
+          "back": "Do you go with your dad?",
+          "vi": "Em đi bơi cùng ai?",
+          "free": true,
+          "hints": [
+            "Do you go with your dad?",
+            "Do you go with your dad or your friend?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t8",
+      "no": 38,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 8",
+      "theme": "At the picnic",
+      "themeVi": "Đi dã ngoại",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t8/scene.webp",
+        "alt": "At the picnic: a big green TREE on the left; a red-and-white BLANKET on the grass in the centre; a mother in a blue dress sitting on the blanket; a girl in a yellow dress sitting on the grass at the right"
+      },
+      "hot": {
+        "tree": {
+          "rect": [
+            0,
+            0,
+            39,
+            56
+          ],
+          "label": "tree"
+        },
+        "kite": {
+          "rect": [
+            85,
+            3,
+            15,
+            20
+          ],
+          "label": "kite"
+        },
+        "dog": {
+          "rect": [
+            6,
+            70,
+            36,
+            24
+          ],
+          "label": "dog"
+        },
+        "apples": {
+          "rect": [
+            47,
+            58,
+            16,
+            12
+          ],
+          "label": "apples"
+        },
+        "boy": {
+          "rect": [
+            65,
+            19,
+            17,
+            34
+          ],
+          "label": "boy"
+        },
+        "girl": {
+          "rect": [
+            76,
+            44,
+            22,
+            34
+          ],
+          "label": "girl"
+        }
+      },
+      "zones": {
+        "tree": {
+          "rect": [
+            2,
+            2,
+            34,
+            24
+          ],
+          "label": "on the tree",
+          "at": [
+            18,
+            14
+          ]
+        },
+        "blanket": {
+          "rect": [
+            15,
+            61,
+            12,
+            6
+          ],
+          "label": "on the blanket",
+          "at": [
+            20,
+            64
+          ]
+        },
+        "dog": {
+          "rect": [
+            44,
+            76,
+            14,
+            14
+          ],
+          "label": "next to the dog",
+          "at": [
+            51,
+            83
+          ]
+        }
+      },
+      "cards": {
+        "bear": {
+          "w": "bear",
+          "img": "img/ai-t8/bear.webp",
+          "s": "It's a bear.",
+          "gen": true
+        },
+        "lemonade": {
+          "w": "lemonade",
+          "img": "img/ai-t8/lemonade.webp",
+          "s": "It's lemonade.",
+          "gen": true
+        },
+        "cow": {
+          "w": "cow",
+          "img": "img/ai-t8/cow.webp",
+          "s": "It's a cow.",
+          "gen": true
+        },
+        "camera": {
+          "w": "camera",
+          "img": "img/ai-t8/camera.webp",
+          "s": "It's a camera.",
+          "gen": true
+        },
+        "chair": {
+          "w": "chair",
+          "img": "img/ai-t8/chair.webp",
+          "s": "It's a chair.",
+          "gen": true
+        },
+        "lion": {
+          "w": "lion",
+          "img": "img/ai-t8/lion.webp",
+          "s": "It's a lion.",
+          "gen": true
+        },
+        "hat": {
+          "w": "hat",
+          "img": "img/ai-t8/hat.webp",
+          "s": "It's a hat.",
+          "gen": true
+        },
+        "window": {
+          "w": "window",
+          "img": "img/ai-t8/window.webp",
+          "s": "It's a window.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a picnic.",
+          "vi": "Nhìn này. Đây là buổi dã ngoại."
+        },
+        "example": {
+          "say": "Here's the tree.",
+          "target": "tree",
+          "vi": "Đây là cái cây. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the kite?",
+            "target": "kite",
+            "back": "Is this the kite?",
+            "vi": "Cái diều ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the kite?",
+              "Is this the kite?"
+            ]
+          },
+          {
+            "say": "Where's the dog?",
+            "target": "dog",
+            "back": "Is this the dog?",
+            "vi": "Con chó ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the dog?",
+              "Is this the dog?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "camera",
+          "chair",
+          "lion",
+          "hat",
+          "window",
+          "bear",
+          "lemonade",
+          "cow"
+        ],
+        "cardSteps": [
+          {
+            "card": "hat",
+            "pick": {
+              "say": "Which is the hat?",
+              "back": "Is this the hat?",
+              "vi": "Thẻ nào là cái mũ?",
+              "hints": [
+                "Look at the cards. Which is the hat?",
+                "Is this the hat?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the hat on the tree.",
+              "zone": "tree",
+              "vi": "Cô đặt cái mũ lên cái cây."
+            },
+            "place": {
+              "say": "Now you put the hat on the blanket.",
+              "zone": "blanket",
+              "back": "Where's the blanket? On the blanket.",
+              "vi": "Bây giờ em đặt cái mũ lên tấm thảm.",
+              "hints": [
+                "Look at the blanket. Where's the blanket?",
+                "Where's the blanket? On the blanket."
+              ]
+            }
+          },
+          {
+            "card": "window",
+            "pick": {
+              "say": "Which is the window?",
+              "back": "Is this the window?",
+              "vi": "Thẻ nào là cửa sổ?",
+              "hints": [
+                "Look at the cards. Which is the window?",
+                "Is this the window?"
+              ]
+            },
+            "place": {
+              "say": "Put the window next to the dog.",
+              "zone": "dog",
+              "back": "Where's the dog? Next to the dog.",
+              "vi": "Đặt cửa sổ bên cạnh con chó.",
+              "hints": [
+                "Look at the dog. Where's the dog?",
+                "Where's the dog? Next to the dog."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "apples",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Apples"
+          ],
+          "back": "Are they apples?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they apples?",
+            "Are they apples or oranges?"
+          ]
+        },
+        {
+          "point": "apples",
+          "say": "What colour are they?",
+          "ans": [
+            "Green"
+          ],
+          "back": "Are they green?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they green?",
+            "Are they green or red?"
+          ]
+        },
+        {
+          "point": "apples",
+          "say": "How many apples are there?",
+          "ans": [
+            "Three"
+          ],
+          "back": "Are there two? Three?",
+          "vi": "Có bao nhiêu quả táo?",
+          "hints": [
+            "Are there two? Three?",
+            "Are there two or three?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Running"
+          ],
+          "back": "Is he running?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he running?",
+            "Is he running or sleeping?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "Tell me about this girl.",
+          "ans": [
+            "She's reading.",
+            "She's got a book."
+          ],
+          "back": "What's she doing? (Is she reading?) / What's she got? (Has she got a book?)",
+          "vi": "Hãy nói về cô bé này.",
+          "hints": [
+            "What's she doing? Is she reading?",
+            "What's she got? Has she got a book?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "bear",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Bear"
+              ],
+              "back": "Is it a bear?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a bear?",
+                "Is it a bear or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like bears?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con gấu không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like bears?",
+                "Is a bear big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "lemonade",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Lemonade"
+              ],
+              "back": "Is it lemonade?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it lemonade?",
+                "Is it lemonade or cake?"
+              ]
+            },
+            {
+              "say": "Do you like lemonade?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích nước chanh không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like lemonade?",
+                "Do you eat lemonade?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "cow",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Cow"
+              ],
+              "back": "Is it a cow?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a cow?",
+                "Is it a cow or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like cows?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con bò không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like cows?",
+                "Is a cow big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "camera",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Camera"
+              ],
+              "back": "Is it a camera?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a camera?",
+                "Is it a camera or a book?"
+              ]
+            },
+            {
+              "say": "Have you got a camera?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có máy ảnh không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Have you got a camera?",
+                "Do you like cameras?"
+              ]
+            },
+            {
+              "say": "What colour is it?",
+              "ans": [
+                "Blue"
+              ],
+              "back": "Is it blue?",
+              "vi": "Nó màu gì?",
+              "hints": [
+                "Is it blue?",
+                "Is it blue or red?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you like picnics?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích đi dã ngoại không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like picnics?",
+            "Do you like the park?"
+          ]
+        },
+        {
+          "say": "What do you eat at a picnic?",
+          "ans": [
+            "Sandwiches"
+          ],
+          "back": "Do you eat sandwiches?",
+          "vi": "Em ăn gì khi đi dã ngoại?",
+          "free": true,
+          "hints": [
+            "Do you eat sandwiches?",
+            "Do you eat sandwiches or soup?"
+          ]
+        },
+        {
+          "say": "Who goes with you?",
+          "ans": [
+            "My family"
+          ],
+          "back": "Does your family go with you?",
+          "vi": "Ai đi cùng em?",
+          "free": true,
+          "hints": [
+            "Does your family go with you?",
+            "Does your family or your friend go with you?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t9",
+      "no": 39,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 9",
+      "theme": "At the station",
+      "themeVi": "Ở nhà ga",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t9/scene.webp",
+        "alt": "At the station: a big red TRAIN at the back; a round CLOCK hanging on the wall at the top in the middle; a man with a blue hat sitting on a brown BENCH on the right; THREE YELLOW BAGS in a pile at the left"
+      },
+      "hot": {
+        "train": {
+          "rect": [
+            0,
+            20,
+            90,
+            38
+          ],
+          "label": "train"
+        },
+        "clock": {
+          "rect": [
+            47,
+            0,
+            13,
+            20
+          ],
+          "label": "clock"
+        },
+        "bench": {
+          "rect": [
+            73,
+            55,
+            27,
+            30
+          ],
+          "label": "bench"
+        },
+        "bags": {
+          "rect": [
+            3,
+            46,
+            25,
+            25
+          ],
+          "label": "bags"
+        },
+        "girl": {
+          "rect": [
+            38,
+            39,
+            17,
+            41
+          ],
+          "label": "girl"
+        },
+        "man": {
+          "rect": [
+            73,
+            40,
+            26,
+            45
+          ],
+          "label": "man"
+        }
+      },
+      "zones": {
+        "train": {
+          "rect": [
+            66,
+            22,
+            16,
+            24
+          ],
+          "label": "on the train",
+          "at": [
+            74,
+            34
+          ]
+        },
+        "clock": {
+          "rect": [
+            42,
+            20,
+            18,
+            17
+          ],
+          "label": "under the clock",
+          "at": [
+            51,
+            28
+          ]
+        },
+        "bin": {
+          "rect": [
+            17,
+            72,
+            14,
+            22
+          ],
+          "label": "next to the bin",
+          "at": [
+            24,
+            83
+          ]
+        }
+      },
+      "cards": {
+        "plane": {
+          "w": "plane",
+          "img": "img/ai-t9/plane.webp",
+          "s": "It's a plane.",
+          "gen": true
+        },
+        "monkey": {
+          "w": "monkey",
+          "img": "img/ai-t9/monkey.webp",
+          "s": "It's a monkey.",
+          "gen": true
+        },
+        "shirt": {
+          "w": "shirt",
+          "img": "img/ai-t9/shirt.webp",
+          "s": "It's a shirt.",
+          "gen": true
+        },
+        "chicken": {
+          "w": "chicken",
+          "img": "img/ai-t9/chicken.webp",
+          "s": "It's a chicken.",
+          "gen": true
+        },
+        "bath": {
+          "w": "bath",
+          "img": "img/ai-t9/bath.webp",
+          "s": "It's a bath.",
+          "gen": true
+        },
+        "picture": {
+          "w": "picture",
+          "img": "img/ai-t9/picture.webp",
+          "s": "It's a picture.",
+          "gen": true
+        },
+        "rubber": {
+          "w": "rubber",
+          "img": "img/ai-t9/rubber.webp",
+          "s": "It's a rubber.",
+          "gen": true
+        },
+        "lemon": {
+          "w": "lemon",
+          "img": "img/ai-t9/lemon.webp",
+          "s": "It's a lemon.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a railway station.",
+          "vi": "Nhìn này. Đây là nhà ga."
+        },
+        "example": {
+          "say": "Here's the train.",
+          "target": "train",
+          "vi": "Đây là tàu hỏa. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the clock?",
+            "target": "clock",
+            "back": "Is this the clock?",
+            "vi": "Cái đồng hồ ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the clock?",
+              "Is this the clock?"
+            ]
+          },
+          {
+            "say": "Where's the bench?",
+            "target": "bench",
+            "back": "Is this the bench?",
+            "vi": "Cái ghế dài ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the bench?",
+              "Is this the bench?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "chicken",
+          "bath",
+          "picture",
+          "rubber",
+          "lemon",
+          "plane",
+          "monkey",
+          "shirt"
+        ],
+        "cardSteps": [
+          {
+            "card": "plane",
+            "pick": {
+              "say": "Which is the plane?",
+              "back": "Is this the plane?",
+              "vi": "Thẻ nào là máy bay?",
+              "hints": [
+                "Look at the cards. Which is the plane?",
+                "Is this the plane?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the plane on the train.",
+              "zone": "train",
+              "vi": "Cô đặt máy bay lên đoàn tàu."
+            },
+            "place": {
+              "say": "Now you put the plane under the clock.",
+              "zone": "clock",
+              "back": "Where's the clock? Under the clock.",
+              "vi": "Bây giờ em đặt máy bay dưới đồng hồ.",
+              "hints": [
+                "Look at the clock. Where's the clock?",
+                "Where's the clock? Under the clock."
+              ]
+            }
+          },
+          {
+            "card": "picture",
+            "pick": {
+              "say": "Which is the picture?",
+              "back": "Is this the picture?",
+              "vi": "Thẻ nào là bức tranh?",
+              "hints": [
+                "Look at the cards. Which is the picture?",
+                "Is this the picture?"
+              ]
+            },
+            "place": {
+              "say": "Put the picture next to the bin.",
+              "zone": "bin",
+              "back": "Where's the bin? Next to the bin.",
+              "vi": "Đặt bức tranh bên cạnh thùng rác.",
+              "hints": [
+                "Look at the bin. Where's the bin?",
+                "Where's the bin? Next to the bin."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "bags",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Bags"
+          ],
+          "back": "Are they bags?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they bags?",
+            "Are they bags or books?"
+          ]
+        },
+        {
+          "point": "bags",
+          "say": "What colour are they?",
+          "ans": [
+            "Yellow"
+          ],
+          "back": "Are they yellow?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they yellow?",
+            "Are they yellow or red?"
+          ]
+        },
+        {
+          "point": "bags",
+          "say": "How many bags are there?",
+          "ans": [
+            "Three"
+          ],
+          "back": "Are there two? Three?",
+          "vi": "Có bao nhiêu cái túi?",
+          "hints": [
+            "Are there two? Three?",
+            "Are there two or three?"
+          ]
+        },
+        {
+          "point": "girl",
+          "say": "What's the girl doing?",
+          "ans": [
+            "Waving"
+          ],
+          "back": "Is she waving?",
+          "vi": "Cô bé đang làm gì?",
+          "hints": [
+            "Is she waving?",
+            "Is she waving or sleeping?"
+          ]
+        },
+        {
+          "point": "man",
+          "say": "Tell me about this man.",
+          "ans": [
+            "He's reading.",
+            "He's got a blue hat."
+          ],
+          "back": "What's he doing? (Is he reading?) / What's he got? (Has he got a blue hat?)",
+          "vi": "Hãy nói về người đàn ông này.",
+          "hints": [
+            "What's he doing? Is he reading?",
+            "What's he got? Has he got a blue hat?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "monkey",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Monkey"
+              ],
+              "back": "Is it a monkey?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a monkey?",
+                "Is it a monkey or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like monkeys?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con khỉ không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like monkeys?",
+                "Is a monkey big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "shirt",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Shirt"
+              ],
+              "back": "Is it a shirt?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a shirt?",
+                "Is it a shirt or a hat?"
+              ]
+            },
+            {
+              "say": "Do you wear a shirt to school?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có mặc áo sơ mi đến trường không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you wear a shirt to school?",
+                "Do you wear a shirt at home?"
+              ]
+            },
+            {
+              "say": "What colour is your shirt?",
+              "ans": [
+                "(Blue)"
+              ],
+              "back": "Is your shirt blue?",
+              "vi": "Áo sơ mi của em màu gì?",
+              "free": true,
+              "hints": [
+                "Is your shirt blue?",
+                "Is your shirt blue or white?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "chicken",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Chicken"
+              ],
+              "back": "Is it a chicken?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a chicken?",
+                "Is it a chicken or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like chickens?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con gà không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like chickens?",
+                "Is a chicken big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "lemon",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Lemon"
+              ],
+              "back": "Is it a lemon?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a lemon?",
+                "Is it a lemon or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like lemons?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích quả chanh không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like lemons?",
+                "Do you eat lemons?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you like trains?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có thích tàu hỏa không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you like trains?",
+            "Do you like buses?"
+          ]
+        },
+        {
+          "say": "How do you go to school?",
+          "ans": [
+            "By bus"
+          ],
+          "back": "Do you go to school by bus?",
+          "vi": "Em đến trường bằng gì?",
+          "free": true,
+          "hints": [
+            "Do you go to school by bus?",
+            "Do you go to school by bus or by bike?"
+          ]
+        },
+        {
+          "say": "Where do you want to go?",
+          "ans": [
+            "To the beach"
+          ],
+          "back": "Do you want to go to the beach?",
+          "vi": "Em muốn đi đâu?",
+          "free": true,
+          "hints": [
+            "Do you want to go to the beach?",
+            "Do you want to go to the beach or the zoo?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
+    },
+    {
+      "id": "ai-t10",
+      "no": 40,
+      "group": "ai",
+      "origin": "claude",
+      "title": "Extra 10",
+      "theme": "At the market",
+      "themeVi": "Ở chợ",
+      "src": "Bộ do Claude soạn: tranh và thẻ tạo bằng ChatGPT, kịch bản soạn theo khung các bộ trong sách (không phải đề của sách)",
+      "scene": {
+        "img": "img/ai-t10/scene.webp",
+        "alt": "At the market: a yellow SUN at the top left; a market stall with a red-and-white striped roof and a wooden TABLE in front; a seller (a man in a white apron) standing behind the table; FOUR RED TOMATOES in a blue box on the table"
+      },
+      "hot": {
+        "sun": {
+          "rect": [
+            4,
+            0,
+            15,
+            16
+          ],
+          "label": "sun"
+        },
+        "dog": {
+          "rect": [
+            51,
+            66,
+            18,
+            25
+          ],
+          "label": "dog"
+        },
+        "bag": {
+          "rect": [
+            76,
+            40,
+            13,
+            23
+          ],
+          "label": "bag"
+        },
+        "tomatoes": {
+          "rect": [
+            26,
+            47,
+            17,
+            10
+          ],
+          "label": "tomatoes"
+        },
+        "boy": {
+          "rect": [
+            1,
+            42,
+            28,
+            48
+          ],
+          "label": "boy"
+        },
+        "woman": {
+          "rect": [
+            76,
+            27,
+            22,
+            60
+          ],
+          "label": "woman"
+        }
+      },
+      "zones": {
+        "table": {
+          "rect": [
+            30,
+            53,
+            40,
+            8
+          ],
+          "label": "on the table",
+          "at": [
+            55,
+            56.5
+          ]
+        },
+        "tree": {
+          "rect": [
+            66,
+            34,
+            10,
+            18
+          ],
+          "label": "under the tree",
+          "at": [
+            71,
+            43
+          ]
+        },
+        "bike": {
+          "rect": [
+            30,
+            72,
+            14,
+            18
+          ],
+          "label": "next to the bike",
+          "at": [
+            37,
+            81
+          ]
+        }
+      },
+      "cards": {
+        "cow": {
+          "w": "cow",
+          "img": "img/ai-t10/cow.webp",
+          "s": "It's a cow.",
+          "gen": true
+        },
+        "lion": {
+          "w": "lion",
+          "img": "img/ai-t10/lion.webp",
+          "s": "It's a lion.",
+          "gen": true
+        },
+        "sheep": {
+          "w": "sheep",
+          "img": "img/ai-t10/sheep.webp",
+          "s": "It's a sheep.",
+          "gen": true
+        },
+        "kite": {
+          "w": "kite",
+          "img": "img/ai-t10/kite.webp",
+          "s": "It's a kite.",
+          "gen": true
+        },
+        "hat": {
+          "w": "hat",
+          "img": "img/ai-t10/hat.webp",
+          "s": "It's a hat.",
+          "gen": true
+        },
+        "egg": {
+          "w": "egg",
+          "img": "img/ai-t10/egg.webp",
+          "s": "It's an egg.",
+          "gen": true
+        },
+        "watermelon": {
+          "w": "watermelon",
+          "img": "img/ai-t10/watermelon.webp",
+          "s": "It's a watermelon.",
+          "gen": true
+        },
+        "juice": {
+          "w": "juice",
+          "img": "img/ai-t10/juice.webp",
+          "s": "It's juice.",
+          "gen": true
+        }
+      },
+      "p1": {
+        "hello": {
+          "say": "Hello! My name's Miss Thao. What's your name?",
+          "ans": [
+            "(the child's name)"
+          ],
+          "vi": "Chào em! Cô tên là Thảo. Em tên là gì?",
+          "gen": true,
+          "hints": [
+            "What's your name?",
+            "Say: My name is … / I'm …"
+          ]
+        },
+        "intro": {
+          "say": "Look at this. This is a market.",
+          "vi": "Nhìn này. Đây là khu chợ."
+        },
+        "example": {
+          "say": "Here's the sun.",
+          "target": "sun",
+          "vi": "Đây là mặt trời. (cô chỉ vào tranh)"
+        },
+        "find": [
+          {
+            "say": "Where's the dog?",
+            "target": "dog",
+            "back": "Is this the dog?",
+            "vi": "Con chó ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the dog?",
+              "Is this the dog?"
+            ]
+          },
+          {
+            "say": "Where's the bag?",
+            "target": "bag",
+            "back": "Is this the bag?",
+            "vi": "Cái túi ở đâu?",
+            "hints": [
+              "Look at the picture. Where's the bag?",
+              "Is this the bag?"
+            ]
+          }
+        ],
+        "tableSay": {
+          "say": "Now look at these.",
+          "vi": "Bây giờ nhìn những thẻ này nhé."
+        },
+        "order": [
+          "kite",
+          "hat",
+          "egg",
+          "watermelon",
+          "juice",
+          "cow",
+          "lion",
+          "sheep"
+        ],
+        "cardSteps": [
+          {
+            "card": "kite",
+            "pick": {
+              "say": "Which is the kite?",
+              "back": "Is this the kite?",
+              "vi": "Thẻ nào là cái diều?",
+              "hints": [
+                "Look at the cards. Which is the kite?",
+                "Is this the kite?"
+              ]
+            },
+            "demo": {
+              "say": "I'm putting the kite on the table.",
+              "zone": "table",
+              "vi": "Cô đặt cái diều lên cái bàn."
+            },
+            "place": {
+              "say": "Now you put the kite under the tree.",
+              "zone": "tree",
+              "back": "Where's the tree? Under the tree.",
+              "vi": "Bây giờ em đặt cái diều dưới cái cây.",
+              "hints": [
+                "Look at the tree. Where's the tree?",
+                "Where's the tree? Under the tree."
+              ]
+            }
+          },
+          {
+            "card": "hat",
+            "pick": {
+              "say": "Which is the hat?",
+              "back": "Is this the hat?",
+              "vi": "Thẻ nào là cái mũ?",
+              "hints": [
+                "Look at the cards. Which is the hat?",
+                "Is this the hat?"
+              ]
+            },
+            "place": {
+              "say": "Put the hat next to the bike.",
+              "zone": "bike",
+              "back": "Where's the bike? Next to the bike.",
+              "vi": "Đặt cái mũ bên cạnh xe đạp.",
+              "hints": [
+                "Look at the bike. Where's the bike?",
+                "Where's the bike? Next to the bike."
+              ]
+            }
+          }
+        ]
+      },
+      "p2": [
+        {
+          "point": "tomatoes",
+          "say": "Now, (name), what are these?",
+          "ans": [
+            "Tomatoes"
+          ],
+          "back": "Are they tomatoes?",
+          "vi": "Đây là những gì?",
+          "hints": [
+            "Are they tomatoes?",
+            "Are they tomatoes or apples?"
+          ]
+        },
+        {
+          "point": "tomatoes",
+          "say": "What colour are they?",
+          "ans": [
+            "Red"
+          ],
+          "back": "Are they red?",
+          "vi": "Chúng màu gì?",
+          "hints": [
+            "Are they red?",
+            "Are they red or blue?"
+          ]
+        },
+        {
+          "point": "tomatoes",
+          "say": "How many tomatoes are there?",
+          "ans": [
+            "Four"
+          ],
+          "back": "Are there three? Four?",
+          "vi": "Có bao nhiêu quả cà chua?",
+          "hints": [
+            "Are there three? Four?",
+            "Are there three or four?"
+          ]
+        },
+        {
+          "point": "boy",
+          "say": "What's the boy doing?",
+          "ans": [
+            "Riding a bike"
+          ],
+          "back": "Is he riding a bike?",
+          "vi": "Cậu bé đang làm gì?",
+          "hints": [
+            "Is he riding a bike?",
+            "Is he riding a bike or sleeping?"
+          ]
+        },
+        {
+          "point": "woman",
+          "say": "Tell me about this woman.",
+          "ans": [
+            "She's walking.",
+            "She's got a green bag."
+          ],
+          "back": "What's she doing? (Is she walking?) / What's she got? (Has she got a green bag?)",
+          "vi": "Hãy nói về người phụ nữ này.",
+          "hints": [
+            "What's she doing? Is she walking?",
+            "What's she got? Has she got a green bag?"
+          ]
+        }
+      ],
+      "p3": [
+        {
+          "card": "lion",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Lion"
+              ],
+              "back": "Is it a lion?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a lion?",
+                "Is it a lion or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like lions?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích sư tử không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like lions?",
+                "Is a lion big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "sheep",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Sheep"
+              ],
+              "back": "Is it a sheep?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a sheep?",
+                "Is it a sheep or a dog?"
+              ]
+            },
+            {
+              "say": "Do you like sheep?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích con cừu không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like sheep?",
+                "Is a sheep big or small?"
+              ]
+            },
+            {
+              "say": "What's your favourite animal?",
+              "ans": [
+                "(A) dog"
+              ],
+              "back": "Do you like dogs?",
+              "vi": "Con vật em thích nhất là gì?",
+              "free": true,
+              "hints": [
+                "Do you like dogs?",
+                "Do you like dogs or cats?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "watermelon",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Watermelon"
+              ],
+              "back": "Is it a watermelon?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it a watermelon?",
+                "Is it a watermelon or a cake?"
+              ]
+            },
+            {
+              "say": "Do you like watermelons?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích dưa hấu không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like watermelons?",
+                "Do you eat watermelons?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        },
+        {
+          "card": "juice",
+          "qs": [
+            {
+              "say": "What's this?",
+              "ans": [
+                "Juice"
+              ],
+              "back": "Is it juice?",
+              "vi": "Đây là gì?",
+              "hints": [
+                "Is it juice?",
+                "Is it juice or cake?"
+              ]
+            },
+            {
+              "say": "Do you like juice?",
+              "ans": [
+                "Yes / No"
+              ],
+              "back": "",
+              "vi": "Em có thích nước ép không?",
+              "free": true,
+              "hints": [
+                "Yes or no? Do you like juice?",
+                "Do you eat juice?"
+              ]
+            },
+            {
+              "say": "What do you eat for lunch?",
+              "ans": [
+                "Rice"
+              ],
+              "back": "Do you eat rice?",
+              "vi": "Bữa trưa em ăn gì?",
+              "free": true,
+              "hints": [
+                "Do you eat rice?",
+                "Do you eat rice or noodles?"
+              ]
+            }
+          ]
+        }
+      ],
+      "p4": [
+        {
+          "say": "Now, (name), do you go to the market?",
+          "ans": [
+            "Yes / No"
+          ],
+          "back": "",
+          "vi": "Em có đi chợ không?",
+          "free": true,
+          "hints": [
+            "Yes or no? Do you go to the market?",
+            "Do you go with your mum?"
+          ]
+        },
+        {
+          "say": "What do you buy at the market?",
+          "ans": [
+            "Fruit"
+          ],
+          "back": "Do you buy fruit?",
+          "vi": "Em mua gì ở chợ?",
+          "free": true,
+          "hints": [
+            "Do you buy fruit?",
+            "Do you buy fruit or toys?"
+          ]
+        },
+        {
+          "say": "Who goes to the market with you?",
+          "ans": [
+            "My mum"
+          ],
+          "back": "Does your mum go with you?",
+          "vi": "Ai đi chợ cùng em?",
+          "free": true,
+          "hints": [
+            "Does your mum go with you?",
+            "Does your mum or your dad go with you?"
+          ]
+        }
+      ],
+      "bye": {
+        "say": "OK. Thank you, (name). Goodbye.",
+        "vi": "Được rồi. Cảm ơn em. Tạm biệt!"
+      }
     }
   ],
   "soon": []

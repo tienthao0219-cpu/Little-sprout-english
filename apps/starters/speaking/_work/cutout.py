@@ -34,6 +34,20 @@ def cutout(src):
             stack += [(y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)]
     obj = Image.fromarray(np.where(bg, 0, 255).astype(np.uint8), 'L').filter(ImageFilter.MedianFilter(3))   # bỏ hạt bụi lẻ
     obj = np.asarray(obj) > 127
+    # bỏ các mảnh vụn nhỏ (vd. một góc của vật bên cạnh lọt vào khung cắt): chỉ giữ các mảng >= 8% mảng lớn nhất
+    lab = np.zeros(obj.shape, np.int32); sizes = {}; n = 0
+    for sy, sx in zip(*np.nonzero(obj)):
+        if lab[sy, sx]: continue
+        n += 1; lab[sy, sx] = n; stack = [(sy, sx)]; cnt = 0
+        while stack:
+            y, x = stack.pop(); cnt += 1
+            for ny, nx in ((y + 1, x), (y - 1, x), (y, x + 1), (y, x - 1)):
+                if 0 <= ny < h and 0 <= nx < w and obj[ny, nx] and not lab[ny, nx]:
+                    lab[ny, nx] = n; stack.append((ny, nx))
+        sizes[n] = cnt
+    if sizes:
+        big = max(sizes.values()); keep = [k for k, v in sizes.items() if v >= 0.08 * big]
+        obj = np.isin(lab, keep)
     # viền mềm: pixel sát nền và sáng -> alpha một phần (xoá quầng trắng)
     alpha = obj.astype(np.float32)
     near_bg = np.asarray(Image.fromarray((~obj * 255).astype(np.uint8), 'L').filter(ImageFilter.MaxFilter(3))) > 127

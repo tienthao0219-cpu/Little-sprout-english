@@ -5,6 +5,11 @@ Không bịa nội dung sách / số trang / chuẩn Cambridge. Chỗ nào Claud
 **KHÔNG merge vào main.** Commit/push vào `starters-speaking-books`. Commit kết thúc bằng 2 dòng:
 `Co-Authored-By: Claude <noreply@anthropic.com>` (dùng đúng trailer mà phiên Code hiện tại yêu cầu).
 
+## Cập nhật 27/10 (phiên cloud, cô Thảo hết dung lượng bên máy)
+- Auth 2 xong (xem bảng). Công cụ mới: `tools/test_sets.js` (kiểm thử mọi bộ), `ai_sets/` (10 bộ ảnh AI 31–40: đặc tả, prompt, công cụ cắt thẻ/đo toạ độ/dựng kịch bản; xem `ai_sets/README.md`).
+- Phiên cloud KHÔNG đọc được ổ đĩa của cô nên chưa làm: auth3, auth4, collins, mini, succeed (19 bộ). Khi dung lượng reset: đọc file này và làm tiếp từ **Authentic 3**.
+- Sửa app: `runDemo` bỏ qua nếu đã sang bước khác (lỗi hẹn giờ khi đổi bộ nhanh).
+
 ## Mục tiêu
 ~40 bộ Speaking. Sách có **30** bộ; thiếu 10 so với 40 (cần báo cô ở cuối, và đề xuất tạo thêm bộ do Claude soạn, `origin:"claude"`, kèm image prompt).
 
@@ -13,7 +18,7 @@ Không bịa nội dung sách / số trang / chuẩn Cambridge. Chỗ nào Claud
 |---|---|---|
 | 1–5 | ptp-t1..t5 | XONG (có cảnh báo `check` cô cần xác nhận, xem dưới) |
 | 6–8 | auth1-t1..t3 | XONG |
-| 9–11 | auth2-t1..t3 | **ĐANG DỞ**: ảnh scene + 8 thẻ webp đã tạo xong trong `img/auth2-t*/` (scene đã crop đúng, đã kiểm tra bằng lưới). CHƯA viết data. |
+| 9–11 | auth2-t1..t3 | **XONG** (27/10). Ảnh từ Student's Book; script do Claude soạn vì lúc đó chưa có trang Answer Booklet (origin "claude"). **Việc còn lại:** khi có `starters_2_..._answer_booklet.pdf` (trang 10–11, 15–16, 20–21) thì thay script bằng bản của sách và đổi `origin` về `"book"` (sửa `tools/t_auth2.py`). |
 | 12–14 | auth3-t1..t3 | chưa làm |
 | 15–17 | auth4-t1..t3 | chưa làm (sách "Starters 4.pdf" không có answer booklet → script do Claude soạn theo khung chuẩn, `origin:"claude"`) |
 | 18–20 | collins-t1..t3 | chưa làm |

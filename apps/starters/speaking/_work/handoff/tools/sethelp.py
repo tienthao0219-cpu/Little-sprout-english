@@ -1,5 +1,5 @@
 import json, os
-W='/home/claude/little-sprout-english/apps/starters/speaking/_work/'
+W=os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..'))+'/'   # = thư mục _work/
 def load(): return json.load(open(W+'data.json',encoding='utf8'))
 def save(d): json.dump(d,open(W+'data.json','w',encoding='utf8'),ensure_ascii=False,indent=2)
 def R(x,y,w,h,label): return {'rect':[x,y,w,h],'label':label}
