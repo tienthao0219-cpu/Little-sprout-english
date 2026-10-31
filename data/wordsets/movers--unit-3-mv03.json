@@ -1,0 +1,110 @@
+{
+ "id": "movers--unit-3-mv03",
+ "title": "Unit 3 · In the town",
+ "cur": "movers",
+ "unit": "unit-3-mv03",
+ "items": [
+  {
+   "w": "bus station",
+   "vi": "bến xe buýt",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/bus-station.webp"
+  },
+  {
+   "w": "café",
+   "vi": "quán cà phê",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/caf.webp"
+  },
+  {
+   "w": "car park",
+   "vi": "bãi đỗ xe",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/car-park.webp"
+  },
+  {
+   "w": "circus",
+   "vi": "rạp xiếc",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/circus.webp"
+  },
+  {
+   "w": "funfair",
+   "vi": "công viên giải trí",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/funfair.webp"
+  },
+  {
+   "w": "hospital",
+   "vi": "bệnh viện",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/hospital.webp"
+  },
+  {
+   "w": "library",
+   "vi": "thư viện",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/library.webp"
+  },
+  {
+   "w": "market",
+   "vi": "chợ",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/market.webp"
+  },
+  {
+   "w": "playground",
+   "vi": "sân chơi",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/playground.webp"
+  },
+  {
+   "w": "shopping centre",
+   "vi": "trung tâm thương mại",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/shopping-centre.webp"
+  },
+  {
+   "w": "sports centre",
+   "vi": "trung tâm thể thao",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/sports-centre.webp"
+  },
+  {
+   "w": "square",
+   "vi": "quảng trường",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/square.webp"
+  },
+  {
+   "w": "station",
+   "vi": "nhà ga",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/station.webp"
+  },
+  {
+   "w": "supermarket",
+   "vi": "siêu thị",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/supermarket.webp"
+  },
+  {
+   "w": "town",
+   "vi": "thị trấn",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/town.webp"
+  },
+  {
+   "w": "present",
+   "vi": "quà tặng",
+   "topic": "Things",
+   "img": "img/movers--unit-3-mv03/present.webp"
+  },
+  {
+   "w": "app",
+   "vi": "ứng dụng",
+   "topic": "Things",
+   "img": "img/movers--unit-3-mv03/app.webp"
+  }
+ ]
+}

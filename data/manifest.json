@@ -240,6 +240,10 @@
         {
           "id": "unit-2-mv02",
           "name": "UNIT 2"
+        },
+        {
+          "id": "unit-3-mv03",
+          "name": "UNIT 3"
         }
       ]
     }
@@ -853,6 +857,17 @@
       "desc": "",
       "added": "2026-10-31T14:49:12.000Z",
       "updated": "2026-10-31T14:51:06.000Z"
+    },
+    {
+      "id": "unit-3-in-the-town-the-tu-vung-mv03",
+      "title": "Unit 3 · In the town - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-3-mv03",
+      "file": "apps/movers/unit-3-mv03/unit-3-in-the-town-the-tu-vung-mv03.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:51:47.000Z",
+      "updated": "2026-10-31T14:51:47.000Z"
     }
   ]
 }
