@@ -12,11 +12,11 @@ DEMOS = {
 SPECS = [
  dict(id='ai-t1', theme='The park', topic='your weekends',
   p1=dict(scene="a sunny park: a pond with three ducks on the left, a big tree in the middle, a bench with a girl in a yellow sweater reading a book, a boy on the right holding a red kite, a brown dog sitting under the tree, a woman with a pram on the path, a green bag on the bench",
-   example=("it's sunny", "it's cloudy", "the sun becomes grey clouds"),
-   diffs=[("the boy's kite is blue instead of red", "the kite is red", "the kite is blue", "kite", "red kite", "blue kite"),
-          ("two ducks in the pond instead of three", "there are three ducks", "there are two ducks", "ducks", "three ducks", "two ducks"),
+   example=("the boy's kite is red", "the boy's kite is blue", "the kite becomes blue"),
+   diffs=[("two ducks in the pond instead of three", "there are three ducks", "there are two ducks", "ducks", "three ducks", "two ducks"),
           ("the girl on the bench is eating an ice cream instead of reading a book", "the girl is reading a book", "the girl is eating an ice cream", "girl", "reading a book", "eating an ice cream"),
           ("the green bag is on the grass under the bench instead of on the bench", "the bag is on the bench", "the bag is on the grass", "bag", "bag on the bench", "bag on the grass")]),
+  note="Ảnh B của bộ này có 4 điểm khác (chưa vẽ chỗ nắng/mây) nên lấy điểm cây diều làm ví dụ.",
   story=dict(title="The lost balloon", names="Anna (girl), Dad", panels=[
    "Anna, a girl with a red balloon, holds her dad's hand in a sunny park. She is smiling.",
    "A strong wind: the red balloon flies away into the sky. Anna looks up, sad. Dad is next to her.",

@@ -63,8 +63,8 @@ def part2_panels(win):
 def find_story_panels(im):
     """4 khung tranh kể chuyện. Xử lý: khung bị dính nhau (chia đôi), thiếu 1 khung (suy ra theo khoảng cách đều)."""
     H, W = im.shape[:2]; last = []
-    for thr in THRS:
-        cand = [b for b in panels(im, close=25, thr=thr) if b[2] < W*0.6 and b[3] > H*0.12 and b[2] > W*0.10]
+    for close, thr in [(c, t) for t in THRS for c in (25, 9, 3)]:
+        cand = [b for b in panels(im, close=close, thr=thr) if b[2] < W*0.6 and b[3] > H*0.12 and b[2] > W*0.10]
         last = cand
         if len(cand) == 4: return cand
         if 2 <= len(cand) <= 3:
