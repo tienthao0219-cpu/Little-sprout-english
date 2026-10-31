@@ -8057,7 +8057,74 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.08,
+      0.3,
+      0.27,
+      0.4
+     ],
+     "w": [
+      "woman holding a blue umbrella",
+      "woman not holding an umbrella"
+     ]
+    },
+    {
+     "b": [
+      0.0,
+      0.24,
+      0.5,
+      0.3
+     ],
+     "w": [
+      "red bus",
+      "green bus"
+     ]
+    },
+    {
+     "b": [
+      0.74,
+      0.4,
+      0.26,
+      0.3
+     ],
+     "w": [
+      "man reading",
+      "man eating a sandwich"
+     ]
+    },
+    {
+     "b": [
+      0.55,
+      0.65,
+      0.17,
+      0.15
+     ],
+     "w": [
+      "yellow bag",
+      "red bag"
+     ]
+    },
+    {
+     "b": [
+      0.06,
+      0.58,
+      0.4,
+      0.38
+     ],
+     "w": [
+      "skateboard",
+      "bike"
+     ],
+     "b2": [
+      0.08,
+      0.58,
+      0.43,
+      0.39
+     ]
+    }
+   ],
    "story": [
     "Ben is at the bus stop. He's looking at his watch. The bus is leaving.",
     "Ben is running after the bus. He's tired.",
@@ -8066,7 +8133,32 @@
    ],
    "hints": {},
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0083,
+     0.0102,
+     0.5575,
+     0.4852
+    ],
+    [
+     0.5035,
+     0.0092,
+     0.4882,
+     0.4861
+    ],
+    [
+     0.0083,
+     0.5055,
+     0.4875,
+     0.4834
+    ],
+    [
+     0.5035,
+     0.5055,
+     0.4882,
+     0.4834
+    ]
+   ]
   },
   {
    "id": "ai-t9",
