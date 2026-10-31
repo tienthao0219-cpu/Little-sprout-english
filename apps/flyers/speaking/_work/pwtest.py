@@ -97,12 +97,41 @@ def lock_sets_test():
     b.close()
   return out
 
+def reward_tests():
+  out=[]
+  with sync_playwright() as p:
+    b=p.chromium.launch()
+    # 1) mã của cô
+    pg=b.new_page(viewport=dict(width=900,height=800)); pg.goto(URL); pg.wait_for_timeout(300); pg.evaluate("localStorage.clear();location.reload()"); pg.wait_for_timeout(500)
+    pg.evaluate("goHome()"); pg.evaluate("document.querySelector('.sbar .ni').click()"); dlg=pg.evaluate("!!document.querySelector('.cdlg')")
+    pg.fill('.cdlg input','sai'); pg.keyboard.press('Enter'); wrong=pg.evaluate("[st.teach,document.querySelector('.cmsg').textContent.length>0]")
+    pg.fill('.cdlg input','thao2026'); pg.keyboard.press('Enter'); pg.wait_for_timeout(200); right=pg.evaluate("[st.teach,!document.querySelector('.cdlg')]")
+    out.append(('code',dlg,wrong==[False,True],right==[True,True]))
+    # 2) học viên đăng nhập: không có nút Cô
+    pg2=b.new_page(viewport=dict(width=900,height=800)); pg2.goto(URL); pg2.evaluate("localStorage.clear();localStorage.setItem('lse_auth_v1',JSON.stringify({name:'An',role:'student'}));location.reload()"); pg2.wait_for_timeout(500)
+    out.append(('student',pg2.evaluate("document.querySelectorAll('.sbar .ni').length"),pg2.evaluate("st.teach")))
+    # 3) hoàn thành bộ -> sao + sticker; đồng bộ qua hồ sơ website (giả lập)
+    pg3=b.new_page(viewport=dict(width=900,height=800))
+    H="<iframe id=f src='%s' style='width:900px;height:760px'></iframe><script>window.LSE={prof:{d:{fly:{stars:{},stk:[]}},get(){return this.d},mut(fn){fn(this.d)},sync:{state:'ok'}}}</script>"%URL
+    pg3.route('http://localhost:8765/__h.html',lambda r:r.fulfill(body=H,content_type='text/html')); pg3.goto('http://localhost:8765/__h.html')
+    pg3.wait_for_timeout(1200); fr=pg3.frame_locator('#f')
+    f=pg3.frames[1]
+    f.evaluate("localStorage.clear();localStorage.setItem('lse_auth_v1',JSON.stringify({name:'An',role:'teacher'}));location.reload()"); pg3.wait_for_timeout(1200); f=pg3.frames[1]
+    f.evaluate("openSet(SETS[0].id);startSet(0);PARTS.forEach(q=>markDone(q.id));st.part=3;testView();finish()"); pg3.wait_for_timeout(300)
+    got=f.evaluate("[document.body.innerText.includes('sao mới'),document.querySelectorAll('.sticker').length,albumView(),document.querySelectorAll('.sticker:not(.lock)').length]")
+    remote=pg3.evaluate("[Object.keys(LSE.prof.d.fly.stars),LSE.prof.d.fly.stk]")
+    out.append(('reward',got[0],got[1],got[3],len(remote[0]),remote[1]))
+    b.close()
+  return out
+
 if __name__=='__main__':
   import os; os.makedirs('shots',exist_ok=True)
   r=run(sys.argv[1:] or None)
   bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='student' and (x[3]!=1 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=5)) or (x[2]=='lock' and (x[3]!=3 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=2)) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
   ls=lock_sets_test(); print('lockSets',ls)
   if not (ls[0][1] and ls[0][2] and ls[0][3]==0 and ls[0][4]==0 and ls[0][5]): bad.append(ls)
+  rw=reward_tests(); print('reward',rw)
+  if not (rw[0][1] and rw[0][2] and rw[0][3] and rw[1][1]==0 and rw[1][2]==False and rw[2][1] and rw[2][2]>=1 and rw[2][3]==1 and rw[2][4]==1 and rw[2][5]==[0]): bad.append(rw)
   json.dump(r,open('pw_res.json','w'))
   print('total',len(r),'flagged',len(bad))
   for x in bad[:80]: print(x)

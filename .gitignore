@@ -3,3 +3,5 @@ apps/starters/speaking/preview.html
 apps/starters/speaking/_work/check/
 __pycache__/
 *.pyc
+apps/flyers/speaking/_work/shots/
+apps/flyers/speaking/_work/pw_res.json

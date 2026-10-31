@@ -17,7 +17,7 @@ window.LSE = window.LSE || {};
     pet: { kind: "", name: "", xp: 0, cute: 40, last: 0, fed: 0 }, ownedPets: [],
     theme: "default", ownedThemes: ["default"],
     quest: { day: "", p: {}, done: [], bonus: false }, streak: { last: "", n: 0, best: 0 },
-    wb: {}, st: { right: 0, wrong: 0, practices: 0, bosses: 0, reviews: 0 }, map: {}, spk: { stars: {}, stk: [] },
+    wb: {}, st: { right: 0, wrong: 0, practices: 0, bosses: 0, reviews: 0 }, map: {}, spk: { stars: {}, stk: [] }, fly: { stars: {}, stk: [] },
     _rev: undefined, _bc: 0, _be: 0, _d: 0, _v: 0
   });
   const keyOf = () => "lse_prof_v2:" + L.plain(L.auth && L.auth.name || "");
@@ -28,6 +28,7 @@ window.LSE = window.LSE || {};
     r.pet = Object.assign(blank().pet, o.pet || {}); r.quest = Object.assign(blank().quest, o.quest || {}); r.streak = Object.assign(blank().streak, o.streak || {});
     r.st = Object.assign(blank().st, o.st || {});
     r.spk = L.spkMerge(o.spk, null);
+    r.fly = L.spkMerge(o.fly, null);   // Flyers Speaking: sao + sticker
     ["owned", "ownedPets", "ownedThemes"].forEach(k => { if (!Array.isArray(r[k])) r[k] = blank()[k]; });
     ["sprout", "cat", "dog"].forEach(id => { if (!r.owned.includes(id)) r.owned.push(id); });
     if (!r.ownedThemes.includes("default")) r.ownedThemes.push("default");
@@ -64,6 +65,7 @@ window.LSE = window.LSE || {};
       const r = await L.api.call("profileSave", { profile: payload(snap), bc: snap._bc || 0, be: snap._be || 0 });
       const m = norm(r.profile), cur = load();
       m.spk = L.spkMerge(m.spk, snap.spk);   // máy chủ cũ (chưa cập nhật Code.gs) không trả spk: giữ lại phần của máy này
+      m.fly = L.spkMerge(m.fly, snap.fly);
       const dC = cur.coins - snapCoins, dE = cur.earned - snapEarned, changed = cur._v !== snapV;
       if (!changed) { cache = Object.assign(m, { _bc: m.coins, _be: m.earned, _d: 0, _v: cur._v, _rev: 1 }); }
       else {
@@ -72,6 +74,7 @@ window.LSE = window.LSE || {};
         cur.coins = Math.max(0, m.coins + dC); cur.earned = m.earned + dE; cur._bc = m.coins; cur._be = m.earned; cur._rev = 1; cur._d = 1;
         cur.pet.xp = Math.max(cur.pet.xp, m.pet.xp);
         cur.spk = L.spkMerge(cur.spk, m.spk);
+        cur.fly = L.spkMerge(cur.fly, m.fly);
       }
       persist(); sync.state = "ok"; sync.last = Date.now(); notify();
     } catch (e) { sync.state = "offline"; clearTimeout(timer); timer = setTimeout(() => push().catch(() => { }), 20000); throw e; }

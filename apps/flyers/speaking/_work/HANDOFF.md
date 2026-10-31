@@ -58,3 +58,8 @@ I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs
 - Học viên: trong cùng một nhóm sách (`s.group`), chỉ bộ đầu mở; làm xong đủ 4 Part của bộ trước thì bộ sau mới mở (`setUnlocked`, `prevSet`). Thẻ khoá xám, ổ khoá 🔒, bấm hiện toast. Cô: BẬT mở hết. Ở trang chủ chế độ Cô có nút "🔒 Khoá bộ đề: BẬT/TẮT" (localStorage `lse_speaking_v2_lockSets`). Nhóm "cam" gồm cả Authentic 1–4 nên đi tuần tự qua các Authentic.
 - `pwtest.py` thêm `lock_sets_test()`.
 - build.py giờ cũng cập nhật data/manifest.json (cache-bust) do phiên khác thêm.
+
+## Phiên 7: sao/sticker + mã của cô
+- Sao (1 sao / bộ hoàn thành lần đầu) + 12 sticker (mốc `MILESTONES`) lưu ở hồ sơ website trường `fly` (profile.js, api.js, Code.gs thêm `fly` giống `spk`) + localStorage `lsf_prog_v1:<tên>`. Cô cần deploy lại Code.gs.
+- Mã của cô: `D.tcode` (băm FNV-1a) trong data.json, mặc định `thao2026`; đổi bằng `set_code.py`. Học viên đã đăng nhập (role student) không có nút Cô; đã đăng nhập role khác thì bật không cần mã; chưa đăng nhập thì cần mã.
+- `paint$` bỏ child null (trước đây hiện chữ "null"). `pwtest.py` thêm `reward_tests()` (mã, quyền học viên, sao/sticker, đồng bộ).

@@ -289,3 +289,10 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
   2. Chạy `python3 _work/cutout.py <mã bộ>` để tách nền (cần `pip install pillow numpy`).
   3. Thêm bộ vào `_work/data.json` (sao chép cấu trúc của `ptp-t1`: vùng chỉ trên tranh `hot`, vùng đặt thẻ `zones`, câu Part 1–4 và `hints`).
   4. Chạy `python3 _work/build.py` để tạo lại `speaking.html`.
+
+## Flyers Speaking: khoá, sao, sticker, mã của cô (mới)
+- **Khoá:** học viên làm xong Part này (chọn mặt cười) mới mở Part sau; làm xong đủ 4 Part của một bộ mới mở bộ kế tiếp trong cùng sách.
+- **Chế độ Cô:** học viên đã đăng nhập vào website không thấy nút "Cô". Khi mở app đứng riêng (chưa đăng nhập), bấm "Cô: TẮT" sẽ hỏi **mã của cô** (mặc định `thao2026`). Đổi mã: `python3 apps/flyers/speaking/_work/set_code.py <mã mới>` rồi `python3 apps/flyers/speaking/_work/build.py`. Mã chỉ để ngăn học sinh bấm nhầm, không phải bảo mật cao.
+- **Sao + sticker:** mỗi bộ hoàn thành đủ 4 Part được ⭐; đủ mốc 1, 3, 5, 7, 10, 13, 16, 20, 24, 28, 34, 40 bộ thì mở sticker. Lưu trong hồ sơ website (trường `fly`) và đồng bộ lên Google Sheets (trang tính `profiles`).
+- **Cần làm một lần:** dán lại `apps-script/Code.gs` vào Apps Script và **Triển khai phiên bản mới**, nếu không máy chủ cũ sẽ bỏ qua trường `fly` (sao/sticker vẫn lưu trên máy, chỉ chưa lên Google Sheets).
+
