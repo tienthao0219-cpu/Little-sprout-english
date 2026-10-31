@@ -8170,13 +8170,8 @@
    "title": "The night noise",
    "teacher": {
     "p1": {
-     "example": "Here there are three stars, but here there are two stars and a moon.",
+     "example": "Here the tent is blue, but here the tent is orange.",
      "items": [
-      {
-       "ex": "In my picture the tent is blue.",
-       "cand": "(In your picture) the tent is orange.",
-       "back": "Here the tent is blue, but here …"
-      },
       {
        "ex": "In my picture the boy is playing a guitar.",
        "cand": "(In your picture) the boy is playing a violin.",
@@ -8295,7 +8290,68 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.0,
+      0.28,
+      0.57,
+      0.29
+     ],
+     "w": [
+      "blue tent",
+      "orange tent"
+     ]
+    },
+    {
+     "b": [
+      0.08,
+      0.55,
+      0.42,
+      0.19
+     ],
+     "w": [
+      "a guitar",
+      "a violin"
+     ],
+     "b2": [
+      0.14,
+      0.55,
+      0.36,
+      0.14
+     ]
+    },
+    {
+     "b": [
+      0.66,
+      0.58,
+      0.24,
+      0.22
+     ],
+     "w": [
+      "red jacket",
+      "green jacket"
+     ]
+    },
+    {
+     "b": [
+      0.66,
+      0.43,
+      0.34,
+      0.09
+     ],
+     "w": [
+      "one canoe",
+      "two canoes"
+     ],
+     "b2": [
+      0.6,
+      0.4,
+      0.4,
+      0.12
+     ]
+    }
+   ],
    "story": [
     "Sam and Zoe are in a tent. It's night. They've got a torch.",
     "They can hear a noise. Zoe is frightened.",
@@ -8303,8 +8359,34 @@
     "Sam and Zoe are laughing. They are giving the hedgehog apples."
    ],
    "hints": {},
+   "note": "Ảnh B của bộ này có 4 điểm khác (số ngôi sao ở hai tranh bằng nhau, chưa khác) nên lấy cái lều làm ví dụ.",
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0083,
+     0.0111,
+     0.5579,
+     0.4843
+    ],
+    [
+     0.5038,
+     0.0111,
+     0.4879,
+     0.4843
+    ],
+    [
+     0.0083,
+     0.5046,
+     0.4879,
+     0.4843
+    ],
+    [
+     0.5038,
+     0.5056,
+     0.4879,
+     0.4833
+    ]
+   ]
   },
   {
    "id": "ai-t10",
