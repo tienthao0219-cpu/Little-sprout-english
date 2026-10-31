@@ -1,0 +1,104 @@
+{
+ "id": "movers--unit-4-mv04",
+ "title": "Unit 4 · At home",
+ "cur": "movers",
+ "unit": "unit-4-mv04",
+ "items": [
+  {
+   "w": "bat",
+   "vi": "gậy",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/bat.webp"
+  },
+  {
+   "w": "blanket",
+   "vi": "chăn / mền",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/blanket.webp"
+  },
+  {
+   "w": "cage",
+   "vi": "lồng / cũi",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/cage.webp"
+  },
+  {
+   "w": "comic book",
+   "vi": "truyện tranh",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/comic-book.webp"
+  },
+  {
+   "w": "helmet",
+   "vi": "mũ bảo hiểm",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/helmet.webp"
+  },
+  {
+   "w": "laptop",
+   "vi": "máy tính xách tay",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/laptop.webp"
+  },
+  {
+   "w": "map of the world",
+   "vi": "bản đồ thế giới",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/map-of-the-world.webp"
+  },
+  {
+   "w": "plant",
+   "vi": "cây cảnh",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/plant.webp"
+  },
+  {
+   "w": "shower",
+   "vi": "vòi hoa sen",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/shower.webp"
+  },
+  {
+   "w": "toothbrush",
+   "vi": "bàn chải đánh răng",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/toothbrush.webp"
+  },
+  {
+   "w": "toothpaste",
+   "vi": "kem đánh răng",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/toothpaste.webp"
+  },
+  {
+   "w": "towel",
+   "vi": "khăn tắm",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/towel.webp"
+  },
+  {
+   "w": "downstairs",
+   "vi": "dưới nhà",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/downstairs.webp"
+  },
+  {
+   "w": "upstairs",
+   "vi": "trên nhà",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/upstairs.webp"
+  },
+  {
+   "w": "inside",
+   "vi": "bên trong",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/inside.webp"
+  },
+  {
+   "w": "outside",
+   "vi": "bên ngoài",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/outside.webp"
+  }
+ ]
+}

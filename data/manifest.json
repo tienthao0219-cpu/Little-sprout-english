@@ -244,6 +244,10 @@
         {
           "id": "unit-3-mv03",
           "name": "UNIT 3"
+        },
+        {
+          "id": "unit-4-mv04",
+          "name": "UNIT 4"
         }
       ]
     }
@@ -868,6 +872,17 @@
       "desc": "",
       "added": "2026-10-31T14:51:47.000Z",
       "updated": "2026-10-31T14:51:47.000Z"
+    },
+    {
+      "id": "unit-4-at-home-the-tu-vung-mv04",
+      "title": "Unit 4 · At home - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-4-mv04",
+      "file": "apps/movers/unit-4-mv04/unit-4-at-home-the-tu-vung-mv04.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:54:02.000Z",
+      "updated": "2026-10-31T14:54:02.000Z"
     }
   ]
 }
