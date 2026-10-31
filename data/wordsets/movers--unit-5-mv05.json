@@ -1,0 +1,86 @@
+{
+ "id": "movers--unit-5-mv05",
+ "title": "Unit 5 · Let's go on holiday!",
+ "cur": "movers",
+ "unit": "unit-5-mv05",
+ "items": [
+  {
+   "w": "balcony",
+   "vi": "ban công",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/balcony.webp"
+  },
+  {
+   "w": "beach",
+   "vi": "bãi biển",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/beach.webp"
+  },
+  {
+   "w": "bus stop",
+   "vi": "trạm xe buýt",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/bus-stop.webp"
+  },
+  {
+   "w": "cinema",
+   "vi": "rạp chiếu phim",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/cinema.webp"
+  },
+  {
+   "w": "lift / elevator",
+   "vi": "thang máy",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/lift-elevator.webp"
+  },
+  {
+   "w": "(swimming) pool",
+   "vi": "hồ bơi",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/swimming-pool.webp"
+  },
+  {
+   "w": "sea",
+   "vi": "biển",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/sea.webp"
+  },
+  {
+   "w": "message",
+   "vi": "tin nhắn",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/message.webp"
+  },
+  {
+   "w": "milkshake",
+   "vi": "sữa khuấy",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/milkshake.webp"
+  },
+  {
+   "w": "seat",
+   "vi": "chỗ ngồi",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/seat.webp"
+  },
+  {
+   "w": "stairs",
+   "vi": "cầu thang",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/stairs.webp"
+  },
+  {
+   "w": "ticket",
+   "vi": "vé",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/ticket.webp"
+  },
+  {
+   "w": "wave",
+   "vi": "sóng biển",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/wave.webp"
+  }
+ ]
+}

@@ -71,6 +71,7 @@ def main():
     import base64
     for it in items:
         c = {'id': slug(it['w']), 'word': it['w'], 'vi': it['vi'], 'topic': it['topic'], 'topicVi': TOPIC_VI.get(it['topic'], it['topic'])}
+        if '(' in it['w']: c['say'] = re.sub(r'[()]', '', it['w'])
         if '/' in it['w']: c['say'] = re.sub(r'\s*/\s*', ' or ', it['w'])
         if not it.get('img') and it['topic'] == 'Days of the week': c['badge'] = it['w'][:3]
         if it.get('img'):

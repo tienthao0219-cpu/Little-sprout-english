@@ -248,6 +248,10 @@
         {
           "id": "unit-4-mv04",
           "name": "UNIT 4"
+        },
+        {
+          "id": "unit-5-mv05",
+          "name": "UNIT 5"
         }
       ]
     }
@@ -883,6 +887,17 @@
       "desc": "",
       "added": "2026-10-31T14:54:02.000Z",
       "updated": "2026-10-31T14:54:02.000Z"
+    },
+    {
+      "id": "unit-5-let-s-go-on-holiday-the-tu-vung-mv05",
+      "title": "Unit 5 · Let's go on holiday! - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-5-mv05",
+      "file": "apps/movers/unit-5-mv05/unit-5-let-s-go-on-holiday-the-tu-vung-mv05.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T14:56:25.000Z",
+      "updated": "2026-10-31T14:56:25.000Z"
     }
   ]
 }
