@@ -79,10 +79,30 @@ def run(only=None):
       ctx.close()
     b.close()
   return res
+
+def lock_sets_test():
+  out=[]
+  with sync_playwright() as p:
+    b=p.chromium.launch(); pg=b.new_page(viewport=dict(width=1000,height=800)); pg.goto(URL); pg.wait_for_timeout(400)
+    pg.evaluate("st.teach=false;localStorage.clear();goHome()")
+    groups=pg.evaluate("[...new Set(SETS.map(s=>s.group))].length")
+    lockedAll=pg.evaluate("document.querySelectorAll('.tile2.lockd').length")
+    expect=pg.evaluate("SETS.length-[...new Set(SETS.map(s=>s.group))].length")
+    pg.evaluate("document.querySelectorAll('.tile2.lockd')[0].click()"); toast=pg.evaluate("!!document.querySelector('.toast')")
+    first=pg.evaluate("(()=>{const s=SETS[1];st.set=s;PARTS.forEach(q=>markDone(q.id));homeView();return document.querySelectorAll('.tile2.lockd').length})()")
+    pg.evaluate("st.teach=true;homeView()"); t=pg.evaluate("document.querySelectorAll('.tile2.lockd').length")
+    pg.evaluate("document.querySelector('.pillrow ~ *,button.pill:not(.star)')"); 
+    pg.evaluate("st.teach=true;setLockSets(false);homeView()"); off=pg.evaluate("document.querySelectorAll('.tile2.lockd').length")
+    out.append(('lockSets',lockedAll==expect,toast,t,off,first<=lockedAll))
+    b.close()
+  return out
+
 if __name__=='__main__':
   import os; os.makedirs('shots',exist_ok=True)
   r=run(sys.argv[1:] or None)
   bad=[x for x in r if (x[2] in('p1','p3') and (x[6]>0 or x[7]>0 or x[4]!=x[5] or x[4]<1)) or (x[2]=='p3cards' and (x[3]!=5 or x[4]!=20 or x[5]<1)) or (x[1]=='ERRORS' and any('tunnel' not in e.lower() for e in x[3])) or (x[2]=='p1vcw' and (x[3]!=1 or x[4]*2!=x[6] or x[5]!=x[6])) or (x[2]=='student' and (x[3]!=1 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=5)) or (x[2]=='lock' and (x[3]!=3 or x[4]!=0 or x[5]!=0 or x[6]!=1 or x[7]!=2)) or (x[2]=='p2q' and (x[3]!=x[4] or x[5]<x[3]*0.5))]
+  ls=lock_sets_test(); print('lockSets',ls)
+  if not (ls[0][1] and ls[0][2] and ls[0][3]==0 and ls[0][4]==0 and ls[0][5]): bad.append(ls)
   json.dump(r,open('pw_res.json','w'))
   print('total',len(r),'flagged',len(bad))
   for x in bad[:80]: print(x)

@@ -53,3 +53,8 @@ I also fixed wrong dif text: col-t2 D1 (sun/cloud window), suc-t6 D7 (sausage vs
 - KHOÁ: học viên (Cô: TẮT) phải chọn mặt cười ở cuối Part thì Part sau mới mở (`markDone`, `p.done` trong localStorage `lse_speaking_v2`); Part khoá hiện 🔒, bấm sẽ rung + toast. Cô: BẬT mở hết, bấm "Phần tiếp" tự đánh dấu xong. Màn Ready có "Tiếp tục Part N" / "Làm lại từ đầu".
 - Chưa làm: khoá cả bộ đề (làm xong Test này mới mở Test sau) và đồng bộ sao/sticker lên Google Sheets như Starters (`spk`, profile.js, Code.gs).
 - `pwtest.py`: 562 phép đo (thêm kiểm tra khoá).
+
+## Phiên 6: khoá bộ đề
+- Học viên: trong cùng một nhóm sách (`s.group`), chỉ bộ đầu mở; làm xong đủ 4 Part của bộ trước thì bộ sau mới mở (`setUnlocked`, `prevSet`). Thẻ khoá xám, ổ khoá 🔒, bấm hiện toast. Cô: BẬT mở hết. Ở trang chủ chế độ Cô có nút "🔒 Khoá bộ đề: BẬT/TẮT" (localStorage `lse_speaking_v2_lockSets`). Nhóm "cam" gồm cả Authentic 1–4 nên đi tuần tự qua các Authentic.
+- `pwtest.py` thêm `lock_sets_test()`.
+- build.py giờ cũng cập nhật data/manifest.json (cache-bust) do phiên khác thêm.

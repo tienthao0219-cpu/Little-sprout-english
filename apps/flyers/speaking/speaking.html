@@ -490,6 +490,7 @@ body[data-part="0"]{--pc:var(--lav);--pd:var(--lav-d);--pdd:#5E48B8;--ps:#F3EEFF
   .tile2 .num{min-width:38px;height:38px;font-size:19px}.node{width:46px;height:46px}.node .ic svg{width:24px;height:24px}
 }
 @media (max-width:420px){.grid2{grid-template-columns:1fr}}
+.tile2.lockd{opacity:.72;background:rgba(255,255,255,.75);border:3px dashed rgba(43,53,80,.16)}.tile2.lockd .thumb img{filter:grayscale(.9) brightness(1.05)}.tile2.lockd .go{background:#9aa3bd}.tile2 .flag.lk{background:#fff;color:#67728D;font-size:18px;padding:0 10px}
 @media (max-width:480px){.ptag small{display:none}}
 @media (max-width:640px){.sbar.intro .sbar-in{flex-wrap:nowrap}.sbar.intro .ttl{order:0;flex:1 1 0;min-width:0}.sbar.intro .ttl b{font-size:18px}.sbar.intro>.sbar-in>.ni:first-child{margin-right:0}}
 @media (prefers-reduced-motion:reduce){.bg i,.bg b,.hero2 .mascot img,.burst::before,.node.cur{animation:none!important}}
@@ -575,6 +576,12 @@ const mem = {};
 function loadP() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return mem; } }
 function saveP(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) { Object.assign(mem, p); } }
 function getTeach() { try { return localStorage.getItem(KEY + '_teach') === '1'; } catch (e) { return !!mem._t; } }
+/* khoá bộ đề: trong cùng một sách, làm xong bộ trước mới mở bộ sau (cô tắt/bật được ở trang chủ) */
+function lockSets() { try { return localStorage.getItem(KEY + '_lockSets') !== '0'; } catch (e) { return true; } }
+function setLockSets(v) { try { localStorage.setItem(KEY + '_lockSets', v ? '1' : '0'); } catch (e) { } }
+function setDone(sid) { return PARTS.every(q => isDone(q.id, sid)); }
+function prevSet(s) { const L = SETS.filter(x => x.group === s.group), k = L.findIndex(x => x.id === s.id); return k > 0 ? L[k - 1] : null; }
+function setUnlocked(s) { if (st.teach || !lockSets()) return true; const pv = prevSet(s); return !pv || setDone(pv.id); }
 function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); } catch (e) { mem._t = v; } }
 
 function setName(s) {
@@ -767,6 +774,7 @@ function homeView() {
         h('p', 'Cô là giám khảo, em là thí sinh. Chọn một bộ test, làm lần lượt 4 phần. Xong Part này mới mở Part tiếp theo nhé!'),
         h('div.pillrow', h('span.pill', '⭐ ' + SETS.reduce((n, x) => n + PARTS.filter(q => isDone(q.id, x.id)).length, 0) + ' phần đã xong'), h('span.pill', '🏆 ' + SETS.filter(x => PARTS.every(q => isDone(q.id, x.id))).length + ' / ' + SETS.length + ' bộ')))),
     h('h2.sec', '🎒 Chọn bộ test'),
+    st.teach ? h('div', { style: 'margin:-4px 0 12px' }, h('button.pill', { onclick: () => { setLockSets(!lockSets()); homeView(); } }, lockSets() ? '🔒 Khoá bộ đề: BẬT (bấm để tắt)' : '🔓 Khoá bộ đề: TẮT (bấm để bật)')) : null,
     h('details.guide', h('summary', '📖 Cách dùng (bấm để xem)'), h('div.gb',
       h('ol', h('li', 'Chọn một bộ test bên dưới.'),
         h('li', h('b', '🔒 Khoá Part: '), 'em tự chọn mặt cười ở cuối mỗi Part thì Part tiếp theo mới mở. Cô bật “Cô: BẬT” để mở hết.'),
@@ -781,10 +789,11 @@ function homeView() {
     h('div.chips', groups.map(g => h('button.chip' + (st.filter === g.id ? '.on' : ''), { onclick: () => { st.filter = g.id; homeView(); } }, g.name))),
     h('div.grid2', list.map((s, i) => {
       const nd = PARTS.filter(q => isDone(q.id, s.id)).length, TC = ['', '.t-peach', '.t-sky', '.t-rose'][i % 4];
-      return h('button.tile2' + TC, { onclick: () => openSet(s.id) },
+      const lk = !setUnlocked(s), pv = prevSet(s);
+      return h('button.tile2' + TC + (lk ? '.lockd' : ''), { onclick: () => { if (lk) { toast('🔒 Em làm xong ' + setName(pv) + ' trước nhé!'); return; } openSet(s.id); } },
         h('div.thumb', h('img', { src: img(s, 'p1ex'), alt: '', loading: 'lazy', draggable: 'false', onerror: function () { this.style.visibility = 'hidden'; } }), h('span.num', String(s.no)),
-          nd === 4 ? h('span.flag.ok', '⭐ Xong') : nd > 0 ? h('span.flag.mid', nd + '/4') : h('span.flag', 'NEW')),
-        h('div.tbody', h('b', setName(s)), h('small', s.src), s.teacher ? h('div', h('span.tag.teach', 'có script')) : null, h('span.go', nd > 0 && nd < 4 ? 'Tiếp tục ▶' : 'Chơi ngay ▶')));
+          lk ? h('span.flag.lk', '🔒') : nd === 4 ? h('span.flag.ok', '⭐ Xong') : nd > 0 ? h('span.flag.mid', nd + '/4') : h('span.flag', 'NEW')),
+        h('div.tbody', h('b', setName(s)), h('small', s.src), s.teacher ? h('div', h('span.tag.teach', 'có script')) : null, h('span.go', lk ? '🔒 Chưa mở' : nd > 0 && nd < 4 ? 'Tiếp tục ▶' : 'Chơi ngay ▶')));
     })),
     list.length ? null : h('div.panel.muted', 'Chưa có bộ nào trong mục này.'),
     h('p.muted', { style: 'text-align:center;font-size:12.5px;margin-top:18px' }, 'Hình lấy từ các sách luyện thi trong thư viện của cô, dùng để luyện tập trong lớp.'));
@@ -1382,7 +1391,7 @@ function finish() {
     h('div.nav', { style: 'justify-content:center;margin-top:14px' },
       h('button.btn.ghost', { onclick: () => openSet(st.set.id) }, '↺ Làm lại'),
       h('button.btn.ghost', { onclick: goHome }, '☰ Chọn bộ khác'),
-      next ? h('button.btn', { onclick: () => openSet(next.id) }, setName(next) + ' →') : null)));
+      next && setUnlocked(next) ? h('button.btn', { onclick: () => openSet(next.id) }, setName(next) + ' →') : null)));
   window.scrollTo(0, 0);
 }
 function goHome() { clearInterval(tick); st.view = 'home'; homeView(); window.scrollTo(0, 0); }
