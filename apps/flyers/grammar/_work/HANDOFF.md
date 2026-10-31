@@ -57,6 +57,13 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Bài **Luyện tập tổng hợp** của mỗi unit = 20 câu (10 trắc nghiệm + 10 điền từ) xoay vòng đều các điểm ngữ pháp (`ugen.make_quiz`), mỗi câu có nhãn điểm ngữ pháp; màn kết quả gợi ý điểm cần xem lại.
 - Bài trộn nhiều unit (`pickMix`): ưu tiên câu chưa làm / lâu chưa gặp (localStorage `lse_gram_flyers_seen:<tên>`), xen đều các điểm ngữ pháp, 60% đúng mức + 40% mức liền kề, xáo đáp án mỗi lần.
 
+## Cập nhật v10: Unit 8–12 (xong cả 12 unit)
+- Unit 8 Sports day! (4 bài): present continuous (future); going to; tag questions; present perfect + already. Unit 9 Our camping adventure (3): should/shouldn't; past simple & past continuous (khối `join` when/while); present perfect. Unit 10 A good year! (2): -ing forms; if clauses (If + present, will + verb). Unit 11 Our summer holidays (4): future simple; should/might/can't; imperatives & going to; present perfect regular/irregular. Unit 12 Past and future (2): past simple vs present perfect; will & might.
+- Chỗ trống = ngữ pháp, chỉ một đáp án: khi câu dễ có nhiều đáp án (should/might/can't, While/When) thì thêm gợi ý nghĩa tiếng Việt trong ngoặc hoặc nhận cả hai đáp án (`ans` là danh sách).
+- Unit 10 "-ing forms" và "If clauses", Unit 11 "should/might/can't", Unit 9 "present perfect" là mình HIỂU từ tên chủ điểm cô gửi (không có sách) → cô đối chiếu với sách.
+- Thanh tiêu đề trên cùng rút gọn bằng "…" khi tiêu đề bài quá dài (không còn tràn ngang trên điện thoại 360px; `ovf_all.py` trong scratchpad quét cả 12 unit).
+- Kho câu mức Khó phải ≥ 15 câu mỗi unit (để trộn Khó 30 câu vẫn đủ 50%): unit ít bài thì thêm câu `Clz`.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).
@@ -70,5 +77,5 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 (Danh sách cô gửi có dấu trích dẫn [1][2] như copy từ công cụ AI – cô nên đối chiếu lại với sách khi duyệt.)
 
 ## Việc còn lại
-- Đã làm Unit 1–7; làm tiếp Unit 8–12 cùng khuôn (thêm vào data.json + thêm app vào data/manifest.json, unit `grammar` trong lớp flyers).
+- Đã làm đủ Unit 1–12 cùng khuôn (thêm vào data.json + thêm app vào data/manifest.json, unit `grammar` trong lớp flyers).
 - Dữ liệu hiện nằm trong data.json (chưa đọc từ Google Sheets). Chưa có âm thanh hiệu ứng.
