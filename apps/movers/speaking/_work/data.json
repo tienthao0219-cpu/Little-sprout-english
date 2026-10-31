@@ -6579,22 +6579,17 @@
    "title": "Tom makes a cake",
    "teacher": {
     "p1": {
-     "example": "Here there are two flowers on the window, but here there are three flowers.",
+     "example": "Here the clock says eight, but here the clock says nine.",
      "items": [
-      {
-       "ex": "In my picture the clock says eight.",
-       "cand": "(In your picture) the clock says nine.",
-       "back": "Here the clock says eight, but here …"
-      },
       {
        "ex": "In my picture there are bananas.",
        "cand": "(In your picture) there are apples.",
        "back": "Here there are bananas, but here …"
       },
       {
-       "ex": "In my picture the boy is drinking milk.",
+       "ex": "In my picture the boy is eating cereal.",
        "cand": "(In your picture) the boy is drinking orange juice.",
-       "back": "Here the boy is drinking milk, but here …"
+       "back": "Here the boy is eating cereal, but here …"
       },
       {
        "ex": "In my picture the cat is on the chair.",
@@ -6704,7 +6699,62 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.8,
+      0.06,
+      0.19,
+      0.14
+     ],
+     "w": [
+      "clock at 8 o'clock",
+      "clock at 9 o'clock"
+     ]
+    },
+    {
+     "b": [
+      0.37,
+      0.55,
+      0.2,
+      0.1
+     ],
+     "w": [
+      "a bowl of bananas",
+      "a bowl of apples"
+     ]
+    },
+    {
+     "b": [
+      0.39,
+      0.37,
+      0.24,
+      0.18
+     ],
+     "w": [
+      "eating cereal",
+      "drinking orange juice"
+     ]
+    },
+    {
+     "b": [
+      0.07,
+      0.57,
+      0.26,
+      0.2
+     ],
+     "w": [
+      "cat on the chair",
+      "cat under the table"
+     ],
+     "b2": [
+      0.4,
+      0.76,
+      0.27,
+      0.15
+     ]
+    }
+   ],
    "story": [
     "Tom is in the kitchen with his mum. He wants to make a cake for Grandma's birthday.",
     "Tom is putting eggs and flour in a bowl. Mum is watching him.",
@@ -6712,8 +6762,34 @@
     "Tom is giving the cake to Grandma. She is very happy."
    ],
    "hints": {},
+   "note": "Ảnh B của bộ này có 4 điểm khác (chưa vẽ chỗ số bông hoa) nên lấy điểm đồng hồ làm ví dụ.",
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0083,
+     0.0064,
+     0.5545,
+     0.4696
+    ],
+    [
+     0.5066,
+     0.0055,
+     0.4851,
+     0.4705
+    ],
+    [
+     0.009,
+     0.4825,
+     0.4831,
+     0.5064
+    ],
+    [
+     0.5066,
+     0.4825,
+     0.4838,
+     0.5064
+    ]
+   ]
   },
   {
    "id": "ai-t3",
