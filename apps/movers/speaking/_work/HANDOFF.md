@@ -5,8 +5,8 @@ Không bịa nội dung sách/số trang/chuẩn Cambridge: chỗ nào Claude t�
 
 ## Trạng thái (31/10/2026)
 - App: `apps/movers/speaking/speaking.html` (SINH RA từ `_work/template.html` + `_work/sets/*.py` bằng `python3 _work/build.py`; build cũng đăng ký app vào `data/manifest.json`, thêm mục "Cambridge Movers" › SPEAKING vì trước đó site chưa có folder Movers).
-- **28 bộ hiển thị** (kiểm thử `_work/pwtest.py`: 448 phép đo, 0 lỗi): Practice Tests Plus 1–5 · Authentic 1–4 (12 bộ) · Collins 1–3 · Succeed 1–8.
-- **12 bộ AI (ai-t1…ai-t12)**: đã soạn đủ nội dung + prompt ảnh (`ai_sets/PROMPTS-movers-ai.md`), đang ẨN chờ cô tạo ảnh bằng ChatGPT. Khi cô gửi ảnh: `python3 _work/ai_sets/import_ai.py ai-tN <thư mục ảnh>` → xem lưới `tools/gridpair.py ai-tN` → ghi vòng khoanh Part 1 vào `sets/_crop/ai-tN.json` khoá `"dif"` → `build.py` → `pwtest.py`. Đủ 40 bộ khi có cả 12.
+- **28 bộ từ sách** (kiểm thử `_work/pwtest.py`: 448 phép đo, 0 lỗi): Practice Tests Plus 1–5 · Authentic 1–4 (12 bộ) · Collins 1–3 · Succeed 1–8.
+- **12 bộ AI (ai-t1…ai-t12)**: ĐÃ CÓ ẢNH (cô gửi 31/10/2026) → tổng **40 bộ hiển thị**, `pwtest.py` 640 phép đo, 0 lỗi. Ảnh B nhiều bộ chỉ có 4 điểm khác (thiếu 1 so với ví dụ+4) nên chọn 1 điểm làm câu ví dụ (ghi trong `note`); ai-t5 chỉ có 3 điểm khác. Quy trình nhập ảnh (đã dùng): `python3 _work/ai_sets/import_ai.py ai-tN <thư mục ảnh>` → xem lưới `tools/gridpair.py ai-tN` → ghi vòng khoanh Part 1 vào `sets/_crop/ai-tN.json` khoá `"dif"` → `build.py` → `pwtest.py`. Đủ 40 bộ khi có cả 12.
 - Chưa làm: **Mini Trainer** (2 bộ, tranh dạng tô màu, Part 3 khác cấu trúc), Oxford CEQ (chỉ có ghi chú giáo viên, không có hình), Skills Builder/Get Ready/Fun for Movers.
 
 ## Cấu trúc Movers (khác Flyers – đã xác nhận bằng Handbook 2024)
