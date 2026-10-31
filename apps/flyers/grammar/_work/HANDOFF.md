@@ -8,6 +8,13 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Màu thành phần câu: sub=xanh lá, aux=xanh dương, pre=cam, obj=tím, v=vàng, pink=hồng (are / can't).
 - `data.json` là nguồn chính. Các script `lessons_u1.py`, `lessons_u1_b.py`, `practice_u1.py` là lịch sử soạn nội dung Unit 1 (không chạy lại độc lập, vì chúng sửa tiếp data.json).
 
+## Cập nhật v3 (góp ý ảnh chụp của cô Thảo)
+- Bảng pastel nhiều màu: khối `table` có `tint:[màu cột 1,2,3]` (peach/sky/mint/rose/lav/butter), `big0:true` cho cột đầu chữ lớn. Bài đại từ: "Khi nào dùng" và "Chọn từ nào" đều là bảng.
+- "Đừng nhầm" (`mistakes`): hai nửa ✘ Sai (hồng) | ✔ Đúng (xanh) + dòng 💡 giải thích.
+- Icon riêng cho từng bài (`GIC` trong template: l1..l4, q + undo/skip/next/home); thẻ bài ở trang Unit có dải màu, icon trong vòng trắng, 3 chip tiến độ Học / Luyện / n câu.
+- Màn luyện tập có thanh nút dưới: Undo (xoá chữ đang gõ hoặc về câu trước) · Skip (đưa câu xuống cuối) · Next (mở sau khi trả lời) · Home (về trang ngữ pháp, hỏi xác nhận nếu đã làm dở).
+- `gtest.py` kiểm tra cả thanh nút.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).

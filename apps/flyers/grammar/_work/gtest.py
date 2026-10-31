@@ -78,3 +78,28 @@ with sync_playwright() as p:
     ctx.close()
   b.close()
 print('hoàn tất, lỗi:',len(bad)); [print(x) for x in bad]
+
+# --- thanh nút Undo / Skip / Next / Home ---
+with sync_playwright() as p:
+  b=p.chromium.launch(); pg=b.new_page(viewport=dict(width=390,height=844)); errs=[]
+  pg.on('pageerror',lambda e:errs.append(str(e)))
+  pg.goto(U%unit); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(400)
+  pg.evaluate("practiceStart(0)")
+  btn=lambda n: pg.evaluate(f"document.querySelectorAll('.qb')[{n}].disabled")
+  r=[]
+  r.append(('next khoá lúc đầu',btn(2)==True,'undo khoá ở câu 1',btn(0)==True))
+  q0=pg.evaluate("Q.order[Q.pos]"); pg.evaluate("document.querySelectorAll('.qb')[1].click()")           # skip
+  r.append(('skip đưa câu xuống cuối',pg.evaluate("Q.order[Q.order.length-1]")==q0 and pg.evaluate("Q.order[Q.pos]")!=q0))
+  q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
+  if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+  else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
+  r.append(('next mở sau khi trả lời',btn(2)==False,'skip khoá sau khi trả lời',btn(1)==True))
+  pg.evaluate("document.getElementById('qnext').click()"); pos1=pg.evaluate("Q.pos")
+  pg.evaluate("document.querySelectorAll('.qb')[0].click()")                                              # undo -> câu trước
+  r.append(('undo về câu trước',pg.evaluate("Q.pos")==pos1-1))
+  pg.evaluate("document.querySelectorAll('.qb')[3].click()")                                              # home -> hỏi xác nhận
+  r.append(('home hỏi xác nhận',pg.evaluate("!!document.querySelector('.cdlg')")))
+  pg.evaluate("document.querySelectorAll('.cdlg .btn')[1].click()")
+  r.append(('thoát về trang ngữ pháp',pg.evaluate("!!document.querySelector('.tiles')")))
+  bad2=[x for x in r if not all(v for v in x[1::2])]
+  print('thanh nút:',len(r),'kiểm tra, lỗi',len(bad2),bad2,errs[:2]); b.close()

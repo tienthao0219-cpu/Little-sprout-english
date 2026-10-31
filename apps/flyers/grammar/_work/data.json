@@ -755,34 +755,41 @@
      ],
      "blocks": [
       {
+       "k": "table",
        "title": "🧭 Khi nào dùng?",
-       "items": [
-        {
-         "icon": "✅",
-         "t": "**some-** = **có** (ai đó, cái gì đó). Dùng trong câu **bình thường** (khẳng định).",
-         "ex": "Someone is in the kitchen.",
-         "vi": "Có ai đó đang ở trong bếp."
-        },
-        {
-         "icon": "❓",
-         "t": "**any-** dùng khi **HỎI** hoặc khi câu có **not** (phủ định).",
-         "ex": "Is there anyone at home? · I can't see anything.",
-         "vi": "Có ai ở nhà không? · Mình không thấy gì cả."
-        },
-        {
-         "icon": "🚫",
-         "t": "**no-** = **không có**. Nghĩa đã là \"không\", nên câu **KHÔNG** thêm not.",
-         "ex": "No one is in the bathroom.",
-         "vi": "Không có ai trong phòng tắm."
-        },
-        {
-         "icon": "🌈",
-         "t": "**every-** = **tất cả, mọi**. Động từ dùng **is** (số ít).",
-         "ex": "Everyone is here!",
-         "vi": "Mọi người đều ở đây!"
-        }
+       "tint": [
+        "peach",
+        "sky",
+        "mint"
        ],
-       "k": "when"
+       "head": [
+        "🔤 Đầu từ",
+        "📌 Dùng khi",
+        "✏️ Ví dụ"
+       ],
+       "rows": [
+        [
+         "**some-**\ncó",
+         "Câu bình thường (khẳng định)",
+         "Someone is in the kitchen.\nCó ai đó trong bếp."
+        ],
+        [
+         "**any-**\nhỏi / có not",
+         "Câu **hỏi** hoặc câu có **not**",
+         "Is there anyone at home?\nI can't see anything."
+        ],
+        [
+         "**no-**\nkhông có",
+         "Muốn nói \"không có\" – **không thêm not**",
+         "No one is in the bathroom.\nKhông ai trong phòng tắm."
+        ],
+        [
+         "**every-**\ntất cả",
+         "Muốn nói \"tất cả\" – đi với **is**",
+         "Everyone is here!\nMọi người đều ở đây!"
+        ]
+       ],
+       "big0": true
       },
       {
        "title": "🗂 Bảng 4 nhóm × 3 loại (người · vật · nơi)",
@@ -822,14 +829,40 @@
        "k": "table"
       },
       {
+       "k": "table",
        "title": "🧠 Chọn từ nào? Hỏi mình 4 câu",
-       "items": [
-        "1️⃣ Muốn nói **tất cả**? → **every-** (everyone, everything, everywhere)",
-        "2️⃣ Câu có **not** hoặc là **câu hỏi**? → **any-** (anyone, anything)",
-        "3️⃣ Muốn nói **không có** mà **không dùng not**? → **no-** (no one, nothing)",
-        "4️⃣ Muốn nói **có** (câu bình thường)? → **some-** (someone, something)"
+       "tint": [
+        "rose",
+        "lav",
+        "butter"
        ],
-       "k": "steps"
+       "head": [
+        "❓ Hỏi mình",
+        "👉 Chọn",
+        "✏️ Ví dụ"
+       ],
+       "rows": [
+        [
+         "Muốn nói **tất cả**?",
+         "**every-**",
+         "everyone · everything"
+        ],
+        [
+         "Có **not** hoặc là **câu hỏi**?",
+         "**any-**",
+         "anyone · anything"
+        ],
+        [
+         "Muốn nói **không có**, không dùng not?",
+         "**no-**",
+         "no one · nothing"
+        ],
+        [
+         "Muốn nói **có** (câu bình thường)?",
+         "**some-**",
+         "someone · something"
+        ]
+       ]
       },
       {
        "title": "👀 Xem hình",
