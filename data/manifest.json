@@ -268,6 +268,10 @@
         {
           "id": "unit-9-mv09",
           "name": "UNIT 9"
+        },
+        {
+          "id": "unit-10-mv10",
+          "name": "UNIT 10"
         }
       ]
     }
@@ -958,6 +962,17 @@
       "desc": "",
       "added": "2026-10-31T15:07:19.000Z",
       "updated": "2026-10-31T15:07:19.000Z"
+    },
+    {
+      "id": "unit-10-the-weather-the-tu-vung-mv10",
+      "title": "Unit 10 · The weather - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-10-mv10",
+      "file": "apps/movers/unit-10-mv10/unit-10-the-weather-the-tu-vung-mv10.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T15:08:27.000Z",
+      "updated": "2026-10-31T15:08:27.000Z"
     }
   ]
 }
