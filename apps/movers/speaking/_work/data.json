@@ -8864,13 +8864,8 @@
    "title": "A surprise for Grandpa",
    "teacher": {
     "p1": {
-     "example": "Here there are three balloons, but here there are four balloons.",
+     "example": "Here there are five candles, but here there are four candles.",
      "items": [
-      {
-       "ex": "In my picture there are five candles.",
-       "cand": "(In your picture) there are four candles.",
-       "back": "Here there are five candles, but here …"
-      },
       {
        "ex": "In my picture the girl's dress is purple.",
        "cand": "(In your picture) the girl's dress is yellow.",
@@ -8989,7 +8984,62 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.46,
+      0.42,
+      0.21,
+      0.1
+     ],
+     "w": [
+      "five candles",
+      "four candles"
+     ],
+     "b2": [
+      0.47,
+      0.42,
+      0.19,
+      0.1
+     ]
+    },
+    {
+     "b": [
+      0.32,
+      0.27,
+      0.28,
+      0.17
+     ],
+     "w": [
+      "purple dress",
+      "yellow dress"
+     ]
+    },
+    {
+     "b": [
+      0.58,
+      0.12,
+      0.2,
+      0.15
+     ],
+     "w": [
+      "no beard",
+      "a beard"
+     ]
+    },
+    {
+     "b": [
+      0.3,
+      0.74,
+      0.38,
+      0.17
+     ],
+     "w": [
+      "a dog",
+      "a cat"
+     ]
+    }
+   ],
    "story": [
     "Emma and her dad are getting ready for a party. They're putting up balloons.",
     "Grandpa is opening the door. Everybody is shouting 'Surprise!'",
@@ -8997,8 +9047,34 @@
     "Grandpa is hugging Emma. Everybody is smiling."
    ],
    "hints": {},
+   "note": "Ảnh B của bộ này có 4 điểm khác (số quả bóng bay ở hai tranh bằng nhau) nên lấy số nến làm ví dụ.",
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0055,
+     0.0074,
+     0.5603,
+     0.4876
+    ],
+    [
+     0.5041,
+     0.0074,
+     0.4903,
+     0.4876
+    ],
+    [
+     0.0062,
+     0.506,
+     0.4896,
+     0.4829
+    ],
+    [
+     0.5041,
+     0.5051,
+     0.4903,
+     0.4829
+    ]
+   ]
   }
  ]
 }
