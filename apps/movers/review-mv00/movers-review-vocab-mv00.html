@@ -621,7 +621,7 @@ const UNITN = n => UNITS.find(u=>u.n===n);
 const unitCount = ids => new Set(ids.map(id=>{ const t = topicById(id); return t ? t.n : id; })).size;
 const IMGBASE = '../../../data/wordsets/img/';
 const IMGDATA = null; /*IMGDATA*/   // bản "1 file": build-app.ps1 -Embed thay bằng {tên ảnh: data-URI}
-const HAS_GAMES = false; /*HAS_GAMES*/   // bản "1 file" không có thư mục games\ nên tắt phần Game template
+const HAS_GAMES = true; /*HAS_GAMES*/   // bản "1 file" không có thư mục games\ nên tắt phần Game template
 const imgOf = w => w.img ? (IMGDATA ? (IMGDATA[w.img] || '') : IMGBASE + w.img + '.webp') : '';
 const WITH_IMG = WORDS.filter(w=>w.img);
 
@@ -1117,7 +1117,7 @@ function renderQ(first){
     const nb = $('#nextbtn'); if(nb) nb.focus({preventScroll:true});
   }
 }
-const TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);   // bản Flyers dùng TOUCH nhưng chưa khai báo -> lỗi
+const TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 function focusEl(sel){ if(TOUCH) return; setTimeout(()=>{ const e = $(sel); if(e) e.focus({preventScroll:true}); }, 60); }
 function shake(){ const c = $('#qcard'); if(!c) return; c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
 
@@ -1305,7 +1305,7 @@ function renderCover(){
     ${deco.map(d=>`<span class="deco" style="left:${d[1]};top:${d[2]};animation-delay:${d[3]}">${d[0]}</span>`).join('')}
     <div class="brand">🌱 Little Sprout English</div>
     <div class="stage"><div class="mascot"><img src="${ASSET}av-sprout.png" alt="Mầm nhỏ" onerror="this.outerHTML='🌱'"></div>
-      </div>
+      <img class="rocket" src="${ASSET}gt-movers.png" alt="" onerror="this.remove()"></div>
     <h1><span class="a">Movers</span><span class="b">Vocab Quest</span></h1>
     <p class="sub">Học từ vựng Cambridge Movers thật vui cùng Miss Thảo</p>
     <div class="facts"><span class="fact">📚 ${total} từ vựng</span><span class="fact">🗂️ ${new Set(TOPICS.map(t=>t.n)).size} unit</span><span class="fact">📝 ${Object.keys(TYPES).length} dạng bài</span><span class="fact">🎮 ${TEMPLATES.length+GAMES.length} trò chơi</span></div>
@@ -1473,32 +1473,21 @@ const GAMES = [
   {act:'playBlitz',   icon:'⚡', name:'Đúng hay Sai?',       desc:'60 giây, trả lời được càng nhiều càng tốt', color:'#ece3ff'}
 ];
 /* Game template: mỗi game là một file riêng trong games\, đọc từ vựng của các unit đang tick */
-const TEMPLATES = !HAS_GAMES ? [] : [
-  {key:'whack',   file:'whack-the-cats.html',    icon:'🔨', name:'Whack the Cats',      desc:'Đập đúng con mèo mang hình cần tìm',            color:'#ffe9c9', min:6},
-  {key:'pvz',     file:'plants-vs-zombies.html', icon:'🧟', name:'Plants vs Zombies',   desc:'Trả lời nhanh để cây bắn zombie (8 câu)',       color:'#dff5d8', min:4},
-  {key:'croc',    file:'dental-croc.html',       icon:'🐊', name:'Dental Crocodile',    desc:'Chọn răng cá sấu, trả lời câu hỏi cả lớp',      color:'#d9f2ea', min:4},
-  {key:'uno',     file:'uno-vocab.html',         icon:'🃏', name:'Uno Từ Vựng',         desc:'Đánh bài Uno, trả lời đúng mới được đánh bài',  color:'#ffe1ec', min:8},
-  {key:'jenga',   file:'jenga.html',             icon:'🪵', name:'Rút Gỗ Đối Đầu',      desc:'Trả lời đúng để rút khối gỗ, đừng làm đổ tháp', color:'#fff0c7', min:6},
-  {key:'wordrun', file:'word-run.html',          icon:'🏃', name:'Word Run',            desc:'Chạy qua 5 thế giới, chạm đúng đáp án',         color:'#e3ecff', min:10},
-  {key:'zombie',  file:'zombie.html',            icon:'🧟‍♂️', name:'Zombie Đói Bụng',     desc:'Cho zombie ăn đúng món để cứu cả nhà',          color:'#e6f5d0', min:8},
-  {key:'bridge',  file:'bridge.html',            icon:'🌉', name:'Cầu Vui',             desc:'Trả lời đúng để các bạn thú qua cầu an toàn',   color:'#dff1ff', min:8},
-  {key:'gold',    file:'gold-miner.html',        icon:'⛏️', name:'Đào Vàng Từ Vựng',    desc:'Thả móc đào đá quý, trả lời để lấy vàng',       color:'#fff2c4', min:12},
-  {key:'fly',     file:'fly-swatter.html',       icon:'🪰', name:'Đập Ruồi Ôn Từ',      desc:'Đập đúng con ruồi mang đáp án',                 color:'#ffe3e3', min:12},
-  {key:'mouse',   file:'mouse-tower.html',       icon:'🐭', name:'Chuột Leo Tháp',      desc:'Giúp chuột leo tháp bằng các câu trả lời đúng', color:'#ece3ff', min:8},
-  {key:'dice',    file:'dice-hunt.html',         icon:'🎲', name:'Xí Ngầu Săn Số',      desc:'Đấu với bot: tung xí ngầu, trả lời để săn số',  color:'#d9f6f0', min:10},
-  {key:'job',     file:'job-tycoon.html',        icon:'🏙️', name:'Job Tycoon – Cờ Tỷ Phú', desc:'Mua đất bằng từ vựng, trả lời để xây nhà (cần ≥ 24 từ có hình)', color:'#fff0d6', min:24, minImg:24}
+const TEMPLATES = [
+  {key:'vuonchuot', file:'vuon-chuot.html', icon:'🐹', name:'Đập Chuột – Vườn Chuột Chũi', desc:'Chuột chũi thò lên cầm bảng đáp án, đập đúng để nhận xu và hạ Chuột Vua', color:'#ffe1ec', min:4},
+  {key:'daovang',   file:'dao-vang.html',   icon:'⛏️', name:'Đào Vàng Từ Vựng',            desc:'Đào mỏ bằng cách trả lời nhiều dạng câu, có xu, nhân vật và cửa hàng',   color:'#fff2c4', min:4},
+  {key:'xingau',    file:'xi-ngau.html',    icon:'🎲', name:'Xí Ngầu Săn Số',               desc:'Tung xí ngầu, trả lời để săn số',                                       color:'#d9f6f0', min:4}
 ];
 function launchTemplate(key){
   const t = TEMPLATES.find(x=>x.key===key); if(!t) return;
   const pool = poolOf(store.sel);
   if(pool.length<t.min){ toast(`Game này cần ít nhất ${t.min} từ — hãy tick thêm unit ở trên.`); return; }
-  if(t.minImg && new Set(pool.filter(w=>w.img).map(w=>w.w.toLowerCase())).size<t.minImg){ toast(`Game này cần ít nhất ${t.minImg} từ có hình. Hãy tick thêm unit đã có ảnh.`); return; }
   const us = TOPICS.filter(x=>store.sel.indexOf(x.id)>=0);
   const ul = [...new Set(us.map(x=>x.n))]; const label = ul.length<=3 ? ul.map(n=>'Unit '+n+' · '+UNITN(n).first.name).join(' + ') : ul.length+' unit';
-  const payload = {label, dir:'../../../flyers/flyers-vocabulary-x4d8/images/', home:'../../../flyers/flyers-vocabulary-x4d8/flyers-vocab-quest-r3m9.html', homeKey:'flyers.backHome', words: pool.map(w=>({id:w.id, w:w.w, vi:w.vi, tag:w.tag, say:w.say, img:w.img}))};
-  try{ localStorage.setItem('starters.game', JSON.stringify(payload)); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
-  toast('Đang mở game… (một số game nặng nên chờ vài giây)');
-  location.href = '../../starters/starters-vocab-quest/games/' + t.file;
+  const items = pool.map(w=>({w:w.w, vi:w.vi, ipa:w.ipa||'', img:w.img ? 'img/'+w.img+'.webp' : ''}));
+  try{ sessionStorage.setItem('lse_custom_set', JSON.stringify({title:'Movers · '+label, items:items})); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
+  toast('Đang mở game…');
+  location.href = '../../games/' + t.file + '?set=custom';
 }
 const fmtT = ms => { const s = Math.round(ms/1000); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
 function mkG(o){ return Object.assign({timers:[], cleanup(){ this.timers.forEach(t=>{ clearInterval(t); clearTimeout(t); }); }}, o); }

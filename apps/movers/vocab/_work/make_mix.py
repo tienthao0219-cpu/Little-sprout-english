@@ -15,6 +15,23 @@ UNIT_VI = {1: 'Ở công viên', 2: 'Một tuần bận rộn', 3: 'Trong thị 
            7: 'Đây là gia đình tôi', 8: 'Bữa trưa ăn gì?', 9: 'Bạn có thích động vật không?', 10: 'Thời tiết', 11: 'Bạn bị sao thế?', 12: 'Ở miền quê'}
 COLORS = ['#e76f51', '#577590', '#f4a261', '#4d96ff', '#9b5de5', '#2a9d8f', '#b5838d', '#43aa8b', '#e9a100', '#3ab5d6', '#f3a712', '#ef476f']
 TAGS = {('bat', 4): '(baseball)', ('bat', 9): '(animal)', ('cook', 2): '(verb)', ('cook', 6): '(person)'}
+TEMPLATE_JS = r"""const TEMPLATES = [
+  {key:'vuonchuot', file:'vuon-chuot.html', icon:'🐹', name:'Đập Chuột – Vườn Chuột Chũi', desc:'Chuột chũi thò lên cầm bảng đáp án, đập đúng để nhận xu và hạ Chuột Vua', color:'#ffe1ec', min:4},
+  {key:'daovang',   file:'dao-vang.html',   icon:'⛏️', name:'Đào Vàng Từ Vựng',            desc:'Đào mỏ bằng cách trả lời nhiều dạng câu, có xu, nhân vật và cửa hàng',   color:'#fff2c4', min:4},
+  {key:'xingau',    file:'xi-ngau.html',    icon:'🎲', name:'Xí Ngầu Săn Số',               desc:'Tung xí ngầu, trả lời để săn số',                                       color:'#d9f6f0', min:4}
+];
+function launchTemplate(key){
+  const t = TEMPLATES.find(x=>x.key===key); if(!t) return;
+  const pool = poolOf(store.sel);
+  if(pool.length<t.min){ toast(`Game này cần ít nhất ${t.min} từ — hãy tick thêm unit ở trên.`); return; }
+  const us = TOPICS.filter(x=>store.sel.indexOf(x.id)>=0);
+  const ul = [...new Set(us.map(x=>x.n))]; const label = ul.length<=3 ? ul.map(n=>'Unit '+n+' · '+UNITN(n).first.name).join(' + ') : ul.length+' unit';
+  const items = pool.map(w=>({w:w.w, vi:w.vi, ipa:w.ipa||'', img:w.img ? 'img/'+w.img+'.webp' : ''}));
+  try{ sessionStorage.setItem('lse_custom_set', JSON.stringify({title:'Movers · '+label, items:items})); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
+  toast('Đang mở game…');
+  location.href = '../../games/' + t.file + '?set=custom';
+}
+"""
 def alt_of(w):
     if '/' in w: return [x.strip() for x in w.split('/')]
     m = re.match(r'^\((.+?)\)\s*(.+)$', w)
@@ -59,8 +76,11 @@ def main():
     T = build_topics()
     m = re.search(r'const TOPICS = \[.*?\];\n', s, re.S); assert m
     s = s.replace(m.group(0), 'const TOPICS = ' + json.dumps(T, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/') + ';\n')
+    # Game template: các file game riêng của Starters/Flyers (games/*.html) không có trong website -> dùng 3 game thật của website (apps/games),
+    # nạp từ vựng các unit đã tick qua ?set=custom
+    i = s.index('const TEMPLATES = '); j = s.index('const fmtT = ')
+    s = s[:i] + TEMPLATE_JS + s[j:]
     rep("const IMGBASE = 'images/';", "const IMGBASE = '../../../data/wordsets/img/';")
-    rep('const HAS_GAMES = true;', 'const HAS_GAMES = false;')
     rep("const KEY = 'flyersVocabQuest.v1';", "const KEY = 'moversVocabQuest.v1';")
     rep("'Từ vựng Flyers – '", "'Từ vựng Movers – '")
     rep('<title>Flyers Vocab Quest</title>', '<title>Movers Vocab Quest</title>')
@@ -68,8 +88,8 @@ def main():
     rep('Học từ vựng Cambridge Flyers thật vui cùng Miss Thảo', 'Học từ vựng Cambridge Movers thật vui cùng Miss Thảo')
     rep('Flyers Vocab Quest</button>', 'Movers Vocab Quest</button>')
     rep('Luyện từ vựng Flyers', 'Luyện từ vựng Movers')
-    rep('<img class="rocket" src="${ASSET}gt-flyers.png" alt="" onerror="this.remove()">', '')      # tên lửa của Flyers; Movers chưa có hình riêng
-    rep('function focusEl(sel){ if(TOUCH) return;', "const TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);   // bản Flyers dùng TOUCH nhưng chưa khai báo -> lỗi\nfunction focusEl(sel){ if(TOUCH) return;")
+    rep('gt-flyers.png', 'gt-movers.png')      # ảnh chậu cây con giống Starters (assets/ui/gt-movers.png)
+    # (TOUCH đã được khai báo trong app Flyers gốc sau khi sửa lỗi)
     # IPA trên Flashcard (không câu ví dụ)
     rep("topics:[t.id]};\n    BYID[o.id] = w;", "topics:[t.id], ipa:o.ipa||''};\n    BYID[o.id] = w;")
     rep("const wordHtml = w => esc(w.w) + (w.tag ? `<span class=\"ptag\">${esc(w.tag)}</span>` : '');",

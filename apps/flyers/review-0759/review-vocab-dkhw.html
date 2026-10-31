@@ -1114,6 +1114,7 @@ function renderQ(first){
     const nb = $('#nextbtn'); if(nb) nb.focus({preventScroll:true});
   }
 }
+const TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 function focusEl(sel){ if(TOUCH) return; setTimeout(()=>{ const e = $(sel); if(e) e.focus({preventScroll:true}); }, 60); }
 function shake(){ const c = $('#qcard'); if(!c) return; c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
 
