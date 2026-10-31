@@ -17,79 +17,485 @@
      "vi": "Giới từ chỉ vị trí",
      "char": "Mimi",
      "say": "Mimi chơi trốn tìm! Em đoán xem Mimi đang ở đâu nhé?",
-     "formula": [
-      [
-       "The cat",
-       "sub",
-       "chủ ngữ"
-      ],
-      [
-       "is",
-       "aux",
-       "is / are"
-      ],
-      [
-       "under",
-       "pre",
-       "giới từ"
-      ],
-      [
-       "the table",
-       "obj",
-       "nơi chốn"
-      ]
-     ],
-     "cards": [
+     "practice": [
       {
+       "t": "mcq",
+       "q": "The dog is ___ the box.",
+       "opts": [
+        "in",
+        "on",
+        "under"
+       ],
+       "a": 0,
+       "why": "Chó ở bên trong hộp → in.",
        "art": {
         "t": "prep",
-        "v": "in"
-       },
-       "en": "The cat is [[in]] the box.",
-       "vi": "Mèo ở trong cái hộp."
+        "v": "in",
+        "a": "dog"
+       }
       },
       {
+       "t": "fill",
+       "q": "The rabbit is ___ the table.",
+       "ans": [
+        "on"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Thỏ ở trên bàn → on.",
        "art": {
         "t": "prep",
-        "v": "on"
-       },
-       "en": "The cat is [[on]] the table.",
-       "vi": "Mèo ở trên bàn."
+        "v": "on",
+        "a": "bunny"
+       }
       },
       {
+       "t": "mcq",
+       "q": "The pig is ___ the table.",
+       "opts": [
+        "on",
+        "under",
+        "behind"
+       ],
+       "a": 1,
+       "why": "Heo ở dưới bàn → under.",
        "art": {
         "t": "prep",
-        "v": "under"
-       },
-       "en": "The cat is [[under]] the table.",
-       "vi": "Mèo ở dưới bàn."
+        "v": "under",
+        "a": "pig"
+       }
       },
       {
+       "t": "fill",
+       "q": "The frog is ___ the sofa.",
+       "ans": [
+        "behind"
+       ],
+       "bank": [
+        "behind",
+        "in front of",
+        "on"
+       ],
+       "why": "Ếch ở phía sau ghế → behind.",
        "art": {
         "t": "prep",
-        "v": "next"
-       },
-       "en": "The cat is [[next to]] the table.",
-       "vi": "Mèo ở bên cạnh cái bàn."
+        "v": "behind",
+        "a": "frog"
+       }
       },
       {
+       "t": "mcq",
+       "q": "The bear is ___ the sofa.",
+       "opts": [
+        "in front of",
+        "behind",
+        "in"
+       ],
+       "a": 0,
+       "why": "Gấu ở phía trước ghế → in front of.",
        "art": {
         "t": "prep",
-        "v": "behind"
-       },
-       "en": "The cat is [[behind]] the sofa.",
-       "vi": "Mèo ở phía sau ghế sofa."
+        "v": "front",
+        "a": "bear"
+       }
       },
       {
+       "t": "fill",
+       "q": "The chick is ___ the table.",
+       "ans": [
+        "next to"
+       ],
+       "bank": [
+        "next to",
+        "in",
+        "under"
+       ],
+       "why": "Gà con ở bên cạnh bàn → next to.",
        "art": {
         "t": "prep",
-        "v": "front"
-       },
-       "en": "The cat is [[in front of]] the sofa.",
-       "vi": "Mèo ở phía trước ghế sofa."
+        "v": "next",
+        "a": "chick"
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "The pen is ___ the bag.",
+       "opts": [
+        "in",
+        "on",
+        "under"
+       ],
+       "a": 0,
+       "why": "Bút ở bên trong cặp → in.",
+       "hint": "(bên trong)"
+      },
+      {
+       "t": "fill",
+       "q": "The cup is ___ the table.",
+       "ans": [
+        "on"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Cái cốc ở trên bàn → on.",
+       "hint": "(bên trên, chạm vào bàn)"
+      },
+      {
+       "t": "mcq",
+       "q": "The shoes are ___ the bed.",
+       "opts": [
+        "under",
+        "on",
+        "in"
+       ],
+       "a": 0,
+       "why": "Giày ở dưới giường → under.",
+       "hint": "(bên dưới)"
+      },
+      {
+       "t": "fill",
+       "q": "The cat is ___ the door.",
+       "ans": [
+        "behind"
+       ],
+       "bank": [
+        "behind",
+        "in front of",
+        "in"
+       ],
+       "why": "Mèo ở phía sau cánh cửa → behind.",
+       "hint": "(phía sau)"
+      },
+      {
+       "t": "mcq",
+       "q": "The fox is ___ the table.",
+       "opts": [
+        "under",
+        "on",
+        "next to"
+       ],
+       "a": 1,
+       "why": "Cáo ở trên bàn → on.",
+       "art": {
+        "t": "prep",
+        "v": "on",
+        "a": "fox"
+       }
+      },
+      {
+       "t": "fill",
+       "q": "The penguin is ___ the box.",
+       "ans": [
+        "in"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Cánh cụt ở trong hộp → in.",
+       "art": {
+        "t": "prep",
+        "v": "in",
+        "a": "penguin"
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "The panda is ___ the table.",
+       "opts": [
+        "next to",
+        "on",
+        "behind"
+       ],
+       "a": 0,
+       "why": "Gấu trúc ở bên cạnh bàn → next to.",
+       "art": {
+        "t": "prep",
+        "v": "next",
+        "a": "panda"
+       }
+      },
+      {
+       "t": "fill",
+       "q": "The dog is ___ the table.",
+       "ans": [
+        "under"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Chó ở dưới bàn → under.",
+       "art": {
+        "t": "prep",
+        "v": "under",
+        "a": "dog"
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "The cat is ___ the sofa.",
+       "opts": [
+        "in front of",
+        "behind",
+        "under"
+       ],
+       "a": 1,
+       "why": "Mèo ở phía sau ghế → behind.",
+       "art": {
+        "t": "prep",
+        "v": "behind",
+        "a": "cat"
+       }
+      },
+      {
+       "t": "fill",
+       "q": "The pig is ___ the sofa.",
+       "ans": [
+        "in front of"
+       ],
+       "bank": [
+        "behind",
+        "in front of",
+        "on"
+       ],
+       "why": "Heo ở phía trước ghế → in front of.",
+       "art": {
+        "t": "prep",
+        "v": "front",
+        "a": "pig"
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "The fridge is ___ the cooker.",
+       "opts": [
+        "next to",
+        "under",
+        "in"
+       ],
+       "a": 0,
+       "why": "Tủ lạnh ở bên cạnh bếp → next to.",
+       "hint": "(bên cạnh)"
+      },
+      {
+       "t": "fill",
+       "q": "The key is ___ the box.",
+       "ans": [
+        "in"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Chìa khoá ở trong hộp → in.",
+       "hint": "(ở bên trong)"
+      },
+      {
+       "t": "mcq",
+       "q": "The ball is ___ the chair.",
+       "opts": [
+        "on",
+        "under",
+        "behind"
+       ],
+       "a": 1,
+       "why": "Quả bóng ở dưới ghế → under.",
+       "hint": "(bên dưới)"
+      },
+      {
+       "t": "fill",
+       "q": "My bag is ___ the desk.",
+       "ans": [
+        "on"
+       ],
+       "bank": [
+        "in",
+        "on",
+        "under"
+       ],
+       "why": "Cặp ở trên bàn học → on.",
+       "hint": "(ở trên mặt bàn)"
       }
      ],
-     "tip": "in = bên trong · on = bên trên (chạm vào) · under = bên dưới · next to = bên cạnh · behind = phía sau · in front of = phía trước"
+     "blocks": [
+      {
+       "title": "🧭 Khi nào dùng?",
+       "items": [
+        {
+         "icon": "❓",
+         "t": "Dùng để nói **một người / một vật đang Ở ĐÂU**.",
+         "ex": "The cat is under the table.",
+         "vi": "Mèo ở dưới cái bàn."
+        }
+       ],
+       "k": "when"
+      },
+      {
+       "title": "🧩 Mẫu câu",
+       "rows": [
+        [
+         [
+          "The cat",
+          "sub",
+          "ai / cái gì"
+         ],
+         [
+          "is",
+          "aux",
+          "is (số ít) · are (số nhiều)"
+         ],
+         [
+          "under",
+          "pre",
+          "giới từ"
+         ],
+         [
+          "the table",
+          "obj",
+          "nơi chốn"
+         ]
+        ]
+       ],
+       "k": "formula"
+      },
+      {
+       "title": "📍 6 giới từ cần nhớ",
+       "items": [
+        {
+         "icon": "📦",
+         "en": "in",
+         "vi": "bên trong",
+         "tip": "nằm TRONG hộp, cặp, phòng"
+        },
+        {
+         "icon": "🔝",
+         "en": "on",
+         "vi": "ở trên, chạm vào",
+         "tip": "đặt TRÊN mặt bàn, giường"
+        },
+        {
+         "icon": "⬇️",
+         "en": "under",
+         "vi": "ở dưới",
+         "tip": "nằm DƯỚI bàn, ghế"
+        },
+        {
+         "icon": "↔️",
+         "en": "next to",
+         "vi": "bên cạnh",
+         "tip": "đứng SÁT BÊN"
+        },
+        {
+         "icon": "🔙",
+         "en": "behind",
+         "vi": "phía sau",
+         "tip": "bị vật ở trước che"
+        },
+        {
+         "icon": "🔜",
+         "en": "in front of",
+         "vi": "phía trước",
+         "tip": "đứng TRƯỚC mặt vật đó"
+        }
+       ],
+       "k": "grid"
+      },
+      {
+       "title": "👀 Xem hình",
+       "items": [
+        {
+         "art": {
+          "t": "prep",
+          "v": "in"
+         },
+         "en": "The cat is [[in]] the box.",
+         "vi": "Mèo ở trong cái hộp."
+        },
+        {
+         "art": {
+          "t": "prep",
+          "v": "on"
+         },
+         "en": "The cat is [[on]] the table.",
+         "vi": "Mèo ở trên bàn."
+        },
+        {
+         "art": {
+          "t": "prep",
+          "v": "under"
+         },
+         "en": "The cat is [[under]] the table.",
+         "vi": "Mèo ở dưới bàn."
+        },
+        {
+         "art": {
+          "t": "prep",
+          "v": "next"
+         },
+         "en": "The cat is [[next to]] the table.",
+         "vi": "Mèo ở bên cạnh cái bàn."
+        },
+        {
+         "art": {
+          "t": "prep",
+          "v": "behind"
+         },
+         "en": "The cat is [[behind]] the sofa.",
+         "vi": "Mèo ở phía sau ghế sofa."
+        },
+        {
+         "art": {
+          "t": "prep",
+          "v": "front"
+         },
+         "en": "The cat is [[in front of]] the sofa.",
+         "vi": "Mèo ở phía trước ghế sofa."
+        }
+       ],
+       "k": "cards"
+      },
+      {
+       "items": [
+        {
+         "bad": "The cat is on front of the sofa.",
+         "good": "The cat is in front of the sofa.",
+         "why": "Phía trước là in front of (không phải on)."
+        },
+        {
+         "bad": "The cat is next the table.",
+         "good": "The cat is next to the table.",
+         "why": "next to luôn có chữ to."
+        },
+        {
+         "bad": "The cat in the box.",
+         "good": "The cat is in the box.",
+         "why": "Đừng quên is / are trong câu."
+        },
+        {
+         "bad": "The book is in the table.",
+         "good": "The book is on the table.",
+         "why": "Đặt lên mặt bàn → on (bàn không có \"bên trong\")."
+        }
+       ],
+       "k": "mistakes"
+      },
+      {
+       "items": [
+        "a1"
+       ],
+       "k": "acts"
+      }
+     ]
     },
     {
      "id": "l2",
@@ -99,88 +505,461 @@
      "vi": "Đại từ bất định",
      "char": "Bông",
      "say": "Có ai ở nhà không? Có gì trong tủ lạnh không? Cùng học cách nói nhé!",
-     "formula": [
-      [
-       "some-",
-       "pre",
-       "có (câu bình thường)"
-      ],
-      [
-       "any-",
-       "aux",
-       "câu hỏi / không"
-      ],
-      [
-       "no-",
-       "obj",
-       "không có"
-      ],
-      [
-       "every-",
-       "sub",
-       "tất cả"
-      ]
-     ],
-     "cards": [
+     "practice": [
       {
-       "art": {
-        "t": "people",
-        "v": "some"
-       },
-       "en": "[[Someone]] is in the kitchen.",
-       "vi": "Có ai đó đang ở trong bếp."
+       "t": "mcq",
+       "q": "Look! ___ is in the kitchen. I can see a boy.",
+       "opts": [
+        "Someone",
+        "No one",
+        "Anyone"
+       ],
+       "a": 0,
+       "why": "Có một người (một cậu bé) → Someone."
       },
       {
-       "art": {
-        "t": "thing",
-        "v": "some"
-       },
-       "en": "There is [[something]] in the fridge.",
-       "vi": "Có thứ gì đó trong tủ lạnh."
+       "t": "fill",
+       "q": "Is there ___ at home?",
+       "ans": [
+        "anyone"
+       ],
+       "bank": [
+        "anyone",
+        "no one",
+        "everyone"
+       ],
+       "why": "Câu hỏi 'có ai không' → anyone.",
+       "hint": "(có ai không?)"
       },
       {
-       "art": {
-        "t": "people",
-        "v": "any"
-       },
-       "en": "Is there [[anyone]] at home?",
-       "vi": "Có ai ở nhà không? (câu hỏi)"
+       "t": "mcq",
+       "q": "The classroom is empty. ___ is here.",
+       "opts": [
+        "No one",
+        "Everyone",
+        "Someone"
+       ],
+       "a": 0,
+       "why": "Lớp trống → No one (không ai)."
       },
       {
-       "art": {
-        "t": "thing",
-        "v": "any"
-       },
-       "en": "I can't see [[anything]].",
-       "vi": "Mình không thấy gì cả. (câu phủ định)"
+       "t": "fill",
+       "q": "It's my birthday party and ___ is here! All my friends came.",
+       "ans": [
+        "everyone"
+       ],
+       "bank": [
+        "everyone",
+        "no one",
+        "anyone"
+       ],
+       "why": "Tất cả bạn đều đến → everyone."
       },
       {
-       "art": {
-        "t": "people",
-        "v": "no"
-       },
-       "en": "[[No one]] is in the bathroom.",
-       "vi": "Không có ai trong phòng tắm."
+       "t": "mcq",
+       "q": "I'm hungry, but there isn't ___ in the fridge.",
+       "opts": [
+        "anything",
+        "something",
+        "everything"
+       ],
+       "a": 0,
+       "why": "Câu phủ định (isn't) → anything."
       },
       {
-       "art": {
-        "t": "people",
-        "v": "every"
-       },
-       "en": "[[Everyone]] is here!",
-       "vi": "Mọi người đều ở đây!"
+       "t": "fill",
+       "q": "There is ___ in the box. It's a toy car.",
+       "ans": [
+        "something"
+       ],
+       "bank": [
+        "something",
+        "anything",
+        "no one"
+       ],
+       "why": "Có một thứ trong hộp → something."
       },
       {
-       "art": {
-        "t": "thing",
-        "v": "every"
-       },
-       "en": "I looked [[everywhere]], but I can't find my key.",
-       "vi": "Mình đã tìm khắp nơi mà không thấy chìa khoá.",
-       "pic": "key"
+       "t": "mcq",
+       "q": "I can't find my key. I looked ___!",
+       "opts": [
+        "everywhere",
+        "someone",
+        "anything"
+       ],
+       "a": 0,
+       "why": "Tìm khắp mọi nơi → everywhere."
+      },
+      {
+       "t": "fill",
+       "q": "Can you see ___?",
+       "ans": [
+        "anything"
+       ],
+       "bank": [
+        "anything",
+        "everyone",
+        "no one"
+       ],
+       "why": "Câu hỏi 'có thấy gì không' → anything.",
+       "hint": "(có thấy gì không?)"
+      },
+      {
+       "t": "mcq",
+       "q": "___ is knocking at the door. Let's open it!",
+       "opts": [
+        "Someone",
+        "No one",
+        "Anyone"
+       ],
+       "a": 0,
+       "why": "Có người gõ cửa → Someone."
+      },
+      {
+       "t": "fill",
+       "q": "There isn't ___ in the bathroom. It's empty.",
+       "ans": [
+        "anyone"
+       ],
+       "bank": [
+        "anyone",
+        "someone",
+        "everyone"
+       ],
+       "why": "Câu phủ định (isn't) → anyone."
+      },
+      {
+       "t": "mcq",
+       "q": "Did you see ___ in the garden?",
+       "opts": [
+        "anyone",
+        "no one",
+        "everyone"
+       ],
+       "a": 0,
+       "why": "Câu hỏi 'có thấy ai không' → anyone.",
+       "hint": "(có thấy ai không?)"
+      },
+      {
+       "t": "fill",
+       "q": "We all love pizza. ___ likes pizza.",
+       "ans": [
+        "everyone"
+       ],
+       "bank": [
+        "everyone",
+        "no one",
+        "anyone"
+       ],
+       "why": "Ai cũng thích → Everyone."
+      },
+      {
+       "t": "mcq",
+       "q": "I have ___ for you. It's a present!",
+       "opts": [
+        "something",
+        "anything",
+        "no one"
+       ],
+       "a": 0,
+       "why": "Mình có một thứ cho bạn → something."
+      },
+      {
+       "t": "fill",
+       "q": "The shop is closed. ___ is in the shop.",
+       "ans": [
+        "no one"
+       ],
+       "bank": [
+        "no one",
+        "everyone",
+        "anyone"
+       ],
+       "why": "Cửa hàng đóng → No one (không ai)."
+      },
+      {
+       "t": "mcq",
+       "q": "Is there ___ in your bag?",
+       "opts": [
+        "anything",
+        "no one",
+        "everywhere"
+       ],
+       "a": 0,
+       "why": "Câu hỏi 'có gì không' → anything.",
+       "hint": "(có gì không?)"
+      },
+      {
+       "t": "fill",
+       "q": "I can't see ___ in the dark room.",
+       "ans": [
+        "anything"
+       ],
+       "bank": [
+        "anything",
+        "something",
+        "everyone"
+       ],
+       "why": "Câu phủ định (can't) → anything.",
+       "hint": "(không thấy gì cả)"
+      },
+      {
+       "t": "mcq",
+       "q": "Our dog is lost! We looked ___.",
+       "opts": [
+        "everywhere",
+        "someone",
+        "anything"
+       ],
+       "a": 0,
+       "why": "Tìm khắp nơi → everywhere."
+      },
+      {
+       "t": "fill",
+       "q": "Look! ___ is on the roof. It's a cat!",
+       "ans": [
+        "something"
+       ],
+       "bank": [
+        "something",
+        "anything",
+        "no one"
+       ],
+       "why": "Có một vật trên mái nhà → Something."
+      },
+      {
+       "t": "mcq",
+       "q": "Hello? Is ___ there?",
+       "opts": [
+        "anyone",
+        "no one",
+        "everywhere"
+       ],
+       "a": 0,
+       "why": "Hỏi 'có ai ở đó không' → anyone.",
+       "hint": "(có ai ở đó không?)"
+      },
+      {
+       "t": "fill",
+       "q": "The whole class is here. ___ is here today.",
+       "ans": [
+        "everyone"
+       ],
+       "bank": [
+        "everyone",
+        "no one",
+        "someone"
+       ],
+       "why": "Cả lớp có mặt → Everyone."
       }
      ],
-     "tip": "some- = có · any- = dùng khi HỎI hoặc KHÔNG · no one = không ai (không thêm not) · everyone = mọi người (dùng với is)"
+     "blocks": [
+      {
+       "k": "table",
+       "title": "🧭 Khi nào dùng?",
+       "tint": [
+        "peach",
+        "sky",
+        "mint"
+       ],
+       "head": [
+        "🔤 Đầu từ",
+        "📌 Dùng khi",
+        "✏️ Ví dụ"
+       ],
+       "rows": [
+        [
+         "**some-**\ncó",
+         "Câu bình thường (khẳng định)",
+         "Someone is in the kitchen.\nCó ai đó trong bếp."
+        ],
+        [
+         "**any-**\nhỏi / có not",
+         "Câu **hỏi** hoặc câu có **not**",
+         "Is there anyone at home?\nI can't see anything."
+        ],
+        [
+         "**no-**\nkhông có",
+         "Muốn nói \"không có\" – **không thêm not**",
+         "No one is in the bathroom.\nKhông ai trong phòng tắm."
+        ],
+        [
+         "**every-**\ntất cả",
+         "Muốn nói \"tất cả\" – đi với **is**",
+         "Everyone is here!\nMọi người đều ở đây!"
+        ]
+       ],
+       "big0": true
+      },
+      {
+       "title": "🗂 Bảng 4 nhóm × 3 loại (người · vật · nơi)",
+       "head": [
+        "",
+        "👤 người (-one)",
+        "🎁 vật (-thing)",
+        "📍 nơi (-where)"
+       ],
+       "rows": [
+        [
+         "some- · có",
+         "someone",
+         "something",
+         "somewhere"
+        ],
+        [
+         "any- · hỏi / not",
+         "anyone",
+         "anything",
+         "anywhere"
+        ],
+        [
+         "no- · không có",
+         "no one",
+         "nothing",
+         "nowhere"
+        ],
+        [
+         "every- · tất cả",
+         "everyone",
+         "everything",
+         "everywhere"
+        ]
+       ],
+       "note": "Ghép đầu từ (some, any, no, every) + đuôi (one, thing, where).",
+       "k": "table"
+      },
+      {
+       "k": "table",
+       "title": "🧠 Chọn từ nào? Hỏi mình 4 câu",
+       "tint": [
+        "rose",
+        "lav",
+        "butter"
+       ],
+       "head": [
+        "❓ Hỏi mình",
+        "👉 Chọn",
+        "✏️ Ví dụ"
+       ],
+       "rows": [
+        [
+         "Muốn nói **tất cả**?",
+         "**every-**",
+         "everyone · everything"
+        ],
+        [
+         "Có **not** hoặc là **câu hỏi**?",
+         "**any-**",
+         "anyone · anything"
+        ],
+        [
+         "Muốn nói **không có**, không dùng not?",
+         "**no-**",
+         "no one · nothing"
+        ],
+        [
+         "Muốn nói **có** (câu bình thường)?",
+         "**some-**",
+         "someone · something"
+        ]
+       ]
+      },
+      {
+       "title": "👀 Xem hình",
+       "items": [
+        {
+         "art": {
+          "t": "people",
+          "v": "some"
+         },
+         "en": "[[Someone]] is in the kitchen.",
+         "vi": "Có ai đó đang ở trong bếp."
+        },
+        {
+         "art": {
+          "t": "thing",
+          "v": "some"
+         },
+         "en": "There is [[something]] in the fridge.",
+         "vi": "Có thứ gì đó trong tủ lạnh."
+        },
+        {
+         "art": {
+          "t": "people",
+          "v": "any"
+         },
+         "en": "Is there [[anyone]] at home?",
+         "vi": "Có ai ở nhà không? (câu hỏi)"
+        },
+        {
+         "art": {
+          "t": "thing",
+          "v": "any"
+         },
+         "en": "I can't see [[anything]].",
+         "vi": "Mình không thấy gì cả. (câu phủ định)"
+        },
+        {
+         "art": {
+          "t": "people",
+          "v": "no"
+         },
+         "en": "[[No one]] is in the bathroom.",
+         "vi": "Không có ai trong phòng tắm."
+        },
+        {
+         "art": {
+          "t": "people",
+          "v": "every"
+         },
+         "en": "[[Everyone]] is here!",
+         "vi": "Mọi người đều ở đây!"
+        },
+        {
+         "art": {
+          "t": "thing",
+          "v": "every"
+         },
+         "en": "I looked [[everywhere]], but I can't find my key.",
+         "vi": "Mình đã tìm khắp nơi mà không thấy chìa khoá.",
+         "pic": "key"
+        }
+       ],
+       "k": "cards"
+      },
+      {
+       "items": [
+        {
+         "bad": "I can't see something.",
+         "good": "I can't see anything.",
+         "why": "Câu có not → dùng any- (anything)."
+        },
+        {
+         "bad": "There isn't someone in the room.",
+         "good": "There isn't anyone in the room.",
+         "why": "Câu có not → dùng anyone."
+        },
+        {
+         "bad": "No one isn't here.",
+         "good": "No one is here.",
+         "why": "No one đã có nghĩa \"không\", không thêm not."
+        },
+        {
+         "bad": "Everyone are happy.",
+         "good": "Everyone is happy.",
+         "why": "Everyone đi với is (số ít)."
+        }
+       ],
+       "k": "mistakes"
+      },
+      {
+       "items": [
+        "a2",
+        "a3"
+       ],
+       "k": "acts"
+      }
+     ]
     },
     {
      "id": "l3",
@@ -189,84 +968,824 @@
      "title": "There is / There are",
      "vi": "Có … (chỉ sự tồn tại)",
      "char": "Mochi",
-     "say": "Nhà em có gì? Đếm thử nhé: có một thì dùng is, có nhiều thì dùng are!",
-     "formula": [
-      [
-       [
-        "There is",
-        "aux",
-        "1 thứ"
-       ],
-       [
-        "a / an + danh từ số ít",
-        "obj",
-        "a cooker, an oven"
-       ]
-      ],
-      [
-       [
-        "There are",
-        "pre",
-        "2 thứ trở lên"
-       ],
-       [
-        "số / some + danh từ số nhiều",
-        "obj",
-        "two cushions"
-       ]
-      ]
-     ],
-     "cards": [
+     "say": "Nhà em có gì? Nhìn số lượng nhé: có MỘT thì dùng is, có NHIỀU thì dùng are!",
+     "practice": [
       {
+       "t": "mcq",
+       "q": "There ___ a cooker in the kitchen.",
+       "opts": [
+        "is",
+        "are",
+        "can"
+       ],
+       "a": 0,
+       "why": "Có 1 cái bếp → There is.",
        "art": {
         "t": "vocab",
         "w": "cooker",
-        "n": 1
-       },
-       "en": "[[There is]] a cooker in the kitchen.",
-       "vi": "Trong bếp có một cái bếp nấu."
+        "n": 1,
+        "no": false,
+        "q": false
+       }
       },
       {
+       "t": "fill",
+       "q": "There ___ two cushions on the sofa.",
+       "ans": [
+        "are"
+       ],
+       "bank": [
+        "is",
+        "are"
+       ],
+       "why": "Có 2 cái gối (nhiều) → There are.",
        "art": {
         "t": "vocab",
         "w": "cushion",
-        "n": 2
-       },
-       "en": "[[There are]] two cushions on the sofa.",
-       "vi": "Trên ghế có hai cái gối."
+        "n": 2,
+        "no": false,
+        "q": false
+       }
       },
       {
-       "art": {
-        "t": "vocab",
-        "w": "fridge",
-        "n": 1,
-        "no": true
-       },
-       "en": "[[There isn't]] a fridge.",
-       "vi": "Không có cái tủ lạnh nào."
-      },
-      {
-       "art": {
-        "t": "vocab",
-        "w": "shelf",
-        "n": 1,
-        "q": true
-       },
-       "en": "[[Is there]] a shelf? – Yes, there is. / No, there isn't.",
-       "vi": "Có cái kệ không? – Có. / Không."
-      },
-      {
+       "t": "mcq",
+       "q": "There ___ three violins.",
+       "opts": [
+        "is",
+        "are",
+        "isn't"
+       ],
+       "a": 1,
+       "why": "Có 3 cây đàn (nhiều) → There are.",
        "art": {
         "t": "vocab",
         "w": "violin",
         "n": 3,
+        "no": false,
+        "q": false
+       }
+      },
+      {
+       "t": "fill",
+       "q": "There ___ a shelf on the wall.",
+       "ans": [
+        "is"
+       ],
+       "bank": [
+        "is",
+        "are"
+       ],
+       "why": "Có 1 cái kệ → There is.",
+       "art": {
+        "t": "vocab",
+        "w": "shelf",
+        "n": 1,
+        "no": false,
+        "q": false
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "There ___ a cat in the garden.",
+       "opts": [
+        "is",
+        "are",
+        "aren't"
+       ],
+       "a": 0,
+       "why": "Có 1 con mèo → There is."
+      },
+      {
+       "t": "fill",
+       "q": "There ___ five apples in the bag.",
+       "ans": [
+        "are"
+       ],
+       "bank": [
+        "is",
+        "are"
+       ],
+       "why": "Có 5 quả táo (nhiều) → There are."
+      },
+      {
+       "t": "mcq",
+       "q": "There ___ a fridge. (không có)",
+       "opts": [
+        "isn't",
+        "aren't",
+        "is"
+       ],
+       "a": 0,
+       "why": "Không có 1 cái tủ lạnh → There isn't.",
+       "art": {
+        "t": "vocab",
+        "w": "fridge",
+        "n": 1,
+        "no": true,
+        "q": false
+       }
+      },
+      {
+       "t": "fill",
+       "q": "There ___ any chairs in the room. (không có)",
+       "ans": [
+        "aren't"
+       ],
+       "bank": [
+        "isn't",
+        "aren't"
+       ],
+       "why": "Không có cái ghế nào (nhiều) → There aren't any.",
+       "hint": "(không có)"
+      },
+      {
+       "t": "mcq",
+       "q": "___ there a key on the table?",
+       "opts": [
+        "Is",
+        "Are",
+        "Can"
+       ],
+       "a": 0,
+       "why": "Hỏi về 1 chiếc chìa khoá → Is there…?",
+       "art": {
+        "t": "vocab",
+        "w": "key",
+        "n": 1,
+        "no": false,
         "q": true
-       },
-       "en": "[[Are there]] any violins? – Yes, there are. / No, there aren't.",
-       "vi": "Có cây đàn vi-ô-lông nào không? – Có. / Không."
+       }
+      },
+      {
+       "t": "fill",
+       "q": "___ there any drums in the music room?",
+       "ans": [
+        "are"
+       ],
+       "bank": [
+        "Is",
+        "Are"
+       ],
+       "why": "Hỏi về nhiều cái trống → Are there any…?",
+       "art": {
+        "t": "vocab",
+        "w": "drums",
+        "n": 1,
+        "no": false,
+        "q": true
+       }
+      },
+      {
+       "t": "mcq",
+       "q": "Is there a cooker? – Yes, ___.",
+       "opts": [
+        "there is",
+        "there are",
+        "I can"
+       ],
+       "a": 0,
+       "why": "Trả lời ngắn cho Is there…? → Yes, there is."
+      },
+      {
+       "t": "fill",
+       "q": "Are there any violins? – No, there ___.",
+       "ans": [
+        "aren't"
+       ],
+       "bank": [
+        "isn't",
+        "aren't"
+       ],
+       "why": "Trả lời ngắn cho Are there…? → No, there aren't."
+      },
+      {
+       "t": "mcq",
+       "q": "There ___ some stamps in the box.",
+       "opts": [
+        "is",
+        "are",
+        "isn't"
+       ],
+       "a": 1,
+       "why": "Stamps là nhiều → There are."
+      },
+      {
+       "t": "fill",
+       "q": "There ___ a diary on the shelf.",
+       "ans": [
+        "is"
+       ],
+       "bank": [
+        "is",
+        "are"
+       ],
+       "why": "Có 1 quyển nhật ký → There is."
+      },
+      {
+       "t": "mcq",
+       "q": "There ___ three brushes in the bathroom.",
+       "opts": [
+        "is",
+        "are",
+        "am"
+       ],
+       "a": 1,
+       "why": "Có 3 cái bàn chải → There are."
+      },
+      {
+       "t": "fill",
+       "q": "___ there a brush in the bathroom?",
+       "ans": [
+        "is"
+       ],
+       "bank": [
+        "Is",
+        "Are"
+       ],
+       "why": "Hỏi về 1 cái bàn chải → Is there…?",
+       "hint": "(1 cái)"
+      },
+      {
+       "t": "mcq",
+       "q": "There is ___ oven in the kitchen.",
+       "opts": [
+        "a",
+        "an",
+        "some"
+       ],
+       "a": 1,
+       "why": "oven bắt đầu bằng âm nguyên âm → an oven."
+      },
+      {
+       "t": "fill",
+       "q": "There are ___ cushions on the bed.",
+       "ans": [
+        "some"
+       ],
+       "bank": [
+        "some",
+        "a",
+        "an"
+       ],
+       "why": "Nhiều cái gối → some cushions.",
+       "hint": "(một vài)"
+      },
+      {
+       "t": "mcq",
+       "q": "There ___ any envelopes on the desk. (không có)",
+       "opts": [
+        "isn't",
+        "aren't",
+        "is"
+       ],
+       "a": 1,
+       "why": "Phong bì là nhiều → There aren't any."
+      },
+      {
+       "t": "fill",
+       "q": "Are there two beds? – Yes, there ___.",
+       "ans": [
+        "are"
+       ],
+       "bank": [
+        "is",
+        "are"
+       ],
+       "why": "Trả lời Yes cho Are there…? → Yes, there are."
       }
      ],
-     "tip": "Có 1 → There is · Có nhiều → There are · Không có → isn't / aren't · Hỏi → Is there…? / Are there…?"
+     "blocks": [
+      {
+       "title": "🧭 There is / There are nghĩa là gì?",
+       "items": [
+        {
+         "icon": "👀",
+         "t": "**There is / There are** = **Có …** (ở đâu đó). Đếm số lượng để chọn **is** hay **are**.",
+         "ex": "There is a cooker. · There are two cushions.",
+         "vi": "Có một cái bếp. · Có hai cái gối."
+        }
+       ],
+       "k": "when"
+      },
+      {
+       "title": "1️⃣ Có MỘT thứ → There is",
+       "color": "sky",
+       "parts": [
+        {
+         "t": "There is",
+         "c": "aux",
+         "s": "có 1 thứ"
+        },
+        {
+         "t": "a / an",
+         "c": "pre",
+         "s": "một"
+        },
+        {
+         "t": "danh từ số ít",
+         "c": "obj",
+         "s": "cooker, oven…"
+        },
+        {
+         "t": "nơi chốn",
+         "c": "v",
+         "s": "in the kitchen"
+        }
+       ],
+       "exs": [
+        {
+         "c": [
+          {
+           "t": "There is",
+           "c": "aux"
+          },
+          {
+           "t": "a",
+           "c": "pre"
+          },
+          {
+           "t": "cooker",
+           "c": "obj"
+          },
+          {
+           "t": "in the kitchen.",
+           "c": "v"
+          }
+         ],
+         "vi": "Trong bếp có một cái bếp nấu.",
+         "art": {
+          "t": "vocab",
+          "w": "cooker",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "There is",
+           "c": "aux"
+          },
+          {
+           "t": "an",
+           "c": "pre"
+          },
+          {
+           "t": "oven",
+           "c": "obj"
+          },
+          {
+           "t": "in the kitchen.",
+           "c": "v"
+          }
+         ],
+         "vi": "Trong bếp có một cái lò nướng. (oven bắt đầu bằng o → an)",
+         "art": {
+          "t": "vocab",
+          "w": "oven",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "There is",
+           "c": "aux"
+          },
+          {
+           "t": "a",
+           "c": "pre"
+          },
+          {
+           "t": "shelf",
+           "c": "obj"
+          },
+          {
+           "t": "on the wall.",
+           "c": "v"
+          }
+         ],
+         "vi": "Trên tường có một cái kệ.",
+         "art": {
+          "t": "vocab",
+          "w": "shelf",
+          "n": 1,
+          "no": false
+         }
+        }
+       ],
+       "k": "pattern"
+      },
+      {
+       "title": "2️⃣ Có NHIỀU thứ → There are",
+       "color": "rose",
+       "parts": [
+        {
+         "t": "There are",
+         "c": "pink",
+         "s": "có 2 thứ trở lên"
+        },
+        {
+         "t": "số / some",
+         "c": "v",
+         "s": "two, three, some"
+        },
+        {
+         "t": "danh từ số nhiều",
+         "c": "obj",
+         "s": "cushions, violins…"
+        },
+        {
+         "t": "nơi chốn",
+         "c": "sub",
+         "s": "on the sofa"
+        }
+       ],
+       "exs": [
+        {
+         "c": [
+          {
+           "t": "There are",
+           "c": "pink"
+          },
+          {
+           "t": "two",
+           "c": "v"
+          },
+          {
+           "t": "cushions",
+           "c": "obj"
+          },
+          {
+           "t": "on the sofa.",
+           "c": "sub"
+          }
+         ],
+         "vi": "Trên ghế có hai cái gối.",
+         "art": {
+          "t": "vocab",
+          "w": "cushion",
+          "n": 2,
+          "no": false
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "There are",
+           "c": "pink"
+          },
+          {
+           "t": "three",
+           "c": "v"
+          },
+          {
+           "t": "violins",
+           "c": "obj"
+          },
+          {
+           "t": "in the room.",
+           "c": "sub"
+          }
+         ],
+         "vi": "Trong phòng có ba cây đàn vi-ô-lông.",
+         "art": {
+          "t": "vocab",
+          "w": "violin",
+          "n": 3,
+          "no": false
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "There are",
+           "c": "pink"
+          },
+          {
+           "t": "some",
+           "c": "v"
+          },
+          {
+           "t": "stamps",
+           "c": "obj"
+          },
+          {
+           "t": "in the box.",
+           "c": "sub"
+          }
+         ],
+         "vi": "Trong hộp có một vài con tem.",
+         "art": {
+          "t": "vocab",
+          "w": "stamps",
+          "n": 3,
+          "no": false
+         }
+        }
+       ],
+       "k": "pattern"
+      },
+      {
+       "title": "3️⃣ KHÔNG có → isn't / aren't",
+       "color": "mint",
+       "parts": [
+        {
+         "t": "There isn't",
+         "c": "aux",
+         "s": "1 thứ"
+        },
+        {
+         "t": "a / an",
+         "c": "pre",
+         "s": ""
+        },
+        {
+         "t": "There aren't",
+         "c": "pink",
+         "s": "nhiều thứ"
+        },
+        {
+         "t": "any",
+         "c": "v",
+         "s": "nào"
+        }
+       ],
+       "exs": [
+        {
+         "c": [
+          {
+           "t": "There isn't",
+           "c": "aux"
+          },
+          {
+           "t": "a",
+           "c": "pre"
+          },
+          {
+           "t": "fridge.",
+           "c": "obj"
+          }
+         ],
+         "vi": "Không có cái tủ lạnh nào.",
+         "art": {
+          "t": "vocab",
+          "w": "fridge",
+          "n": 1,
+          "no": true
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "There aren't",
+           "c": "pink"
+          },
+          {
+           "t": "any",
+           "c": "v"
+          },
+          {
+           "t": "drums.",
+           "c": "obj"
+          }
+         ],
+         "vi": "Không có cái trống nào.",
+         "art": {
+          "t": "vocab",
+          "w": "drums",
+          "n": 2,
+          "no": true
+         }
+        }
+       ],
+       "k": "pattern"
+      },
+      {
+       "title": "❓ Hỏi và trả lời",
+       "askFormula": [
+        {
+         "t": "Is there",
+         "c": "aux"
+        },
+        {
+         "t": "a / an",
+         "c": "pre"
+        },
+        {
+         "t": "danh từ số ít",
+         "c": "obj"
+        },
+        {
+         "t": "?",
+         "c": null
+        }
+       ],
+       "rounds": [
+        {
+         "q": [
+          {
+           "t": "Is there",
+           "c": "aux"
+          },
+          {
+           "t": "a",
+           "c": "pre"
+          },
+          {
+           "t": "shelf",
+           "c": "obj"
+          },
+          {
+           "t": "?",
+           "c": null
+          }
+         ],
+         "a": [
+          {
+           "t": "Yes,",
+           "c": "sub"
+          },
+          {
+           "t": "there is.",
+           "c": "aux"
+          }
+         ],
+         "qvi": "Có cái kệ không?",
+         "avi": "Có.",
+         "art": {
+          "t": "vocab",
+          "w": "shelf",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "q": [
+          {
+           "t": "Is there",
+           "c": "aux"
+          },
+          {
+           "t": "a",
+           "c": "pre"
+          },
+          {
+           "t": "fridge",
+           "c": "obj"
+          },
+          {
+           "t": "?",
+           "c": null
+          }
+         ],
+         "a": [
+          {
+           "t": "No,",
+           "c": "sub"
+          },
+          {
+           "t": "there isn't.",
+           "c": "aux"
+          }
+         ],
+         "qvi": "Có cái tủ lạnh không?",
+         "avi": "Không."
+        }
+       ],
+       "k": "dialog"
+      },
+      {
+       "title": "❓ Hỏi nhiều thứ",
+       "askFormula": [
+        {
+         "t": "Are there",
+         "c": "pink"
+        },
+        {
+         "t": "any",
+         "c": "v"
+        },
+        {
+         "t": "danh từ số nhiều",
+         "c": "obj"
+        },
+        {
+         "t": "?",
+         "c": null
+        }
+       ],
+       "rounds": [
+        {
+         "q": [
+          {
+           "t": "Are there",
+           "c": "pink"
+          },
+          {
+           "t": "any",
+           "c": "v"
+          },
+          {
+           "t": "violins",
+           "c": "obj"
+          },
+          {
+           "t": "?",
+           "c": null
+          }
+         ],
+         "a": [
+          {
+           "t": "Yes,",
+           "c": "sub"
+          },
+          {
+           "t": "there are.",
+           "c": "pink"
+          }
+         ],
+         "qvi": "Có cây đàn vi-ô-lông nào không?",
+         "avi": "Có.",
+         "art": {
+          "t": "vocab",
+          "w": "violin",
+          "n": 3,
+          "no": false
+         }
+        },
+        {
+         "q": [
+          {
+           "t": "Are there",
+           "c": "pink"
+          },
+          {
+           "t": "any",
+           "c": "v"
+          },
+          {
+           "t": "drums",
+           "c": "obj"
+          },
+          {
+           "t": "?",
+           "c": null
+          }
+         ],
+         "a": [
+          {
+           "t": "No,",
+           "c": "sub"
+          },
+          {
+           "t": "there aren't.",
+           "c": "pink"
+          }
+         ],
+         "qvi": "Có cái trống nào không?",
+         "avi": "Không."
+        }
+       ],
+       "k": "dialog"
+      },
+      {
+       "t": "💡 Mẹo: **1 → is · nhiều → are**. Muốn hỏi? Đưa **Is / Are** lên đầu câu!",
+       "k": "tip2"
+      },
+      {
+       "items": [
+        {
+         "bad": "There is two cushions.",
+         "good": "There are two cushions.",
+         "why": "2 cái → There are."
+        },
+        {
+         "bad": "There are a cooker.",
+         "good": "There is a cooker.",
+         "why": "1 cái → There is."
+        },
+        {
+         "bad": "There is a oven.",
+         "good": "There is an oven.",
+         "why": "oven bắt đầu bằng o → an."
+        },
+        {
+         "bad": "There aren't a chair.",
+         "good": "There isn't a chair.",
+         "why": "1 cái → isn't (không dùng aren't)."
+        }
+       ],
+       "k": "mistakes"
+      },
+      {
+       "items": [
+        "a4"
+       ],
+       "k": "acts"
+      }
+     ]
     },
     {
      "id": "l4",
@@ -276,70 +1795,634 @@
      "vi": "Có thể / được phép",
      "char": "Gấu Nâu",
      "say": "Em làm được gì? Em có thể mượn đồ không? Từ can giúp em nói điều đó!",
-     "formula": [
-      [
-       "I / He / She",
-       "sub",
-       "chủ ngữ"
-      ],
-      [
-       "can / can't",
-       "aux",
-       "có thể / không thể"
-      ],
-      [
-       "play",
-       "v",
-       "động từ nguyên mẫu"
-      ],
-      [
-       "the violin",
-       "obj",
-       "tân ngữ"
-      ]
-     ],
-     "cards": [
+     "practice": [
       {
+       "t": "mcq",
+       "q": "I ___ play the violin.",
+       "opts": [
+        "can",
+        "can't",
+        "cans"
+       ],
+       "a": 0,
+       "why": "Mình biết chơi đàn → can.",
        "art": {
         "t": "vocab",
         "w": "violin",
-        "n": 1
+        "n": 1,
+        "no": false,
+        "q": false
        },
-       "en": "I [[can]] play the violin.",
-       "vi": "Mình biết chơi đàn vi-ô-lông."
+       "hint": "(biết chơi)"
       },
       {
+       "t": "fill",
+       "q": "I ___ play the drums.",
+       "ans": [
+        "can't"
+       ],
+       "bank": [
+        "can",
+        "can't"
+       ],
+       "why": "Mình không biết chơi trống → can't.",
        "art": {
         "t": "vocab",
         "w": "drums",
         "n": 1,
-        "no": true
+        "no": true,
+        "q": false
        },
-       "en": "I [[can't]] play the drums.",
-       "vi": "Mình không biết chơi trống."
+       "hint": "(không biết)"
       },
       {
+       "t": "mcq",
+       "q": "A fish ___ swim.",
+       "opts": [
+        "can",
+        "can't",
+        "cans"
+       ],
+       "a": 0,
+       "why": "Cá biết bơi → can."
+      },
+      {
+       "t": "fill",
+       "q": "A dog ___ fly.",
+       "ans": [
+        "can't"
+       ],
+       "bank": [
+        "can",
+        "can't"
+       ],
+       "why": "Chó không biết bay → can't.",
+       "hint": "(không thể)"
+      },
+      {
+       "t": "mcq",
+       "q": "She ___ ride a bike. She is only two.",
+       "opts": [
+        "can",
+        "can't",
+        "cans"
+       ],
+       "a": 1,
+       "why": "Em bé 2 tuổi chưa đi xe đạp được → can't."
+      },
+      {
+       "t": "fill",
+       "q": "___ you swim? – Yes, I can.",
+       "ans": [
+        "can"
+       ],
+       "bank": [
+        "Can",
+        "Are",
+        "Is"
+       ],
+       "why": "Hỏi khả năng → Can you…?"
+      },
+      {
+       "t": "mcq",
+       "q": "He can ___ the piano.",
+       "opts": [
+        "plays",
+        "play",
+        "to play"
+       ],
+       "a": 1,
+       "why": "Sau can dùng động từ nguyên mẫu → play."
+      },
+      {
+       "t": "fill",
+       "q": "My mum can ___ delicious food.",
+       "ans": [
+        "cook",
+        "make"
+       ],
+       "bank": [
+        "cook",
+        "cooks",
+        "to cook"
+       ],
+       "why": "Sau can dùng động từ nguyên mẫu → cook.",
+       "hint": "(nấu ăn)"
+      },
+      {
+       "t": "mcq",
+       "q": "___ I borrow your key?",
+       "opts": [
+        "Can",
+        "Is",
+        "Are"
+       ],
+       "a": 0,
+       "why": "Xin phép mượn → Can I…?",
        "art": {
         "t": "vocab",
         "w": "key",
         "n": 1,
+        "no": false,
         "q": true
        },
-       "en": "[[Can]] I borrow your key? – Yes, you can.",
-       "vi": "Mình mượn chìa khoá của bạn được không? – Được."
+       "hint": "(xin phép)"
       },
       {
-       "art": {
-        "t": "vocab",
-        "w": "drums",
-        "n": 1,
-        "q": true
-       },
-       "en": "[[Can]] you play the drums? – No, I can't.",
-       "vi": "Bạn chơi trống được không? – Không."
+       "t": "fill",
+       "q": "Can I open the window? – Yes, you ___.",
+       "ans": [
+        "can"
+       ],
+       "bank": [
+        "can",
+        "can't"
+       ],
+       "why": "Trả lời Yes → Yes, you can."
+      },
+      {
+       "t": "mcq",
+       "q": "Can you play the drums? – No, I ___.",
+       "opts": [
+        "can't",
+        "can",
+        "am not"
+       ],
+       "a": 0,
+       "why": "Trả lời No → No, I can't."
+      },
+      {
+       "t": "fill",
+       "q": "Birds can ___.",
+       "ans": [
+        "fly"
+       ],
+       "bank": [
+        "fly",
+        "flies",
+        "to fly"
+       ],
+       "why": "Sau can dùng động từ nguyên mẫu → fly.",
+       "hint": "(bay)"
+      },
+      {
+       "t": "mcq",
+       "q": "We ___ talk in the library. (không được phép)",
+       "opts": [
+        "can't",
+        "can",
+        "cans"
+       ],
+       "a": 0,
+       "why": "Không được phép → can't."
+      },
+      {
+       "t": "fill",
+       "q": "Tom ___ run very fast.",
+       "ans": [
+        "can"
+       ],
+       "bank": [
+        "can",
+        "can't"
+       ],
+       "why": "Tom chạy nhanh được → can.",
+       "hint": "(chạy nhanh được)"
+      },
+      {
+       "t": "mcq",
+       "q": "A baby ___ walk. (chưa biết đi)",
+       "opts": [
+        "can't",
+        "can",
+        "cans"
+       ],
+       "a": 0,
+       "why": "Em bé chưa biết đi → can't."
+      },
+      {
+       "t": "fill",
+       "q": "Can she ___ the violin?",
+       "ans": [
+        "play"
+       ],
+       "bank": [
+        "play",
+        "plays",
+        "playing"
+       ],
+       "why": "Sau Can she… dùng động từ nguyên mẫu → play."
+      },
+      {
+       "t": "mcq",
+       "q": "I can ___ English.",
+       "opts": [
+        "speak",
+        "speaks",
+        "speaking"
+       ],
+       "a": 0,
+       "why": "Sau can dùng động từ nguyên mẫu → speak."
+      },
+      {
+       "t": "fill",
+       "q": "___ you help me, please?",
+       "ans": [
+        "can"
+       ],
+       "bank": [
+        "Can",
+        "Are",
+        "Is"
+       ],
+       "why": "Nhờ giúp đỡ lịch sự → Can you…?"
+      },
+      {
+       "t": "mcq",
+       "q": "Câu nào đúng?",
+       "opts": [
+        "She can swim.",
+        "She cans swim.",
+        "She can swims."
+       ],
+       "a": 0,
+       "why": "Sau can không thêm s: She can swim."
+      },
+      {
+       "t": "fill",
+       "q": "Can your brother play the drums? – No, he ___.",
+       "ans": [
+        "can't"
+       ],
+       "bank": [
+        "can",
+        "can't"
+       ],
+       "why": "Trả lời No → No, he can't."
       }
      ],
-     "tip": "can + động từ nguyên mẫu (không thêm to, không thêm s) · She can play ✔  She cans play ✘"
+     "blocks": [
+      {
+       "title": "🇻🇳 Nghĩa của can",
+       "items": [
+        {
+         "icon": "✅",
+         "en": "can",
+         "vi": "có thể · biết (làm gì)",
+         "tip": "I can swim."
+        },
+        {
+         "icon": "❌",
+         "en": "can't",
+         "vi": "không thể · không biết · không được",
+         "tip": "A dog can't fly."
+        },
+        {
+         "icon": "🙋",
+         "en": "Can …?",
+         "vi": "… được không? (xin phép, nhờ giúp)",
+         "tip": "Can I borrow your key?"
+        }
+       ],
+       "k": "grid"
+      },
+      {
+       "title": "1️⃣ can = có thể / biết",
+       "color": "mint",
+       "parts": [
+        {
+         "t": "I / He / She",
+         "c": "sub",
+         "s": "ai"
+        },
+        {
+         "t": "can",
+         "c": "aux",
+         "s": "có thể / biết"
+        },
+        {
+         "t": "động từ",
+         "c": "v",
+         "s": "nguyên mẫu"
+        },
+        {
+         "t": "tân ngữ",
+         "c": "obj",
+         "s": "the violin"
+        }
+       ],
+       "exs": [
+        {
+         "c": [
+          {
+           "t": "I",
+           "c": "sub"
+          },
+          {
+           "t": "can",
+           "c": "aux"
+          },
+          {
+           "t": "play",
+           "c": "v"
+          },
+          {
+           "t": "the violin.",
+           "c": "obj"
+          }
+         ],
+         "vi": "Mình biết chơi đàn vi-ô-lông.",
+         "art": {
+          "t": "vocab",
+          "w": "violin",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "She",
+           "c": "sub"
+          },
+          {
+           "t": "can",
+           "c": "aux"
+          },
+          {
+           "t": "swim.",
+           "c": "v"
+          }
+         ],
+         "vi": "Cô ấy biết bơi."
+        },
+        {
+         "c": [
+          {
+           "t": "A bird",
+           "c": "sub"
+          },
+          {
+           "t": "can",
+           "c": "aux"
+          },
+          {
+           "t": "fly.",
+           "c": "v"
+          }
+         ],
+         "vi": "Chim bay được."
+        }
+       ],
+       "k": "pattern"
+      },
+      {
+       "title": "2️⃣ can't = không thể / không biết",
+       "color": "rose",
+       "parts": [
+        {
+         "t": "I / He / She",
+         "c": "sub",
+         "s": "ai"
+        },
+        {
+         "t": "can't",
+         "c": "pink",
+         "s": "không thể"
+        },
+        {
+         "t": "động từ",
+         "c": "v",
+         "s": "nguyên mẫu"
+        },
+        {
+         "t": "tân ngữ",
+         "c": "obj",
+         "s": "the drums"
+        }
+       ],
+       "exs": [
+        {
+         "c": [
+          {
+           "t": "I",
+           "c": "sub"
+          },
+          {
+           "t": "can't",
+           "c": "pink"
+          },
+          {
+           "t": "play",
+           "c": "v"
+          },
+          {
+           "t": "the drums.",
+           "c": "obj"
+          }
+         ],
+         "vi": "Mình không biết chơi trống.",
+         "art": {
+          "t": "vocab",
+          "w": "drums",
+          "n": 1,
+          "no": true
+         }
+        },
+        {
+         "c": [
+          {
+           "t": "A dog",
+           "c": "sub"
+          },
+          {
+           "t": "can't",
+           "c": "pink"
+          },
+          {
+           "t": "fly.",
+           "c": "v"
+          }
+         ],
+         "vi": "Chó không bay được."
+        }
+       ],
+       "k": "pattern"
+      },
+      {
+       "title": "❓ Hỏi và trả lời với Can",
+       "askFormula": [
+        {
+         "t": "Can",
+         "c": "aux"
+        },
+        {
+         "t": "you / he / she",
+         "c": "sub"
+        },
+        {
+         "t": "động từ",
+         "c": "v"
+        },
+        {
+         "t": "…?",
+         "c": null
+        }
+       ],
+       "rounds": [
+        {
+         "q": [
+          {
+           "t": "Can",
+           "c": "aux"
+          },
+          {
+           "t": "you",
+           "c": "sub"
+          },
+          {
+           "t": "play",
+           "c": "v"
+          },
+          {
+           "t": "the violin?",
+           "c": "obj"
+          }
+         ],
+         "a": [
+          {
+           "t": "Yes,",
+           "c": "sub"
+          },
+          {
+           "t": "I can.",
+           "c": "aux"
+          }
+         ],
+         "qvi": "Bạn chơi đàn vi-ô-lông được không?",
+         "avi": "Được.",
+         "art": {
+          "t": "vocab",
+          "w": "violin",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "q": [
+          {
+           "t": "Can",
+           "c": "aux"
+          },
+          {
+           "t": "you",
+           "c": "sub"
+          },
+          {
+           "t": "play",
+           "c": "v"
+          },
+          {
+           "t": "the drums?",
+           "c": "obj"
+          }
+         ],
+         "a": [
+          {
+           "t": "No,",
+           "c": "sub"
+          },
+          {
+           "t": "I can't.",
+           "c": "pink"
+          }
+         ],
+         "qvi": "Bạn chơi trống được không?",
+         "avi": "Không.",
+         "art": {
+          "t": "vocab",
+          "w": "drums",
+          "n": 1,
+          "no": false
+         }
+        },
+        {
+         "q": [
+          {
+           "t": "Can",
+           "c": "aux"
+          },
+          {
+           "t": "I",
+           "c": "sub"
+          },
+          {
+           "t": "borrow",
+           "c": "v"
+          },
+          {
+           "t": "your key?",
+           "c": "obj"
+          }
+         ],
+         "a": [
+          {
+           "t": "Yes,",
+           "c": "sub"
+          },
+          {
+           "t": "you can.",
+           "c": "aux"
+          }
+         ],
+         "qvi": "Mình mượn chìa khoá của bạn được không?",
+         "avi": "Được, bạn mượn đi.",
+         "art": {
+          "t": "vocab",
+          "w": "key",
+          "n": 1,
+          "no": false
+         }
+        }
+       ],
+       "k": "dialog"
+      },
+      {
+       "t": "💡 Mẹo: **can + động từ nguyên mẫu** (không thêm s, không có to). Hỏi: đưa **Can** lên đầu câu!",
+       "k": "tip2"
+      },
+      {
+       "items": [
+        {
+         "bad": "She cans swim.",
+         "good": "She can swim.",
+         "why": "can không thêm s."
+        },
+        {
+         "bad": "She can swims.",
+         "good": "She can swim.",
+         "why": "Sau can dùng động từ nguyên mẫu (không thêm s)."
+        },
+        {
+         "bad": "I can to swim.",
+         "good": "I can swim.",
+         "why": "Sau can không có to."
+        },
+        {
+         "bad": "Does she can swim?",
+         "good": "Can she swim?",
+         "why": "Câu hỏi: đưa can lên trước chủ ngữ."
+        }
+       ],
+       "k": "mistakes"
+      },
+      {
+       "items": [
+        "a5"
+       ],
+       "k": "acts"
+      }
+     ]
     }
    ],
    "quiz": [
@@ -356,7 +2439,9 @@
       "under"
      ],
      "a": 2,
-     "why": "Mèo ở dưới bàn → under."
+     "why": "Mèo ở dưới bàn → under.",
+     "lv": "e",
+     "fmt": "look"
     },
     {
      "topic": "Prepositions",
@@ -371,7 +2456,9 @@
       "on"
      ],
      "a": 1,
-     "why": "Mèo ở phía sau ghế → behind."
+     "why": "Mèo ở phía sau ghế → behind.",
+     "lv": "e",
+     "fmt": "look"
     },
     {
      "topic": "Prepositions",
@@ -386,7 +2473,9 @@
       "next to"
      ],
      "a": 0,
-     "why": "Mèo ở bên trong hộp → in."
+     "why": "Mèo ở bên trong hộp → in.",
+     "lv": "e",
+     "fmt": "look"
     },
     {
      "topic": "Pronouns",
@@ -397,7 +2486,9 @@
       "Anyone"
      ],
      "a": 0,
-     "why": "Có một người ở cửa → Someone (có ai đó)."
+     "why": "Có một người ở cửa → Someone (có ai đó).",
+     "lv": "m",
+     "fmt": "read"
     },
     {
      "topic": "Pronouns",
@@ -408,7 +2499,9 @@
       "everything"
      ],
      "a": 1,
-     "why": "Câu phủ định (isn't) → dùng anything."
+     "why": "Câu phủ định (isn't) → dùng anything.",
+     "lv": "m",
+     "fmt": "read"
     },
     {
      "topic": "Pronouns",
@@ -419,7 +2512,9 @@
       "No one"
      ],
      "a": 2,
-     "why": "Phòng trống → No one (không ai)."
+     "why": "Phòng trống → No one (không ai).",
+     "lv": "m",
+     "fmt": "read"
     },
     {
      "topic": "There is / are",
@@ -435,7 +2530,9 @@
       "can"
      ],
      "a": 1,
-     "why": "Có hai cái (nhiều) → There are."
+     "why": "Có hai cái (nhiều) → There are.",
+     "lv": "m",
+     "fmt": "look"
     },
     {
      "topic": "There is / are",
@@ -452,7 +2549,9 @@
       "Can"
      ],
      "a": 1,
-     "why": "Một cái bếp (số ít) → Is there…?"
+     "why": "Một cái bếp (số ít) → Is there…?",
+     "lv": "h",
+     "fmt": "look"
     },
     {
      "topic": "can",
@@ -468,7 +2567,9 @@
       "cans"
      ],
      "a": 0,
-     "why": "Mình chơi được → can. Không viết cans."
+     "why": "Mình chơi được → can. Không viết cans.",
+     "lv": "h",
+     "fmt": "look"
     },
     {
      "topic": "can",
@@ -485,9 +2586,1900 @@
       "am"
      ],
      "a": 1,
-     "why": "Chơi không được (khó quá) → can't."
+     "why": "Chơi không được (khó quá) → can't.",
+     "lv": "h",
+     "fmt": "look"
+    }
+   ],
+   "acts": {
+    "a1": {
+     "id": "a1",
+     "mode": "slot",
+     "title": "⚡ Luyện nhanh: kéo giới từ vào đúng hình",
+     "instr": "Chạm giữ một chữ rồi kéo vào chỗ trống dưới mỗi hình (hoặc chạm chữ rồi chạm hình).",
+     "slots": [
+      {
+       "id": "s1",
+       "art": {
+        "t": "prep",
+        "v": "in",
+        "a": "dog"
+       },
+       "text": "The dog is ___ the box.",
+       "ans": "in"
+      },
+      {
+       "id": "s2",
+       "art": {
+        "t": "prep",
+        "v": "on",
+        "a": "bunny"
+       },
+       "text": "The rabbit is ___ the table.",
+       "ans": "on"
+      },
+      {
+       "id": "s3",
+       "art": {
+        "t": "prep",
+        "v": "under",
+        "a": "pig"
+       },
+       "text": "The pig is ___ the table.",
+       "ans": "under"
+      },
+      {
+       "id": "s4",
+       "art": {
+        "t": "prep",
+        "v": "next",
+        "a": "chick"
+       },
+       "text": "The chick is ___ the table.",
+       "ans": "next to"
+      },
+      {
+       "id": "s5",
+       "art": {
+        "t": "prep",
+        "v": "behind",
+        "a": "frog"
+       },
+       "text": "The frog is ___ the sofa.",
+       "ans": "behind"
+      },
+      {
+       "id": "s6",
+       "art": {
+        "t": "prep",
+        "v": "front",
+        "a": "bear"
+       },
+       "text": "The bear is ___ the sofa.",
+       "ans": "in front of"
+      }
+     ],
+     "chips": [
+      "in",
+      "on",
+      "under",
+      "next to",
+      "behind",
+      "in front of"
+     ]
+    },
+    "a2": {
+     "id": "a2",
+     "mode": "bucket",
+     "title": "⚡ Luyện nhanh 1: xếp từ vào đúng nhóm (người · vật · nơi)",
+     "instr": "Kéo mỗi từ vào đúng cột. Mẹo: nhìn phần đuôi của từ (-one, -thing, -where).",
+     "buckets": [
+      {
+       "id": "p",
+       "label": "👤 người (-one)",
+       "c": "peach"
+      },
+      {
+       "id": "t",
+       "label": "🎁 vật (-thing)",
+       "c": "sky"
+      },
+      {
+       "id": "w",
+       "label": "📍 nơi (-where)",
+       "c": "mint"
+      }
+     ],
+     "chips": [
+      {
+       "label": "someone",
+       "g": "p"
+      },
+      {
+       "label": "no one",
+       "g": "p"
+      },
+      {
+       "label": "everyone",
+       "g": "p"
+      },
+      {
+       "label": "something",
+       "g": "t"
+      },
+      {
+       "label": "anything",
+       "g": "t"
+      },
+      {
+       "label": "nothing",
+       "g": "t"
+      },
+      {
+       "label": "everywhere",
+       "g": "w"
+      },
+      {
+       "label": "somewhere",
+       "g": "w"
+      },
+      {
+       "label": "anywhere",
+       "g": "w"
+      }
+     ]
+    },
+    "a3": {
+     "id": "a3",
+     "mode": "slot",
+     "title": "⚡ Luyện nhanh 2: kéo đúng từ vào câu",
+     "instr": "Đọc câu rồi kéo từ hợp nghĩa vào chỗ trống. Mỗi từ dùng một lần.",
+     "slots": [
+      {
+       "id": "s1",
+       "text": "Is there ___ at home?",
+       "hint": "câu hỏi",
+       "ans": "anyone"
+      },
+      {
+       "id": "s2",
+       "text": "___ is at the door. I can see a girl.",
+       "hint": "có một người",
+       "ans": "someone"
+      },
+      {
+       "id": "s3",
+       "text": "The room is empty. ___ is here.",
+       "hint": "không có ai",
+       "ans": "no one"
+      },
+      {
+       "id": "s4",
+       "text": "My whole class is here! ___ is happy.",
+       "hint": "tất cả mọi người",
+       "ans": "everyone"
+      }
+     ],
+     "chips": [
+      "someone",
+      "anyone",
+      "no one",
+      "everyone"
+     ]
+    },
+    "a4": {
+     "id": "a4",
+     "mode": "bucket",
+     "title": "⚡ Luyện nhanh: There is hay There are?",
+     "instr": "Đếm số lượng trong hình. Có 1 → There is. Có nhiều → There are. Kéo hình vào đúng ô.",
+     "buckets": [
+      {
+       "id": "is",
+       "label": "There is (1 thứ)",
+       "c": "sky"
+      },
+      {
+       "id": "are",
+       "label": "There are (nhiều thứ)",
+       "c": "rose"
+      }
+     ],
+     "chips": [
+      {
+       "label": "a cooker",
+       "art": {
+        "t": "vocab",
+        "w": "cooker",
+        "n": 1
+       },
+       "g": "is"
+      },
+      {
+       "label": "two cushions",
+       "art": {
+        "t": "vocab",
+        "w": "cushion",
+        "n": 2
+       },
+       "g": "are"
+      },
+      {
+       "label": "a shelf",
+       "art": {
+        "t": "vocab",
+        "w": "shelf",
+        "n": 1
+       },
+       "g": "is"
+      },
+      {
+       "label": "three violins",
+       "art": {
+        "t": "vocab",
+        "w": "violin",
+        "n": 3
+       },
+       "g": "are"
+      },
+      {
+       "label": "a key",
+       "art": {
+        "t": "vocab",
+        "w": "key",
+        "n": 1
+       },
+       "g": "is"
+      },
+      {
+       "label": "two drums",
+       "art": {
+        "t": "vocab",
+        "w": "drums",
+        "n": 2
+       },
+       "g": "are"
+      }
+     ]
+    },
+    "a5": {
+     "id": "a5",
+     "mode": "bucket",
+     "title": "⚡ Luyện nhanh: can hay can't?",
+     "instr": "Con vật này làm được việc đó không? Kéo vào ô can (làm được) hoặc can't (không làm được).",
+     "buckets": [
+      {
+       "id": "can",
+       "label": "✅ can (làm được)",
+       "c": "mint"
+      },
+      {
+       "id": "cant",
+       "label": "❌ can't (không làm được)",
+       "c": "rose"
+      }
+     ],
+     "chips": [
+      {
+       "label": "A fish – swim",
+       "emo": "🐟",
+       "g": "can"
+      },
+      {
+       "label": "A bird – fly",
+       "emo": "🐦",
+       "g": "can"
+      },
+      {
+       "label": "A dog – fly",
+       "emo": "🐶",
+       "g": "cant"
+      },
+      {
+       "label": "A baby – drive a car",
+       "emo": "👶",
+       "g": "cant"
+      },
+      {
+       "label": "A cat – climb a tree",
+       "emo": "🐱",
+       "g": "can"
+      },
+      {
+       "label": "A turtle – run fast",
+       "emo": "🐢",
+       "g": "cant"
+      }
+     ]
+    }
+   },
+   "mix": [
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The dog is ___ the box.",
+     "opts": [
+      "in",
+      "on",
+      "under"
+     ],
+     "a": 0,
+     "why": "Chó ở bên trong hộp → in.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "in",
+      "a": "dog"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The rabbit is ___ the table.",
+     "opts": [
+      "under",
+      "on",
+      "next to"
+     ],
+     "a": 1,
+     "why": "Thỏ ở trên bàn → on.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "on",
+      "a": "bunny"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The pig is ___ the table.",
+     "opts": [
+      "on",
+      "under",
+      "behind"
+     ],
+     "a": 1,
+     "why": "Heo ở dưới bàn → under.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "under",
+      "a": "pig"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "The frog is ___ the sofa.",
+     "ans": [
+      "behind"
+     ],
+     "bank": [
+      "behind",
+      "in front of",
+      "on",
+      "next to"
+     ],
+     "why": "Ếch ở phía sau ghế → behind.",
+     "lv": "m",
+     "bankShow": true,
+     "art": {
+      "t": "prep",
+      "v": "behind",
+      "a": "frog"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The bear is ___ the sofa.",
+     "opts": [
+      "in front of",
+      "behind",
+      "in"
+     ],
+     "a": 0,
+     "why": "Gấu ở phía trước ghế → in front of.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "front",
+      "a": "bear"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "The chick is ___ the table.",
+     "ans": [
+      "next to"
+     ],
+     "bank": [
+      "next to",
+      "in",
+      "under"
+     ],
+     "why": "Gà con ở bên cạnh bàn → next to.",
+     "lv": "m",
+     "art": {
+      "t": "prep",
+      "v": "next",
+      "a": "chick"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Tom: It's ___ the bag. I can see it inside!",
+     "opts": [
+      "in",
+      "on",
+      "under"
+     ],
+     "a": 0,
+     "why": "Nhìn thấy bên trong → in.",
+     "lv": "m",
+     "pre": [
+      "Mum: Where is my pen, Tom?"
+     ],
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Ben: It's ___ the table. Look!",
+     "opts": [
+      "in",
+      "on",
+      "under"
+     ],
+     "a": 2,
+     "why": "Mèo ở dưới bàn → under.",
+     "lv": "m",
+     "art": {
+      "t": "prep",
+      "v": "under",
+      "a": "cat"
+     },
+     "pre": [
+      "Amy: Where's the cat?"
+     ],
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "The shoes are ___ the bed.",
+     "opts": [
+      "under",
+      "on",
+      "in"
+     ],
+     "a": 0,
+     "why": "Giày ở dưới giường → under.",
+     "lv": "m",
+     "hint": "(bên dưới)",
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "The cup is ___ the table.",
+     "ans": [
+      "on"
+     ],
+     "bank": [
+      "in",
+      "on",
+      "under"
+     ],
+     "why": "Cái cốc ở trên bàn → on.",
+     "lv": "h",
+     "hint": "(ở trên mặt bàn)",
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The fox is ___ the table.",
+     "opts": [
+      "under",
+      "on",
+      "next to"
+     ],
+     "a": 1,
+     "why": "Cáo ở trên bàn → on.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "on",
+      "a": "fox"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "The penguin is ___ the box.",
+     "ans": [
+      "in"
+     ],
+     "bank": [
+      "in",
+      "on",
+      "under"
+     ],
+     "why": "Cánh cụt ở trong hộp → in.",
+     "lv": "m",
+     "bankShow": true,
+     "art": {
+      "t": "prep",
+      "v": "in",
+      "a": "penguin"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "The panda is ___ the table.",
+     "opts": [
+      "next to",
+      "on",
+      "behind"
+     ],
+     "a": 0,
+     "why": "Gấu trúc ở bên cạnh bàn → next to.",
+     "lv": "e",
+     "art": {
+      "t": "prep",
+      "v": "next",
+      "a": "panda"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "The dog is ___ the table.",
+     "ans": [
+      "under"
+     ],
+     "bank": [
+      "in",
+      "on",
+      "under"
+     ],
+     "why": "Chó ở dưới bàn → under.",
+     "lv": "h",
+     "art": {
+      "t": "prep",
+      "v": "under",
+      "a": "dog"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "The teacher's desk is ___ the board.",
+     "opts": [
+      "in front of",
+      "on",
+      "in"
+     ],
+     "a": 0,
+     "why": "Bàn cô giáo ở phía trước bảng → in front of.",
+     "lv": "h",
+     "pre": [
+      "Look at my classroom!",
+      "The board is on the wall."
+     ],
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "The pig is ___ the sofa.",
+     "ans": [
+      "in front of"
+     ],
+     "bank": [
+      "behind",
+      "in front of",
+      "on"
+     ],
+     "why": "Heo ở phía trước ghế → in front of.",
+     "lv": "h",
+     "art": {
+      "t": "prep",
+      "v": "front",
+      "a": "pig"
+     },
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Mum: It's ___ the cooker. They are very close.",
+     "opts": [
+      "next to",
+      "under",
+      "in"
+     ],
+     "a": 0,
+     "why": "Hai thứ sát bên nhau → next to.",
+     "lv": "m",
+     "pre": [
+      "Dad: Where's the fridge?"
+     ],
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "The key is ___ the box.",
+     "opts": [
+      "in",
+      "on",
+      "under"
+     ],
+     "a": 0,
+     "why": "Chìa khoá ở bên trong hộp → in.",
+     "lv": "m",
+     "hint": "(ở bên trong)",
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "She is ___ the sofa.",
+     "opts": [
+      "behind",
+      "on",
+      "in front of"
+     ],
+     "a": 0,
+     "why": "Chỉ thấy cái đuôi → mèo ở phía sau ghế → behind.",
+     "lv": "h",
+     "pre": [
+      "My cat Mimi loves hiding.",
+      "Look! I can only see her tail."
+     ],
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "My bag is ___ the desk.",
+     "ans": [
+      "on"
+     ],
+     "bank": [
+      "in",
+      "on",
+      "under"
+     ],
+     "why": "Cặp ở trên bàn học → on.",
+     "lv": "h",
+     "hint": "(ở trên mặt bàn)",
+     "topic": "Prepositions of place"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "Look! ___ is in the kitchen. I can see a boy.",
+     "opts": [
+      "Someone",
+      "No one",
+      "Anyone"
+     ],
+     "a": 0,
+     "why": "Có một người (một cậu bé) → Someone.",
+     "lv": "m",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Is there ___ at home?",
+     "ans": [
+      "anyone"
+     ],
+     "bank": [
+      "anyone",
+      "no one",
+      "everyone"
+     ],
+     "why": "Câu hỏi 'có ai không' → anyone.",
+     "lv": "h",
+     "hint": "(có ai không?)",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Tom: No, ___ is there. It's empty.",
+     "opts": [
+      "no one",
+      "someone",
+      "everyone"
+     ],
+     "a": 0,
+     "why": "Trống không → no one.",
+     "lv": "m",
+     "pre": [
+      "Mum: Is anyone in the garden?"
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "It's my birthday and ___ is here! All my friends came.",
+     "ans": [
+      "everyone"
+     ],
+     "bank": [
+      "everyone",
+      "no one",
+      "anyone"
+     ],
+     "why": "Tất cả bạn đều đến → everyone.",
+     "lv": "m",
+     "bankShow": true,
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "I'm hungry, but there isn't ___ in the fridge.",
+     "opts": [
+      "anything",
+      "something",
+      "everything"
+     ],
+     "a": 0,
+     "why": "Câu phủ định (isn't) → anything.",
+     "lv": "m",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "There is ___ in the box. It's a toy car.",
+     "ans": [
+      "something"
+     ],
+     "bank": [
+      "something",
+      "anything",
+      "no one"
+     ],
+     "why": "Có một thứ trong hộp → something.",
+     "lv": "h",
+     "hint": "(có một thứ gì đó)",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "___ is in the room.",
+     "opts": [
+      "Someone",
+      "No one",
+      "Everyone"
+     ],
+     "a": 0,
+     "why": "Có một người → Someone.",
+     "lv": "e",
+     "art": {
+      "t": "people",
+      "v": "some"
+     },
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "___ is in the room.",
+     "opts": [
+      "Someone",
+      "No one",
+      "Everyone"
+     ],
+     "a": 1,
+     "why": "Phòng trống → No one.",
+     "lv": "e",
+     "art": {
+      "t": "people",
+      "v": "no"
+     },
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "___ is here! All of us are in the room.",
+     "opts": [
+      "No one",
+      "Everyone",
+      "Someone"
+     ],
+     "a": 1,
+     "why": "Có đủ mọi người → Everyone.",
+     "lv": "e",
+     "art": {
+      "t": "people",
+      "v": "every"
+     },
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Mum: I looked ___, but I can't find it.",
+     "opts": [
+      "everywhere",
+      "someone",
+      "anything"
+     ],
+     "a": 0,
+     "why": "Tìm khắp nơi → everywhere.",
+     "lv": "m",
+     "pre": [
+      "Dad: Where's my phone?"
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "I can't hear ___.",
+     "opts": [
+      "anything",
+      "something",
+      "everyone"
+     ],
+     "a": 0,
+     "why": "Câu phủ định (can't) → anything.",
+     "lv": "h",
+     "pre": [
+      "It is night. The house is dark and very quiet."
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "We all love pizza. ___ likes pizza.",
+     "ans": [
+      "everyone"
+     ],
+     "bank": [
+      "everyone",
+      "no one",
+      "anyone"
+     ],
+     "why": "Ai cũng thích → Everyone.",
+     "lv": "h",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "I have ___ for you. It's a present!",
+     "ans": [
+      "something"
+     ],
+     "bank": [
+      "something",
+      "anything",
+      "no one"
+     ],
+     "why": "Mình có một thứ cho bạn → something.",
+     "lv": "m",
+     "bankShow": true,
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Boy: I don't have ___ to play with.",
+     "opts": [
+      "anyone",
+      "someone",
+      "no one"
+     ],
+     "a": 0,
+     "why": "Câu phủ định (don't) → anyone.",
+     "lv": "m",
+     "pre": [
+      "Girl: Are you OK? You look sad."
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "Is there ___ in your bag?",
+     "opts": [
+      "anything",
+      "no one",
+      "everywhere"
+     ],
+     "a": 0,
+     "why": "Câu hỏi 'có gì không' → anything.",
+     "lv": "m",
+     "hint": "(có gì không?)",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "I can't see ___ in the dark room.",
+     "ans": [
+      "anything"
+     ],
+     "bank": [
+      "anything",
+      "something",
+      "everyone"
+     ],
+     "why": "Câu phủ định (can't) → anything.",
+     "lv": "h",
+     "hint": "(không thấy gì cả)",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "We looked ___.",
+     "opts": [
+      "everywhere",
+      "someone",
+      "anything"
+     ],
+     "a": 0,
+     "why": "Tìm khắp nơi → everywhere.",
+     "lv": "h",
+     "pre": [
+      "Our dog is lost!",
+      "We looked in the garden and in the street."
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "There is ___ in the box. Look!",
+     "opts": [
+      "something",
+      "anything",
+      "no one"
+     ],
+     "a": 0,
+     "why": "Có một thứ trong hộp → something.",
+     "lv": "e",
+     "art": {
+      "t": "thing",
+      "v": "some"
+     },
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Girl: I think ___ is at home. The lights are off.",
+     "opts": [
+      "no one",
+      "someone",
+      "everyone"
+     ],
+     "a": 0,
+     "why": "Đèn tắt → không ai ở nhà → no one.",
+     "lv": "m",
+     "pre": [
+      "Boy: Hello! Hello!",
+      "(Nobody answers.)"
+     ],
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "The whole class is here. ___ is here today.",
+     "ans": [
+      "everyone"
+     ],
+     "bank": [
+      "everyone",
+      "no one",
+      "someone"
+     ],
+     "why": "Cả lớp có mặt → Everyone.",
+     "lv": "h",
+     "topic": "Indefinite pronouns"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "There ___ a cooker in the kitchen.",
+     "opts": [
+      "is",
+      "are",
+      "can"
+     ],
+     "a": 0,
+     "why": "Có 1 cái bếp → There is.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "cooker",
+      "n": 1,
+      "no": false,
+      "q": false
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "There ___ two cushions on the sofa.",
+     "opts": [
+      "is",
+      "are",
+      "isn't"
+     ],
+     "a": 1,
+     "why": "Có 2 cái gối (nhiều) → There are.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "cushion",
+      "n": 2,
+      "no": false,
+      "q": false
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "There ___ three violins.",
+     "opts": [
+      "is",
+      "are",
+      "isn't"
+     ],
+     "a": 1,
+     "why": "Có 3 cây đàn (nhiều) → There are.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "violin",
+      "n": 3,
+      "no": false,
+      "q": false
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "There ___ a shelf on the wall.",
+     "ans": [
+      "is"
+     ],
+     "bank": [
+      "is",
+      "are"
+     ],
+     "why": "Có 1 cái kệ → There is.",
+     "lv": "m",
+     "bankShow": true,
+     "art": {
+      "t": "vocab",
+      "w": "shelf",
+      "n": 1,
+      "no": false,
+      "q": false
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "There ___ five apples in the bag.",
+     "opts": [
+      "is",
+      "are",
+      "am"
+     ],
+     "a": 1,
+     "why": "Có 5 quả táo (nhiều) → There are.",
+     "lv": "m",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "There ___ a fridge.",
+     "ans": [
+      "isn't"
+     ],
+     "bank": [
+      "isn't",
+      "aren't"
+     ],
+     "why": "Không có 1 cái tủ lạnh → There isn't.",
+     "lv": "h",
+     "art": {
+      "t": "vocab",
+      "w": "fridge",
+      "n": 1,
+      "no": true,
+      "q": false
+     },
+     "hint": "(không có)",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Tom: Yes, ___.",
+     "opts": [
+      "there is",
+      "there are",
+      "I can"
+     ],
+     "a": 0,
+     "why": "Trả lời Yes cho Is there…? → there is.",
+     "lv": "m",
+     "pre": [
+      "Mum: Is there a cooker in the kitchen?"
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Amy: No, ___.",
+     "opts": [
+      "there aren't",
+      "there isn't",
+      "they aren't"
+     ],
+     "a": 0,
+     "why": "Trả lời No cho Are there…? → there aren't.",
+     "lv": "m",
+     "pre": [
+      "Dad: Are there any cushions on the sofa?"
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "___ there a key on the table?",
+     "opts": [
+      "Is",
+      "Are",
+      "Can"
+     ],
+     "a": 0,
+     "why": "Hỏi về 1 chiếc chìa khoá → Is there…?",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "key",
+      "n": 1,
+      "no": false,
+      "q": true
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "___ there any drums in the music room?",
+     "ans": [
+      "are"
+     ],
+     "bank": [
+      "Is",
+      "Are"
+     ],
+     "why": "Hỏi về nhiều cái trống → Are there any…?",
+     "lv": "h",
+     "art": {
+      "t": "vocab",
+      "w": "drums",
+      "n": 2,
+      "no": false,
+      "q": true
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "There ___ thirty desks and one board.",
+     "opts": [
+      "is",
+      "are",
+      "isn't"
+     ],
+     "a": 1,
+     "why": "Có nhiều bàn (thirty desks) → There are.",
+     "lv": "h",
+     "pre": [
+      "This is my classroom.",
+      "It is big and bright."
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "There is ___ oven in the kitchen.",
+     "opts": [
+      "a",
+      "an",
+      "some"
+     ],
+     "a": 1,
+     "why": "oven bắt đầu bằng âm nguyên âm → an oven.",
+     "lv": "m",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "There ___ any envelopes on the desk.",
+     "ans": [
+      "aren't"
+     ],
+     "bank": [
+      "isn't",
+      "aren't"
+     ],
+     "why": "Không có phong bì nào (nhiều) → There aren't any.",
+     "lv": "h",
+     "hint": "(không có)",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Boy: There ___ two books and a pen.",
+     "opts": [
+      "are",
+      "is",
+      "isn't"
+     ],
+     "a": 0,
+     "why": "Có hai quyển sách (nhiều) → There are.",
+     "lv": "m",
+     "pre": [
+      "Girl: What's in your bag?"
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "There are ___ cushions on the bed.",
+     "ans": [
+      "some"
+     ],
+     "bank": [
+      "some",
+      "a",
+      "an"
+     ],
+     "why": "Nhiều cái gối → some cushions.",
+     "lv": "m",
+     "bankShow": true,
+     "hint": "(một vài)",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "___ there a tree in the garden?",
+     "opts": [
+      "Is",
+      "Are",
+      "Can"
+     ],
+     "a": 0,
+     "why": "Hỏi về 1 cái cây → Is there…? (Yes, there is.)",
+     "lv": "h",
+     "pre": [
+      "Look at the picture of my house.",
+      "It has a small garden."
+     ],
+     "post": [
+      "Yes, there is."
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "There ___ some stamps in the box.",
+     "opts": [
+      "is",
+      "are",
+      "isn't"
+     ],
+     "a": 1,
+     "why": "Nhiều con tem → There are.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "stamps",
+      "n": 3,
+      "no": false,
+      "q": false
+     },
+     "topic": "There is / There are"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Are there two beds? – Yes, there ___.",
+     "ans": [
+      "are"
+     ],
+     "bank": [
+      "is",
+      "are"
+     ],
+     "why": "Trả lời Yes cho Are there…? → there are.",
+     "lv": "h",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "There ___ three brushes in the bathroom.",
+     "opts": [
+      "is",
+      "are",
+      "am"
+     ],
+     "a": 1,
+     "why": "Có 3 cái bàn chải → There are.",
+     "lv": "m",
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Anna: No, ___. But there is a cooker.",
+     "opts": [
+      "there isn't",
+      "there aren't",
+      "there is"
+     ],
+     "a": 0,
+     "why": "Không có 1 cái tủ lạnh → there isn't.",
+     "lv": "m",
+     "pre": [
+      "Teacher: Is there a fridge in your kitchen?"
+     ],
+     "topic": "There is / There are"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "I ___ play the violin.",
+     "opts": [
+      "can",
+      "can't",
+      "cans"
+     ],
+     "a": 0,
+     "why": "Mình biết chơi đàn → can.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "violin",
+      "n": 1,
+      "no": false,
+      "q": false
+     },
+     "hint": "(biết chơi)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "I ___ play the drums.",
+     "opts": [
+      "can",
+      "can't",
+      "cans"
+     ],
+     "a": 1,
+     "why": "Mình không biết chơi trống → can't.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "drums",
+      "n": 1,
+      "no": true,
+      "q": false
+     },
+     "hint": "(không biết)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "A fish ___ swim.",
+     "opts": [
+      "can",
+      "can't",
+      "cans"
+     ],
+     "a": 0,
+     "why": "Cá biết bơi → can.",
+     "lv": "m",
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "A dog ___ fly.",
+     "ans": [
+      "can't"
+     ],
+     "bank": [
+      "can",
+      "can't"
+     ],
+     "why": "Chó không biết bay → can't.",
+     "lv": "h",
+     "hint": "(không thể)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Anna: Yes, I ___. It's easy!",
+     "opts": [
+      "can",
+      "can't",
+      "am"
+     ],
+     "a": 0,
+     "why": "Trả lời Yes → Yes, I can.",
+     "lv": "m",
+     "pre": [
+      "Mum: Can you ride a bike, Anna?"
+     ],
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "list",
+     "q": "___ you swim? – Yes, I can.",
+     "ans": [
+      "can"
+     ],
+     "bank": [
+      "Can",
+      "Are",
+      "Is"
+     ],
+     "why": "Hỏi khả năng → Can you…?",
+     "lv": "m",
+     "bankShow": true,
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "He can ___ the piano.",
+     "opts": [
+      "plays",
+      "play",
+      "to play"
+     ],
+     "a": 1,
+     "why": "Sau can dùng động từ nguyên mẫu → play.",
+     "lv": "m",
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "My mum can ___ delicious food.",
+     "ans": [
+      "cook",
+      "make"
+     ],
+     "bank": [
+      "cook",
+      "cooks",
+      "to cook"
+     ],
+     "why": "Sau can dùng động từ nguyên mẫu → cook.",
+     "lv": "h",
+     "hint": "(nấu ăn)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Tom: ___ I borrow your pen, please?",
+     "opts": [
+      "Can",
+      "Is",
+      "Are"
+     ],
+     "a": 0,
+     "why": "Xin phép mượn → Can I…? (Yes, you can.)",
+     "lv": "m",
+     "post": [
+      "Amy: Yes, you can."
+     ],
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Can I open the window? – Yes, you ___.",
+     "ans": [
+      "can"
+     ],
+     "bank": [
+      "can",
+      "can't"
+     ],
+     "why": "Trả lời Yes → Yes, you can.",
+     "lv": "h",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "look",
+     "q": "Can you play the drums? – No, I ___.",
+     "opts": [
+      "can't",
+      "can",
+      "am not"
+     ],
+     "a": 0,
+     "why": "Trả lời No → No, I can't.",
+     "lv": "e",
+     "art": {
+      "t": "vocab",
+      "w": "drums",
+      "n": 1,
+      "no": false,
+      "q": false
+     },
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Birds can ___.",
+     "ans": [
+      "fly"
+     ],
+     "bank": [
+      "fly",
+      "flies",
+      "to fly"
+     ],
+     "why": "Sau can dùng động từ nguyên mẫu → fly.",
+     "lv": "h",
+     "hint": "(bay)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "We ___ talk loudly here.",
+     "opts": [
+      "can't",
+      "can",
+      "cans"
+     ],
+     "a": 0,
+     "why": "Thư viện phải yên lặng → can't.",
+     "lv": "h",
+     "pre": [
+      "This is the school library.",
+      "Please be quiet."
+     ],
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Tom ___ run very fast.",
+     "ans": [
+      "can"
+     ],
+     "bank": [
+      "can",
+      "can't"
+     ],
+     "why": "Tom chạy nhanh được → can.",
+     "lv": "h",
+     "hint": "(chạy nhanh được)",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "cloze",
+     "q": "She ___ walk yet.",
+     "opts": [
+      "can't",
+      "can",
+      "cans"
+     ],
+     "a": 0,
+     "why": "Em bé 1 tuổi chưa đi được → can't.",
+     "lv": "h",
+     "pre": [
+      "Look at the baby! She is only one year old."
+     ],
+     "topic": "can"
+    },
+    {
+     "t": "fill",
+     "fmt": "fill",
+     "q": "Can she ___ the violin?",
+     "ans": [
+      "play"
+     ],
+     "bank": [
+      "play",
+      "plays",
+      "playing"
+     ],
+     "why": "Sau Can she… dùng động từ nguyên mẫu → play.",
+     "lv": "h",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "I can ___ English.",
+     "opts": [
+      "speak",
+      "speaks",
+      "speaking"
+     ],
+     "a": 0,
+     "why": "Sau can dùng động từ nguyên mẫu → speak.",
+     "lv": "m",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Boy: ___ I help you?",
+     "opts": [
+      "Can",
+      "Are",
+      "Do"
+     ],
+     "a": 0,
+     "why": "Đề nghị giúp → Can I help you?",
+     "lv": "m",
+     "pre": [
+      "Girl: Oh no! My bag is too heavy."
+     ],
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "read",
+     "q": "Câu nào đúng?",
+     "opts": [
+      "She can swim.",
+      "She cans swim.",
+      "She can swims."
+     ],
+     "a": 0,
+     "why": "Sau can không thêm s: She can swim.",
+     "lv": "m",
+     "topic": "can"
+    },
+    {
+     "t": "mcq",
+     "fmt": "dlg",
+     "q": "Tom: No, he ___. But he can play the guitar.",
+     "opts": [
+      "can't",
+      "can",
+      "isn't"
+     ],
+     "a": 0,
+     "why": "Không chơi được trống → he can't.",
+     "lv": "m",
+     "pre": [
+      "Mum: Can your brother play the drums?"
+     ],
+     "topic": "can"
     }
    ]
   }
- ]
+ ],
+ "meta": [
+  {
+   "no": 1,
+   "id": "unit-1",
+   "title": "Our home",
+   "emoji": "🏠",
+   "vi": "Ngôi nhà của chúng ta",
+   "points": [
+    "Prepositions of place",
+    "Indefinite pronouns",
+    "There is / There are",
+    "can"
+   ],
+   "ready": true
+  },
+  {
+   "no": 2,
+   "id": "unit-2",
+   "title": "Going to town",
+   "emoji": "🏙️",
+   "vi": "Đi phố",
+   "points": [
+    "Imperatives",
+    "could (suggestions)",
+    "Prepositions of place & movement",
+    "can / could / will (requests)"
+   ],
+   "ready": false
+  },
+  {
+   "no": 3,
+   "id": "unit-3",
+   "title": "Eating out",
+   "emoji": "🍽️",
+   "vi": "Đi ăn ngoài",
+   "points": [
+    "will (offers)",
+    "Conditional & result clauses"
+   ],
+   "ready": false
+  },
+  {
+   "no": 4,
+   "id": "unit-4",
+   "title": "At school",
+   "emoji": "📚",
+   "vi": "Ở trường",
+   "points": [
+    "Imperatives",
+    "could / couldn't (past ability)",
+    "Question words"
+   ],
+   "ready": false
+  },
+  {
+   "no": 5,
+   "id": "unit-5",
+   "title": "A day out",
+   "emoji": "🎪",
+   "vi": "Một ngày đi chơi",
+   "points": [
+    "Present simple & continuous (future)",
+    "could, shall, let's",
+    "going to",
+    "Relative clauses",
+    "Verbs + indirect objects"
+   ],
+   "ready": false
+  },
+  {
+   "no": 6,
+   "id": "unit-6",
+   "title": "Dream jobs",
+   "emoji": "💼",
+   "vi": "Nghề mơ ước",
+   "points": [
+    "I'd like … / I wouldn't like",
+    "like / love / hate + -ing",
+    "Where questions",
+    "could (possibility)"
+   ],
+   "ready": false
+  },
+  {
+   "no": 7,
+   "id": "unit-7",
+   "title": "At the castle",
+   "emoji": "🏰",
+   "vi": "Ở lâu đài",
+   "points": [
+    "will vs going to",
+    "Past simple"
+   ],
+   "ready": false
+  },
+  {
+   "no": 8,
+   "id": "unit-8",
+   "title": "Sports day!",
+   "emoji": "⚽",
+   "vi": "Ngày hội thể thao",
+   "points": [
+    "Present continuous (future)",
+    "going to",
+    "Tag questions",
+    "Present perfect + already"
+   ],
+   "ready": false
+  },
+  {
+   "no": 9,
+   "id": "unit-9",
+   "title": "Our camping adventure",
+   "emoji": "⛺",
+   "vi": "Chuyến cắm trại",
+   "points": [
+    "should / shouldn't",
+    "Past simple & past continuous",
+    "Present perfect"
+   ],
+   "ready": false
+  },
+  {
+   "no": 10,
+   "id": "unit-10",
+   "title": "A good year!",
+   "emoji": "❄️",
+   "vi": "Một năm tuyệt vời",
+   "points": [
+    "-ing forms",
+    "If clauses"
+   ],
+   "ready": false
+  },
+  {
+   "no": 11,
+   "id": "unit-11",
+   "title": "Our summer holidays",
+   "emoji": "✈️",
+   "vi": "Kỳ nghỉ hè",
+   "points": [
+    "Future simple",
+    "should / might / can't",
+    "Imperatives & going to",
+    "Present perfect"
+   ],
+   "ready": false
+  },
+  {
+   "no": 12,
+   "id": "unit-12",
+   "title": "Past and future",
+   "emoji": "🚀",
+   "vi": "Quá khứ và tương lai",
+   "points": [
+    "Past simple & present perfect",
+    "will & might"
+   ],
+   "ready": false
+  }
+ ],
+ "title": "Grammar – Get Ready for Flyers"
 }

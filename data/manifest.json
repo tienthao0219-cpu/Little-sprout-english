@@ -803,15 +803,15 @@
       "updated": "2026-10-28T13:32:52.000Z"
     },
     {
-      "id": "flyers-grammar-u1",
-      "title": "Grammar Unit 1 – Our home (giới từ, đại từ bất định, There is/are, can)",
+      "id": "flyers-grammar",
+      "title": "Flyers Grammar – Get Ready for Flyers (học từng unit + luyện trộn)",
       "cur": "flyers",
       "unit": "grammar",
-      "file": "apps/flyers/grammar/grammar-unit-1.html",
+      "file": "apps/flyers/grammar/grammar-flyers.html",
       "kind": "app",
-      "desc": "4 bài ngữ pháp có hình minh hoạ + 10 câu trắc nghiệm kiểu Cambridge (học xong bài mới mở bài tập)",
+      "desc": "Ngữ pháp 12 unit có hình minh hoạ, luyện nhanh kéo thả, 20 câu mỗi bài; tick nhiều unit để luyện trộn Dễ / Trung bình / Khó (hiện có Unit 1)",
       "added": "2026-10-31T10:23:06.000Z",
-      "updated": "2026-10-31T10:23:06.000Z"
+      "updated": "2026-10-31T11:07:04.000Z"
     },
     {
       "id": "speaking-test-movers",
@@ -820,9 +820,9 @@
       "unit": "speaking",
       "file": "apps/movers/speaking/speaking.html",
       "kind": "app",
-      "added": "2026-10-31T10:33:22.000Z",
+      "added": "2026-10-31T12:06:22.000Z",
       "desc": "Luyện nói Movers như thi thật: Part 1 hai tranh song song, Part 2 kể chuyện 4 tranh, Part 3 tìm tranh khác loại, Part 4 câu hỏi cá nhân; có gợi ý và chế độ cô",
-      "updated": "2026-10-31T12:03:24.000Z"
+      "updated": "2026-10-31T12:06:22.000Z"
     }
   ]
 }

@@ -7,9 +7,9 @@ KAWAII=S[a:b]
 t=open(W+'template.html',encoding='utf8').read().replace('@@KAWAII@@',KAWAII)
 d=json.load(open(W+'data.json',encoding='utf8'))
 mp=W+'../../../../data/manifest.json'
-for u in d['units']:
-    out=t.replace('@@DATA@@',json.dumps(u,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
-    f='grammar-%s.html'%u['id']; open(W+'../'+f,'w',encoding='utf8').write(out); print('built',f,len(out))
+if True:
+    out=t.replace('@@DATA@@',json.dumps(d,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    f='grammar-flyers.html'; open(W+'../'+f,'w',encoding='utf8').write(out); print('built',f,len(out))
     if os.path.exists(mp):
         m=json.loads(open(mp,encoding='utf8').read()); stamp=datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
         for x in m.get('apps',[]):
