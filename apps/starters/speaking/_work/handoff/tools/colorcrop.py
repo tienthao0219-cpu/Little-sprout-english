@@ -27,7 +27,25 @@ def crop_cards(page,out,names,shrink=4,**kw):
             if names[k]:im.save(f'{out}/{names[k]}.png')
             k+=1
     return ims
+def _thin(idx,maxlen=12):
+    g=[];
+    for v in idx:
+        if g and v-g[-1][-1]<=1:g[-1].append(v)
+        else:g.append([v])
+    return [(a[0]+a[-1])//2 for a in g if len(a)<=maxlen]
+def frame_box(img,thr=170,frac=0.5):
+    """Khung đen mảnh quanh tranh cảnh: hàng/cột mảnh (<=12px) có >50% điểm tối; trả (x0,y0,x1,y1) hoặc None."""
+    g=np.asarray(img.convert('L'))<thr;H,W=g.shape
+    rf=g[:,int(.12*W):int(.88*W)].mean(1)
+    rows=_thin([y for y in range(int(.02*H),int(.97*H)) if rf[y]>frac])
+    if len(rows)<2 or rows[-1]-rows[0]<.3*H:return None
+    cf=g[rows[0]+5:rows[-1]-5].mean(0)
+    cols=_thin([x for x in range(W) if cf[x]>frac])
+    if len(cols)<2 or cols[-1]-cols[0]<.4*W:return None
+    return cols[0],rows[0],cols[-1],rows[-1]
 def scene_box(img):
+    fb=frame_box(img)
+    if fb:return fb
     g=np.asarray(img.convert('L'));m=g<120;H,W=m.shape
     def lr(a):
         out=np.zeros(a.shape[0],int)
