@@ -35,12 +35,12 @@ def reward_tests():
     with sync_playwright() as p:
         b = p.chromium.launch()
         pg = b.new_page(viewport=dict(width=900, height=800)); pg.goto(URL); pg.wait_for_timeout(300); pg.evaluate("localStorage.clear();location.reload()"); pg.wait_for_timeout(500)
-        pg.evaluate("goHome()"); pg.evaluate("document.querySelector('.sbar .ni').click()"); dlg = pg.evaluate("!!document.querySelector('.cdlg')")
+        pg.evaluate("goHome()"); pg.evaluate("[...document.querySelectorAll('.sbar .ni')].find(b=>/Cô:/.test(b.textContent)).click()"); dlg = pg.evaluate("!!document.querySelector('.cdlg')")
         pg.fill('.cdlg input', 'sai'); pg.keyboard.press('Enter'); wrong = pg.evaluate("[st.teach,document.querySelector('.cmsg').textContent.length>0]")
         pg.fill('.cdlg input', 'thao2026'); pg.keyboard.press('Enter'); pg.wait_for_timeout(200); right = pg.evaluate("[st.teach,!document.querySelector('.cdlg')]")
         out.append(('code', dlg, wrong == [False, True], right == [True, True]))
         pg2 = b.new_page(viewport=dict(width=900, height=800)); pg2.goto(URL); pg2.evaluate("localStorage.clear();localStorage.setItem('lse_auth_v1',JSON.stringify({name:'An',role:'student'}));location.reload()"); pg2.wait_for_timeout(500)
-        pg2.evaluate("goHome()"); out.append(('student', pg2.evaluate("document.querySelectorAll('.sbar .ni').length"), pg2.evaluate("st.teach")))
+        pg2.evaluate("goHome()"); out.append(('student', pg2.evaluate("[...document.querySelectorAll('.sbar .ni')].filter(b=>/Cô:/.test(b.textContent)).length"), pg2.evaluate("st.teach")))
         pg3 = b.new_page(viewport=dict(width=900, height=800))
         H = "<iframe id=f src='%s' style='width:900px;height:760px'></iframe><script>window.LSE={prof:{d:{mov:{stars:{},stk:[]}},get(){return this.d},mut(fn){fn(this.d)},sync:{state:'ok'}}}</script>" % URL
         pg3.route('http://localhost:8765/__h.html', lambda r: r.fulfill(body=H, content_type='text/html')); pg3.goto('http://localhost:8765/__h.html'); pg3.wait_for_timeout(1200)
@@ -50,9 +50,20 @@ def reward_tests():
         got = f.evaluate("[document.body.innerText.includes('sao mới'),document.querySelectorAll('.sticker').length,albumView(),document.querySelectorAll('.sticker:not(.lock)').length]")
         remote = pg3.evaluate("[Object.keys(LSE.prof.d.mov.stars),LSE.prof.d.mov.stk]")
         out.append(('reward', got[0], got[1], got[3], len(remote[0]), remote[1]))
+        # nút Trang chủ: gửi lệnh nav -> home cho trang web (khung iframe), ở 4 màn hình
+        pg4 = b.new_page(viewport=dict(width=900, height=800)); msgs = []
+        pg4.expose_function('rec', lambda m: msgs.append(m))
+        H4 = "<iframe id=f src='%s' style='width:900px;height:760px'></iframe><script>window.addEventListener('message',e=>{if(e.data&&e.data.lse)rec(JSON.stringify(e.data))})</script>" % URL
+        pg4.route('http://localhost:8765/__h4.html', lambda r: r.fulfill(body=H4, content_type='text/html')); pg4.goto('http://localhost:8765/__h4.html'); pg4.wait_for_timeout(1200)
+        f4 = pg4.frames[1]; n_ok = 0
+        for view in ("goHome()", "openSet(SETS[0].id)", "openSet(SETS[0].id);startSet(0)", "albumView()"):
+            f4.evaluate(view); pg4.wait_for_timeout(150); before = len(msgs)
+            f4.evaluate("[...document.querySelectorAll('.sbar .ni')].find(b=>/Trang chủ/.test(b.textContent)).click()"); pg4.wait_for_timeout(150)
+            n_ok += int(len(msgs) > before and '"nav"' in msgs[-1] and '"home"' in msgs[-1])
+        out.append(('home', n_ok))
         b.close()
     return out
 rw = reward_tests(); print('đồng bộ:', rw)
-if not (rw[0][1] and rw[0][2] and rw[0][3] and rw[1][1] == 0 and rw[1][2] == False and rw[2][1] and rw[2][2] >= 1 and rw[2][3] == 1 and rw[2][4] == 1 and rw[2][5] == [0]): bad.append(('sync', rw))
+if not (rw[0][1] and rw[0][2] and rw[0][3] and rw[1][1] == 0 and rw[1][2] == False and rw[2][1] and rw[2][2] >= 1 and rw[2][3] == 1 and rw[2][4] == 1 and rw[2][5] == [0] and rw[3][1] == 4): bad.append(('sync', rw))
 print('phép đo:', checks, '| lỗi:', len(bad))
 for x in bad[:30]: print(x)
