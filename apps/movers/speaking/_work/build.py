@@ -13,9 +13,11 @@ for p in sorted(glob.glob(W + 'sets/*.py')):
     sets.extend(m.SETS)
 ids = [s['id'] for s in sets]; assert len(ids) == len(set(ids)), 'trùng id bộ'
 for k, s in enumerate(sets): s['no'] = k + 1          # đánh số liên tục theo thứ tự file trong sets/
-json.dump({'groups': groups, 'sets': sets}, open(W + 'data.json', 'w', encoding='utf8'), ensure_ascii=False, indent=1)
+TCODE = open(W + 'tcode.txt').read().strip() if os.path.exists(W + 'tcode.txt') else '97afd2db'     # mã của cô (băm); mặc định thao2026, đổi bằng set_code.py
+DATA = {'groups': groups, 'sets': sets, 'tcode': TCODE}
+json.dump(DATA, open(W + 'data.json', 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 t = open(W + 'template.html', encoding='utf8').read()
-out = t.replace('@@DATA@@', json.dumps({'groups': groups, 'sets': sets}, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
+out = t.replace('@@DATA@@', json.dumps(DATA, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/'))
 open(W + '../speaking.html', 'w', encoding='utf8').write(out)
 print('built', len(out), 'bytes;', len([s for s in sets if not s.get('hidden')]), 'bộ hiển thị /', len(sets), 'bộ')
 

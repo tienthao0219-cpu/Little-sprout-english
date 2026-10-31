@@ -236,6 +236,7 @@ function profileMerge_(s, c, bc, be) {
   const mp = {}; [(s && s.map) || {}, c.map || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (Object.keys(mp).length < 300 || mp[k] != null) mp[k] = Math.max(num(mp[k], 0), num(o[k], 0)); }); }); out.map = mp;
   out.spk = spkMerge_(s && s.spk, c.spk);   // Speaking Starters: sao + sticker
   out.fly = spkMerge_(s && s.fly, c.fly);   // Speaking Flyers: sao + sticker (cùng cách gộp)
+  out.mov = spkMerge_(s && s.mov, c.mov);   // Speaking Movers: sao + sticker (cùng cách gộp)
   return out;
 }
 /** gộp tiến trình Speaking Starters (sao theo bộ đề + sticker): sao lấy số lớn hơn, sticker lấy hợp */
@@ -267,7 +268,7 @@ function profileSave_(name, b) {
 function profileList_() {
   return { ok: true, list: rows_('profiles').map(function (r) {
     const d = parseObj_(r.data), pet = d.pet || {}, st = d.streak || {};
-    const spk = d.spk || {}; return { name: String(r.name), spkStars: Object.keys(spk.stars || {}).length, spkStickers: (spk.stk || []).length, flyStars: Object.keys((d.fly || {}).stars || {}).length, flyStickers: ((d.fly || {}).stk || []).length, coins: d.coins || 0, earned: d.earned || 0, pet: pet.kind || '', petXp: pet.xp || 0, streak: st.n || 0, lastDay: st.last || '', updated: r.updated };
+    const spk = d.spk || {}; return { name: String(r.name), spkStars: Object.keys(spk.stars || {}).length, spkStickers: (spk.stk || []).length, flyStars: Object.keys((d.fly || {}).stars || {}).length, flyStickers: ((d.fly || {}).stk || []).length, movStars: Object.keys((d.mov || {}).stars || {}).length, movStickers: ((d.mov || {}).stk || []).length, coins: d.coins || 0, earned: d.earned || 0, pet: pet.kind || '', petXp: pet.xp || 0, streak: st.n || 0, lastDay: st.last || '', updated: r.updated };
   }) };
 }
 

@@ -82,6 +82,7 @@
     const mp = {}; [(s && s.map) || {}, c.map || {}].forEach(function (o) { Object.keys(o).forEach(function (k) { if (Object.keys(mp).length < 300 || mp[k] != null) mp[k] = Math.max(num(mp[k], 0), num(o[k], 0)); }); }); out.map = mp;
     out.spk = L.spkMerge(s && s.spk, c.spk);   // Speaking Starters: sao + sticker
     out.fly = L.spkMerge(s && s.fly, c.fly);   // Speaking Flyers: sao + sticker
+    out.mov = L.spkMerge(s && s.mov, c.mov);   // Speaking Movers: sao + sticker
     return out;
   }
   /** gộp tiến trình Speaking Starters: sao lấy số lớn hơn, sticker lấy hợp (bản sao của spkMerge_ trong Code.gs) */
