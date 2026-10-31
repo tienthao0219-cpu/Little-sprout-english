@@ -88,6 +88,10 @@
           "name": "SPEAKING"
         },
         {
+          "id": "grammar",
+          "name": "GRAMMAR"
+        },
+        {
           "id": "review-0759",
           "name": "REVIEW"
         },
@@ -785,6 +789,17 @@
       "desc": "Luyện nói Starters như thi thật: chỉ tranh, đặt thẻ, trả lời câu hỏi, thẻ đồ vật; có gợi ý nhiều mức, sao và sticker",
       "added": "2026-10-26T09:00:00.000Z",
       "updated": "2026-10-28T13:32:52.000Z"
+    },
+    {
+      "id": "flyers-grammar-u1",
+      "title": "Grammar Unit 1 – Our home (giới từ, đại từ bất định, There is/are, can)",
+      "cur": "flyers",
+      "unit": "grammar",
+      "file": "apps/flyers/grammar/grammar-unit-1.html",
+      "kind": "app",
+      "desc": "4 bài ngữ pháp có hình minh hoạ + 10 câu trắc nghiệm kiểu Cambridge (học xong bài mới mở bài tập)",
+      "added": "2026-10-31T10:23:06.000Z",
+      "updated": "2026-10-31T10:23:06.000Z"
     }
   ]
 }

@@ -1,0 +1,18 @@
+# Flyers Grammar (Get Ready for Flyers) – bàn giao
+Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình dễ thương, chữ tiếng Anh trước + tiếng Việt, từ vựng cơ bản. KHÔNG tự bịa nội dung sách: chủ điểm ngữ pháp từng unit do cô gửi (xem `units.md` bên dưới).
+
+## Cấu trúc
+- `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
+- `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).
+- `_work/gtest.py <unit-1>`: kiểm tra tự động (khoá, 4 bài, ảnh, bài tập, vòng "Fix it", báo LSE) – cần `python3 -m http.server 8765` ở gốc repo + Playwright.
+- Hình: mèo/nhân vật lấy từ `kawaii()` của Starters Speaking (build chép tự động), ảnh từ vựng `data/wordsets/img/<vocabDir>/<từ>.webp`, art `prep` (mèo + bàn/hộp/sofa), `people`/`thing`, `vocab` (ảnh lặp n lần, `no`=gạch chéo, `q`=dấu ?).
+- Khoá: bài i mở sau khi bấm "Em đã hiểu" bài i-1; bài tập mở sau 4 bài. Tài khoản không phải học viên (hoặc `?teach=1`) mở hết. Tiến độ lưu localStorage `lse_grammar_flyers:<unit>:<tên>`.
+- Bài tập: câu sai quay lại (tối đa 3 vòng) tới khi đúng; điểm = số câu đúng ngay lần đầu; 1–3 sao; báo `LSE_REPORT.answer/finish` về website.
+
+## Chủ điểm ngữ pháp 12 unit (do cô Thảo cung cấp)
+1 Our home: prepositions of place; indefinite pronouns; there is/are; can · 2 Going to town: imperatives; could (suggestions); prepositions of place & movement; can/could/will (requests) · 3 Eating out: will (offers); conditional/result clauses (When/If) · 4 At school: imperatives; could/couldn't (past ability); question words, What time · 5 A day out: present simple & continuous (future); could/shall/let's; going to; relative clauses which/that/where; verbs + indirect objects · 6 Dream jobs: I'd like/wouldn't like; like/love/hate + -ing; Where questions; could (possibility) · 7 At the castle: will vs going to; past simple · 8 Sports day!: present continuous (future); going to; tag questions; present perfect + already · 9 Our camping adventure: should/shouldn't; past simple & past continuous; present perfect · 10 A good year!: -ing forms; if clauses · 11 Our summer holidays: future simple; should/might/can't; imperatives & going to; present perfect (regular & irregular) · 12 Past and future: past simple vs present perfect; will & might.
+(Danh sách cô gửi có dấu trích dẫn [1][2] như copy từ công cụ AI – cô nên đối chiếu lại với sách khi duyệt.)
+
+## Việc còn lại
+- Unit 1 = bản MẪU chờ cô duyệt; sau đó làm Unit 2–12 cùng khuôn (thêm vào data.json + thêm app vào data/manifest.json, unit `grammar` trong lớp flyers).
+- Dữ liệu hiện nằm trong data.json (chưa đọc từ Google Sheets). Chưa có âm thanh hiệu ứng.
