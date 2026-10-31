@@ -579,6 +579,12 @@ body[data-part="0"]{--pc:var(--lav);--pd:var(--lav-d);--pdd:#5E48B8;--ps:#F3EEFF
 .oo-ok{color:#1c8a52}.oo-no{color:#c2415a}.oo-key{background:#fff;border-radius:12px;padding:8px 10px;font-size:14px}
 .oo-view{padding:10px 12px 16px}.oo-view .oo-row{max-width:1100px;margin:0 auto}
 @media (min-width:900px){.oo-list{grid-template-columns:1fr 1fr}}
+@media (max-width:820px),(pointer:coarse){
+  .sbar::before{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,249,242,.98)}
+  .nav.pnav{-webkit-backdrop-filter:none;backdrop-filter:none;background:#fbf7ff}
+  .bg i,.bg b,.hero2 .mascot img,.burst::before{animation:none!important}
+  .showdots .hot::after{animation:none!important}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -758,7 +764,7 @@ function hotFor(q, side) {
 function picBox(set, key, cls, title, sub, overlay, extra, opts) {
   opts = opts || {};
   const box = h('div.pic.' + cls);
-  const im = h('img', { src: img(set, key), alt: title, loading: 'lazy', onerror: () => { im.replaceWith(h('div.miss', 'Chưa có hình này')); } });
+  const im = h('img', { src: img(set, key), alt: title, loading: 'lazy', decoding: 'async', onerror: () => { im.replaceWith(h('div.miss', 'Chưa có hình này')); } });
   const iw = h('div.iw', im);
   const hbs = [];
   /* bấm lên ảnh: chọn chấm GẦN NHẤT (không để các chấm đè nhau); bấm chỗ trống thì xoá hết gợi ý */
@@ -839,7 +845,7 @@ function homeView() {
       const nd = PARTS.filter(q => isDone(q.id, s.id)).length, TC = ['', '.t-peach', '.t-sky', '.t-rose'][i % 4];
       const lk = !setUnlocked(s), pv = prevSet(s);
       return h('button.tile2' + TC + (lk ? '.lockd' : ''), { onclick: () => { if (lk) { toast('🔒 Em làm xong ' + setName(pv) + ' trước nhé!'); return; } openSet(s.id); } },
-        h('div.thumb', h('img', { src: img(s, 'p1ex'), alt: '', loading: 'lazy', draggable: 'false', onerror: function () { this.style.visibility = 'hidden'; } }), h('span.num', String(s.no)),
+        h('div.thumb', h('img', { src: img(s, 'thumb'), alt: '', loading: 'lazy', decoding: 'async', draggable: 'false', onerror: function () { if (!this.dataset.fb) { this.dataset.fb = 1; this.src = img(s, 'p1ex'); } else this.style.visibility = 'hidden'; } }), h('span.num', String(s.no)),
           lk ? h('span.flag.lk', '🔒') : nd === 4 ? h('span.flag.ok', '⭐ Xong') : nd > 0 ? h('span.flag.mid', nd + '/4') : h('span.flag', 'NEW')),
         h('div.tbody', h('b', setName(s)), h('small', s.src), s.teacher ? h('div', h('span.tag.teach', 'có script')) : null, h('span.go', lk ? '🔒 Chưa mở' : nd > 0 && nd < 4 ? 'Tiếp tục ▶' : 'Chơi ngay ▶')));
     })),
@@ -897,7 +903,9 @@ function openSet(id) {
   st.t0 = Date.now(); st.tAcc = 0; st.tRun = false; clearInterval(tick);
   introView(); window.scrollTo(0, 0);
 }
-function startSet(i) { st.part = i; resetPartUI(); st.t0 = Date.now(); testView(); window.scrollTo(0, 0); }
+const PRE = { p1: ['p1ex', 'p1cand'], p2: ['p2'], p3: ['p3s1', 'p3s2', 'p3s3', 'p3s4'] };
+function prefetch(s, i) { const P = PARTS[i]; if (!P || !PRE[P.id]) return; PRE[P.id].forEach(k => { try { const im = new Image(); im.decoding = 'async'; im.src = img(s, k); } catch (e) { } }); }
+function startSet(i) { setTimeout(() => prefetch(st.set, i + 1), 600); st.part = i; resetPartUI(); st.t0 = Date.now(); testView(); window.scrollTo(0, 0); }
 function introView() {
   const s = st.set; st.view = 'intro'; document.body.dataset.part = '0';
   const nd = PARTS.filter(q => isDone(q.id)).length, next = nextOpenPart();
@@ -1143,7 +1151,7 @@ function nmChips(set) {
 function oddRow(s, i) {
   const T = s.teacher && s.teacher.p3, set = T && T.sets[i], O = oddPick(s), demo = i === 0, odd = set ? set.odd : 0;
   const row = h('div.oo-row.oc' + (i % 4));
-  const im = h('img', { src: img(s, 'p3s' + (i + 1)), alt: 'Set ' + (i + 1), loading: 'lazy', onerror: () => { im.replaceWith(h('div.miss', 'Chưa có hình này')); } });
+  const im = h('img', { src: img(s, 'p3s' + (i + 1)), alt: 'Set ' + (i + 1), loading: 'lazy', decoding: 'async', onerror: () => { im.replaceWith(h('div.miss', 'Chưa có hình này')); } });
   const iw = h('div.oo-iw', im);
   const names = h('div.oo-names' + (st.hint ? '.show' : ''), nmChips(set)), fb = h('div.oo-fb');
   const cells = [0, 1, 2, 3].map(k => {
