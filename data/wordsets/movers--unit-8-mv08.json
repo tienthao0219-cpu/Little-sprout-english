@@ -1,0 +1,152 @@
+{
+ "id": "movers--unit-8-mv08",
+ "title": "Unit 8 · What's for lunch?",
+ "cur": "movers",
+ "unit": "unit-8-mv08",
+ "items": [
+  {
+   "w": "cheese",
+   "vi": "phô mai",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/cheese.webp"
+  },
+  {
+   "w": "chicken",
+   "vi": "thịt gà",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/chicken.webp"
+  },
+  {
+   "w": "coffee",
+   "vi": "cà phê",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/coffee.webp"
+  },
+  {
+   "w": "milk",
+   "vi": "sữa",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/milk.webp"
+  },
+  {
+   "w": "noodles",
+   "vi": "mì",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/noodles.webp"
+  },
+  {
+   "w": "pancake",
+   "vi": "bánh kếp",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pancake.webp"
+  },
+  {
+   "w": "pasta",
+   "vi": "mì Ý",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pasta.webp"
+  },
+  {
+   "w": "salad",
+   "vi": "rau trộn",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/salad.webp"
+  },
+  {
+   "w": "sandwich",
+   "vi": "bánh mì kẹp",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/sandwich.webp"
+  },
+  {
+   "w": "soup",
+   "vi": "súp",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/soup.webp"
+  },
+  {
+   "w": "tea",
+   "vi": "trà",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/tea.webp"
+  },
+  {
+   "w": "vegetables",
+   "vi": "rau củ",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/vegetables.webp"
+  },
+  {
+   "w": "water",
+   "vi": "nước",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/water.webp"
+  },
+  {
+   "w": "lemonade",
+   "vi": "nước chanh",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/lemonade.webp"
+  },
+  {
+   "w": "juice",
+   "vi": "nước ép",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/juice.webp"
+  },
+  {
+   "w": "bread",
+   "vi": "bánh mì",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/bread.webp"
+  },
+  {
+   "w": "carrots",
+   "vi": "cà rốt",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/carrots.webp"
+  },
+  {
+   "w": "pineapple",
+   "vi": "dứa",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pineapple.webp"
+  },
+  {
+   "w": "burger",
+   "vi": "bánh kẹp thịt",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/burger.webp"
+  },
+  {
+   "w": "bottle",
+   "vi": "chai",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/bottle.webp"
+  },
+  {
+   "w": "bowl",
+   "vi": "bát / tô",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/bowl.webp"
+  },
+  {
+   "w": "cup",
+   "vi": "cốc",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/cup.webp"
+  },
+  {
+   "w": "glass",
+   "vi": "ly thủy tinh",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/glass.webp"
+  },
+  {
+   "w": "plate",
+   "vi": "đĩa",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/plate.webp"
+  }
+ ]
+}

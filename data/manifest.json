@@ -260,6 +260,10 @@
         {
           "id": "unit-7-mv07",
           "name": "UNIT 7"
+        },
+        {
+          "id": "unit-8-mv08",
+          "name": "UNIT 8"
         }
       ]
     }
@@ -928,6 +932,17 @@
       "desc": "",
       "added": "2026-10-31T15:01:12.000Z",
       "updated": "2026-10-31T15:01:12.000Z"
+    },
+    {
+      "id": "unit-8-what-s-for-lunch-the-tu-vung-mv08",
+      "title": "Unit 8 · What's for lunch? - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-8-mv08",
+      "file": "apps/movers/unit-8-mv08/unit-8-what-s-for-lunch-the-tu-vung-mv08.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T15:05:58.000Z",
+      "updated": "2026-10-31T15:05:58.000Z"
     }
   ]
 }

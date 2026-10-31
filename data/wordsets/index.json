@@ -305,6 +305,14 @@
       "unit": "unit-7-mv07",
       "n": 14,
       "pics": 14
+    },
+    {
+      "id": "movers--unit-8-mv08",
+      "title": "Unit 8 · What's for lunch?",
+      "cur": "movers",
+      "unit": "unit-8-mv08",
+      "n": 24,
+      "pics": 24
     }
   ]
 }
