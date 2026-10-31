@@ -6926,7 +6926,80 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.05,
+      0.02,
+      0.23,
+      0.15
+     ],
+     "w": [
+      "sunny",
+      "cloudy"
+     ],
+     "b2": [
+      0.0,
+      0.03,
+      0.62,
+      0.28
+     ]
+    },
+    {
+     "b": [
+      0.46,
+      0.26,
+      0.17,
+      0.08
+     ],
+     "w": [
+      "red boat",
+      "yellow boat"
+     ]
+    },
+    {
+     "b": [
+      0.08,
+      0.4,
+      0.12,
+      0.07
+     ],
+     "w": [
+      "a flag on the sandcastle",
+      "no flag"
+     ]
+    },
+    {
+     "b": [
+      0.63,
+      0.13,
+      0.37,
+      0.2
+     ],
+     "w": [
+      "green umbrella",
+      "blue umbrella"
+     ]
+    },
+    {
+     "b": [
+      0.34,
+      0.03,
+      0.42,
+      0.19
+     ],
+     "w": [
+      "two seagulls",
+      "one seagull"
+     ],
+     "b2": [
+      0.28,
+      0.09,
+      0.24,
+      0.1
+     ]
+    }
+   ],
    "story": [
     "Lucy is on the beach. She's building a sandcastle. A crab is watching her.",
     "The crab is taking Lucy's bucket. Lucy is surprised.",
@@ -6935,7 +7008,32 @@
    ],
    "hints": {},
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0083,
+     0.0083,
+     0.5558,
+     0.4843
+    ],
+    [
+     0.5052,
+     0.0083,
+     0.4865,
+     0.4843
+    ],
+    [
+     0.0083,
+     0.5028,
+     0.4858,
+     0.4871
+    ],
+    [
+     0.5052,
+     0.5028,
+     0.4865,
+     0.4871
+    ]
+   ]
   },
   {
    "id": "ai-t4",
