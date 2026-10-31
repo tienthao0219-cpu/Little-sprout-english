@@ -256,6 +256,10 @@
         {
           "id": "unit-6-mv06",
           "name": "UNIT 6"
+        },
+        {
+          "id": "unit-7-mv07",
+          "name": "UNIT 7"
         }
       ]
     }
@@ -913,6 +917,17 @@
       "desc": "",
       "added": "2026-10-31T14:59:37.000Z",
       "updated": "2026-10-31T14:59:37.000Z"
+    },
+    {
+      "id": "unit-7-this-is-my-family-the-tu-vung-mv07",
+      "title": "Unit 7 · This is my family - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-7-mv07",
+      "file": "apps/movers/unit-7-mv07/unit-7-this-is-my-family-the-tu-vung-mv07.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T15:01:12.000Z",
+      "updated": "2026-10-31T15:01:12.000Z"
     }
   ]
 }

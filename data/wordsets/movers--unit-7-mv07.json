@@ -1,0 +1,92 @@
+{
+ "id": "movers--unit-7-mv07",
+ "title": "Unit 7 · This is my family",
+ "cur": "movers",
+ "unit": "unit-7-mv07",
+ "items": [
+  {
+   "w": "aunt",
+   "vi": "cô / dì / bác gái",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/aunt.webp"
+  },
+  {
+   "w": "uncle",
+   "vi": "chú / bác / cậu",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/uncle.webp"
+  },
+  {
+   "w": "daughter",
+   "vi": "con gái",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/daughter.webp"
+  },
+  {
+   "w": "son",
+   "vi": "con trai",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/son.webp"
+  },
+  {
+   "w": "granddaughter",
+   "vi": "cháu gái",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/granddaughter.webp"
+  },
+  {
+   "w": "grandson",
+   "vi": "cháu trai",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grandson.webp"
+  },
+  {
+   "w": "grandparent",
+   "vi": "ông bà",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grandparent.webp"
+  },
+  {
+   "w": "parent",
+   "vi": "phụ huynh",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/parent.webp"
+  },
+  {
+   "w": "grown-up",
+   "vi": "người lớn",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grown-up.webp"
+  },
+  {
+   "w": "beard",
+   "vi": "râu quai nón",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/beard.webp"
+  },
+  {
+   "w": "moustache",
+   "vi": "ria môi",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/moustache.webp"
+  },
+  {
+   "w": "curly hair",
+   "vi": "tóc xoăn",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/curly-hair.webp"
+  },
+  {
+   "w": "fair hair",
+   "vi": "tóc sáng màu",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/fair-hair.webp"
+  },
+  {
+   "w": "straight hair",
+   "vi": "tóc thẳng",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/straight-hair.webp"
+  }
+ ]
+}
