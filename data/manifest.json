@@ -861,9 +861,9 @@
       "unit": "grammar",
       "file": "apps/flyers/grammar/grammar-flyers.html",
       "kind": "app",
-      "desc": "Ngữ pháp có hình minh hoạ, luyện nhanh kéo thả, 20 câu mỗi bài; tick nhiều unit để luyện trộn Dễ / Trung bình / Khó (hiện có Unit 1–7)",
+      "desc": "Ngữ pháp có hình minh hoạ, luyện nhanh kéo thả, 20 câu mỗi bài; tick nhiều unit để luyện trộn Dễ / Trung bình / Khó (đủ 12 unit)",
       "added": "2026-10-31T10:23:06.000Z",
-      "updated": "2026-10-31T14:34:22.000Z"
+      "updated": "2026-10-31T14:53:23.000Z"
     },
     {
       "id": "speaking-test-movers",
