@@ -269,6 +269,8 @@ img{max-width:100%;display:block}
 .fnav{display:flex;gap:10px;flex-wrap:wrap}.fnav .btn{flex:1 1 150px}.fbank.hidden{display:none}
 @media (max-width:640px){.seg.cnt{flex:1 1 100%}.seg.cnt .sgb{min-height:44px}}
 @media (max-width:520px){.ugrid{grid-template-columns:1fr}.mixp{padding:10px}.sgb{font-size:14.5px}}
+.ex .art .vart{min-height:130px}.ex .art .vart img{height:120px;max-width:44%;object-fit:contain}.ex .art .vart.no::after{font-size:90px}
+.slart .vart{min-height:84px}.slart .vart img{height:80px;max-width:44%;object-fit:contain}
 /* ===== bài học cụ thể: khi nào dùng, bảng, đừng nhầm, luyện nhanh ===== */
 .whens{display:grid;gap:12px}
 .when{display:flex;gap:12px;align-items:flex-start;background:var(--ps);border-radius:20px;padding:12px 14px}
@@ -432,7 +434,22 @@ function roomSVG(t, v) {
   }
   return '<svg viewBox="0 8 240 162" role="img">' + bg + b + '</svg>';
 }
+function signSVG(v) {
+  const bg = '<rect width="240" height="170" rx="22" fill="#EEF6FF"/><rect y="146" width="240" height="24" fill="#D9E6F5"/>', W = 'fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"';
+  let b = '';
+  if (v === 'left') b = '<circle cx="120" cy="82" r="60" fill="#3B88D0" ' + OUT + '/><path d="M162 82H80M104 56 78 82l26 26" ' + W + '/>';
+  else if (v === 'right') b = '<circle cx="120" cy="82" r="60" fill="#3B88D0" ' + OUT + '/><path d="M78 82h82M136 56l26 26-26 26" ' + W + '/>';
+  else if (v === 'straight') b = '<circle cx="120" cy="82" r="60" fill="#3B88D0" ' + OUT + '/><path d="M120 124V42M94 66l26-26 26 26" ' + W + '/>';
+  else if (v === 'stop') b = '<polygon points="82,24 158,24 204,70 204,126 158,164 82,164 36,126 36,70" transform="translate(-0,-14) scale(.84) translate(23,17)" fill="#E5484D" ' + OUT + '/><text x="120" y="96" text-anchor="middle" font-family="Baloo 2,sans-serif" font-size="44" font-weight="800" fill="#fff">STOP</text>';
+  else if (v === 'cross') b = [0, 1, 2, 3, 4, 5].map(i => '<rect x="' + (24 + i * 34) + '" y="104" width="22" height="40" rx="4" fill="#fff" stroke="#2B3550" stroke-width="2"/>').join('') + '<g transform="translate(88,28) scale(.62)">' + kawaii('dog').replace('<svg ', '<svg width="100" height="100" ') + '</g><path d="M60 82H180M156 66l24 16-24 16" fill="none" stroke="#3B88D0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>';
+  return '<svg viewBox="0 0 240 170" role="img" aria-label="' + v + '">' + bg + b + '</svg>';
+}
+function emoSVG(e) { return '<svg viewBox="0 0 240 150" role="img"><rect width="240" height="150" rx="22" fill="#F4F0FF"/><circle cx="120" cy="75" r="56" fill="#fff" stroke="#E3DAFA" stroke-width="4"/><text x="120" y="102" text-anchor="middle" font-size="76">' + e + '</text></svg>'; }
+function badgeSVG(e, c) { return '<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21" fill="' + (c || '#FFF1BE') + '" stroke="#2B3550" stroke-width="2.4"/><text x="24" y="33" text-anchor="middle" font-size="25">' + e + '</text></svg>'; }
+const lico = l => l.gi && GIC[l.gi] ? gicon(l.gi) : h('span', { html: badgeSVG(l.icon, { mint: '#D3F1E5', peach: '#FFE0D2', sky: '#DCEEFF', rose: '#FFDCE8' }[l.color]), style: 'display:inline-grid;place-items:center;line-height:0' });
 function artEl(a) {
+  if (a && a.t === 'sign') return h('div', { html: signSVG(a.v) });
+  if (a && a.t === 'emo') return h('div', { html: emoSVG(a.e) });
   if (!a) return null;
   if (a.t === 'prep') return h('div', { html: prepSVG(a.v, a.a) });
   if (a.t === 'people' || a.t === 'thing') return h('div', { html: roomSVG(a.t, a.v) });
@@ -453,7 +470,7 @@ function trackEl(cur) {
   const k = [];
   U.lessons.forEach((l, i) => {
     const d = pdone(i), lk = !lessonOpen(i);
-    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : gicon(l.id)));
+    k.push(h('button.node' + (d ? '.done' : '') + (lk ? '.lock' : '') + (cur === i ? '.cur' : ''), { 'aria-label': l.title, onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) }, d && cur !== i ? '⭐' : lico(l)));
     k.push(h('div.tline' + (d ? '.on' : '')));
   });
   k.push(h('button.node' + (!quizOpen() ? '.lock' : '') + (cur === 'q' ? '.cur' : ''), { 'aria-label': 'Bài tập tổng hợp', onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') }, cur === 'q' ? gicon('q') : '📝'));
@@ -525,7 +542,7 @@ function hubView() {
       const lk = !lessonOpen(i), d = pdone(i), r = load().pdone[l.id];
       const pr = load(), sOn = pr.seen.includes(l.id), aOn = actsOf(l).length && actsOf(l).every(id => pr.act[id]);
       return h('button.tile.' + l.color + (lk ? '.lock' : '') + (d ? '.done' : ''), { onclick: () => lk ? toast('🔒 Em học xong bài ' + nextLesson() + ' (cả phần luyện tập) trước nhé!') : lessonView(i) },
-        h('div.thd', h('span.tic', gicon(l.id))), h('span.st', d ? '⭐'.repeat(Math.max(1, r.stars)) : lk ? '🔒' : ''),
+        h('div.thd', h('span.tic', lico(l))), h('span.st', d ? '⭐'.repeat(Math.max(1, r.stars)) : lk ? '🔒' : ''),
         h('div.tbd', h('b', l.title), h('small', l.vi), h('div.sbs', h('span.sb' + (sOn || d ? '.on' : ''), h('i', sOn || d ? '✓' : '1'), 'Học'), h('span.sb' + (aOn || d ? '.on' : ''), h('i', aOn || d ? '✓' : '2'), 'Luyện'), h('span.sb' + (d ? '.on' : ''), h('i', d ? '✓' : '3'), l.practice.length + ' câu'))));
     }).concat([h('button.tile.lav' + (quizOpen() ? '' : '.lock') + (p.stars ? '.done' : ''), { onclick: () => quizOpen() ? quizStart() : toast('🔒 Em làm xong 4 bài luyện tập trước nhé!') },
       h('div.thd', h('span.tic', gicon('q'))), h('span.st', p.stars ? '⭐'.repeat(p.stars) : quizOpen() ? '' : '🔒'), h('div.tbd', h('b', 'Bài tập tổng hợp'), h('small', U.quiz.length + ' câu trắc nghiệm · cả 4 điểm ngữ pháp')))])),
@@ -610,7 +627,7 @@ function lessonView(i) {
   const ok = actsDone(l);
   const go = h('button.btn' + (ok ? '.pulse' : ''), { id: 'goPractice', disabled: !ok, onclick: () => { upd(p => { if (!p.seen.includes(l.id)) p.seen.push(l.id); }); practiceStart(i); } }, ok ? 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →' : '🔒 Làm xong ⚡ Luyện nhanh để mở bài tập');
   paint(topbar(l.title, hubView), trackEl(i),
-    h('div.ptag', h('span.e', gicon(l.id)), h('span', l.title, ' ', h('small', '· ' + l.vi))),
+    h('div.ptag', h('span.e', lico(l)), h('span', l.title, ' ', h('small', '· ' + l.vi))),
     h('div.say', h('div.ch', h('img', { src: CHIBI('vay-tay'), alt: '' })), h('div.bubble', h('span.who', 'Miss Thảo nói:'), l.say)),
     l.blocks.map(b => blockEl(b, l)),
     h('div.nav', h('button.btn.ghost', { onclick: i && lessonOpen(i - 1) ? () => lessonView(i - 1) : hubView }, i ? '← Bài trước' : '← Về Unit'), go));
