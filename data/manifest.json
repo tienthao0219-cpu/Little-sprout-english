@@ -264,6 +264,10 @@
         {
           "id": "unit-8-mv08",
           "name": "UNIT 8"
+        },
+        {
+          "id": "unit-9-mv09",
+          "name": "UNIT 9"
         }
       ]
     }
@@ -943,6 +947,17 @@
       "desc": "",
       "added": "2026-10-31T15:05:58.000Z",
       "updated": "2026-10-31T15:05:58.000Z"
+    },
+    {
+      "id": "unit-9-do-you-like-animals-the-tu-vung-mv09",
+      "title": "Unit 9 · Do you like animals? - Thẻ từ vựng",
+      "cur": "movers",
+      "unit": "unit-9-mv09",
+      "file": "apps/movers/unit-9-mv09/unit-9-do-you-like-animals-the-tu-vung-mv09.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-31T15:07:19.000Z",
+      "updated": "2026-10-31T15:07:19.000Z"
     }
   ]
 }

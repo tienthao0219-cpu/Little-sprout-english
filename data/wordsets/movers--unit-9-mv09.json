@@ -1,0 +1,128 @@
+{
+ "id": "movers--unit-9-mv09",
+ "title": "Unit 9 · Do you like animals?",
+ "cur": "movers",
+ "unit": "unit-9-mv09",
+ "items": [
+  {
+   "w": "bat",
+   "vi": "con dơi",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/bat.webp"
+  },
+  {
+   "w": "bear",
+   "vi": "con gấu",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/bear.webp"
+  },
+  {
+   "w": "dolphin",
+   "vi": "cá heo",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/dolphin.webp"
+  },
+  {
+   "w": "fly",
+   "vi": "con ruồi",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/fly.webp"
+  },
+  {
+   "w": "kangaroo",
+   "vi": "chuột túi",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/kangaroo.webp"
+  },
+  {
+   "w": "kitten",
+   "vi": "mèo con",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/kitten.webp"
+  },
+  {
+   "w": "lion",
+   "vi": "sư tử",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/lion.webp"
+  },
+  {
+   "w": "panda",
+   "vi": "gấu trúc",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/panda.webp"
+  },
+  {
+   "w": "parrot",
+   "vi": "con vẹt",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/parrot.webp"
+  },
+  {
+   "w": "penguin",
+   "vi": "chim cánh cụt",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/penguin.webp"
+  },
+  {
+   "w": "pet",
+   "vi": "thú cưng",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/pet.webp"
+  },
+  {
+   "w": "puppy",
+   "vi": "chó con",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/puppy.webp"
+  },
+  {
+   "w": "rabbit",
+   "vi": "con thỏ",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/rabbit.webp"
+  },
+  {
+   "w": "shark",
+   "vi": "cá mập",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/shark.webp"
+  },
+  {
+   "w": "snail",
+   "vi": "ốc sên",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/snail.webp"
+  },
+  {
+   "w": "whale",
+   "vi": "cá voi",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/whale.webp"
+  },
+  {
+   "w": "cage",
+   "vi": "lồng",
+   "topic": "Scenery",
+   "img": "img/movers--unit-4-mv04/cage.webp"
+  },
+  {
+   "w": "moon",
+   "vi": "mặt trăng",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/moon.webp"
+  },
+  {
+   "w": "rainbow",
+   "vi": "cầu vồng",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/rainbow.webp"
+  },
+  {
+   "w": "star",
+   "vi": "ngôi sao",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/star.webp"
+  }
+ ]
+}
