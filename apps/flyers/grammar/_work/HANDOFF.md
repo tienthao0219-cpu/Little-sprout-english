@@ -25,6 +25,12 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Mặc định MỞ HẾT (bài, luyện tập, bài tổng hợp) để cô linh động. Muốn khoá từng bước lại: thêm `?lock=1` vào link (gtest dùng `?lock=1` để kiểm tra khoá).
 - Bài trộn có 10 / 15 / 20 / 25 / 30 câu.
 
+## Cập nhật v6: Unit 2, 3, 4
+- Soạn gọn bằng `ugen.py` (DSL `{chữ|màu}`, tự xáo đáp án, kiểm tra hợp lệ: 1 đáp án đúng, ảnh có tồn tại, mỗi bài đúng 20 câu = 10 trắc nghiệm + 10 điền từ) rồi `unit2.py`, `unit3.py`, `unit4.py` (chạy lại được, ghi vào data.json). Mỗi bài có thêm 6–7 câu dạng hội thoại / đoạn ngắn cho kho trộn; bài tập tổng hợp 10 câu lấy từ các bài.
+- Hình mới: `sign` (biển chỉ đường left/right/straight/stop/cross), `emo` (emoji trong khung pastel); icon bài tự sinh từ emoji (`lico`), Unit 1 giữ icon vẽ tay (`gi`).
+- Unit 2: imperatives; could (suggestions); prepositions of place & movement (dùng ảnh across/through/past/bridge/corner có sẵn); can/could/will requests. Unit 3: will (offers); conditional & result clauses. Unit 4: imperatives; could/couldn't past ability; question words.
+- Unit 5–12: chưa làm (xem danh sách chủ điểm bên dưới). Thêm unit mới: copy `unit4.py`, đổi nội dung, chạy; `meta[].ready` tự bật.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).

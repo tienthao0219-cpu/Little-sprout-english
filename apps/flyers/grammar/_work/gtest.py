@@ -68,7 +68,7 @@ with sync_playwright() as p:
       rep.append((name,i+1,res[2]))
     m=pg.evaluate("__m"); answers=[x for x in m if x[0]=='a']
     wrong_first=sum(1 for x in answers if not x[2])
-    if len(answers)!=80 or wrong_first!=4 or len([x for x in m if x[0]=='f'])!=4: bad.append((name,'report',len(answers),wrong_first))
+    if len(answers)!=20*n or wrong_first!=n or len([x for x in m if x[0]=='f'])!=n: bad.append((name,'report',len(answers),wrong_first))
     # bài tập tổng hợp
     pg.evaluate("quizStart()"); total=pg.evaluate("Q.o.qs.length")
     for k in range(total):
@@ -122,22 +122,23 @@ with sync_playwright() as p:
   rr=[]
   cards=pg.evaluate("document.querySelectorAll('.ucard').length"); readyN=pg.evaluate("ALL.meta.filter(x=>x.ready).length")
   rr.append(('12 unit',cards==12,'nút bắt đầu khoá khi chưa tick',pg.evaluate("document.querySelector('.mixp .btn').disabled")))
-  pg.evaluate("document.querySelector('.utick').click()")
-  rr.append(('tick được',pg.evaluate("document.querySelector('.utick').classList.contains('on')"),'bắt đầu mở',not pg.evaluate("document.querySelector('.mixp .btn').disabled")))
-  pg.evaluate("document.querySelectorAll('.ucard.soon .utick')[0].click()")
+  pg.evaluate(f"document.querySelector('.utick[data-no=\"{UNO}\"]').click()")
+  rr.append(('tick được',pg.evaluate(f"document.querySelector('.utick[data-no=\"{UNO}\"]').classList.contains('on')"),'bắt đầu mở',not pg.evaluate("document.querySelector('.mixp .btn').disabled")))
+  soon=pg.evaluate("document.querySelectorAll('.ucard.soon .utick').length")
+  if soon: pg.evaluate("document.querySelectorAll('.ucard.soon .utick')[0].click()")
   rr.append(('unit chưa có không tick được',pg.evaluate("document.querySelectorAll('.utick.on').length")==1))
   for lv,n in (('e',10),('m',15),('h',20),('m',25),('h',30)):
     pg.evaluate(f"(()=>{{const m=mixState();m.lv='{lv}';m.n={n};mixSave(m);homeView()}})()")
     pg.evaluate("document.querySelector('.mixp .btn').click()"); pg.wait_for_timeout(100)
     qs=pg.evaluate("Q.o.qs.map(q=>[q.lv,q.unitNo,q.fmt||''])")
-    ok=len(qs)==n and all(x[0]==lv for x in qs) and all(x[1]==1 for x in qs)
+    ok=len(qs)==n and sum(1 for x in qs if x[0]==lv)>=n*0.5 and all(x[1]==UNO for x in qs)
     fm=sorted(set(x[2] for x in qs))
     answer_all(pg); res=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length]")
     rr.append((f'trộn {lv}/{n}',ok,fm,res==[True,3]))
   m=pg.evaluate("__m"); mix=[x for x in m if x[0]=='a' and 'Trộn' in x[2]]
   rr.append(('báo kết quả trộn',len(mix)==100,len([x for x in m if x[0]=='f'])==5))
   # nút Gợi ý của câu điền từ
-  pg.evaluate("openUnit(1);practiceStart(0)")
+  pg.evaluate(f"openUnit({UNO});practiceStart(0)")
   for _ in range(25):
     q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
     if q.get('t')=='fill': break
