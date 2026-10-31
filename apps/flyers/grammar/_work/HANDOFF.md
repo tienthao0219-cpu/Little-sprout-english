@@ -21,6 +21,10 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - `practice_u1_v2.py` chỉ tạo kho `mix`; `practice_u1.py` tạo 20 câu luyện tập từng bài (cô đã duyệt, giữ nguyên).
 - Thêm unit mới: thêm vào `units[]` (lessons[].blocks/practice, quiz, mix, acts, vocabDir) + đặt `ready` tự động theo `units[]`; chạy `build.py`, `gtest.py <số unit>`.
 
+## Cập nhật v5
+- Mặc định MỞ HẾT (bài, luyện tập, bài tổng hợp) để cô linh động. Muốn khoá từng bước lại: thêm `?lock=1` vào link (gtest dùng `?lock=1` để kiểm tra khoá).
+- Bài trộn có 10 / 15 / 20 / 25 / 30 câu.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).

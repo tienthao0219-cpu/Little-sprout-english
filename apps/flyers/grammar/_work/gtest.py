@@ -2,7 +2,8 @@
 # (cần: python3 -m http.server 8765 ở gốc repo + Playwright)
 import sys
 from playwright.sync_api import sync_playwright
-URL='http://localhost:8765/apps/flyers/grammar/grammar-flyers.html'
+BASE='http://localhost:8765/apps/flyers/grammar/grammar-flyers.html'
+URL=BASE+'?lock=1'   # các test khoá/mở từng bước dùng ?lock=1
 UNO=int(sys.argv[1]) if len(sys.argv)>1 else 1
 bad=[];rep=[]
 def drag_all(pg):
@@ -125,7 +126,7 @@ with sync_playwright() as p:
   rr.append(('tick được',pg.evaluate("document.querySelector('.utick').classList.contains('on')"),'bắt đầu mở',not pg.evaluate("document.querySelector('.mixp .btn').disabled")))
   pg.evaluate("document.querySelectorAll('.ucard.soon .utick')[0].click()")
   rr.append(('unit chưa có không tick được',pg.evaluate("document.querySelectorAll('.utick.on').length")==1))
-  for lv,n in (('e',10),('m',15),('h',20)):
+  for lv,n in (('e',10),('m',15),('h',20),('m',25),('h',30)):
     pg.evaluate(f"(()=>{{const m=mixState();m.lv='{lv}';m.n={n};mixSave(m);homeView()}})()")
     pg.evaluate("document.querySelector('.mixp .btn').click()"); pg.wait_for_timeout(100)
     qs=pg.evaluate("Q.o.qs.map(q=>[q.lv,q.unitNo,q.fmt||''])")
@@ -134,7 +135,7 @@ with sync_playwright() as p:
     answer_all(pg); res=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length]")
     rr.append((f'trộn {lv}/{n}',ok,fm,res==[True,3]))
   m=pg.evaluate("__m"); mix=[x for x in m if x[0]=='a' and 'Trộn' in x[2]]
-  rr.append(('báo kết quả trộn',len(mix)==45,len([x for x in m if x[0]=='f'])==3))
+  rr.append(('báo kết quả trộn',len(mix)==100,len([x for x in m if x[0]=='f'])==5))
   # nút Gợi ý của câu điền từ
   pg.evaluate("openUnit(1);practiceStart(0)")
   for _ in range(25):
@@ -148,3 +149,13 @@ with sync_playwright() as p:
   bad3=[x for x in rr if not all(v for v in x[1:] if isinstance(v,bool))]
   print('trang tổng/trộn/gợi ý:',len(rr),'kiểm tra, lỗi',len(bad3),bad3 if bad3 else '',errs[:2]); print(rr)
   b.close()
+
+# --- mặc định MỞ HẾT (không cần ?lock=1) ---
+with sync_playwright() as p:
+  b=p.chromium.launch(); pg=b.new_page(viewport=dict(width=820,height=1180)); errs=[]
+  pg.on('pageerror',lambda e:errs.append(str(e)))
+  pg.goto(BASE); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(400); pg.evaluate("openUnit(1)")
+  o=pg.evaluate("[U.lessons.map((_,i)=>lessonOpen(i)),quizOpen(),document.querySelectorAll('.tile.lock').length]")
+  pg.evaluate("lessonView(3)"); pd=pg.evaluate("document.getElementById('goPractice').disabled")
+  pg.evaluate("practiceStart(3)"); started=pg.evaluate("!!document.querySelector('.qcard')")
+  print('mặc định mở hết:',all(o[0]) and o[1] and o[2]==0 and pd==False and started,errs[:2]); b.close()

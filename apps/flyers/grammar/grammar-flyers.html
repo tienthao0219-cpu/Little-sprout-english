@@ -267,6 +267,7 @@ img{max-width:100%;display:block}
 .cl b.sp,.qq b.sp{display:inline-block;font-family:var(--hfont);background:var(--pc);color:var(--pdd);border-radius:10px;padding:0 9px;margin-right:6px;font-size:.78em}
 .hline{background:#FFF7D6;border:2px dashed #F2D977;border-radius:14px;padding:6px 12px;font-weight:800;color:#7a6200;margin:6px 0}
 .fnav{display:flex;gap:10px;flex-wrap:wrap}.fnav .btn{flex:1 1 150px}.fbank.hidden{display:none}
+@media (max-width:640px){.seg.cnt{flex:1 1 100%}.seg.cnt .sgb{min-height:44px}}
 @media (max-width:520px){.ugrid{grid-template-columns:1fr}.mixp{padding:10px}.sgb{font-size:14.5px}}
 /* ===== bài học cụ thể: khi nào dùng, bảng, đừng nhầm, luyện nhanh ===== */
 .whens{display:grid;gap:12px}
@@ -387,7 +388,8 @@ function toast(t) { document.querySelectorAll('.toast').forEach(x => x.remove())
 /* ===== tiến độ (lưu trên máy) + khoá ===== */
 const NAME = (() => { try { return String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').name || ''); } catch (e) { return ''; } })();
 const ROLE = (() => { try { return String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').role || ''); } catch (e) { return ''; } })();
-const OPEN = (ROLE && ROLE !== 'student') || /[?&]teach=1/.test(location.search);
+/* Mặc định MỞ HẾT (cô cho học sinh tự chọn bài). Muốn khoá lại từng bước: thêm ?lock=1 vào link. */
+const OPEN = !/[?&]lock=1/.test(location.search) || (ROLE && ROLE !== 'student') || /[?&]teach=1/.test(location.search);
 const pk = () => 'lse_grammar_flyers:' + U.id + ':' + (NAME || 'guest').toLowerCase();
 const MK = 'lse_gram_flyers_mix:' + (NAME || 'guest').toLowerCase();
 const blank = () => ({ seen: [], act: {}, pdone: {}, best: 0, stars: 0 });
@@ -516,7 +518,7 @@ function homeView() {
     panel.replaceChildren(
       h('div.mixt', h('b', '🎲 Luyện tập trộn'), h('span', ok ? 'Đã chọn: ' + m.ticks.map(n => 'Unit ' + n).join(', ') : 'Tick ☑ ít nhất 1 unit ở trên để bắt đầu')),
       h('div.seg', Object.keys(MIXD).map(k => h('button.sgb' + (m.lv === k ? '.on' : ''), { onclick: () => { m.lv = k; refresh(); } }, MIXD[k][0] + ' ' + MIXD[k][1], ok ? h('small', c[k] + ' câu') : null))),
-      h('div.seg.cnt', [10, 15, 20].map(k => h('button.sgb' + (m.n === k ? '.on' : ''), { onclick: () => { m.n = k; refresh(); } }, k + ' câu'))),
+      h('div.seg.cnt', [10, 15, 20, 25, 30].map(k => h('button.sgb' + (m.n === k ? '.on' : ''), { onclick: () => { m.n = k; refresh(); } }, k + ' câu'))),
       h('button.btn' + (ok ? '.pulse' : ''), { disabled: !ok, onclick: mixStart }, 'Bắt đầu ▶'));
     document.querySelectorAll('.utick').forEach(b => { const on = m.ticks.includes(+b.dataset.no); b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); b.closest('.ucard').classList.toggle('picked', on); });
   };
@@ -538,7 +540,7 @@ function hubView() {
   paint(topbar(null, homeView, 'Các unit'),
     h('section.hero', h('div.mascot', h('img', { src: CHIBI('vay-tay'), alt: 'Miss Thảo' })),
       h('div', h('div.hello', 'Hi' + (NAME ? ', ' + NAME : '') + '! 👋'), h('h1', h('span', 'Grammar'), ' ', h('span', 'Unit ' + U.no)),
-        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Mỗi bài: học → luyện nhanh → làm 20 câu. Xong mới mở bài sau!'),
+        h('p', U.emoji + ' ' + U.title + ' · ' + U.vi + '. Mỗi bài: học → luyện nhanh → làm 20 câu. Em chọn bài nào cũng được!'),
         h('div', { style: 'display:flex;gap:10px;flex-wrap:wrap' }, h('span.pill', '📖 ' + nd + '/' + U.lessons.length + ' bài xong'), p.stars ? h('span.pill', '⭐'.repeat(p.stars) + ' Bài tập tổng hợp') : null))),
     h('h2.sec', '🎒 Các bài ngữ pháp'),
     h('div.tiles', U.lessons.map((l, i) => {
