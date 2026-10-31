@@ -2,8 +2,8 @@
 # (cần: python3 -m http.server 8765 ở gốc repo + Playwright)
 import sys
 from playwright.sync_api import sync_playwright
-U='http://localhost:8765/apps/flyers/grammar/grammar-%s.html'
-unit=sys.argv[1] if len(sys.argv)>1 else 'unit-1'
+URL='http://localhost:8765/apps/flyers/grammar/grammar-flyers.html'
+UNO=int(sys.argv[1]) if len(sys.argv)>1 else 1
 bad=[];rep=[]
 def drag_all(pg):
   """kéo thả bằng chuột thật; nếu chữ và đích không cùng một màn hình thì chạm chữ rồi cuộn và chạm đích"""
@@ -29,7 +29,7 @@ with sync_playwright() as p:
   for name,(w,h) in {'phone':(390,844),'ipad':(820,1180),'laptop':(1366,768)}.items():
     ctx=b.new_context(viewport=dict(width=w,height=h),has_touch=False); pg=ctx.new_page(); errs=[]
     pg.on('pageerror',lambda e:errs.append(str(e))); pg.on('console',lambda m:errs.append(m.text) if m.type=='error' else None)
-    pg.goto(U%unit); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(500)
+    pg.goto(URL); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(500); pg.evaluate(f"openUnit({UNO})")
     pg.evaluate("window.__m=[];window.LSE_REPORT.answer=(a,b,c,d)=>__m.push(['a',a,c]);window.LSE_REPORT.finish=(s,m)=>__m.push(['f',s,m]);1")
     n=pg.evaluate("U.lessons.length")
     lock=pg.evaluate("[U.lessons.map((_,i)=>lessonOpen(i)),quizOpen()]")
@@ -53,12 +53,12 @@ with sync_playwright() as p:
         if t=='mcq':
           tap=(q['a']+1)%3 if k==0 else q['a']; pg.evaluate(f"document.querySelectorAll('.opt')[{tap}].click()")
         else:
-          ans=q['ans'][0] if k!=0 else 'zzz'; pg.fill('input.fin',ans); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+          ans=q['ans'][0] if k!=0 else 'zzz'; pg.fill('input.fin',ans); pg.evaluate("document.querySelector('.qcard .fnav .btn:last-child').click()")
         pg.evaluate("document.getElementById('qnext').click()"); pg.wait_for_timeout(30)
       fix=pg.evaluate("document.querySelector('.qn .fix')!==null")
       if fix:
         q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
-        if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+        if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .fnav .btn:last-child').click()")
         else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
         pg.evaluate("document.getElementById('qnext').click()")
       res=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length,document.querySelector('.result h2').textContent]")
@@ -83,7 +83,7 @@ print('hoàn tất, lỗi:',len(bad)); [print(x) for x in bad]
 with sync_playwright() as p:
   b=p.chromium.launch(); pg=b.new_page(viewport=dict(width=390,height=844)); errs=[]
   pg.on('pageerror',lambda e:errs.append(str(e)))
-  pg.goto(U%unit); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(400)
+  pg.goto(URL); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(400); pg.evaluate(f"openUnit({UNO})")
   pg.evaluate("practiceStart(0)")
   btn=lambda n: pg.evaluate(f"document.querySelectorAll('.qb')[{n}].disabled")
   r=[]
@@ -91,7 +91,7 @@ with sync_playwright() as p:
   q0=pg.evaluate("Q.order[Q.pos]"); pg.evaluate("document.querySelectorAll('.qb')[1].click()")           # skip
   r.append(('skip đưa câu xuống cuối',pg.evaluate("Q.order[Q.order.length-1]")==q0 and pg.evaluate("Q.order[Q.pos]")!=q0))
   q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
-  if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .nav .btn').click()")
+  if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .fnav .btn:last-child').click()")
   else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
   r.append(('next mở sau khi trả lời',btn(2)==False,'skip khoá sau khi trả lời',btn(1)==True))
   pg.evaluate("document.getElementById('qnext').click()"); pos1=pg.evaluate("Q.pos")
@@ -103,3 +103,48 @@ with sync_playwright() as p:
   r.append(('thoát về trang ngữ pháp',pg.evaluate("!!document.querySelector('.tiles')")))
   bad2=[x for x in r if not all(v for v in x[1::2])]
   print('thanh nút:',len(r),'kiểm tra, lỗi',len(bad2),bad2,errs[:2]); b.close()
+
+# --- trang tổng: tick unit, trộn theo mức Dễ/TB/Khó, nút Gợi ý của câu điền từ ---
+def answer_all(pg):
+  guard=0
+  while pg.evaluate("!document.querySelector('.result')") and guard<80:
+    guard+=1
+    q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
+    if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .fnav .btn:last-child').click()")
+    else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
+    pg.evaluate("document.getElementById('qnext').click()")
+with sync_playwright() as p:
+  b=p.chromium.launch(); pg=b.new_page(viewport=dict(width=820,height=1180)); errs=[]
+  pg.on('pageerror',lambda e:errs.append(str(e)))
+  pg.goto(URL); pg.evaluate("localStorage.clear()"); pg.reload(); pg.wait_for_timeout(500)
+  pg.evaluate("window.__m=[];window.LSE_REPORT.answer=(a,b,c,d)=>__m.push(['a',a,b,c]);window.LSE_REPORT.finish=(s,m)=>__m.push(['f',s,m]);1")
+  rr=[]
+  cards=pg.evaluate("document.querySelectorAll('.ucard').length"); readyN=pg.evaluate("ALL.meta.filter(x=>x.ready).length")
+  rr.append(('12 unit',cards==12,'nút bắt đầu khoá khi chưa tick',pg.evaluate("document.querySelector('.mixp .btn').disabled")))
+  pg.evaluate("document.querySelector('.utick').click()")
+  rr.append(('tick được',pg.evaluate("document.querySelector('.utick').classList.contains('on')"),'bắt đầu mở',not pg.evaluate("document.querySelector('.mixp .btn').disabled")))
+  pg.evaluate("document.querySelectorAll('.ucard.soon .utick')[0].click()")
+  rr.append(('unit chưa có không tick được',pg.evaluate("document.querySelectorAll('.utick.on').length")==1))
+  for lv,n in (('e',10),('m',15),('h',20)):
+    pg.evaluate(f"(()=>{{const m=mixState();m.lv='{lv}';m.n={n};mixSave(m);homeView()}})()")
+    pg.evaluate("document.querySelector('.mixp .btn').click()"); pg.wait_for_timeout(100)
+    qs=pg.evaluate("Q.o.qs.map(q=>[q.lv,q.unitNo,q.fmt||''])")
+    ok=len(qs)==n and all(x[0]==lv for x in qs) and all(x[1]==1 for x in qs)
+    fm=sorted(set(x[2] for x in qs))
+    answer_all(pg); res=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length]")
+    rr.append((f'trộn {lv}/{n}',ok,fm,res==[True,3]))
+  m=pg.evaluate("__m"); mix=[x for x in m if x[0]=='a' and 'Trộn' in x[2]]
+  rr.append(('báo kết quả trộn',len(mix)==45,len([x for x in m if x[0]=='f'])==3))
+  # nút Gợi ý của câu điền từ
+  pg.evaluate("openUnit(1);practiceStart(0)")
+  for _ in range(25):
+    q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
+    if q.get('t')=='fill': break
+    pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()"); pg.evaluate("document.getElementById('qnext').click()")
+  h0=pg.evaluate("[document.querySelector('.fbank').classList.contains('hidden'),!!document.querySelector('.hintb')]")
+  pg.evaluate("document.querySelector('.hintb').click()"); h1=pg.evaluate("[document.querySelector('.hline:not(.hidden)')!==null,document.querySelector('.fbank').classList.contains('hidden')]")
+  pg.evaluate("document.querySelector('.hintb').click()"); h2=pg.evaluate("[document.querySelector('.fbank').classList.contains('hidden'),document.querySelector('.hintb').disabled]")
+  rr.append(('gợi ý 2 bước',h0==[True,True],h1==[True,True],h2==[False,True]))
+  bad3=[x for x in rr if not all(v for v in x[1:] if isinstance(v,bool))]
+  print('trang tổng/trộn/gợi ý:',len(rr),'kiểm tra, lỗi',len(bad3),bad3 if bad3 else '',errs[:2]); print(rr)
+  b.close()

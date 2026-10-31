@@ -15,6 +15,12 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Màn luyện tập có thanh nút dưới: Undo (xoá chữ đang gõ hoặc về câu trước) · Skip (đưa câu xuống cuối) · Next (mở sau khi trả lời) · Home (về trang ngữ pháp, hỏi xác nhận nếu đã làm dở).
 - `gtest.py` kiểm tra cả thanh nút.
 
+## Cập nhật v4 (trang tổng + luyện trộn)
+- MỘT file duy nhất `apps/flyers/grammar/grammar-flyers.html` (build.py nhúng toàn bộ `data.json`). Trang đầu = 12 unit (`data.meta[]`: tên, chủ điểm của cô; `ready:true` khi unit đã có nội dung trong `units[]`). Mỗi unit có ô tick ☑ → thanh "Luyện tập trộn": chọn Dễ / Trung bình / Khó và 10/15/20 câu → bài trộn từ kho `unit.mix` (80 câu dạng Cambridge: look / read / dlg / cloze / list / fill, có `lv` e·m·h) + `unit.quiz`. Câu thiếu mức dễ thì lấy mức gần nhất.
+- Câu điền từ trong luyện tập: không hiện sẵn chữ gợi ý; có nút 💡 Gợi ý (1: chữ cái đầu + số chữ; 2: hiện word bank). Dạng `list` thì hiện sẵn word list như đề Cambridge. Hội thoại/đoạn ngắn: `pre`/`post` của câu hỏi.
+- `practice_u1_v2.py` chỉ tạo kho `mix`; `practice_u1.py` tạo 20 câu luyện tập từng bài (cô đã duyệt, giữ nguyên).
+- Thêm unit mới: thêm vào `units[]` (lessons[].blocks/practice, quiz, mix, acts, vocabDir) + đặt `ready` tự động theo `units[]`; chạy `build.py`, `gtest.py <số unit>`.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).

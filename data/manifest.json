@@ -791,15 +791,15 @@
       "updated": "2026-10-28T13:32:52.000Z"
     },
     {
-      "id": "flyers-grammar-u1",
-      "title": "Grammar Unit 1 – Our home (giới từ, đại từ bất định, There is/are, can)",
+      "id": "flyers-grammar",
+      "title": "Flyers Grammar – Get Ready for Flyers (học từng unit + luyện trộn)",
       "cur": "flyers",
       "unit": "grammar",
-      "file": "apps/flyers/grammar/grammar-unit-1.html",
+      "file": "apps/flyers/grammar/grammar-flyers.html",
       "kind": "app",
-      "desc": "4 bài ngữ pháp có hình minh hoạ + 10 câu trắc nghiệm kiểu Cambridge (học xong bài mới mở bài tập)",
+      "desc": "Ngữ pháp 12 unit có hình minh hoạ, luyện nhanh kéo thả, 20 câu mỗi bài; tick nhiều unit để luyện trộn Dễ / Trung bình / Khó (hiện có Unit 1)",
       "added": "2026-10-31T10:23:06.000Z",
-      "updated": "2026-10-31T10:53:06.000Z"
+      "updated": "2026-10-31T11:07:04.000Z"
     }
   ]
 }
