@@ -47,11 +47,15 @@ L1 = lesson('l1', 'mint', '🍽️', 'will (offers)', "Đề nghị giúp: I'll 
   Fl('I ___ bring you a spoon.', 'will', ['will', 'am', 'do'], 'I will bring… = Để mình mang… (đề nghị).', V('spoon'), '(sẽ)'),
   Fl('A: Will you have a biscuit? B: Yes, ___.', 'please', ['please', 'sorry', 'welcome'], 'Đồng ý → Yes, please.', V('biscuit'))],
  [Dlg(['Girl: I do not have a fork.'], "Boy: ___ get you one.", "I'll", 'I', "I'm", "Đề nghị giúp → I'll."),
-  Dlg(['Dad: Will you have some jam?'], 'Tom: Yes, ___!', 'please', 'sorry', 'welcome', 'Đồng ý → Yes, please.', V('jam')),
+  Dlg(['Mum: This bag is very heavy.'], 'Dad: I ___ carry it for you.', 'will', 'am', 'do', 'Đề nghị giúp → I will + động từ nguyên mẫu.'),
   Dlg(['Amy: It is too noisy here.'], 'Ben: ___ turn off the TV.', "I'll", "I'm", 'Will', "Đề nghị giúp → I'll."),
   Clz(['We are at a restaurant.', 'The waiter is kind.'], "He says: '___ you have some water?'", 'Will', 'Are', 'Is', 'Mời → Will you have…?'),
   Clz(['My friend drops her fork.', 'It is on the floor.'], "I say: 'Do not worry. ___ get you a new one.'", "I'll", 'I', "I'm", "Đề nghị giúp → I'll."),
-  Clz(['The cake is on the table.', 'It is a big cake.'], 'A: Will you have some cake? B: No, ___ you. I am full.', 'thank', 'please', 'sorry', 'Từ chối → No, thank you.')])
+  Clz(['The cake is on the table.', 'It is a big cake.'], 'I ___ cut the cake for you.', 'will', 'am', 'do', 'Đề nghị giúp → I will + động từ nguyên mẫu.'),
+  Clz(['My sister is carrying a big tray.', 'The door is closed.'], 'I ___ open the door for you.', 'will', 'am', 'do', 'Đề nghị giúp → I will + động từ nguyên mẫu.'),
+  Clz(['We are at the table.', 'The salt is far from Dad.'], "I'll ___ him the salt.", 'pass', 'passes', 'passing', "Sau I'll dùng động từ nguyên mẫu."),
+  Clz(['The soup is hot.', 'Amy wants to eat it now.'], "I ___ blow on it for you.", 'will', 'am', 'do', 'Đề nghị giúp → I will + động từ nguyên mẫu.'),
+  Clz(['The glass is empty.', 'My friend is thirsty.'], '___ you have some juice?', 'Will', 'Are', 'Is', 'Mời → Will you have…?')])
 
 L2 = lesson('l2', 'peach', '🔗', 'Conditional & result clauses', 'Nếu / Khi … thì …',
  'Nếu … thì … Cùng nối hai ý với If và When nhé!',
@@ -100,7 +104,11 @@ L2 = lesson('l2', 'peach', '🔗', 'Conditional & result clauses', 'Nếu / Khi 
   Dlg(['Boy: Why is the tea so sweet?'], 'Girl: ___ you add sugar, it is sweet.', 'If', 'Or', 'But', 'Nếu … thì … → If.', V('sugar')),
   Clz(['Tom loves honey.', 'He eats it every day.'], 'If he eats too much, he ___ ill.', 'feels', 'feel', 'feeling', 'He + feels (thêm s).'),
   Clz(['It is a hot day.', 'My ice cream is in my hand.'], 'If it is hot, it ___.', 'melts', 'melt', 'melting', 'It + melts (thêm s).'),
-  Clz(['We are in a restaurant.', 'The pizza is on the table.'], 'If the pizza is hot, we ___.', 'wait', 'waits', 'waiting', 'We + wait (không thêm s).', V('pizza'))])
+  Clz(['We are in a restaurant.', 'The pizza is on the table.'], 'If the pizza is hot, we ___.', 'wait', 'waits', 'waiting', 'We + wait (không thêm s).', V('pizza')),
+  Clz(['It is a cold morning.', 'Mum makes tea.'], 'When it is cold, she ___ tea.', 'drinks', 'drink', 'drinking', 'She + drinks (thêm s).'),
+  Clz(['Tom is at the table.', 'He eats his soup.'], 'If the soup is hot, he ___ it first.', 'cools', 'cool', 'cooling', 'He + cools (thêm s).'),
+  Clz(['We are at a restaurant.', 'The waiter is very busy.'], '___ the food is late, we wait.', 'If', 'But', 'Or', 'If = nếu → mệnh đề điều kiện.'),
+  Clz(['Mum is cooking.', 'The kitchen is warm.'], 'When she cooks, the house ___ good.', 'smells', 'smell', 'smelling', 'The house + smells (thêm s).')])
 
 A = [
  bucket('a1', "⚡ Luyện nhanh 1: đề nghị giúp hay mời ăn?", "Kéo mỗi câu vào ô đúng: đề nghị giúp (I'll…) hoặc mời ăn / uống (Will you have…?).", [

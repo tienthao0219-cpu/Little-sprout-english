@@ -8,16 +8,13 @@ L1 = lesson('l1', 'peach', '🌟', "I'd like… / I wouldn't like…", 'Em muố
     ('🌟', "**I'd like to be + nghề** = Em muốn làm nghề …", "I'd like to be a doctor.", 'Em muốn làm bác sĩ.'),
     ('🙅', "**I wouldn't like to be + nghề** = Em không muốn làm nghề …", "I wouldn't like to be a dentist.", 'Em không muốn làm nha sĩ.'),
     ('❓', "**Would you like to be …?** = Bạn có muốn làm … không?", 'Would you like to be a pilot?', 'Bạn có muốn làm phi công không?')]),
-  table('🗂 Ba kiểu câu', ['✅ Muốn', '❌ Không muốn', '❓ Hỏi'], [
-    ["I'd like to be a pilot.", "I wouldn't like to be a pilot.", 'Would you like to be a pilot?'],
-    ["She'd like to be a nurse.", "She wouldn't like to be a nurse.", 'Would she like to be a nurse?'],
-    ["They'd like to be singers.", "They wouldn't like to be singers.", 'Would they like to be singers?']], ['mint', 'rose', 'sky']),
+  three('🗂 Ba kiểu câu', [('✅', 'Muốn', 'mint', "I[['d like to]] be a pilot.", 'Em muốn làm phi công.'), ('❌', 'Không muốn', 'rose', "I [[wouldn't like to]] be a pilot.", 'Em không muốn làm phi công.'), ('❓', 'Hỏi', 'sky', '[[Would]] you [[like to]] be a pilot?', 'Bạn có muốn làm phi công không?')]),
   pattern("1️⃣ Muốn: I'd like to be…", 'peach', [("subject + 'd", 'sub', "I'd, she'd"), ('like to', 'aux', 'muốn'), ('be', 'v', 'là / làm'), ('job', 'obj', 'a doctor')], [
     ("{I'd|sub} {like to|aux} {be|v} {a doctor.|obj}", 'Em muốn làm bác sĩ.', V('doctor')), ("{She'd|sub} {like to|aux} {be|v} {a singer.|obj}", 'Cô ấy muốn làm ca sĩ.', V('singer')),
     ("{We'd|sub} {like to|aux} {be|v} {pilots.|obj}", 'Chúng mình muốn làm phi công.', V('pilot'))]),
   pattern("2️⃣ Không muốn: I wouldn't like to be…", 'rose', [('subject', 'sub', 'I, he, they'), ("wouldn't like to", 'pink', 'không muốn'), ('be', 'v', 'là / làm'), ('job', 'obj', 'a dentist')], [
-    ("{I|sub} {wouldn't like to|pink} {be|v} {a dentist.|obj}", 'Em không muốn làm nha sĩ.', V('dentist')), ("{He|sub} {wouldn't like to|pink} {be|v} {a waiter.|obj}", 'Cậu ấy không muốn làm bồi bàn.', V('waiter')),
-    ("{They|sub} {wouldn't like to|pink} {be|v} {mechanics.|obj}", 'Họ không muốn làm thợ máy.', V('mechanic'))]),
+    ("{I|sub} {wouldn't like to|pink} {be|v} {a dentist.|obj}", 'Em không muốn làm nha sĩ.', X('dentist')), ("{He|sub} {wouldn't like to|pink} {be|v} {a waiter.|obj}", 'Cậu ấy không muốn làm bồi bàn.', X('waiter')),
+    ("{They|sub} {wouldn't like to|pink} {be|v} {mechanics.|obj}", 'Họ không muốn làm thợ máy.', X('mechanic'))]),
   dialog('❓ Hỏi và trả lời', '{Would|aux} {you|sub} {like to be|pink} {a …?|obj}', [
     ('{Would|aux} {you|sub} {like to be|pink} {a nurse?|obj}', "{Yes,|sub} {I would.|aux}", 'Bạn có muốn làm y tá không?', 'Có, mình muốn.', V('nurse')),
     ('{Would|aux} {you|sub} {like to be|pink} {a cook?|obj}', "{No,|sub} {I wouldn't.|pink}", 'Bạn có muốn làm đầu bếp không?', 'Không, mình không muốn.', V('cook'))]),
@@ -142,7 +139,7 @@ L3 = lesson('l3', 'mint', '📍', 'Where questions', 'Hỏi nơi làm việc: Wh
   Dlg(['Mum: Where do pilots work?'], 'Ben: They work ___ planes.', 'on', 'in', 'under', 'on planes.', V('pilot')),
   Dlg(['Girl: Where does your uncle work?'], 'Boy: He ___ at a school. He is a teacher.', 'works', 'work', 'working', 'He → works.', V('teacher')),
   Clz(['My mum is a nurse.', 'She helps sick people.'], 'She works ___ a hospital.', 'in', 'on', 'under', 'in a hospital.', V('nurse')),
-  Clz(['Look at the man in white.', 'He makes food for us.'], 'He works in a ___.', 'kitchen', 'hospital', 'plane', 'Đầu bếp làm việc trong bếp.', V('cook')),
+  Clz(['Look at the man in white.', 'He makes food for us.'], 'He works ___ a kitchen.', 'in', 'on', 'under', 'Làm việc trong bếp → in a kitchen.', V('cook')),
   Clz(['My dad flies in the sky.', 'He is a pilot.'], 'Where does he ___?', 'work', 'works', 'working', 'Sau does dùng work.', V('pilot'))])
 
 L4 = lesson('l4', 'rose', '🤔', 'could (possibility)', 'Có thể là… (đoán)',
@@ -202,9 +199,9 @@ A = [
    {'id': 'like', 'label': '🙂 like (thích)', 'c': 'sky'}, {'id': 'love', 'label': '❤️ love (rất thích)', 'c': 'peach'}, {'id': 'hate', 'label': '😖 hate (ghét)', 'c': 'rose'}], [
    {'label': 'I like singing.', 'g': 'like'}, {'label': 'She loves cooking.', 'g': 'love'}, {'label': 'He hates waiting.', 'g': 'hate'},
    {'label': 'They like playing football.', 'g': 'like'}, {'label': 'My dad loves swimming.', 'g': 'love'}, {'label': 'Amy hates washing up.', 'g': 'hate'}]),
- slot('a3', '⚡ Luyện nhanh: nghề làm việc ở đâu?', 'Nhìn hình rồi kéo từ vào chỗ trống: nơi làm việc của mỗi nghề.', [
-   Sl('s1', 'A doctor works in a ___.', 'hospital', V('doctor')), Sl('s2', 'A cook works in a ___.', 'kitchen', V('cook')), Sl('s3', 'A teacher works at a ___.', 'school', V('teacher')),
-   Sl('s4', 'A pilot works on a ___.', 'plane', V('pilot')), Sl('s5', 'A singer works on a ___.', 'stage', V('singer'))], ['hospital', 'kitchen', 'school', 'plane', 'stage']),
+ slot('a3', '⚡ Luyện nhanh: in, at hay on?', 'Nhìn hình rồi kéo in / at / on vào chỗ trống: nơi làm việc của mỗi nghề.', [
+   Sl('s1', 'A doctor works ___ a hospital.', 'in', V('doctor')), Sl('s2', 'A cook works ___ a kitchen.', 'in', V('cook')), Sl('s3', 'A teacher works ___ a school.', 'at', V('teacher')),
+   Sl('s4', 'A pilot works ___ a plane.', 'on', V('pilot')), Sl('s5', 'A singer works ___ a stage.', 'on', V('singer'))], ['in', 'in', 'at', 'on', 'on']),
  bucket('a4', '⚡ Luyện nhanh: chắc chắn hay đoán?', 'Kéo mỗi câu vào ô đúng: biết chắc (is) hoặc đoán (could be).', [
    {'id': 'sure', 'label': '✅ Chắc chắn (is)', 'c': 'mint'}, {'id': 'guess', 'label': '🤔 Đoán (could be)', 'c': 'rose'}], [
    {'label': 'He is a doctor.', 'g': 'sure'}, {'label': 'She could be a nurse.', 'g': 'guess'}, {'label': 'They are pilots.', 'g': 'sure'},

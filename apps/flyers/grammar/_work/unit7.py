@@ -13,7 +13,7 @@ L1 = lesson('l1', 'sky', '🔮', 'will vs going to', 'Tương lai: will hay goin
     CI('am / is / are going to + verb', 'pink', 'dự định có từ trước', 'Em **đã định từ trước** hoặc **thấy dấu hiệu**.', [('I am going to visit the castle on Sunday.', 'Chủ nhật mình định thăm lâu đài.'), ('Look at the clouds! It is going to rain.', 'Nhìn mây kìa! Trời sắp mưa.')], EM('🎯'))]),
   pattern('1️⃣ will + verb', 'sky', [('subject', 'sub', 'I, he, they'), ('will', 'aux', 'sẽ'), ('verb', 'v', 'go, see'), ('thing / place', 'obj', 'the king')], [
     ('{I|sub} {will|aux} {see|v} {the king tomorrow.|obj}', 'Ngày mai mình sẽ gặp nhà vua.', V('king')), ('{She|sub} {will|aux} {wear|v} {a crown.|obj}', 'Cô ấy sẽ đội vương miện.', V('crown')),
-    ("{They|sub} {won't|pink} {go|v} {through the gate.|obj}", 'Họ sẽ không đi qua cổng.', V('gate'))]),
+    ("{They|sub} {won't|pink} {go|v} {through the gate.|obj}", 'Họ sẽ không đi qua cổng.', X('gate'))]),
   pattern('2️⃣ am / is / are going to + verb', 'mint', [('subject', 'sub', 'I, she, we'), ('am / is / are going to', 'aux', 'định'), ('verb', 'v', 'visit, wear'), ('thing / place', 'obj', 'the castle')], [
     ('{I|sub} {am going to|aux} {wear|v} {a costume.|obj}', 'Mình định mặc trang phục.', V('costume')), ('{She|sub} {is going to|aux} {meet|v} {the queen.|obj}', 'Cô ấy định gặp nữ hoàng.', V('queen')),
     ('{We|sub} {are going to|aux} {climb|v} {the steps.|obj}', 'Chúng mình định leo cầu thang.', V('steps'))]),
@@ -58,15 +58,13 @@ L2 = lesson('l2', 'peach', '⏪', 'Past simple', 'Quá khứ đơn: việc đã 
     ('⏪', '**Past simple** = việc **đã xảy ra** và **đã xong** (yesterday, last week, in 2020…).', 'I visited the castle yesterday.', 'Hôm qua mình đã thăm lâu đài.'),
     ('✏️', 'Động từ có quy tắc: thêm **-ed**.', 'We walked to the gate.', 'Chúng mình đã đi bộ đến cổng.'),
     ('🔀', 'Động từ bất quy tắc: **đổi dạng** (go → went, see → saw).', 'She saw the queen.', 'Cô ấy đã gặp nữ hoàng.')]),
-  table('🗂 Ba kiểu câu', ['✅ Có', '❌ Không', '❓ Hỏi'], [
-    ['I visited the castle.', "I didn't visit the castle.", 'Did you visit the castle?'], ['She saw the king.', "She didn't see the king.", 'Did she see the king?'],
-    ['They went through the gate.', "They didn't go through the gate.", 'Did they go through the gate?']], ['mint', 'rose', 'sky']),
-  pattern('1️⃣ Câu có: verb-ed / dạng quá khứ', 'peach', [('subject', 'sub', 'I, she, they'), ('verb (quá khứ)', 'v', 'visited, saw, went'), ('thing / place', 'obj', 'the castle'), ('time', 'pre', 'yesterday')], [
+  three('🗂 Ba kiểu câu', [('✅', 'Câu có', 'mint', 'I [[visited]] the castle.', 'Mình đã thăm lâu đài.'), ('❌', 'Câu không', 'rose', "I [[didn't visit]] the castle.", 'Mình đã không thăm lâu đài.'), ('❓', 'Câu hỏi', 'sky', '[[Did]] you [[visit]] the castle?', 'Bạn đã thăm lâu đài chưa?')]),
+  pattern('1️⃣ Câu có: verb-ed / dạng quá khứ', 'peach', [('subject', 'sub', 'I, she, they'), ('past verb', 'v', 'quá khứ: visited, saw, went'), ('thing / place', 'obj', 'the castle'), ('time', 'pre', 'yesterday')], [
     ('{I|sub} {visited|v} {the castle|obj} {yesterday.|pre}', 'Hôm qua mình đã thăm lâu đài.', V('gate')), ('{She|sub} {saw|v} {the queen|obj} {last week.|pre}', 'Tuần trước cô ấy đã gặp nữ hoàng.', V('queen')),
     ('{They|sub} {went|v} {through the gate|obj} {this morning.|pre}', 'Sáng nay họ đã đi qua cổng.', V('gate'))]),
-  pattern("2️⃣ Câu phủ định: didn't + verb", 'rose', [('subject', 'sub', 'I, he'), ("didn't", 'pink', 'đã không'), ('verb (nguyên mẫu)', 'v', 'visit, see'), ('thing', 'obj', 'the king')], [
-    ("{I|sub} {didn't|pink} {see|v} {the king.|obj}", 'Mình đã không gặp nhà vua.', V('king')), ("{He|sub} {didn't|pink} {wear|v} {a costume.|obj}", 'Cậu ấy đã không mặc trang phục.', V('costume')),
-    ("{We|sub} {didn't|pink} {climb|v} {the steps.|obj}", 'Chúng mình đã không leo cầu thang.', V('steps'))]),
+  pattern("2️⃣ Câu phủ định: didn't + verb", 'rose', [('subject', 'sub', 'I, he'), ("didn't", 'pink', 'đã không'), ('base verb', 'v', 'nguyên mẫu: visit, see'), ('thing', 'obj', 'the king')], [
+    ("{I|sub} {didn't|pink} {see|v} {the king.|obj}", 'Mình đã không gặp nhà vua.', X('king')), ("{He|sub} {didn't|pink} {wear|v} {a costume.|obj}", 'Cậu ấy đã không mặc trang phục.', X('costume')),
+    ("{We|sub} {didn't|pink} {climb|v} {the steps.|obj}", 'Chúng mình đã không leo cầu thang.', X('steps'))]),
   dialog('❓ Hỏi và trả lời', '{Did|aux} {you|sub} {+ verb|v} {…?|obj}', [
     ('{Did|aux} {you|sub} {see|v} {the queen?|obj}', '{Yes,|sub} {I did.|aux}', 'Bạn đã gặp nữ hoàng chưa?', 'Rồi, mình đã gặp.', V('queen')),
     ('{Did|aux} {she|sub} {wear|v} {a crown?|obj}', "{No,|sub} {she didn't.|pink}", 'Cô ấy đã đội vương miện à?', 'Không, cô ấy không đội.', V('crown'))]),

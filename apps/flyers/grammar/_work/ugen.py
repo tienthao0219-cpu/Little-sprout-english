@@ -12,7 +12,11 @@ def S(s):
         else: out.append({'t': m.group(1), 'c': m.group(2) or None})
     return out
 
-def V(w, n=1, no=False, q=False): return {'t': 'vocab', 'w': w, 'n': n, 'no': no, 'q': q}
+def V(w, n=1, no=False, q=False, x=False):
+    d = {'t': 'vocab', 'w': w, 'n': n, 'no': no, 'q': q}
+    if x: d['x'] = True          # dấu ✘ nhỏ dưới hình (ví dụ câu phủ định)
+    return d
+def X(w): return V(w, x=True)
 def SG(v): return {'t': 'sign', 'v': v}
 def EM(e): return {'t': 'emo', 'e': e}
 
@@ -27,6 +31,14 @@ def table(title, head, rows, tint, big0=False, note=None):
     if note: d['note'] = note
     return d
 def grid(title, items): return {'k': 'grid', 'title': title, 'items': [dict(en=en, vi=vi, tip=tip, **({'art': i} if isinstance(i, dict) else {'icon': i})) for i, en, vi, tip in items]}
+def three(title, items):
+    """3 thẻ giới thiệu gọn: items = (icon, tiêu đề, màu, câu có [[từ nhấn]], nghĩa)"""
+    return {'k': 'three', 'title': title, 'items': [dict(icon=i, head=h_, c=c, s=sn, vi=vi) for i, h_, c, sn, vi in items]}
+def join(title, items, note=None):
+    """ghép 2 câu đơn thành 1 câu: item = ((a_en,a_vi),(b_en,b_vi), từ nối, câu ghép có [[từ nối]], nghĩa, art?)"""
+    d = {'k': 'join', 'title': title, 'items': [dict(a=a, b=b, conn=cn, out=o, vi=vi, **({'art': art[0]} if art else {})) for a, b, cn, o, vi, *art in items]}
+    if note: d['note'] = note
+    return d
 def compare(title, items): return {'k': 'compare', 'title': title, 'items': items}
 def CI(en, c, vi, use, exs, art=None):
     d = {'en': en, 'c': c, 'vi': vi, 'use': use, 'exs': exs}
@@ -77,32 +89,46 @@ def lesson(id, color, icon, title, vi, say, blocks, practice, extras):
     assert nm == 10, (title, 'mcq', nm)
     return {'id': id, 'color': color, 'icon': icon, 'title': title, 'vi': vi, 'say': say, 'blocks': blocks, 'practice': practice, 'extras': extras}
 
+def tag_level(q):
+    """mức độ + kiểu bài cho kho trộn (giống nhau cho practice và quiz)"""
+    c = json.loads(json.dumps(q))
+    if c['t'] == 'mcq': c['fmt'] = c.get('fmt') or ('look' if c.get('art') else 'read'); c['lv'] = c.get('lv') or ('e' if c.get('art') else 'm')
+    else: c['fmt'] = c.get('fmt') or 'fill'; c['lv'] = c.get('lv') or ('m' if (c.get('art') or c.get('hint')) else 'h')
+    return c
+
+def make_quiz(lessons):
+    """Luyện tập tổng hợp của unit: 10 trắc nghiệm + 10 điền từ, xoay vòng đều các điểm ngữ pháp, xen kẽ hai dạng."""
+    parts = {}
+    for kind in ('mcq', 'fill'):
+        pools = [[q for q in l['practice'] if q['t'] == kind] for l in lessons]
+        out, used, r = [], set(), 0
+        while len(out) < 10 and r < 40:
+            for k, pool in enumerate(pools):
+                if len(out) >= 10 or not pool: continue
+                for t in range(len(pool)):
+                    q = pool[(r * 3 + k + t) % len(pool)]
+                    if q['q'] not in used:
+                        used.add(q['q']); c = tag_level(q); c['topic'] = lessons[k]['title']; out.append(c); break
+            r += 1
+        parts[kind] = out
+    quiz = []
+    for m, f in zip(parts['mcq'], parts['fill']): quiz += [m, f]
+    return quiz
+
 def build_unit(no, id_, title, vi, emoji, vocabDir, lessons, acts_):
+    import fixes
     u = {'id': id_, 'no': no, 'title': title, 'vi': vi, 'emoji': emoji, 'vocabDir': vocabDir,
          'src': 'Get Ready for Flyers · Unit %d (chủ điểm ngữ pháp do cô Thảo cung cấp)' % no, 'lessons': [], 'acts': {a['id']: a for a in acts_}}
-    mix = []; quiz_pool = []
+    mix = []
     for l in lessons:
         extras = l.pop('extras')
-        pr = l['practice']
-        for q in pr:                       # mức độ cho kho trộn
-            c = json.loads(json.dumps(q)); c['topic'] = l['title']
-            if c['t'] == 'mcq': c['fmt'] = c.get('fmt') or ('look' if c.get('art') else 'read'); c['lv'] = c.get('lv') or ('e' if c.get('art') else 'm')
-            else: c['fmt'] = c.get('fmt') or 'fill'; c['lv'] = c.get('lv') or ('m' if (c.get('art') or c.get('hint')) else 'h')
-            mix.append(c)
+        fixes.apply(no, l['practice']); fixes.apply(no, extras)
+        for q in l['practice']:
+            c = tag_level(q); c['topic'] = l['title']; mix.append(c)
         for q in extras:
             c = json.loads(json.dumps(q)); c['topic'] = l['title']; mix.append(c)
-        quiz_pool.append([q for q in pr if q['t'] == 'mcq'])
         u['lessons'].append(l)
-    # bài tập tổng hợp: 10 câu trắc nghiệm xoay vòng các bài, mức 3 dễ / 4 vừa / 3 khó
-    chosen = []; i = 0
-    while len(chosen) < 10:
-        for pool in quiz_pool:
-            if len(chosen) < 10 and i < len(pool): chosen.append(pool[i])
-        i += 1
-    lvs = ['e', 'e', 'e', 'm', 'm', 'm', 'm', 'h', 'h', 'h']
-    u['quiz'] = []
-    for q, lv in zip(chosen, lvs):
-        c = json.loads(json.dumps(q)); c['lv'] = lv; c['fmt'] = 'look' if c.get('art') else 'read'; c['topic'] = 'Bài tập tổng hợp'; u['quiz'].append(c)
+    u['quiz'] = make_quiz(u['lessons'])
     u['mix'] = mix
     validate(u)
     return u

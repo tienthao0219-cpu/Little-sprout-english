@@ -106,15 +106,13 @@ L3 = lesson('l3', 'sky', '🎯', 'going to', 'Dự định sắp làm',
     ('🎯', '**am / is / are going to + verb** = **dự định** sắp làm.', 'I am going to visit the zoo.', 'Mình định đi thăm sở thú.'),
     ('☁️', 'Cũng dùng khi **thấy dấu hiệu** điều sắp xảy ra.', 'Look! It is going to rain.', 'Nhìn kìa! Trời sắp mưa.'),
     ('❓', 'Hỏi: **Are you going to …?** Trả lời: **Yes, I am. / No, I\'m not.**', 'Are you going to swim?', 'Em định bơi à?')]),
-  table('🗂 Ba kiểu câu', ['✅ Có', '❌ Không', '❓ Hỏi'], [
-    ['I am going to swim.', "I'm not going to swim.", 'Are you going to swim?'], ['She is going to sing.', "She isn't going to sing.", 'Is she going to sing?'],
-    ['They are going to play.', "They aren't going to play.", 'Are they going to play?']], ['mint', 'rose', 'sky']),
+  three('🗂 Ba kiểu câu', [('✅', 'Câu có', 'mint', 'I [[am going to]] swim.', 'Mình định bơi.'), ('❌', 'Câu không', 'rose', "I [[am not going to]] swim.", 'Mình không định bơi.'), ('❓', 'Câu hỏi', 'sky', '[[Are]] you [[going to]] swim?', 'Em định bơi à?')]),
   pattern('1️⃣ Dự định: am / is / are going to + verb', 'mint', [('subject', 'sub', 'ai'), ('am / is / are going to', 'aux', 'định'), ('verb', 'v', 'visit, watch'), ('thing / place', 'obj', 'the zoo')], [
     ('{I|sub} {am going to|aux} {visit|v} {the zoo.|obj}', 'Mình định thăm sở thú.', V('zoo')), ('{She|sub} {is going to|aux} {watch|v} {a cartoon.|obj}', 'Cô ấy định xem phim hoạt hình.', V('cartoon')),
     ('{We|sub} {are going to|aux} {see|v} {the dinosaurs.|obj}', 'Chúng mình định xem khủng long.', V('dinosaurs'))]),
   pattern("2️⃣ Không định: not going to", 'rose', [('subject', 'sub', 'ai'), ("'m not / isn't / aren't going to", 'pink', 'không định'), ('verb', 'v', 'go, sing'), ('place', 'obj', 'to the gym')], [
-    ("{I|sub} {am not going to|pink} {go|v} {to the gym.|obj}", 'Mình không định đi phòng tập.', V('gym')), ("{He|sub} {isn't going to|pink} {sing|v} {on the stage.|obj}", 'Cậu ấy không định hát trên sân khấu.', V('stage')),
-    ("{We|sub} {aren't going to|pink} {visit|v} {the circus.|obj}", 'Chúng mình không định đi xem xiếc.', V('circus'))]),
+    ("{I|sub} {am not going to|pink} {go|v} {to the gym.|obj}", 'Mình không định đi phòng tập.', X('gym')), ("{He|sub} {isn't going to|pink} {sing|v} {on the stage.|obj}", 'Cậu ấy không định hát trên sân khấu.', X('stage')),
+    ("{We|sub} {aren't going to|pink} {visit|v} {the circus.|obj}", 'Chúng mình không định đi xem xiếc.', X('circus'))]),
   dialog('❓ Hỏi và trả lời', '{Are|aux} {you|sub} {going to|pink} {+ verb?|v}', [
     ('{Are|aux} {you|sub} {going to|pink} {visit|v} {the zoo?|obj}', '{Yes,|sub} {I am.|aux}', 'Em định thăm sở thú à?', 'Vâng, em định đi.', V('zoo')),
     ('{Is|aux} {he|sub} {going to|pink} {sing|v} {on the stage?|obj}', "{No,|sub} {he isn't.|pink}", 'Cậu ấy định hát trên sân khấu à?', 'Không, cậu ấy không định hát.', V('stage'))]),
@@ -149,51 +147,54 @@ L3 = lesson('l3', 'sky', '🎯', 'going to', 'Dự định sắp làm',
   Clz(['Look at the sky!', 'The clouds are dark.'], 'It is ___ to rain.', 'going', 'go', 'goes', 'It is going to rain.'),
   Clz(['My friends are at the stage.', 'They want to sing.'], 'They are going ___ sing.', 'to', 'for', 'at', 'going to + verb.', V('stage'))])
 
-L4 = lesson('l4', 'rose', '🧩', 'Relative clauses (which, that, where)', 'Nối câu: which / that / where',
- 'Nối câu cho gọn: dùng which, that hoặc where nhé!',
- [when('🧭 Khi nào dùng?', [
-    ('🧩', '**which / that** thay cho **vật** (đồ vật, con vật).', 'A screen is something which shows films.', 'Màn hình là thứ chiếu phim.'),
-    ('📍', '**where** thay cho **nơi chốn**.', 'A zoo is a place where we see animals.', 'Sở thú là nơi chúng ta xem thú.'),
-    ('🔗', 'Nối **hai câu** thành **một câu** cho gọn.', 'A cinema is a place where we watch films.', 'Rạp chiếu phim là nơi chúng ta xem phim.')]),
-  compare('🗂 So sánh which / that và where', [
-    CI('which / that', 'aux', 'cho vật', 'Nói về **đồ vật, con vật**: "cái mà …".', [('A screen is something which shows films.', 'Màn hình là thứ chiếu phim.'), ('Dinosaurs are animals that are extinct.', 'Khủng long là loài đã tuyệt chủng.')], V('screen')),
-    CI('where', 'pink', 'cho nơi chốn', 'Nói về **nơi chốn**: "nơi mà …". **Không** thêm "there" ở cuối.', [('A zoo is a place where we see animals.', 'Sở thú là nơi chúng ta xem thú.'), ('A gym is a place where we do sports.', 'Phòng tập là nơi chúng ta chơi thể thao.')], V('zoo'))]),
-  pattern('1️⃣ Nơi chốn: a place where …', 'rose', [('noun', 'sub', 'a zoo'), ('is a place', 'aux', 'là nơi'), ('where', 'pink', 'nơi mà'), ('clause', 'v', 'we see animals')], [
-    ('{A zoo|sub} {is a place|aux} {where|pink} {we see animals.|v}', 'Sở thú là nơi chúng ta xem thú.', V('zoo')), ('{A cinema|sub} {is a place|aux} {where|pink} {we watch films.|v}', 'Rạp chiếu phim là nơi chúng ta xem phim.', V('cinema')),
-    ('{A gym|sub} {is a place|aux} {where|pink} {we do sports.|v}', 'Phòng tập là nơi chúng ta chơi thể thao.', V('gym'))]),
-  pattern('2️⃣ Vật: something which / that …', 'sky', [('noun', 'sub', 'a screen'), ('is something', 'aux', 'là thứ'), ('which / that', 'pink', 'mà'), ('clause', 'v', 'shows films')], [
-    ('{A screen|sub} {is something|aux} {which|pink} {shows films.|v}', 'Màn hình là thứ chiếu phim.', V('screen')), ('{Dinosaurs|sub} {are animals|aux} {that|pink} {are extinct.|v}', 'Khủng long là loài đã tuyệt chủng.', V('dinosaurs')),
-    ('{A swing|sub} {is something|aux} {that|pink} {children sit on.|v}', 'Xích đu là thứ trẻ em ngồi lên.', V('swing'))]),
-  tip('💡 Mẹo: **nơi chốn → where** · **vật → which / that**.'),
-  mistakes([('A zoo is a place which we see animals.', 'A zoo is a place where we see animals.', 'Nơi chốn → where.'), ('A screen is something where shows films.', 'A screen is something which shows films.', 'Vật → which / that.'),
-            ('A cinema is a place where we watch films there.', 'A cinema is a place where we watch films.', 'Bỏ "there" vì where đã thay cho nơi chốn.')]),
-  acts('a4')],
- [Mc('A zoo is a place ___ we see animals.', 'where', 'which', 'who', 'Nơi chốn → where.', V('zoo')),
-  Mc('A cinema is a place ___ we watch films.', 'where', 'which', 'what', 'Nơi chốn → where.', V('cinema')),
+L4 = lesson('l4', 'rose', '🧩', 'Relative clauses (who, which, that, where)', 'Nối 2 câu đơn: who / which / that / where',
+ 'Nối 2 câu đơn thành 1 câu gọn! Trước hết, em nhận dạng: đó là người, nơi chốn hay đồ vật?',
+ [three('🔎 Bước 1 · Nhận dạng: người, nơi chốn hay đồ vật?', [
+    ('👤', 'Người (person)', 'sky', 'an [[actor]] · a [[clown]] · a [[teacher]]', 'Nối bằng who'),
+    ('📍', 'Nơi chốn (place)', 'mint', 'a [[zoo]] · a [[cinema]] · a [[gym]]', 'Nối bằng where'),
+    ('🧸', 'Đồ vật, con vật (thing)', 'rose', 'a [[screen]] · a [[swing]] · [[dinosaurs]]', 'Nối bằng which / that')]),
+  acts('a4a', 'a4b'),
+  pattern('✨ Bước 4 · Công thức: câu 1 + who / where / which + câu 2', 'rose', [('sentence 1', 'sub', 'câu đơn 1: An actor is a person'), ('who / where / which', 'pink', 'từ nối'), ('sentence 2', 'v', 'câu đơn 2, bỏ He / It / there: acts in films')], [
+    ('{An actor is a person|sub} {who|pink} {acts in films.|v}', 'Diễn viên là người diễn trong phim.', V('actor')),
+    ('{A zoo is a place|sub} {where|pink} {we see animals.|v}', 'Sở thú là nơi chúng ta xem thú.', V('zoo')),
+    ('{A screen is something|sub} {which|pink} {shows films.|v}', 'Màn hình là thứ chiếu phim.', V('screen'))]),
+  join('🧩 Bước 5 · Từ 2 câu đơn → 1 câu ghép', [
+    (('An actor is a person.', 'Diễn viên là một người.'), ('He acts in films.', 'Anh ấy diễn trong phim.'), 'who', 'An actor is a person [[who]] acts in films.', 'Diễn viên là người diễn trong phim.', V('actor')),
+    (('A clown is a person.', 'Chú hề là một người.'), ('He makes us laugh.', 'Chú ấy làm chúng ta cười.'), 'who', 'A clown is a person [[who]] makes us laugh.', 'Chú hề là người làm chúng ta cười.', V('clown')),
+    (('A zoo is a place.', 'Sở thú là một nơi.'), ('We see animals there.', 'Chúng ta xem thú ở đó.'), 'where', 'A zoo is a place [[where]] we see animals.', 'Sở thú là nơi chúng ta xem thú. (bỏ there)', V('zoo')),
+    (('A cinema is a place.', 'Rạp chiếu phim là một nơi.'), ('We watch films there.', 'Chúng ta xem phim ở đó.'), 'where', 'A cinema is a place [[where]] we watch films.', 'Rạp chiếu phim là nơi chúng ta xem phim. (bỏ there)', V('cinema')),
+    (('A screen is something.', 'Màn hình là một thứ.'), ('It shows films.', 'Nó chiếu phim.'), 'which / that', 'A screen is something [[which]] shows films.', 'Màn hình là thứ chiếu phim. (bỏ It)', V('screen')),
+    (('Dinosaurs are animals.', 'Khủng long là động vật.'), ('They are extinct.', 'Chúng đã tuyệt chủng.'), 'which / that', 'Dinosaurs are animals [[that]] are extinct.', 'Khủng long là loài đã tuyệt chủng. (bỏ They)', V('dinosaurs'))],
+    note='Cách làm: giữ câu 1 → thêm từ nối → bỏ He / It / They / there ở câu 2 → viết nối tiếp.'),
+  tip('💡 Mẹo: **người → who** · **nơi chốn → where** · **vật, con vật → which / that**. Ở câu 2 bỏ **He / It / They** và bỏ **there**.'),
+  mistakes([('A zoo is a place which we see animals.', 'A zoo is a place where we see animals.', 'Nơi chốn → where.'), ('An actor is a person where acts in films.', 'An actor is a person who acts in films.', 'Người → who.'),
+            ('A screen is something who shows films.', 'A screen is something which shows films.', 'Vật → which / that.'), ('A cinema is a place where we watch films there.', 'A cinema is a place where we watch films.', 'Bỏ "there" vì where đã thay cho nơi chốn.')])],
+ [Mc('A zoo is a place ___ we see animals.', 'where', 'who', 'which', 'Nơi chốn → where.', V('zoo')),
+  Mc('An actor is a person ___ acts in films.', 'who', 'where', 'which', 'Người → who.', V('actor')),
   Mc('A screen is something ___ shows films.', 'which', 'where', 'who', 'Vật → which.', V('screen')),
+  Mc('A clown is a person ___ makes us laugh.', 'who', 'where', 'which', 'Người → who.', V('clown')),
   Mc('Dinosaurs are animals ___ are extinct.', 'that', 'where', 'who', 'Con vật → that.', V('dinosaurs')),
   Mc('A gym is a place ___ people do sports.', 'where', 'who', 'what', 'Nơi chốn → where.', V('gym')),
-  Mc('The theatre is the place ___ we see a play.', 'where', 'which', 'whose', 'Nơi chốn → where.', V('theatre')),
+  Mc('A circus is a place. We see clowns there. → A circus is a place ___ we see clowns.', 'where', 'who', 'which', 'Nối 2 câu: nơi chốn → where (bỏ there).', V('circus'), None, 'h', 'cloze', ['A circus is a place.', 'We see clowns there.']),
   Mc('A swing is something ___ children sit on.', 'that', 'where', 'who', 'Vật → that.', V('swing')),
-  Mc('This is the book ___ I like.', 'which', 'where', 'who', 'Vật → which.'),
-  Mc('The ocean is a place ___ many fish live.', 'where', 'which', 'what', 'Nơi chốn → where.', V('ocean')),
+  Mc('A girl is a person. She sings well. → I know a girl ___ sings well.', 'who', 'where', 'which', 'Nối 2 câu: người → who (bỏ She).', None, None, 'h', 'cloze', ['I know a girl.', 'She sings well.']),
   Mc('A cartoon is a film ___ has funny drawings.', 'which', 'where', 'who', 'Vật → which.', V('cartoon')),
-  Fl('A zoo is a place ___ we see animals.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('zoo'), '(nơi mà)'),
+  Fl('A zoo is a place ___ we see animals.', 'where', ['where', 'who', 'which'], 'Nơi chốn → where.', V('zoo'), '(nơi mà)'),
+  Fl('An actor is a person ___ acts in films.', ['who', 'that'], ['who', 'where', 'which'], 'Người → who.', V('actor'), '(người mà)'),
   Fl('A screen is something ___ shows pictures.', ['which', 'that'], ['which', 'where', 'who'], 'Vật → which / that.', V('screen')),
-  Fl('A circus is a place ___ we see clowns.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('circus')),
+  Fl('A circus is a place ___ we see clowns.', 'where', ['where', 'who', 'which'], 'Nơi chốn → where.', V('circus')),
+  Fl('A clown is a person ___ makes us laugh.', ['who', 'that'], ['who', 'where', 'which'], 'Người → who.', V('clown')),
   Fl('Dinosaurs are animals ___ are extinct.', ['that', 'which'], ['that', 'where', 'who'], 'Con vật → that / which.', V('dinosaurs')),
-  Fl('A gym is a place ___ we do exercise.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('gym')),
-  Fl('A stage is a place ___ actors stand.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('stage')),
+  Fl('A gym is a place ___ we do exercise.', 'where', ['where', 'who', 'which'], 'Nơi chốn → where.', V('gym')),
+  Fl('A stage is a place ___ actors stand.', 'where', ['where', 'who', 'which'], 'Nơi chốn → where.', V('stage')),
   Fl('A cartoon is a film ___ is funny.', ['which', 'that'], ['which', 'where', 'who'], 'Vật → which / that.', V('cartoon')),
-  Fl('The cinema is a place ___ we watch films.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('cinema')),
-  Fl('A swing is something ___ children play on.', ['that', 'which'], ['that', 'where', 'who'], 'Vật → that / which.', V('swing')),
-  Fl('A theatre is a place ___ we see plays.', 'where', ['where', 'which', 'who'], 'Nơi chốn → where.', V('theatre'))],
+  Fl('She is a girl ___ plays the piano.', ['who', 'that'], ['who', 'where', 'which'], 'Người → who.')],
  [Dlg(['Girl: What is a zoo?'], 'Boy: It is a place ___ we see animals.', 'where', 'which', 'who', 'Nơi chốn → where.', V('zoo')),
   Dlg(['Teacher: What is a screen?'], 'Pupil: It is something ___ shows films.', 'which', 'where', 'who', 'Vật → which.', V('screen')),
-  Dlg(['Tom: Where can we see clowns?'], 'Amy: At a circus. It is a place ___ clowns work.', 'where', 'which', 'who', 'Nơi chốn → where.', V('clown')),
+  Dlg(['Tom: Who is an actor?'], 'Amy: An actor is a person ___ acts in films.', 'who', 'where', 'which', 'Người → who.', V('actor')),
   Clz(['We are in the town.', 'There is a big building.'], 'It is a cinema, a place ___ we watch films.', 'where', 'which', 'who', 'Nơi chốn → where.', V('cinema')),
   Clz(['Look at the picture.', 'These animals lived long ago.'], 'Dinosaurs are animals ___ are extinct.', 'that', 'where', 'who', 'Con vật → that.', V('dinosaurs')),
-  Clz(['I have a new phone.', 'It has a big screen.'], 'A screen is something ___ shows pictures.', 'which', 'where', 'who', 'Vật → which.', V('screen'))])
+  Clz(['At the circus, there is a funny man.', 'He wears a big red nose.'], 'He is a clown, a person ___ makes us laugh.', 'who', 'where', 'which', 'Người → who.', V('clown'))])
 
 L5 = lesson('l5', 'mint', '🎁', 'Verbs with indirect objects', 'Động từ đi với 2 tân ngữ: give, show, send…',
  'Cho ai cái gì? Cùng xem cách nói nhé!',
@@ -253,9 +254,14 @@ A = [
  slot('a3', '⚡ Luyện nhanh: chọn am / is / are cho đúng', 'Nhìn hình rồi kéo am, is hoặc are vào chỗ trống.', [
    Sl('s1', 'I ___ going to swim.', 'am', EM('🏊')), Sl('s2', 'She ___ going to sing.', 'is', V('stage')), Sl('s3', 'They ___ going to play.', 'are', V('swing')),
    Sl('s4', 'He ___ going to visit the zoo.', 'is', V('zoo')), Sl('s5', 'We ___ going to watch a film.', 'are', V('cinema'))], ['am', 'is', 'are', 'is', 'are']),
- bucket('a4', '⚡ Luyện nhanh: where hay which / that?', 'Kéo mỗi từ vào ô đúng: nơi chốn → where · vật → which / that.', [
-   {'id': 'where', 'label': '📍 where (nơi chốn)', 'c': 'mint'}, {'id': 'which', 'label': '🧩 which / that (vật)', 'c': 'rose'}], [
-   {'label': 'a zoo', 'g': 'where'}, {'label': 'a screen', 'g': 'which'}, {'label': 'a circus', 'g': 'where'}, {'label': 'a swing', 'g': 'which'}, {'label': 'a gym', 'g': 'where'}, {'label': 'a cartoon', 'g': 'which'}]),
+ bucket('a4a', '⚡ Bước 2 · Sort: người, nơi chốn hay đồ vật?', 'Kéo (hoặc chạm) mỗi hình vào ô đúng: người → who · nơi chốn → where · vật → which / that.', [
+   {'id': 'who', 'label': '👤 Người → who', 'c': 'sky'}, {'id': 'where', 'label': '📍 Nơi chốn → where', 'c': 'mint'}, {'id': 'which', 'label': '🧸 Vật → which / that', 'c': 'rose'}], [
+   {'label': 'an actor', 'g': 'who', 'art': V('actor')}, {'label': 'a clown', 'g': 'who', 'art': V('clown')}, {'label': 'a teacher', 'g': 'who', 'emo': '👩‍🏫'},
+   {'label': 'a zoo', 'g': 'where', 'art': V('zoo')}, {'label': 'a cinema', 'g': 'where', 'art': V('cinema')}, {'label': 'a gym', 'g': 'where', 'art': V('gym')},
+   {'label': 'a screen', 'g': 'which', 'art': V('screen')}, {'label': 'a swing', 'g': 'which', 'art': V('swing')}, {'label': 'dinosaurs', 'g': 'which', 'art': V('dinosaurs')}]),
+ slot('a4b', '⚡ Bước 3 · Luyện nhanh: chọn who / where / which', 'Nhìn hình rồi kéo từ nối vào chỗ trống.', [
+   Sl('s1', 'An actor is a person ___ acts in films.', 'who', V('actor')), Sl('s2', 'A zoo is a place ___ we see animals.', 'where', V('zoo')), Sl('s3', 'A screen is something ___ shows films.', 'which', V('screen')),
+   Sl('s4', 'A clown is a person ___ makes us laugh.', 'who', V('clown')), Sl('s5', 'A gym is a place ___ we do sports.', 'where', V('gym'))], ['who', 'where', 'which', 'who', 'where']),
  bucket('a5', '⚡ Luyện nhanh: to hay for?', 'Kéo mỗi động từ vào ô đúng: dùng to hay dùng for trước người nhận.', [
    {'id': 'to', 'label': '➡️ dùng to', 'c': 'sky'}, {'id': 'for', 'label': '🎁 dùng for', 'c': 'peach'}], [
    {'label': 'give', 'g': 'to'}, {'label': 'buy', 'g': 'for'}, {'label': 'show', 'g': 'to'}, {'label': 'make', 'g': 'for'}, {'label': 'send', 'g': 'to'}, {'label': 'tell', 'g': 'to'}])]
