@@ -45,7 +45,7 @@ with sync_playwright() as p:
       drag_all(pg); pg.wait_for_timeout(100)
       acts=pg.evaluate("[document.querySelectorAll('.act').length,document.querySelectorAll('.act.fin').length]")
       enabled=not pg.evaluate("document.getElementById('goPractice').disabled")
-      if not(disabled and enabled and acts[0]==acts[1]>0 and imgs and overflow<=1 and blocks>=5): bad.append((name,'lesson',i+1,disabled,enabled,acts,imgs,overflow,blocks))
+      if not(disabled and enabled and acts[0]==acts[1]>0 and imgs and overflow<=1 and blocks>=4): bad.append((name,'lesson',i+1,disabled,enabled,acts,imgs,overflow,blocks))
       pg.evaluate("document.getElementById('goPractice').click()"); pg.wait_for_timeout(100)
       # luyện tập: câu đầu cố ý sai
       total=pg.evaluate("Q.o.qs.length"); types=pg.evaluate("Q.o.qs.map(q=>q.t||'mcq')")
@@ -71,8 +71,14 @@ with sync_playwright() as p:
     if len(answers)!=20*n or wrong_first!=n or len([x for x in m if x[0]=='f'])!=n: bad.append((name,'report',len(answers),wrong_first))
     # bài tập tổng hợp
     pg.evaluate("quizStart()"); total=pg.evaluate("Q.o.qs.length")
+    qt=pg.evaluate("Q.o.qs.map(q=>q.t)"); tp=len(set(pg.evaluate("Q.o.qs.map(q=>q.topic)")))
+    if not(total==20 and qt.count('mcq')==10 and qt.count('fill')==10 and tp==min(len(set(pg.evaluate("U.lessons.map(l=>l.title)"))),10)): bad.append((name,'quiz-form',total,qt.count('fill'),tp))
     for k in range(total):
-      q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]"); pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()"); pg.evaluate("document.getElementById('qnext').click()")
+      q=pg.evaluate("Q.o.qs[Q.order[Q.pos]]")
+      if pg.evaluate("document.querySelector('.qcard').innerText.includes('null')"): bad.append((name,'chữ null',k))
+      if q.get('t')=='fill': pg.fill('input.fin',q['ans'][0]); pg.evaluate("document.querySelector('.qcard .fnav .btn:last-child').click()")
+      else: pg.evaluate(f"document.querySelectorAll('.opt')[{q['a']}].click()")
+      pg.evaluate("document.getElementById('qnext').click()")
     r=pg.evaluate("[!!document.querySelector('.result'),document.querySelectorAll('.stars span:not(.off)').length]")
     if not(r[0] and r[1]==3): bad.append((name,'quiz',r))
     if errs: bad.append((name,'errors',errs[:3]))

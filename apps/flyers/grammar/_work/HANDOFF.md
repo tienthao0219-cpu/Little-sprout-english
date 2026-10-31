@@ -45,6 +45,18 @@ Cô Thảo: học sinh tiểu học trung bình/yếu → ĐƠN GIẢN, hình d�
 - Unit 7 chỉ có 2 bài nên thêm câu Cloze (mức Khó) để trộn Khó 30 câu vẫn đủ ≥50% mức Khó (gtest kiểm tra).
 - Còn lại: Unit 8–12 (soạn tiếp bằng `unit8.py`… theo khuôn unit5.py).
 
+## Cập nhật v9 (góp ý của cô sau Unit 5–7)
+- Nhãn công thức: "Ai" / "subject" → **who** + "(ai)" nhỏ bên dưới (enfix.py).
+- Hội thoại: thêm nhãn "✨ Example (ví dụ)" giữa bong bóng công thức và ví dụ đầu để không bị lặp ý.
+- Ảnh từ vựng vừa khít nội dung, KHÔNG cắt: `build.py` tính hộp bao (PIL, kênh alpha) → `ALL.bbox`; template dựng `.vfit` (cắt vùng trong suốt bằng `--r` tỉ lệ + `--vh` chiều cao từng ngữ cảnh). Ảnh không có trong bbox thì vẫn hiện bình thường.
+- Dấu ✘ nhỏ dưới hình ví dụ PHỦ ĐỊNH: `V(w, x=True)` / `X(w)`; `enfix.fix_unit` tự gắn `x` cho vocab art trong pattern có tiêu đề phủ định (not, n't, Don't, Không…), nên Unit 1–4 cũng có.
+- Khối mới: `three(title,[(icon, tiêu đề, màu, câu có [[nhấn]], nghĩa)])` = "Ba kiểu câu" gọn, xinh (thay bảng ✅❌❓); `join(title,[(câu1,câu2,từ nối,câu ghép có [[nối]],nghĩa,art?)])` = ghép 2 câu đơn thành 1 câu.
+- Unit 5 bài relative clauses làm lại theo thứ tự: nhận dạng (người/nơi/vật) → sort → luyện nhanh chọn who/where/which → công thức → ghép 2 câu đơn. Có thêm **who** (cô yêu cầu, không có trong danh sách chủ điểm gốc).
+- CÂU ĐIỀN TỪ PHẢI HỎI NGỮ PHÁP, không hỏi từ vựng và chỉ có MỘT đáp án hợp lý: `fixes.py` (bảng sửa theo (unit, câu cũ), áp trong `build_unit`; Unit 1 chạy `python3 regen_u1.py`). Chỗ trống = trợ động từ / giới từ / từ nối / dạng động từ (động từ gốc đặt trong ngoặc `(verb)`). Khi soạn unit mới phải theo quy tắc này.
+- Bug "null" dưới câu điền từ (do `card.append(null)`) đã sửa; gtest kiểm tra không còn chữ null.
+- Bài **Luyện tập tổng hợp** của mỗi unit = 20 câu (10 trắc nghiệm + 10 điền từ) xoay vòng đều các điểm ngữ pháp (`ugen.make_quiz`), mỗi câu có nhãn điểm ngữ pháp; màn kết quả gợi ý điểm cần xem lại.
+- Bài trộn nhiều unit (`pickMix`): ưu tiên câu chưa làm / lâu chưa gặp (localStorage `lse_gram_flyers_seen:<tên>`), xen đều các điểm ngữ pháp, 60% đúng mức + 40% mức liền kề, xáo đáp án mỗi lần.
+
 ## Cấu trúc
 - `_work/data.json`: `units[]` – mỗi unit: `lessons[]` (title, vi, color, icon, say, formula, cards[{art,en,vi}], tip) + `quiz[]` (10 câu 3 đáp án: q có `___`, opts, a, why, art?).
 - `_work/template.html` + `python3 _work/build.py` → `apps/flyers/grammar/grammar-<unit>.html` (mỗi unit một file; build cũng cập nhật `updated` trong data/manifest.json).
