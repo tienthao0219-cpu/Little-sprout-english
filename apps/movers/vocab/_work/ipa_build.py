@@ -31,7 +31,6 @@ def nuclei(p): return len(re.findall('[' + ''.join(VOW - set('ː')) + ']+', p))
 def conv(p):
     p = p.replace('ɹ', 'r').replace('ɐ', 'ə').replace('ɛ', 'e').replace('ɡ', 'g')
     p = move_stress(p).replace('iə', 'ɪə')
-    p = re.sub('ʃən$', 'ʃn', p)
     return p
 D = {}
 for l in open(DICT, encoding='utf8'):
@@ -39,12 +38,12 @@ for l in open(DICT, encoding='utf8'):
 # Bảng tay: từ thiếu trong nguồn và cụm từ (kiểu Cambridge). Cô sẽ duyệt cả bảng.
 IPA_FIX = {
  'email': 'ˈiːmeɪl', 'CD': 'ˌsiː ˈdiː', 'DVD': 'ˌdiː viː ˈdiː', 'Monday': 'ˈmʌndeɪ', 'Tuesday': 'ˈtjuːzdeɪ', 'Wednesday': 'ˈwenzdeɪ',
- 'Thursday': 'ˈθɜːzdeɪ', 'Friday': 'ˈfraɪdeɪ', 'Saturday': 'ˈsætədeɪ', 'Sunday': 'ˈsʌndeɪ', 'café': 'ˈkæfeɪ', 'present': 'ˈpreznt',
+ 'Thursday': 'ˈθɜːzdeɪ', 'Friday': 'ˈfraɪdeɪ', 'Saturday': 'ˈsætədeɪ', 'Sunday': 'ˈsʌndeɪ', 'café': 'ˈkæfeɪ', 'present': 'ˈprezənt',
  'app': 'æp', 'shower': 'ˈʃaʊə', 'downstairs': 'ˌdaʊnˈsteəz', 'upstairs': 'ˌʌpˈsteəz', 'inside': 'ˌɪnˈsaɪd', 'outside': 'ˌaʊtˈsaɪd',
  'wind': 'wɪnd', 'windy': 'ˈwɪndi', 'river': 'ˈrɪvə', 'stomach-ache': 'ˈstʌməkeɪk', 'earache': 'ˈɪəreɪk', 'headache': 'ˈhedeɪk',
  'toothache': 'ˈtuːθeɪk', 'T-shirt': 'ˈtiː ʃɜːt', 'e-book': 'ˈiː bʊk', 'roller skate': 'ˈrəʊlə skeɪt', 'map of the world': 'ˈmæp əv ðə ˈwɜːld',
  'film / movie': 'fɪlm / ˈmuːvi', 'lift / elevator': 'lɪft / ˈelɪveɪtə', '(swimming) pool': '(ˈswɪmɪŋ) puːl', 'foot / feet': 'fʊt / fiːt',
- 'teeth / tooth': 'tiːθ / tuːθ', 'leaf / leaves': 'liːf / liːvz', 'bus station': 'ˈbʌs ˌsteɪʃn', 'bus stop': 'ˈbʌs stɒp', 'car park': 'ˈkɑː pɑːk',
+ 'teeth / tooth': 'tiːθ / tuːθ', 'leaf / leaves': 'liːf / liːvz', 'bus station': 'ˈbʌs ˌsteɪʃən', 'bus stop': 'ˈbʌs stɒp', 'car park': 'ˈkɑː pɑːk',
  'shopping centre': 'ˈʃɒpɪŋ ˌsentə', 'sports centre': 'ˈspɔːts ˌsentə', 'comic book': 'ˈkɒmɪk bʊk', 'ice skates': 'ˈaɪs skeɪts',
  'train driver': 'ˈtreɪn ˌdraɪvə', 'curly hair': 'ˌkɜːli ˈheə', 'fair hair': 'ˌfeə ˈheə', 'straight hair': 'ˌstreɪt ˈheə', 'grown-up': 'ˈgrəʊn ʌp',
  'swimsuit': 'ˈswɪmsuːt', 'basketball': 'ˈbɑːskɪtbɔːl', 'milkshake': 'ˈmɪlkʃeɪk', 'lemonade': 'ˌlemə ˈneɪd', 'broccoli': 'ˈbrɒkəli',

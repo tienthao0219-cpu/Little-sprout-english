@@ -69,7 +69,7 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 | homework | /ˈhəʊmwɜːk/ | bài về nhà |
 | internet | /ˈɪntəˌnet/ | mạng internet |
 | website | /ˈwebsaɪt/ | trang web |
-| film / movie | /fɪlm / ˈmuːvi/ | phim |
+| film / movie | /fɪlm/ / /ˈmuːvi/ | phim |
 | Monday | /ˈmʌndeɪ/ | Thứ Hai |
 | Tuesday | /ˈtjuːzdeɪ/ | Thứ Ba |
 | Wednesday | /ˈwenzdeɪ/ | Thứ Tư |
@@ -82,7 +82,7 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 
 | Từ | IPA | Nghĩa |
 |---|---|---|
-| bus station | /ˈbʌs ˌsteɪʃn/ | bến xe buýt |
+| bus station | /ˈbʌs ˌsteɪʃən/ | bến xe buýt |
 | café | /ˈkæfeɪ/ | quán cà phê |
 | car park | /ˈkɑː ˌpɑːk/ | bãi đỗ xe |
 | circus | /ˈsɜːkəs/ | rạp xiếc |
@@ -94,10 +94,10 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 | shopping centre | /ˈʃɒpɪŋ ˌsentə/ | trung tâm thương mại |
 | sports centre | /ˈspɔːts ˌsentə/ | trung tâm thể thao |
 | square | /skweə/ | quảng trường |
-| station | /ˈsteɪʃn/ | nhà ga |
+| station | /ˈsteɪʃən/ | nhà ga |
 | supermarket | /ˈsuːpəˌmɑːkɪt/ | siêu thị |
 | town | /taʊn/ | thị trấn |
-| present | /ˈpreznt/ | quà tặng |
+| present | /ˈprezənt/ | quà tặng |
 | app | /æp/ | ứng dụng |
 
 ## Unit 4 · At home
@@ -129,7 +129,7 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 | beach | /biːtʃ/ | bãi biển |
 | bus stop | /ˈbʌs ˌstɒp/ | trạm xe buýt |
 | cinema | /ˈsɪnəmə/ | rạp chiếu phim |
-| lift / elevator | /lɪft / ˈelɪveɪtə/ | thang máy |
+| lift / elevator | /lɪft/ / /ˈelɪveɪtə/ | thang máy |
 | (swimming) pool | /(ˌswɪmɪŋ) ˈpuːl/ | hồ bơi |
 | sea | /siː/ | biển |
 | message | /ˈmesɪdʒ/ | tin nhắn |
@@ -256,14 +256,14 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 | arm | /ɑːm/ | cánh tay |
 | back | /bæk/ | lưng |
 | ear | /ɪə/ | tai |
-| foot / feet | /fʊt / fiːt/ | bàn chân |
+| foot / feet | /fʊt/ / /fiːt/ | bàn chân |
 | hand | /hænd/ | bàn tay |
 | head | /hed/ | đầu |
 | leg | /leg/ | chân |
 | neck | /nek/ | cổ |
 | shoulder | /ˈʃəʊldə/ | vai |
 | stomach | /ˈstʌmək/ | bụng |
-| teeth / tooth | /tiːθ / tuːθ/ | răng |
+| teeth / tooth | /tiːθ/ / /tuːθ/ | răng |
 | cold | /kəʊld/ | cảm lạnh |
 | cough | /kɒf/ | ho |
 | earache | /ˈɪəreɪk/ | đau tai |
@@ -281,7 +281,7 @@ Nguồn: từ điển IPA mở (open-dict-data/ipa-dict, bản Anh-Anh) chuyển
 | forest | /ˈfɒrɪst/ | rừng |
 | grass | /grɑːs/ | cỏ |
 | lake | /leɪk/ | hồ nước |
-| leaf / leaves | /liːf / liːvz/ | lá cây |
+| leaf / leaves | /liːf/ / /liːvz/ | lá cây |
 | mountain | /ˈmaʊntɪn/ | ngọn núi |
 | river | /ˈrɪvə/ | dòng sông |
 | road | /rəʊd/ | con đường |

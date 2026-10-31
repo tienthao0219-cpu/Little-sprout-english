@@ -154,7 +154,7 @@ function render(){
   view=cards.filter(c=>topicSel==='all'||c.topic===topicSel);
   view.forEach((c,i)=>{
     const t=document.createElement('article'); t.className='card'+(heard.has(c.id)?' heard':''); t.tabIndex=0; t.setAttribute('role','button'); t.setAttribute('aria-label',c.word+' — '+c.vi);
-    t.innerHTML=`<span class="num">${i+1}</span><div class="pic">${c.image?`<img src="${c.image}" alt="${esc(c.word)}">`:(c.badge?`<div class="badge">${esc(c.badge)}</div>`:'')}</div><div class="word${c.word.length>10?' long':''}">${esc(c.word)}${c.tag?`<span class="tag">${esc(c.tag)}</span>`:''}</div>${c.ipa?`<div class="ipa">/${esc(c.ipa)}/</div>`:''}<div class="vi">${esc(c.vi)}</div><button class="sound" type="button" aria-label="Nghe ${esc(c.word)}">🔊 Nghe</button>`;
+    t.innerHTML=`<span class="num">${i+1}</span><div class="pic">${c.image?`<img src="${c.image}" alt="${esc(c.word)}">`:(c.badge?`<div class="badge">${esc(c.badge)}</div>`:'')}</div><div class="word${c.word.length>10?' long':''}">${esc(c.word)}${c.tag?`<span class="tag">${esc(c.tag)}</span>`:''}</div>${c.ipa?`<div class="ipa">${c.ipa.split(" / ").map(x=>"/"+esc(x)+"/").join(" / ")}</div>`:''}<div class="vi">${esc(c.vi)}</div><button class="sound" type="button" aria-label="Nghe ${esc(c.word)}">🔊 Nghe</button>`;
     const go=e=>{ if(e && e.target.closest && e.target.closest('.sound')) e.stopPropagation(); t.classList.add('reveal'); play(i,t); };
     t.addEventListener('click',go);
     t.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(e); } });
