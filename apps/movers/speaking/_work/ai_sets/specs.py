@@ -201,11 +201,11 @@ SPECS = [
   p4=[("What sport do you like?", "Football.", "Do you like football?"), ("When do you play?", "On Saturdays.", "Do you play on Saturdays?"), ("Who is your favourite player?", "Messi.", "Is Messi your favourite player?"), ("Tell me about your favourite sport.", "It's fast. I play with my friends.", "Is it fast? Who do you play with?")]),
  dict(id='ai-t11', theme='The bedroom', topic='your evenings',
   p1=dict(scene="a child's bedroom in the evening: a single bed with a blue blanket and two pillows, a desk with a lamp and a laptop, a window with a moon outside, a bookshelf with five books, a teddy bear on the bed, a clock showing 8 o'clock, a rug with stripes",
-   example=("there is a moon", "there is a star"),
+   example=("the clock says eight", "the clock says nine", "the clock shows 9 o'clock instead of 8"),
    diffs=[("the blanket is green instead of blue", "the blanket is blue", "the blanket is green", "blanket", "blue blanket", "green blanket"),
-          ("the clock shows 9 o'clock instead of 8", "the clock says eight", "the clock says nine", "clock", "8 o'clock", "9 o'clock"),
           ("the teddy bear is on the floor instead of the bed", "the teddy bear is on the bed", "the teddy bear is on the floor", "teddy", "on the bed", "on the floor"),
           ("three books on the bookshelf instead of five", "there are five books", "there are three books", "books", "five books", "three books")]),
+  note="Ảnh B của bộ này có 4 điểm khác (mặt trăng/ngôi sao ở hai tranh giống nhau) nên lấy cái đồng hồ làm ví dụ.",
   story=dict(title="Grandma's story", names="Lily (girl), Grandma", panels=[
    "Lily, a girl in pyjamas, brushes her teeth in a bathroom. Grandma stands in the doorway.",
    "Lily is in bed. Grandma sits on a chair next to the bed holding a big book.",

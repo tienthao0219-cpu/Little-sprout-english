@@ -8642,17 +8642,12 @@
    "title": "Grandma's story",
    "teacher": {
     "p1": {
-     "example": "Here there is a moon, but here there is a star.",
+     "example": "Here the clock says eight, but here the clock says nine.",
      "items": [
       {
        "ex": "In my picture the blanket is blue.",
        "cand": "(In your picture) the blanket is green.",
        "back": "Here the blanket is blue, but here …"
-      },
-      {
-       "ex": "In my picture the clock says eight.",
-       "cand": "(In your picture) the clock says nine.",
-       "back": "Here the clock says eight, but here …"
       },
       {
        "ex": "In my picture the teddy bear is on the bed.",
@@ -8767,7 +8762,62 @@
     ],
     "draft": true
    },
-   "dif": [],
+   "dif": [
+    {
+     "b": [
+      0.03,
+      0.09,
+      0.22,
+      0.17
+     ],
+     "w": [
+      "clock at 8 o'clock",
+      "clock at 9 o'clock"
+     ]
+    },
+    {
+     "b": [
+      0.0,
+      0.46,
+      0.7,
+      0.29
+     ],
+     "w": [
+      "blue blanket",
+      "green blanket"
+     ]
+    },
+    {
+     "b": [
+      0.15,
+      0.38,
+      0.21,
+      0.15
+     ],
+     "w": [
+      "teddy on the bed",
+      "teddy on the floor"
+     ],
+     "b2": [
+      0.05,
+      0.63,
+      0.23,
+      0.17
+     ]
+    },
+    {
+     "b": [
+      0.3,
+      0.22,
+      0.17,
+      0.1
+     ],
+     "w": [
+      "five books",
+      "three books"
+     ]
+    }
+   ],
    "story": [
     "Lily is brushing her teeth. Grandma is in the doorway.",
     "Lily is in bed. Grandma is reading a big book.",
@@ -8775,8 +8825,34 @@
     "Lily is sleeping. Grandma is turning off the lamp."
    ],
    "hints": {},
+   "note": "Ảnh B của bộ này có 4 điểm khác (mặt trăng/ngôi sao ở hai tranh giống nhau) nên lấy cái đồng hồ làm ví dụ.",
    "origin": "claude",
-   "hidden": true
+   "p2box": [
+    [
+     0.0083,
+     0.0083,
+     0.5572,
+     0.4691
+    ],
+    [
+     0.5038,
+     0.0083,
+     0.4879,
+     0.4681
+    ],
+    [
+     0.009,
+     0.4829,
+     0.4865,
+     0.506
+    ],
+    [
+     0.5038,
+     0.4829,
+     0.4872,
+     0.506
+    ]
+   ]
   },
   {
    "id": "ai-t12",
