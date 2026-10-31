@@ -27,6 +27,8 @@ TOPIC_VI = {
  'Body': 'Cơ thể', 'Health': 'Sức khỏe', 'Countryside': 'Miền quê', 'Vehicles & things': 'Phương tiện & đồ vật'}
 EMOJI = {1: '🌳', 2: '📅', 3: '🏙️', 4: '🏠', 5: '🧳', 6: '📖', 7: '👨‍👩‍👧', 8: '🍽️', 9: '🐘', 10: '⛅', 11: '🩺', 12: '🚜'}
 
+IPA = json.load(open(HERE + 'ipa_movers.json', encoding='utf8')) if os.path.exists(HERE + 'ipa_movers.json') else {}
+
 def slug(w): return re.sub(r'[^a-z0-9]+', '-', w.lower()).strip('-')
 def esc(s): return s.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
@@ -58,6 +60,7 @@ def main():
                 img = next((x['img'] for x in json.load(open(sfile, encoding='utf8'))['items'] if x['w'] == sw), None)
         if desc is not None and not isinstance(desc, tuple) and w not in got: print('CHƯA CÓ ẢNH:', w)
         d = {'w': w, 'vi': vi, 'topic': topic}
+        if IPA.get(w): d['ipa'] = IPA[w]
         if img: d['img'] = img
         items.append(d)
     # 3) wordset json + index
@@ -71,6 +74,7 @@ def main():
     import base64
     for it in items:
         c = {'id': slug(it['w']), 'word': it['w'], 'vi': it['vi'], 'topic': it['topic'], 'topicVi': TOPIC_VI.get(it['topic'], it['topic'])}
+        if it.get('ipa'): c['ipa'] = it['ipa']
         if '(' in it['w']: c['say'] = re.sub(r'[()]', '', it['w'])
         if '/' in it['w']: c['say'] = re.sub(r'\s*/\s*', ' or ', it['w'])
         if not it.get('img') and it['topic'] == 'Days of the week': c['badge'] = it['w'][:3]
@@ -96,7 +100,7 @@ def main():
     mp = ROOT + 'data/manifest.json'; m = json.load(open(mp, encoding='utf8')); now = datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%dT%H:%M:%S.000Z')
     cur = next(c for c in m['curricula'] if c['id'] == 'movers')
     if uid not in [u['id'] for u in cur['units']]: cur['units'].append({'id': uid, 'name': 'UNIT %d' % n})
-    cur['units'] = [u for u in cur['units'] if u['id'] == 'speaking'] + sorted([u for u in cur['units'] if u['id'] != 'speaking'], key=lambda u: int(re.search(r'\d+', u['name']).group()))
+    cur['units'] = [u for u in cur['units'] if u['id'] == 'speaking'] + sorted([u for u in cur['units'] if u['id'] != 'speaking'], key=lambda u: int((re.search(r'\d+', u['name']) or re.search(r'(\d+)', '999')).group()))
     aid = fname[:-5]; file = 'apps/movers/%s/%s' % (uid, fname)
     app = next((a for a in m['apps'] if a['id'] == aid), None)
     if not app:

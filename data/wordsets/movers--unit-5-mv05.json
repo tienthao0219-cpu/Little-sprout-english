@@ -8,78 +8,91 @@
    "w": "balcony",
    "vi": "ban công",
    "topic": "Holiday places",
+   "ipa": "ˈbælkəni",
    "img": "img/movers--unit-5-mv05/balcony.webp"
   },
   {
    "w": "beach",
    "vi": "bãi biển",
    "topic": "Holiday places",
+   "ipa": "biːtʃ",
    "img": "img/movers--unit-5-mv05/beach.webp"
   },
   {
    "w": "bus stop",
    "vi": "trạm xe buýt",
    "topic": "Holiday places",
+   "ipa": "ˈbʌs ˌstɒp",
    "img": "img/movers--unit-5-mv05/bus-stop.webp"
   },
   {
    "w": "cinema",
    "vi": "rạp chiếu phim",
    "topic": "Holiday places",
+   "ipa": "ˈsɪnəmə",
    "img": "img/movers--unit-5-mv05/cinema.webp"
   },
   {
    "w": "lift / elevator",
    "vi": "thang máy",
    "topic": "Holiday places",
+   "ipa": "lɪft / ˈelɪveɪtə",
    "img": "img/movers--unit-5-mv05/lift-elevator.webp"
   },
   {
    "w": "(swimming) pool",
    "vi": "hồ bơi",
    "topic": "Holiday places",
+   "ipa": "(ˌswɪmɪŋ) ˈpuːl",
    "img": "img/movers--unit-5-mv05/swimming-pool.webp"
   },
   {
    "w": "sea",
    "vi": "biển",
    "topic": "Holiday places",
+   "ipa": "siː",
    "img": "img/movers--unit-5-mv05/sea.webp"
   },
   {
    "w": "message",
    "vi": "tin nhắn",
    "topic": "Things & concepts",
+   "ipa": "ˈmesɪdʒ",
    "img": "img/movers--unit-5-mv05/message.webp"
   },
   {
    "w": "milkshake",
    "vi": "sữa khuấy",
    "topic": "Things & concepts",
+   "ipa": "ˈmɪlkʃeɪk",
    "img": "img/movers--unit-5-mv05/milkshake.webp"
   },
   {
    "w": "seat",
    "vi": "chỗ ngồi",
    "topic": "Things & concepts",
+   "ipa": "siːt",
    "img": "img/movers--unit-5-mv05/seat.webp"
   },
   {
    "w": "stairs",
    "vi": "cầu thang",
    "topic": "Things & concepts",
+   "ipa": "steəz",
    "img": "img/movers--unit-5-mv05/stairs.webp"
   },
   {
    "w": "ticket",
    "vi": "vé",
    "topic": "Things & concepts",
+   "ipa": "ˈtɪkɪt",
    "img": "img/movers--unit-5-mv05/ticket.webp"
   },
   {
    "w": "wave",
    "vi": "sóng biển",
    "topic": "Things & concepts",
+   "ipa": "weɪv",
    "img": "img/movers--unit-5-mv05/wave.webp"
   }
  ]

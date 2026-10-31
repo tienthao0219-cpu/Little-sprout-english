@@ -8,114 +8,133 @@
    "w": "arm",
    "vi": "cánh tay",
    "topic": "Body",
+   "ipa": "ɑːm",
    "img": "img/movers--unit-11-mv11/arm.webp"
   },
   {
    "w": "back",
    "vi": "lưng",
    "topic": "Body",
+   "ipa": "bæk",
    "img": "img/movers--unit-11-mv11/back.webp"
   },
   {
    "w": "ear",
    "vi": "tai",
    "topic": "Body",
+   "ipa": "ɪə",
    "img": "img/movers--unit-11-mv11/ear.webp"
   },
   {
    "w": "foot / feet",
    "vi": "bàn chân",
    "topic": "Body",
+   "ipa": "fʊt / fiːt",
    "img": "img/movers--unit-11-mv11/foot-feet.webp"
   },
   {
    "w": "hand",
    "vi": "bàn tay",
    "topic": "Body",
+   "ipa": "hænd",
    "img": "img/movers--unit-11-mv11/hand.webp"
   },
   {
    "w": "head",
    "vi": "đầu",
    "topic": "Body",
+   "ipa": "hed",
    "img": "img/movers--unit-11-mv11/head.webp"
   },
   {
    "w": "leg",
    "vi": "chân",
    "topic": "Body",
+   "ipa": "leg",
    "img": "img/movers--unit-11-mv11/leg.webp"
   },
   {
    "w": "neck",
    "vi": "cổ",
    "topic": "Body",
+   "ipa": "nek",
    "img": "img/movers--unit-11-mv11/neck.webp"
   },
   {
    "w": "shoulder",
    "vi": "vai",
    "topic": "Body",
+   "ipa": "ˈʃəʊldə",
    "img": "img/movers--unit-11-mv11/shoulder.webp"
   },
   {
    "w": "stomach",
    "vi": "bụng",
    "topic": "Body",
+   "ipa": "ˈstʌmək",
    "img": "img/movers--unit-11-mv11/stomach.webp"
   },
   {
    "w": "teeth / tooth",
    "vi": "răng",
    "topic": "Body",
+   "ipa": "tiːθ / tuːθ",
    "img": "img/movers--unit-11-mv11/teeth-tooth.webp"
   },
   {
    "w": "cold",
    "vi": "cảm lạnh",
    "topic": "Health",
+   "ipa": "kəʊld",
    "img": "img/movers--unit-11-mv11/cold.webp"
   },
   {
    "w": "cough",
    "vi": "ho",
    "topic": "Health",
+   "ipa": "kɒf",
    "img": "img/movers--unit-11-mv11/cough.webp"
   },
   {
    "w": "earache",
    "vi": "đau tai",
    "topic": "Health",
+   "ipa": "ˈɪəreɪk",
    "img": "img/movers--unit-11-mv11/earache.webp"
   },
   {
    "w": "headache",
    "vi": "đau đầu",
    "topic": "Health",
+   "ipa": "ˈhedeɪk",
    "img": "img/movers--unit-11-mv11/headache.webp"
   },
   {
    "w": "stomach-ache",
    "vi": "đau bụng",
    "topic": "Health",
+   "ipa": "ˈstʌməkeɪk",
    "img": "img/movers--unit-11-mv11/stomach-ache.webp"
   },
   {
    "w": "temperature",
    "vi": "sốt",
    "topic": "Health",
+   "ipa": "ˈtemprətʃə",
    "img": "img/movers--unit-11-mv11/temperature.webp"
   },
   {
    "w": "toothache",
    "vi": "đau răng",
    "topic": "Health",
+   "ipa": "ˈtuːθeɪk",
    "img": "img/movers--unit-11-mv11/toothache.webp"
   },
   {
    "w": "ice skates",
    "vi": "giày trượt băng",
    "topic": "Things",
+   "ipa": "ˈaɪs ˌskeɪts",
    "img": "img/movers--unit-11-mv11/ice-skates.webp"
   }
  ]

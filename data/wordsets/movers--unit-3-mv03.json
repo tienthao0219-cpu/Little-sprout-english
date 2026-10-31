@@ -8,102 +8,119 @@
    "w": "bus station",
    "vi": "bến xe buýt",
    "topic": "Places",
+   "ipa": "ˈbʌs ˌsteɪʃn",
    "img": "img/movers--unit-3-mv03/bus-station.webp"
   },
   {
    "w": "café",
    "vi": "quán cà phê",
    "topic": "Places",
+   "ipa": "ˈkæfeɪ",
    "img": "img/movers--unit-3-mv03/caf.webp"
   },
   {
    "w": "car park",
    "vi": "bãi đỗ xe",
    "topic": "Places",
+   "ipa": "ˈkɑː ˌpɑːk",
    "img": "img/movers--unit-3-mv03/car-park.webp"
   },
   {
    "w": "circus",
    "vi": "rạp xiếc",
    "topic": "Places",
+   "ipa": "ˈsɜːkəs",
    "img": "img/movers--unit-3-mv03/circus.webp"
   },
   {
    "w": "funfair",
    "vi": "công viên giải trí",
    "topic": "Places",
+   "ipa": "ˈfʌnfeə",
    "img": "img/movers--unit-3-mv03/funfair.webp"
   },
   {
    "w": "hospital",
    "vi": "bệnh viện",
    "topic": "Places",
+   "ipa": "ˈhɒspɪtəl",
    "img": "img/movers--unit-3-mv03/hospital.webp"
   },
   {
    "w": "library",
    "vi": "thư viện",
    "topic": "Places",
+   "ipa": "ˈlaɪbrəri",
    "img": "img/movers--unit-3-mv03/library.webp"
   },
   {
    "w": "market",
    "vi": "chợ",
    "topic": "Places",
+   "ipa": "ˈmɑːkɪt",
    "img": "img/movers--unit-3-mv03/market.webp"
   },
   {
    "w": "playground",
    "vi": "sân chơi",
    "topic": "Places",
+   "ipa": "ˈpleɪgraʊnd",
    "img": "img/movers--unit-3-mv03/playground.webp"
   },
   {
    "w": "shopping centre",
    "vi": "trung tâm thương mại",
    "topic": "Places",
+   "ipa": "ˈʃɒpɪŋ ˌsentə",
    "img": "img/movers--unit-3-mv03/shopping-centre.webp"
   },
   {
    "w": "sports centre",
    "vi": "trung tâm thể thao",
    "topic": "Places",
+   "ipa": "ˈspɔːts ˌsentə",
    "img": "img/movers--unit-3-mv03/sports-centre.webp"
   },
   {
    "w": "square",
    "vi": "quảng trường",
    "topic": "Places",
+   "ipa": "skweə",
    "img": "img/movers--unit-3-mv03/square.webp"
   },
   {
    "w": "station",
    "vi": "nhà ga",
    "topic": "Places",
+   "ipa": "ˈsteɪʃn",
    "img": "img/movers--unit-3-mv03/station.webp"
   },
   {
    "w": "supermarket",
    "vi": "siêu thị",
    "topic": "Places",
+   "ipa": "ˈsuːpəˌmɑːkɪt",
    "img": "img/movers--unit-3-mv03/supermarket.webp"
   },
   {
    "w": "town",
    "vi": "thị trấn",
    "topic": "Places",
+   "ipa": "taʊn",
    "img": "img/movers--unit-3-mv03/town.webp"
   },
   {
    "w": "present",
    "vi": "quà tặng",
    "topic": "Things",
+   "ipa": "ˈpreznt",
    "img": "img/movers--unit-3-mv03/present.webp"
   },
   {
    "w": "app",
    "vi": "ứng dụng",
    "topic": "Things",
+   "ipa": "æp",
    "img": "img/movers--unit-3-mv03/app.webp"
   }
  ]

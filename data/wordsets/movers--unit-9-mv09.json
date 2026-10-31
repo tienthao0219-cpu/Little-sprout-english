@@ -8,120 +8,140 @@
    "w": "bat",
    "vi": "con dơi",
    "topic": "Animals",
+   "ipa": "bæt",
    "img": "img/movers--unit-9-mv09/bat.webp"
   },
   {
    "w": "bear",
    "vi": "con gấu",
    "topic": "Animals",
+   "ipa": "beə",
    "img": "img/movers--unit-9-mv09/bear.webp"
   },
   {
    "w": "dolphin",
    "vi": "cá heo",
    "topic": "Animals",
+   "ipa": "ˈdɒlfɪn",
    "img": "img/movers--unit-9-mv09/dolphin.webp"
   },
   {
    "w": "fly",
    "vi": "con ruồi",
    "topic": "Animals",
+   "ipa": "flaɪ",
    "img": "img/movers--unit-9-mv09/fly.webp"
   },
   {
    "w": "kangaroo",
    "vi": "chuột túi",
    "topic": "Animals",
+   "ipa": "ˌkæŋgəˈruː",
    "img": "img/movers--unit-9-mv09/kangaroo.webp"
   },
   {
    "w": "kitten",
    "vi": "mèo con",
    "topic": "Animals",
+   "ipa": "ˈkɪtən",
    "img": "img/movers--unit-9-mv09/kitten.webp"
   },
   {
    "w": "lion",
    "vi": "sư tử",
    "topic": "Animals",
+   "ipa": "ˈlaɪən",
    "img": "img/movers--unit-9-mv09/lion.webp"
   },
   {
    "w": "panda",
    "vi": "gấu trúc",
    "topic": "Animals",
+   "ipa": "ˈpændə",
    "img": "img/movers--unit-9-mv09/panda.webp"
   },
   {
    "w": "parrot",
    "vi": "con vẹt",
    "topic": "Animals",
+   "ipa": "ˈpærət",
    "img": "img/movers--unit-9-mv09/parrot.webp"
   },
   {
    "w": "penguin",
    "vi": "chim cánh cụt",
    "topic": "Animals",
+   "ipa": "ˈpeŋgwɪn",
    "img": "img/movers--unit-9-mv09/penguin.webp"
   },
   {
    "w": "pet",
    "vi": "thú cưng",
    "topic": "Animals",
+   "ipa": "pet",
    "img": "img/movers--unit-9-mv09/pet.webp"
   },
   {
    "w": "puppy",
    "vi": "chó con",
    "topic": "Animals",
+   "ipa": "ˈpʌpi",
    "img": "img/movers--unit-9-mv09/puppy.webp"
   },
   {
    "w": "rabbit",
    "vi": "con thỏ",
    "topic": "Animals",
+   "ipa": "ˈræbɪt",
    "img": "img/movers--unit-9-mv09/rabbit.webp"
   },
   {
    "w": "shark",
    "vi": "cá mập",
    "topic": "Animals",
+   "ipa": "ʃɑːk",
    "img": "img/movers--unit-9-mv09/shark.webp"
   },
   {
    "w": "snail",
    "vi": "ốc sên",
    "topic": "Animals",
+   "ipa": "sneɪl",
    "img": "img/movers--unit-9-mv09/snail.webp"
   },
   {
    "w": "whale",
    "vi": "cá voi",
    "topic": "Animals",
+   "ipa": "weɪl",
    "img": "img/movers--unit-9-mv09/whale.webp"
   },
   {
    "w": "cage",
    "vi": "lồng",
    "topic": "Scenery",
+   "ipa": "keɪdʒ",
    "img": "img/movers--unit-4-mv04/cage.webp"
   },
   {
    "w": "moon",
    "vi": "mặt trăng",
    "topic": "Scenery",
+   "ipa": "muːn",
    "img": "img/movers--unit-9-mv09/moon.webp"
   },
   {
    "w": "rainbow",
    "vi": "cầu vồng",
    "topic": "Scenery",
+   "ipa": "ˈreɪnbəʊ",
    "img": "img/movers--unit-9-mv09/rainbow.webp"
   },
   {
    "w": "star",
    "vi": "ngôi sao",
    "topic": "Scenery",
+   "ipa": "stɑː",
    "img": "img/movers--unit-9-mv09/star.webp"
   }
  ]

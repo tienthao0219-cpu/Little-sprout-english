@@ -140,7 +140,7 @@ unit(6, 'My favourite book', [
  ('farmer', 'nông dân', 'People & jobs', 'a farmer in a straw hat and overalls holding a pitchfork'),
  ('nurse', 'y tá', 'People & jobs', 'a nurse in a white uniform and cap holding a clipboard'),
  ('pirate', 'cướp biển', 'People & jobs', 'a pirate with an eye patch, a tricorn hat, a beard and a wooden leg'),
- ('robot', 'máy móc / người máy', 'People & jobs', 'a friendly toy robot with a square body, antenna and round eyes'),
+ ('robot', 'người máy', 'People & jobs', 'a friendly toy robot with a square body, antenna and round eyes'),
  ('train driver', 'lái tàu', 'People & jobs', 'a train driver in a cap leaning out of the cab window of a locomotive'),
  ('city', 'thành phố', 'Places', 'a city skyline with tall skyscrapers and busy streets'),
  ('farm', 'trang trại', 'Places', 'a farm with a red barn, a fence, a cow and a few hens'),
