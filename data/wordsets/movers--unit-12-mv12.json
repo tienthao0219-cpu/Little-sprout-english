@@ -1,0 +1,113 @@
+{
+ "id": "movers--unit-12-mv12",
+ "title": "Unit 12 · In the countryside",
+ "cur": "movers",
+ "unit": "unit-12-mv12",
+ "items": [
+  {
+   "w": "field",
+   "vi": "cánh đồng",
+   "topic": "Countryside",
+   "ipa": "fiːld",
+   "img": "img/movers--unit-12-mv12/field.webp"
+  },
+  {
+   "w": "forest",
+   "vi": "rừng",
+   "topic": "Countryside",
+   "ipa": "ˈfɒrɪst",
+   "img": "img/movers--unit-12-mv12/forest.webp"
+  },
+  {
+   "w": "grass",
+   "vi": "cỏ",
+   "topic": "Countryside",
+   "ipa": "grɑːs",
+   "img": "img/movers--unit-12-mv12/grass.webp"
+  },
+  {
+   "w": "lake",
+   "vi": "hồ nước",
+   "topic": "Countryside",
+   "ipa": "leɪk",
+   "img": "img/movers--unit-12-mv12/lake.webp"
+  },
+  {
+   "w": "leaf / leaves",
+   "vi": "lá cây",
+   "topic": "Countryside",
+   "ipa": "liːf / liːvz",
+   "img": "img/movers--unit-12-mv12/leaf-leaves.webp"
+  },
+  {
+   "w": "mountain",
+   "vi": "ngọn núi",
+   "topic": "Countryside",
+   "ipa": "ˈmaʊntɪn",
+   "img": "img/movers--unit-12-mv12/mountain.webp"
+  },
+  {
+   "w": "river",
+   "vi": "dòng sông",
+   "topic": "Countryside",
+   "ipa": "ˈrɪvə",
+   "img": "img/movers--unit-12-mv12/river.webp"
+  },
+  {
+   "w": "road",
+   "vi": "con đường",
+   "topic": "Countryside",
+   "ipa": "rəʊd",
+   "img": "img/movers--unit-12-mv12/road.webp"
+  },
+  {
+   "w": "rock",
+   "vi": "hòn đá",
+   "topic": "Countryside",
+   "ipa": "rɒk",
+   "img": "img/movers--unit-12-mv12/rock.webp"
+  },
+  {
+   "w": "sky",
+   "vi": "bầu trời",
+   "topic": "Countryside",
+   "ipa": "skaɪ",
+   "img": "img/movers--unit-12-mv12/sky.webp"
+  },
+  {
+   "w": "waterfall",
+   "vi": "thác nước",
+   "topic": "Countryside",
+   "ipa": "ˈwɔːtəˌfɔːl",
+   "img": "img/movers--unit-12-mv12/waterfall.webp"
+  },
+  {
+   "w": "tractor",
+   "vi": "máy kéo",
+   "topic": "Vehicles & things",
+   "ipa": "ˈtræktə",
+   "img": "img/movers--unit-12-mv12/tractor.webp"
+  },
+  {
+   "w": "lorry",
+   "vi": "xe tải",
+   "topic": "Vehicles & things",
+   "ipa": "ˈlɒri",
+   "img": "img/movers--unit-12-mv12/lorry.webp"
+  },
+  {
+   "w": "tomato",
+   "vi": "cà chua",
+   "topic": "Vehicles & things",
+   "ipa": "təˈmɑːtəʊ",
+   "img": "img/movers--unit-12-mv12/tomato.webp"
+  },
+  {
+   "w": "watermelon",
+   "vi": "dưa hấu",
+   "topic": "Vehicles & things",
+   "ipa": "ˈwɔːtəˌmelən",
+   "img": "img/movers--unit-12-mv12/watermelon.webp"
+  }
+ ]
+}

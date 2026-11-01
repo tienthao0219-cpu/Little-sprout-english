@@ -1,0 +1,127 @@
+{
+ "id": "movers--unit-6-mv06",
+ "title": "Unit 6 · My favourite book",
+ "cur": "movers",
+ "unit": "unit-6-mv06",
+ "items": [
+  {
+   "w": "clown",
+   "vi": "chú hề",
+   "topic": "People & jobs",
+   "ipa": "klaʊn",
+   "img": "img/movers--unit-6-mv06/clown.webp"
+  },
+  {
+   "w": "cook",
+   "vi": "đầu bếp",
+   "topic": "People & jobs",
+   "ipa": "kʊk",
+   "img": "img/movers--unit-6-mv06/cook.webp"
+  },
+  {
+   "w": "doctor",
+   "vi": "bác sĩ",
+   "topic": "People & jobs",
+   "ipa": "ˈdɒktə",
+   "img": "img/movers--unit-6-mv06/doctor.webp"
+  },
+  {
+   "w": "driver",
+   "vi": "tài xế",
+   "topic": "People & jobs",
+   "ipa": "ˈdraɪvə",
+   "img": "img/movers--unit-6-mv06/driver.webp"
+  },
+  {
+   "w": "farmer",
+   "vi": "nông dân",
+   "topic": "People & jobs",
+   "ipa": "ˈfɑːmə",
+   "img": "img/movers--unit-6-mv06/farmer.webp"
+  },
+  {
+   "w": "nurse",
+   "vi": "y tá",
+   "topic": "People & jobs",
+   "ipa": "nɜːs",
+   "img": "img/movers--unit-6-mv06/nurse.webp"
+  },
+  {
+   "w": "pirate",
+   "vi": "cướp biển",
+   "topic": "People & jobs",
+   "ipa": "ˈpaɪrət",
+   "img": "img/movers--unit-6-mv06/pirate.webp"
+  },
+  {
+   "w": "robot",
+   "vi": "người máy",
+   "topic": "People & jobs",
+   "ipa": "ˈrəʊbɒt",
+   "img": "img/movers--unit-6-mv06/robot.webp"
+  },
+  {
+   "w": "train driver",
+   "vi": "lái tàu",
+   "topic": "People & jobs",
+   "ipa": "ˈtreɪn ˌdraɪvə",
+   "img": "img/movers--unit-6-mv06/train-driver.webp"
+  },
+  {
+   "w": "city",
+   "vi": "thành phố",
+   "topic": "Places",
+   "ipa": "ˈsɪti",
+   "img": "img/movers--unit-6-mv06/city.webp"
+  },
+  {
+   "w": "farm",
+   "vi": "trang trại",
+   "topic": "Places",
+   "ipa": "fɑːm",
+   "img": "img/movers--unit-6-mv06/farm.webp"
+  },
+  {
+   "w": "island",
+   "vi": "hòn đảo",
+   "topic": "Places",
+   "ipa": "ˈaɪlənd",
+   "img": "img/movers--unit-6-mv06/island.webp"
+  },
+  {
+   "w": "jungle",
+   "vi": "rừng rậm",
+   "topic": "Places",
+   "ipa": "ˈdʒʌŋgəl",
+   "img": "img/movers--unit-6-mv06/jungle.webp"
+  },
+  {
+   "w": "village",
+   "vi": "ngôi làng",
+   "topic": "Places",
+   "ipa": "ˈvɪlɪdʒ",
+   "img": "img/movers--unit-6-mv06/village.webp"
+  },
+  {
+   "w": "camera",
+   "vi": "máy ảnh",
+   "topic": "Things",
+   "ipa": "ˈkæmrə",
+   "img": "img/movers--unit-6-mv06/camera.webp"
+  },
+  {
+   "w": "machine",
+   "vi": "máy móc",
+   "topic": "Things",
+   "ipa": "məˈʃiːn",
+   "img": "img/movers--unit-6-mv06/machine.webp"
+  },
+  {
+   "w": "treasure",
+   "vi": "kho báu",
+   "topic": "Things",
+   "ipa": "ˈtreʒə",
+   "img": "img/movers--unit-6-mv06/treasure.webp"
+  }
+ ]
+}
