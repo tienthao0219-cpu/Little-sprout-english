@@ -65,4 +65,6 @@ for n, (base, col) in MISSING.items():
     total += save(G.make(tile[base], str(n), col), OUT + 'numbers/%d.webp' % n, 400); have.add(n)
 assert have == set(range(21, 101)), sorted(set(range(21, 101)) - have)
 json.dump({'generated': sorted(MISSING)}, open(W + '../img/_generated.json', 'w'))
+import fit
+for k, (f, n, w) in fit.SETS.items(): fit.fit_set(f, n, w)   # chuẩn hoá khung ảnh
 print('xong, tổng %.0f KB' % (total / 1024))
