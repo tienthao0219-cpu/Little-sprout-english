@@ -122,9 +122,9 @@ body.mode-learn .app{padding-top:8px;padding-bottom:12px}
 .ln-card.flipped .ln-in{transform:rotateY(180deg)}
 .ln-face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:16px;border-radius:30px;border:5px solid #fff;outline:3px solid rgba(66,169,224,.5);background:linear-gradient(160deg,#fff,#f3fbff 68%,#e2f5ff);box-shadow:var(--shadow);backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center;overflow:hidden}
 .ln-face.back{transform:rotateY(180deg);background:linear-gradient(160deg,#fff,#fff4f8 60%,#ffe6ef);outline-color:rgba(245,111,157,.5)}
-.ln-pic{flex:1;min-height:0;width:100%;display:grid;place-items:center;position:relative}
+.ln-pic{flex:1;min-height:0;width:100%;display:grid;place-items:center;position:relative;overflow:hidden}
 .ln-pic:before{content:"";position:absolute;width:70%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(255,236,244,.9),rgba(220,247,255,.06) 70%)}
-.ln-pic img{position:relative;max-width:92%;max-height:100%;object-fit:contain;filter:drop-shadow(0 8px 5px rgba(40,112,153,.12));-webkit-user-drag:none;user-select:none}
+.ln-pic img{position:absolute;inset:0;width:100%;height:100%;padding:6px;box-sizing:border-box;object-fit:contain;filter:drop-shadow(0 8px 5px rgba(40,112,153,.12));-webkit-user-drag:none;user-select:none}   /* ảnh luôn nằm gọn trong khung, không tràn xuống đè chữ 'Chạm để lật thẻ' */
 .ln-hint{flex:none;font-weight:900;font-size:14px;color:#7aa0b6;background:#eef9ff;border-radius:999px;padding:6px 14px}
 .ln-nopic{font-size:clamp(34px,8vw,60px);font-weight:1000;color:#2b91c8;line-height:1.1;overflow-wrap:anywhere}
 .ln-word{font-size:clamp(40px,11vw,76px);line-height:1.05;font-weight:1000;color:#e0558a;overflow-wrap:anywhere;cursor:pointer}

@@ -12,8 +12,16 @@
           "name": "SPEAKING"
         },
         {
-          "id": "basics-m4q2",
-          "name": "ABC · 123 · COLOURS"
+          "id": "alphabet-m4q2",
+          "name": "ALPHABET"
+        },
+        {
+          "id": "numbers-m4q2",
+          "name": "NUMBERS"
+        },
+        {
+          "id": "colours-m4q2",
+          "name": "COLOURS"
         },
         {
           "id": "unit-1-143s",
@@ -1027,7 +1035,7 @@
       "id": "starters-alphabet-flashcards",
       "title": "Alphabet A–Z · Flashcards",
       "cur": "starters",
-      "unit": "basics-m4q2",
+      "unit": "alphabet-m4q2",
       "file": "apps/starters/basics-m4q2/alphabet.html",
       "kind": "app",
       "desc": "26 thẻ chữ cái chỉ có hình + âm thanh. Chế độ Học thẻ: chạm để nghe, tới/lui, xáo trộn.",
@@ -1038,7 +1046,7 @@
       "id": "starters-numbers-1-20-flashcards",
       "title": "Numbers 1–20 · Flashcards",
       "cur": "starters",
-      "unit": "basics-m4q2",
+      "unit": "numbers-m4q2",
       "file": "apps/starters/basics-m4q2/numbers-1-20.html",
       "kind": "app",
       "desc": "20 thẻ số: hình + cách đọc + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
@@ -1049,7 +1057,7 @@
       "id": "starters-numbers-21-100-flashcards",
       "title": "Numbers 21–100 · Flashcards",
       "cur": "starters",
-      "unit": "basics-m4q2",
+      "unit": "numbers-m4q2",
       "file": "apps/starters/basics-m4q2/numbers-21-100.html",
       "kind": "app",
       "desc": "80 thẻ số 21–100 (chia theo chục): hình + cách đọc + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
@@ -1060,7 +1068,7 @@
       "id": "starters-colours-flashcards",
       "title": "Colours · Flashcards",
       "cur": "starters",
-      "unit": "basics-m4q2",
+      "unit": "colours-m4q2",
       "file": "apps/starters/basics-m4q2/colours.html",
       "kind": "app",
       "desc": "12 thẻ màu sắc: hình + tên màu + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
