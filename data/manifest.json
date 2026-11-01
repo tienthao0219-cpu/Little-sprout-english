@@ -12,6 +12,10 @@
           "name": "SPEAKING"
         },
         {
+          "id": "basics-m4q2",
+          "name": "ABC · 123 · COLOURS"
+        },
+        {
           "id": "unit-1-143s",
           "name": "UNIT 1"
         },
@@ -277,7 +281,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:09:22.872Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-3-family-and-friends-picture-cards-9biz",
@@ -288,7 +292,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:18:34.035Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-4-food-picture-cards-xolq",
@@ -299,7 +303,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:19:46.313Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-5-i-like-clothes-picture-cards-eoi8",
@@ -310,7 +314,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:20:51.412Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-6-look-at-us-picture-cards-rua3",
@@ -321,7 +325,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:32:45.320Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-7-we-love-school-picture-cards-jrxi",
@@ -332,7 +336,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:33:46.168Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-8-in-the-playground-picture-cards-czm6",
@@ -343,7 +347,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:34:47.030Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-9-my-hobbies-picture-cards-mmru",
@@ -354,7 +358,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:35:50.577Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-10-your-day-picture-cards-8q4b",
@@ -365,7 +369,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:37:00.596Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-11-in-the-street-picture-cards-j4hu",
@@ -376,7 +380,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:38:04.654Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-12-my-grandparents-picture-cards-eukt",
@@ -387,7 +391,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:39:06.818Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-13-going-to-the-zoo-picture-cards-ijun",
@@ -398,7 +402,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:40:48.649Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-14-happy-birthday-picture-cards-cz5r",
@@ -409,7 +413,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:41:22.732Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-15-at-the-beach-picture-cards-miz1",
@@ -420,7 +424,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T03:42:32.620Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "zombie-doi-bung-food-vocabulary-m88a",
@@ -531,7 +535,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T04:55:54.778Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-3-eating-out-the-tu-vung-9c0q",
@@ -542,7 +546,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T04:58:04.206Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-4-at-school-the-tu-vung-c1rr",
@@ -553,7 +557,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T04:59:28.311Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-5-a-day-out-the-tu-vung-2zch",
@@ -564,7 +568,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:05:33.082Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-7-at-the-castle-the-tu-vung-ww4e",
@@ -575,7 +579,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:07:41.564Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-8-sports-day-the-tu-vung-en5p",
@@ -586,7 +590,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:08:47.100Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-9-our-camping-adventure-the-tu-vung-c1u5",
@@ -597,7 +601,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:10:00.481Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-10-a-good-year-the-tu-vung-nekm",
@@ -608,7 +612,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:11:10.420Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-11-our-summer-holidays-the-tu-vung-u8ij",
@@ -619,7 +623,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:12:53.028Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-12-past-and-future-the-tu-vung-7967",
@@ -630,7 +634,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:16:51.459Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "english-4-hub-unit-1-my-friends-eufz",
@@ -702,7 +706,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-22T14:41:27.000Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-6-dream-jobs-the-tu-vung-c1xn",
@@ -713,7 +717,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-22T14:41:27.000Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "unit-1-i-love-animals-picture-cards-c1p5",
@@ -724,7 +728,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-22T14:41:27.000Z",
-      "updated": "2026-10-23T13:20:00.000Z"
+      "updated": "2026-11-01T04:33:20.000Z"
     },
     {
       "id": "flyers-vocab-quest-q7k2",
@@ -823,6 +827,50 @@
       "added": "2026-10-31T12:06:22.000Z",
       "desc": "Luyện nói Movers như thi thật: Part 1 hai tranh song song, Part 2 kể chuyện 4 tranh, Part 3 tìm tranh khác loại, Part 4 câu hỏi cá nhân; có gợi ý và chế độ cô",
       "updated": "2026-10-31T14:40:09.000Z"
+    },
+    {
+      "id": "starters-alphabet-flashcards",
+      "title": "Alphabet A–Z · Flashcards",
+      "cur": "starters",
+      "unit": "basics-m4q2",
+      "file": "apps/starters/basics-m4q2/alphabet.html",
+      "kind": "app",
+      "desc": "26 thẻ chữ cái: hình + tên chữ + nghe. Chế độ Học thẻ (lật thẻ, tới/lui, xáo trộn) và Luyện tập.",
+      "added": "2026-11-01T04:33:20.000Z",
+      "updated": "2026-11-01T04:33:20.000Z"
+    },
+    {
+      "id": "starters-numbers-1-20-flashcards",
+      "title": "Numbers 1–20 · Flashcards",
+      "cur": "starters",
+      "unit": "basics-m4q2",
+      "file": "apps/starters/basics-m4q2/numbers-1-20.html",
+      "kind": "app",
+      "desc": "20 thẻ số: hình + cách đọc + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
+      "added": "2026-11-01T04:33:20.000Z",
+      "updated": "2026-11-01T04:33:20.000Z"
+    },
+    {
+      "id": "starters-numbers-21-100-flashcards",
+      "title": "Numbers 21–100 · Flashcards",
+      "cur": "starters",
+      "unit": "basics-m4q2",
+      "file": "apps/starters/basics-m4q2/numbers-21-100.html",
+      "kind": "app",
+      "desc": "80 thẻ số 21–100 (chia theo chục): hình + cách đọc + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
+      "added": "2026-11-01T04:33:20.000Z",
+      "updated": "2026-11-01T04:33:20.000Z"
+    },
+    {
+      "id": "starters-colours-flashcards",
+      "title": "Colours · Flashcards",
+      "cur": "starters",
+      "unit": "basics-m4q2",
+      "file": "apps/starters/basics-m4q2/colours.html",
+      "kind": "app",
+      "desc": "12 thẻ màu sắc: hình + tên màu + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
+      "added": "2026-11-01T04:33:20.000Z",
+      "updated": "2026-11-01T04:33:20.000Z"
     }
   ]
 }
