@@ -2,6 +2,7 @@
 (function(){
 const root=document.getElementById('learn'); if(!root||typeof originalCards==='undefined') return;
 const ALL=originalCards.slice();
+const IMG_ONLY=(typeof DECK_IMAGE_ONLY!=='undefined'&&DECK_IMAGE_ONLY);   // bộ chỉ có hình + âm thanh (bảng chữ cái): không lật thẻ
 const topics=[]; ALL.forEach(c=>{ if(c.topic&&topics.indexOf(c.topic)<0) topics.push(c.topic); });
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const say=c=>{ try{ if(typeof speak==='function') speak(c.say||c.word); }catch(e){} };
@@ -21,25 +22,28 @@ function draw(){
   }
   const c=list[pos], n=list.length;
   const front=c.image?`<div class="ln-pic"><img src="${esc(c.image)}" alt="" draggable="false"></div>`:`<div class="ln-pic"><div class="ln-nopic">${esc(c.vi)}</div></div>`;
+  const imgCard=`<div class="ln-card imgonly" tabindex="0" role="button" data-a="say" aria-label="Thẻ ${pos+1}. Chạm để nghe"><div class="ln-in"><div class="ln-face front">${front}<button class="ln-say" type="button" data-a="say" aria-label="Nghe">🔊 Nghe</button><div class="ln-small">Chạm vào thẻ để nghe</div></div></div></div>`;
   root.innerHTML=`<div class="ln-bar"><button class="ln-btn" data-a="cards">← Thẻ từ</button><div class="ln-count" aria-live="polite">${pos+1} / ${n}</div><button class="ln-btn ${auto?'on':''}" data-a="auto" aria-pressed="${auto}">${auto?'🔊 Tự đọc: BẬT':'🔇 Tự đọc: TẮT'}</button></div>
   <div class="ln-prog"><i style="width:${Math.round((pos+1)/n*100)}%"></i></div>
   ${topics.length>1?`<div class="ln-topics"><button class="${sel==='all'?'on':''}" data-t="all">Tất cả (${ALL.length})</button>${topics.map(t=>`<button class="${sel===t?'on':''}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>`:''}
-  <div class="ln-card${flipped?' flipped':''}" tabindex="0" role="button" data-a="flip" aria-label="Thẻ ${pos+1}. Chạm để lật thẻ">
+  ${IMG_ONLY?imgCard:`<div class="ln-card${flipped?' flipped':''}" tabindex="0" role="button" data-a="flip" aria-label="Thẻ ${pos+1}. Chạm để lật thẻ">
     <div class="ln-in">
       <div class="ln-face front">${front}<div class="ln-hint">👆 Chạm để lật thẻ</div></div>
       <div class="ln-face back"><div class="ln-word" data-a="say">${esc(c.word)}${c.tag?`<span class="tag">${esc(c.tag)}</span>`:''}</div><div class="ln-vi">${esc(c.vi)}</div>
         <button class="ln-say" type="button" data-a="say" aria-label="Nghe từ ${esc(c.word)}">🔊 Nghe</button><div class="ln-small">Chạm vào thẻ để lật lại</div></div>
     </div>
-  </div>
+  </div>`}
   <div class="ln-nav"><button class="prev" data-a="prev" ${pos===0?'disabled':''}>◀ Trước</button><button class="shuf" data-a="shuffle" aria-pressed="${shuffled}">${shuffled?'🔢 Theo thứ tự':'🔀 Xáo trộn'}</button><button class="next" data-a="next">${pos===n-1?'Xong ✓':'Tiếp ▶'}</button></div>`;
 }
+function autoSay(){ if(IMG_ONLY&&auto&&!finished) setTimeout(()=>{ if(document.body.classList.contains('mode-learn')&&!finished) say(list[pos]); },250); }
 function go(d){
   stopSay();
   if(d>0){ if(pos>=list.length-1){ finished=true; return draw(); } pos++; }
   else { if(pos===0) return; pos--; }
-  flipped=false; draw();
+  flipped=false; draw(); autoSay();
 }
 function flip(){
+  if(IMG_ONLY) return say(list[pos]);
   const card=root.querySelector('.ln-card'); if(!card) return;
   flipped=!flipped; card.classList.toggle('flipped',flipped);
   if(flipped&&auto) setTimeout(()=>say(list[pos]),260); else if(!flipped) stopSay();
@@ -68,7 +72,7 @@ let sx=null,sy=null;
 root.addEventListener('touchstart',e=>{ const t=e.touches[0]; sx=t.clientX; sy=t.clientY; },{passive:true});
 root.addEventListener('touchend',e=>{ if(sx===null) return; const t=e.changedTouches[0], dx=t.clientX-sx, dy=t.clientY-sy; sx=null;
   if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5&&e.target.closest('.ln-card')){ e.preventDefault(); go(dx<0?1:-1); } },{passive:false});
-function enter(){ reset(false); window.scrollTo(0,0); }
+function enter(){ reset(false); window.scrollTo(0,0); autoSay(); }
 function leave(){ stopSay(); }
 document.querySelectorAll('.modebar button').forEach(x=>x.addEventListener('click',()=>{
   const on=x.dataset.m==='learn'; document.body.classList.toggle('mode-learn',on);

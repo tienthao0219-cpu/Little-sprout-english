@@ -45,4 +45,7 @@ body.mode-learn .app{padding-top:8px;padding-bottom:12px}
 .ln-done .row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 @media(max-width:480px){.ln-card{height:min(54dvh,460px);min-height:280px}.ln-btn{font-size:13px;padding:0 9px}.ln-nav .shuf{font-size:13px}.ln-nav button{min-height:54px;font-size:16px}}
 @media (prefers-reduced-motion:reduce){.ln-in{transition:none}.ln-card.flipped .ln-in{transform:none}.ln-card .ln-face.front{display:flex}.ln-card.flipped .ln-face.front{display:none}.ln-card .ln-face.back{display:none;transform:none}.ln-card.flipped .ln-face.back{display:flex}}
+/* bộ chỉ hình + âm thanh */
+.ln-card.imgonly .ln-face.front{gap:6px}
+.ln-card.imgonly .ln-pic{flex:1}
 /*LEARN:end*/

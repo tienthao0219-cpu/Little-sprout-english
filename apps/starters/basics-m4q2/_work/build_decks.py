@@ -49,7 +49,7 @@ def colour_cards():
 
 DECKS = [
  dict(file='alphabet.html', title='ABC · Alphabet A–Z · Flashcards', h1='ALPHABET A–Z', logo='🔤', sub='Click a card to hear the letter name.', cards=letter_cards(),
-      css='.word{text-transform:none}.ln-word{text-transform:none}', say={c['word']: c['say'] for c in letter_cards()}),
+      imgonly=True, css='.card .word,.card .vi,.card .tag{display:none}#viBtn,#wordBtn{display:none}.card{min-height:0;padding-top:34px}.pic img{max-height:210px}', say={c['word']: c['say'] for c in letter_cards()}),
  dict(file='numbers-1-20.html', title='123 · Numbers 1–20 · Flashcards', h1='NUMBERS 1–20', logo='🔢', sub='Click a card to hear the number.', cards=num_cards(1, 20, [(1, 10), (11, 20)])),
  dict(file='numbers-21-100.html', title='123 · Numbers 21–100 · Flashcards', h1='NUMBERS 21–100', logo='💯', sub='Click a card to hear the number.', cards=num_cards(21, 100, [(a, a + 9) for a in range(21, 100, 10)][:-1] + [(91, 100)])),
  dict(file='colours.html', title='Colours · Flashcards', h1='COLOURS', logo='🎨', sub='Click a card to hear the colour.', cards=colour_cards()),
@@ -70,8 +70,10 @@ for d in DECKS:
     extra = ''
     if d.get('say'):
         extra = '<script>/* đọc tên chữ cái cho đúng */const SAY=%s;{const _sp=speak;speak=function(t,done){return _sp(SAY[t]||t,done);};}</script>' % json.dumps(d['say'], ensure_ascii=False)
+    if d.get('imgonly'): extra += '<script>const DECK_IMAGE_ONLY=true;</script>'   # chỉ hình + âm thanh: chế độ Học thẻ không lật
     html = html.replace('@@EXTRAJS@@', extra)
     assert '@@' not in html.replace('@@', '', 0) or True
+    if d.get('imgonly'): html = html.replace('<button data-m="practice">🎯 Luyện tập</button>', '')   # bảng chữ cái: chỉ hình + âm thanh, bỏ Luyện tập
     html = L.inject(html)
     with open(OUT + d['file'], 'w', encoding='utf8') as f: f.write(html)
     print(d['file'], len(cards), 'thẻ', len(html) // 1024, 'KB')
