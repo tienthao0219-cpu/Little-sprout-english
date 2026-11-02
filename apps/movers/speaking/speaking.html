@@ -444,6 +444,7 @@ body[data-part="0"]{--pc:var(--lav);--pd:var(--lav-d);--pdd:#5E48B8;--ps:#F3EEFF
 .hero2 p{margin:10px 0 12px;color:var(--soft);font-size:17px;max-width:520px}
 .rbar,.qchips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;padding:8px 12px;background:#FFE9F0;border:2px dashed #ffb3c8;border-radius:14px;font-size:14px;font-weight:700;color:#8a4a5f}
 .rbtn{font-family:inherit;font-weight:800;font-size:14.5px;border:2px solid #ffc4d4;background:#fff;color:#b0405f;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:44px;box-shadow:0 2px 0 #ffc4d4}
+.qchips.qtop{justify-content:center;margin-top:6px}.qchips.qtop .qnb{flex:0 0 auto;min-height:44px;padding:8px 16px}.qchips.qtop .qnb:disabled{opacity:.4}
 .qch{width:44px;height:44px;border-radius:50%;border:2px solid #cfc4e6;background:#fff;font-family:var(--fh);font-weight:800;font-size:16px;cursor:pointer}
 .qch.cur{background:#8a6cf0;border-color:#6a4fcb;color:#fff}
 .pillrow{display:flex;gap:10px;flex-wrap:wrap}
@@ -1249,13 +1250,16 @@ function part4(s) {
   clearTimeout(window.p4t); window.p4t = setTimeout(() => bHint.classList.add('pulse'), 10000);
   const bTeach = h('button.hbtn.tbtn', { onclick: () => { topen = !topen; tb.replaceChildren(topen ? p4teach(q) : ''); }, title: 'Dành riêng cho cô' }, tIcon(), ' Cô');
   card.append(h('div.p4btns', h('div.p4b', bHint, h('small', 'cho học viên')), st.teach ? h('div.p4b', bTeach, h('small', 'dành cho cô')) : null), hb, tb);
-  const qdots = st.teach
-    ? h('div.qchips', h('span', 'Chọn câu tuỳ ý:'), P4.qs.map((_, i) => h('button.qch' + (i === st.q ? '.cur' : ''), { onclick: () => { st.q = i; testView(); } }, String(i + 1))),
-        h('button.rbtn', { onclick: () => { st.q = pickOther(P4.qs.length, st.q); testView(); } }, '🎲 Câu ngẫu nhiên'))
-    : h('div.dots', P4.qs.map((_, i) => h('i' + (i < st.q ? '.on' : '') + (i === st.q ? '.cur' : ''))));
-  wrap.append(card, qdots,
-    h('div.nav', h('button.btn.ghost', { disabled: st.q === 0, onclick: () => { st.q--; testView(); } }, '← Câu trước'),
-      h('button.btn', { disabled: st.q >= P4.qs.length - 1, onclick: () => { st.q++; testView(); } }, 'Câu tiếp →')));
+  const prevQ = h('button.btn.ghost.qnb', { disabled: st.q === 0, onclick: () => { st.q--; testView(); } }, '← Câu trước');
+  const nextQ = h('button.btn.qnb', { disabled: st.q >= P4.qs.length - 1, onclick: () => { st.q++; testView(); } }, 'Câu tiếp →');
+  if (st.teach) {
+    /* cô: thanh chọn câu + Trước/Tiếp nằm NGAY TRÊN câu hỏi, không phải kéo xuống cuối trang */
+    const bar = h('div.qchips.qtop', prevQ, P4.qs.map((_, i) => h('button.qch' + (i === st.q ? '.cur' : ''), { onclick: () => { st.q = i; testView(); } }, String(i + 1))),
+      h('button.rbtn', { onclick: () => { st.q = pickOther(P4.qs.length, st.q); testView(); } }, '🎲 Ngẫu nhiên'), nextQ);
+    wrap.append(bar, card);
+  } else {
+    wrap.append(card, h('div.dots', P4.qs.map((_, i) => h('i' + (i < st.q ? '.on' : '') + (i === st.q ? '.cur' : '')))), h('div.nav', prevQ, nextQ));
+  }
   return wrap;
 }
 function p4ext(q) {
