@@ -197,6 +197,7 @@ details.guide li{margin:6px 0}
 .tnote .tg{display:inline-block;margin-right:6px;font-size:12px;background:#fff;border-radius:999px;padding:0 8px}
 .rbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;padding:8px 12px;background:#FFE9F0;border:2px dashed #ffb3c8;border-radius:14px;font-size:14px;font-weight:700;color:#8a4a5f}
 .rbtn{font-family:inherit;font-weight:800;font-size:14.5px;border:2px solid #ffc4d4;background:#fff;color:#b0405f;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:44px;box-shadow:0 2px 0 #ffc4d4}
+.qchips.qtop{justify-content:center;gap:6px}.qchips.qtop .qch{width:38px;height:38px;font-size:15px}.qchips.qtop .qnb{padding:8px 12px!important}.qchips.qtop .qnb{flex:0 0 auto;min-height:44px;padding:8px 16px}.qchips.qtop .qnb:disabled{opacity:.4}
 .qch{width:44px;height:44px;border-radius:50%;border:2px solid #cfc4e6;background:#fff;font-family:var(--hfont);font-weight:800;font-size:16px;cursor:pointer}
 .qch.cur{background:#8a6cf0;border-color:#6a4fcb;color:#fff}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
@@ -756,9 +757,12 @@ function stepView(){
     app.append(h('div.rbar',h('span','🔓 Cô: chọn Part tuỳ ý'),
       h('button.rbtn',{onclick:()=>startPart(pickOther(4,st.part))},'🎲 Part ngẫu nhiên'),
       h('button.rbtn',{onclick:()=>{randomSet();startPart(0)}},'🎲 Bộ test ngẫu nhiên')));
-    if(st.part>=2&&st.steps.length>1)app.append(h('div.rbar.qchips',h('span','Chọn câu / thẻ tuỳ ý:'),st.steps.map((_,i)=>h('button.qch'+(i===st.i?'.cur':''),{onclick:()=>jumpStep(i)},String(i+1))),
-      h('button.rbtn',{onclick:()=>jumpStep(pickOther(st.steps.length,st.i))},'🎲 Câu ngẫu nhiên')));
-  }
+    if(st.steps.length>1){const n=st.steps.length;
+      app.append(h('div.rbar.qchips.qtop',
+        h('button.btn.sm.qnb',{disabled:st.i===0,onclick:()=>jumpStep(st.i-1)},'◀ Trước'),
+        n<=14?st.steps.map((_,i)=>h('button.qch'+(i===st.i?'.cur':''),{onclick:()=>jumpStep(i)},String(i+1))):h('b',(st.part>=2?'Câu ':'Bước ')+(st.i+1)+' / '+n),
+        h('button.rbtn',{onclick:()=>jumpStep(pickOther(n,st.i))},'🎲 Ngẫu nhiên'),
+        h('button.btn.sm.pri.qnb',{disabled:st.i>=n-1,onclick:()=>jumpStep(st.i+1)},'Sau ▶')))}  }
   app.append(h('div.ptag',ico(P.ico,'sm'),' Part '+P.n+' · '+P.vi));
   const stage=h('div.stage');app.append(stage);
   if(step.scene)stage.append(sceneBlock(s,step)); else if(step.t==='card')stage.append(flashBlock(s,step)); else stage.append(talkStage(step));
