@@ -366,11 +366,16 @@
     const pb = (cls, ico, label, opts) => h((opts.href ? "a" : "button") + ".pb." + cls, opts, h("span.pbi", { html: ICONS[ico] }), h("span.pbl", label));
     const exitFull = h("div.exitfull", pb("ghost", "expand", "Thu nhỏ", { onclick: () => toggle() }), pb("sky", "home", "Trang chủ", { onclick: goHome }), pb("mint", "out", "Lưu & thoát", { onclick: quit }));
     /* chế độ toàn màn hình: hiệu ứng fadeUp của trang làm khung "position:fixed" bị kẹt trong hộp cha (nhất là trên iPhone) → tắt hiệu ứng ở các hộp cha khi mở rộng */
+    const isGameFrame = content.tagName === "IFRAME" && (app.hub || /apps\/games\//.test(app.file || ""));
+    /* chỗ còn lại từ mép trên khung game tới mép dưới màn hình (tính như khi trang đang ở đầu) */
+    const docTop = el => { let t = 0; for (; el; el = el.offsetParent) t += el.offsetTop; return t; };   // không bị ảnh hưởng bởi hiệu ứng trượt vào của trang
+    const gameAvail = () => Math.floor(window.innerHeight - docTop(wrap) - 12);
+    const sizeInline = () => { if (!isGameFrame) return; content.style.minHeight = "0"; content.style.height = Math.max(gameAvail(), 420) + "px"; };
     const toggle = () => {
       const on = wrap.classList.toggle("full");
       for (let e = wrap.parentElement; e && e.id !== "view" && e !== document.body; e = e.parentElement) e.classList.toggle("nofx", on);
       document.documentElement.classList.toggle("noscroll", on);
-      if (on) wrap.prepend(exitFull); else exitFull.remove();
+      if (on) { wrap.prepend(exitFull); if (isGameFrame) { content.style.height = ""; content.style.minHeight = ""; } } else { exitFull.remove(); sizeInline(); }
     };
     show(
       app.hub ? h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", h("a", { href: L.gamehub.backHref(app.cur, app.unit) }, "Trò chơi"), " › ", app.title)
@@ -385,7 +390,23 @@
         wrapNote ? h("div.small.muted", { style: "margin-top:6px" }, wrapNote) : null,
         app.desc ? h("div.small.muted", app.desc) : null));
     /* điện thoại: game tự mở toàn màn hình cho đủ chỗ chơi (có nút Thu nhỏ / Lưu & thoát ở trên cùng) */
-    try { if (window.matchMedia("(max-width:700px)").matches && content.tagName === "IFRAME" && (app.hub || /apps\/games\//.test(app.file || ""))) toggle(); } catch (e) { }
+    /* game: khung chơi phải vừa khít phần màn hình còn lại dưới phần đầu trang (trước đây khung cao gần bằng cả màn hình nên nửa dưới, gồm cả nút bấm của game, bị tràn ra ngoài).
+       - điện thoại, hoặc chỗ còn lại < 520px (laptop thấp, iPad nằm ngang…): tự mở toàn màn hình
+       - còn lại: kéo khung cao vừa tới mép dưới màn hình, và tự co lại khi xoay máy / đổi cỡ cửa sổ */
+    try {
+      if (isGameFrame) {
+        const fit = () => {
+          if (!wrap.isConnected) { window.removeEventListener("resize", fit); window.removeEventListener("orientationchange", fit); return; }
+          if (wrap.classList.contains("full")) return;
+          const phone = window.matchMedia("(max-width:700px)").matches;
+          if (phone || gameAvail() < 520) { content.style.height = ""; content.style.minHeight = ""; toggle(); return; }
+          sizeInline();
+        };
+        window.addEventListener("resize", fit); window.addEventListener("orientationchange", fit);
+        fit(); setTimeout(fit, 350); setTimeout(fit, 1400);   // đo lại sau khi phông chữ/bố cục trang ổn định
+        content.addEventListener("load", fit);
+      }
+    } catch (e) { }
   }
 
   /* ---------- bài tập: danh sách ---------- */

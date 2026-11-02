@@ -147,10 +147,11 @@ input,textarea,select{font-family:inherit}
 .lens{position:absolute;width:calc(var(--u,30px)*1.1);height:calc(var(--u,30px)*1.1);border-radius:50%;border:4px solid #e2553a;background:rgba(226,85,58,.12);
   transform:translate(-50%,-50%);transition:left .22s,top .22s;pointer-events:none;z-index:2}
 .paper.wind{animation:windShake .5s}
-.freeze{display:none;position:absolute;inset:0;z-index:3;border-radius:10px;background:rgba(191,233,255,.78);place-items:center;text-align:center;
-  font:800 clamp(18px,4vh,28px)/1.2 var(--font-h);color:#256f9c}
+.freeze{display:none;position:absolute;inset:0;z-index:3;border-radius:10px;background:#d3efff;place-items:center;align-content:center;text-align:center;
+  font:800 clamp(30px,9vh,60px)/1.15 var(--font-h);color:#256f9c}
+.freeze small{display:block;font:700 clamp(13px,2.6vh,18px)/1.3 var(--font-b);margin-top:6px;opacity:.85}
 .pwrap.frozen .freeze{display:grid}
-.pwrap.frozen .freeze.ready{background:rgba(255,246,220,.9);color:#b57a12}
+.pwrap.frozen .freeze.ready{background:#fff3d6;color:#b57a12}
 
 /* toast + float */
 .ztoast{white-space:pre-line;position:absolute;left:50%;top:48%;transform:translate(-50%,-50%) scale(.5);opacity:0;pointer-events:none;z-index:8;width:max-content;max-width:92%;text-align:center;
@@ -557,7 +558,7 @@ const ROUNDS=[
   {name:"Chung kết",icon:"👑",desc:"Săn 2 số tiếng Anh liên tiếp, gió vẫn thổi!",mult:2,targets:2,wind:4200,fog:false,words:true,pu:.6,col:"#f08a5d",col2:"#fff1e8"}
 ];
 const POWERS={fire:{icon:"🔥",label:"Lửa! Sát thương ×2"},ice:{icon:"❄️",label:"Băng! Đối thủ đóng băng thêm"},heal:{icon:"💚",label:"Hồi máu! Người thắng +15"}};
-const DELAY={second:1500,wrong:3000}, MISS_FREEZE=1200;
+const DELAY={second:800,wrong:1500}, MISS_FREEZE=1200;   // bé nhỏ: phạt nhẹ hơn (trước đây 1.5s / 3s)
 
 /* ===== TIỆN ÍCH ===== */
 const $=(s,r=document)=>r.querySelector(s);
@@ -1061,6 +1062,7 @@ function botMul(){
   if(b.warm) m*=1-.07*(G.r-1);
   if(b.rage) m*=1-.45*(1-hpF);
   if(b.wild) m*=rnd(.55,1.7);
+  if(G.r<=1) m*=1.45;   // vòng đầu: bot chậm hơn cho học sinh kịp làm quen
   return m;
 }
 function botThink(f){
@@ -1096,8 +1098,8 @@ function endQuestion(){
     later(duelEnd,Q.ui==="mc"?2600:3400); return;
   }
   sfx.correct();
-  corrects.forEach((p,n)=>{ p.delay=n===0?0:DELAY.second; chip(p.i,n===0?"🎲 Nhanh nhất!":"🐢 chờ 1.5s"); });
-  G.P.filter(p=>!p.correct).forEach(p=>{ p.delay=DELAY.wrong; chip(p.i,p.ans===null?"⏰ hết giờ · ❄️ 3s":"❌ sai · ❄️ 3s"); });
+  corrects.forEach((p,n)=>{ p.delay=n===0?0:DELAY.second; chip(p.i,n===0?"🎲 Nhanh nhất!":"🐢 chờ "+(DELAY.second/1000).toFixed(1)+"s"); });
+  G.P.filter(p=>!p.correct).forEach(p=>{ p.delay=DELAY.wrong; chip(p.i,(p.ans===null?"⏰ hết giờ · ❄️ ":"❌ sai · ❄️ ")+(DELAY.wrong/1000).toFixed(1)+"s"); });
   if(!human(1)) botSay(G.P[1].correct?"😎 Bot làm đúng!":"😵 Bot làm sai!");
   const roller=corrects[0].i; later(()=>beginDice(roller),Q.ui==="mc"?2000:2800);
 }
@@ -1199,7 +1201,7 @@ function windBlow(){
 function freezeTick(){
   if(G.phase!=="hunt") return; const t=Date.now();
   G.P.forEach((p,i)=>{ const w=Z[i].wrap, f=Z[i].freeze, left=p.frozenUntil-t;
-    if(left>0){ const ready=t<G.goTime; w.classList.add("frozen"); f.classList.toggle("ready",ready); f.textContent=ready?"Sẵn sàng…":"❄️ "+(left/1000).toFixed(1)+"s"; if(!human(i)) w.classList.remove("frozen"); }
+    if(left>0){ const ready=t<G.goTime; w.classList.add("frozen"); f.classList.toggle("ready",ready); f.innerHTML=ready?"Sẵn sàng…":"❄️ "+(left/1000).toFixed(1)+"s<small>Chờ hết giờ rồi mới bấm được nhé!</small>"; if(!human(i)) w.classList.remove("frozen"); }
     else if(w.classList.contains("frozen")){ w.classList.remove("frozen"); if(human(i)) chip(i,"⚡ tìm đi!"); }
   });
   later(freezeTick,100);
@@ -1409,7 +1411,7 @@ function testSound(){
 function sheetRules(){
   openSheet("Luật chơi",`<ol class="rl"><li>Cả hai cùng làm 1 câu. Ai đúng và nhanh hơn được <b>lắc xí ngầu 🎲</b>.</li>
     <li>Xí ngầu ra số nào, cả hai thi nhau tìm số đó trên <b>tờ giấy</b>. Bạn khoanh <b style="color:#2f86c9">xanh</b>, đối thủ khoanh <b style="color:#e2553a">đỏ</b>.</li>
-    <li>Đúng nhưng chậm hơn chờ 1,5 giây, làm <b>sai</b> chờ 3 giây ❄️. Bấm nhầm số cũng bị đóng băng.</li>
+    <li>Đúng nhưng chậm hơn chờ 0,8 giây, làm <b>sai</b> chờ 1,5 giây ❄️ (lúc chờ tờ giấy bị che, hết giờ chờ mới bấm được). Bấm nhầm số cũng bị đóng băng.</li>
     <li>Tìm thấy trước sẽ trừ máu đối thủ. Hết máu là K.O.!</li>
     <li>5 vòng: Khởi động → Gió thổi → Sương mù → English Numbers → Chung kết ×2. Tờ giấy nhiều số dần.</li></ol><button class="cv-play sm" id="shOk">Đã hiểu</button>`,body=>{ $("#shOk").onclick=closeSheet; });
 }
