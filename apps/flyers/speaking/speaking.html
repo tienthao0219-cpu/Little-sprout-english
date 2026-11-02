@@ -308,11 +308,11 @@ body{overflow-x:clip;background-color:#FFF9F2;
   #lb.sv .lbt{padding:6px 12px}#lb.sv .sv-dots{padding:5px 0}
   .sv-hbar{padding-top:6px}.sv-hbar .hbtn{min-height:46px}.sv-nav{padding-top:8px}
 }
-@media (min-width:700px){.sv-stage{height:clamp(220px,44vh,640px);height:clamp(220px,44dvh,640px)}.sv-hints{margin:0 auto;width:min(760px,calc(100% - 20px))}}
+@media (min-width:700px){.sv-stage{height:clamp(220px,50vh,760px);height:clamp(220px,50dvh,760px)}.sv-hints{margin:0 auto;width:min(760px,calc(100% - 20px))}}
 @media (max-height:620px){.sv-stage{height:clamp(120px,30vh,260px);height:clamp(120px,30dvh,260px)}}
 /* điện thoại xoay ngang: tranh bên trái, gợi ý bên phải -> thấy hết, không phải cuộn trang */
-@media (orientation:landscape) and (max-height:560px){
-  #lb.sv{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;column-gap:10px;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+@media (orientation:landscape) and (max-height:560px),(orientation:landscape) and (min-width:700px){
+  #lb.sv{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);grid-template-rows:auto minmax(0,1fr) auto auto;column-gap:10px;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
   #lb.sv .lbt{grid-column:1/-1;grid-row:1;padding:4px 12px}
   #lb.sv .sv-stage{grid-column:1;grid-row:2;height:auto;min-height:0}
   #lb.sv .sv-dots{grid-column:1;grid-row:3;padding:2px 0}
