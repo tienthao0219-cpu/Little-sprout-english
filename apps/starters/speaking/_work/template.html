@@ -195,6 +195,10 @@ details.guide li{margin:6px 0}
 .tnote{background:var(--butter);border:2px dashed #E8C95C;border-radius:16px;padding:10px 14px;margin:0 0 10px;font-size:14.5px;color:#6b5400;font-weight:700}
 .tnote b{color:#4d3c00}
 .tnote .tg{display:inline-block;margin-right:6px;font-size:12px;background:#fff;border-radius:999px;padding:0 8px}
+.rbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;padding:8px 12px;background:#FFE9F0;border:2px dashed #ffb3c8;border-radius:14px;font-size:14px;font-weight:700;color:#8a4a5f}
+.rbtn{font-family:inherit;font-weight:800;font-size:14.5px;border:2px solid #ffc4d4;background:#fff;color:#b0405f;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:44px;box-shadow:0 2px 0 #ffc4d4}
+.qch{width:44px;height:44px;border-radius:50%;border:2px solid #cfc4e6;background:#fff;font-family:var(--hfont);font-weight:800;font-size:16px;cursor:pointer}
+.qch.cur{background:#8a6cf0;border-color:#6a4fcb;color:#fff}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 12px}
 .tab{min-height:48px;padding:0 16px;border-radius:999px;background:#fff;border:2px solid var(--line);font-family:var(--hfont);font-weight:700;font-size:16px}
 .tab.on{background:var(--pc);color:var(--pdd);border-color:var(--pd)}
@@ -473,7 +477,7 @@ const SVG={"back": "<svg viewBox=\"0 0 32 32\"><defs><linearGradient id=\"gk\" x
 function ico(name,cls){const e=document.createElement('span');e.className='ic'+(cls?' '+cls:'');e.innerHTML=SVG[name]||'';e.setAttribute('aria-hidden','true');return e}
 
 /* ======================= âm thanh (có nút tắt) ======================= */
-const S={sound:store.get('lss_sound','1')!=='0',teach:store.get('lss_teach','0')==='1',rate:parseFloat(store.get('lss_rate','0.9'))||0.9,voice:store.get('lss_voice','')};
+const S={sound:store.get('lss_sound','1')!=='0',teach:(stu.role&&stu.role!=='student')?store.get('lss_tOff','0')!=='1':store.get('lss_teach','0')==='1',rate:parseFloat(store.get('lss_rate','0.9'))||0.9,voice:store.get('lss_voice','')};
 let ac=null,master=null;
 function audioCtx(){
   if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();
@@ -659,6 +663,9 @@ function saveReward(){
 }
 
 /* ======================= màn hình ======================= */
+function pickOther(n,cur){if(n<=1)return 0;let r;do{r=Math.floor(Math.random()*n)}while(r===cur);return r}
+function randomSet(){const L=D.sets;openSet(L[Math.floor(Math.random()*L.length)].id)}
+function jumpStep(i){stopSpeak();st.i=i;st.wrong=0;setHl(0);st.held=null;st.flip=false;render()}
 function topbar(title,sub,opts){
   opts=opts||{};
   return h('header.sbar',h('div.sbar-in',
@@ -666,7 +673,7 @@ function topbar(title,sub,opts){
     h('div.slogo',h('img',{src:LOGO(),alt:'Miss Thảo'}),h('span',h('b',title),sub?h('small',sub):null)),
     isTeacherAllowed()?h('button.ni',{onclick:voiceDialog,'aria-label':'Chọn giọng giám khảo'},h('span.nico',ico('voice')),h('span.nlab','Giọng')):null,
     h('button.ni',{onclick:()=>{S.sound=!S.sound;store.set('lss_sound',S.sound?'1':'0');if(!S.sound)stopSpeak();render()},'aria-label':S.sound?'Tắt tiếng':'Bật tiếng'},h('span.nico',ico(S.sound?'sound':'mute')),h('span.nlab',S.sound?'Tiếng':'Tắt')),
-    isTeacherAllowed()?h('button.ni'+(S.teach?'.on':''),{onclick:()=>{S.teach=!S.teach;store.set('lss_teach',S.teach?'1':'0');render()},title:'Bật để xem đáp án và gợi ý của cô'},h('span.nico',ico(S.teach?'teacher':'student')),h('span.nlab',S.teach?'Cô: BẬT':'Cô: TẮT')):null));
+    isTeacherAllowed()?h('button.ni'+(S.teach?'.on':''),{onclick:()=>{S.teach=!S.teach;store.set('lss_teach',S.teach?'1':'0');store.set('lss_tOff',S.teach?'0':'1');render()},title:'Bật để xem đáp án và gợi ý của cô'},h('span.nico',ico(S.teach?'teacher':'student')),h('span.nlab',S.teach?'Cô: BẬT':'Cô: TẮT')):null));
 }
 function progRow(pct){
   const cur=st.view==='step'?st.part:-1,kids=[];
@@ -696,6 +703,7 @@ function homeView(){
         h('button.pill.star',{onclick:()=>{st.view='album';render()}},'⭐ '+n+' sao',h('span','·'),'🎁 Sticker '+prog.stk.length+'/'+STK.length),
         teach()?h('span.pill',syncLabel()):null))));
   app.append(h('h2.sec','🎒 Chọn bộ test'));
+  if(teach())app.append(h('div.rbar',h('span','🔓 Cô: đã mở khoá hết'),h('button.rbtn',{onclick:randomSet},'🎲 Bộ test ngẫu nhiên'),h('button.rbtn',{onclick:()=>{randomSet();startPart(Math.floor(Math.random()*4))}},'🎲 Ngẫu nhiên cả bộ + Part')));
   const g=h('div.grid.grid2');
   const TC=['mint','peach','sky','rose'];
   D.sets.forEach((s,i)=>{
@@ -734,7 +742,8 @@ function introView(){
       h('span.pico',ico(x.ico)),h('div',h('b',{style:{fontFamily:'var(--hfont)',fontSize:'18px'}},'Part '+x.n+' · '+x.en),h('div',{style:{color:'var(--soft)',fontSize:'14px'}},x.vi))))),
     h('div',{style:{display:'flex',gap:'10px',justifyContent:'center',flexWrap:'wrap'}},
       h('button.btn.pri',{onclick:()=>{ac=ac||null;startPart(0)}},'Start ▶'),
-      teach()?p.map((x,i)=>h('button.btn.sm',{onclick:()=>startPart(i)},'Part '+x.n)):null)));
+      teach()?p.map((x,i)=>h('button.btn.sm',{onclick:()=>startPart(i)},'Part '+x.n)):null,
+      teach()?h('button.rbtn',{onclick:()=>startPart(Math.floor(Math.random()*4))},'🎲 Part ngẫu nhiên'):null)));
 }
 
 /* ----- màn từng bước ----- */
@@ -744,6 +753,11 @@ function stepView(){
   app.append(progRow(Math.round((st.i/st.steps.length)*100)));
   if(teach()){
     app.append(h('div.tabs',PART_INFO.map((x,i)=>h('button.tab'+(i===st.part?'.on':''),{onclick:()=>startPart(i)},'Part '+x.n))));
+    app.append(h('div.rbar',h('span','🔓 Cô: chọn Part tuỳ ý'),
+      h('button.rbtn',{onclick:()=>startPart(pickOther(4,st.part))},'🎲 Part ngẫu nhiên'),
+      h('button.rbtn',{onclick:()=>{randomSet();startPart(0)}},'🎲 Bộ test ngẫu nhiên')));
+    if(st.part>=2&&st.steps.length>1)app.append(h('div.rbar.qchips',h('span','Chọn câu / thẻ tuỳ ý:'),st.steps.map((_,i)=>h('button.qch'+(i===st.i?'.cur':''),{onclick:()=>jumpStep(i)},String(i+1))),
+      h('button.rbtn',{onclick:()=>jumpStep(pickOther(st.steps.length,st.i))},'🎲 Câu ngẫu nhiên')));
   }
   app.append(h('div.ptag',ico(P.ico,'sm'),' Part '+P.n+' · '+P.vi));
   const stage=h('div.stage');app.append(stage);

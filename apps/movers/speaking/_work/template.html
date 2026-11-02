@@ -322,7 +322,6 @@ body{overflow-x:clip;background-color:#FFF9F2;
 }
 .sv-nav{display:flex;gap:10px;padding:10px;padding-bottom:calc(10px + env(safe-area-inset-bottom))}
 .sv-nav .btn{flex:1;justify-content:center}
-.selfbox{margin-top:14px}
 .hbtn.pulse{animation:pulse 1s ease-in-out 4}
 @keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 3px 0 #f1dc8a}50%{transform:scale(1.07);box-shadow:0 0 0 6px rgba(255,216,107,.55)}}
 
@@ -443,6 +442,10 @@ body[data-part="0"]{--pc:var(--lav);--pd:var(--lav-d);--pdd:#5E48B8;--ps:#F3EEFF
 .hero2 h1 span{background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 .hero2 .g1{background-image:linear-gradient(90deg,#2E9C7C,#3B88D0)}.hero2 .g2{background-image:linear-gradient(90deg,#DE5481,#E27B52)}
 .hero2 p{margin:10px 0 12px;color:var(--soft);font-size:17px;max-width:520px}
+.rbar,.qchips{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:10px 0;padding:8px 12px;background:#FFE9F0;border:2px dashed #ffb3c8;border-radius:14px;font-size:14px;font-weight:700;color:#8a4a5f}
+.rbtn{font-family:inherit;font-weight:800;font-size:14.5px;border:2px solid #ffc4d4;background:#fff;color:#b0405f;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:44px;box-shadow:0 2px 0 #ffc4d4}
+.qch{width:44px;height:44px;border-radius:50%;border:2px solid #cfc4e6;background:#fff;font-family:var(--fh);font-weight:800;font-size:16px;cursor:pointer}
+.qch.cur{background:#8a6cf0;border-color:#6a4fcb;color:#fff}
 .pillrow{display:flex;gap:10px;flex-wrap:wrap}
 .pill{display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 18px;border-radius:999px;background:linear-gradient(180deg,#FFF6CF,var(--butter));border:2px solid #FFE59A;color:#8a6a00;font-weight:800;font-size:16px;box-shadow:0 10px 28px rgba(43,53,80,.07)}
 .grid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
@@ -631,14 +634,16 @@ function tIcon() { return h('span.tico', { html: TSVG }); }
 const mem = {};
 function loadP() { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return mem; } }
 function saveP(p) { try { localStorage.setItem(KEY, JSON.stringify(p)); } catch (e) { Object.assign(mem, p); } }
-function getTeach() { try { return localStorage.getItem(KEY + '_teach') === '1'; } catch (e) { return !!mem._t; } }
+/* đăng nhập bằng tài khoản cô (role khác 'student') thì chế độ Cô tự BẬT; cô vẫn tắt/bật tay được và app nhớ lựa chọn đó */
+function loginIsTeacher() { try { const r = String(JSON.parse(localStorage.getItem('lse_auth_v1') || '{}').role || ''); return !!r && r !== 'student'; } catch (e) { return false; } }
+function getTeach() { try { return loginIsTeacher() ? localStorage.getItem(KEY + '_tOff') !== '1' : localStorage.getItem(KEY + '_teach') === '1'; } catch (e) { return loginIsTeacher() || !!mem._t; } }
 /* khoá bộ đề: trong cùng một sách, làm xong bộ trước mới mở bộ sau (cô tắt/bật được ở trang chủ) */
 function lockSets() { try { return localStorage.getItem(KEY + '_lockSets') !== '0'; } catch (e) { return true; } }
 function setLockSets(v) { try { localStorage.setItem(KEY + '_lockSets', v ? '1' : '0'); } catch (e) { } }
 function setDone(sid) { return PARTS.every(q => isDone(q.id, sid)); }
 function prevSet(s) { const L = SETS.filter(x => x.group === s.group), k = L.findIndex(x => x.id === s.id); return k > 0 ? L[k - 1] : null; }
 function setUnlocked(s) { if (st.teach || !lockSets()) return true; const pv = prevSet(s); return !pv || setDone(pv.id); }
-function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); } catch (e) { mem._t = v; } }
+function setTeach(v) { try { localStorage.setItem(KEY + '_teach', v ? '1' : '0'); localStorage.setItem(KEY + '_tOff', v ? '0' : '1'); } catch (e) { mem._t = v; } }
 
 function paint$(...k) { $app.replaceChildren(...k.filter(x => x != null && x !== false)); }
 function setName(s) {
@@ -834,15 +839,17 @@ function homeView() {
         h('p', 'Cô là giám khảo, em là thí sinh. Chọn một bộ test, làm lần lượt 4 phần. Xong Part này mới mở Part tiếp theo nhé!'),
         h('div.pillrow', h('button.pill', { onclick: albumView }, '⭐ ' + Object.keys(loadProg().stars).length + ' sao', h('span', '·'), '🎁 Sticker ' + loadProg().stk.length + '/' + STK.length), h('span.pill', '🏆 ' + SETS.filter(x => PARTS.every(q => isDone(q.id, x.id))).length + ' / ' + SETS.length + ' bộ')))),
     h('h2.sec', '🎒 Chọn bộ test'),
-    h('div', { style: 'margin:-4px 0 12px' + (st.teach ? '' : ';display:none') }, h('button.pill', { onclick: () => { setLockSets(!lockSets()); homeView(); } }, lockSets() ? '🔒 Khoá bộ đề: BẬT (bấm để tắt)' : '🔓 Khoá bộ đề: TẮT (bấm để bật)')),
+    h('div', { style: 'margin:-4px 0 12px' + (st.teach ? '' : ';display:none') }, h('button.pill', { onclick: () => { setLockSets(!lockSets()); homeView(); } }, lockSets() ? '🔒 Khoá bộ đề: BẬT (bấm để tắt)' : '🔓 Khoá bộ đề: TẮT (bấm để bật)'),
+      h('button.pill', { style: 'margin-left:8px', onclick: () => { const L = SETS.filter(x => st.filter === 'all' || x.group === st.filter); if (L.length) openSet(L[Math.floor(Math.random() * L.length)].id); } }, '🎲 Bộ test ngẫu nhiên'),
+      h('button.pill', { style: 'margin-left:8px', onclick: () => { const L = SETS.filter(x => st.filter === 'all' || x.group === st.filter); if (L.length) { openSet(L[Math.floor(Math.random() * L.length)].id); startSet(Math.floor(Math.random() * PARTS.length)); } } }, '🎲 Ngẫu nhiên cả bộ + Part')),
     h('details.guide', h('summary', '📖 Cách dùng (bấm để xem)'), h('div.gb',
       h('ol', h('li', 'Chọn một bộ test bên dưới.'),
-        h('li', h('b', '🔒 Khoá Part: '), 'em tự chọn mặt cười ở cuối mỗi Part thì Part tiếp theo mới mở. Cô bật “Cô: BẬT” để mở hết.'),
+        h('li', h('b', '🔒 Khoá Part: '), 'em làm xong Part này rồi bấm “Phần tiếp” thì Part tiếp theo mới mở. Cô bật “Cô: BẬT” để mở hết.'),
         h('li', h('b', 'Part 1 – Find the Differences: '), 'cô và em mỗi người có một tranh gần giống nhau. Cô nói điểm của tranh cô, em nhìn tranh của em rồi nói điểm khác. Hai tranh nằm cạnh nhau để em đối chiếu.'),
         h('li', h('b', 'Part 2 – Picture Story: '), 'nhìn dải 4 tranh kể chuyện, cô đọc tên truyện và kể tranh 1, em kể tiếp tranh 2, 3, 4 (chỉ cần vài câu cho mỗi tranh).'),
         h('li', h('b', 'Part 3 – Odd One Out: '), 'có 4 bộ, mỗi bộ 4 tranh xếp thành một hàng ngang. Cô làm mẫu bộ 1; em tìm tranh khác loại ở bộ 2, 3, 4 và nói vì sao.'),
         h('li', h('b', 'Part 4 – About You: '), 'câu hỏi về bản thân, không có hình. Bấm "Câu tiếp" để sang câu sau.'),
-        h('li', 'Sau mỗi phần, chọn 😕 / 🙂 / 😄 để chấm sao. App không nghe giọng nói nên cô hoặc em tự chấm.'),
+        h('li', 'Hoàn thành đủ 4 Part của một bộ test thì em nhận ⭐ và sticker. App không nghe giọng nói nên cô tự chấm điểm bằng khung “Cô chấm” ở chế độ Cô.'),
         h('li', h('b', '💡 Hint: '), 'khi em chưa biết nói gì, chạm vào hình (hoặc bấm nút 💡) để hiện từ vựng, giới từ và mẫu câu; chạm thêm lần nữa để ẩn. Part 4 có nút 💡 Hint cho học viên (và biểu tượng quả táo riêng cho cô) ở mỗi câu. Hint do Claude soạn dựa trên hình, cô có thể sửa trong dữ liệu.'),
         h('li', 'Bấm nút 🔍 Phóng to để xem hình lớn. Đồng hồ ⏱ chỉ để tham khảo thời gian (đề thật khoảng 5–7 phút theo Cambridge).')),
       h('p', { style: 'margin:6px 0' }, h('b', 'Dành cho cô: '), tIcon(), ' ở góc trên để hiện/ẩn khung "Gợi ý & đáp án" (Part 1–3). Part 4 có biểu tượng quả táo riêng cho cô ở mỗi câu. Các bộ có nhãn ', h('span.tag.teach', 'có script'), ' (Practice Tests Plus) có đầy đủ câu giám khảo nói, đáp án mẫu và câu hỏi Part 4 chính thức. Các bộ còn lại: Part 2 xem đáp án ở thẻ còn lại; Part 4 là câu gợi ý do Claude soạn theo dạng đề (ghi rõ trên màn hình).'))),
@@ -903,7 +910,7 @@ function shieldCalc(scAll) {
   return { avg, sum, shields: Math.max(0, Math.min(5, Math.round(sum / 3))), n: used.length };
 }
 function openSet(id) {
-  st.view = 'test'; st.p3rev = null; st.oo = null; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; st.hint = false; st.hlvl = 0; st.ans = false; st.story = false; st.dsc = {};
+  st.view = 'test'; st.p3rev = null; st.oo = null; st.set = SETS.find(s => s.id === id); st.part = 0; st.q = 0; st.showA = false; teachDefaults(); st.story = false; st.dsc = {};
   const p = loadP()[id] || {}; st.sc = { p1: [null, null, null], p2: [null, null, null], p3: [null, null, null], p4: [null, null, null] };
   if (p.sc) PARTS.forEach(x => { if (p.sc[x.id]) st.sc[x.id] = p.sc[x.id].slice(); });
   st.t0 = Date.now(); st.tAcc = 0; st.tRun = false; clearInterval(tick);
@@ -928,8 +935,9 @@ function introView() {
       })),
       h('div', { style: 'display:flex;gap:10px;justify-content:center;flex-wrap:wrap' },
         h('button.btn.pulse', { onclick: () => startSet(nd === 4 ? 0 : next) }, nd === 4 ? 'Làm lại từ đầu ▶' : nd > 0 ? 'Tiếp tục Part ' + PARTS[next].n + ' ▶' : 'Start ▶'),
-        nd > 0 && nd < 4 ? h('button.btn.ghost', { onclick: () => { const pr = loadP(), o = pr[s.id] || {}; delete o.done; delete o.self; pr[s.id] = o; saveP(pr); introView(); } }, '↺ Làm lại từ đầu') : null,
-        st.teach ? PARTS.map((p, i) => h('button.btn.ghost', { style: 'min-height:48px;font-size:17px;padding:0 18px', onclick: () => startSet(i) }, 'Part ' + p.n)) : null)));
+        nd > 0 && nd < 4 ? h('button.btn.ghost', { onclick: () => { const pr = loadP(), o = pr[s.id] || {}; delete o.done; pr[s.id] = o; saveP(pr); introView(); } }, '↺ Làm lại từ đầu') : null,
+        st.teach ? PARTS.map((p, i) => h('button.btn.ghost', { style: 'min-height:48px;font-size:17px;padding:0 18px', onclick: () => startSet(i) }, 'Part ' + p.n)) : null,
+        st.teach ? h('button.rbtn', { onclick: () => startSet(Math.floor(Math.random() * PARTS.length)) }, '🎲 Part ngẫu nhiên') : null)));
 }
 function timerEl() {
   const t = h('div.timer', '⏱ ', h('span', fmt(elapsed())));
@@ -937,7 +945,16 @@ function timerEl() {
   clearInterval(tick); tick = setInterval(() => { span.textContent = fmt(elapsed()); }, 500);
   return t;
 }
-function resetPartUI() { st.p3rev = null; st.oo = null; st.hlvl = 0; st.q = 0; st.showA = false; st.hint = false; st.ans = false; st.story = false; }
+/* chế độ Cô = mở khoá hết: hint cấp cao nhất, bảng so sánh, đáp án, gợi ý Part 4 hiện sẵn */
+function teachDefaults() { st.hlvl = st.teach ? 2 : 0; st.hint = st.teach; st.ans = st.teach; }
+function resetPartUI() { st.p3rev = null; st.oo = null; st.q = 0; st.showA = false; st.story = false; teachDefaults(); }
+function pickOther(n, cur) { if (n <= 1) return 0; let r; do { r = Math.floor(Math.random() * n); } while (r === cur); return r; }
+function rbar() {
+  if (!st.teach) return null;
+  return h('div.rbar', h('span', '🔓 Cô: đã mở khoá hết · bấm số Part ở trên để chọn tuỳ ý'),
+    h('button.rbtn', { onclick: () => goPart(pickOther(PARTS.length, st.part)) }, '🎲 Part ngẫu nhiên'),
+    h('button.rbtn', { onclick: () => { const i = SETS.findIndex(x => x.id === st.set.id); openSet(SETS[pickOther(SETS.length, i)].id); } }, '🎲 Bộ test khác ngẫu nhiên'));
+}
 function testView() {
   const s = st.set, P = PARTS[st.part]; st.view = 'test'; document.body.dataset.part = String(st.part + 1);
   const bar = h('header.sbar', h('div.sbar-in',
@@ -950,7 +967,7 @@ function testView() {
   const steps = h('div', trackEl(), h('div.ptag', ico(PICO[st.part]), 'Part ' + P.n + ' · ' + P.en, h('small', P.vi)));
   let body;
   if (P.id === 'p1') body = part1(s); else if (P.id === 'p2') body = part2(s); else if (P.id === 'p3') body = part3(s); else body = part4(s);
-  paint$(bar, steps, body, st.teach ? scoreBox(P) : selfBox(P), navBox());
+  paint$(bar, steps, rbar(), body, st.teach ? scoreBox(P) : null, navBox());
   applyHint();
 }
 function howBox(en, vi) { return h('div.how', h('b.en', en), h('div.vi', vi)); }
@@ -994,12 +1011,12 @@ function difTable(s) {
       h('div.cmp-c.ex', { 'data-l': '🖼 Examiner’s picture (tranh của cô)' }, m[0]),
       h('div.cmp-c.ca', { 'data-l': '🖼 Your picture (tranh của em)' }, m[1]));
   });
-  const tb = h('div.cmp.hidden',
+  const tb = h('div.cmp' + (st.teach ? '' : '.hidden'),
     h('div.cmp-tt', h('span.cmp-ic', '🔎'), h('div', h('b', 'Where are the differences?'), h('small', '(Hai tranh khác nhau ở đâu?) Từ được tô màu là chỗ khác nhau. Đọc theo từng hàng, rồi nói: “In my picture … but in your picture …”'))),
     h('div.cmp-t', { role: 'table' },
       h('div.cmp-h', h('div', '📍 Where ', h('small', '(ở đâu)')), h('div.ex', '🖼 Examiner’s picture ', h('small', '(tranh của cô)')), h('div.ca', '🖼 Your picture ', h('small', '(tranh của em)'))),
       rows));
-  const b = h('button', '📋 Bảng so sánh hai tranh ', h('span.cnt', dif.length + ' điểm khác'));
+  const b = h('button' + (st.teach ? '.open' : ''), '📋 Bảng so sánh hai tranh ', h('span.cnt', dif.length + ' điểm khác'));
   b.addEventListener('click', () => { tb.classList.toggle('hidden'); b.classList.toggle('open'); });
   return h('div.dtbl', b, tb);
 }
@@ -1225,13 +1242,18 @@ function part4(s) {
   wrap.append(howBox(P4.intro, 'Cô hỏi từng câu, em trả lời bằng câu ngắn (câu cuối "Tell me about …" nói dài hơn). Không có hình ở phần này.'));
   if (P4.draft && st.teach) wrap.append(h('div.draftnote', '✏️ Câu hỏi gợi ý do Claude soạn theo dạng Part 4 (không phải đề gốc của sách). Cô có thể sửa trong dữ liệu của app.'));
   const card = h('div.qcard', h('div.qn', 'Câu ' + (st.q + 1) + ' / ' + P4.qs.length), h('div.qt', q.q));
-  const hb = h('div'), tb = h('div'); let hopen = false, topen = false;
-  let hstep = 0; const HL = ['💡 Hint', '💡 Thêm gợi ý', '💡 Ẩn hint'];
-  const bHint = h('button.hbtn', { onclick: () => { hstep = (hstep + 1) % 3; hb.replaceChildren(hstep === 1 ? p4starter(q) : hstep === 2 ? p4hint(q) : ''); bHint.textContent = HL[hstep]; bHint.classList.remove('pulse'); clearTimeout(window.p4t); } }, HL[0]);
+  const hb = h('div'), tb = h('div'); let topen = st.teach;
+  let hstep = st.teach ? 2 : 0; const HL = ['💡 Hint', '💡 Thêm gợi ý', '💡 Ẩn hint'];
+  const bHint = h('button.hbtn', { onclick: () => { hstep = (hstep + 1) % 3; hb.replaceChildren(hstep === 1 ? p4starter(q) : hstep === 2 ? p4hint(q) : ''); bHint.textContent = HL[hstep]; bHint.classList.remove('pulse'); clearTimeout(window.p4t); } }, HL[hstep]);
+  hb.append(hstep === 2 ? p4hint(q) : ''); tb.append(topen ? p4teach(q) : '');
   clearTimeout(window.p4t); window.p4t = setTimeout(() => bHint.classList.add('pulse'), 10000);
   const bTeach = h('button.hbtn.tbtn', { onclick: () => { topen = !topen; tb.replaceChildren(topen ? p4teach(q) : ''); }, title: 'Dành riêng cho cô' }, tIcon(), ' Cô');
   card.append(h('div.p4btns', h('div.p4b', bHint, h('small', 'cho học viên')), st.teach ? h('div.p4b', bTeach, h('small', 'dành cho cô')) : null), hb, tb);
-  wrap.append(card, h('div.dots', P4.qs.map((_, i) => h('i' + (i < st.q ? '.on' : '') + (i === st.q ? '.cur' : '')))),
+  const qdots = st.teach
+    ? h('div.qchips', h('span', 'Chọn câu tuỳ ý:'), P4.qs.map((_, i) => h('button.qch' + (i === st.q ? '.cur' : ''), { onclick: () => { st.q = i; testView(); } }, String(i + 1))),
+        h('button.rbtn', { onclick: () => { st.q = pickOther(P4.qs.length, st.q); testView(); } }, '🎲 Câu ngẫu nhiên'))
+    : h('div.dots', P4.qs.map((_, i) => h('i' + (i < st.q ? '.on' : '') + (i === st.q ? '.cur' : ''))));
+  wrap.append(card, qdots,
     h('div.nav', h('button.btn.ghost', { disabled: st.q === 0, onclick: () => { st.q--; testView(); } }, '← Câu trước'),
       h('button.btn', { disabled: st.q >= P4.qs.length - 1, onclick: () => { st.q++; testView(); } }, 'Câu tiếp →')));
   return wrap;
@@ -1320,13 +1342,13 @@ function askCode(done) {
   document.body.append(ov); setTimeout(() => inp.focus(), 50);
 }
 function toggleTeach(rerender) {
-  if (st.teach) { st.teach = false; setTeach(false); rerender(); return; }
+  if (st.teach) { st.teach = false; setTeach(false); teachDefaults(); rerender(); return; }
   if (!teachAllowed()) return;
-  const on = () => { st.teach = true; setTeach(true); rerender(); };
+  const on = () => { st.teach = true; setTeach(true); teachDefaults(); rerender(); };
   if (AUTHROLE || tokOk() || !D.tcode) on(); else askCode(on);
 }
 function teachBtn(rerender, title) { return teachAllowed() ? ni(tchIco(), st.teach ? 'Cô: BẬT' : 'Cô: TẮT', { onclick: () => toggleTeach(rerender), title }, st.teach) : null; }
-if (!teachAllowed() || (!AUTHROLE && D.tcode && !tokOk())) { st.teach = false; setTeach(false); }
+if (!teachAllowed() || (!AUTHROLE && D.tcode && !tokOk())) { st.teach = false; }
 
 /* ---------- sao + sticker (lưu trong hồ sơ website -> Google Sheets, trường mov) ---------- */
 function kawaii(id){
@@ -1403,21 +1425,6 @@ function albumView() {
       st.teach ? h('div', { style: 'margin-top:14px;color:var(--soft);font-size:14px;font-weight:700' }, 'Cô: mốc mở sticker (số bộ đã xong): ' + MILESTONES.join(', ') + ' · ' + syncLabel()) : null));
 }
 
-/* ---------- học viên tự đánh giá (khi chế độ Cô đang tắt) ---------- */
-const FACES = [['😕', 'Còn khó'], ['🙂', 'Tạm ổn'], ['😄', 'Tự tin']];
-function selfOf(pid) { try { return ((loadP()[st.set.id] || {}).self || {})[pid]; } catch (e) { return null; } }
-function selfBox(P) {
-  const cur = selfOf(P.id), box = h('div.rate.selfbox');
-  box.append(h('b', 'Em thấy Part ' + P.n + ' thế nào?'),
-    h('div.rr', FACES.map((f, i) => h('button.rbtn' + (cur === i ? '.on' : ''), {
-      onclick: () => {
-        const pr = loadP(), o = pr[st.set.id] || {}; o.self = o.self || {}; o.self[P.id] = (cur === i ? null : i); pr[st.set.id] = o; saveP(pr);
-        box.replaceWith(selfBox(P));
-        if (o.self[P.id] != null) { markDone(P.id); refreshTrack(); }
-      }
-    }, f[0], ' ', f[1]))));
-  return box;
-}
 /* ---------- chấm điểm ---------- */
 function scoreBox(P) {
   const sc = st.sc[P.id], box = h('div.score');
@@ -1444,13 +1451,7 @@ function setScore(P, i, v) {
 }
 function navBox() {
   const last = st.part === 3, P = PARTS[st.part];
-  const ok = () => {
-    if (st.teach) { markDone(P.id); return true; }
-    if (isDone(P.id)) return true;
-    toast('🙂 Chọn mặt cười “Em thấy Part ' + P.n + ' thế nào?” để mở Part tiếp theo nhé!');
-    const sb = document.querySelector('.selfbox'); if (sb) { sb.scrollIntoView({ behavior: 'smooth', block: 'center' }); sb.classList.remove('shake'); void sb.offsetWidth; sb.classList.add('shake'); }
-    return false;
-  };
+  const ok = () => { markDone(P.id); return true; };
   return h('div.nav.pnav',
     h('button.btn.ghost', { disabled: st.part === 0, onclick: () => goPart(st.part - 1) }, '← Phần trước'),
     last ? h('button.btn.mint', { onclick: () => { if (ok()) finish(); } }, '🎉 Hoàn thành') : h('button.btn' + (isDone(P.id) ? '.pulse' : ''), { onclick: () => { if (ok()) goPart(st.part + 1); } }, 'Phần tiếp →'));
@@ -1462,8 +1463,8 @@ function finish() {
   const idx = SETS.findIndex(x => x.id === st.set.id), next = SETS[idx + 1];
   const ch = h('img.ch', { src: '../../../assets/ui/chibi-an-mung.png', alt: '', onerror: function () { this.replaceWith(h('div', { style: 'font-size:90px' }, '🎉')); } });
   const un = PARTS.filter(p => !scoredPart(st.sc[p.id])).length;
-  const showT = st.teach && R, mine = (loadP()[st.set.id] || {}).self || {};
-  const face = pid => mine[pid] == null ? '—' : FACES[mine[pid]][0] + ' ' + FACES[mine[pid]][1];
+  const showT = st.teach && R;
+  const face = pid => isDone(pid) ? '✅ Xong' : '—';
   paint$(h('div.panel.sum', ch,
     showT ? h('div', h('div.big', 'Speaking: ' + R.shields + ' / 5 khiên'), h('div.shields', shieldRow(R.shields, 40)),
       h('div', { style: 'font-weight:800;font-size:17px' }, 'Điểm trung bình ba tiêu chí: ' + (R.sum / 3).toFixed(1) + ' / 5 · ⏱ ' + fmt(st.tAcc)))
