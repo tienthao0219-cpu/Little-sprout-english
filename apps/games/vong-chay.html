@@ -101,7 +101,8 @@ h2{font-size:clamp(20px,3.6vh,30px)}
 .pop.bad{color:#ffe1dc}
 .pop.show{animation:pop 1.1s ease-out}
 @keyframes pop{0%{opacity:0;transform:scale(.6)}15%{opacity:1;transform:scale(1.15)}70%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
-.qwrap{flex:1 1 60%;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 10px 8px;display:flex;flex-direction:column;gap:6px;position:relative}
+.qarea{flex:1 1 60%;min-height:0;position:relative;display:flex;flex-direction:column}
+.qwrap{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 10px 8px;display:flex;flex-direction:column;gap:6px;position:relative}
 .qwrap.locked .opts,.qwrap.locked .kb,.qwrap.locked .tiles{pointer-events:none}
 .qsub{text-align:center;font-weight:700;opacity:.8;font-size:clamp(13px,2.3vh,18px)}
 .qask{text-align:center;font-weight:800;font-size:clamp(12px,2vh,16px);color:var(--pri-d);background:#efeaff;border-radius:12px;padding:3px 10px;align-self:center}
@@ -196,6 +197,30 @@ h2{font-size:clamp(20px,3.6vh,30px)}
 .qwarn{align-self:center;background:#ff5e5e;color:#fff;font-weight:900;border-radius:12px;padding:4px 12px;font-size:clamp(12px,2.1vh,17px);animation:blink2 1s infinite}
 @keyframes blink2{50%{opacity:.7}}
 .mini .dg{position:absolute;top:10px;font-size:11px;transform:translateX(-50%)}
+/* COMBO / ITEMS / RUSH / FREEZE */
+.hud2{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:0 12px 3px;font-weight:800;font-size:14px;min-height:26px}
+.cmb i{display:inline-block;width:14px;height:14px;border-radius:50%;background:#e2daf7;margin-right:3px;transition:background .2s}
+.cmb i.on{background:#ff8a3d;box-shadow:0 0 7px #ff8a3d}
+.cmbt{font-size:12px;color:var(--coral-d);font-weight:900}
+.cn{background:#fff3cf;border-radius:10px;padding:1px 8px}
+.itm{margin-left:auto;border:0;border-radius:12px;padding:3px 10px;font-weight:900;background:#fff;box-shadow:0 2px 0 #d9cff5;font-size:14px;cursor:pointer}
+.itm.passive{opacity:.9;cursor:default}
+.itm.pulse{background:#ffe9a8;animation:blink2 .8s infinite}
+.panel.rush{box-shadow:0 0 0 3px #ff5e5e,0 0 18px rgba(255,80,80,.6);animation:rushp .7s infinite alternate}
+@keyframes rushp{to{box-shadow:0 0 0 3px #ff9a5e,0 0 28px rgba(255,120,60,.85)}}
+.qwarn.rushw{background:#ff8a3d}
+.freeze{position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(150,220,255,.88);display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;color:#1d5a8a;z-index:5}
+.fbbar{height:8px;border-radius:6px;background:#f3dcd8;overflow:hidden}
+.fbbar i{display:block;height:100%;width:100%;background:var(--coral)}
+.fbbtns{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+.fb.ok{background:#eefaf5;border-color:var(--mint)}
+.fb.ok .fbh{color:var(--mint-d)}
+.mini .bg{position:absolute;top:9px;font-size:11px;transform:translateX(-50%)}
+.ptop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.ptop h3{margin:0}
+.pcoin{background:#fff3cf;border-radius:12px;padding:2px 10px;font-weight:900}
+.pick.lk canvas{filter:grayscale(1) brightness(.85);opacity:.7}
+.pick.lk{background:#f4f1fb}
 /* RESULT */
 .rtitle{text-align:center;font-size:clamp(26px,5.6vh,44px);font-weight:900;color:var(--pri-d);margin:6px 0}
 .rsub{text-align:center;font-weight:700;margin-bottom:12px}
@@ -227,6 +252,7 @@ h2{font-size:clamp(20px,3.6vh,30px)}
   <div id="setupTrack" class="card"></div>
   <div id="setupBot" class="card hidden"><h3 style="margin-bottom:8px">🤖 Đối thủ và độ mạnh của Bot</h3>
     <div class="seg" id="botSeg"><button data-b="easy">Dễ</button><button data-b="normal">Vừa</button><button data-b="hard">Khó</button></div>
+    <div class="trow" style="margin-top:10px"><span>🏎️ <b>Bot đuổi sát</b> <small>(bot tự tăng/giảm tốc để luôn bám sát bạn)</small></span><button class="sw" id="chaseSw" type="button"></button></div>
     <div id="botPick" class="botpick"></div></div>
   <div class="msg err" id="setupMsg"></div>
   <div class="center"><button id="btnGo" class="btn mint big">▶ Bắt đầu!</button></div>
@@ -356,6 +382,7 @@ function handle_(p) {
       if (pos >= mine.pos || !mine.done) mine.pos = pos;
       mine.right = parseInt(p.right, 10) || 0;
       mine.wrong = parseInt(p.wrong, 10) || 0;
+      mine.fz = Math.max(mine.fz || 0, parseInt(p.fz, 10) || 0);   // số lần đã dùng vật phẩm Đóng băng
       if (String(p.done) === '1' && !mine.done) {
         mine.done = true; mine.ft = parseFloat(p.t) || 0;
         if (!room.winner) room.winner = me;   // ai báo về đích trước máy chủ thì thắng
@@ -371,7 +398,7 @@ function handle_(p) {
 function newPlayer_(p, now) {
   var name = String(p.name || 'Bạn').replace(/[<>&"]/g, '').substring(0, 14) || 'Bạn';
   var ch = Math.max(0, Math.min(5, parseInt(p.ch, 10) || 0));
-  return { name: name, ch: ch, pos: 0, right: 0, wrong: 0, done: false, ft: 0, left: false, seen: now };
+  return { name: name, ch: ch, pos: 0, right: 0, wrong: 0, fz: 0, done: false, ft: 0, left: false, seen: now };
 }
 function load_(cache, code) { var s = cache.get('room_' + code); return s ? JSON.parse(s) : null; }
 function save_(cache, room) { cache.put('room_' + room.code, JSON.stringify(room), TTL); }
@@ -536,7 +563,7 @@ var TYPES = [
   { id: 'g_order', g: 'g', label: 'Ngữ pháp – Sắp xếp câu' }
 ];
 var KEY = 'vrcn:' + (CFG.storageKey || location.pathname);
-var S = { types: {}, secs: CFG.secondsPerQuestion || 10, bot: 'normal', botPick: 'random', track: 'park', sound: true, names: ['', ''], chars: [0, 1] };
+var S = { types: {}, secs: CFG.secondsPerQuestion || 10, bot: 'normal', botPick: 'random', track: 'park', chase: true, fbSecs: 6, unlockAll: false, sound: true, names: ['', ''], chars: [0, 1] };
 TYPES.forEach(function (t) { S.types[t.id] = true; });
 (function loadS() {
   try {
@@ -546,6 +573,9 @@ TYPES.forEach(function (t) { S.types[t.id] = true; });
     if ([10, 15, 20].indexOf(o.secs) >= 0) S.secs = o.secs;
     if (['easy', 'normal', 'hard'].indexOf(o.bot) >= 0) S.bot = o.bot;
     if (typeof o.sound === 'boolean') S.sound = o.sound;
+    if (typeof o.chase === 'boolean') S.chase = o.chase;
+    if (typeof o.unlockAll === 'boolean') S.unlockAll = o.unlockAll;
+    if ([0, 6, 10].indexOf(o.fbSecs) >= 0) S.fbSecs = o.fbSecs;
     if (o.botPick === 'random' || (o.botPick >= 0 && o.botPick <= 5)) S.botPick = o.botPick;
     if (['park', 'beach', 'desert', 'snow', 'random'].indexOf(o.track) >= 0) S.track = o.track;
     if (o.names && o.names.length === 2) S.names = [String(o.names[0]).slice(0, 14), String(o.names[1]).slice(0, 14)];
@@ -553,6 +583,18 @@ TYPES.forEach(function (t) { S.types[t.id] = true; });
   } catch (e) {}
 })();
 function saveS() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+
+/* ---- hồ sơ học sinh: xu + nhân vật đã mở khoá (lưu trên thiết bị, theo tên; dùng chung cho mọi unit cùng trang web) ---- */
+var SAVE_KEY = 'vrcn:save:v1', SAVE = { profiles: {} };
+var CHAR_COST = [0, 0, 40, 70, 100, 150];
+(function () { try { var o = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (o && o.profiles) SAVE = o; } catch (e) {} })();
+function persist() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(SAVE)); } catch (e) {} }
+function pkey(n) { return norm(n || '') || 'bạn'; }
+function peekProfile(n) { var p = SAVE.profiles[pkey(n)]; return p || { name: n, coins: 0, unlocked: [0, 1] }; }
+function getProfile(n) { var k = pkey(n), p = SAVE.profiles[k]; if (!p) p = SAVE.profiles[k] = { name: n || 'Bạn', coins: 0, unlocked: [0, 1] }; return p; }
+function isUnlocked(pr, ci) { return S.unlockAll || pr.unlocked.indexOf(ci) >= 0; }
+function firstUnlocked(pr) { for (var i = 0; i < 6; i++) if (isUnlocked(pr, i)) return i; return 0; }
+function cheapestLocked(pr) { var best = null; for (var i = 0; i < 6; i++) if (pr.unlocked.indexOf(i) < 0 && (!best || CHAR_COST[i] < best.cost)) best = { ci: i, cost: CHAR_COST[i] }; return best; }
 
 /* ============================ SOUND ============================ */
 var AC = null;
@@ -578,7 +620,12 @@ var SFX = {
   tick: function () { tone(900, .06, 'square', .05); },
   win: function () { [523, 659, 784, 1047].forEach(function (f, i) { tone(f, .24, 'triangle', .18, i * .14); }); },
   count: function () { tone(440, .15, 'sine', .15); },
-  go: function () { tone(880, .35, 'triangle', .2); }
+  go: function () { tone(880, .35, 'triangle', .2); },
+  gift: function () { tone(784, .1, 'triangle', .16); tone(1047, .1, 'triangle', .16, .09); tone(1319, .2, 'triangle', .16, .18); },
+  boost: function () { tone(400, .35, 'sawtooth', .09, 0, 1200); },
+  shield: function () { tone(900, .15, 'sine', .15); tone(600, .2, 'sine', .15, .1); },
+  freeze: function () { tone(1500, .4, 'sine', .12, 0, 300); },
+  rush: function () { tone(300, .5, 'sawtooth', .09, 0, 900); }
 };
 
 /* ============================ SPEECH ============================ */
@@ -804,6 +851,15 @@ function drawObstacle(c, type, cx, fy, w) {
   }
 }
 
+function drawGift(c, x, foot, u, t) {
+  var g = u * 0.8, bob = Math.sin(t * 3 + x * 0.01) * g * 0.06, y = foot - g * 0.12 - bob;
+  ell(c, x, foot, g * 0.5, g * 0.08, 'rgba(70,50,120,.22)');
+  rrect(c, x - g * 0.46, y - g * 0.78, g * 0.92, g * 0.78, g * 0.1, '#ff8fb1');
+  rrect(c, x - g * 0.54, y - g * 0.98, g * 1.08, g * 0.26, g * 0.08, '#ff6f91');
+  rrect(c, x - g * 0.07, y - g * 0.98, g * 0.14, g * 0.98, g * 0.03, '#ffd166');
+  ell(c, x - g * 0.14, y - g * 1.06, g * 0.14, g * 0.1, '#ffd166', -0.5); ell(c, x + g * 0.14, y - g * 1.06, g * 0.14, g * 0.1, '#ffd166', 0.5);
+  c.fillStyle = '#fff'; c.font = '900 ' + Math.max(8, g * 0.36) + 'px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('?', x - g * 0.22, y - g * 0.4);
+}
 function drawTree(c, x, fy, u, style) {
   ell(c, x, fy, u * 0.3, u * 0.06, 'rgba(70,50,120,.18)');
   if (style === 'palm') {
@@ -887,9 +943,13 @@ function renderTrack(v, me, opp, t, dt) {
       var ox = X(kk + 0.5); if (ox < -sp || ox > W + sp) continue;
       drawObstacle(c, plan ? plan.obs[kk] : kk, ox, foot, u);
     }
+    if (plan && plan.boxes) { for (var bk in plan.boxes) { var kz = +bk; if (p.got[kz] && p.rz >= kz - 0.05) p.gotVis[kz] = 1; if (p.gotVis[kz]) continue; var bxx = X(kz); if (bxx < -sp || bxx > W + sp) continue; drawGift(c, bxx, foot, u, t); } }
     var rx = X(p.rz), Sl = S_ * sl;
     if (rx > -Sl && rx < W + Sl) {
+      if (p.cur && p.cur.boost) { for (var bl = 0; bl < 5; bl++) { c.fillStyle = 'rgba(255,150,50,' + (0.75 - bl * 0.12) + ')'; c.fillRect(rx - Sl * (0.5 + bl * 0.3), foot - Sl * (0.15 + bl * 0.17) - p.ry * Sl, Sl * 0.34, Math.max(2, Sl * 0.04)); } ell(c, rx - Sl * 0.4, foot - Sl * 0.3 - p.ry * Sl, Sl * 0.2, Sl * 0.11, 'rgba(255,110,40,.8)'); }
       drawRunner(c, p.ch, rx, foot, Sl, p.pose, p.ph, p.ry, t);
+      if (p.item === 'shield') { c.strokeStyle = 'rgba(70,190,255,.85)'; c.lineWidth = 3; c.beginPath(); c.ellipse(rx, foot - Sl * 0.5 - p.ry * Sl, Sl * 0.45, Sl * 0.62, 0, 0, 6.283); c.stroke(); c.fillStyle = 'rgba(120,210,255,.16)'; c.fill(); }
+      if (p.frozenT > 0) { rrect(c, rx - Sl * 0.5, foot - Sl * 1.08, Sl, Sl * 1.12, Sl * 0.16, 'rgba(150,220,255,.6)'); c.fillStyle = '#fff'; c.font = Math.max(10, Sl * 0.3) + 'px sans-serif'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.fillText('\u2744', rx, foot - Sl * 0.55); }
       var fs = Math.max(10, Math.min(15, Sl * 0.2)), label = p.name;
       c.font = '800 ' + fs + 'px "Trebuchet MS",sans-serif'; var tw = c.measureText(label).width + 12, ty = foot - Sl * 1.12 - p.ry * Sl - fs - 4;
       rrect(c, rx - tw / 2, ty, tw, fs + 6, (fs + 6) / 2, own ? 'rgba(124,108,240,.92)' : 'rgba(255,139,122,.92)');
@@ -903,6 +963,7 @@ function renderTrack(v, me, opp, t, dt) {
   }
   lane(opp, trackTop + trackH * 0.32, 0.84, false);
   lane(me, trackTop + trackH * 0.95, 1, true);
+  if (race && race.state === 'playing' && rushOn(me)) { var ra = 0.2 + 0.12 * Math.sin(t * 9), rg = c.createRadialGradient(W / 2, H / 2, H * 0.25, W / 2, H / 2, W * 0.62); rg.addColorStop(0, 'rgba(255,60,60,0)'); rg.addColorStop(1, 'rgba(255,60,60,' + ra + ')'); c.fillStyle = rg; c.fillRect(0, 0, W, H); }
   if (TH.snow) { c.fillStyle = 'rgba(255,255,255,.9)'; for (var sn = 0; sn < 46; sn++) { var snx = (sn * 97.3 + Math.sin(t * 0.8 + sn) * 18) % W, sny = (sn * 53.1 + t * (28 + (sn % 5) * 9)) % H; c.beginPath(); c.arc(snx < 0 ? snx + W : snx, sny, 1.4 + (sn % 3) * 0.7, 0, 6.283); c.fill(); } }
   if (v.confetti.length) {
     for (var ci = v.confetti.length - 1; ci >= 0; ci--) {
@@ -1170,6 +1231,7 @@ var TRACKS = [
     desc: 'Đủ mọi dạng, gồm cả gõ từ. 6 chướng ngại nguy hiểm. Bot rất mạnh.',
     theme: { sky: ['#b9c9ff', '#f1f4ff'], sun: 'rgba(255,255,255,.95)', hills: ['#e8eeff', '#cfd9ff'], grass: ['#ffffff', '#edf2ff'], road: ['#b3c3e6', '#c4d2ef'], edge: '#7c8fe0', trees: ['snowpine', 'snowpine', 'pine'], snow: true } }
 ];
+var ITEMS = { shield: { emoji: '🛡️', name: 'Khiên' }, freeze: { emoji: '❄️', name: 'Đóng băng' }, rocket: { emoji: '🚀', name: 'Tên lửa' } };
 function findTrack(id) { for (var i = 0; i < TRACKS.length; i++) if (TRACKS[i].id === id) return TRACKS[i]; return TRACKS[0]; }
 function resolveTrack() { return S.track === 'random' ? pick(TRACKS) : findTrack(S.track); }
 function hashStr(s) { var h = 2166136261; for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -1181,12 +1243,16 @@ function buildPlan(track, seed) {
   for (i = cand.length - 1; i > 0; i--) { var j = Math.floor(rng() * (i + 1)), t = cand[i]; cand[i] = cand[j]; cand[j] = t; }
   var picked = [], danger = {};
   cand.forEach(function (k) { if (picked.length < track.danger && picked.every(function (x) { return Math.abs(x - k) >= 2; })) { picked.push(k); danger[k] = 1; obs[k] = 99; } });
-  return { obs: obs, danger: danger };
+  var bc = []; for (i = 2; i <= TOTAL - 3; i++) bc.push(i);
+  for (i = bc.length - 1; i > 0; i--) { var j2 = Math.floor(rng() * (i + 1)), t2 = bc[i]; bc[i] = bc[j2]; bc[j2] = t2; }
+  var kinds = ['shield', 'shield', 'shield', 'freeze', 'freeze', 'rocket', 'rocket', 'coin', 'coin', 'coin'], boxes = {}, bp = [];
+  bc.forEach(function (k) { if (bp.length < 3 && bp.every(function (x) { return Math.abs(x - k) >= 3; })) { bp.push(k); boxes[k] = kinds[Math.floor(rng() * kinds.length)]; } });
+  return { obs: obs, danger: danger, boxes: boxes };
 }
 var race = null, raf = 0, lastTs = 0, screenId = 'menu', pendingMode = 'bot';
 
 function mkPlayer(idx, name, ch, type) {
-  return { mood: 1, bot: null, idx: idx, name: name, ch: ch, type: type, pos: 0, rz: 0, ry: 0, pose: 'idle', ph: 0, anims: [], cur: null, q: null, locked: true, timeLeft: 0, hint: 0, ui: null, recent: [], lastType: '', dom: null, view: null, delay: null, finished: false, fbOpen: false, fbBtn: null, finishT: null, wait: 2.5, stats: { right: 0, wrong: 0, timeouts: 0, hints: 0, wrongList: [] } };
+  return { mood: 1, bot: null, streak: 0, coins: 0, item: null, itemT: 0, got: {}, gotVis: {}, frozenT: 0, fz: 0, fzSeen: 0, rushed: false, fbHold: false, fbT: 0, fbBar: null, idx: idx, name: name, ch: ch, type: type, pos: 0, rz: 0, ry: 0, pose: 'idle', ph: 0, anims: [], cur: null, q: null, locked: true, timeLeft: 0, hint: 0, ui: null, recent: [], lastType: '', dom: null, view: null, delay: null, finished: false, fbOpen: false, fbBtn: null, finishT: null, wait: 2.5, stats: { right: 0, wrong: 0, timeouts: 0, hints: 0, wrongList: [] } };
 }
 function other(p) { return race.players[1 - p.idx]; }
 
@@ -1195,15 +1261,23 @@ function showOverlay(html) { var o = $('#overlay'); o.innerHTML = html; o.classN
 function hideOverlay() { var o = $('#overlay'); o.className = ''; o.innerHTML = ''; }
 
 /* ---------- HUD ---------- */
+function rushOn(p) { return !!race && race.state === 'playing' && !p.finished && p.pos >= TOTAL - 3 && p.pos < TOTAL; }
 function refreshHud() {
   if (!race) return;
   race.players.forEach(function (p) {
     if (!p.dom) return;
-    var o = other(p);
-    p.dom.who.textContent = CHARS[p.ch].emoji + ' ' + p.name;
-    p.dom.stp.textContent = 'Bước ' + p.pos + '/' + TOTAL;
-    p.dom.mk.textContent = CHARS[p.ch].emoji; p.dom.mk.style.left = (p.pos / TOTAL * 100) + '%';
-    p.dom.mkO.textContent = CHARS[o.ch].emoji; p.dom.mkO.style.left = (o.pos / TOTAL * 100) + '%';
+    var o = other(p), d = p.dom;
+    d.who.textContent = CHARS[p.ch].emoji + ' ' + p.name;
+    d.stp.textContent = 'Bước ' + p.pos + '/' + TOTAL;
+    d.mk.textContent = CHARS[p.ch].emoji; d.mk.style.left = (p.pos / TOTAL * 100) + '%';
+    d.mkO.textContent = CHARS[o.ch].emoji; d.mkO.style.left = (o.pos / TOTAL * 100) + '%';
+    Array.prototype.forEach.call(d.cmb.children, function (e, i) { e.className = i < p.streak ? 'on' : ''; });
+    d.cmbt.textContent = p.streak === 2 ? 'Thêm 1 câu đúng là BỨT TỐC! 🔥' : '';
+    d.cn.textContent = '🪙 ' + p.coins;
+    if (p.item) { var it = ITEMS[p.item], ps = p.item === 'shield'; d.itm.textContent = it.emoji + ' ' + it.name + (ps ? ' (tự động)' : ' · bấm dùng'); d.itm.className = 'itm' + (ps ? ' passive' : ' pulse'); }
+    else d.itm.className = 'itm hidden';
+    var rs = rushOn(p); d.panel.classList.toggle('rush', rs);
+    if (rs && !p.rushed) { p.rushed = true; pop(p, '🔥 NƯỚC RÚT! Đúng được x2 xu', 'good'); SFX.rush(); }
   });
 }
 function pop(p, text, cls) {
@@ -1212,14 +1286,40 @@ function pop(p, text, cls) {
 }
 
 /* ---------- moves & animation ---------- */
-function moveForward(p) { var from = p.pos; p.pos = Math.min(TOTAL, p.pos + 1); p.anims.push({ kind: 'jump', from: from, to: p.pos }); refreshHud(); }
+function moveForward(p, n, boost) {
+  var from = p.pos; p.pos = Math.min(TOTAL, p.pos + (n || 1));
+  if (p.pos === from) return;
+  p.anims.push({ kind: 'jump', from: from, to: p.pos, boost: !!boost });
+  for (var z = from + 1; z <= p.pos; z++) { var bt = race.plan.boxes[z]; if (bt && !p.got[z]) { p.got[z] = true; if (p.type !== 'remote') grantItem(p, bt); } }
+  refreshHud();
+}
+function grantItem(p, type) {
+  if (type === 'coin') { p.coins += 3; pop(p, '🎁 +3 xu 🪙', 'good'); SFX.gift(); return; }
+  if (p.item) { p.coins += 2; pop(p, '🎁 Túi đã đầy! +2 xu 🪙', 'good'); return; }
+  p.item = type; p.itemT = 1.2 + Math.random() * 2.2;
+  pop(p, '🎁 ' + ITEMS[type].emoji + ' ' + ITEMS[type].name + '!', 'good'); SFX.gift();
+}
+function applyFreeze(t) { t.frozenT = 3; SFX.freeze(); if (t.dom) { t.dom.freeze.classList.remove('hidden'); updateFreeze(t); pop(t, '❄️ Bị đóng băng!', 'bad'); } }
+function updateFreeze(t) { if (t.dom) t.dom.freeze.innerHTML = '<div><div style="font-size:clamp(26px,5.5vh,44px)">❄️ Bị đóng băng!</div><div style="font-size:clamp(30px,7vh,60px)">' + Math.ceil(Math.max(0, t.frozenT)) + '</div></div>'; }
+function clearFreeze(t) { t.frozenT = 0; if (t.dom) t.dom.freeze.classList.add('hidden'); }
+function useItem(p) {
+  if (!race || race.state !== 'playing' || !p.item || p.finished || p.frozenT > 0) return;
+  var it = p.item;
+  if (it === 'rocket') { p.item = null; pop(p, '🚀 +1 bước!', 'good'); SFX.boost(); moveForward(p, 1, true); if (p.pos >= TOTAL) onFinish(p); else if (race.mode === 'online') onlineKick(false); }
+  else if (it === 'freeze') {
+    var o = other(p); if (o.finished) return;
+    p.item = null; SFX.freeze(); pop(p, '❄️ Đóng băng đối thủ!', 'good');
+    if (race.mode === 'online') { p.fz++; onlineKick(false); } else applyFreeze(o);
+  }
+  refreshHud();
+}
 function moveBack(p, n) { var from = p.pos, to = Math.max(0, p.pos - (n || 1)); p.pos = to; p.anims.push({ kind: 'hit', from: from, to: to }); refreshHud(); }
 function stepAnim(p, dt, t) {
-  if (!p.cur && p.anims.length) { p.cur = p.anims.shift(); p.cur.t = 0; if (p.cur.kind === 'jump') SFX.jump(); }
+  if (!p.cur && p.anims.length) { p.cur = p.anims.shift(); p.cur.t = 0; if (p.cur.kind === 'jump') { if (p.cur.boost) SFX.boost(); else SFX.jump(); } }
   if (p.cur) {
     var a = p.cur; a.t += dt;
     if (a.kind === 'jump') {
-      var u = Math.min(1, a.t / 0.8); p.rz = a.from + (a.to - a.from) * u; p.ry = Math.sin(u * Math.PI) * 0.75; p.pose = 'jump';
+      var len = a.to - a.from, u = Math.min(1, a.t / (len > 1 ? 1.2 : 0.8)); p.rz = a.from + len * u; p.ry = Math.abs(Math.sin(u * len * Math.PI)) * 0.75; p.pose = 'jump';
       if (u >= 1) { p.cur = null; p.ry = 0; p.rz = a.to; p.pose = p.finished ? 'win' : 'idle'; }
     } else {
       var T = a.t, f = a.from, to = a.to;
@@ -1247,14 +1347,16 @@ function buildGameUI() {
   humans.forEach(function (p, i) {
     var pn = el('section', 'panel' + (i ? ' p2' : ''));
     pn.innerHTML = '<div class="hud"><div class="who"></div><div class="stp"></div><div class="tmr"><i></i><b></b></div></div>' +
+      '<div class="hud2"><span class="cmb"><i></i><i></i><i></i></span><span class="cmbt"></span><span class="cn">🪙 0</span><button class="itm hidden" type="button"></button></div>' +
       '<div class="mini"><div class="rail"></div><span class="mk"></span><span class="mk o"></span><span class="fl">🏁</span></div>' +
-      '<div class="trackwrap"><canvas></canvas><div class="pop"></div></div><div class="qwrap"></div>';
+      '<div class="trackwrap"><canvas></canvas><div class="pop"></div></div><div class="qarea"><div class="qwrap"></div><div class="freeze hidden"></div></div>';
     host.appendChild(pn);
-    p.dom = { panel: pn, who: $('.who', pn), stp: $('.stp', pn), tmr: $('.tmr', pn), tmrI: $('.tmr i', pn), tmrB: $('.tmr b', pn), mk: $('.mk', pn), mkO: $('.mk.o', pn), pop: $('.pop', pn), qwrap: $('.qwrap', pn) };
+    p.dom = { panel: pn, who: $('.who', pn), stp: $('.stp', pn), tmr: $('.tmr', pn), tmrI: $('.tmr i', pn), tmrB: $('.tmr b', pn), mk: $('.mk', pn), mkO: $('.mk.o', pn), pop: $('.pop', pn), qwrap: $('.qwrap', pn), freeze: $('.freeze', pn), cmb: $('.cmb', pn), cmbt: $('.cmbt', pn), cn: $('.cn', pn), itm: $('.itm', pn) };
+    p.dom.itm.onclick = function () { useItem(p); };
     p.view = makeView($('canvas', pn));
   });
   $('#gameTtl').textContent = race.track.emoji + ' ' + race.track.name + ' · ' + race.track.level;
-  humans.forEach(function (p) { var mini = $('.mini', p.dom.panel); Object.keys(race.plan.danger).forEach(function (k) { var d = el('span', 'dg', '⚠️'); d.style.left = ((+k + 0.5) / TOTAL * 100) + '%'; mini.appendChild(d); }); });
+  humans.forEach(function (p) { var mini = $('.mini', p.dom.panel); Object.keys(race.plan.danger).forEach(function (k) { var d = el('span', 'dg', '⚠️'); d.style.left = ((+k + 0.5) / TOTAL * 100) + '%'; mini.appendChild(d); }); Object.keys(race.plan.boxes).forEach(function (k) { var d = el('span', 'bg', '🎁'); d.style.left = (k / TOTAL * 100) + '%'; mini.appendChild(d); }); });
   $('#btnSound').textContent = S.sound ? '🔊' : '🔇';
   refreshHud();
 }
@@ -1368,6 +1470,7 @@ function submitAnswer(p) {
 function renderQuestion(p) {
   var q = p.q, w = p.dom.qwrap, ui = p.ui;
   w.innerHTML = ''; w.classList.remove('locked'); w.scrollTop = 0;
+  if (rushOn(p)) w.appendChild(el('div', 'qwarn rushw', '🔥 NƯỚC RÚT! Đúng được x2 xu'));
   if (race.plan.danger[p.pos]) w.appendChild(el('div', 'qwarn', '⚠️ Chướng ngại nguy hiểm! Sai sẽ lùi 2 bước'));
   if (q.ask) w.appendChild(el('div', 'qask', esc(q.ask)));
   var row = el('div', 'qrow');
@@ -1436,38 +1539,50 @@ function renderQuestion(p) {
 }
 
 /* ---------- answering ---------- */
-function lockAll() { race.players.forEach(function (pl) { pl.locked = true; pl.delay = null; if (pl.dom) pl.dom.qwrap.classList.add('locked'); }); }
+function lockAll() { race.players.forEach(function (pl) { pl.locked = true; pl.delay = null; clearFreeze(pl); if (pl.dom) { pl.dom.qwrap.classList.add('locked'); pl.dom.panel.classList.remove('rush'); } }); }
 function answer(p, ans, timedOut) {
-  if (!race || race.state !== 'playing' || !p.q || p.locked) return;
+  if (!race || race.state !== 'playing' || !p.q || p.locked || p.frozenT > 0) return;
   p.locked = true;
   var q = p.q, ok = !timedOut && q.check(ans);
   p.stats.hints += p.hint;
   p.dom.qwrap.classList.add('locked');
   if (q.kind === 'choice' && !timedOut && p.ui.opts && p.ui.opts[ans]) p.ui.opts[ans].classList.add(ok ? 'ok' : 'no');
   if (ok) {
-    p.stats.right++; SFX.ok(); pop(p, '✔ Đúng rồi!', 'good'); moveForward(p);
+    p.stats.right++; p.streak++;
+    var gain = rushOn(p) ? 2 : 1, boost = false;
+    if (p.streak >= 3) { p.streak = 0; boost = true; gain += 2; }
+    p.coins += gain;
+    SFX.ok(); pop(p, boost ? '🔥 BỨT TỐC! +2 bước' : '✔ Đúng rồi!', 'good');
+    moveForward(p, boost ? 2 : 1, boost);
     if (p.pos >= TOTAL) onFinish(p); else p.delay = { t: 0.95, fn: function () { startQuestion(p); } };
   } else {
-    p.stats.wrong++; if (timedOut) p.stats.timeouts++;
-    SFX.bad(); var dng = !!race.plan.danger[p.pos], back = Math.min(dng ? 2 : 1, p.pos); moveBack(p, dng ? 2 : 1);
-    pop(p, (timedOut ? '⏰ Hết giờ!' : '✖ Chưa đúng') + (dng ? ' ⚠️' : ''), 'bad');
+    p.stats.wrong++; if (timedOut) p.stats.timeouts++; p.streak = 0;
+    var shielded = false, dng = !!race.plan.danger[p.pos], back = 0;
+    if (p.item === 'shield') { p.item = null; shielded = true; SFX.shield(); pop(p, '🛡️ Khiên cứu bạn!', 'good'); refreshHud(); }
+    else { SFX.bad(); back = Math.min(dng ? 2 : 1, p.pos); moveBack(p, dng ? 2 : 1); pop(p, (timedOut ? '⏰ Hết giờ!' : '✖ Chưa đúng') + (dng ? ' ⚠️' : ''), 'bad'); }
     p.stats.wrongList.push({ type: q.typeLabel, q: q.review.q, a: q.review.a, why: q.explain(ans, timedOut) });
-    showFeedback(p, ans, timedOut, back, dng);
+    showFeedback(p, ans, timedOut, back, dng, shielded);
   }
+  refreshHud();
   if (race.mode === 'online') onlineKick(false);
 }
-function showFeedback(p, ans, timedOut, back, dng) {
+function showFeedback(p, ans, timedOut, back, dng, shielded) {
   var q = p.q, w = p.dom.qwrap;
   w.innerHTML = ''; w.classList.remove('locked'); w.scrollTop = 0;
-  var fb = el('div', 'fb');
-  fb.appendChild(el('div', 'fbh', (timedOut ? '⏰ Hết giờ rồi!' : '😵 Chưa đúng!') + ' ' + (back === 0 ? 'Bạn vẫn ở vạch xuất phát.' : (dng ? '⚠️ Chướng ngại nguy hiểm! ' : '') + 'Lùi ' + back + ' bước.')));
+  var fb = el('div', 'fb' + (shielded ? ' ok' : ''));
+  var head = shielded ? '🛡️ Chưa đúng, nhưng khiên đã bảo vệ bạn, không bị lùi!' : (timedOut ? '⏰ Hết giờ rồi!' : '😵 Chưa đúng!') + ' ' + (back === 0 ? 'Bạn vẫn ở vạch xuất phát.' : (dng ? '⚠️ Chướng ngại nguy hiểm! ' : '') + 'Lùi ' + back + ' bước.');
+  fb.appendChild(el('div', 'fbh', head));
   var fa = el('div', 'fbans', 'Đáp án đúng: <b>' + esc(q.answerText) + '</b>');
   if (q.speak) { var sp = el('button', 'spk', '🔊'); sp.type = 'button'; sp.style.marginLeft = '8px'; sp.style.verticalAlign = 'middle'; sp.onclick = function () { speak(q.speak.text, q.speak.audio); }; fa.appendChild(sp); }
   fb.appendChild(fa);
   fb.appendChild(el('div', 'fbexp', q.explain(ans, timedOut)));
+  p.fbBar = null; p.fbHold = false; p.fbT = S.fbSecs;
+  if (S.fbSecs > 0) { var bar = el('div', 'fbbar', '<i></i>'); fb.appendChild(bar); p.fbBar = bar.firstChild; }
+  var row = el('div', 'fbbtns');
   var btn = el('button', 'btn', 'Tiếp tục ▶'); btn.type = 'button';
   btn.onclick = function () { p.fbOpen = false; p.fbBtn = null; startQuestion(p); };
-  fb.appendChild(btn); w.appendChild(fb);
+  if (S.fbSecs > 0) { var hold = el('button', 'btn ghost sm', '✋ Giữ lại để đọc'); hold.type = 'button'; hold.onclick = function () { p.fbHold = true; if (p.fbBar) p.fbBar.parentNode.style.visibility = 'hidden'; hold.style.display = 'none'; }; row.appendChild(hold); }
+  row.appendChild(btn); fb.appendChild(row); w.appendChild(fb);
   p.fbOpen = true; p.fbBtn = btn;
 }
 function onFinish(p) {
@@ -1480,18 +1595,28 @@ function onFinish(p) {
   race.winner = p; race.state = 'ending'; lockAll();
 }
 function botTick(b, dt) {
-  if (b.finished || b.cur || b.anims.length) return;
+  if (b.finished || b.cur || b.anims.length || b.frozenT > 0) return;
+  if (b.item && b.item !== 'shield') { b.itemT -= dt; if (b.itemT <= 0) { useItem(b); if (b.finished) return; } }
   b.wait -= dt;
   if (b.wait > 0) return;
-  var P = b.bot, lv = BOTLV[S.bot], T = race.track;
-  var acc = clamp(P.acc * lv.acc * T.botAcc, 0.25, 0.96);
+  var P = b.bot, lv = BOTLV[S.bot], T = race.track, human = race.players[0], gap = human.pos - b.pos, cAcc = 0, cM = 1;
+  if (S.chase) {
+    if (gap >= 2) { cM = Math.max(0.6, 1 - 0.1 * (gap - 1)); cAcc = Math.min(0.15, 0.05 * (gap - 1)); }
+    else if (gap <= -2) { cM = Math.min(1.7, 1 + 0.15 * (-gap - 1)); cAcc = -Math.min(0.25, 0.07 * (-gap - 1)); }
+  }
+  if (b.pos >= TOTAL - 3) { cM *= 0.85; cAcc += 0.04; }
+  var acc = clamp(P.acc * lv.acc * T.botAcc + cAcc, 0.2, 0.96);
   if (Math.random() < acc) { b.stats.right++; moveForward(b); if (P.mode === 'streak') b.mood = Math.max(0.5, b.mood * 0.85); }
-  else { b.stats.wrong++; moveBack(b, race.plan.danger[b.pos] ? 2 : 1); if (P.mode === 'streak') b.mood = Math.min(1.4, b.mood * 1.4); }
+  else {
+    b.stats.wrong++;
+    if (b.item === 'shield') b.item = null; else moveBack(b, race.plan.danger[b.pos] ? 2 : 1);
+    if (P.mode === 'streak') b.mood = Math.min(1.4, b.mood * 1.4);
+  }
   var base = P.min + Math.random() * (P.max - P.min), m = lv.wait * T.botWait;
   if (P.mode === 'late') m *= b.pos < 6 ? 1.5 : 0.7;
   if (P.mode === 'streak') m *= b.mood;
   if (P.mode === 'erratic') { var r = Math.random(); base = r < 0.35 ? P.min * 0.6 : (r < 0.65 ? P.max * 1.25 : base); }
-  b.wait = base * m;
+  b.wait = base * m * cM;
   if (b.pos >= TOTAL) onFinish(b);
 }
 
@@ -1525,10 +1650,12 @@ function frame(ts) {
 function tickRace(dt) {
   race.elapsed += dt;
   race.players.forEach(function (p) {
+    if (p.frozenT > 0) { p.frozenT -= dt; if (p.frozenT <= 0) clearFreeze(p); else updateFreeze(p); }
     if (p.type === 'bot') { if (race.state === 'playing') botTick(p, dt); return; }
     if (p.type !== 'human' || race.state !== 'playing') return;
+    if (p.fbOpen && S.fbSecs > 0 && !p.fbHold && p.fbBtn) { p.fbT -= dt; if (p.fbBar) p.fbBar.style.width = Math.max(0, p.fbT / S.fbSecs * 100) + '%'; if (p.fbT <= 0) p.fbBtn.click(); return; }
     if (p.delay) { p.delay.t -= dt; if (p.delay.t <= 0) { var f = p.delay.fn; p.delay = null; f(); } return; }
-    if (p.q && !p.locked) {
+    if (p.q && !p.locked && !(p.frozenT > 0)) {
       p.timeLeft -= dt;
       var c = Math.ceil(p.timeLeft);
       if (c <= 3 && c >= 1 && c !== p.lastTick) { p.lastTick = c; if (race.mode !== 'local') SFX.tick(); }
@@ -1551,7 +1678,7 @@ document.addEventListener('keydown', function (e) {
   if (race.state !== 'playing') return;
   var p = race.players[0], k = e.key;
   if (p.fbOpen) { if (k === 'Enter' || k === ' ') { e.preventDefault(); if (p.fbBtn) p.fbBtn.click(); } return; }
-  if (p.locked || !p.q) return;
+  if (p.locked || !p.q || p.frozenT > 0) return;
   var q = p.q;
   if (q.kind === 'choice') {
     var idx = '1234'.indexOf(k); if (idx < 0 && k.length === 1) idx = 'abcd'.indexOf(k.toLowerCase());
@@ -1573,6 +1700,8 @@ function showResult() {
   if (!race || race.state === 'over') return;
   race.state = 'over'; hideOverlay(); stopOnlinePolling(false);
   var P = race.players, w = race.winner || P[0], me = P[0], title, sub = '';
+  P.forEach(function (p) { if (p.type !== 'human') return; p.bonus = p === w ? 10 : 3; p.award = p.coins + p.bonus; var pr = getProfile(p.name); pr.name = p.name; pr.coins += p.award; p.profRef = pr; p.profTotal = pr.coins; });
+  persist();
   if (race.mode === 'bot') { title = w === me ? '🏆 Bạn thắng rồi!' : '🤖 Bot về đích trước!'; sub = w === me ? 'Giỏi quá! Bạn đã vượt qua tất cả chướng ngại vật.' : 'Đừng buồn, ôn lại các câu sai bên dưới rồi thử lại nhé!'; }
   else if (race.mode === 'local') { title = '🏆 ' + esc(w.name) + ' thắng!'; sub = 'Chúc mừng ' + esc(w.name) + '! Cả hai bạn đều chơi rất tốt.'; }
   else { title = w === me ? '🏆 Bạn thắng rồi!' : '🥈 ' + esc(w.name) + ' về đích trước!'; sub = w === me ? 'Bạn là người về đích đầu tiên!' : 'Cố gắng lên, ôn lại các câu sai rồi chơi tiếp nhé!'; }
@@ -1587,6 +1716,11 @@ function showResult() {
   html += rowT('Gợi ý đã dùng', function (p) { return p.type === 'human' ? p.stats.hints : '—'; });
   html += rowT('Thời gian về đích', function (p) { return p.finishT != null ? fmtTime(p.finishT) : '—'; });
   html += '</table></div>';
+  P.forEach(function (p) {
+    if (p.type !== 'human') return;
+    var nx = S.unlockAll ? null : cheapestLocked(p.profRef);
+    html += '<div class="card center"><b>' + esc(p.name) + '</b>: 🪙 <b>+' + p.award + ' xu</b> <small>(' + p.coins + ' xu từ các câu đúng, hộp quà và bứt tốc, thưởng ván ' + p.bonus + ' xu)</small><br>Tổng của bạn: <b>🪙 ' + p.profTotal + ' xu</b>' + (nx && p.profTotal >= nx.cost ? '<br>🎉 Đủ xu mở khóa <b>' + esc(CHARS[nx.ci].name) + '</b> rồi! Vào màn chọn nhân vật để mở nhé.' : (nx ? '<br><small>Còn ' + (nx.cost - p.profTotal) + ' xu nữa để mở khóa ' + esc(CHARS[nx.ci].name) + '.</small>' : '')) + '</div>';
+  });
   P.forEach(function (p) {
     if (p.type !== 'human') return;
     var wl = p.stats.wrongList;
@@ -1616,23 +1750,38 @@ function drawPick(cv, ci) {
   drawRunner(c, ci, 64, 120, 108, 'idle', 0, 0, 0.3);
 }
 function playerCard(i, n) {
-  var card = el('div', 'card pcard');
-  card.appendChild(el('h3', '', n === 1 ? 'Bạn là ai?' : 'Bạn ' + (i + 1)));
+  var card = el('div', 'card pcard'), defName = n === 1 ? 'Bạn' : 'Bạn ' + (i + 1);
+  var top = el('div', 'ptop'); top.appendChild(el('h3', '', n === 1 ? 'Bạn là ai?' : 'Bạn ' + (i + 1)));
+  var coinEl = el('span', 'pcoin'); top.appendChild(coinEl); card.appendChild(top);
   var inp = el('input', 'nameinp'); inp.type = 'text'; inp.maxLength = 14; inp.placeholder = n === 1 ? 'Nhập tên của bạn' : 'Tên bạn ' + (i + 1); inp.value = S.names[i] || '';
-  inp.oninput = function () { S.names[i] = inp.value.slice(0, 14); };
   card.appendChild(inp);
-  card.appendChild(el('div', '', '<b>Chọn nhân vật:</b>'));
+  card.appendChild(el('div', '', '<b>Chọn nhân vật:</b> <small>(xu được lưu theo tên trên thiết bị này, hãy nhập đúng tên mỗi lần)</small>'));
   var pk = el('div', 'picker'); pk.style.marginTop = '6px'; card.appendChild(pk);
+  var msg = el('div', 'msg'); card.appendChild(msg);
+  function prof() { return peekProfile((S.names[i] || '').trim() || defName); }
   function draw() {
+    var pr = prof(); coinEl.textContent = '🪙 ' + pr.coins + ' xu';
+    if (!isUnlocked(pr, S.chars[i])) S.chars[i] = firstUnlocked(pr);
     pk.innerHTML = '';
     CHARS.forEach(function (ch, ci) {
-      var b = el('button', 'pick' + (S.chars[i] === ci ? ' sel' : '') + (n === 2 && S.chars[1 - i] === ci ? ' dis' : '')); b.type = 'button';
+      var un = isUnlocked(pr, ci);
+      var b = el('button', 'pick' + (S.chars[i] === ci ? ' sel' : '') + (n === 2 && S.chars[1 - i] === ci ? ' dis' : '') + (un ? '' : ' lk')); b.type = 'button';
       var cv = document.createElement('canvas'); cv.width = 128; cv.height = 128; drawPick(cv, ci);
-      b.appendChild(cv); b.appendChild(el('span', '', esc(ch.name)));
-      b.onclick = function () { S.chars[i] = ci; $$('.pcard').forEach(function (cd) { if (cd._draw) cd._draw(); }); };
+      b.appendChild(cv); b.appendChild(el('span', '', esc(ch.name) + (un ? '' : '<br>🔒 ' + CHAR_COST[ci] + ' xu')));
+      b.onclick = function () {
+        msg.textContent = ''; msg.className = 'msg';
+        if (un) { S.chars[i] = ci; $$('.pcard').forEach(function (cd) { if (cd._draw) cd._draw(); }); return; }
+        if (pr.coins >= CHAR_COST[ci]) {
+          msg.innerHTML = 'Mở khóa <b>' + esc(ch.name) + '</b> bằng ' + CHAR_COST[ci] + ' xu? ';
+          var yes = el('button', 'btn mint sm', '🔓 Mở khóa'); yes.type = 'button'; yes.style.marginLeft = '6px';
+          yes.onclick = function () { var q = getProfile((S.names[i] || '').trim() || defName); q.coins -= CHAR_COST[ci]; if (q.unlocked.indexOf(ci) < 0) q.unlocked.push(ci); persist(); S.chars[i] = ci; $$('.pcard').forEach(function (cd) { if (cd._draw) cd._draw(); }); };
+          msg.appendChild(yes);
+        } else { msg.textContent = 'Cần thêm ' + (CHAR_COST[ci] - pr.coins) + ' xu để mở khóa ' + ch.name + '. Chơi thêm để kiếm xu nhé!'; msg.className = 'msg err'; }
+      };
       pk.appendChild(b);
     });
   }
+  inp.oninput = function () { S.names[i] = inp.value.slice(0, 14); msg.textContent = ''; draw(); };
   card._draw = draw; draw();
   return card;
 }
@@ -1645,6 +1794,7 @@ function openSetup(mode) {
   for (var i = 0; i < n; i++) host.appendChild(playerCard(i, n));
   $('#setupBot').classList.toggle('hidden', mode !== 'bot');
   $$('#botSeg button').forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-b') === S.bot); });
+  $('#chaseSw').classList.toggle('on', S.chase);
   drawTrackPick(mode); drawBotPick();
   $('#setupMsg').textContent = '';
   $('#btnGo').textContent = mode === 'online' ? 'Tiếp tục ▶' : '▶ Bắt đầu!';
@@ -1709,6 +1859,28 @@ function openSettings() {
   r3.appendChild(sw3); c3.appendChild(r3);
   c3.appendChild(el('div', '', '<small>Giọng đọc tiếng Anh (cho dạng nghe) dùng giọng có sẵn của thiết bị' + (CAN_TTS ? '.' : ' — <b style="color:var(--coral-d)">thiết bị này không có giọng đọc</b>, các dạng nghe chỉ chạy được khi từ vựng có file audio.') + '</small>'));
   b.appendChild(c3);
+  var cf = el('div', 'card'); cf.appendChild(el('h3', '', '⏳ Khung giải thích khi trả lời sai')); cf.lastChild.style.marginBottom = '8px';
+  var sf = el('div', 'seg');
+  [[6, 'Tự đóng sau 6 giây'], [10, 'Tự đóng sau 10 giây'], [0, 'Chờ bấm Tiếp tục']].forEach(function (o) {
+    var bt = el('button', S.fbSecs === o[0] ? 'on' : '', o[1]); bt.type = 'button';
+    bt.onclick = function () { S.fbSecs = o[0]; saveS(); $$('button', sf).forEach(function (x) { x.classList.remove('on'); }); bt.classList.add('on'); };
+    sf.appendChild(bt);
+  });
+  cf.appendChild(sf); cf.appendChild(el('div', '', '<small>Bé có thể bấm “Giữ lại để đọc” để dừng đếm. Các câu sai vẫn được ghi lại ở màn hình kết quả.</small>')); b.appendChild(cf);
+  var cx = el('div', 'card'); cx.appendChild(el('h3', '', '🪙 Xu và nhân vật của học sinh')); cx.lastChild.style.marginBottom = '6px';
+  var ru = el('div', 'trow'); ru.appendChild(el('span', '', 'Mở sẵn tất cả nhân vật (bỏ khóa)'));
+  var swu = el('button', 'sw' + (S.unlockAll ? ' on' : '')); swu.type = 'button'; swu.onclick = function () { S.unlockAll = !S.unlockAll; saveS(); swu.classList.toggle('on', S.unlockAll); };
+  ru.appendChild(swu); cx.appendChild(ru);
+  var names = Object.keys(SAVE.profiles);
+  if (!names.length) cx.appendChild(el('div', '', '<small>Chưa có học sinh nào kiếm xu trên thiết bị này.</small>'));
+  names.forEach(function (k) {
+    var pr = SAVE.profiles[k], r = el('div', 'trow');
+    r.appendChild(el('span', '', '<b>' + esc(pr.name) + '</b> · 🪙 ' + pr.coins + ' · mở ' + pr.unlocked.length + '/6'));
+    var act = el('span', ''); var plus = el('button', 'btn sun sm', '+10 xu'); plus.type = 'button'; plus.onclick = function () { pr.coins += 10; persist(); openSettings(); };
+    var del = el('button', 'btn ghost sm', 'Xóa'); del.type = 'button'; del.style.marginLeft = '6px'; del.onclick = function () { delete SAVE.profiles[k]; persist(); openSettings(); };
+    act.appendChild(plus); act.appendChild(del); r.appendChild(act); cx.appendChild(r);
+  });
+  cx.appendChild(el('div', '', '<small>Xu lưu trong trình duyệt của thiết bị này, theo tên học sinh. Đổi thiết bị hoặc xóa dữ liệu trình duyệt thì xu sẽ mất.</small>')); if (!window.GAMESET) b.appendChild(cx);
   var c5 = el('div', 'card'); c5.appendChild(el('h3', '', '🌐 Cài chế độ online (Code.gs)')); c5.lastChild.style.marginBottom = '6px';
   c5.appendChild(el('div', '', '<small>Code.gs chạy trên Google Apps Script, nên không thể chạy bên trong file này. Mã được lưu sẵn ở đây để bạn khỏi phải tìm file riêng: bấm sao chép, mở <b>script.google.com</b> → Dự án mới → dán → Triển khai (Ứng dụng web, ai cũng truy cập được), rồi dán link vào <b>onlineUrl</b> ở đầu file. Hướng dẫn chi tiết nằm ngay đầu đoạn mã.</small>'));
   var cp = el('button', 'btn sun sm', '📋 Sao chép Code.gs'); cp.type = 'button'; cp.style.marginTop = '8px';
@@ -1730,6 +1902,11 @@ function openHowto() {
     '<li><b>Mỗi câu có ' + S.secs + ' giây.</b> Trả lời <b>đúng</b> → nhân vật nhảy qua và tiến 1 bước. Trả lời <b>sai hoặc hết giờ</b> → đâm vào chướng ngại vật và <b>lùi 1 bước</b>, rồi nhận một câu hỏi mới.</li>' +
     '<li>Khi sai, máy sẽ <b>giải thích vì sao sai</b> và hiện đáp án đúng. Đọc xong bấm “Tiếp tục”.</li>' +
     '<li><b>Nút 💡 Gợi ý</b> có 3 mức: (1) chữ cái đầu → (2) thêm chữ ở giữa → (3) thêm chữ cuối. Với câu sắp xếp, gợi ý hiện từ đầu / giữa / cuối của câu.</li>' +
+    '<li><b>🔥 Bứt tốc:</b> đúng liên tiếp 3 câu thì nhân vật nhảy liền 2 bước và được thưởng thêm xu. Sai hoặc hết giờ là tắt combo.</li>' +
+    '<li><b>🎁 Hộp quà bí mật</b> nằm trên đường (có dấu 🎁 trên thanh tiến độ). Bước đến đó để nhận: 🛡️ Khiên (tự chặn 1 lần bị lùi), ❄️ Đóng băng (bấm để đối thủ đứng yên 3 giây), 🚀 Tên lửa (bấm để tiến thêm 1 bước), hoặc 🪙 xu. Mỗi lần chỉ cầm được 1 vật phẩm.</li>' +
+    '<li><b>🔥 Nước rút:</b> 3 bước cuối màn hình viền đỏ, trả lời đúng được <b>gấp đôi xu</b>, nhưng Bot cũng tăng tốc.</li>' +
+    '<li><b>Bot đuổi sát:</b> Bot tự chạy nhanh hơn khi bạn dẫn xa và chậm lại khi bạn tụt lại, nên ván nào cũng sát nút. Có thể tắt ở màn chuẩn bị.</li>' +
+    '<li><b>🪙 Xu:</b> mỗi câu đúng được 1 xu, thắng thưởng 10 xu, thua vẫn được 3 xu. Dùng xu để mở khóa nhân vật mới ở màn chọn nhân vật. Xu lưu theo tên của bạn.</li>' +
     '<li><b>Các dạng câu:</b> chọn đáp án (1 trong 4), điền chữ cái còn thiếu, sắp xếp chữ cái, nghe chọn từ / chọn hình, gõ từ, điền từ vào câu, sắp xếp từ thành câu.</li>' +
     '<li><b>Chế độ chơi:</b> đấu với Bot; 1-1 chung một thiết bị (màn hình chia đôi, mỗi bạn một bên)' + (window.GAMESET ? '.' : '; 1-1 hai thiết bị qua mạng (nhập mã phòng).') + '</li>' +
     '<li><b>Nút ⏸</b> để tạm dừng. <b>Nút 🔊/🔇</b> tắt hoặc bật âm thanh hiệu ứng.</li>' +
@@ -1760,7 +1937,7 @@ function onlineSync() {
   if (ON.busy) return;
   ON.busy = true;
   var me = (race && race.mode === 'online') ? race.players[0] : null;
-  var params = { action: 'sync', room: ON.room, me: ON.me, pos: me ? me.pos : 0, right: me ? me.stats.right : 0, wrong: me ? me.stats.wrong : 0, done: me && me.finished ? 1 : 0, t: me && me.finishT != null ? me.finishT.toFixed(1) : 0 };
+  var params = { action: 'sync', room: ON.room, me: ON.me, pos: me ? me.pos : 0, right: me ? me.stats.right : 0, wrong: me ? me.stats.wrong : 0, done: me && me.finished ? 1 : 0, t: me && me.finishT != null ? me.finishT.toFixed(1) : 0, fz: me ? me.fz : 0 };
   api(params).then(function (st) {
     ON.busy = false; ON.fail = 0;
     if (!st || !st.ok) { onlineProblem((st && st.error) || 'Lỗi không rõ'); return; }
@@ -1799,6 +1976,7 @@ function onlineApply(st) {
     while (r.pos > op.pos && guard++ < 40) moveBack(r);
     r.stats.right = op.right; r.stats.wrong = op.wrong;
     if (op.done) { r.finished = true; r.finishT = op.ft; }
+    if ((op.fz || 0) > me.fzSeen) { me.fzSeen = op.fz; applyFreeze(me); }
     if (op.left && !race.winner && !st.winner) {
       race.oppLeft = true; race.winner = me; race.pending = false;
       if (race.state === 'playing') { race.state = 'ending'; lockAll(); }
@@ -1884,6 +2062,7 @@ $('#btnGo').onclick = function () {
   saveS();
   if (pendingMode === 'online') openLobby(); else startRace(pendingMode);
 };
+$('#chaseSw').onclick = function () { S.chase = !S.chase; saveS(); $('#chaseSw').classList.toggle('on', S.chase); };
 $('#lobbyBack').onclick = function () { stopOnlinePolling(true); show('setup'); };
 $('#btnPause').onclick = function () { if (race) setPause(!race.paused); };
 $('#btnSound').onclick = function () { S.sound = !S.sound; saveS(); $('#btnSound').textContent = S.sound ? '🔊' : '🔇'; };
