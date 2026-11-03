@@ -192,7 +192,7 @@
   {
    "id": "uno-tu-vung",
    "title": "Uno Từ Vựng",
-   "desc": "Trả lời đúng mới được đánh bài: ra lá cùng màu hoặc cùng từ, có bài đặc biệt như +2 và cấm lượt. Chơi với Bot hoặc đấu 1-1 với bạn.",
+   "desc": "Trả lời đúng mới được đánh bài: ra lá cùng màu hoặc cùng từ, có bài đặc biệt như +2 và cấm lượt. Chơi với 1–3 Bot cho đông vui, hoặc đấu 1-1 với bạn. Câu hỏi: nghĩa tiếng Việt, nghe, chọn hình, điền chữ thiếu.",
    "file": "apps/games/uno-tu-vung.html",
    "tags": [
     "Từ vựng",
@@ -206,11 +206,11 @@
    "posterImg": "apps/games/img/poster-uno-tu-vung.webp",
    "color": "rose",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
-   "v": "20261103150000"
+   "v": "20261103190000"
   },
   {
    "id": "job-tycoon",
-   "title": "Job Tycoon – Cờ Tỷ Phú Từ Vựng",
+   "title": "Cờ Tỷ Phú",
    "desc": "Cờ tỷ phú từ vựng: bàn cờ dựng từ chính bộ từ bạn chọn. Đổ xúc xắc, mua đất, xây nhà, trả lời đúng mới được mua. Chơi với Bot hoặc 1-1, có thẻ Cơ hội và thẻ trợ giúp.",
    "file": "apps/games/job-tycoon.html",
    "tags": [
@@ -225,7 +225,7 @@
    "posterImg": "apps/games/img/poster-job-tycoon.webp",
    "color": "gold",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô",
-   "v": "20261103150000"
+   "v": "20261103190000"
   },
   {
    "id": "claw-machine",

@@ -207,6 +207,8 @@ button{font-family:inherit;color:inherit;cursor:pointer}
 .fan-demo .card:first-child{margin-left:0}
 .cover .seg{width:100%;margin:4px 0}
 .cover .seg button{font-size:19px;padding:11px 6px}
+#botQuick button{font-size:16px;padding:9px 4px}#botQuick small{display:block;font:700 11px/1.1 Quicksand,sans-serif;opacity:.75;margin-top:2px}
+.opt img.oimg{display:block;width:100%;height:96px;object-fit:contain;pointer-events:none}.opt.pic{padding:6px}
 .cover .info{text-align:center}
 .cover .big{margin-top:6px}
 
@@ -393,6 +395,7 @@ body::before{display:none}
       <button data-m="bot">🤖 Chơi với Bot</button>
       <button data-m="duo">👫 Chơi 1-1</button>
     </div>
+    <div class="seg" id="botQuick" aria-label="Số bot"><button data-n="1">🤖 1 bot<small> · 2 người</small></button><button data-n="2">🤖🤖 2 bot<small> · 3 người</small></button><button data-n="3">🤖🤖🤖 3 bot<small> · 4 người</small></button></div>
     <div class="info" id="lessonInfo"></div>
     <button class="big" id="startBtn">Bắt đầu 🎮</button>
     <div class="row3" style="width:100%">
@@ -594,7 +597,7 @@ const LEVELS = {
   tb:  {label:"🌿 Trung bình", opts:4, time:14, blanks:2, extra:2, hand:6, words:10, note:"4 đáp án, 14 giây, tay 6 lá"},
   gioi:{label:"🌳 Giỏi",       opts:4, time:10, blanks:3, extra:3, hand:7, words:10, note:"4 đáp án gần giống nhau, 10 giây, thiếu 3 chữ, tay 7 lá"}
 };
-const QTYPES = {en2vi:"Anh → Việt", vi2en:"Việt → Anh", def:"Định nghĩa", listen:"Nghe chọn từ", fill:"Điền chữ thiếu", scramble:"Xếp chữ"};
+const QTYPES = {en2vi:"Anh → Việt", vi2en:"Việt → Anh", def:"Định nghĩa", listen:"Nghe chọn từ", fill:"Điền chữ thiếu", scramble:"Xếp chữ", listenvi:"Nghe chọn nghĩa", pic:"Chọn hình"};
 const GTYPES = {gmc:"Ngữ pháp: chọn đáp án", gsort:"Ngữ pháp: sắp xếp câu"};
 const ALLTYPES = Object.assign({}, QTYPES, GTYPES);
 const SAMPLE_GRAMMAR = `The kangaroo [is|are|am] jumping in the park // Con chuột túi đang nhảy trong công viên
@@ -618,13 +621,15 @@ const hide = id => $(id).classList.add("hidden");
 /* ===== Cài đặt (lưu trên máy) ===== */
 const SKEY = "easyeng_unotv_v2", OLDKEY = "easyeng_baivui_v1";
 const uid = () => "L"+Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-const defTypes = () => ({en2vi:1,vi2en:1,def:1,listen:1,fill:1,scramble:1,gmc:1,gsort:1});
+const defTypes = () => ({en2vi:1,vi2en:1,def:1,listen:1,fill:1,scramble:1,listenvi:1,pic:1,gmc:1,gsort:1});
+/* hình của bộ từ trên website (theo từ tiếng Anh), dùng cho dạng "Chọn hình" */
+const HUBPIC={}; if(window.GAMESET) window.GAMESET.items.forEach(it=>{ if(it.img&&it.w) HUBPIC[String(it.w).trim().toLowerCase()]=it.img; });
 const newLesson = (o={}) => Object.assign({id:uid(), name:"Bài mới", grade:7, level:"tb", vocab:"", grammar:"", gstruct:"", types:defTypes()}, o);
 function sampleLesson(){ return newLesson({name:"Bài mẫu - Animals", vocab:SAMPLE_VOCAB, grammar:SAMPLE_GRAMMAR, gstruct:SAMPLE_GSTRUCT}); }
 function loadSettings(){
   if(window.GAMESET){   /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn (từ vựng, chưa có định nghĩa/ngữ pháp) */
     const g=window.GAMESET, vocab=g.items.filter(it=>it.vi).map(it=>it.w.replace(/[\t\r\n]/g," ")+"\t"+it.vi.replace(/[\t\r\n]/g," ")).join("\n");
-    return {lessons:[newLesson({id:"hub",name:g.title||"Bộ từ",vocab,types:{en2vi:1,vi2en:1,def:0,listen:1,fill:1,scramble:1,gmc:0,gsort:0}})],lessonId:"hub",mode:"bot",botCount:1,botId:"random",name1:"Bạn",name2:"Bạn B",teacher:false};
+    return {lessons:[newLesson({id:"hub",name:g.title||"Bộ từ",vocab,types:{en2vi:1,vi2en:0,def:0,listen:0,fill:1,scramble:0,listenvi:1,pic:1,gmc:0,gsort:0}})],lessonId:"hub",mode:"bot",botCount:2,botId:"random",name1:"Bạn",name2:"Bạn B",teacher:false};
   }
   const base = {lessons:[], lessonId:"", mode:"bot", botCount:1, botId:"random", name1:"Bạn", name2:"Bạn B", teacher:false};
   let st=null;
@@ -1223,6 +1228,12 @@ function makeQuestion(word){
   let kinds=Object.keys(QTYPES).filter(k=>S.types[k]);
   if(!hasTTS) kinds=kinds.filter(k=>k!=="listen");
   if(!word.def) kinds=kinds.filter(k=>k!=="def");
+  if(!hasTTS) kinds=kinds.filter(k=>k!=="listenvi");
+  /* trên website: từ tiếng Anh đã in sẵn trên lá bài nên không hỏi lại chính từ đó (Việt→Anh, nghe chọn từ, xếp chữ) */
+  if(window.GAMESET) kinds=kinds.filter(k=>k!=="vi2en"&&k!=="listen"&&k!=="scramble");
+  const picOf=w=>HUBPIC[String(w.en).trim().toLowerCase()];
+  const picWords=G.vocab.filter(w=>w!==word&&picOf(w));
+  if(!picOf(word)||picWords.length<3) kinds=kinds.filter(k=>k!=="pic");
   const letters=word.en.replace(/[^A-Za-z]/g,"").length;
   if(letters<3) kinds=kinds.filter(k=>k!=="fill"&&k!=="scramble");
   if(!kinds.length) kinds=["en2vi"];
@@ -1240,6 +1251,16 @@ function makeQuestion(word){
     q.title="Chọn từ tiếng Anh";
     q.prompt=`<div class="qp-word">${esc(word.vi)}</div>`;
     q.opts=mk(word.en,distractors(word,"en",L.opts-1));
+  }else if(kind==="listenvi"){
+    q.title="Nghe và chọn nghĩa tiếng Việt";
+    q.prompt=`<div>${spk(true)}</div><div class="qp-sub">Bấm 🔊 để nghe lại</div>`;
+    q.opts=mk(word.vi,distractors(word,"vi",L.opts-1));
+    q.autoSpeak=true;
+  }else if(kind==="pic"){
+    q.title="Chọn hình đúng";
+    q.prompt=`<div class="qp-word">${esc(word.en)} ${spk()}</div>`;
+    const wrong=shuffle(picWords.slice()).slice(0,Math.max(1,L.opts-1));
+    q.opts=shuffle([{t:word.en,img:picOf(word),ok:true},...wrong.map(w=>({t:w.en,img:picOf(w),ok:false}))]);
   }else if(kind==="def"){
     q.title="Chọn từ hợp với định nghĩa";
     const re=new RegExp(word.en.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"ig");
@@ -1387,9 +1408,9 @@ function askQuiz(p,card){
       if(left<=0) finish(false,true);
     },100);
     if(q.opts){
-      const box=document.createElement("div"); box.className="opts"; body.appendChild(box);
+      const box=document.createElement("div"); box.className="opts"; if(q.opts.some(o=>o.img)) box.style.gridTemplateColumns="1fr 1fr"; body.appendChild(box);
       q.opts.forEach(o=>{
-        const b=document.createElement("button"); b.className="opt"+(S.teacher&&o.ok?" hint":""); b.textContent=o.t;
+        const b=document.createElement("button"); b.className="opt"+(o.img?" pic":"")+(S.teacher&&o.ok?" hint":""); if(o.img){ const im=document.createElement("img"); im.className="oimg"; im.alt=""; im.src=o.img; b.appendChild(im); } else b.textContent=o.t;
         b.onclick=()=>{ if(done) return; b.classList.add(o.ok?"right":"wrong"); if(!o.ok) box.querySelectorAll(".opt").forEach((x,i)=>{ if(q.opts[i].ok) x.classList.add("right"); }); finish(o.ok,false); };
         box.appendChild(b);
       });
@@ -1467,6 +1488,8 @@ function applyModeUI(){
   $("duoBox").classList.toggle("hidden",S.mode!=="duo");
   $("botBox").classList.toggle("hidden",S.mode==="duo");
   document.querySelectorAll("#botCountSeg button").forEach(b=>b.classList.toggle("on",+b.dataset.n===S.botCount));
+  $("botQuick").classList.toggle("hidden",S.mode==="duo");
+  document.querySelectorAll("#botQuick button").forEach(b=>b.classList.toggle("on",+b.dataset.n===S.botCount));
 }
 function fillLessonSel(){
   $("lessonSel").innerHTML=S.lessons.map(l=>`<option value="${l.id}">${esc(l.name)}</option>`).join("");
@@ -1571,7 +1594,8 @@ function applyAssets(){
   applyAssets(); buildCoverFan();
 
   document.querySelectorAll("#modeSeg button").forEach(b=>b.onclick=()=>{ S.mode=b.dataset.m; saveSettings(); refreshStart(); applyModeUI(); sfx.pop(); });
-  document.querySelectorAll("#botCountSeg button").forEach(b=>b.onclick=()=>{ S.botCount=+b.dataset.n; applyModeUI(); });
+  document.querySelectorAll("#botCountSeg button").forEach(b=>b.onclick=()=>{ S.botCount=+b.dataset.n; saveSettings(); applyModeUI(); });
+  document.querySelectorAll("#botQuick button").forEach(b=>b.onclick=()=>{ S.botCount=+b.dataset.n; saveSettings(); applyModeUI(); sfx.pop(); });
   $("playersBtn").onclick=()=>{ applyModeUI(); show("playersOverlay"); };
   $("playersOk").onclick=()=>{ S.name1=$("name1").value.trim()||"Bạn"; S.name2=$("name2").value.trim()||"Bạn B"; S.botId=$("botSel").value; saveSettings(); hide("playersOverlay"); };
   $("lessonBtn").onclick=openLesson;
