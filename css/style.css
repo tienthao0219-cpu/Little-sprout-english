@@ -768,3 +768,31 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 .gh-body p{margin:0 0 8px;color:var(--soft);font-size:14px;min-height:60px}
 .gh-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
 .gh-body .btn{width:100%}
+
+/* ===== Trung tâm trò chơi: thẻ game (giao diện pastel-kawaii) ===== */
+.gh-grid{gap:22px;grid-template-columns:repeat(auto-fill,minmax(262px,1fr))}
+.gh-card{--c:#FFE3EE;--cd:#DE5481;--cs:222,84,129;position:relative;display:flex;flex-direction:column;border:5px solid #fff;border-radius:30px;background:linear-gradient(180deg,#fff 0%,#fff 55%,var(--c) 160%);
+  box-shadow:0 9px 0 rgba(var(--cs),.2),0 18px 30px rgba(60,40,100,.10);transition:transform .22s cubic-bezier(.34,1.56,.64,1),box-shadow .22s;animation:ghPop .55s cubic-bezier(.34,1.56,.64,1) both}
+.gh-card:nth-child(2){animation-delay:.05s}.gh-card:nth-child(3){animation-delay:.1s}.gh-card:nth-child(4){animation-delay:.15s}.gh-card:nth-child(5){animation-delay:.2s}.gh-card:nth-child(6){animation-delay:.25s}.gh-card:nth-child(n+7){animation-delay:.3s}
+.gh-card:hover{transform:translateY(-6px) scale(1.012);box-shadow:0 13px 0 rgba(var(--cs),.22),0 26px 36px rgba(60,40,100,.14)}
+.gh-card.c-pink{--c:#FFE3EE;--cd:#DE5481;--cs:222,84,129}.gh-card.c-yellow{--c:#FFF1BE;--cd:#D8A21A;--cs:227,170,40}.gh-card.c-sky{--c:#DCEEFF;--cd:#3B88D0;--cs:59,136,208}
+.gh-card.c-lilac{--c:#E7DFFF;--cd:#7A64D4;--cs:130,100,210}.gh-card.c-mint{--c:#D3F1E5;--cd:#2E9C7C;--cs:70,170,120}.gh-card.c-coral{--c:#FFDDD6;--cd:#E2685C;--cs:236,120,110}
+.gh-card.c-orange{--c:#FFE6CC;--cd:#E58A2E;--cs:240,150,60}.gh-card.c-teal{--c:#CFF3F3;--cd:#1E9AA6;--cs:50,170,180}.gh-card.c-green{--c:#DDF5C9;--cd:#5BA535;--cs:100,185,70}
+.gh-card.c-brown{--c:#F7E3CF;--cd:#B47A44;--cs:170,120,70}.gh-card.c-rose{--c:#FFDCE8;--cd:#D8467A;--cs:225,90,130}.gh-card.c-gold{--c:#FFF0B8;--cd:#C9971C;--cs:200,160,40}.gh-card.c-peach{--c:#FFE0D2;--cd:#E27B52;--cs:240,140,120}
+.gh-poster{position:relative;aspect-ratio:800/525;overflow:hidden;border:0;border-radius:24px 24px 0 0;background:var(--c)}
+.gh-poster img,.gh-poster svg{transition:transform .5s ease}
+.gh-card:hover .gh-poster img,.gh-card:hover .gh-poster svg{transform:scale(1.06)}
+.gh-poster::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.88));pointer-events:none}
+.gh-ico{position:absolute;left:10px;top:10px;z-index:2;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#fff;font-size:23px;line-height:1;box-shadow:0 3px 0 rgba(var(--cs),.25),0 6px 12px rgba(60,40,100,.16)}
+.gh-kind{position:absolute;right:10px;top:12px;z-index:2;padding:4px 11px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--cd);font:800 12.5px/1.2 var(--hfont);box-shadow:0 3px 8px rgba(60,40,100,.14)}
+.gh-body{display:flex;flex:1;flex-direction:column;padding:2px 16px 18px;margin-top:-26px;position:relative;z-index:2}
+.gh-body h3{font-size:21px;line-height:1.15;margin:0 0 6px;color:var(--ink)}
+.gh-body p{flex:1;margin:0 0 10px;min-height:0;font-size:14px;line-height:1.45;color:var(--soft);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.gh-tags{margin-bottom:12px}
+.gh-tags .pill{background:var(--c);color:var(--cd);font-weight:800}
+.gh-body .btn.gh-play{background:var(--cd);box-shadow:0 5px 0 rgba(var(--cs),.35);min-height:46px;font-size:17px;letter-spacing:.2px}
+.gh-body .btn.gh-play.ghost{background:#fff;color:var(--cd);box-shadow:inset 0 0 0 3px var(--c)}
+.gh-body .btn.gh-play:hover{filter:brightness(1.06)}
+@keyframes ghPop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.gh-card,.gh-poster img{animation:none;transition:none}.gh-card:hover{transform:none}}
+@media(max-width:520px){.gh-grid{gap:18px}.gh-card{border-width:4px;border-radius:26px}}

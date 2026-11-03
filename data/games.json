@@ -70,10 +70,10 @@
     "speed"
    ],
    "poster": "ski",
-   "posterImg": "apps/games/img/poster-hugo.webp",
+   "posterImg": "apps/games/img/poster-hugo.svg",
    "color": "lilac",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103090000"
+   "v": "20261103140000"
   },
   {
    "id": "nong-trai",
@@ -89,10 +89,10 @@
     "duo"
    ],
    "poster": "farm",
-   "posterImg": "apps/games/img/poster-nong-trai.webp",
+   "posterImg": "apps/games/img/poster-nong-trai.svg",
    "color": "mint",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì hiện hình trong câu hỏi",
-   "v": "20261103090000"
+   "v": "20261103140000"
   },
   {
    "id": "dap-ruoi",
@@ -108,10 +108,10 @@
     "speed"
    ],
    "poster": "fly",
-   "posterImg": "apps/games/img/poster-dap-ruoi.webp",
+   "posterImg": "apps/games/img/poster-dap-ruoi.svg",
    "color": "coral",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261103100000"
+   "v": "20261103140000"
   },
   {
    "id": "ban-vit",
@@ -127,10 +127,10 @@
     "speed"
    ],
    "poster": "duck",
-   "posterImg": "apps/games/img/poster-ban-vit.webp",
+   "posterImg": "apps/games/img/poster-ban-vit.svg",
    "color": "orange",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103100000"
+   "v": "20261103140000"
   },
   {
    "id": "cau-ca-bac-cuc",
@@ -146,10 +146,10 @@
     "duo"
    ],
    "poster": "ice",
-   "posterImg": "apps/games/img/poster-cau-ca.webp",
+   "posterImg": "apps/games/img/poster-cau-ca.svg",
    "color": "teal",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
-   "v": "20261103100000"
+   "v": "20261103140000"
   },
   {
    "id": "dino-ball-blast",
@@ -165,10 +165,10 @@
     "duo"
    ],
    "poster": "dino",
-   "posterImg": "apps/games/img/poster-dino-ball-blast.webp",
+   "posterImg": "apps/games/img/poster-dino-ball-blast.svg",
    "color": "green",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103100000"
+   "v": "20261103140000"
   },
   {
    "id": "rut-go",
@@ -184,10 +184,10 @@
     "duo"
    ],
    "poster": "tower",
-   "posterImg": "apps/games/img/poster-rut-go.webp",
+   "posterImg": "apps/games/img/poster-rut-go.svg",
    "color": "brown",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261103100000"
+   "v": "20261103140000"
   },
   {
    "id": "uno-tu-vung",
@@ -203,10 +203,10 @@
     "duo"
    ],
    "poster": "uno",
-   "posterImg": "apps/games/img/poster-uno-tu-vung.webp",
+   "posterImg": "apps/games/img/poster-uno-tu-vung.svg",
    "color": "rose",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
-   "v": "20261103110000"
+   "v": "20261103140000"
   },
   {
    "id": "job-tycoon",
@@ -222,10 +222,10 @@
     "duo"
    ],
    "poster": "tycoon",
-   "posterImg": "apps/games/img/poster-job-tycoon.webp",
+   "posterImg": "apps/games/img/poster-job-tycoon.svg",
    "color": "gold",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô",
-   "v": "20261103120000"
+   "v": "20261103140000"
   },
   {
    "id": "claw-machine",
@@ -240,10 +240,10 @@
     "vocab"
    ],
    "poster": "claw",
-   "posterImg": "apps/games/img/poster-claw-machine.webp",
+   "posterImg": "apps/games/img/poster-claw-machine.svg",
    "color": "peach",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nhìn hình chọn từ",
-   "v": "20261103130000"
+   "v": "20261103140000"
   }
  ]
 }

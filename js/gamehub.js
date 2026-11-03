@@ -128,10 +128,11 @@ window.LSE = window.LSE || {};
       const list = GAMES.filter(g => (cat === "all" || (g.cats || []).includes(cat)) && (!t || (g.title + " " + g.desc + " " + (g.tags || []).join(" ")).toLowerCase().includes(t)));
       if (!list.length) { grid.append(h("div.empty", "Không tìm thấy game nào.")); return; }
       list.forEach(g => grid.append(h("div.gh-card.c-" + (g.color || "pink"),
-        h("div.gh-poster", g.posterImg ? { }  : { html: POSTERS[g.poster] || "" }, g.posterImg ? h("img", { src: g.posterImg, alt: "", loading: "lazy" }) : null),
-        h("div.gh-body", h("h3", (ICON_BY[g.color] || "🎮") + " " + g.title), h("p", g.desc),
+        h("div.gh-poster", g.posterImg ? { }  : { html: POSTERS[g.poster] || "" }, g.posterImg ? h("img", { src: g.posterImg, alt: "", loading: "lazy" }) : null,
+          h("span.gh-ico", ICON_BY[g.color] || "🎮"), h("span.gh-kind", (g.cats || []).includes("duo") ? "👥 1–2 người" : "🎯 1 người")),
+        h("div.gh-body", h("h3", g.title), h("p", g.desc),
           h("div.gh-tags", (g.tags || []).map(x => h("span.pill", x))),
-          h("button.btn.rose" + (current || g.fixed ? "" : ".ghost"), { onclick: () => play(g) }, current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️")))));
+          h("button.btn.rose.gh-play" + (current || g.fixed ? "" : ".ghost"), { onclick: () => play(g) }, current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️")))));
     }
 
     const chips = [["all", "Tất cả"], ["vocab", "Từ vựng"], ["speed", "Tốc độ"], ["duo", "Đấu đôi"]].map(([k, t]) => h("button.gh-chip" + (k === "all" ? ".on" : ""), { onclick: e => { cat = k; chips.forEach(c => c.classList.remove("on")); e.currentTarget.classList.add("on"); drawGames(); } }, t));
