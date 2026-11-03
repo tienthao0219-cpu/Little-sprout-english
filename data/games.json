@@ -55,6 +55,44 @@
    "color": "sky",
    "needs": "từ vựng có nghĩa tiếng Việt",
    "v": "20261102173800"
+  },
+  {
+   "id": "hugo",
+   "title": "Hugo Ôn Tập",
+   "desc": "Trượt tuyết, cưỡi đà điểu, bay và đi xe goòng: lái nhân vật vào cổng có đáp án đúng, nhặt xu, né vật cản. Có giải thích sau mỗi câu, câu sai được ôn lại ở cuối.",
+   "file": "apps/games/hugo.html",
+   "tags": [
+    "Từ vựng",
+    "Tốc độ"
+   ],
+   "cats": [
+    "vocab",
+    "speed"
+   ],
+   "poster": "ski",
+   "posterImg": "apps/games/img/poster-hugo.webp",
+   "color": "lilac",
+   "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103090000"
+  },
+  {
+   "id": "nong-trai",
+   "title": "Nông Trại Tiếng Anh",
+   "desc": "Nông trại 3D: trồng cây, nuôi gà bò, xây nhà máy và bán hàng cho khách bằng tiếng Anh. Trả lời đúng để thu hoạch, có gợi ý và đấu 1-1 với Bot hoặc với bạn.",
+   "file": "apps/games/nong-trai.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "farm",
+   "posterImg": "apps/games/img/poster-nong-trai.webp",
+   "color": "mint",
+   "needs": "từ vựng có nghĩa tiếng Việt; có hình thì hiện hình trong câu hỏi",
+   "v": "20261103090000"
   }
  ]
 }
