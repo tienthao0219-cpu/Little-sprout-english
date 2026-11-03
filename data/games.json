@@ -300,6 +300,26 @@
    "color": "violet",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
    "v": "20261103180000"
+  },
+  {
+   "id": "nhay-bao-bo",
+   "title": "Nhảy Bao Bố",
+   "desc": "Đua nhảy bao bố với Bot hoặc bạn bè: trả lời đúng để nhảy một bước. 5 vòng đua với hộp quà, vật cản, cược bước nhảy, lốc xoáy và sự kiện bất ngờ.",
+   "file": "apps/games/nhay-bao-bo.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "speed",
+    "duo"
+   ],
+   "poster": "race",
+   "posterImg": "apps/games/img/poster-nhay-bao-bo.webp",
+   "color": "lime",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103190000"
   }
  ]
 }
