@@ -244,6 +244,42 @@
    "color": "peach",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nhìn hình chọn từ",
    "v": "20261103150000"
+  },
+  {
+   "id": "cau-ca-suoi",
+   "title": "Câu Cá Bên Suối",
+   "desc": "Ngồi câu cá bên suối: chạm đúng chú cá mang đáp án để kéo vào xô. Có xu, mồi câu, cần câu và đồ nghề để nâng cấp, nhiều dạng câu hỏi, câu sai được ôn lại.",
+   "file": "apps/games/cau-ca-suoi.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab"
+   ],
+   "poster": "stream",
+   "posterImg": "apps/games/img/poster-cau-ca-suoi.webp",
+   "color": "aqua",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103160000"
+  },
+  {
+   "id": "cau-ca-ra-khoi",
+   "title": "Ra Khơi Đánh Cá",
+   "desc": "Chèo thuyền ra biển, thả lưới bắt đúng cá mang đáp án, coi chừng cá mập! 3 vòng từ sáng đến chiều, có xu để nâng cấp thuyền, lưới và đồ nghề.",
+   "file": "apps/games/cau-ca-ra-khoi.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab"
+   ],
+   "poster": "sea",
+   "posterImg": "apps/games/img/poster-cau-ca-ra-khoi.webp",
+   "color": "ocean",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103160000"
   }
  ]
 }
