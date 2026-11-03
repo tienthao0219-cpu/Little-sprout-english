@@ -93,6 +93,101 @@
    "color": "mint",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì hiện hình trong câu hỏi",
    "v": "20261103090000"
+  },
+  {
+   "id": "dap-ruoi",
+   "title": "Đập Ruồi Ôn Từ",
+   "desc": "Đọc câu ở trên rồi đập trúng con ruồi mang đáp án đúng. 5 phòng từ phòng ngủ đến hang Ruồi Chúa, có ruồi vàng thưởng xu, vợt và trợ thủ để mua bằng xu.",
+   "file": "apps/games/dap-ruoi.html",
+   "tags": [
+    "Từ vựng",
+    "Tốc độ"
+   ],
+   "cats": [
+    "vocab",
+    "speed"
+   ],
+   "poster": "fly",
+   "posterImg": "apps/games/img/poster-dap-ruoi.webp",
+   "color": "coral",
+   "needs": "từ vựng có nghĩa tiếng Việt",
+   "v": "20261103100000"
+  },
+  {
+   "id": "ban-vit",
+   "title": "Bắn Vịt",
+   "desc": "Bắn con vịt mang đáp án đúng: chọn nghĩa, gõ từ, xếp chữ, nghe chọn từ hoặc hình. Chơi 2 hoặc 5 vòng cùng Vịt Chúa, tích sao để mở khóa skin vịt.",
+   "file": "apps/games/ban-vit.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab",
+    "speed"
+   ],
+   "poster": "duck",
+   "posterImg": "apps/games/img/poster-ban-vit.webp",
+   "color": "orange",
+   "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103100000"
+  },
+  {
+   "id": "cau-ca-bac-cuc",
+   "title": "Câu Cá Bắc Cực",
+   "desc": "Trả lời đúng để chú mèo câu cá bỏ vào xô, coi chừng cá mập và gấu Bắc Cực. Chơi 1 hoặc 2 người, chọn đáp án, gõ đáp án hoặc trộn cả hai.",
+   "file": "apps/games/cau-ca.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "ice",
+   "posterImg": "apps/games/img/poster-cau-ca.webp",
+   "color": "teal",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
+   "v": "20261103100000"
+  },
+  {
+   "id": "dino-ball-blast",
+   "title": "Dino Ball Blast",
+   "desc": "Trả lời đúng để có bóng, ngắm rồi nhả tay để bắn: nối 3 bóng cùng màu cho nổ và cứu các bé khủng long. 6 vòng, chơi một mình hoặc đấu với bot.",
+   "file": "apps/games/dino-ball-blast.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "dino",
+   "posterImg": "apps/games/img/poster-dino-ball-blast.webp",
+   "color": "green",
+   "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103100000"
+  },
+  {
+   "id": "rut-go",
+   "title": "Rút Gỗ Đối Đầu",
+   "desc": "Trả lời đúng để có thêm thời gian rút gỗ, ai làm sập tháp là thua. Đấu với Bot hoặc 2 người một máy, nhiều công trình để chọn.",
+   "file": "apps/games/rut-go.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "tower",
+   "posterImg": "apps/games/img/poster-rut-go.webp",
+   "color": "brown",
+   "needs": "từ vựng có nghĩa tiếng Việt",
+   "v": "20261103100000"
   }
  ]
 }
