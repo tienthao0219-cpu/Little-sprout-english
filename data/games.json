@@ -210,11 +210,11 @@
   },
   {
    "id": "job-tycoon",
-   "title": "Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp",
-   "desc": "Cờ tỷ phú về nghề nghiệp: đổ xúc xắc, mua đất, xây nhà và trả lời câu hỏi bằng tiếng Anh. Có sẵn 22 nghề, 12 nơi làm việc và 10 tính từ, chơi với Bot hoặc 1-1.",
+   "title": "Job Tycoon – Cờ Tỷ Phú Từ Vựng",
+   "desc": "Cờ tỷ phú từ vựng: bàn cờ dựng từ chính bộ từ bạn chọn. Đổ xúc xắc, mua đất, xây nhà, trả lời đúng mới được mua. Chơi với Bot hoặc 1-1, có thẻ Cơ hội và thẻ trợ giúp.",
    "file": "apps/games/job-tycoon.html",
    "tags": [
-    "Có sẵn bộ từ",
+    "Từ vựng",
     "Đấu đôi"
    ],
    "cats": [
@@ -224,9 +224,8 @@
    "poster": "tycoon",
    "posterImg": "apps/games/img/poster-job-tycoon.webp",
    "color": "gold",
-   "needs": "Game có sẵn bộ từ về nghề nghiệp, không đổi theo bài đã chọn",
-   "fixed": true,
-   "v": "20261103110000"
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô",
+   "v": "20261103120000"
   }
  ]
 }

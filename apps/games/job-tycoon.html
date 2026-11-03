@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp</title>
+<script src="../../js/gameset.js"></script>
 <script src="../../js/audiounlock.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -411,7 +412,7 @@ body::before{content:"";position:fixed;inset:0;z-index:-1;background:var(--bg-la
       <img class="logo-img" id="logoImg" alt="" draggable="false">
       <div>
         <div class="title">Job Tycoon</div>
-        <div class="subtitle">Cờ Tỷ Phú Nghề Nghiệp<span class="sub-en"> · Jobs &amp; Workplaces</span></div>
+        <div class="subtitle" id="hdrSub">Cờ Tỷ Phú Nghề Nghiệp<span class="sub-en"> · Jobs &amp; Workplaces</span></div>
       </div>
     </div>
     <div class="hud-btns"><button class="icon-btn" id="pauseBtn" aria-label="Tạm dừng" disabled>⏸️</button><button class="icon-btn" id="muteBtn" aria-label="Tắt/bật âm thanh">🔊</button></div>
@@ -587,7 +588,7 @@ const ASSETS={"big":{"astronaut":"data:image/webp;base64,UklGRnJ/AABXRUJQVlA4WAo
    - pic: emoji dự phòng khi chưa có hình; hình thật nằm trong ASSETS (tự gắn theo tên từ en)
    - def: định nghĩa tiếng Anh đơn giản
    ========================================================= */
-const VOCAB = [
+const VOCAB_JOBS = [
   // ---- JOBS ----
   {en:"artist",        vi:"họa sĩ",                  cat:"job", pic:"🧑‍🎨", img:"", def:"This person draws and paints pictures."},
   {en:"astronaut",     vi:"phi hành gia",            cat:"job", pic:"🧑‍🚀", img:"", def:"This person flies into space in a rocket."},
@@ -638,7 +639,7 @@ const VOCAB = [
 ];
 
 /* Câu ngữ cảnh cho "Trắc nghiệm". ban = từ không được làm đáp án nhiễu (vì cũng có thể đúng) */
-const CONTEXT = [
+const CONTEXT_JOBS = [
   {q:"A doctor works in a ___.", answer:"hospital"},
   {q:"A pilot works at the ___.", answer:"airport", ban:["office"]},
   {q:"A clown works in a ___.", answer:"circus", ban:["theatre"]},
@@ -676,7 +677,7 @@ const CONTEXT = [
 ];
 
 /* Bàn cờ 32 ô. Mỗi cạnh: 5 ô thường (2 nhóm màu) + 1 ô Cơ hội + 1 👑 Địa danh */
-const BOARD = [
+const BOARD_JOBS = [
   {type:"start"},
   {type:"prop", word:"teacher",       price:100, group:0},
   {type:"prop", word:"classroom",     price:120, group:0},
@@ -710,13 +711,54 @@ const BOARD = [
   {type:"prop", word:"astronaut",     price:340, group:7},
   {type:"prop", word:"airport",       price:360, group:7}
 ];
+/* ===== MỞ TỪ TRUNG TÂM TRÒ CHƠI: dựng từ vựng + bàn cờ + thẻ Cơ hội từ bộ từ đã chọn ===== */
+const HUB = !!window.GAMESET;
+const hubClean = t => String(t||"").replace(/[<>&"`]/g,"").replace(/'/g,"’").replace(/\s+/g," ").trim();
+const VOCAB = HUB
+  ? (()=>{ const seen=new Set(), out=[];
+      window.GAMESET.items.forEach(it=>{ const en=hubClean(it.w), vi=hubClean(it.vi); if(!en||!vi||seen.has(en.toLowerCase())) return; seen.add(en.toLowerCase());
+        out.push({en,vi,cat:"w",pic:"📖",img:it.img||"",thumb:it.img||"",def:""}); });
+      return out; })()
+  : VOCAB_JOBS;
+const CONTEXT = HUB ? [] : CONTEXT_JOBS;
+const BOARD = HUB
+  ? (()=>{ /* giữ nguyên bố cục, giá và nhóm màu của bàn cờ gốc; chỉ thay từ ở các ô nhà / địa danh */
+      const slots=BOARD_JOBS.map((c,i)=>(c.type==="prop"||c.type==="landmark")?i:-1).filter(i=>i>=0);
+      const order=[]; let pool=[];
+      slots.forEach(()=>{ if(!pool.length){ pool=VOCAB.map(v=>v.en); for(let i=pool.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [pool[i],pool[j]]=[pool[j],pool[i]]; } if(order.length&&pool[pool.length-1]===order[order.length-1]) pool.push(pool.shift()); } order.push(pool.pop()); });
+      const wordAt={}; slots.forEach((i,k)=>{ wordAt[i]=order[k]; });
+      return BOARD_JOBS.map((c,i)=>wordAt[i]?Object.assign({},c,{word:wordAt[i],label:wordAt[i]}):c); })()
+  : BOARD_JOBS;
+/* Thẻ Cơ hội của bản hub: không nhắc nghề/địa điểm cụ thể, giữ nguyên hiệu ứng và ô đích */
+const CHANCE = HUB ? [
+  {icon:"🍀", en:"Lucky day! You find some coins.", vi:"Ngày may mắn! Nhặt được 150 xu.", act:{money:150}},
+  {icon:"🏆", en:"You win a game. Well done!", vi:"Bạn thắng một ván nhỏ! Nhận 120 xu.", act:{money:120}},
+  {icon:"😴", en:"You are late today. Pay a small fine.", vi:"Hôm nay bạn đến muộn! Bị phạt 100 xu.", act:{money:-100}},
+  {icon:"🔧", en:"Something is broken. Pay for the repair.", vi:"Có đồ bị hỏng. Trả tiền sửa 80 xu.", act:{money:-80}},
+  {icon:"🎾", en:"You win a big match!", vi:"Bạn thắng trận lớn! Nhận 200 xu.", act:{money:200}},
+  {icon:"🦷", en:"You have a toothache. Pay the dentist.", vi:"Bạn bị đau răng, đi khám. Trả 60 xu.", act:{money:-60}},
+  {icon:"✈️", en:"Fly to the last square!", vi:"Bay thẳng đến ô cuối cùng của bàn cờ!", act:{goto:31}},
+  {icon:"🏛️", en:"Go to the big landmark!", vi:"Đi đến địa danh lớn.", act:{goto:28}},
+  {icon:"🚀", en:"Go to START!", vi:"Đi về ô Xuất phát và nhận 200 xu.", act:{goto:0}},
+  {icon:"🎁", en:"You are very kind. Everyone gives you 50 coins!", vi:"Bạn thật tốt bụng. Mỗi người tặng bạn 50 xu!", act:{fromOthers:50}},
+  {icon:"💰", en:"You are rich today. Give 50 coins to each player.", vi:"Hôm nay bạn giàu có. Tặng mỗi người 50 xu.", act:{toOthers:50}},
+  {icon:"🌅", en:"You get up early. Move forward 3 steps!", vi:"Bạn dậy sớm. Tiến thêm 3 bước!", act:{steps:3}},
+  {icon:"🐢", en:"You are slow today. Move back 3 steps.", vi:"Hôm nay bạn chậm chạp. Lùi lại 3 bước.", act:{steps:-3}},
+  {icon:"⚠️", en:"Driving too fast is dangerous!", vi:"Lái xe quá nhanh rất nguy hiểm! Vào Phòng chờ.", act:{jail:true}},
+  {icon:"🛡️", en:"A kind police officer gives you a FREE RENT card!", vi:"Một cảnh sát tốt bụng tặng bạn Thẻ miễn tiền thuê (dùng 1 lần)!", act:{shield:1}},
+  {icon:"🏗️", en:"A helper builds a house for you!", vi:"Có người giúp bạn: được xây miễn phí 1 nhà!", act:{freeHouse:true}},
+  {icon:"🧰", en:"Your houses need repairs.", vi:"Nhà của bạn cần sửa: trả 30 xu cho mỗi căn nhà (khách sạn tính 5 căn).", act:{repairs:30}},
+  {icon:"📸", en:"A photographer takes your photo for a magazine!", vi:"Nhiếp ảnh gia chụp ảnh bạn lên tạp chí! Nhận 100 xu.", act:{money:100}},
+  {icon:"🧠", en:"Be clever! Answer one question.", vi:"Trả lời đúng 1 câu để nhận 200 xu!", act:{quiz:200}},
+  {icon:"🎓", en:"A kind teacher gives you a helper card!", vi:"Cô giáo tốt bụng tặng bạn 1 thẻ trợ giúp!", act:{item:1}}
+] : CHANCE_JOBS;
 const GROUP_COLORS = ["#ffe08a","#ffb877","#ff9ec4","#c7a6ff","#9be3c4","#ff8f8f","#7cc8f5","#b9c3ff"];
 const N = BOARD.length;
 const LANDMARKS = BOARD.map((c,i)=>c.type==="landmark"?i:-1).filter(i=>i>=0);
 const SIDES = [0,1,2,3].map(s=>BOARD.map((c,i)=>(c.type==="prop"&&Math.floor(i/8)===s)?i:-1).filter(i=>i>=0));
 
 /* Thẻ Cơ hội — câu tiếng Anh dùng từ của bài */
-const CHANCE = [
+const CHANCE_JOBS = [
   {icon:"🧑‍🚒", en:"You are a <b>brave</b> fire fighter. You save a cat!", vi:"Bạn là lính cứu hỏa dũng cảm, cứu được một chú mèo! Nhận 150 xu.", act:{money:150}},
   {icon:"👷", en:"You are a <b>clever</b> engineer. You build a new bridge!", vi:"Bạn là kỹ sư thông minh, xây được cây cầu mới! Nhận 120 xu.", act:{money:120}},
   {icon:"😴", en:"You are <b>lazy</b> today. You are late for work!", vi:"Hôm nay bạn lười biếng, đi làm muộn! Bị phạt 100 xu.", act:{money:-100}},
@@ -765,6 +807,7 @@ const QTYPES = {
 /* =========================================================
    2. CÀI ĐẶT
    ========================================================= */
+if(HUB){ delete QTYPES.mc; delete QTYPES.def; }   /* bộ từ của hub chưa có định nghĩa và câu ví dụ */
 const QUESTION_TIME = 60;
 const START_MONEY = 2000;
 const PASS_START = 200;
@@ -801,7 +844,7 @@ const UI = ASSETS.ui;
 (function(){
   const R=document.documentElement.style;
   R.setProperty("--bg-land",`url("${UI.bgLand}")`); R.setProperty("--bg-port",`url("${UI.bgPort}")`); R.setProperty("--center-img",`url("${UI.center}")`);
-  VOCAB.forEach(v=>{ v.img=ASSETS.big[v.en]||v.img||""; v.thumb=ASSETS.thumb[v.en]||""; v.scene=ASSETS.scene.includes(v.en); });
+  VOCAB.forEach(v=>{ v.img=ASSETS.big[v.en]||v.img||""; v.thumb=ASSETS.thumb[v.en]||v.thumb||""; v.scene=ASSETS.scene.includes(v.en); });
   document.querySelectorAll("#logoImg,#logoBig").forEach(e=>e.src=UI.logo);
 })();
 const img = (src,cls="") => `<img class="${cls}" src="${src}" alt="" draggable="false">`;
@@ -1177,7 +1220,7 @@ function compatible(type,item){
     case "scramble": return lettersOf(item.en).length>=3 && lettersOf(item.en).length<=D().scrMax;
     case "def":      return !!item.def;
     case "listen":   return LISTEN_OK;
-    case "pic":      return !!item.img || (item.cat!=="adj" && !!item.pic);
+    case "pic":      return !!item.img || (!HUB && item.cat!=="adj" && !!item.pic);
     default:         return true;
   }
 }
@@ -1194,7 +1237,7 @@ function pickFresh(){
   return pick(pool.length?pool:VOCAB);
 }
 function hintOf(item){
-  if(D().enHint) return `<div class="hint en">${item.cat!=="adj"?ico(item)+" ":""}“${item.def}”</div>`;
+  if(D().enHint && item.def) return `<div class="hint en">${item.cat!=="adj"?ico(item)+" ":""}“${item.def}”</div>`;
   return `<div class="hint">${item.cat!=="adj"?ico(item)+" ":""}${item.vi}</div>`;
 }
 function buildMC(ctx){
@@ -1871,7 +1914,7 @@ function renderEnd(){
   $("#setupBtn").onclick=()=>{ hideOverlay("endOverlay"); showOverlay("startOverlay"); };
 }
 function resultText(){
-  let s="Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp\n";
+  let s=HUB?"Job Tycoon – Cờ Tỷ Phú Từ Vựng\n":"Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp\n";
   G.players.forEach((p,i)=>{ s+=`${p.name}: ${fmt(assetsOf(i))} xu tài sản, đúng ${p.correct}/${p.total} câu`;
     if(!p.isBot&&p.wrong.size) s+=`. Cần ôn: ${[...p.wrong.keys()].join(", ")}`; s+="\n"; });
   return s;
@@ -1925,10 +1968,11 @@ const COVER_BY = "";            // dòng chữ nhỏ cuối trang bìa, ví dụ
   const t=$("#cvTitle");
   const l1=mkWord("JOB","cv-line l1"), l2=mkWord("TYCOON","cv-line l2"); t.append(l1,l2);
   const sub=$("#cvSub"); n+=3;
-  "Cờ Tỷ Phú Nghề Nghiệp".split(" ").forEach(w=>sub.appendChild(mkWord(w,"w")));
+  (HUB?"Cờ Tỷ Phú Từ Vựng":"Cờ Tỷ Phú Nghề Nghiệp").split(" ").forEach(w=>sub.appendChild(mkWord(w,"w")));
   $("#cvLogo").src=UI.logo;
   const cnt=c=>VOCAB.filter(v=>v.cat===c).length;
-  $("#cvChips").innerHTML=`<span class="cv-chip">👷 ${cnt("job")} Jobs</span><span class="cv-chip">🏢 ${cnt("place")||cnt("workplace")} Workplaces</span><span class="cv-chip">😊 ${cnt("adj")} Adjectives</span>`;
+  const esc2=t=>String(t).replace(/[<>&"]/g,"");
+  $("#cvChips").innerHTML=HUB?`<span class="cv-chip">📚 ${VOCAB.length} từ vựng</span><span class="cv-chip">🧩 ${esc2(window.GAMESET.title||"")}</span>`:`<span class="cv-chip">👷 ${cnt("job")} Jobs</span><span class="cv-chip">🏢 ${cnt("place")||cnt("workplace")} Workplaces</span><span class="cv-chip">😊 ${cnt("adj")} Adjectives</span>`;
   $("#cvToks").insertAdjacentHTML("beforeend",[UI.tok_fox,UI.tok_bot,UI.tok_panda].map(s=>`<img class="cv-tok" src="${s}" alt="" draggable="false">`).join(""));
   $("#cvBy").textContent=COVER_BY;
   const SAY=["Let's play! 🎲","Ready? 🚀","Good luck! 🍀","Learn & win! 🏆"]; let si=0;
@@ -1937,8 +1981,8 @@ const COVER_BY = "";            // dòng chữ nhỏ cuối trang bìa, ví dụ
   const cover=$("#cover"), decor=$("#cvDecor");
   const FL=["doctor","astronaut","cook","pilot","police officer","teacher","fire fighter","singer","clown","nurse"];
   const fls=FL.map((en,i)=>{
-    const v=VOCAB.find(x=>x.en===en); const im=document.createElement("img"); im.className="cv-fl"; im.draggable=false; im.alt="";
-    im.src=(v&&(v.thumb||v.img))||""; if(!im.src) return null;
+    const im=document.createElement("img"); im.className="cv-fl"; im.draggable=false; im.alt="";
+    im.src=(ASSETS.thumb&&ASSETS.thumb[en])||(ASSETS.big&&ASSETS.big[en])||""; if(!im.src) return null;
     const r=a=>a[0]+Math.random()*(a[1]-a[0]);
     im.style.setProperty("--t",r([5,8])+"s"); im.style.setProperty("--dl",(-Math.random()*6)+"s");
     im.style.setProperty("--dx",r([-14,14])+"px"); im.style.setProperty("--dy",r([8,22])+"px"); im.style.setProperty("--r0",r([4,12])*(i%2?1:-1)+"deg");
@@ -1961,7 +2005,8 @@ const COVER_BY = "";            // dòng chữ nhỏ cuối trang bìa, ví dụ
   $("#cvPlay").onclick=go;
   document.addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&!cover.classList.contains("hidden")){ e.preventDefault(); go(); } });
 })();
-$("#startBtn").onclick=startGame;
+if(HUB){ const hs=$("#hdrSub"); if(hs) hs.innerHTML="Cờ Tỷ Phú Từ Vựng<span class=\"sub-en\"> · "+String(window.GAMESET.title||"").replace(/[<>&"]/g,"")+"</span>"; }
+$("#startBtn").onclick=()=>{ if(HUB&&VOCAB.length<4){ showToast("Bộ từ cần ít nhất 4 từ nhé!","bad"); return; } startGame(); };
 $("#rollBtn").onclick=()=>{ if(G&&G.running&&!cur().isBot) doRoll(); };
 $("#pauseBtn").onclick=()=>{ if(G&&G.running) setPaused(true); };
 $("#resumeBtn").onclick=()=>setPaused(false);
