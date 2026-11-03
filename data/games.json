@@ -320,6 +320,24 @@
    "color": "lime",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
    "v": "20261103190000"
+  },
+  {
+   "id": "zombie-doi-bung",
+   "title": "Zombie Đói Bụng",
+   "desc": "Bảo vệ vườn khỏi đàn zombie đói: trả lời đúng để kiếm năng lượng, trồng cây chiến binh và hạ Siêu Boss. Có cửa hàng nâng cấp, 6 vòng.",
+   "file": "apps/games/zombie-doi-bung.html",
+   "tags": [
+    "Từ vựng",
+    "Bảo vệ vườn"
+   ],
+   "cats": [
+    "vocab"
+   ],
+   "poster": "garden",
+   "posterImg": "apps/games/img/poster-zombie-doi-bung.webp",
+   "color": "plum",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì hiện hình, không có hình thì hiện nghĩa tiếng Việt",
+   "v": "20261103200000"
   }
  ]
 }
