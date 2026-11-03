@@ -782,10 +782,10 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 .gh-poster{position:relative;aspect-ratio:800/525;overflow:hidden;border:0;border-radius:24px 24px 0 0;background:var(--c)}
 .gh-poster img,.gh-poster svg{transition:transform .5s ease}
 .gh-card:hover .gh-poster img,.gh-card:hover .gh-poster svg{transform:scale(1.06)}
-.gh-poster::after{content:"";position:absolute;left:0;right:0;bottom:0;height:34%;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.88));pointer-events:none}
+.gh-poster::after{content:"";position:absolute;left:0;right:0;bottom:0;height:16%;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.8));pointer-events:none}
 .gh-ico{position:absolute;left:10px;top:10px;z-index:2;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:#fff;font-size:23px;line-height:1;box-shadow:0 3px 0 rgba(var(--cs),.25),0 6px 12px rgba(60,40,100,.16)}
 .gh-kind{position:absolute;right:10px;top:12px;z-index:2;padding:4px 11px;border-radius:999px;background:rgba(255,255,255,.92);color:var(--cd);font:800 12.5px/1.2 var(--hfont);box-shadow:0 3px 8px rgba(60,40,100,.14)}
-.gh-body{display:flex;flex:1;flex-direction:column;padding:2px 16px 18px;margin-top:-26px;position:relative;z-index:2}
+.gh-body{display:flex;flex:1;flex-direction:column;padding:10px 16px 18px;position:relative;z-index:2}
 .gh-body h3{font-size:21px;line-height:1.15;margin:0 0 6px;color:var(--ink)}
 .gh-body p{flex:1;margin:0 0 10px;min-height:0;font-size:14px;line-height:1.45;color:var(--soft);display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
 .gh-tags{margin-bottom:12px}
