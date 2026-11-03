@@ -226,6 +226,24 @@
    "color": "gold",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô",
    "v": "20261103120000"
+  },
+  {
+   "id": "claw-machine",
+   "title": "Claw Machine",
+   "desc": "Điều khiển cần cẩu gắp thú bông, trả lời đúng để nhận mảnh ghép của bức tranh bí mật. Nhiều dạng câu hỏi: chọn nghĩa, gõ từ, điền chữ, xếp chữ, nghe chọn từ hoặc hình.",
+   "file": "apps/games/claw-machine.html",
+   "tags": [
+    "Từ vựng",
+    "Nhiều dạng bài"
+   ],
+   "cats": [
+    "vocab"
+   ],
+   "poster": "claw",
+   "posterImg": "apps/games/img/poster-claw-machine.webp",
+   "color": "peach",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nhìn hình chọn từ",
+   "v": "20261103130000"
   }
  ]
 }
