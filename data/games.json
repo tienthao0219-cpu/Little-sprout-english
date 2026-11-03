@@ -188,6 +188,45 @@
    "color": "brown",
    "needs": "từ vựng có nghĩa tiếng Việt",
    "v": "20261103100000"
+  },
+  {
+   "id": "uno-tu-vung",
+   "title": "Uno Từ Vựng",
+   "desc": "Trả lời đúng mới được đánh bài: ra lá cùng màu hoặc cùng từ, có bài đặc biệt như +2 và cấm lượt. Chơi với Bot hoặc đấu 1-1 với bạn.",
+   "file": "apps/games/uno-tu-vung.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "uno",
+   "posterImg": "apps/games/img/poster-uno-tu-vung.webp",
+   "color": "rose",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
+   "v": "20261103110000"
+  },
+  {
+   "id": "job-tycoon",
+   "title": "Job Tycoon – Cờ Tỷ Phú Nghề Nghiệp",
+   "desc": "Cờ tỷ phú về nghề nghiệp: đổ xúc xắc, mua đất, xây nhà và trả lời câu hỏi bằng tiếng Anh. Có sẵn 22 nghề, 12 nơi làm việc và 10 tính từ, chơi với Bot hoặc 1-1.",
+   "file": "apps/games/job-tycoon.html",
+   "tags": [
+    "Có sẵn bộ từ",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "tycoon",
+   "posterImg": "apps/games/img/poster-job-tycoon.webp",
+   "color": "gold",
+   "needs": "Game có sẵn bộ từ về nghề nghiệp, không đổi theo bài đã chọn",
+   "fixed": true,
+   "v": "20261103110000"
   }
  ]
 }

@@ -30,7 +30,7 @@ window.LSE = window.LSE || {};
     gold: '<svg viewBox="0 0 320 210"><defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFE9B5"/><stop offset="1" stop-color="#FFC48A"/></linearGradient></defs><rect width="320" height="210" fill="url(#pg)"/><path d="M0 150q60-30 120-8t120-10 80 12v66H0z" fill="#C98F63"/><path d="M0 170q80-24 160-4t160-8v52H0z" fill="#A9714B"/><g fill="#fff" opacity=".6"><circle cx="40" cy="40" r="3"/><circle cx="280" cy="36" r="3"/><circle cx="230" cy="80" r="3"/></g><g stroke="#5b3b63" stroke-width="3.5" stroke-linejoin="round"><path d="M70 150l14-30h46l14 30z" fill="#FFD23F"/><path d="M130 150l12-26h40l12 26z" fill="#FFE27A"/><path d="M185 150l12-24h34l12 24z" fill="#FFD23F"/></g><path d="M58 64l-28 52" stroke="#5b3b63" stroke-width="7" stroke-linecap="round"/><path d="M20 70q34-34 74-18" fill="none" stroke="#5b3b63" stroke-width="7" stroke-linecap="round"/><path d="M246 40l8 16 18 2-13 12 4 18-17-9-17 9 4-18-13-12 18-2z" fill="#FFF3A8" stroke="#5b3b63" stroke-width="3" stroke-linejoin="round"/></svg>',
     dice: '<svg viewBox="0 0 320 210"><defs><linearGradient id="pd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FDBFF"/><stop offset="1" stop-color="#4F9CEB"/></linearGradient></defs><rect width="320" height="210" fill="url(#pd)"/><g fill="#fff" opacity=".55" font-family="Baloo 2,Arial" font-weight="800" font-size="28"><text x="22" y="52">41</text><text x="250" y="48">73</text><text x="262" y="176">9</text><text x="24" y="176">66</text></g><g transform="rotate(-14 100 110)"><rect x="52" y="62" width="92" height="92" rx="20" fill="#fff" stroke="#27407d" stroke-width="4"/><g fill="#27407d"><circle cx="78" cy="88" r="8"/><circle cx="118" cy="88" r="8"/><circle cx="98" cy="108" r="8"/><circle cx="78" cy="128" r="8"/><circle cx="118" cy="128" r="8"/></g></g><g transform="rotate(16 220 100)"><rect x="180" y="52" width="76" height="76" rx="17" fill="#FFD34D" stroke="#27407d" stroke-width="4"/><g fill="#27407d"><circle cx="202" cy="74" r="7"/><circle cx="234" cy="106" r="7"/></g></g></svg>'
   };
-  const ICON_BY = { pink: "🔨", yellow: "⛏️", sky: "🎲", lilac: "🛷", mint: "🌾", coral: "🪰", orange: "🦆", teal: "🎣", green: "🦖", brown: "🧱" };
+  const ICON_BY = { pink: "🔨", yellow: "⛏️", sky: "🎲", lilac: "🛷", mint: "🌾", coral: "🪰", orange: "🦆", teal: "🎣", green: "🦖", brown: "🧱", rose: "🃏", gold: "💼" };
 
   /* ---------- lựa chọn hiện tại ---------- */
   const urlQ = () => new URLSearchParams((location.hash.split("?")[1]) || "");
@@ -117,6 +117,7 @@ window.LSE = window.LSE || {};
     unitSel.addEventListener("change", () => { sel.unit = unitSel.value; refresh(); });
 
     function play(g) {
+      if (g.fixed) { L.go("/games/play/" + g.id + "/fixed"); return; }   /* game có sẵn bộ từ riêng: chơi luôn, không cần chọn bài */
       if (!current) { toast("Chọn bài (có ít nhất 3 từ) trước nhé!"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       if (current.custom) { try { sessionStorage.setItem("lse_custom_set", JSON.stringify({ title: current.title, items: current.items })); } catch (e) { toast("Máy này không cho lưu tạm bộ từ"); return; } }
       L.go("/games/play/" + g.id + "/" + current.id + "?cur=" + encodeURIComponent(current.cur || "") + "&unit=" + encodeURIComponent(current.unit || ""));
@@ -130,7 +131,7 @@ window.LSE = window.LSE || {};
         h("div.gh-poster", g.posterImg ? { }  : { html: POSTERS[g.poster] || "" }, g.posterImg ? h("img", { src: g.posterImg, alt: "", loading: "lazy" }) : null),
         h("div.gh-body", h("h3", (ICON_BY[g.color] || "🎮") + " " + g.title), h("p", g.desc),
           h("div.gh-tags", (g.tags || []).map(x => h("span.pill", x))),
-          h("button.btn.rose" + (current ? "" : ".ghost"), { onclick: () => play(g) }, current ? "Chơi ▶" : "Chọn bài trước ☝️")))));
+          h("button.btn.rose" + (current || g.fixed ? "" : ".ghost"), { onclick: () => play(g) }, current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️")))));
     }
 
     const chips = [["all", "Tất cả"], ["vocab", "Từ vựng"], ["speed", "Tốc độ"], ["duo", "Đấu đôi"]].map(([k, t]) => h("button.gh-chip" + (k === "all" ? ".on" : ""), { onclick: e => { cat = k; chips.forEach(c => c.classList.remove("on")); e.currentTarget.classList.add("on"); drawGames(); } }, t));
@@ -154,6 +155,7 @@ window.LSE = window.LSE || {};
     await Promise.all([loadData(), L.loadManifest()]);
     const g = GAMES.find(x => x.id === gid);
     if (!g) { L.ui.show(h("div.card.empty", "Không tìm thấy game này.", h("div", h("a.btn", { href: "#/games" }, "Về Trung tâm trò chơi")))); return; }
+    if (sid === "fixed" && g.fixed) { await L.playApp({ id: "game-" + gid, title: g.title, cur: "", unit: "", file: g.file, kind: "game", desc: "", hub: true, hubSet: "fixed", updated: g.v || "" }); return; }
     const q = urlQ();
     let title = "", cur = q.get("cur") || "", unit = q.get("unit") || "";
     if (sid === "custom") { try { title = (JSON.parse(sessionStorage.getItem("lse_custom_set") || "null") || {}).title || ""; } catch (e) { } if (!title) { L.go("/games"); toast("Hãy chọn lại bộ từ nhé"); return; } }
