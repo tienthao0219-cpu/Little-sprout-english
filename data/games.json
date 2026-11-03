@@ -280,6 +280,26 @@
    "color": "ocean",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nghe chọn hình",
    "v": "20261103160000"
+  },
+  {
+   "id": "vong-chay",
+   "title": "Vòng Chạy Vượt Chướng Ngại Vật",
+   "desc": "Chạy đua với Bot hoặc bạn bè: trả lời đúng để nhân vật nhảy qua chướng ngại vật, sai thì đâm vào và mất bước. 4 đường đua từ công viên đến núi tuyết, 6 nhân vật dễ thương.",
+   "file": "apps/games/vong-chay.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "speed",
+    "duo"
+   ],
+   "poster": "race",
+   "posterImg": "apps/games/img/poster-vong-chay.webp",
+   "color": "violet",
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261103170000"
   }
  ]
 }
