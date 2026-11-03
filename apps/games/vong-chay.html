@@ -230,6 +230,52 @@ h2{font-size:clamp(20px,3.6vh,30px)}
 .wl{border-left:5px solid var(--coral);background:#fff7f5;border-radius:12px;padding:8px 12px;margin-bottom:8px;font-weight:600;font-size:15px;line-height:1.45}
 .wl .q{font-weight:900}
 .wl b{color:var(--mint-d)}
+
+/* ===== Đáp án A B C D nhiều màu, nổi khối 3D ===== */
+.opts .opt{--c1:#ff8a98;--c2:#ff4d6a;--cd:#b8263f;position:relative;color:#fff;border:0;justify-content:flex-start;gap:12px;padding:8px 14px 8px 10px;
+  background:linear-gradient(180deg,var(--c1) 0%,var(--c2) 100%);text-shadow:0 2px 0 rgba(0,0,0,.28);
+  box-shadow:0 7px 0 var(--cd),0 11px 14px rgba(40,20,80,.22),inset 0 2px 0 rgba(255,255,255,.6),inset 0 -4px 0 rgba(0,0,0,.08);
+  transition:transform .08s,box-shadow .08s,filter .15s}
+.opts .opt:nth-child(2){--c1:#6cc2ff;--c2:#3a8ef2;--cd:#1f5fc0}
+.opts .opt:nth-child(3){--c1:#6ee3a4;--c2:#2dbd75;--cd:#168a52}
+.opts .opt:nth-child(4){--c1:#ffc24d;--c2:#ff8f1f;--cd:#bd5d00}
+.opts .opt:active{transform:translateY(6px);box-shadow:0 1px 0 var(--cd),0 3px 6px rgba(40,20,80,.2),inset 0 2px 0 rgba(255,255,255,.5)}
+.opts .opt .kk{flex:0 0 auto;display:grid;place-items:center;width:clamp(30px,5.4vh,42px);height:clamp(30px,5.4vh,42px);border-radius:50%;background:#fff;color:var(--cd);
+  font-size:clamp(16px,3vh,23px);font-weight:900;opacity:1;text-shadow:none;box-shadow:0 3px 0 rgba(0,0,0,.18),inset 0 -2px 0 rgba(0,0,0,.06)}
+.opts .opt>span:last-child:not(.kk){flex:1;text-align:center}
+.opts .opt.ok{background:linear-gradient(180deg,#8cf0b6,#25b86a);--cd:#12804a;box-shadow:0 7px 0 var(--cd),0 0 0 4px #fff,0 0 18px rgba(37,184,106,.8),inset 0 2px 0 rgba(255,255,255,.6);animation:okp .5s ease}
+.opts .opt.no{background:linear-gradient(180deg,#d9d2e6,#a99fbd);--cd:#6f6585;opacity:.92;animation:nop .4s ease}
+@keyframes okp{50%{transform:scale(1.04)}}
+@keyframes nop{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.opts.pics .opt{background:#fff;color:var(--ink);text-shadow:none;border:4px solid var(--c2);padding:6px;justify-content:center;
+  box-shadow:0 7px 0 var(--cd),0 11px 14px rgba(40,20,80,.2),inset 0 0 0 2px #fff}
+.opts.pics .opt .kk{position:absolute;left:6px;top:6px;z-index:2;background:var(--c2);color:#fff;text-shadow:0 1px 0 rgba(0,0,0,.25)}
+.opts.pics .opt.ok{background:#e6fff1;border-color:#25b86a}
+.opts.pics .opt.no{background:#efeaf5;border-color:#a99fbd}
+
+/* ===== iPad / máy tính bảng NGANG, 1 người chơi: câu hỏi bên trái, hình to bên phải ===== */
+@media (orientation:landscape) and (min-width:700px) and (min-height:560px){
+  #panels.single .trackwrap{flex:0 0 23%;min-height:84px}
+  #panels.single .qwrap{padding:6px 16px 8px;gap:6px}
+  #panels.single .hintbox{min-height:0}
+  #panels.single .qfoot{margin-top:0}
+  #panels.single .qrow{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:1fr auto;column-gap:22px;row-gap:8px;align-items:center;justify-content:stretch;width:100%;max-width:960px}
+  #panels.single .qrow .qprompt{grid-column:1;grid-row:1;text-align:left;font-size:clamp(26px,6.4vh,58px);align-self:end}
+  #panels.single .qrow .qprompt.lg{font-size:clamp(20px,4.6vh,40px)}
+  #panels.single .qrow .spk{grid-column:1;grid-row:2;justify-self:start;align-self:start;width:clamp(52px,9vh,72px);height:clamp(52px,9vh,72px)}
+  #panels.single .qrow .picbox.qpic{grid-column:2;grid-row:1 / span 2;width:clamp(110px,24vh,230px);justify-self:end;filter:drop-shadow(0 6px 8px rgba(70,50,130,.25))}
+  #panels.single .qrow .picbox.qpic .picsq{border-radius:20px;background:#fff;box-shadow:0 0 0 4px #fff,0 6px 0 #d9cff5;overflow:hidden}
+  #panels.single .qrow .picbox.qpic .picin{margin:5%}
+  #panels.single .qrow.nopic{display:flex;justify-content:center;gap:18px}
+  #panels.single .qrow.nopic .qprompt{text-align:center}
+  #panels.single .qsub{max-width:960px;width:100%;text-align:left}
+  #panels.single .qask{align-self:flex-start;max-width:960px}
+  #panels.single .qwrap>.opts{max-width:960px;gap:12px 16px}
+  #panels.single .opts .opt{min-height:clamp(50px,9vh,84px);font-size:clamp(18px,3.4vh,30px)}
+  #panels.single .opts.pics{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  #panels.single .opts.pics .opt{min-height:0;padding:8px}
+  #panels.single .opts.pics .picbox{width:min(100%,clamp(70px,18vh,150px))}
+}
 </style>
 </head>
 <body>
@@ -1473,7 +1519,7 @@ function renderQuestion(p) {
   if (rushOn(p)) w.appendChild(el('div', 'qwarn rushw', '🔥 NƯỚC RÚT! Đúng được x2 xu'));
   if (race.plan.danger[p.pos]) w.appendChild(el('div', 'qwarn', '⚠️ Chướng ngại nguy hiểm! Sai sẽ lùi 2 bước'));
   if (q.ask) w.appendChild(el('div', 'qask', esc(q.ask)));
-  var row = el('div', 'qrow');
+  var row = el('div', 'qrow' + (q.pic ? '' : ' nopic'));
   if (q.pic) row.appendChild(picNode(q.pic, 'qpic'));
   if (q.prompt) row.appendChild(el('div', 'qprompt' + (q.prompt.length > 26 ? ' lg' : ''), esc(q.prompt)));
   if (q.speak) { var sp = el('button', 'spk', '🔊'); sp.type = 'button'; sp.onclick = function () { speak(q.speak.text, q.speak.audio); }; row.appendChild(sp); }
@@ -1487,7 +1533,7 @@ function renderQuestion(p) {
     var og = el('div', 'opts' + (q.picMode ? ' pics' : ''));
     q.choices.forEach(function (c, i) {
       var b = el('button', 'opt' + ((!q.picMode && c.label.length > 16) ? ' long' : '')); b.type = 'button';
-      if (q.picMode) b.appendChild(picNode(c.pic)); else b.innerHTML = '<span class="kk">' + 'ABCD'.charAt(i) + '</span><span>' + esc(c.label) + '</span>';
+      if (q.picMode) { b.appendChild(el('span', 'kk', 'ABCD'.charAt(i))); b.appendChild(picNode(c.pic)); } else b.innerHTML = '<span class="kk">' + 'ABCD'.charAt(i) + '</span><span>' + esc(c.label) + '</span>';
       b.onclick = function () { answer(p, i, false); };
       og.appendChild(b);
     });
