@@ -1,0 +1,1604 @@
+{
+ "id": "movers--review-mv00",
+ "title": "Ôn từ vựng cả sách",
+ "cur": "movers",
+ "unit": "review-mv00",
+ "items": [
+  {
+   "w": "hop",
+   "vi": "nhảy lò cò",
+   "ipa": "hɒp",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/hop.webp"
+  },
+  {
+   "w": "skip",
+   "vi": "nhảy dây",
+   "ipa": "skɪp",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/skip.webp"
+  },
+  {
+   "w": "walk",
+   "vi": "đi bộ",
+   "ipa": "wɔːk",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/walk.webp"
+  },
+  {
+   "w": "climb",
+   "vi": "trèo, leo",
+   "ipa": "klaɪm",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/climb.webp"
+  },
+  {
+   "w": "laugh",
+   "vi": "cười",
+   "ipa": "lɑːf",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/laugh.webp"
+  },
+  {
+   "w": "roller skate",
+   "vi": "trượt patin",
+   "ipa": "ˈrəʊlə ˌskeɪt",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/roller-skate.webp"
+  },
+  {
+   "w": "dance",
+   "vi": "nhảy múa",
+   "ipa": "dɑːns",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/dance.webp"
+  },
+  {
+   "w": "cry",
+   "vi": "khóc",
+   "ipa": "kraɪ",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/cry.webp"
+  },
+  {
+   "w": "fish",
+   "vi": "câu cá",
+   "ipa": "fɪʃ",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/fish.webp"
+  },
+  {
+   "w": "hide",
+   "vi": "trốn",
+   "ipa": "haɪd",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/hide.webp"
+  },
+  {
+   "w": "carry",
+   "vi": "mang, vác",
+   "ipa": "ˈkæri",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/carry.webp"
+  },
+  {
+   "w": "fall",
+   "vi": "ngã, rơi",
+   "ipa": "fɔːl",
+   "topic": "Verbs & actions",
+   "img": "img/movers--unit-1-mv01/fall.webp"
+  },
+  {
+   "w": "coat",
+   "vi": "áo khoác dáng dài",
+   "ipa": "kəʊt",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/coat.webp"
+  },
+  {
+   "w": "sweater",
+   "vi": "áo len",
+   "ipa": "ˈswetə",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/sweater.webp"
+  },
+  {
+   "w": "scarf",
+   "vi": "khăn quàng",
+   "ipa": "skɑːf",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/scarf.webp"
+  },
+  {
+   "w": "socks",
+   "vi": "tất / vớ",
+   "ipa": "sɒks",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/socks.webp"
+  },
+  {
+   "w": "trousers",
+   "vi": "quần dài",
+   "ipa": "ˈtraʊzəz",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/trousers.webp"
+  },
+  {
+   "w": "shoes",
+   "vi": "giày",
+   "ipa": "ʃuːz",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/shoes.webp"
+  },
+  {
+   "w": "T-shirt",
+   "vi": "áo phông",
+   "ipa": "ˈtiː ˌʃɜːt",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/t-shirt.webp"
+  },
+  {
+   "w": "glasses",
+   "vi": "kính mắt",
+   "ipa": "ˈglɑːsɪz",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/glasses.webp"
+  },
+  {
+   "w": "jacket",
+   "vi": "áo khoác ngắn",
+   "ipa": "ˈdʒækɪt",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/jacket.webp"
+  },
+  {
+   "w": "swimsuit",
+   "vi": "đồ bơi",
+   "ipa": "ˈswɪmsuːt",
+   "topic": "Clothes & accessories",
+   "img": "img/movers--unit-1-mv01/swimsuit.webp"
+  },
+  {
+   "w": "tennis",
+   "vi": "môn quần vợt",
+   "ipa": "ˈtenɪs",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/tennis.webp"
+  },
+  {
+   "w": "basketball",
+   "vi": "môn bóng rổ",
+   "ipa": "ˈbɑːskɪtbɔːl",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/basketball.webp"
+  },
+  {
+   "w": "drawing",
+   "vi": "hoạt động vẽ tranh",
+   "ipa": "ˈdrɔːɪŋ",
+   "topic": "Sports & activities",
+   "img": "img/movers--unit-1-mv01/drawing.webp"
+  },
+  {
+   "w": "tall",
+   "vi": "cao",
+   "ipa": "tɔːl",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/tall.webp"
+  },
+  {
+   "w": "short",
+   "vi": "thấp / ngắn",
+   "ipa": "ʃɔːt",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/short.webp"
+  },
+  {
+   "w": "long",
+   "vi": "dài",
+   "ipa": "lɒŋ",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/long.webp"
+  },
+  {
+   "w": "big",
+   "vi": "to, lớn",
+   "ipa": "bɪg",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/big.webp"
+  },
+  {
+   "w": "small",
+   "vi": "nhỏ, bé",
+   "ipa": "smɔːl",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/small.webp"
+  },
+  {
+   "w": "young",
+   "vi": "trẻ",
+   "ipa": "jʌŋ",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/young.webp"
+  },
+  {
+   "w": "old",
+   "vi": "già / cũ",
+   "ipa": "əʊld",
+   "topic": "Descriptive adjectives",
+   "img": "img/movers--unit-1-mv01/old.webp"
+  },
+  {
+   "w": "orange",
+   "vi": "cam",
+   "ipa": "ˈɒrɪndʒ",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/orange.webp"
+  },
+  {
+   "w": "pink",
+   "vi": "hồng",
+   "ipa": "pɪŋk",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/pink.webp"
+  },
+  {
+   "w": "yellow",
+   "vi": "vàng",
+   "ipa": "ˈjeləʊ",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/yellow.webp"
+  },
+  {
+   "w": "black",
+   "vi": "đen",
+   "ipa": "blæk",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/black.webp"
+  },
+  {
+   "w": "green",
+   "vi": "xanh lá",
+   "ipa": "griːn",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/green.webp"
+  },
+  {
+   "w": "purple",
+   "vi": "tím",
+   "ipa": "ˈpɜːpəl",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/purple.webp"
+  },
+  {
+   "w": "brown",
+   "vi": "nâu",
+   "ipa": "braʊn",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/brown.webp"
+  },
+  {
+   "w": "blue",
+   "vi": "xanh dương",
+   "ipa": "bluː",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/blue.webp"
+  },
+  {
+   "w": "red",
+   "vi": "đỏ",
+   "ipa": "red",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/red.webp"
+  },
+  {
+   "w": "grey",
+   "vi": "xám",
+   "ipa": "greɪ",
+   "topic": "Colours",
+   "img": "img/movers--unit-1-mv01/grey.webp"
+  },
+  {
+   "w": "cook",
+   "vi": "nấu ăn",
+   "ipa": "kʊk",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/cook.webp"
+  },
+  {
+   "w": "drive",
+   "vi": "lái xe",
+   "ipa": "draɪv",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/drive.webp"
+  },
+  {
+   "w": "ride",
+   "vi": "cưỡi / đi xe",
+   "ipa": "raɪd",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/ride.webp"
+  },
+  {
+   "w": "sail",
+   "vi": "chèo thuyền",
+   "ipa": "seɪl",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/sail.webp"
+  },
+  {
+   "w": "swim",
+   "vi": "bơi",
+   "ipa": "swɪm",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/swim.webp"
+  },
+  {
+   "w": "wash",
+   "vi": "rửa",
+   "ipa": "wɒʃ",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/wash.webp"
+  },
+  {
+   "w": "watch",
+   "vi": "xem",
+   "ipa": "wɒtʃ",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/watch.webp"
+  },
+  {
+   "w": "text",
+   "vi": "nhắn tin",
+   "ipa": "tekst",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/text.webp"
+  },
+  {
+   "w": "email",
+   "vi": "gửi email",
+   "ipa": "ˈiːmeɪl",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/email.webp"
+  },
+  {
+   "w": "call",
+   "vi": "gọi điện",
+   "ipa": "kɔːl",
+   "topic": "Activities",
+   "img": "img/movers--unit-2-mv02/call.webp"
+  },
+  {
+   "w": "CD",
+   "vi": "đĩa CD",
+   "ipa": "ˌsiː ˈdiː",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/cd.webp"
+  },
+  {
+   "w": "DVD",
+   "vi": "đĩa DVD",
+   "ipa": "ˌdiː viː ˈdiː",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/dvd.webp"
+  },
+  {
+   "w": "e-book",
+   "vi": "sách điện tử",
+   "ipa": "ˈiː ˌbʊk",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/e-book.webp"
+  },
+  {
+   "w": "homework",
+   "vi": "bài về nhà",
+   "ipa": "ˈhəʊmwɜːk",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/homework.webp"
+  },
+  {
+   "w": "internet",
+   "vi": "mạng internet",
+   "ipa": "ˈɪntəˌnet",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/internet.webp"
+  },
+  {
+   "w": "website",
+   "vi": "trang web",
+   "ipa": "ˈwebsaɪt",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/website.webp"
+  },
+  {
+   "w": "film / movie",
+   "vi": "phim",
+   "ipa": "fɪlm / ˈmuːvi",
+   "topic": "Things & media",
+   "img": "img/movers--unit-2-mv02/film-movie.webp"
+  },
+  {
+   "w": "Monday",
+   "vi": "Thứ Hai",
+   "ipa": "ˈmʌndeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Tuesday",
+   "vi": "Thứ Ba",
+   "ipa": "ˈtjuːzdeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Wednesday",
+   "vi": "Thứ Tư",
+   "ipa": "ˈwenzdeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Thursday",
+   "vi": "Thứ Năm",
+   "ipa": "ˈθɜːzdeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Friday",
+   "vi": "Thứ Sáu",
+   "ipa": "ˈfraɪdeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Saturday",
+   "vi": "Thứ Bảy",
+   "ipa": "ˈsætədeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "Sunday",
+   "vi": "Chủ nhật",
+   "ipa": "ˈsʌndeɪ",
+   "topic": "Days of the week"
+  },
+  {
+   "w": "bus station",
+   "vi": "bến xe buýt",
+   "ipa": "ˈbʌs ˌsteɪʃən",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/bus-station.webp"
+  },
+  {
+   "w": "café",
+   "vi": "quán cà phê",
+   "ipa": "ˈkæfeɪ",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/caf.webp"
+  },
+  {
+   "w": "car park",
+   "vi": "bãi đỗ xe",
+   "ipa": "ˈkɑː ˌpɑːk",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/car-park.webp"
+  },
+  {
+   "w": "circus",
+   "vi": "rạp xiếc",
+   "ipa": "ˈsɜːkəs",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/circus.webp"
+  },
+  {
+   "w": "funfair",
+   "vi": "công viên giải trí",
+   "ipa": "ˈfʌnfeə",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/funfair.webp"
+  },
+  {
+   "w": "hospital",
+   "vi": "bệnh viện",
+   "ipa": "ˈhɒspɪtəl",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/hospital.webp"
+  },
+  {
+   "w": "library",
+   "vi": "thư viện",
+   "ipa": "ˈlaɪbrəri",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/library.webp"
+  },
+  {
+   "w": "market",
+   "vi": "chợ",
+   "ipa": "ˈmɑːkɪt",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/market.webp"
+  },
+  {
+   "w": "playground",
+   "vi": "sân chơi",
+   "ipa": "ˈpleɪgraʊnd",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/playground.webp"
+  },
+  {
+   "w": "shopping centre",
+   "vi": "trung tâm thương mại",
+   "ipa": "ˈʃɒpɪŋ ˌsentə",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/shopping-centre.webp"
+  },
+  {
+   "w": "sports centre",
+   "vi": "trung tâm thể thao",
+   "ipa": "ˈspɔːts ˌsentə",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/sports-centre.webp"
+  },
+  {
+   "w": "square",
+   "vi": "quảng trường",
+   "ipa": "skweə",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/square.webp"
+  },
+  {
+   "w": "station",
+   "vi": "nhà ga",
+   "ipa": "ˈsteɪʃən",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/station.webp"
+  },
+  {
+   "w": "supermarket",
+   "vi": "siêu thị",
+   "ipa": "ˈsuːpəˌmɑːkɪt",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/supermarket.webp"
+  },
+  {
+   "w": "town",
+   "vi": "thị trấn",
+   "ipa": "taʊn",
+   "topic": "Places",
+   "img": "img/movers--unit-3-mv03/town.webp"
+  },
+  {
+   "w": "present",
+   "vi": "quà tặng",
+   "ipa": "ˈprezənt",
+   "topic": "Things",
+   "img": "img/movers--unit-3-mv03/present.webp"
+  },
+  {
+   "w": "app",
+   "vi": "ứng dụng",
+   "ipa": "æp",
+   "topic": "Things",
+   "img": "img/movers--unit-3-mv03/app.webp"
+  },
+  {
+   "w": "bat",
+   "vi": "gậy",
+   "ipa": "bæt",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/bat.webp"
+  },
+  {
+   "w": "blanket",
+   "vi": "chăn / mền",
+   "ipa": "ˈblæŋkɪt",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/blanket.webp"
+  },
+  {
+   "w": "cage",
+   "vi": "lồng / cũi",
+   "ipa": "keɪdʒ",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/cage.webp"
+  },
+  {
+   "w": "comic book",
+   "vi": "truyện tranh",
+   "ipa": "ˈkɒmɪk ˌbʊk",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/comic-book.webp"
+  },
+  {
+   "w": "helmet",
+   "vi": "mũ bảo hiểm",
+   "ipa": "ˈhelmɪt",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/helmet.webp"
+  },
+  {
+   "w": "laptop",
+   "vi": "máy tính xách tay",
+   "ipa": "ˈlæptɒp",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/laptop.webp"
+  },
+  {
+   "w": "map of the world",
+   "vi": "bản đồ thế giới",
+   "ipa": "ˌmæp əv ðə ˈwɜːld",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/map-of-the-world.webp"
+  },
+  {
+   "w": "plant",
+   "vi": "cây cảnh",
+   "ipa": "plænt",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/plant.webp"
+  },
+  {
+   "w": "shower",
+   "vi": "vòi hoa sen",
+   "ipa": "ˈʃaʊə",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/shower.webp"
+  },
+  {
+   "w": "toothbrush",
+   "vi": "bàn chải đánh răng",
+   "ipa": "ˈtuːθbrʌʃ",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/toothbrush.webp"
+  },
+  {
+   "w": "toothpaste",
+   "vi": "kem đánh răng",
+   "ipa": "ˈtuːθpeɪst",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/toothpaste.webp"
+  },
+  {
+   "w": "towel",
+   "vi": "khăn tắm",
+   "ipa": "taʊəl",
+   "topic": "Things in the house",
+   "img": "img/movers--unit-4-mv04/towel.webp"
+  },
+  {
+   "w": "downstairs",
+   "vi": "dưới nhà",
+   "ipa": "ˌdaʊnˈsteəz",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/downstairs.webp"
+  },
+  {
+   "w": "upstairs",
+   "vi": "trên nhà",
+   "ipa": "ˌʌpˈsteəz",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/upstairs.webp"
+  },
+  {
+   "w": "inside",
+   "vi": "bên trong",
+   "ipa": "ˌɪnˈsaɪd",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/inside.webp"
+  },
+  {
+   "w": "outside",
+   "vi": "bên ngoài",
+   "ipa": "ˌaʊtˈsaɪd",
+   "topic": "Places in the house",
+   "img": "img/movers--unit-4-mv04/outside.webp"
+  },
+  {
+   "w": "balcony",
+   "vi": "ban công",
+   "ipa": "ˈbælkəni",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/balcony.webp"
+  },
+  {
+   "w": "beach",
+   "vi": "bãi biển",
+   "ipa": "biːtʃ",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/beach.webp"
+  },
+  {
+   "w": "bus stop",
+   "vi": "trạm xe buýt",
+   "ipa": "ˈbʌs ˌstɒp",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/bus-stop.webp"
+  },
+  {
+   "w": "cinema",
+   "vi": "rạp chiếu phim",
+   "ipa": "ˈsɪnəmə",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/cinema.webp"
+  },
+  {
+   "w": "lift / elevator",
+   "vi": "thang máy",
+   "ipa": "lɪft / ˈelɪveɪtə",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/lift-elevator.webp"
+  },
+  {
+   "w": "(swimming) pool",
+   "vi": "hồ bơi",
+   "ipa": "(ˌswɪmɪŋ) ˈpuːl",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/swimming-pool.webp"
+  },
+  {
+   "w": "sea",
+   "vi": "biển",
+   "ipa": "siː",
+   "topic": "Holiday places",
+   "img": "img/movers--unit-5-mv05/sea.webp"
+  },
+  {
+   "w": "message",
+   "vi": "tin nhắn",
+   "ipa": "ˈmesɪdʒ",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/message.webp"
+  },
+  {
+   "w": "milkshake",
+   "vi": "sữa khuấy",
+   "ipa": "ˈmɪlkʃeɪk",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/milkshake.webp"
+  },
+  {
+   "w": "seat",
+   "vi": "chỗ ngồi",
+   "ipa": "siːt",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/seat.webp"
+  },
+  {
+   "w": "stairs",
+   "vi": "cầu thang",
+   "ipa": "steəz",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/stairs.webp"
+  },
+  {
+   "w": "ticket",
+   "vi": "vé",
+   "ipa": "ˈtɪkɪt",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/ticket.webp"
+  },
+  {
+   "w": "wave",
+   "vi": "sóng biển",
+   "ipa": "weɪv",
+   "topic": "Things & concepts",
+   "img": "img/movers--unit-5-mv05/wave.webp"
+  },
+  {
+   "w": "clown",
+   "vi": "chú hề",
+   "ipa": "klaʊn",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/clown.webp"
+  },
+  {
+   "w": "cook",
+   "vi": "đầu bếp",
+   "ipa": "kʊk",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/cook.webp"
+  },
+  {
+   "w": "doctor",
+   "vi": "bác sĩ",
+   "ipa": "ˈdɒktə",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/doctor.webp"
+  },
+  {
+   "w": "driver",
+   "vi": "tài xế",
+   "ipa": "ˈdraɪvə",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/driver.webp"
+  },
+  {
+   "w": "farmer",
+   "vi": "nông dân",
+   "ipa": "ˈfɑːmə",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/farmer.webp"
+  },
+  {
+   "w": "nurse",
+   "vi": "y tá",
+   "ipa": "nɜːs",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/nurse.webp"
+  },
+  {
+   "w": "pirate",
+   "vi": "cướp biển",
+   "ipa": "ˈpaɪrət",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/pirate.webp"
+  },
+  {
+   "w": "robot",
+   "vi": "người máy",
+   "ipa": "ˈrəʊbɒt",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/robot.webp"
+  },
+  {
+   "w": "train driver",
+   "vi": "lái tàu",
+   "ipa": "ˈtreɪn ˌdraɪvə",
+   "topic": "People & jobs",
+   "img": "img/movers--unit-6-mv06/train-driver.webp"
+  },
+  {
+   "w": "city",
+   "vi": "thành phố",
+   "ipa": "ˈsɪti",
+   "topic": "Places",
+   "img": "img/movers--unit-6-mv06/city.webp"
+  },
+  {
+   "w": "farm",
+   "vi": "trang trại",
+   "ipa": "fɑːm",
+   "topic": "Places",
+   "img": "img/movers--unit-6-mv06/farm.webp"
+  },
+  {
+   "w": "island",
+   "vi": "hòn đảo",
+   "ipa": "ˈaɪlənd",
+   "topic": "Places",
+   "img": "img/movers--unit-6-mv06/island.webp"
+  },
+  {
+   "w": "jungle",
+   "vi": "rừng rậm",
+   "ipa": "ˈdʒʌŋgəl",
+   "topic": "Places",
+   "img": "img/movers--unit-6-mv06/jungle.webp"
+  },
+  {
+   "w": "village",
+   "vi": "ngôi làng",
+   "ipa": "ˈvɪlɪdʒ",
+   "topic": "Places",
+   "img": "img/movers--unit-6-mv06/village.webp"
+  },
+  {
+   "w": "camera",
+   "vi": "máy ảnh",
+   "ipa": "ˈkæmrə",
+   "topic": "Things",
+   "img": "img/movers--unit-6-mv06/camera.webp"
+  },
+  {
+   "w": "machine",
+   "vi": "máy móc",
+   "ipa": "məˈʃiːn",
+   "topic": "Things",
+   "img": "img/movers--unit-6-mv06/machine.webp"
+  },
+  {
+   "w": "treasure",
+   "vi": "kho báu",
+   "ipa": "ˈtreʒə",
+   "topic": "Things",
+   "img": "img/movers--unit-6-mv06/treasure.webp"
+  },
+  {
+   "w": "aunt",
+   "vi": "cô / dì / bác gái",
+   "ipa": "ɑːnt",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/aunt.webp"
+  },
+  {
+   "w": "uncle",
+   "vi": "chú / bác / cậu",
+   "ipa": "ˈʌŋkəl",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/uncle.webp"
+  },
+  {
+   "w": "daughter",
+   "vi": "con gái",
+   "ipa": "ˈdɔːtə",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/daughter.webp"
+  },
+  {
+   "w": "son",
+   "vi": "con trai",
+   "ipa": "sʌn",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/son.webp"
+  },
+  {
+   "w": "granddaughter",
+   "vi": "cháu gái",
+   "ipa": "ˈgrænˌdɔːtə",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/granddaughter.webp"
+  },
+  {
+   "w": "grandson",
+   "vi": "cháu trai",
+   "ipa": "ˈgrænsʌn",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grandson.webp"
+  },
+  {
+   "w": "grandparent",
+   "vi": "ông bà",
+   "ipa": "ˈgrænˌpeərənt",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grandparent.webp"
+  },
+  {
+   "w": "parent",
+   "vi": "phụ huynh",
+   "ipa": "ˈpeərənt",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/parent.webp"
+  },
+  {
+   "w": "grown-up",
+   "vi": "người lớn",
+   "ipa": "ˈgrəʊn ˌʌp",
+   "topic": "Family",
+   "img": "img/movers--unit-7-mv07/grown-up.webp"
+  },
+  {
+   "w": "beard",
+   "vi": "râu quai nón",
+   "ipa": "bɪəd",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/beard.webp"
+  },
+  {
+   "w": "moustache",
+   "vi": "ria môi",
+   "ipa": "məˈstɑːʃ",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/moustache.webp"
+  },
+  {
+   "w": "curly hair",
+   "vi": "tóc xoăn",
+   "ipa": "ˌkɜːli ˈheə",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/curly-hair.webp"
+  },
+  {
+   "w": "fair hair",
+   "vi": "tóc sáng màu",
+   "ipa": "ˌfeə ˈheə",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/fair-hair.webp"
+  },
+  {
+   "w": "straight hair",
+   "vi": "tóc thẳng",
+   "ipa": "ˌstreɪt ˈheə",
+   "topic": "Appearance",
+   "img": "img/movers--unit-7-mv07/straight-hair.webp"
+  },
+  {
+   "w": "cheese",
+   "vi": "phô mai",
+   "ipa": "tʃiːz",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/cheese.webp"
+  },
+  {
+   "w": "chicken",
+   "vi": "thịt gà",
+   "ipa": "ˈtʃɪkɪn",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/chicken.webp"
+  },
+  {
+   "w": "coffee",
+   "vi": "cà phê",
+   "ipa": "ˈkɒfi",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/coffee.webp"
+  },
+  {
+   "w": "milk",
+   "vi": "sữa",
+   "ipa": "mɪlk",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/milk.webp"
+  },
+  {
+   "w": "noodles",
+   "vi": "mì",
+   "ipa": "ˈnuːdəlz",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/noodles.webp"
+  },
+  {
+   "w": "pancake",
+   "vi": "bánh kếp",
+   "ipa": "ˈpænkeɪk",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pancake.webp"
+  },
+  {
+   "w": "pasta",
+   "vi": "mì Ý",
+   "ipa": "ˈpæstə",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pasta.webp"
+  },
+  {
+   "w": "salad",
+   "vi": "rau trộn",
+   "ipa": "ˈsæləd",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/salad.webp"
+  },
+  {
+   "w": "sandwich",
+   "vi": "bánh mì kẹp",
+   "ipa": "ˈsænwɪdʒ",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/sandwich.webp"
+  },
+  {
+   "w": "soup",
+   "vi": "súp",
+   "ipa": "suːp",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/soup.webp"
+  },
+  {
+   "w": "tea",
+   "vi": "trà",
+   "ipa": "tiː",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/tea.webp"
+  },
+  {
+   "w": "vegetables",
+   "vi": "rau củ",
+   "ipa": "ˈvedʒtəbəlz",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/vegetables.webp"
+  },
+  {
+   "w": "water",
+   "vi": "nước",
+   "ipa": "ˈwɔːtə",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/water.webp"
+  },
+  {
+   "w": "lemonade",
+   "vi": "nước chanh",
+   "ipa": "ˌleməˈneɪd",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/lemonade.webp"
+  },
+  {
+   "w": "juice",
+   "vi": "nước ép",
+   "ipa": "dʒuːs",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/juice.webp"
+  },
+  {
+   "w": "bread",
+   "vi": "bánh mì",
+   "ipa": "bred",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/bread.webp"
+  },
+  {
+   "w": "carrots",
+   "vi": "cà rốt",
+   "ipa": "ˈkærəts",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/carrots.webp"
+  },
+  {
+   "w": "pineapple",
+   "vi": "dứa",
+   "ipa": "ˈpaɪnæpəl",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/pineapple.webp"
+  },
+  {
+   "w": "burger",
+   "vi": "bánh kẹp thịt",
+   "ipa": "ˈbɜːgə",
+   "topic": "Food & drink",
+   "img": "img/movers--unit-8-mv08/burger.webp"
+  },
+  {
+   "w": "bottle",
+   "vi": "chai",
+   "ipa": "ˈbɒtəl",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/bottle.webp"
+  },
+  {
+   "w": "bowl",
+   "vi": "bát / tô",
+   "ipa": "bəʊl",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/bowl.webp"
+  },
+  {
+   "w": "cup",
+   "vi": "cốc",
+   "ipa": "kʌp",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/cup.webp"
+  },
+  {
+   "w": "glass",
+   "vi": "ly thủy tinh",
+   "ipa": "glɑːs",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/glass.webp"
+  },
+  {
+   "w": "plate",
+   "vi": "đĩa",
+   "ipa": "pleɪt",
+   "topic": "Containers",
+   "img": "img/movers--unit-8-mv08/plate.webp"
+  },
+  {
+   "w": "bat",
+   "vi": "con dơi",
+   "ipa": "bæt",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/bat.webp"
+  },
+  {
+   "w": "bear",
+   "vi": "con gấu",
+   "ipa": "beə",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/bear.webp"
+  },
+  {
+   "w": "dolphin",
+   "vi": "cá heo",
+   "ipa": "ˈdɒlfɪn",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/dolphin.webp"
+  },
+  {
+   "w": "fly",
+   "vi": "con ruồi",
+   "ipa": "flaɪ",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/fly.webp"
+  },
+  {
+   "w": "kangaroo",
+   "vi": "chuột túi",
+   "ipa": "ˌkæŋgəˈruː",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/kangaroo.webp"
+  },
+  {
+   "w": "kitten",
+   "vi": "mèo con",
+   "ipa": "ˈkɪtən",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/kitten.webp"
+  },
+  {
+   "w": "lion",
+   "vi": "sư tử",
+   "ipa": "ˈlaɪən",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/lion.webp"
+  },
+  {
+   "w": "panda",
+   "vi": "gấu trúc",
+   "ipa": "ˈpændə",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/panda.webp"
+  },
+  {
+   "w": "parrot",
+   "vi": "con vẹt",
+   "ipa": "ˈpærət",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/parrot.webp"
+  },
+  {
+   "w": "penguin",
+   "vi": "chim cánh cụt",
+   "ipa": "ˈpeŋgwɪn",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/penguin.webp"
+  },
+  {
+   "w": "pet",
+   "vi": "thú cưng",
+   "ipa": "pet",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/pet.webp"
+  },
+  {
+   "w": "puppy",
+   "vi": "chó con",
+   "ipa": "ˈpʌpi",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/puppy.webp"
+  },
+  {
+   "w": "rabbit",
+   "vi": "con thỏ",
+   "ipa": "ˈræbɪt",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/rabbit.webp"
+  },
+  {
+   "w": "shark",
+   "vi": "cá mập",
+   "ipa": "ʃɑːk",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/shark.webp"
+  },
+  {
+   "w": "snail",
+   "vi": "ốc sên",
+   "ipa": "sneɪl",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/snail.webp"
+  },
+  {
+   "w": "whale",
+   "vi": "cá voi",
+   "ipa": "weɪl",
+   "topic": "Animals",
+   "img": "img/movers--unit-9-mv09/whale.webp"
+  },
+  {
+   "w": "moon",
+   "vi": "mặt trăng",
+   "ipa": "muːn",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/moon.webp"
+  },
+  {
+   "w": "rainbow",
+   "vi": "cầu vồng",
+   "ipa": "ˈreɪnbəʊ",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/rainbow.webp"
+  },
+  {
+   "w": "star",
+   "vi": "ngôi sao",
+   "ipa": "stɑː",
+   "topic": "Scenery",
+   "img": "img/movers--unit-9-mv09/star.webp"
+  },
+  {
+   "w": "cloud",
+   "vi": "mây",
+   "ipa": "klaʊd",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/cloud.webp"
+  },
+  {
+   "w": "cloudy",
+   "vi": "có mây",
+   "ipa": "ˈklaʊdi",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/cloudy.webp"
+  },
+  {
+   "w": "ice",
+   "vi": "băng",
+   "ipa": "aɪs",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/ice.webp"
+  },
+  {
+   "w": "rain",
+   "vi": "mưa",
+   "ipa": "reɪn",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/rain.webp"
+  },
+  {
+   "w": "snow",
+   "vi": "tuyết",
+   "ipa": "snəʊ",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/snow.webp"
+  },
+  {
+   "w": "sun",
+   "vi": "mặt trời",
+   "ipa": "sʌn",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/sun.webp"
+  },
+  {
+   "w": "sunny",
+   "vi": "có nắng",
+   "ipa": "ˈsʌni",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/sunny.webp"
+  },
+  {
+   "w": "wind",
+   "vi": "gió",
+   "ipa": "wɪnd",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/wind.webp"
+  },
+  {
+   "w": "windy",
+   "vi": "có gió",
+   "ipa": "ˈwɪndi",
+   "topic": "Weather & nature",
+   "img": "img/movers--unit-10-mv10/windy.webp"
+  },
+  {
+   "w": "arm",
+   "vi": "cánh tay",
+   "ipa": "ɑːm",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/arm.webp"
+  },
+  {
+   "w": "back",
+   "vi": "lưng",
+   "ipa": "bæk",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/back.webp"
+  },
+  {
+   "w": "ear",
+   "vi": "tai",
+   "ipa": "ɪə",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/ear.webp"
+  },
+  {
+   "w": "foot / feet",
+   "vi": "bàn chân",
+   "ipa": "fʊt / fiːt",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/foot-feet.webp"
+  },
+  {
+   "w": "hand",
+   "vi": "bàn tay",
+   "ipa": "hænd",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/hand.webp"
+  },
+  {
+   "w": "head",
+   "vi": "đầu",
+   "ipa": "hed",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/head.webp"
+  },
+  {
+   "w": "leg",
+   "vi": "chân",
+   "ipa": "leg",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/leg.webp"
+  },
+  {
+   "w": "neck",
+   "vi": "cổ",
+   "ipa": "nek",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/neck.webp"
+  },
+  {
+   "w": "shoulder",
+   "vi": "vai",
+   "ipa": "ˈʃəʊldə",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/shoulder.webp"
+  },
+  {
+   "w": "stomach",
+   "vi": "bụng",
+   "ipa": "ˈstʌmək",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/stomach.webp"
+  },
+  {
+   "w": "teeth / tooth",
+   "vi": "răng",
+   "ipa": "tiːθ / tuːθ",
+   "topic": "Body",
+   "img": "img/movers--unit-11-mv11/teeth-tooth.webp"
+  },
+  {
+   "w": "cold",
+   "vi": "cảm lạnh",
+   "ipa": "kəʊld",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/cold.webp"
+  },
+  {
+   "w": "cough",
+   "vi": "ho",
+   "ipa": "kɒf",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/cough.webp"
+  },
+  {
+   "w": "earache",
+   "vi": "đau tai",
+   "ipa": "ˈɪəreɪk",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/earache.webp"
+  },
+  {
+   "w": "headache",
+   "vi": "đau đầu",
+   "ipa": "ˈhedeɪk",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/headache.webp"
+  },
+  {
+   "w": "stomach-ache",
+   "vi": "đau bụng",
+   "ipa": "ˈstʌməkeɪk",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/stomach-ache.webp"
+  },
+  {
+   "w": "temperature",
+   "vi": "sốt",
+   "ipa": "ˈtemprətʃə",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/temperature.webp"
+  },
+  {
+   "w": "toothache",
+   "vi": "đau răng",
+   "ipa": "ˈtuːθeɪk",
+   "topic": "Health",
+   "img": "img/movers--unit-11-mv11/toothache.webp"
+  },
+  {
+   "w": "ice skates",
+   "vi": "giày trượt băng",
+   "ipa": "ˈaɪs ˌskeɪts",
+   "topic": "Things",
+   "img": "img/movers--unit-11-mv11/ice-skates.webp"
+  },
+  {
+   "w": "field",
+   "vi": "cánh đồng",
+   "ipa": "fiːld",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/field.webp"
+  },
+  {
+   "w": "forest",
+   "vi": "rừng",
+   "ipa": "ˈfɒrɪst",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/forest.webp"
+  },
+  {
+   "w": "grass",
+   "vi": "cỏ",
+   "ipa": "grɑːs",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/grass.webp"
+  },
+  {
+   "w": "lake",
+   "vi": "hồ nước",
+   "ipa": "leɪk",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/lake.webp"
+  },
+  {
+   "w": "leaf / leaves",
+   "vi": "lá cây",
+   "ipa": "liːf / liːvz",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/leaf-leaves.webp"
+  },
+  {
+   "w": "mountain",
+   "vi": "ngọn núi",
+   "ipa": "ˈmaʊntɪn",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/mountain.webp"
+  },
+  {
+   "w": "river",
+   "vi": "dòng sông",
+   "ipa": "ˈrɪvə",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/river.webp"
+  },
+  {
+   "w": "road",
+   "vi": "con đường",
+   "ipa": "rəʊd",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/road.webp"
+  },
+  {
+   "w": "rock",
+   "vi": "hòn đá",
+   "ipa": "rɒk",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/rock.webp"
+  },
+  {
+   "w": "sky",
+   "vi": "bầu trời",
+   "ipa": "skaɪ",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/sky.webp"
+  },
+  {
+   "w": "waterfall",
+   "vi": "thác nước",
+   "ipa": "ˈwɔːtəˌfɔːl",
+   "topic": "Countryside",
+   "img": "img/movers--unit-12-mv12/waterfall.webp"
+  },
+  {
+   "w": "tractor",
+   "vi": "máy kéo",
+   "ipa": "ˈtræktə",
+   "topic": "Vehicles & things",
+   "img": "img/movers--unit-12-mv12/tractor.webp"
+  },
+  {
+   "w": "lorry",
+   "vi": "xe tải",
+   "ipa": "ˈlɒri",
+   "topic": "Vehicles & things",
+   "img": "img/movers--unit-12-mv12/lorry.webp"
+  },
+  {
+   "w": "tomato",
+   "vi": "cà chua",
+   "ipa": "təˈmɑːtəʊ",
+   "topic": "Vehicles & things",
+   "img": "img/movers--unit-12-mv12/tomato.webp"
+  },
+  {
+   "w": "watermelon",
+   "vi": "dưa hấu",
+   "ipa": "ˈwɔːtəˌmelən",
+   "topic": "Vehicles & things",
+   "img": "img/movers--unit-12-mv12/watermelon.webp"
+  }
+ ]
+}

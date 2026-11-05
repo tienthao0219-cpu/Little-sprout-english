@@ -1,0 +1,1533 @@
+{
+ "id": "starters--review-vocab-ok8v",
+ "title": "Ôn từ vựng cả sách",
+ "cur": "starters",
+ "unit": "review-vocab-ok8v",
+ "items": [
+  {
+   "w": "animal",
+   "vi": "con vật",
+   "img": "img/starters--unit-1-143s/animal.webp"
+  },
+  {
+   "w": "bee",
+   "vi": "con ong",
+   "img": "img/starters--unit-1-143s/bee.webp"
+  },
+  {
+   "w": "bird",
+   "vi": "con chim",
+   "img": "img/starters--unit-1-143s/bird.webp"
+  },
+  {
+   "w": "chicken",
+   "vi": "con gà",
+   "img": "img/starters--unit-1-143s/chicken.webp"
+  },
+  {
+   "w": "colour",
+   "vi": "màu sắc",
+   "img": "img/starters--unit-1-143s/colour-n.webp"
+  },
+  {
+   "w": "colour",
+   "vi": "tô màu",
+   "img": "img/starters--unit-7-xvix/colour-v.webp"
+  },
+  {
+   "w": "cow",
+   "vi": "con bò",
+   "img": "img/starters--unit-1-143s/cow.webp"
+  },
+  {
+   "w": "donkey",
+   "vi": "con lừa",
+   "img": "img/starters--unit-1-143s/donkey.webp"
+  },
+  {
+   "w": "duck",
+   "vi": "con vịt",
+   "img": "img/starters--unit-1-143s/duck.webp"
+  },
+  {
+   "w": "fish",
+   "vi": "con cá (một con)",
+   "img": "img/starters--unit-1-143s/fish-s.webp"
+  },
+  {
+   "w": "fish",
+   "vi": "những con cá",
+   "img": "img/starters--review-vocab-ok8v/fish-pl.webp"
+  },
+  {
+   "w": "frog",
+   "vi": "con ếch",
+   "img": "img/starters--unit-1-143s/frog.webp"
+  },
+  {
+   "w": "goat",
+   "vi": "con dê",
+   "img": "img/starters--unit-1-143s/goat.webp"
+  },
+  {
+   "w": "horse",
+   "vi": "con ngựa",
+   "img": "img/starters--unit-1-143s/horse.webp"
+  },
+  {
+   "w": "in",
+   "vi": "ở trong",
+   "img": "img/starters--unit-1-143s/in.webp"
+  },
+  {
+   "w": "look",
+   "vi": "nhìn",
+   "img": "img/starters--unit-1-143s/look.webp"
+  },
+  {
+   "w": "mice",
+   "vi": "những con chuột",
+   "img": "img/starters--unit-1-143s/mice.webp"
+  },
+  {
+   "w": "next to",
+   "vi": "bên cạnh",
+   "img": "img/starters--unit-1-143s/next-to.webp"
+  },
+  {
+   "w": "on",
+   "vi": "ở trên",
+   "img": "img/starters--unit-1-143s/on.webp"
+  },
+  {
+   "w": "sheep",
+   "vi": "con cừu (một con)",
+   "img": "img/starters--unit-1-143s/sheep-s.webp"
+  },
+  {
+   "w": "sheep",
+   "vi": "những con cừu",
+   "img": "img/starters--review-vocab-ok8v/sheep-pl.webp"
+  },
+  {
+   "w": "bathroom",
+   "vi": "phòng tắm",
+   "img": "img/starters--unit-2-7l6o/bathroom.webp"
+  },
+  {
+   "w": "bedroom",
+   "vi": "phòng ngủ",
+   "img": "img/starters--unit-2-7l6o/bedroom.webp"
+  },
+  {
+   "w": "dining room",
+   "vi": "phòng ăn",
+   "img": "img/starters--unit-2-7l6o/dining-room.webp"
+  },
+  {
+   "w": "garden",
+   "vi": "khu vườn",
+   "img": "img/starters--unit-2-7l6o/garden.webp"
+  },
+  {
+   "w": "hall",
+   "vi": "hành lang, sảnh",
+   "img": "img/starters--unit-2-7l6o/hall.webp"
+  },
+  {
+   "w": "home",
+   "vi": "nhà",
+   "img": "img/starters--unit-2-7l6o/home.webp"
+  },
+  {
+   "w": "kitchen",
+   "vi": "nhà bếp",
+   "img": "img/starters--unit-2-7l6o/kitchen.webp"
+  },
+  {
+   "w": "living room",
+   "vi": "phòng khách",
+   "img": "img/starters--unit-2-7l6o/living-room.webp"
+  },
+  {
+   "w": "room",
+   "vi": "căn phòng",
+   "img": "img/starters--unit-2-7l6o/room.webp"
+  },
+  {
+   "w": "armchair",
+   "vi": "ghế bành",
+   "img": "img/starters--unit-2-7l6o/armchair.webp"
+  },
+  {
+   "w": "bath",
+   "vi": "bồn tắm",
+   "img": "img/starters--unit-2-7l6o/bath.webp"
+  },
+  {
+   "w": "bed",
+   "vi": "cái giường",
+   "img": "img/starters--unit-10-z6sh/bed.webp"
+  },
+  {
+   "w": "bookcase",
+   "vi": "tủ sách",
+   "img": "img/starters--unit-2-7l6o/bookcase.webp"
+  },
+  {
+   "w": "clock",
+   "vi": "đồng hồ",
+   "img": "img/starters--unit-2-7l6o/clock.webp"
+  },
+  {
+   "w": "computer",
+   "vi": "máy tính",
+   "img": "img/starters--unit-2-7l6o/computer.webp"
+  },
+  {
+   "w": "cupboard",
+   "vi": "tủ có cánh",
+   "img": "img/starters--unit-2-7l6o/cupboard.webp"
+  },
+  {
+   "w": "door",
+   "vi": "cửa ra vào",
+   "img": "img/starters--unit-2-7l6o/door.webp"
+  },
+  {
+   "w": "floor",
+   "vi": "sàn nhà",
+   "img": "img/starters--unit-2-7l6o/floor.webp"
+  },
+  {
+   "w": "lamp",
+   "vi": "cái đèn",
+   "img": "img/starters--unit-2-7l6o/lamp.webp"
+  },
+  {
+   "w": "mat",
+   "vi": "tấm thảm nhỏ",
+   "img": "img/starters--unit-2-7l6o/mat.webp"
+  },
+  {
+   "w": "mirror",
+   "vi": "cái gương",
+   "img": "img/starters--unit-2-7l6o/mirror.webp"
+  },
+  {
+   "w": "phone",
+   "vi": "điện thoại",
+   "img": "img/starters--unit-2-7l6o/phone-n.webp"
+  },
+  {
+   "w": "picture",
+   "vi": "bức tranh",
+   "img": "img/starters--unit-2-7l6o/picture.webp"
+  },
+  {
+   "w": "radio",
+   "vi": "đài radio",
+   "img": "img/starters--unit-2-7l6o/radio.webp"
+  },
+  {
+   "w": "rug",
+   "vi": "tấm thảm",
+   "img": "img/starters--unit-2-7l6o/rug.webp"
+  },
+  {
+   "w": "sofa",
+   "vi": "ghế sofa",
+   "img": "img/starters--unit-2-7l6o/sofa.webp"
+  },
+  {
+   "w": "table",
+   "vi": "cái bàn",
+   "img": "img/starters--unit-2-7l6o/table.webp"
+  },
+  {
+   "w": "television",
+   "vi": "ti vi",
+   "img": "img/starters--unit-2-7l6o/television.webp"
+  },
+  {
+   "w": "wall",
+   "vi": "bức tường",
+   "img": "img/starters--unit-2-7l6o/wall.webp"
+  },
+  {
+   "w": "window",
+   "vi": "cửa sổ",
+   "img": "img/starters--unit-2-7l6o/window.webp"
+  },
+  {
+   "w": "behind",
+   "vi": "phía sau",
+   "img": "img/starters--unit-2-7l6o/behind.webp"
+  },
+  {
+   "w": "between",
+   "vi": "ở giữa",
+   "img": "img/starters--unit-2-7l6o/between.webp"
+  },
+  {
+   "w": "in front of",
+   "vi": "phía trước",
+   "img": "img/starters--unit-2-7l6o/in-front-of.webp"
+  },
+  {
+   "w": "under",
+   "vi": "bên dưới",
+   "img": "img/starters--unit-2-7l6o/under.webp"
+  },
+  {
+   "w": "ask",
+   "vi": "hỏi",
+   "img": "img/starters--unit-2-7l6o/ask.webp"
+  },
+  {
+   "w": "Mum",
+   "vi": "mẹ",
+   "img": "img/starters--unit-2-7l6o/mum.webp"
+  },
+  {
+   "w": "baby",
+   "vi": "em bé",
+   "img": "img/starters--unit-3-ehrg/baby.webp"
+  },
+  {
+   "w": "boy",
+   "vi": "cậu bé",
+   "img": "img/starters--unit-3-ehrg/boy.webp"
+  },
+  {
+   "w": "brother",
+   "vi": "anh trai, em trai",
+   "img": "img/starters--unit-3-ehrg/brother.webp"
+  },
+  {
+   "w": "dad",
+   "vi": "bố",
+   "img": "img/starters--unit-3-ehrg/dad.webp"
+  },
+  {
+   "w": "family",
+   "vi": "gia đình",
+   "img": "img/starters--unit-3-ehrg/family.webp"
+  },
+  {
+   "w": "father",
+   "vi": "bố, cha",
+   "img": "img/starters--unit-3-ehrg/father.webp"
+  },
+  {
+   "w": "friend",
+   "vi": "bạn",
+   "img": "img/starters--unit-3-ehrg/friend.webp"
+  },
+  {
+   "w": "girl",
+   "vi": "cô bé",
+   "img": "img/starters--unit-3-ehrg/girl.webp"
+  },
+  {
+   "w": "grandfather",
+   "vi": "ông",
+   "img": "img/starters--unit-3-ehrg/grandfather.webp"
+  },
+  {
+   "w": "grandmother",
+   "vi": "bà",
+   "img": "img/starters--unit-3-ehrg/grandmother.webp"
+  },
+  {
+   "w": "mother",
+   "vi": "mẹ",
+   "img": "img/starters--unit-12-2pxd/mother.webp"
+  },
+  {
+   "w": "pet",
+   "vi": "thú cưng",
+   "img": "img/starters--unit-3-ehrg/pet.webp"
+  },
+  {
+   "w": "sister",
+   "vi": "chị gái, em gái",
+   "img": "img/starters--unit-3-ehrg/sister.webp"
+  },
+  {
+   "w": "big",
+   "vi": "to, lớn",
+   "img": "img/starters--unit-3-ehrg/big.webp"
+  },
+  {
+   "w": "funny",
+   "vi": "hài hước, buồn cười",
+   "img": "img/starters--unit-3-ehrg/funny.webp"
+  },
+  {
+   "w": "happy",
+   "vi": "vui vẻ",
+   "img": "img/starters--unit-3-ehrg/happy.webp"
+  },
+  {
+   "w": "old",
+   "vi": "già, cũ",
+   "img": "img/starters--unit-3-ehrg/old.webp"
+  },
+  {
+   "w": "sad",
+   "vi": "buồn",
+   "img": "img/starters--unit-11-x99l/sad.webp"
+  },
+  {
+   "w": "scary",
+   "vi": "đáng sợ",
+   "img": "img/starters--unit-3-ehrg/scary.webp"
+  },
+  {
+   "w": "silly",
+   "vi": "ngớ ngẩn",
+   "img": "img/starters--unit-3-ehrg/silly.webp"
+  },
+  {
+   "w": "small",
+   "vi": "nhỏ",
+   "img": "img/starters--unit-3-ehrg/small.webp"
+  },
+  {
+   "w": "year",
+   "vi": "năm",
+   "img": "img/starters--unit-3-ehrg/year.webp"
+  },
+  {
+   "w": "young",
+   "vi": "trẻ",
+   "img": "img/starters--unit-3-ehrg/young.webp"
+  },
+  {
+   "w": "banana",
+   "vi": "quả chuối",
+   "img": "img/starters--unit-4-wxl9/banana.webp"
+  },
+  {
+   "w": "beans",
+   "vi": "đậu",
+   "img": "img/starters--unit-4-wxl9/beans.webp"
+  },
+  {
+   "w": "carrot",
+   "vi": "củ cà rốt",
+   "img": "img/starters--unit-4-wxl9/carrot.webp"
+  },
+  {
+   "w": "coconut",
+   "vi": "quả dừa",
+   "img": "img/starters--unit-4-wxl9/coconut.webp"
+  },
+  {
+   "w": "fruit",
+   "vi": "trái cây",
+   "img": "img/starters--unit-4-wxl9/fruit.webp"
+  },
+  {
+   "w": "grapes",
+   "vi": "quả nho",
+   "img": "img/starters--unit-4-wxl9/grapes.webp"
+  },
+  {
+   "w": "kiwi",
+   "vi": "quả kiwi",
+   "img": "img/starters--unit-4-wxl9/kiwi.webp"
+  },
+  {
+   "w": "lemon",
+   "vi": "quả chanh vàng",
+   "img": "img/starters--unit-4-wxl9/lemon.webp"
+  },
+  {
+   "w": "lime",
+   "vi": "quả chanh xanh",
+   "img": "img/starters--unit-4-wxl9/lime.webp"
+  },
+  {
+   "w": "mango",
+   "vi": "quả xoài",
+   "img": "img/starters--unit-4-wxl9/mango.webp"
+  },
+  {
+   "w": "onion",
+   "vi": "củ hành",
+   "img": "img/starters--unit-4-wxl9/onion.webp"
+  },
+  {
+   "w": "pear",
+   "vi": "quả lê",
+   "img": "img/starters--unit-4-wxl9/pear.webp"
+  },
+  {
+   "w": "peas",
+   "vi": "đậu Hà Lan",
+   "img": "img/starters--unit-4-wxl9/peas.webp"
+  },
+  {
+   "w": "pineapple",
+   "vi": "quả dứa",
+   "img": "img/starters--unit-4-wxl9/pineapple.webp"
+  },
+  {
+   "w": "potato",
+   "vi": "củ khoai tây",
+   "img": "img/starters--unit-4-wxl9/potato.webp"
+  },
+  {
+   "w": "tomato",
+   "vi": "quả cà chua",
+   "img": "img/starters--unit-4-wxl9/tomato.webp"
+  },
+  {
+   "w": "bread",
+   "vi": "bánh mì",
+   "img": "img/starters--unit-4-wxl9/bread.webp"
+  },
+  {
+   "w": "breakfast",
+   "vi": "bữa sáng",
+   "img": "img/starters--unit-4-wxl9/breakfast.webp"
+  },
+  {
+   "w": "burger",
+   "vi": "bánh mì kẹp thịt",
+   "img": "img/starters--unit-4-wxl9/burger.webp"
+  },
+  {
+   "w": "chips",
+   "vi": "khoai tây chiên",
+   "img": "img/starters--unit-4-wxl9/chips.webp"
+  },
+  {
+   "w": "dinner",
+   "vi": "bữa tối",
+   "img": "img/starters--unit-4-wxl9/dinner.webp"
+  },
+  {
+   "w": "eat",
+   "vi": "ăn",
+   "img": "img/starters--unit-4-wxl9/eat.webp"
+  },
+  {
+   "w": "egg",
+   "vi": "quả trứng",
+   "img": "img/starters--unit-4-wxl9/egg.webp"
+  },
+  {
+   "w": "evening",
+   "vi": "buổi tối",
+   "img": "img/starters--unit-4-wxl9/evening.webp"
+  },
+  {
+   "w": "favourite",
+   "vi": "yêu thích",
+   "img": "img/starters--unit-4-wxl9/favourite.webp"
+  },
+  {
+   "w": "food",
+   "vi": "thức ăn",
+   "img": "img/starters--unit-4-wxl9/food.webp"
+  },
+  {
+   "w": "like",
+   "vi": "thích",
+   "img": "img/starters--unit-4-wxl9/like-v.webp"
+  },
+  {
+   "w": "lunch",
+   "vi": "bữa trưa",
+   "img": "img/starters--unit-4-wxl9/lunch.webp"
+  },
+  {
+   "w": "meal",
+   "vi": "bữa ăn",
+   "img": "img/starters--unit-4-wxl9/meal.webp"
+  },
+  {
+   "w": "meat",
+   "vi": "thịt",
+   "img": "img/starters--unit-4-wxl9/meat.webp"
+  },
+  {
+   "w": "meatballs",
+   "vi": "thịt viên",
+   "img": "img/starters--unit-4-wxl9/meatballs.webp"
+  },
+  {
+   "w": "pie",
+   "vi": "bánh nướng nhân",
+   "img": "img/starters--unit-4-wxl9/pie.webp"
+  },
+  {
+   "w": "rice",
+   "vi": "cơm, gạo",
+   "img": "img/starters--unit-4-wxl9/rice.webp"
+  },
+  {
+   "w": "bag",
+   "vi": "cái túi",
+   "img": "img/starters--unit-5-g55q/bag.webp"
+  },
+  {
+   "w": "baseball cap",
+   "vi": "mũ lưỡi trai",
+   "img": "img/starters--unit-5-g55q/baseball-cap.webp"
+  },
+  {
+   "w": "boots",
+   "vi": "đôi ủng",
+   "img": "img/starters--unit-5-g55q/boots.webp"
+  },
+  {
+   "w": "clothes",
+   "vi": "quần áo",
+   "img": "img/starters--unit-5-g55q/clothes.webp"
+  },
+  {
+   "w": "dress",
+   "vi": "váy liền",
+   "img": "img/starters--unit-5-g55q/dress.webp"
+  },
+  {
+   "w": "glasses",
+   "vi": "kính",
+   "img": "img/starters--unit-5-g55q/glasses.webp"
+  },
+  {
+   "w": "handbag",
+   "vi": "túi xách",
+   "img": "img/starters--unit-5-g55q/handbag.webp"
+  },
+  {
+   "w": "hat",
+   "vi": "cái mũ",
+   "img": "img/starters--unit-5-g55q/hat.webp"
+  },
+  {
+   "w": "jacket",
+   "vi": "áo khoác",
+   "img": "img/starters--unit-5-g55q/jacket.webp"
+  },
+  {
+   "w": "jeans",
+   "vi": "quần jean",
+   "img": "img/starters--unit-5-g55q/jeans.webp"
+  },
+  {
+   "w": "shirt",
+   "vi": "áo sơ mi",
+   "img": "img/starters--unit-5-g55q/shirt.webp"
+  },
+  {
+   "w": "shoes",
+   "vi": "đôi giày",
+   "img": "img/starters--unit-5-g55q/shoes.webp"
+  },
+  {
+   "w": "shorts",
+   "vi": "quần soóc",
+   "img": "img/starters--unit-5-g55q/shorts.webp"
+  },
+  {
+   "w": "skirt",
+   "vi": "chân váy",
+   "img": "img/starters--unit-5-g55q/skirt.webp"
+  },
+  {
+   "w": "socks",
+   "vi": "đôi tất",
+   "img": "img/starters--unit-5-g55q/socks.webp"
+  },
+  {
+   "w": "trousers",
+   "vi": "quần dài",
+   "img": "img/starters--unit-5-g55q/trousers.webp"
+  },
+  {
+   "w": "T-shirt",
+   "vi": "áo phông",
+   "img": "img/starters--unit-5-g55q/t-shirt.webp"
+  },
+  {
+   "w": "watch",
+   "vi": "đồng hồ đeo tay",
+   "img": "img/starters--unit-5-g55q/watch-n.webp"
+  },
+  {
+   "w": "wear",
+   "vi": "mặc, đeo",
+   "img": "img/starters--unit-5-g55q/wear.webp"
+  },
+  {
+   "w": "arm",
+   "vi": "cánh tay",
+   "img": "img/starters--unit-6-vi86/arm.webp"
+  },
+  {
+   "w": "body",
+   "vi": "cơ thể",
+   "img": "img/starters--unit-6-vi86/body.webp"
+  },
+  {
+   "w": "ear",
+   "vi": "cái tai",
+   "img": "img/starters--unit-6-vi86/ear.webp"
+  },
+  {
+   "w": "eye",
+   "vi": "con mắt",
+   "img": "img/starters--unit-6-vi86/eye.webp"
+  },
+  {
+   "w": "face",
+   "vi": "khuôn mặt",
+   "img": "img/starters--unit-6-vi86/face.webp"
+  },
+  {
+   "w": "foot",
+   "vi": "bàn chân",
+   "img": "img/starters--unit-6-vi86/foot.webp"
+  },
+  {
+   "w": "feet",
+   "vi": "những bàn chân",
+   "img": "img/starters--unit-6-vi86/feet.webp"
+  },
+  {
+   "w": "hair",
+   "vi": "tóc",
+   "img": "img/starters--unit-6-vi86/hair.webp"
+  },
+  {
+   "w": "hand",
+   "vi": "bàn tay",
+   "img": "img/starters--unit-6-vi86/hand.webp"
+  },
+  {
+   "w": "head",
+   "vi": "cái đầu",
+   "img": "img/starters--unit-6-vi86/head.webp"
+  },
+  {
+   "w": "leg",
+   "vi": "cái chân",
+   "img": "img/starters--unit-6-vi86/leg.webp"
+  },
+  {
+   "w": "mouth",
+   "vi": "cái miệng",
+   "img": "img/starters--unit-6-vi86/mouth.webp"
+  },
+  {
+   "w": "nose",
+   "vi": "cái mũi",
+   "img": "img/starters--unit-6-vi86/nose.webp"
+  },
+  {
+   "w": "tail",
+   "vi": "cái đuôi",
+   "img": "img/starters--unit-6-vi86/tail.webp"
+  },
+  {
+   "w": "person",
+   "vi": "người",
+   "img": "img/starters--unit-6-vi86/person.webp"
+  },
+  {
+   "w": "beautiful",
+   "vi": "xinh đẹp",
+   "img": "img/starters--unit-6-vi86/beautiful.webp"
+  },
+  {
+   "w": "ugly",
+   "vi": "xấu xí",
+   "img": "img/starters--unit-6-vi86/ugly.webp"
+  },
+  {
+   "w": "short",
+   "vi": "thấp, ngắn",
+   "img": "img/starters--unit-6-vi86/short.webp"
+  },
+  {
+   "w": "smile",
+   "vi": "mỉm cười",
+   "img": "img/starters--unit-6-vi86/smile-v.webp"
+  },
+  {
+   "w": "see",
+   "vi": "nhìn thấy",
+   "img": "img/starters--unit-6-vi86/see.webp"
+  },
+  {
+   "w": "alien",
+   "vi": "người ngoài hành tinh",
+   "img": "img/starters--unit-6-vi86/alien.webp"
+  },
+  {
+   "w": "doll",
+   "vi": "búp bê",
+   "img": "img/starters--unit-6-vi86/doll.webp"
+  },
+  {
+   "w": "monkey",
+   "vi": "con khỉ",
+   "img": "img/starters--unit-6-vi86/monkey.webp"
+  },
+  {
+   "w": "monster",
+   "vi": "quái vật",
+   "img": "img/starters--unit-6-vi86/monster.webp"
+  },
+  {
+   "w": "snake",
+   "vi": "con rắn",
+   "img": "img/starters--unit-6-vi86/snake.webp"
+  },
+  {
+   "w": "spider",
+   "vi": "con nhện",
+   "img": "img/starters--unit-6-vi86/spider.webp"
+  },
+  {
+   "w": "teddy bear",
+   "vi": "gấu bông",
+   "img": "img/starters--unit-6-vi86/teddy-bear.webp"
+  },
+  {
+   "w": "tiger",
+   "vi": "con hổ",
+   "img": "img/starters--unit-13-mq6c/tiger.webp"
+  },
+  {
+   "w": "toy",
+   "vi": "đồ chơi",
+   "img": "img/starters--unit-6-vi86/toy.webp"
+  },
+  {
+   "w": "play",
+   "vi": "chơi",
+   "img": "img/starters--unit-6-vi86/play-v.webp"
+  },
+  {
+   "w": "board",
+   "vi": "cái bảng",
+   "img": "img/starters--unit-7-xvix/board.webp"
+  },
+  {
+   "w": "book",
+   "vi": "quyển sách",
+   "img": "img/starters--unit-7-xvix/book.webp"
+  },
+  {
+   "w": "classroom",
+   "vi": "lớp học",
+   "img": "img/starters--unit-7-xvix/classroom.webp"
+  },
+  {
+   "w": "crayon",
+   "vi": "bút sáp màu",
+   "img": "img/starters--unit-7-xvix/crayon.webp"
+  },
+  {
+   "w": "keyboard",
+   "vi": "bàn phím",
+   "img": "img/starters--unit-7-xvix/keyboard.webp"
+  },
+  {
+   "w": "mouse",
+   "vi": "con chuột máy tính",
+   "img": "img/starters--unit-7-xvix/mouse.webp"
+  },
+  {
+   "w": "page",
+   "vi": "trang giấy",
+   "img": "img/starters--unit-7-xvix/page.webp"
+  },
+  {
+   "w": "paper",
+   "vi": "giấy",
+   "img": "img/starters--unit-7-xvix/paper.webp"
+  },
+  {
+   "w": "pen",
+   "vi": "bút mực",
+   "img": "img/starters--unit-7-xvix/pen.webp"
+  },
+  {
+   "w": "pencil",
+   "vi": "bút chì",
+   "img": "img/starters--unit-7-xvix/pencil.webp"
+  },
+  {
+   "w": "poster",
+   "vi": "áp phích",
+   "img": "img/starters--unit-7-xvix/poster.webp"
+  },
+  {
+   "w": "rubber",
+   "vi": "cục tẩy",
+   "img": "img/starters--unit-7-xvix/rubber.webp"
+  },
+  {
+   "w": "ruler",
+   "vi": "thước kẻ",
+   "img": "img/starters--unit-7-xvix/ruler.webp"
+  },
+  {
+   "w": "school",
+   "vi": "trường học",
+   "img": "img/starters--unit-7-xvix/school.webp"
+  },
+  {
+   "w": "word",
+   "vi": "từ",
+   "img": "img/starters--unit-7-xvix/word.webp"
+  },
+  {
+   "w": "painting",
+   "vi": "bức tranh vẽ",
+   "img": "img/starters--unit-10-z6sh/painting-n.webp"
+  },
+  {
+   "w": "English",
+   "vi": "tiếng Anh",
+   "img": "img/starters--unit-10-z6sh/english-n.webp"
+  },
+  {
+   "w": "children",
+   "vi": "những đứa trẻ",
+   "img": "img/starters--unit-7-xvix/children.webp"
+  },
+  {
+   "w": "classmates",
+   "vi": "bạn cùng lớp",
+   "img": "img/starters--unit-7-xvix/classmates.webp"
+  },
+  {
+   "w": "kids",
+   "vi": "trẻ con",
+   "img": "img/starters--unit-7-xvix/kids.webp"
+  },
+  {
+   "w": "man",
+   "vi": "người đàn ông",
+   "img": "img/starters--unit-7-xvix/man.webp"
+  },
+  {
+   "w": "teacher",
+   "vi": "giáo viên",
+   "img": "img/starters--unit-7-xvix/teacher.webp"
+  },
+  {
+   "w": "come",
+   "vi": "đến, lại đây",
+   "img": "img/starters--unit-7-xvix/come.webp"
+  },
+  {
+   "w": "down",
+   "vi": "xuống",
+   "img": "img/starters--unit-7-xvix/down.webp"
+  },
+  {
+   "w": "draw",
+   "vi": "vẽ",
+   "img": "img/starters--unit-7-xvix/draw.webp"
+  },
+  {
+   "w": "good",
+   "vi": "tốt, giỏi",
+   "img": "img/starters--unit-7-xvix/good.webp"
+  },
+  {
+   "w": "learn",
+   "vi": "học",
+   "img": "img/starters--unit-7-xvix/learn.webp"
+  },
+  {
+   "w": "make",
+   "vi": "làm, tạo ra",
+   "img": "img/starters--unit-7-xvix/make.webp"
+  },
+  {
+   "w": "pick up",
+   "vi": "nhặt lên",
+   "img": "img/starters--unit-7-xvix/pick-up.webp"
+  },
+  {
+   "w": "point",
+   "vi": "chỉ",
+   "img": "img/starters--unit-7-xvix/point-v.webp"
+  },
+  {
+   "w": "show",
+   "vi": "cho xem",
+   "img": "img/starters--unit-7-xvix/show.webp"
+  },
+  {
+   "w": "sit",
+   "vi": "ngồi",
+   "img": "img/starters--unit-7-xvix/sit-v.webp"
+  },
+  {
+   "w": "sleep",
+   "vi": "ngủ",
+   "img": "img/starters--unit-7-xvix/sleep.webp"
+  },
+  {
+   "w": "stand",
+   "vi": "đứng",
+   "img": "img/starters--unit-7-xvix/stand-v.webp"
+  },
+  {
+   "w": "talk",
+   "vi": "nói chuyện",
+   "img": "img/starters--unit-7-xvix/talk.webp"
+  },
+  {
+   "w": "up",
+   "vi": "lên",
+   "img": "img/starters--unit-7-xvix/up.webp"
+  },
+  {
+   "w": "work",
+   "vi": "bài tập, công việc",
+   "img": "img/starters--unit-7-xvix/work-n.webp"
+  },
+  {
+   "w": "write",
+   "vi": "viết",
+   "img": "img/starters--unit-7-xvix/write.webp"
+  },
+  {
+   "w": "badminton",
+   "vi": "cầu lông",
+   "img": "img/starters--unit-8-m3r2/badminton.webp"
+  },
+  {
+   "w": "baseball",
+   "vi": "bóng chày",
+   "img": "img/starters--unit-8-m3r2/baseball.webp"
+  },
+  {
+   "w": "basketball",
+   "vi": "bóng rổ",
+   "img": "img/starters--unit-8-m3r2/basketball.webp"
+  },
+  {
+   "w": "ball",
+   "vi": "quả bóng",
+   "img": "img/starters--unit-8-m3r2/ball-n.webp"
+  },
+  {
+   "w": "bike",
+   "vi": "xe đạp",
+   "img": "img/starters--unit-8-m3r2/bike-n.webp"
+  },
+  {
+   "w": "football",
+   "vi": "bóng đá",
+   "img": "img/starters--unit-8-m3r2/football.webp"
+  },
+  {
+   "w": "hockey",
+   "vi": "khúc côn cầu",
+   "img": "img/starters--unit-8-m3r2/hockey.webp"
+  },
+  {
+   "w": "playground",
+   "vi": "sân chơi",
+   "img": "img/starters--unit-8-m3r2/playground.webp"
+  },
+  {
+   "w": "sport",
+   "vi": "thể thao",
+   "img": "img/starters--unit-8-m3r2/sport.webp"
+  },
+  {
+   "w": "table tennis",
+   "vi": "bóng bàn",
+   "img": "img/starters--unit-8-m3r2/table-tennis.webp"
+  },
+  {
+   "w": "tennis",
+   "vi": "quần vợt",
+   "img": "img/starters--unit-8-m3r2/tennis.webp"
+  },
+  {
+   "w": "answer",
+   "vi": "trả lời",
+   "img": "img/starters--unit-8-m3r2/answer-v.webp"
+  },
+  {
+   "w": "bounce",
+   "vi": "nảy lên, đập bóng",
+   "img": "img/starters--unit-8-m3r2/bounce-v.webp"
+  },
+  {
+   "w": "catch",
+   "vi": "bắt",
+   "img": "img/starters--unit-8-m3r2/catch-v.webp"
+  },
+  {
+   "w": "hit",
+   "vi": "đánh",
+   "img": "img/starters--unit-8-m3r2/hit-v.webp"
+  },
+  {
+   "w": "kick",
+   "vi": "đá",
+   "img": "img/starters--unit-8-m3r2/kick-v.webp"
+  },
+  {
+   "w": "ride",
+   "vi": "đi, cưỡi",
+   "img": "img/starters--unit-8-m3r2/ride-v.webp"
+  },
+  {
+   "w": "run",
+   "vi": "chạy",
+   "img": "img/starters--unit-8-m3r2/run-v.webp"
+  },
+  {
+   "w": "throw",
+   "vi": "ném",
+   "img": "img/starters--unit-8-m3r2/throw-v.webp"
+  },
+  {
+   "w": "walk",
+   "vi": "đi bộ",
+   "img": "img/starters--unit-8-m3r2/walk-v.webp"
+  },
+  {
+   "w": "board game",
+   "vi": "trò chơi cờ bàn",
+   "img": "img/starters--unit-9-3lng/board-game.webp"
+  },
+  {
+   "w": "cake",
+   "vi": "bánh ngọt",
+   "img": "img/starters--unit-9-3lng/cake.webp"
+  },
+  {
+   "w": "guitar",
+   "vi": "đàn ghi-ta",
+   "img": "img/starters--unit-9-3lng/guitar.webp"
+  },
+  {
+   "w": "hobby",
+   "vi": "sở thích",
+   "img": "img/starters--unit-9-3lng/hobby-n.webp"
+  },
+  {
+   "w": "music",
+   "vi": "âm nhạc",
+   "img": "img/starters--unit-9-3lng/music.webp"
+  },
+  {
+   "w": "park",
+   "vi": "công viên",
+   "img": "img/starters--unit-9-3lng/park-n.webp"
+  },
+  {
+   "w": "piano",
+   "vi": "đàn piano",
+   "img": "img/starters--unit-9-3lng/piano.webp"
+  },
+  {
+   "w": "sea",
+   "vi": "biển",
+   "img": "img/starters--unit-9-3lng/sea.webp"
+  },
+  {
+   "w": "song",
+   "vi": "bài hát",
+   "img": "img/starters--unit-9-3lng/song.webp"
+  },
+  {
+   "w": "story",
+   "vi": "câu chuyện",
+   "img": "img/starters--unit-9-3lng/story.webp"
+  },
+  {
+   "w": "double",
+   "vi": "đôi, gấp đôi",
+   "img": "img/starters--unit-9-3lng/double-adj.webp"
+  },
+  {
+   "w": "enjoy",
+   "vi": "thích thú",
+   "img": "img/starters--unit-9-3lng/enjoy-v.webp"
+  },
+  {
+   "w": "fish",
+   "vi": "câu cá",
+   "img": "img/starters--unit-9-3lng/fish-v.webp"
+  },
+  {
+   "w": "jump",
+   "vi": "nhảy",
+   "img": "img/starters--unit-9-3lng/jump-v.webp"
+  },
+  {
+   "w": "love",
+   "vi": "yêu thích",
+   "img": "img/starters--unit-9-3lng/love-v.webp"
+  },
+  {
+   "w": "paint",
+   "vi": "vẽ tranh",
+   "img": "img/starters--unit-10-z6sh/paint-v.webp"
+  },
+  {
+   "w": "read",
+   "vi": "đọc",
+   "img": "img/starters--unit-9-3lng/read.webp"
+  },
+  {
+   "w": "sing",
+   "vi": "hát",
+   "img": "img/starters--unit-9-3lng/sing.webp"
+  },
+  {
+   "w": "spell",
+   "vi": "đánh vần",
+   "img": "img/starters--unit-9-3lng/spell-v.webp"
+  },
+  {
+   "w": "swim",
+   "vi": "bơi",
+   "img": "img/starters--unit-9-3lng/swim-v.webp"
+  },
+  {
+   "w": "afternoon",
+   "vi": "buổi chiều",
+   "img": "img/starters--unit-10-z6sh/afternoon.webp"
+  },
+  {
+   "w": "day",
+   "vi": "ngày",
+   "img": "img/starters--unit-10-z6sh/day.webp"
+  },
+  {
+   "w": "go to bed",
+   "vi": "đi ngủ",
+   "img": "img/starters--unit-10-z6sh/go-to-bed.webp"
+  },
+  {
+   "w": "go to sleep",
+   "vi": "chìm vào giấc ngủ",
+   "img": "img/starters--unit-10-z6sh/go-to-sleep.webp"
+  },
+  {
+   "w": "goodbye",
+   "vi": "tạm biệt",
+   "img": "img/starters--unit-10-z6sh/goodbye.webp"
+  },
+  {
+   "w": "lesson",
+   "vi": "bài học",
+   "img": "img/starters--unit-10-z6sh/lesson.webp"
+  },
+  {
+   "w": "morning",
+   "vi": "buổi sáng",
+   "img": "img/starters--unit-10-z6sh/morning.webp"
+  },
+  {
+   "w": "bus",
+   "vi": "xe buýt",
+   "img": "img/starters--unit-11-x99l/bus.webp"
+  },
+  {
+   "w": "car",
+   "vi": "xe hơi",
+   "img": "img/starters--unit-11-x99l/car.webp"
+  },
+  {
+   "w": "helicopter",
+   "vi": "máy bay trực thăng",
+   "img": "img/starters--unit-11-x99l/helicopter.webp"
+  },
+  {
+   "w": "motorbike",
+   "vi": "xe máy",
+   "img": "img/starters--unit-11-x99l/motorbike.webp"
+  },
+  {
+   "w": "ship",
+   "vi": "con tàu",
+   "img": "img/starters--unit-11-x99l/ship.webp"
+  },
+  {
+   "w": "shop",
+   "vi": "cửa hàng",
+   "img": "img/starters--unit-11-x99l/shop.webp"
+  },
+  {
+   "w": "street",
+   "vi": "con phố",
+   "img": "img/starters--unit-11-x99l/street.webp"
+  },
+  {
+   "w": "train",
+   "vi": "tàu hỏa",
+   "img": "img/starters--unit-11-x99l/train.webp"
+  },
+  {
+   "w": "child",
+   "vi": "đứa trẻ",
+   "img": "img/starters--unit-11-x99l/child.webp"
+  },
+  {
+   "w": "class",
+   "vi": "lớp học",
+   "img": "img/starters--unit-11-x99l/class.webp"
+  },
+  {
+   "w": "people",
+   "vi": "mọi người",
+   "img": "img/starters--unit-11-x99l/people.webp"
+  },
+  {
+   "w": "women",
+   "vi": "những người phụ nữ",
+   "img": "img/starters--unit-11-x99l/women.webp"
+  },
+  {
+   "w": "Mr",
+   "vi": "ông (Mr)",
+   "img": "img/starters--unit-11-x99l/mr.webp"
+  },
+  {
+   "w": "Mrs",
+   "vi": "bà (Mrs)",
+   "img": "img/starters--unit-11-x99l/mrs.webp"
+  },
+  {
+   "w": "angry",
+   "vi": "tức giận",
+   "img": "img/starters--unit-11-x99l/angry.webp"
+  },
+  {
+   "w": "clean",
+   "vi": "sạch sẽ",
+   "img": "img/starters--unit-11-x99l/clean-adj.webp"
+  },
+  {
+   "w": "clean",
+   "vi": "lau dọn",
+   "img": "img/starters--review-vocab-ok8v/clean-v.webp"
+  },
+  {
+   "w": "closed",
+   "vi": "đóng cửa",
+   "img": "img/starters--unit-11-x99l/closed.webp"
+  },
+  {
+   "w": "dirty",
+   "vi": "bẩn",
+   "img": "img/starters--unit-11-x99l/dirty.webp"
+  },
+  {
+   "w": "fly",
+   "vi": "bay",
+   "img": "img/starters--unit-11-x99l/fly-v.webp"
+  },
+  {
+   "w": "go",
+   "vi": "đi",
+   "img": "img/starters--unit-11-x99l/go-v.webp"
+  },
+  {
+   "w": "new",
+   "vi": "mới",
+   "img": "img/starters--unit-11-x99l/new.webp"
+  },
+  {
+   "w": "nice",
+   "vi": "tốt, dễ thương",
+   "img": "img/starters--unit-11-x99l/nice.webp"
+  },
+  {
+   "w": "open",
+   "vi": "đang mở",
+   "img": "img/starters--unit-11-x99l/open-adj.webp"
+  },
+  {
+   "w": "wave",
+   "vi": "vẫy tay",
+   "img": "img/starters--unit-11-x99l/wave-v.webp"
+  },
+  {
+   "w": "cousin",
+   "vi": "anh chị em họ",
+   "img": "img/starters--unit-12-2pxd/cousin.webp"
+  },
+  {
+   "w": "flat",
+   "vi": "căn hộ",
+   "img": "img/starters--unit-12-2pxd/flat.webp"
+  },
+  {
+   "w": "grandma",
+   "vi": "bà",
+   "img": "img/starters--unit-12-2pxd/grandma.webp"
+  },
+  {
+   "w": "grandpa",
+   "vi": "ông",
+   "img": "img/starters--unit-12-2pxd/grandpa.webp"
+  },
+  {
+   "w": "grandparents",
+   "vi": "ông bà",
+   "img": "img/starters--unit-12-2pxd/grandparents.webp"
+  },
+  {
+   "w": "bear",
+   "vi": "con gấu",
+   "img": "img/starters--unit-13-mq6c/bear.webp"
+  },
+  {
+   "w": "choose",
+   "vi": "chọn",
+   "img": "img/starters--unit-13-mq6c/choose.webp"
+  },
+  {
+   "w": "crocodile",
+   "vi": "con cá sấu",
+   "img": "img/starters--unit-13-mq6c/crocodile.webp"
+  },
+  {
+   "w": "drink",
+   "vi": "uống",
+   "img": "img/starters--unit-13-mq6c/drink-v.webp"
+  },
+  {
+   "w": "great",
+   "vi": "tuyệt vời",
+   "img": "img/starters--unit-13-mq6c/great-adj.webp"
+  },
+  {
+   "w": "hippo",
+   "vi": "con hà mã",
+   "img": "img/starters--unit-13-mq6c/hippo.webp"
+  },
+  {
+   "w": "lizard",
+   "vi": "con thằn lằn",
+   "img": "img/starters--unit-13-mq6c/lizard.webp"
+  },
+  {
+   "w": "photo",
+   "vi": "bức ảnh",
+   "img": "img/starters--unit-13-mq6c/photo.webp"
+  },
+  {
+   "w": "polar bear",
+   "vi": "gấu Bắc cực",
+   "img": "img/starters--unit-13-mq6c/polar-bear.webp"
+  },
+  {
+   "w": "take",
+   "vi": "lấy, chụp (ảnh)",
+   "img": "img/starters--unit-13-mq6c/take.webp"
+  },
+  {
+   "w": "zebra",
+   "vi": "con ngựa vằn",
+   "img": "img/starters--unit-13-mq6c/zebra.webp"
+  },
+  {
+   "w": "zoo",
+   "vi": "sở thú",
+   "img": "img/starters--unit-13-mq6c/zoo.webp"
+  },
+  {
+   "w": "balloon",
+   "vi": "quả bóng bay",
+   "img": "img/starters--unit-14-1c3t/balloon.webp"
+  },
+  {
+   "w": "bat",
+   "vi": "cây gậy (bóng chày)",
+   "img": "img/starters--unit-14-1c3t/bat.webp"
+  },
+  {
+   "w": "camera",
+   "vi": "máy ảnh",
+   "img": "img/starters--unit-14-1c3t/camera.webp"
+  },
+  {
+   "w": "chocolates",
+   "vi": "sô-cô-la",
+   "img": "img/starters--unit-14-1c3t/chocolates.webp"
+  },
+  {
+   "w": "lemonade",
+   "vi": "nước chanh",
+   "img": "img/starters--unit-14-1c3t/lemonade.webp"
+  },
+  {
+   "w": "milk",
+   "vi": "sữa",
+   "img": "img/starters--unit-14-1c3t/milk.webp"
+  },
+  {
+   "w": "party",
+   "vi": "bữa tiệc",
+   "img": "img/starters--unit-14-1c3t/party.webp"
+  },
+  {
+   "w": "present",
+   "vi": "món quà",
+   "img": "img/starters--unit-14-1c3t/present.webp"
+  },
+  {
+   "w": "skateboard",
+   "vi": "ván trượt",
+   "img": "img/starters--unit-14-1c3t/skateboard.webp"
+  },
+  {
+   "w": "tablet",
+   "vi": "máy tính bảng",
+   "img": "img/starters--unit-14-1c3t/tablet.webp"
+  },
+  {
+   "w": "tennis racket",
+   "vi": "vợt tennis",
+   "img": "img/starters--unit-14-1c3t/tennis-racket.webp"
+  },
+  {
+   "w": "beach",
+   "vi": "bãi biển",
+   "img": "img/starters--unit-15-7p87/beach.webp"
+  },
+  {
+   "w": "find",
+   "vi": "tìm thấy",
+   "img": "img/starters--unit-15-7p87/find.webp"
+  },
+  {
+   "w": "jellyfish",
+   "vi": "con sứa",
+   "img": "img/starters--unit-15-7p87/jellyfish.webp"
+  },
+  {
+   "w": "sand",
+   "vi": "cát",
+   "img": "img/starters--unit-15-7p87/sand.webp"
+  },
+  {
+   "w": "shell",
+   "vi": "vỏ sò",
+   "img": "img/starters--unit-15-7p87/shell.webp"
+  }
+ ]
+}
