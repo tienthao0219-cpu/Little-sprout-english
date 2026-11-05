@@ -619,7 +619,7 @@ const UNITN = n => UNITS.find(u=>u.n===n);
 const unitCount = ids => new Set(ids.map(id=>{ const t = topicById(id); return t ? t.n : id; })).size;
 const IMGBASE = 'images/';
 const IMGDATA = null; /*IMGDATA*/   // bản "1 file": build-app.ps1 -Embed thay bằng {tên ảnh: data-URI}
-const HAS_GAMES = true; /*HAS_GAMES*/   // bản "1 file" không có thư mục games\ nên tắt phần Game template
+const HAS_GAMES = true; /*HAS_GAMES*/   // true: các game mở bằng Trung tâm trò chơi của website (cần chạy trong website). Bản "1 file" đứng riêng thì đặt false.
 const imgOf = w => w.img ? (IMGDATA ? (IMGDATA[w.img] || '') : IMGBASE + w.img + '.webp') : '';
 const WITH_IMG = WORDS.filter(w=>w.img);
 
@@ -1353,10 +1353,10 @@ function renderHome(){
         : `<div class="seg">${[10,20,30].map(s=>`<button class="${store.size===s?'on':''}" data-act="size" data-n="${s}">${s} từ</button>`).join('')}</div>
     <p class="note">Từ 4 unit trở lên: em tự chọn số từ mỗi lượt. (Chọn 1–3 unit thì hệ thống tự tính: 100% · 80% · 70% số từ.)</p>`);
   const foot = `<div class="foot">Tiến độ được lưu ngay trên thiết bị này. <button class="link" data-act="reset">Xóa tiến độ</button></div>`;
-  const tplHtml = !TEMPLATES.length ? '' : `
-    <div class="sec-h"><h2>🎯 Game template</h2></div>
+  const tplHtml = !HAS_GAMES ? '' : `
+    <div class="sec-h"><h2>🎯 Trò chơi của Little Sprout</h2></div>
     <p class="note" style="margin:0 0 6px">Các game này tự lấy <b>${pool.length}</b> từ vựng của ${k?`<b>${k}</b> unit đã tick ở trên`:'các unit — hãy tick unit ở trên trước'} để ra câu hỏi và hình. Chọn unit khác thì game đổi theo.</p>
-    <div class="games">${TEMPLATES.map(g=>`<button class="gcard" style="--g:${g.color}" data-act="openGame" data-k="${g.key}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>`;
+    ${TEMPLATES.length ? `<div class="games">${TEMPLATES.map(g=>`<button class="gcard" style="--g:${g.color}" data-act="openGame" data-k="${g.key}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>` : `<div class="games"><button class="gcard" style="--g:#eef3ff" data-act="openHub"><span class="gi">🎮</span><span><b>Trung tâm trò chơi</b><br><span class="vi">Mở danh sách game của website</span></span></button></div>`}`;
   const gamesHtml = tplHtml + `
     <div class="sec-h"><h2>⚡ Game nhanh trong app</h2></div>
     <div class="games">${GAMES.map(g=>`<button class="gcard" style="--g:${g.color}" data-act="${g.act}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>
@@ -1470,32 +1470,32 @@ const GAMES = [
   {act:'playBlitz',   icon:'⚡', name:'Đúng hay Sai?',       desc:'60 giây, trả lời được càng nhiều càng tốt', color:'#ece3ff'}
 ];
 /* Game template: mỗi game là một file riêng trong games\, đọc từ vựng của các unit đang tick */
-const TEMPLATES = !HAS_GAMES ? [] : [
-  {key:'whack',   file:'whack-the-cats.html',    icon:'🔨', name:'Whack the Cats',      desc:'Đập đúng con mèo mang hình cần tìm',            color:'#ffe9c9', min:6},
-  {key:'pvz',     file:'plants-vs-zombies.html', icon:'🧟', name:'Plants vs Zombies',   desc:'Trả lời nhanh để cây bắn zombie (8 câu)',       color:'#dff5d8', min:4},
-  {key:'croc',    file:'dental-croc.html',       icon:'🐊', name:'Dental Crocodile',    desc:'Chọn răng cá sấu, trả lời câu hỏi cả lớp',      color:'#d9f2ea', min:4},
-  {key:'uno',     file:'uno-vocab.html',         icon:'🃏', name:'Uno Từ Vựng',         desc:'Đánh bài Uno, trả lời đúng mới được đánh bài',  color:'#ffe1ec', min:8},
-  {key:'jenga',   file:'jenga.html',             icon:'🪵', name:'Rút Gỗ Đối Đầu',      desc:'Trả lời đúng để rút khối gỗ, đừng làm đổ tháp', color:'#fff0c7', min:6},
-  {key:'wordrun', file:'word-run.html',          icon:'🏃', name:'Word Run',            desc:'Chạy qua 5 thế giới, chạm đúng đáp án',         color:'#e3ecff', min:10},
-  {key:'zombie',  file:'zombie.html',            icon:'🧟‍♂️', name:'Zombie Đói Bụng',     desc:'Cho zombie ăn đúng món để cứu cả nhà',          color:'#e6f5d0', min:8},
-  {key:'bridge',  file:'bridge.html',            icon:'🌉', name:'Cầu Vui',             desc:'Trả lời đúng để các bạn thú qua cầu an toàn',   color:'#dff1ff', min:8},
-  {key:'gold',    file:'gold-miner.html',        icon:'⛏️', name:'Đào Vàng Từ Vựng',    desc:'Thả móc đào đá quý, trả lời để lấy vàng',       color:'#fff2c4', min:12},
-  {key:'fly',     file:'fly-swatter.html',       icon:'🪰', name:'Đập Ruồi Ôn Từ',      desc:'Đập đúng con ruồi mang đáp án',                 color:'#ffe3e3', min:12},
-  {key:'mouse',   file:'mouse-tower.html',       icon:'🐭', name:'Chuột Leo Tháp',      desc:'Giúp chuột leo tháp bằng các câu trả lời đúng', color:'#ece3ff', min:8},
-  {key:'dice',    file:'dice-hunt.html',         icon:'🎲', name:'Xí Ngầu Săn Số',      desc:'Đấu với bot: tung xí ngầu, trả lời để săn số',  color:'#d9f6f0', min:10},
-  {key:'job',     file:'job-tycoon.html',        icon:'🏙️', name:'Job Tycoon – Cờ Tỷ Phú', desc:'Mua đất bằng từ vựng, trả lời để xây nhà (cần ≥ 24 từ có hình)', color:'#fff0d6', min:24, minImg:24}
-];
+/* Game của Trung tâm trò chơi (data/games.json). Bấm game → mở trong website với bộ từ = các unit đã tick. */
+let TEMPLATES = [];
+const SITE_ROOT = location.pathname.replace(/\/apps\/.*$/, '/');
+const HUB_CUR = 'flyers', HUB_UNIT = 'review-0759';
+const GAME_COLOR = {pink:'#ffe1ec',yellow:'#fff2c4',sky:'#dff1ff',lilac:'#ece3ff',mint:'#d9f6f0',coral:'#ffe3e0',orange:'#ffe9c9',teal:'#d9f2ea',green:'#e6f5d0',brown:'#f1e4d6',rose:'#ffe3e3',gold:'#fff0c7',peach:'#ffe9c9',aqua:'#d6f3f7',ocean:'#dbe8ff',violet:'#e8defa',lime:'#eaf7c8',plum:'#f0dcf0'};
+const GAME_ICON = {claw:'🧸',dice:'🎲',dino:'🦖',duck:'🦆',farm:'🚜',fly:'🪰',garden:'🌻',gold:'⛏️',ice:'🧊',mole:'🔨',race:'🏁',sea:'🎣',ski:'⛷️',stream:'🎣',tower:'🏙️',tycoon:'🏙️',uno:'🃏',zombie:'🧟'};
+function loadHubGames(){
+  if(!HAS_GAMES) return;
+  fetch(SITE_ROOT + 'data/games.json?v=' + Date.now(), {cache:'no-store'}).then(r=>r.ok ? r.json() : Promise.reject()).then(j=>{
+    TEMPLATES = (j.games||[]).filter(g=>g && g.id && g.title).map(g=>({key:g.id, icon:GAME_ICON[g.poster]||'🎮', name:g.title, desc:g.desc||'', color:GAME_COLOR[g.color]||'#eef3ff', min:4}));
+    // vẽ lại nếu đang ở màn hình chính/trang bìa và chưa vào bài
+    try{ if(document.querySelector('.tabs') && !document.querySelector('#qcard')) renderHome(); else if(document.body.classList.contains('on-cover')) renderCover(); }catch(e){}
+  }).catch(()=>{});
+}
+function hubHref(path){ return location.origin + SITE_ROOT + '#/games' + (path||'') ; }
+function goTop(url){ try{ (window.top||window).location.href = url; }catch(e){ window.location.href = url; } }
 function launchTemplate(key){
   const t = TEMPLATES.find(x=>x.key===key); if(!t) return;
   const pool = poolOf(store.sel);
   if(pool.length<t.min){ toast(`Game này cần ít nhất ${t.min} từ — hãy tick thêm unit ở trên.`); return; }
-  if(t.minImg && new Set(pool.filter(w=>w.img).map(w=>w.w.toLowerCase())).size<t.minImg){ toast(`Game này cần ít nhất ${t.minImg} từ có hình. Hãy tick thêm unit đã có ảnh.`); return; }
   const us = TOPICS.filter(x=>store.sel.indexOf(x.id)>=0);
-  const ul = [...new Set(us.map(x=>x.n))]; const label = ul.length<=3 ? ul.map(n=>'Unit '+n+' · '+UNITN(n).first.name).join(' + ') : ul.length+' unit';
-  const payload = {label, dir:'../../../flyers/flyers-vocabulary-x4d8/images/', home:'../../../flyers/flyers-vocabulary-x4d8/flyers-vocab-quest-r3m9.html', homeKey:'flyers.backHome', words: pool.map(w=>({id:w.id, w:w.w, vi:w.vi, tag:w.tag, say:w.say, img:w.img}))};
-  try{ localStorage.setItem('starters.game', JSON.stringify(payload)); }catch(e){ toast('Không lưu được dữ liệu cho game (bộ nhớ trình duyệt đầy hoặc bị chặn).'); return; }
-  toast('Đang mở game… (một số game nặng nên chờ vài giây)');
-  location.href = '../../starters/starters-vocab-quest/games/' + t.file;
+  const ul = [...new Set(us.map(x=>x.n))]; const label = ul.length<=3 ? ul.map(n=>'Unit '+n).join(' + ') : ul.length+' unit';
+  const items = pool.map(w=>({w:w.w, vi:w.vi, img: w.img ? new URL(IMGBASE + w.img + '.webp', location.href).href : ''}));
+  try{ sessionStorage.setItem('lse_custom_set', JSON.stringify({title:'Flyers · '+label, items})); }catch(e){ toast('Không lưu được bộ từ cho game (trình duyệt chặn bộ nhớ tạm).'); return; }
+  toast('Đang mở game…');
+  goTop(hubHref('/play/' + encodeURIComponent(t.key) + '/custom?cur=' + HUB_CUR + '&unit=' + HUB_UNIT));
 }
 const fmtT = ms => { const s = Math.round(ms/1000); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); };
 function mkG(o){ return Object.assign({timers:[], cleanup(){ this.timers.forEach(t=>{ clearInterval(t); clearTimeout(t); }); }}, o); }
@@ -1899,6 +1899,7 @@ const H = {
   gquit(){ endG(); renderHome(); window.scrollTo(0,0); },
   playMemory, playSearch, playHangman, playBalloon, playBlitz,
   openGame(el){ launchTemplate(el.dataset.k); },
+  openHub(){ goTop(hubHref('?cur=' + HUB_CUR + '&unit=' + HUB_UNIT)); },
   mflip(el){ memFlip(+el.dataset.i); },
   wcell(el){ swCell(+el.dataset.r, +el.dataset.c); },
   swhint: swHint,
@@ -1980,7 +1981,8 @@ new MutationObserver(()=>{
 /* debug / kiểm tra nhanh trong console */
 window.__vocab = {WORDS, TOPICS, UNITS, store:()=>store, pickWords, norm, q:()=>q, S:()=>S, G:()=>G};
 
-// quay về từ một game template: vào thẳng tab Trò chơi
+loadHubGames();
+// quay về từ game: vào thẳng tab Trò chơi
 let backHome = false;
 try{ if(localStorage.getItem('flyers.backHome')){ localStorage.removeItem('flyers.backHome'); backHome = true; } }catch(e){}
 if(backHome){ store.tab = 'games'; document.body.classList.remove('on-cover'); renderHome(); } else renderCover();

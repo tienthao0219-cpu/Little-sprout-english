@@ -1,0 +1,1256 @@
+{
+ "id": "flyers--review-0759",
+ "title": "Ôn từ vựng cả sách",
+ "cur": "flyers",
+ "unit": "review-0759",
+ "items": [
+  {
+   "w": "cooker",
+   "vi": "bếp nấu",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/cooker.webp"
+  },
+  {
+   "w": "fridge",
+   "vi": "tủ lạnh",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/fridge.webp"
+  },
+  {
+   "w": "oven",
+   "vi": "lò nướng",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/oven.webp"
+  },
+  {
+   "w": "cushion",
+   "vi": "gối tựa",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/cushion.webp"
+  },
+  {
+   "w": "shelf",
+   "vi": "kệ, giá",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/shelf.webp"
+  },
+  {
+   "w": "soap",
+   "vi": "xà phòng",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/soap.webp"
+  },
+  {
+   "w": "shampoo",
+   "vi": "dầu gội",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/shampoo.webp"
+  },
+  {
+   "w": "toothpaste",
+   "vi": "kem đánh răng",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/toothpaste.webp"
+  },
+  {
+   "w": "comb",
+   "vi": "cái lược",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/comb.webp"
+  },
+  {
+   "w": "brush",
+   "vi": "bàn chải",
+   "topic": "Kitchen & bathroom",
+   "img": "../../apps/flyers/review-0759/images/brush.webp"
+  },
+  {
+   "w": "diary",
+   "vi": "nhật ký",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/diary.webp"
+  },
+  {
+   "w": "envelope",
+   "vi": "phong bì",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/envelope.webp"
+  },
+  {
+   "w": "key",
+   "vi": "chìa khóa",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/key.webp"
+  },
+  {
+   "w": "necklace",
+   "vi": "dây chuyền",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/necklace.webp"
+  },
+  {
+   "w": "rucksack",
+   "vi": "ba lô",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/rucksack.webp"
+  },
+  {
+   "w": "stamps",
+   "vi": "con tem",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/stamps.webp"
+  },
+  {
+   "w": "violin",
+   "vi": "đàn vi-ô-lông",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/violin.webp"
+  },
+  {
+   "w": "drums",
+   "vi": "bộ trống",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/drums.webp"
+  },
+  {
+   "w": "wifi",
+   "vi": "mạng wifi",
+   "topic": "Things & hobbies",
+   "img": "../../apps/flyers/review-0759/images/wifi.webp"
+  },
+  {
+   "w": "empty",
+   "vi": "trống rỗng",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/empty.webp"
+  },
+  {
+   "w": "full",
+   "vi": "đầy",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/full.webp"
+  },
+  {
+   "w": "broken",
+   "vi": "bị vỡ, hỏng",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/broken.webp"
+  },
+  {
+   "w": "quiet",
+   "vi": "yên tĩnh",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/quiet.webp"
+  },
+  {
+   "w": "noisy",
+   "vi": "ồn ào",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/noisy.webp"
+  },
+  {
+   "w": "tidy",
+   "vi": "ngăn nắp",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/tidy.webp"
+  },
+  {
+   "w": "untidy",
+   "vi": "bừa bộn",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/untidy.webp"
+  },
+  {
+   "w": "bored",
+   "vi": "chán nản",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/bored.webp"
+  },
+  {
+   "w": "borrow",
+   "vi": "mượn",
+   "topic": "Other words",
+   "img": "../../apps/flyers/review-0759/images/borrow.webp"
+  },
+  {
+   "w": "airport",
+   "vi": "sân bay",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/airport.webp"
+  },
+  {
+   "w": "bank",
+   "vi": "ngân hàng",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/bank.webp"
+  },
+  {
+   "w": "bridge",
+   "vi": "cây cầu",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/bridge.webp"
+  },
+  {
+   "w": "castle",
+   "vi": "lâu đài",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/castle.webp"
+  },
+  {
+   "w": "chemist's",
+   "vi": "hiệu thuốc",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/chemists.webp"
+  },
+  {
+   "w": "factory",
+   "vi": "nhà máy",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/factory.webp"
+  },
+  {
+   "w": "fire station",
+   "vi": "trạm cứu hỏa",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/fire-station.webp"
+  },
+  {
+   "w": "hotel",
+   "vi": "khách sạn",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/hotel.webp"
+  },
+  {
+   "w": "museum",
+   "vi": "bảo tàng",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/museum.webp"
+  },
+  {
+   "w": "police station",
+   "vi": "đồn cảnh sát",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/police-station.webp"
+  },
+  {
+   "w": "post office",
+   "vi": "bưu điện",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/post-office.webp"
+  },
+  {
+   "w": "railway station",
+   "vi": "sân ga",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/railway-station.webp"
+  },
+  {
+   "w": "skyscraper",
+   "vi": "tòa nhà chọc trời",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/skyscraper.webp"
+  },
+  {
+   "w": "stadium",
+   "vi": "sân vận động",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/stadium.webp"
+  },
+  {
+   "w": "university",
+   "vi": "trường đại học",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/university.webp"
+  },
+  {
+   "w": "restaurant",
+   "vi": "nhà hàng",
+   "topic": "Places in town",
+   "img": "../../apps/flyers/review-0759/images/restaurant.webp"
+  },
+  {
+   "w": "ambulance",
+   "vi": "xe cứu thương",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/ambulance.webp"
+  },
+  {
+   "w": "bicycle",
+   "vi": "xe đạp",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/bicycle.webp"
+  },
+  {
+   "w": "fire engine",
+   "vi": "xe cứu hỏa",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/fire-engine.webp"
+  },
+  {
+   "w": "motorway",
+   "vi": "đường cao tốc",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/motorway.webp"
+  },
+  {
+   "w": "taxi",
+   "vi": "xe taxi",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/taxi.webp"
+  },
+  {
+   "w": "traffic",
+   "vi": "giao thông",
+   "topic": "Transport",
+   "img": "../../apps/flyers/review-0759/images/traffic.webp"
+  },
+  {
+   "w": "across",
+   "vi": "băng qua",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/across.webp"
+  },
+  {
+   "w": "corner",
+   "vi": "góc phố",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/corner.webp"
+  },
+  {
+   "w": "front",
+   "vi": "phía trước",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/front.webp"
+  },
+  {
+   "w": "middle",
+   "vi": "ở giữa",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/middle.webp"
+  },
+  {
+   "w": "expensive",
+   "vi": "đắt",
+   "topic": "Other words",
+   "img": "../../apps/flyers/review-0759/images/expensive.webp"
+  },
+  {
+   "w": "biscuit",
+   "vi": "bánh quy",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/biscuit.webp"
+  },
+  {
+   "w": "butter",
+   "vi": "bơ",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/butter.webp"
+  },
+  {
+   "w": "flour",
+   "vi": "bột mì",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/flour.webp"
+  },
+  {
+   "w": "honey",
+   "vi": "mật ong",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/honey.webp"
+  },
+  {
+   "w": "jam",
+   "vi": "mứt",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/jam.webp"
+  },
+  {
+   "w": "olives",
+   "vi": "quả ô liu",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/olives.webp"
+  },
+  {
+   "w": "pepper",
+   "vi": "hạt tiêu",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/pepper.webp"
+  },
+  {
+   "w": "pizza",
+   "vi": "bánh pizza",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/pizza.webp"
+  },
+  {
+   "w": "salt",
+   "vi": "muối",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/salt.webp"
+  },
+  {
+   "w": "strawberry",
+   "vi": "dâu tây",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/strawberry.webp"
+  },
+  {
+   "w": "sugar",
+   "vi": "đường",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/sugar.webp"
+  },
+  {
+   "w": "yoghurt",
+   "vi": "sữa chua",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/yoghurt.webp"
+  },
+  {
+   "w": "chopsticks",
+   "vi": "đôi đũa",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/chopsticks.webp"
+  },
+  {
+   "w": "fork",
+   "vi": "cái nĩa",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/fork.webp"
+  },
+  {
+   "w": "knife",
+   "vi": "con dao",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/knife.webp"
+  },
+  {
+   "w": "spoon",
+   "vi": "cái thìa",
+   "topic": "Food & table",
+   "img": "../../apps/flyers/review-0759/images/spoon.webp"
+  },
+  {
+   "w": "smell",
+   "vi": "ngửi, có mùi",
+   "topic": "Senses & feelings",
+   "img": "../../apps/flyers/review-0759/images/smell.webp"
+  },
+  {
+   "w": "taste",
+   "vi": "nếm, có vị",
+   "topic": "Senses & feelings",
+   "img": "../../apps/flyers/review-0759/images/taste.webp"
+  },
+  {
+   "w": "delicious",
+   "vi": "thơm ngon",
+   "topic": "Senses & feelings",
+   "img": "../../apps/flyers/review-0759/images/delicious.webp"
+  },
+  {
+   "w": "frightened",
+   "vi": "sợ hãi",
+   "topic": "Senses & feelings",
+   "img": "../../apps/flyers/review-0759/images/frightened.webp"
+  },
+  {
+   "w": "ill",
+   "vi": "bị ốm",
+   "topic": "Senses & feelings",
+   "img": "../../apps/flyers/review-0759/images/ill.webp"
+  },
+  {
+   "w": "art",
+   "vi": "mỹ thuật",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/art.webp"
+  },
+  {
+   "w": "geography",
+   "vi": "địa lý",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/geography.webp"
+  },
+  {
+   "w": "history",
+   "vi": "lịch sử",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/history.webp"
+  },
+  {
+   "w": "IT",
+   "vi": "tin học",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/it.webp"
+  },
+  {
+   "w": "languages",
+   "vi": "ngôn ngữ",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/languages.webp"
+  },
+  {
+   "w": "maths",
+   "vi": "toán học",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/maths.webp"
+  },
+  {
+   "w": "music",
+   "vi": "âm nhạc",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/music.webp"
+  },
+  {
+   "w": "science",
+   "vi": "khoa học",
+   "topic": "School subjects",
+   "img": "../../apps/flyers/review-0759/images/science.webp"
+  },
+  {
+   "w": "dictionary",
+   "vi": "từ điển",
+   "topic": "School things",
+   "img": "../../apps/flyers/review-0759/images/dictionary.webp"
+  },
+  {
+   "w": "invitation",
+   "vi": "thiệp mời",
+   "topic": "School things",
+   "img": "../../apps/flyers/review-0759/images/invitation.webp"
+  },
+  {
+   "w": "timetable",
+   "vi": "thời khóa biểu",
+   "topic": "School things",
+   "img": "../../apps/flyers/review-0759/images/timetable.webp"
+  },
+  {
+   "w": "quiz",
+   "vi": "bài đố vui",
+   "topic": "School things",
+   "img": "../../apps/flyers/review-0759/images/quiz.webp"
+  },
+  {
+   "w": "join",
+   "vi": "tham gia",
+   "topic": "School verbs",
+   "img": "../../apps/flyers/review-0759/images/join.webp"
+  },
+  {
+   "w": "repeat",
+   "vi": "nhắc lại",
+   "topic": "School verbs",
+   "img": "../../apps/flyers/review-0759/images/repeat.webp"
+  },
+  {
+   "w": "study",
+   "vi": "học tập",
+   "topic": "School verbs",
+   "img": "../../apps/flyers/review-0759/images/study.webp"
+  },
+  {
+   "w": "cinema",
+   "vi": "rạp chiếu phim",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/cinema.webp"
+  },
+  {
+   "w": "circus",
+   "vi": "rạp xiếc",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/circus.webp"
+  },
+  {
+   "w": "gym",
+   "vi": "phòng tập thể dục",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/gym.webp"
+  },
+  {
+   "w": "ocean",
+   "vi": "đại dương",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/ocean.webp"
+  },
+  {
+   "w": "theatre",
+   "vi": "nhà hát",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/theatre.webp"
+  },
+  {
+   "w": "zoo",
+   "vi": "sở thú",
+   "topic": "Places",
+   "img": "../../apps/flyers/review-0759/images/zoo.webp"
+  },
+  {
+   "w": "actor",
+   "vi": "nam diễn viên",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/actor.webp"
+  },
+  {
+   "w": "clown",
+   "vi": "chú hề",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/clown.webp"
+  },
+  {
+   "w": "cartoon",
+   "vi": "phim hoạt hình",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/cartoon.webp"
+  },
+  {
+   "w": "dinosaurs",
+   "vi": "khủng long",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/dinosaurs.webp"
+  },
+  {
+   "w": "pyramids",
+   "vi": "kim tự tháp",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/pyramids.webp"
+  },
+  {
+   "w": "screen",
+   "vi": "màn hình",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/screen.webp"
+  },
+  {
+   "w": "stage",
+   "vi": "sân khấu",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/stage.webp"
+  },
+  {
+   "w": "swing",
+   "vi": "xích đu",
+   "topic": "Shows & fun things",
+   "img": "../../apps/flyers/review-0759/images/swing.webp"
+  },
+  {
+   "w": "brave",
+   "vi": "dũng cảm",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/brave.webp"
+  },
+  {
+   "w": "cheap",
+   "vi": "rẻ",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/cheap.webp"
+  },
+  {
+   "w": "extinct",
+   "vi": "tuyệt chủng",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/extinct.webp"
+  },
+  {
+   "w": "frightening",
+   "vi": "đáng sợ",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/frightening.webp"
+  },
+  {
+   "w": "project",
+   "vi": "dự án",
+   "topic": "Other words",
+   "img": "../../apps/flyers/review-0759/images/project.webp"
+  },
+  {
+   "w": "artist",
+   "vi": "họa sĩ",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/artist.webp"
+  },
+  {
+   "w": "astronaut",
+   "vi": "phi hành gia",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/astronaut.webp"
+  },
+  {
+   "w": "businessman",
+   "vi": "nam doanh nhân",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/businessman.webp"
+  },
+  {
+   "w": "businesswoman",
+   "vi": "nữ doanh nhân",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/businesswoman.webp"
+  },
+  {
+   "w": "cook",
+   "vi": "đầu bếp",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/cook.webp"
+  },
+  {
+   "w": "dentist",
+   "vi": "nha sĩ",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/dentist.webp"
+  },
+  {
+   "w": "designer",
+   "vi": "nhà thiết kế",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/designer.webp"
+  },
+  {
+   "w": "doctor",
+   "vi": "bác sĩ",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/doctor.webp"
+  },
+  {
+   "w": "engineer",
+   "vi": "kỹ sư",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/engineer.webp"
+  },
+  {
+   "w": "fire fighter",
+   "vi": "lính cứu hỏa",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/fire-fighter.webp"
+  },
+  {
+   "w": "journalist",
+   "vi": "nhà báo",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/journalist.webp"
+  },
+  {
+   "w": "manager",
+   "vi": "quản lý",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/manager.webp"
+  },
+  {
+   "w": "mechanic",
+   "vi": "thợ máy",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/mechanic.webp"
+  },
+  {
+   "w": "nurse",
+   "vi": "y tá",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/nurse.webp"
+  },
+  {
+   "w": "photographer",
+   "vi": "nhiếp ảnh gia",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/photographer.webp"
+  },
+  {
+   "w": "pilot",
+   "vi": "phi công",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/pilot.webp"
+  },
+  {
+   "w": "police officer",
+   "vi": "cảnh sát",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/police-officer.webp"
+  },
+  {
+   "w": "singer",
+   "vi": "ca sĩ",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/singer.webp"
+  },
+  {
+   "w": "teacher",
+   "vi": "giáo viên",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/teacher.webp"
+  },
+  {
+   "w": "tennis player",
+   "vi": "vận động viên quần vợt",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/tennis-player.webp"
+  },
+  {
+   "w": "waiter",
+   "vi": "bồi bàn",
+   "topic": "Jobs",
+   "img": "../../apps/flyers/review-0759/images/waiter.webp"
+  },
+  {
+   "w": "office",
+   "vi": "văn phòng",
+   "topic": "Workplaces",
+   "img": "../../apps/flyers/review-0759/images/office.webp"
+  },
+  {
+   "w": "lazy",
+   "vi": "lười biếng",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/lazy.webp"
+  },
+  {
+   "w": "poor",
+   "vi": "nghèo",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/poor.webp"
+  },
+  {
+   "w": "rich",
+   "vi": "giàu có",
+   "topic": "Describing words",
+   "img": "../../apps/flyers/review-0759/images/rich.webp"
+  },
+  {
+   "w": "bandage",
+   "vi": "băng gạc",
+   "topic": "Other words",
+   "img": "../../apps/flyers/review-0759/images/bandage.webp"
+  },
+  {
+   "w": "entrance / exit",
+   "vi": "lối vào / lối ra",
+   "topic": "Castle places",
+   "img": "../../apps/flyers/review-0759/images/entrance-exit.webp"
+  },
+  {
+   "w": "gate",
+   "vi": "cổng",
+   "topic": "Castle places",
+   "img": "../../apps/flyers/review-0759/images/gate.webp"
+  },
+  {
+   "w": "steps",
+   "vi": "bậc thang",
+   "topic": "Castle places",
+   "img": "../../apps/flyers/review-0759/images/steps.webp"
+  },
+  {
+   "w": "king",
+   "vi": "vua",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/king.webp"
+  },
+  {
+   "w": "queen",
+   "vi": "nữ hoàng",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/queen.webp"
+  },
+  {
+   "w": "crown",
+   "vi": "vương miện",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/crown.webp"
+  },
+  {
+   "w": "costume",
+   "vi": "trang phục hóa trang",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/costume.webp"
+  },
+  {
+   "w": "ring",
+   "vi": "chiếc nhẫn",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/ring.webp"
+  },
+  {
+   "w": "butterfly",
+   "vi": "con bướm",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/butterfly.webp"
+  },
+  {
+   "w": "swan",
+   "vi": "thiên nga",
+   "topic": "Royal things & animals",
+   "img": "../../apps/flyers/review-0759/images/swan.webp"
+  },
+  {
+   "w": "east",
+   "vi": "hướng Đông",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/east.webp"
+  },
+  {
+   "w": "west",
+   "vi": "hướng Tây",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/west.webp"
+  },
+  {
+   "w": "north",
+   "vi": "hướng Bắc",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/north.webp"
+  },
+  {
+   "w": "south",
+   "vi": "hướng Nam",
+   "topic": "Directions",
+   "img": "../../apps/flyers/review-0759/images/south.webp"
+  },
+  {
+   "w": "golf",
+   "vi": "môn gôn",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/golf.webp"
+  },
+  {
+   "w": "race",
+   "vi": "cuộc đua",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/race.webp"
+  },
+  {
+   "w": "volleyball",
+   "vi": "bóng chuyền",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/volleyball.webp"
+  },
+  {
+   "w": "match",
+   "vi": "trận đấu",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/match.webp"
+  },
+  {
+   "w": "goal",
+   "vi": "bàn thắng, khung thành",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/goal.webp"
+  },
+  {
+   "w": "prize",
+   "vi": "giải thưởng",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/prize.webp"
+  },
+  {
+   "w": "score",
+   "vi": "tỉ số, ghi điểm",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/score.webp"
+  },
+  {
+   "w": "team",
+   "vi": "đội",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/team.webp"
+  },
+  {
+   "w": "winner",
+   "vi": "người thắng cuộc",
+   "topic": "Sports & competition",
+   "img": "../../apps/flyers/review-0759/images/winner.webp"
+  },
+  {
+   "w": "fall over",
+   "vi": "té ngã",
+   "topic": "Injuries",
+   "img": "../../apps/flyers/review-0759/images/fall-over.webp"
+  },
+  {
+   "w": "knee",
+   "vi": "đầu gối",
+   "topic": "Injuries",
+   "img": "../../apps/flyers/review-0759/images/knee.webp"
+  },
+  {
+   "w": "sore",
+   "vi": "đau nhức",
+   "topic": "Injuries",
+   "img": "../../apps/flyers/review-0759/images/sore.webp"
+  },
+  {
+   "w": "belt",
+   "vi": "thắt lưng",
+   "topic": "Camping gear",
+   "img": "../../apps/flyers/review-0759/images/belt.webp"
+  },
+  {
+   "w": "pocket",
+   "vi": "túi quần, túi áo",
+   "topic": "Camping gear",
+   "img": "../../apps/flyers/review-0759/images/pocket.webp"
+  },
+  {
+   "w": "tent",
+   "vi": "lều",
+   "topic": "Camping gear",
+   "img": "../../apps/flyers/review-0759/images/tent.webp"
+  },
+  {
+   "w": "torch",
+   "vi": "đèn pin",
+   "topic": "Camping gear",
+   "img": "../../apps/flyers/review-0759/images/torch.webp"
+  },
+  {
+   "w": "cave",
+   "vi": "hang động",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/cave.webp"
+  },
+  {
+   "w": "Earth",
+   "vi": "Trái Đất",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/earth.webp"
+  },
+  {
+   "w": "fur / furry",
+   "vi": "lông thú, có lông mềm",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/fur.webp"
+  },
+  {
+   "w": "hill",
+   "vi": "ngọn đồi",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/hill.webp"
+  },
+  {
+   "w": "stars",
+   "vi": "các vì sao",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/stars.webp"
+  },
+  {
+   "w": "stone / rock",
+   "vi": "hòn đá",
+   "topic": "Nature",
+   "img": "../../apps/flyers/review-0759/images/stone.webp"
+  },
+  {
+   "w": "burn",
+   "vi": "bị bỏng, cháy",
+   "topic": "Verbs & describing words",
+   "img": "../../apps/flyers/review-0759/images/burn.webp"
+  },
+  {
+   "w": "whisper",
+   "vi": "thì thầm",
+   "topic": "Verbs & describing words",
+   "img": "../../apps/flyers/review-0759/images/whisper.webp"
+  },
+  {
+   "w": "whistle",
+   "vi": "huýt sáo",
+   "topic": "Verbs & describing words",
+   "img": "../../apps/flyers/review-0759/images/whistle.webp"
+  },
+  {
+   "w": "spring",
+   "vi": "mùa xuân",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/spring.webp"
+  },
+  {
+   "w": "summer",
+   "vi": "mùa hè",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/summer.webp"
+  },
+  {
+   "w": "autumn",
+   "vi": "mùa thu",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/autumn.webp"
+  },
+  {
+   "w": "winter",
+   "vi": "mùa đông",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/winter.webp"
+  },
+  {
+   "w": "sledge",
+   "vi": "xe trượt tuyết",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/sledge.webp"
+  },
+  {
+   "w": "snowball",
+   "vi": "bóng tuyết",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/snowball.webp"
+  },
+  {
+   "w": "snowboard",
+   "vi": "ván trượt tuyết",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/snowboard.webp"
+  },
+  {
+   "w": "snowman",
+   "vi": "người tuyết",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/snowman.webp"
+  },
+  {
+   "w": "leaf",
+   "vi": "chiếc lá",
+   "topic": "Seasons & snow",
+   "img": "../../apps/flyers/review-0759/images/leaf.webp"
+  },
+  {
+   "w": "collect",
+   "vi": "sưu tầm",
+   "topic": "Actions",
+   "img": "../../apps/flyers/review-0759/images/collect.webp"
+  },
+  {
+   "w": "push",
+   "vi": "đẩy",
+   "topic": "Actions",
+   "img": "../../apps/flyers/review-0759/images/push.webp"
+  },
+  {
+   "w": "pull",
+   "vi": "kéo",
+   "topic": "Actions",
+   "img": "../../apps/flyers/review-0759/images/pull.webp"
+  },
+  {
+   "w": "suitcase",
+   "vi": "va ly",
+   "topic": "Holiday things",
+   "img": "../../apps/flyers/review-0759/images/suitcase.webp"
+  },
+  {
+   "w": "sunglasses",
+   "vi": "kính râm",
+   "topic": "Holiday things",
+   "img": "../../apps/flyers/review-0759/images/sunglasses.webp"
+  },
+  {
+   "w": "gloves",
+   "vi": "găng tay",
+   "topic": "Holiday things",
+   "img": "../../apps/flyers/review-0759/images/gloves.webp"
+  },
+  {
+   "w": "striped",
+   "vi": "kẻ sọc",
+   "topic": "Holiday things",
+   "img": "../../apps/flyers/review-0759/images/striped.webp"
+  },
+  {
+   "w": "spotted",
+   "vi": "chấm tròn",
+   "topic": "Holiday things",
+   "img": "../../apps/flyers/review-0759/images/spotted.webp"
+  },
+  {
+   "w": "camel",
+   "vi": "lạc đà",
+   "topic": "Desert & places",
+   "img": "../../apps/flyers/review-0759/images/camel.webp"
+  },
+  {
+   "w": "desert",
+   "vi": "sa mạc",
+   "topic": "Desert & places",
+   "img": "../../apps/flyers/review-0759/images/desert.webp"
+  },
+  {
+   "w": "foggy",
+   "vi": "sương mù",
+   "topic": "Weather",
+   "img": "../../apps/flyers/review-0759/images/foggy.webp"
+  },
+  {
+   "w": "raining",
+   "vi": "mưa",
+   "topic": "Weather",
+   "img": "../../apps/flyers/review-0759/images/raining.webp"
+  },
+  {
+   "w": "snowing",
+   "vi": "tuyết rơi",
+   "topic": "Weather",
+   "img": "../../apps/flyers/review-0759/images/snowing.webp"
+  },
+  {
+   "w": "storm",
+   "vi": "cơn bão",
+   "topic": "Weather",
+   "img": "../../apps/flyers/review-0759/images/storm.webp"
+  },
+  {
+   "w": "planet",
+   "vi": "hành tinh",
+   "topic": "Space",
+   "img": "../../apps/flyers/review-0759/images/planet.webp"
+  },
+  {
+   "w": "rocket",
+   "vi": "tên lửa",
+   "topic": "Space",
+   "img": "../../apps/flyers/review-0759/images/rocket.webp"
+  },
+  {
+   "w": "space",
+   "vi": "vũ trụ",
+   "topic": "Space",
+   "img": "../../apps/flyers/review-0759/images/space.webp"
+  },
+  {
+   "w": "spaceship",
+   "vi": "tàu vũ trụ",
+   "topic": "Space",
+   "img": "../../apps/flyers/review-0759/images/spaceship.webp"
+  },
+  {
+   "w": "calendar",
+   "vi": "tờ lịch",
+   "topic": "Time",
+   "img": "../../apps/flyers/review-0759/images/calendar.webp"
+  },
+  {
+   "w": "eagle",
+   "vi": "đại bàng",
+   "topic": "Nature & sports",
+   "img": "../../apps/flyers/review-0759/images/eagle.webp"
+  },
+  {
+   "w": "land",
+   "vi": "đất liền",
+   "topic": "Nature & sports",
+   "img": "../../apps/flyers/review-0759/images/land.webp"
+  },
+  {
+   "w": "pond",
+   "vi": "cái ao",
+   "topic": "Nature & sports",
+   "img": "../../apps/flyers/review-0759/images/pond.webp"
+  },
+  {
+   "w": "racing bike",
+   "vi": "xe đạp đua",
+   "topic": "Nature & sports",
+   "img": "../../apps/flyers/review-0759/images/racing-bike.webp"
+  },
+  {
+   "w": "ski",
+   "vi": "trượt tuyết",
+   "topic": "Nature & sports",
+   "img": "../../apps/flyers/review-0759/images/ski.webp"
+  }
+ ]
+}
