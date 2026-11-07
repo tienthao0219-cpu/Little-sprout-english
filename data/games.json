@@ -357,7 +357,8 @@
    "color": "sky",
    "icon": "☁️",
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu hỏi theo hình",
-   "v": "20261107220000"
+   "v": "20261107220000",
+   "min": 6
   },
   {
    "id": "ninja-trai-cay",

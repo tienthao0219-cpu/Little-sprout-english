@@ -110,7 +110,7 @@ NM.SETS = [
   NM.HUB = H;
   NM.HUB_NOPIC = !H.items.every(function (it) { return it.img; });
   NM.SETS = [{
-    id: 'hub', kind: 'vocab', title: H.title || 'Bộ từ', group: GMAP[cur] || 'Starters', icon: '📘',
+    id: 'hub', kind: 'vocab', title: H.title || 'Bộ từ', group: GMAP[cur] || ((String(H.title || '').match(/^(Starters|Movers|Flyers)/) || [])[1]) || 'Starters', icon: '📘',
     words: H.items.filter(function (it) { return it.vi; }).map(function (it) {
       return { w: it.w, vi: it.vi, e: '', img: it.img || '', d: '', s: '', alt: [], topic: it.topic || 'Từ vựng' };
     })

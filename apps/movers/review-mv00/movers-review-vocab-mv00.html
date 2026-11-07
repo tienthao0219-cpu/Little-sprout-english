@@ -1481,7 +1481,7 @@ const GAME_ICON = {claw:'🧸',dice:'🎲',dino:'🦖',duck:'🦆',farm:'🚜',f
 function loadHubGames(){
   if(!HAS_GAMES) return;
   fetch(SITE_ROOT + 'data/games.json?v=' + Date.now(), {cache:'no-store'}).then(r=>r.ok ? r.json() : Promise.reject()).then(j=>{
-    TEMPLATES = (j.games||[]).filter(g=>g && g.id && g.title).map(g=>({key:g.id, icon:GAME_ICON[g.poster]||'🎮', name:g.title, desc:g.desc||'', color:GAME_COLOR[g.color]||'#eef3ff', min:4}));
+    TEMPLATES = (j.games||[]).filter(g=>g && g.id && g.title).map(g=>({key:g.id, icon:g.icon||GAME_ICON[g.poster]||'🎮', name:g.title, desc:g.desc||'', color:GAME_COLOR[g.color]||'#eef3ff', min:g.min||4}));
     // vẽ lại nếu đang ở màn hình chính/trang bìa và chưa vào bài
     try{ if(document.querySelector('.tabs') && !document.querySelector('#qcard')) renderHome(); else if(document.body.classList.contains('on-cover')) renderCover(); }catch(e){}
   }).catch(()=>{});
