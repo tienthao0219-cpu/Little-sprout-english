@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2b2160">
+<title>Nhảy Mây Từ Vựng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<script src="../../../js/gameset.js"></script><script src="../../../js/audiounlock.js"></script>
+<link rel="stylesheet" href="style.css">
+<script>if(window.GAMESET){document.write('<style>[data-act="teacher"]{display:none!important}</style>');}</script>
+</head>
+<body>
+<div id="app">
+  <div id="stageWrap" hidden>
+    <div id="stage">
+      <canvas id="cv"></canvas>
+      <div id="hud">
+        <div class="r1">
+          <button id="bPause" aria-label="Tạm dừng">⏸</button>
+          <div id="hHearts"></div>
+          <div id="hScore" class="pill">⭐ 0</div>
+          <div id="hCoin" class="pill">🪙 0</div>
+          <button id="bMute" aria-label="Âm thanh">🔊</button>
+        </div>
+        <div class="r2"><span id="hRound"></span><span id="hClock"></span></div>
+      </div>
+      <div id="actbar"></div>
+      <div id="fb" hidden></div>
+    </div>
+  </div>
+  <div id="screen"></div>
+  <div id="modal" hidden></div>
+</div>
+<script src="data.js"></script>
+<script src="core.js"></script>
+<script src="questions.js"></script>
+<script src="engine.js"></script>
+<script src="ui.js"></script>
+<script>NM.ui.start();</script>
+</body>
+</html>

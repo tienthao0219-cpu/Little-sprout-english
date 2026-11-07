@@ -338,6 +338,86 @@
    "color": "plum",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì hiện hình, không có hình thì hiện nghĩa tiếng Việt",
    "v": "20261103200000"
+  },
+  {
+   "id": "nhay-may",
+   "title": "Nhảy Mây Từ Vựng",
+   "desc": "Nhảy từ bục mây này sang bục khác để chọn đáp án đúng, né nước dâng và cá sấu, nhặt xu, hạ Quái Mây cuối vòng. Có cửa hàng trang bị, đấu 1-1 hoặc với Bot.",
+   "file": "apps/games/nhay-may/index.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-nhay-may.webp",
+   "color": "sky",
+   "icon": "☁️",
+   "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu hỏi theo hình",
+   "v": "20261107220000"
+  },
+  {
+   "id": "ninja-trai-cay",
+   "title": "Ninja Trái Cây",
+   "desc": "Chém quả trái cây mang đáp án đúng. Nhiều dạng câu (Anh→Việt, nghe chọn từ, nghe chọn hình, xếp chữ, gõ từ), chơi một mình, 1-1 hoặc với Bot, có bom.",
+   "file": "apps/games/ninja-trai-cay.html",
+   "tags": [
+    "Từ vựng",
+    "Tốc độ"
+   ],
+   "cats": [
+    "vocab",
+    "speed",
+    "duo"
+   ],
+   "poster": "ninja",
+   "color": "orange",
+   "icon": "🍉",
+   "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261107220000"
+  },
+  {
+   "id": "word-wings",
+   "title": "Word Wings – Bắn Chim",
+   "desc": "Bắn chim phá tháp: trả lời đúng để chim bay mạnh hơn. 16 màn, 1–6 người chơi hoặc đấu với Bot, nhiều dạng câu từ vựng, có giải thích khi sai.",
+   "file": "apps/games/word-wings.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-word-wings.webp",
+   "color": "teal",
+   "icon": "🐦",
+   "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261107220000"
+  },
+  {
+   "id": "english-arcade",
+   "title": "English Arcade – Chém Trái Cây",
+   "desc": "Vuốt qua trái cây mang đáp án đúng. Gợi ý 3 mức, thử lại 1 lần, giải thích khi sai, sưu tầm thú cưng bằng sao. Chơi một mình, 1-1, với Robo hoặc cả lớp đấu Robo.",
+   "file": "apps/games/english-arcade.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "speed",
+    "duo"
+   ],
+   "poster": "arcade",
+   "color": "peach",
+   "icon": "🍓",
+   "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261107220000"
   }
  ]
 }
