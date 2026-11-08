@@ -1,0 +1,48 @@
+{
+ "id": "gs4--unit-1-lquu",
+ "title": "Unit 1 · My friends",
+ "cur": "gs4",
+ "unit": "unit-1-lquu",
+ "items": [
+  {
+   "w": "America",
+   "vi": "nước Mỹ",
+   "ipa": "əˈmerɪkə"
+  },
+  {
+   "w": "Australia",
+   "vi": "nước Úc",
+   "ipa": "ɔːˈstreɪljə"
+  },
+  {
+   "w": "Britain",
+   "vi": "nước Anh",
+   "ipa": "ˈbrɪtn"
+  },
+  {
+   "w": "Japan",
+   "vi": "nước Nhật Bản",
+   "ipa": "dʒəˈpæn"
+  },
+  {
+   "w": "Malaysia",
+   "vi": "nước Ma-lai-xi-a",
+   "ipa": "məˈleɪʒə"
+  },
+  {
+   "w": "Singapore",
+   "vi": "nước Xin-ga-po",
+   "ipa": "ˈsɪŋəpɔːr"
+  },
+  {
+   "w": "Thailand",
+   "vi": "nước Thái Lan",
+   "ipa": "ˈtaɪlænd"
+  },
+  {
+   "w": "Viet Nam",
+   "vi": "nước Việt Nam",
+   "ipa": "ˌviːˌet ˈnɑːm"
+  }
+ ]
+}

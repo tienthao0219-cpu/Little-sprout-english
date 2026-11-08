@@ -164,6 +164,10 @@
       "tint": 1,
       "units": [
         {
+          "id": "review-g400",
+          "name": "REVIEW"
+        },
+        {
           "id": "unit-1-lquu",
           "name": "UNIT 1"
         },
@@ -179,6 +183,10 @@
       "emoji": "📗",
       "tint": 3,
       "units": [
+        {
+          "id": "review-g500",
+          "name": "REVIEW"
+        },
         {
           "id": "unit-1-ugrc",
           "name": "UNIT 1"
@@ -701,6 +709,16 @@
       "updated": "2026-11-01T05:00:42.000Z"
     },
     {
+      "id": "global-4-review-vocab-g400",
+      "title": "Global 4 Vocab Quest – REVIEW VOCAB (tick unit, Flashcard, Practice)",
+      "cur": "gs4",
+      "unit": "review-g400",
+      "file": "apps/gs4/review-g400/global-4-review-vocab-g400.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T11:45:22.000Z"
+    },
+    {
       "id": "english-4-hub-unit-1-my-friends-eufz",
       "title": "English 4 Hub — Unit 1: My Friends",
       "cur": "gs4",
@@ -719,6 +737,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:22:02.774Z"
+    },
+    {
+      "id": "global-5-review-vocab-g500",
+      "title": "Global 5 Vocab Quest – REVIEW VOCAB (tick unit, Flashcard, Practice)",
+      "cur": "gs5",
+      "unit": "review-g500",
+      "file": "apps/gs5/review-g500/global-5-review-vocab-g500.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T11:45:22.000Z"
     },
     {
       "id": "unit-1-hub-6tfh",

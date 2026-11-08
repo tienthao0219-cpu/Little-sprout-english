@@ -1,0 +1,63 @@
+{
+ "id": "gs4--unit-3-u4di",
+ "title": "Unit 3 · My week",
+ "cur": "gs4",
+ "unit": "unit-3-u4di",
+ "items": [
+  {
+   "w": "Monday",
+   "vi": "Thứ Hai",
+   "ipa": "ˈmʌndeɪ"
+  },
+  {
+   "w": "Tuesday",
+   "vi": "Thứ Ba",
+   "ipa": "ˈtjuːzdeɪ"
+  },
+  {
+   "w": "Wednesday",
+   "vi": "Thứ Tư",
+   "ipa": "ˈwenzdeɪ"
+  },
+  {
+   "w": "Thursday",
+   "vi": "Thứ Năm",
+   "ipa": "ˈθɜːzdeɪ"
+  },
+  {
+   "w": "Friday",
+   "vi": "Thứ Sáu",
+   "ipa": "ˈfraɪdeɪ"
+  },
+  {
+   "w": "Saturday",
+   "vi": "Thứ Bảy",
+   "ipa": "ˈsætədeɪ"
+  },
+  {
+   "w": "Sunday",
+   "vi": "Chủ Nhật",
+   "ipa": "ˈsʌndeɪ"
+  },
+  {
+   "w": "listen to music",
+   "vi": "nghe nhạc",
+   "ipa": "ˈlɪsn tə ˈmjuːzɪk"
+  },
+  {
+   "w": "study at school",
+   "vi": "học ở trường",
+   "ipa": "ˈstʌdi ət skuːl"
+  },
+  {
+   "w": "do housework",
+   "vi": "làm việc nhà",
+   "ipa": "duː ˈhaʊswɜːk"
+  },
+  {
+   "w": "stay at home",
+   "vi": "ở nhà",
+   "ipa": "steɪ ət həʊm"
+  }
+ ]
+}

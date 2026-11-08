@@ -1,0 +1,248 @@
+{
+ "id": "gs5--review-g500",
+ "title": "Ôn từ vựng các unit",
+ "cur": "gs5",
+ "unit": "review-g500",
+ "items": [
+  {
+   "w": "yourself",
+   "vi": "bản thân bạn",
+   "ipa": "jɔːˈself"
+  },
+  {
+   "w": "class",
+   "vi": "lớp học",
+   "ipa": "klɑːs"
+  },
+  {
+   "w": "grade",
+   "vi": "khối lớp",
+   "ipa": "ɡreɪd"
+  },
+  {
+   "w": "city",
+   "vi": "thành phố",
+   "ipa": "ˈsɪti"
+  },
+  {
+   "w": "countryside",
+   "vi": "nông thôn, vùng quê",
+   "ipa": "ˈkʌntrisaɪd"
+  },
+  {
+   "w": "favourite",
+   "vi": "được yêu thích nhất",
+   "ipa": "ˈfeɪvərɪt"
+  },
+  {
+   "w": "dolphin",
+   "vi": "cá heo",
+   "ipa": "ˈdɒlfɪn"
+  },
+  {
+   "w": "panda",
+   "vi": "gấu trúc",
+   "ipa": "ˈpændə"
+  },
+  {
+   "w": "sandwich",
+   "vi": "bánh mì kẹp",
+   "ipa": "ˈsænwɪtʃ"
+  },
+  {
+   "w": "table tennis",
+   "vi": "môn bóng bàn",
+   "ipa": "ˈteɪbl tenɪs"
+  },
+  {
+   "w": "pink",
+   "vi": "màu hồng",
+   "ipa": "pɪŋk"
+  },
+  {
+   "w": "sport",
+   "vi": "thể thao",
+   "ipa": "spɔːt"
+  },
+  {
+   "w": "food",
+   "vi": "thức ăn",
+   "ipa": "fuːd"
+  },
+  {
+   "w": "animal",
+   "vi": "động vật",
+   "ipa": "ˈænɪml"
+  },
+  {
+   "w": "colour",
+   "vi": "màu sắc",
+   "ipa": "ˈkʌlə"
+  },
+  {
+   "w": "pizza",
+   "vi": "bánh pizza",
+   "ipa": "ˈpiːtsə"
+  },
+  {
+   "w": "basketball",
+   "vi": "bóng rổ",
+   "ipa": "ˈbɑːskɪtbɔːl"
+  },
+  {
+   "w": "swimming",
+   "vi": "bơi lội",
+   "ipa": "ˈswɪmɪŋ"
+  },
+  {
+   "w": "play the violin",
+   "vi": "chơi đàn vi-ô-lông",
+   "ipa": "pleɪ ðə ˌvaɪəˈlɪn"
+  },
+  {
+   "w": "surf the Internet",
+   "vi": "lướt mạng",
+   "ipa": "sɜːf ði ˈɪntənet"
+  },
+  {
+   "w": "go for a walk",
+   "vi": "đi dạo",
+   "ipa": "ɡəʊ fər ə ˈwɔːk"
+  },
+  {
+   "w": "water the flowers",
+   "vi": "tưới hoa",
+   "ipa": "ˈwɔːtə ðə ˈflaʊəz"
+  },
+  {
+   "w": "watch cartoons",
+   "vi": "xem phim hoạt hình",
+   "ipa": "wɒtʃ kɑːˈtuːnz"
+  },
+  {
+   "w": "listen to music",
+   "vi": "nghe nhạc",
+   "ipa": "ˈlɪsn tə ˈmjuːzɪk"
+  },
+  {
+   "w": "play table tennis",
+   "vi": "chơi bóng bàn",
+   "ipa": "pleɪ ˈteɪbl ˈtenɪs"
+  },
+  {
+   "w": "read stories",
+   "vi": "đọc truyện",
+   "ipa": "riːd ˈstɔːriz"
+  },
+  {
+   "w": "ride my bike",
+   "vi": "đạp xe",
+   "ipa": "raɪd maɪ baɪk"
+  },
+  {
+   "w": "play the guitar",
+   "vi": "chơi đàn ghi-ta",
+   "ipa": "pleɪ ðə ɡɪˈtɑː"
+  },
+  {
+   "w": "take photos",
+   "vi": "chụp ảnh",
+   "ipa": "teɪk ˈfəʊtəʊz"
+  },
+  {
+   "w": "play volleyball",
+   "vi": "chơi bóng chuyền",
+   "ipa": "pleɪ ˈvɒlibɔːl"
+  },
+  {
+   "w": "go swimming",
+   "vi": "đi bơi",
+   "ipa": "ɡəʊ ˈswɪmɪŋ"
+  },
+  {
+   "w": "help mum with the cooking",
+   "vi": "giúp mẹ nấu ăn",
+   "ipa": "help mʌm wɪð ðə ˈkʊkɪŋ"
+  },
+  {
+   "w": "always",
+   "vi": "luôn luôn",
+   "ipa": "ˈɔːlweɪz"
+  },
+  {
+   "w": "usually",
+   "vi": "thường thường",
+   "ipa": "ˈjuːʒuəli"
+  },
+  {
+   "w": "often",
+   "vi": "thường",
+   "ipa": "ˈɒfn"
+  },
+  {
+   "w": "sometimes",
+   "vi": "thỉnh thoảng",
+   "ipa": "ˈsʌmtaɪmz"
+  },
+  {
+   "w": "rarely",
+   "vi": "hiếm khi",
+   "ipa": "ˈreəli"
+  },
+  {
+   "w": "never",
+   "vi": "không bao giờ",
+   "ipa": "ˈnevə"
+  },
+  {
+   "w": "firefighter",
+   "vi": "lính cứu hoả",
+   "ipa": "ˈfaɪəfaɪtə(r)"
+  },
+  {
+   "w": "reporter",
+   "vi": "phóng viên, nhà báo",
+   "ipa": "rɪˈpɔːtə(r)"
+  },
+  {
+   "w": "gardener",
+   "vi": "người làm vườn",
+   "ipa": "ˈɡɑːdnə(r)"
+  },
+  {
+   "w": "writer",
+   "vi": "nhà văn",
+   "ipa": "ˈraɪtə(r)"
+  },
+  {
+   "w": "doctor",
+   "vi": "bác sĩ",
+   "ipa": "ˈdɒktə(r)"
+  },
+  {
+   "w": "teacher",
+   "vi": "giáo viên",
+   "ipa": "ˈtiːtʃə(r)"
+  },
+  {
+   "w": "dentist",
+   "vi": "nha sĩ",
+   "ipa": "ˈdentɪst"
+  },
+  {
+   "w": "farmer",
+   "vi": "nông dân",
+   "ipa": "ˈfɑːmə(r)"
+  },
+  {
+   "w": "architect",
+   "vi": "kiến trúc sư",
+   "ipa": "ˈɑːkɪtekt"
+  },
+  {
+   "w": "actor",
+   "vi": "diễn viên",
+   "ipa": "ˈæktə(r)"
+  }
+ ]
+}
