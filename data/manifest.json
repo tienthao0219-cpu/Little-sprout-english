@@ -204,12 +204,16 @@
           "name": "UNIT 1"
         },
         {
-          "id": "unit-5-locs",
-          "name": "UNIT 5"
+          "id": "unit-2-h2om",
+          "name": "UNIT 2"
         },
         {
           "id": "unit-4-o6ek",
           "name": "UNIT 4"
+        },
+        {
+          "id": "unit-5-locs",
+          "name": "UNIT 5"
         }
       ]
     },
@@ -772,7 +776,7 @@
     },
     {
       "id": "global-success-4-unit-6-r5nc",
-      "title": "Global Success 4 – Unit 6 | Vừa chơi vừa học",
+      "title": "Our School Facilities – Unit 6",
       "cur": "gs4",
       "unit": "unit-6-s6vq",
       "file": "apps/gs4/unit-6-s6vq/global-success-4-unit-6-r5nc.html",
@@ -801,14 +805,14 @@
       "added": "2026-10-17T05:23:55.663Z"
     },
     {
-      "id": "jobs-amp-dreams-hub-unit-5-jsq7",
-      "title": "Jobs &amp; Dreams Hub — Unit 5",
+      "id": "our-homes-hub-unit-2-w4zk",
+      "title": "Our Homes Hub Unit 2",
       "cur": "gs5",
-      "unit": "unit-5-locs",
-      "file": "apps/gs5/unit-5-locs/jobs-amp-dreams-hub-unit-5-jsq7.html",
+      "unit": "unit-2-h2om",
+      "file": "apps/gs5/unit-2-h2om/our-homes-hub-unit-2-w4zk.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-10-17T05:24:56.814Z"
+      "added": "2026-11-08T12:06:24.000Z"
     },
     {
       "id": "free-time-activities-hub-unit-4-omt2",
@@ -819,6 +823,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:25:56.166Z"
+    },
+    {
+      "id": "jobs-amp-dreams-hub-unit-5-jsq7",
+      "title": "Jobs &amp; Dreams Hub — Unit 5",
+      "cur": "gs5",
+      "unit": "unit-5-locs",
+      "file": "apps/gs5/unit-5-locs/jobs-amp-dreams-hub-unit-5-jsq7.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-10-17T05:24:56.814Z"
     },
     {
       "id": "starters-vocab-quest-4jkq",

@@ -228,7 +228,7 @@
     },
     {
       "id": "gs5--unit-1-ugrc",
-      "title": "Unit 1 · Global Success 5",
+      "title": "Unit 1 · All about me",
       "cur": "gs5",
       "unit": "unit-1-ugrc",
       "n": 18,
@@ -399,7 +399,7 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs5",
       "unit": "review-g500",
-      "n": 48,
+      "n": 69,
       "pics": 0
     },
     {
@@ -420,10 +420,18 @@
     },
     {
       "id": "gs4--unit-6-s6vq",
-      "title": "Unit 6 · Global Success 4",
+      "title": "Unit 6 · Our school facilities",
       "cur": "gs4",
       "unit": "unit-6-s6vq",
       "n": 8,
+      "pics": 0
+    },
+    {
+      "id": "gs5--unit-2-h2om",
+      "title": "Unit 2 · Our homes",
+      "cur": "gs5",
+      "unit": "unit-2-h2om",
+      "n": 22,
       "pics": 0
     }
   ]
