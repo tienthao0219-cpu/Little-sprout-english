@@ -399,7 +399,7 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs5",
       "unit": "review-g500",
-      "n": 69,
+      "n": 85,
       "pics": 0
     },
     {
@@ -432,6 +432,14 @@
       "cur": "gs5",
       "unit": "unit-2-h2om",
       "n": 22,
+      "pics": 0
+    },
+    {
+      "id": "gs5--unit-3-f3rd",
+      "title": "Unit 3 · My foreign friends",
+      "cur": "gs5",
+      "unit": "unit-3-f3rd",
+      "n": 16,
       "pics": 0
     }
   ]
