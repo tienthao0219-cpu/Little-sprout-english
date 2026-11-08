@@ -184,6 +184,10 @@
           "name": "UNIT 4"
         },
         {
+          "id": "unit-5-t5cd",
+          "name": "UNIT 5"
+        },
+        {
           "id": "unit-6-s6vq",
           "name": "UNIT 6"
         }
@@ -777,6 +781,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-11-08T12:02:42.000Z"
+    },
+    {
+      "id": "things-we-can-do-unit-5-m2xe",
+      "title": "Things We Can Do – Unit 5",
+      "cur": "gs4",
+      "unit": "unit-5-t5cd",
+      "file": "apps/gs4/unit-5-t5cd/things-we-can-do-unit-5-m2xe.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T12:35:49.000Z"
     },
     {
       "id": "global-success-4-unit-6-r5nc",

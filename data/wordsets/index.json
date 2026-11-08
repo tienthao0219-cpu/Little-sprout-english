@@ -375,7 +375,7 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs4",
       "unit": "review-g400",
-      "n": 50,
+      "n": 64,
       "pics": 0
     },
     {
@@ -440,6 +440,14 @@
       "cur": "gs5",
       "unit": "unit-3-f3rd",
       "n": 16,
+      "pics": 0
+    },
+    {
+      "id": "gs4--unit-5-t5cd",
+      "title": "Unit 5 · Things we can do",
+      "cur": "gs4",
+      "unit": "unit-5-t5cd",
+      "n": 14,
       "pics": 0
     }
   ]
