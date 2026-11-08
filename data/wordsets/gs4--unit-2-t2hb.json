@@ -1,0 +1,68 @@
+{
+ "id": "gs4--unit-2-t2hb",
+ "title": "Unit 2 · What time is it?",
+ "cur": "gs4",
+ "unit": "unit-2-t2hb",
+ "items": [
+  {
+   "w": "o'clock",
+   "vi": "giờ đúng",
+   "ipa": "əˈklɒk"
+  },
+  {
+   "w": "fifteen",
+   "vi": "mười lăm (phút)",
+   "ipa": "ˌfɪfˈtiːn"
+  },
+  {
+   "w": "thirty",
+   "vi": "ba mươi (phút)",
+   "ipa": "ˈθɜːti"
+  },
+  {
+   "w": "forty-five",
+   "vi": "bốn mươi lăm (phút)",
+   "ipa": "ˌfɔːti ˈfaɪv"
+  },
+  {
+   "w": "at",
+   "vi": "vào lúc, ở",
+   "ipa": "ət / æt"
+  },
+  {
+   "w": "get up",
+   "vi": "thức dậy",
+   "ipa": "ɡet ˈʌp"
+  },
+  {
+   "w": "have breakfast",
+   "vi": "ăn sáng",
+   "ipa": "hæv ˈbrekfəst"
+  },
+  {
+   "w": "go to school",
+   "vi": "đi học",
+   "ipa": "ɡəʊ tə ˈskuːl"
+  },
+  {
+   "w": "go to bed",
+   "vi": "đi ngủ",
+   "ipa": "ɡəʊ tə ˈbed"
+  },
+  {
+   "w": "have lunch",
+   "vi": "ăn trưa",
+   "ipa": "hæv lʌntʃ"
+  },
+  {
+   "w": "have dinner",
+   "vi": "ăn tối",
+   "ipa": "hæv ˈdɪnə"
+  },
+  {
+   "w": "wash my face",
+   "vi": "rửa mặt",
+   "ipa": "wɒʃ maɪ feɪs"
+  }
+ ]
+}

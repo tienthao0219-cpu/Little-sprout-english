@@ -375,7 +375,7 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs4",
       "unit": "review-g400",
-      "n": 19,
+      "n": 50,
       "pics": 0
     },
     {
@@ -400,6 +400,30 @@
       "cur": "gs5",
       "unit": "review-g500",
       "n": 48,
+      "pics": 0
+    },
+    {
+      "id": "gs4--unit-2-t2hb",
+      "title": "Unit 2 · What time is it?",
+      "cur": "gs4",
+      "unit": "unit-2-t2hb",
+      "n": 12,
+      "pics": 0
+    },
+    {
+      "id": "gs4--unit-4-b4pt",
+      "title": "Unit 4 · My birthday party",
+      "cur": "gs4",
+      "unit": "unit-4-b4pt",
+      "n": 11,
+      "pics": 0
+    },
+    {
+      "id": "gs4--unit-6-s6vq",
+      "title": "Unit 6 · Global Success 4",
+      "cur": "gs4",
+      "unit": "unit-6-s6vq",
+      "n": 8,
       "pics": 0
     }
   ]

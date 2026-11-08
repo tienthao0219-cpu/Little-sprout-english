@@ -172,8 +172,20 @@
           "name": "UNIT 1"
         },
         {
+          "id": "unit-2-t2hb",
+          "name": "UNIT 2"
+        },
+        {
           "id": "unit-3-u4di",
           "name": "UNIT 3"
+        },
+        {
+          "id": "unit-4-b4pt",
+          "name": "UNIT 4"
+        },
+        {
+          "id": "unit-6-s6vq",
+          "name": "UNIT 6"
         }
       ]
     },
@@ -729,6 +741,16 @@
       "added": "2026-10-17T05:19:16.328Z"
     },
     {
+      "id": "time-hub-unit-2-k3mx",
+      "title": "Time Hub — Unit 2",
+      "cur": "gs4",
+      "unit": "unit-2-t2hb",
+      "file": "apps/gs4/unit-2-t2hb/time-hub-unit-2-k3mx.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T12:02:42.000Z"
+    },
+    {
       "id": "my-week-hub-unit-3-ppmx",
       "title": "My Week Hub Unit 3",
       "cur": "gs4",
@@ -737,6 +759,26 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:22:02.774Z"
+    },
+    {
+      "id": "birthday-party-hub-unit-4-p7dw",
+      "title": "Birthday Party Hub Unit 4",
+      "cur": "gs4",
+      "unit": "unit-4-b4pt",
+      "file": "apps/gs4/unit-4-b4pt/birthday-party-hub-unit-4-p7dw.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T12:02:42.000Z"
+    },
+    {
+      "id": "global-success-4-unit-6-r5nc",
+      "title": "Global Success 4 – Unit 6 | Vừa chơi vừa học",
+      "cur": "gs4",
+      "unit": "unit-6-s6vq",
+      "file": "apps/gs4/unit-6-s6vq/global-success-4-unit-6-r5nc.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-08T12:02:42.000Z"
     },
     {
       "id": "global-5-review-vocab-g500",

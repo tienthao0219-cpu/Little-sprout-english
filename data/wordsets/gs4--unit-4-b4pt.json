@@ -1,0 +1,63 @@
+{
+ "id": "gs4--unit-4-b4pt",
+ "title": "Unit 4 · My birthday party",
+ "cur": "gs4",
+ "unit": "unit-4-b4pt",
+ "items": [
+  {
+   "w": "January",
+   "vi": "tháng Một",
+   "ipa": "ˈdʒænjuəri"
+  },
+  {
+   "w": "February",
+   "vi": "tháng Hai",
+   "ipa": "ˈfebruəri"
+  },
+  {
+   "w": "March",
+   "vi": "tháng Ba",
+   "ipa": "mɑːtʃ"
+  },
+  {
+   "w": "April",
+   "vi": "tháng Tư",
+   "ipa": "ˈeɪprəl"
+  },
+  {
+   "w": "May",
+   "vi": "tháng Năm",
+   "ipa": "meɪ"
+  },
+  {
+   "w": "chips",
+   "vi": "khoai tây chiên",
+   "ipa": "tʃɪps"
+  },
+  {
+   "w": "grapes",
+   "vi": "nho",
+   "ipa": "ɡreɪps"
+  },
+  {
+   "w": "jam",
+   "vi": "mứt",
+   "ipa": "dʒæm"
+  },
+  {
+   "w": "lemonade",
+   "vi": "nước chanh",
+   "ipa": "ˌleməˈneɪd"
+  },
+  {
+   "w": "water",
+   "vi": "nước lọc",
+   "ipa": "ˈwɔːtə"
+  },
+  {
+   "w": "juice",
+   "vi": "nước ép",
+   "ipa": "dʒuːs"
+  }
+ ]
+}

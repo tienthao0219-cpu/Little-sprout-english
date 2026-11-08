@@ -45,6 +45,66 @@
    "ipa": "ˌviːˌet ˈnɑːm"
   },
   {
+   "w": "o'clock",
+   "vi": "giờ đúng",
+   "ipa": "əˈklɒk"
+  },
+  {
+   "w": "fifteen",
+   "vi": "mười lăm (phút)",
+   "ipa": "ˌfɪfˈtiːn"
+  },
+  {
+   "w": "thirty",
+   "vi": "ba mươi (phút)",
+   "ipa": "ˈθɜːti"
+  },
+  {
+   "w": "forty-five",
+   "vi": "bốn mươi lăm (phút)",
+   "ipa": "ˌfɔːti ˈfaɪv"
+  },
+  {
+   "w": "at",
+   "vi": "vào lúc, ở",
+   "ipa": "ət / æt"
+  },
+  {
+   "w": "get up",
+   "vi": "thức dậy",
+   "ipa": "ɡet ˈʌp"
+  },
+  {
+   "w": "have breakfast",
+   "vi": "ăn sáng",
+   "ipa": "hæv ˈbrekfəst"
+  },
+  {
+   "w": "go to school",
+   "vi": "đi học",
+   "ipa": "ɡəʊ tə ˈskuːl"
+  },
+  {
+   "w": "go to bed",
+   "vi": "đi ngủ",
+   "ipa": "ɡəʊ tə ˈbed"
+  },
+  {
+   "w": "have lunch",
+   "vi": "ăn trưa",
+   "ipa": "hæv lʌntʃ"
+  },
+  {
+   "w": "have dinner",
+   "vi": "ăn tối",
+   "ipa": "hæv ˈdɪnə"
+  },
+  {
+   "w": "wash my face",
+   "vi": "rửa mặt",
+   "ipa": "wɒʃ maɪ feɪs"
+  },
+  {
    "w": "Monday",
    "vi": "Thứ Hai",
    "ipa": "ˈmʌndeɪ"
@@ -98,6 +158,101 @@
    "w": "stay at home",
    "vi": "ở nhà",
    "ipa": "steɪ ət həʊm"
+  },
+  {
+   "w": "January",
+   "vi": "tháng Một",
+   "ipa": "ˈdʒænjuəri"
+  },
+  {
+   "w": "February",
+   "vi": "tháng Hai",
+   "ipa": "ˈfebruəri"
+  },
+  {
+   "w": "March",
+   "vi": "tháng Ba",
+   "ipa": "mɑːtʃ"
+  },
+  {
+   "w": "April",
+   "vi": "tháng Tư",
+   "ipa": "ˈeɪprəl"
+  },
+  {
+   "w": "May",
+   "vi": "tháng Năm",
+   "ipa": "meɪ"
+  },
+  {
+   "w": "chips",
+   "vi": "khoai tây chiên",
+   "ipa": "tʃɪps"
+  },
+  {
+   "w": "grapes",
+   "vi": "nho",
+   "ipa": "ɡreɪps"
+  },
+  {
+   "w": "jam",
+   "vi": "mứt",
+   "ipa": "dʒæm"
+  },
+  {
+   "w": "lemonade",
+   "vi": "nước chanh",
+   "ipa": "ˌleməˈneɪd"
+  },
+  {
+   "w": "water",
+   "vi": "nước lọc",
+   "ipa": "ˈwɔːtə"
+  },
+  {
+   "w": "juice",
+   "vi": "nước ép",
+   "ipa": "dʒuːs"
+  },
+  {
+   "w": "city",
+   "vi": "thành phố",
+   "ipa": "ˈsɪti"
+  },
+  {
+   "w": "mountains",
+   "vi": "vùng núi",
+   "ipa": "ˈmaʊntənz"
+  },
+  {
+   "w": "town",
+   "vi": "thị trấn",
+   "ipa": "taʊn"
+  },
+  {
+   "w": "village",
+   "vi": "ngôi làng, vùng quê",
+   "ipa": "ˈvɪlɪdʒ"
+  },
+  {
+   "w": "building",
+   "vi": "tòa nhà, dãy nhà",
+   "ipa": "ˈbɪldɪŋ"
+  },
+  {
+   "w": "computer room",
+   "vi": "phòng máy tính",
+   "ipa": "kəmˈpjuːtə ruːm"
+  },
+  {
+   "w": "garden",
+   "vi": "khu vườn",
+   "ipa": "ˈɡɑːdn"
+  },
+  {
+   "w": "playground",
+   "vi": "sân chơi",
+   "ipa": "ˈpleɪɡraʊnd"
   }
  ]
 }
