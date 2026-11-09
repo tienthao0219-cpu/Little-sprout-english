@@ -461,6 +461,27 @@
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
    "v": "20261109100000",
    "min": 6
+  },
+  {
+   "id": "word-galaxy-blasters",
+   "title": "Word Galaxy Blasters",
+   "desc": "Lái phi thuyền bắn đúng chú chim cầm đáp án, né trứng, đánh boss và đi qua nhiều hành tinh. Chơi một mình, đấu 1-1 hoặc đấu với Bot; sưu tầm tàu, laser và các loài chim.",
+   "file": "apps/games/word-galaxy-blasters.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-word-galaxy-blasters.webp",
+   "color": "violet",
+   "icon": "🚀",
+   "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261109120000",
+   "min": 6
   }
  ]
 }
