@@ -506,9 +506,9 @@ const CFG = {
   questions: 12,                 // số câu mỗi lượt chơi
   stepEvery: 36,                 // giây giữa 2 lần cả tường bóng tụt xuống 1 hàng
   maxGroup: 4,                   // mảng cùng màu sẵn có tối đa khi dựng tường (bắn thêm 1 quả -> nổ 3-4 quả, không nổ cả mảng lớn)
-  startHide: [3, 1],             // lúc mới vào vòng: số hàng bóng ẩn phía trên màn hình [màn dọc, màn ngang] -> tường chỉ ló ra ở mép trên rồi tụt từ từ
-  refillBelow: 20,               // còn ít hơn ngần này bóng nhìn thấy (khoảng 2 hàng) -> hàng mới tụt xuống ngay
-  refillTo: 38,
+  startHide: [4, 2],             // lúc mới vào vòng: số hàng bóng ẩn phía trên màn hình [màn dọc, màn ngang] -> chỉ ló ~2 hàng ở mép trên rồi tụt từ từ (còn 6 hàng khi màn dọc, 4 hàng khi màn ngang)
+  refillBelow: 8,                // còn ít hơn ngần này bóng nhìn thấy (chưa tới 1 hàng) -> hàng mới tụt xuống ngay
+  refillTo: 22,
   roundTime: 240,                // mỗi vòng 4 phút: cứu đủ khủng long và trụ đến hết giờ thì qua vòng
   stepMin: 16,                   // nhanh nhất (giây)
   stepRamp: 1/60,                // mỗi giây chơi, khoảng cách giảm bấy nhiêu
