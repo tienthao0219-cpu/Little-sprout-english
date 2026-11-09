@@ -202,7 +202,8 @@
       if (nPlay) statBox.append(h("span.stat", "🎮 ", h("b", String(nPlay)), " lượt chơi"));
       if (nHw) statBox.append(h("span.stat", "📝 ", h("b", String(nHw)), " bài đã nộp"));
     }).catch(() => { });
-    loadHw().then(list => {
+    /* giao diện cô giáo: không hiện khối "Bài tập đang mở" (cô quản lý bài tập trong Khu của cô) */
+    if (!isTeacher()) loadHw().then(list => {
       const open = list.filter(x => x.open && hwStatus(x).can).slice(0, 3);
       if (!open.length) return;
       hwBox.append(h("h2", { style: "margin:24px 2px 8px;font-size:24px" }, "Bài tập đang mở"), h("div.card", open.map(hwRow)));
