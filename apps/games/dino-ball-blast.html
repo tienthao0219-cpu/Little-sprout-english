@@ -506,8 +506,9 @@ const CFG = {
   questions: 12,                 // số câu mỗi lượt chơi
   stepEvery: 36,                 // giây giữa 2 lần cả tường bóng tụt xuống 1 hàng
   maxGroup: 4,                   // mảng cùng màu sẵn có tối đa khi dựng tường (bắn thêm 1 quả -> nổ 3-4 quả, không nổ cả mảng lớn)
-  refillBelow: 42,               // còn ít hơn ngần này bóng nhìn thấy -> hàng mới tụt xuống ngay
-  refillTo: 62,
+  startHide: [3, 1],             // lúc mới vào vòng: số hàng bóng ẩn phía trên màn hình [màn dọc, màn ngang] -> tường chỉ ló ra ở mép trên rồi tụt từ từ
+  refillBelow: 20,               // còn ít hơn ngần này bóng nhìn thấy (khoảng 2 hàng) -> hàng mới tụt xuống ngay
+  refillTo: 38,
   roundTime: 240,                // mỗi vòng 4 phút: cứu đủ khủng long và trụ đến hết giờ thì qua vòng
   stepMin: 16,                   // nhanh nhất (giây)
   stepRamp: 1/60,                // mỗi giây chơi, khoảng cách giảm bấy nhiêu
@@ -1099,7 +1100,7 @@ function placeBoss(bo){ if(!bo.el) return; const S2=d*3.3, x=cellX(bo.k,bo.c), y
 function updRowsLeft(){}
 let goalToast=false, overToast=false;
 function newWall(){
-  map.forEach(b=>{ b.el.remove(); if(b.iceEl) b.iceEl.remove(); }); map=new Map(); WALL.innerHTML=''; scroll=0; geom(); WALL.style.transition='none'; WALL.style.transform='translate3d(0,0,0)'; void WALL.offsetWidth; WALL.style.transition='';
+  map.forEach(b=>{ b.el.remove(); if(b.iceEl) b.iceEl.remove(); }); map=new Map(); WALL.innerHTML=''; scroll=-CFG.startHide[isLand()?1:0]; geom(); WALL.style.transition='none'; WALL.style.transform=`translate3d(0,${scroll*rowH}px,0)`; void WALL.offsetWidth; WALL.style.transition='';
   const RC=ROUNDS[round]; palette=shuffle(COLORS).slice(0,RC.colors); BOSSES=[];
   LAY=buildLayout(RC); LAYT=RC.total; const V=visRows();
   babiesNeed=0; LAY.forEach(r=>r.forEach(s=>{ if(s&&s.kind==='baby') babiesNeed++; }));
