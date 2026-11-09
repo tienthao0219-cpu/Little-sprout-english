@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Thử âm thanh chữ cái</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;padding:16px;background:#f3f9ff;color:#1d3b50}
+h1{font-size:22px;margin:0 0 6px} h2{font-size:18px;margin:22px 0 8px}
+p{margin:6px 0;color:#4a6a80}
+.box{background:#fff;border:2px solid #cbeaf8;border-radius:16px;padding:12px 14px;margin:10px 0}
+select,input{font-size:16px;max-width:100%}
+button{font-size:18px;font-weight:700;padding:12px 16px;margin:5px 6px 5px 0;border:2px solid #7cc4ea;background:#fff;border-radius:14px;min-height:48px;cursor:pointer}
+button:active{background:#e3f4fd}
+.cur{border-color:#f48fb1}
+small{color:#6d8da2}
+#vname{font-weight:700;color:#d2557f}
+</style></head><body>
+<h1>🔊 Thử âm thanh chữ cái (A, G, J)</h1>
+<p>Bấm từng nút, nghe và cho cô Thảo/Claude biết nút nào đọc <b>rõ và đúng nhất</b> (chữ trong nút là cách mình “viết” để máy đọc).</p>
+<div class="box">
+  Giọng đọc: <select id="voice"></select><br>
+  Tốc độ: <input id="rate" type="range" min="0.5" max="1.1" step="0.05" value="0.85"> <span id="rv">0.85</span><br>
+  <small>Giọng đang dùng: <span id="vname">…</span></small>
+</div>
+<div id="rows"></div>
+<div class="box"><b>Nghe cả bảng chữ cái</b> (theo cách đọc đang dùng trong app)<br>
+<button id="all">▶ A → Z</button> <button id="stop">⏹ Dừng</button></div>
+<script>
+const ss=window.speechSynthesis;
+const VAR={
+ A:['ay','eigh','ei','A.','letter A','the letter A'],
+ G:['jee','gee','G.','letter G','the letter G'],
+ J:['jay','J.','letter J','the letter J']
+};
+const CUR={A:'ay',G:'jee',J:'jay'};
+const SAY={"A":"ay","B":"bee","C":"see","D":"dee","E":"ee","F":"eff","G":"jee","H":"aitch","I":"eye","J":"jay","K":"kay","L":"el","M":"em","N":"en","O":"oh","P":"pee","Q":"queue","R":"are","S":"ess","T":"tee","U":"you","V":"vee","W":"double you","X":"ex","Y":"why","Z":"zed"};
+let voices=[],stopAll=false;
+function load(){
+  voices=(ss&&ss.getVoices?ss.getVoices():[]).filter(v=>/^en([-_]|$)/i.test(v.lang));
+  const sel=document.getElementById('voice'); const keep=sel.value;
+  sel.innerHTML='<option value="">(tự chọn như trong app)</option>'+voices.map((v,i)=>`<option value="${i}">${v.name} · ${v.lang}</option>`).join('');
+  if(keep) sel.value=keep;
+}
+function pick(){
+  const s=document.getElementById('voice').value;
+  if(s!=='') return voices[+s];
+  const rank=v=>{let r=0;const n=v.name||'';
+    if(/en[-_]GB/i.test(v.lang))r+=30;else if(/en[-_]US/i.test(v.lang))r+=20;else if(/en[-_](AU|IE|CA|NZ)/i.test(v.lang))r+=10;
+    if(/google uk english female|sonia|libby|natural|samantha|serena|kate|karen|moira|ava|susan/i.test(n))r+=10;
+    if(/espeak|compact|novelty|bad news|bahh|bells|boing|bubbles|cellos|deranged|good news|hysterical|jester|organ|trinoids|whisper|zarvox|albert|fred|junior|kathy|ralph/i.test(n))r-=50;
+    return r};
+  return voices.slice().sort((a,b)=>rank(b)-rank(a))[0]||null;
+}
+function speak(t,done){
+  if(!ss){alert('Máy này không hỗ trợ đọc.');return}
+  try{
+    const go=()=>{const u=new SpeechSynthesisUtterance(t);const v=pick();
+      u.lang=v?v.lang:'en-GB';if(v)u.voice=v;u.rate=parseFloat(document.getElementById('rate').value);
+      document.getElementById('vname').textContent=v?(v.name+' · '+v.lang):'(mặc định của máy)';
+      if(done){u.onend=done;u.onerror=done}ss.speak(u);if(ss.paused)ss.resume()};
+    if(ss.speaking||ss.pending){ss.cancel();setTimeout(go,80)}else go();
+  }catch(e){if(done)done()}
+}
+const rows=document.getElementById('rows');
+Object.keys(VAR).forEach(L=>{
+  const d=document.createElement('div');d.className='box';
+  d.innerHTML='<h2 style="margin-top:0">Chữ '+L+'</h2>'+VAR[L].map(t=>`<button data-t="${t}" class="${t===CUR[L]?'cur':''}">${t}</button>`).join('')+'<br><small>Nút viền hồng = cách đang dùng trong app hiện tại.</small>';
+  rows.appendChild(d);
+});
+rows.addEventListener('click',e=>{const b=e.target.closest('button');if(b)speak(b.dataset.t)});
+document.getElementById('rate').oninput=e=>document.getElementById('rv').textContent=e.target.value;
+document.getElementById('all').onclick=()=>{stopAll=false;const L=Object.keys(SAY);let i=0;const nx=()=>{if(stopAll||i>=L.length)return;speak(SAY[L[i++]],()=>setTimeout(nx,500))};nx()};
+document.getElementById('stop').onclick=()=>{stopAll=true;try{ss.cancel()}catch(e){}};
+if(ss){load();ss.onvoiceschanged=load}
+</script></body></html>
