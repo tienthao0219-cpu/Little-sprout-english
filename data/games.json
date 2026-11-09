@@ -383,7 +383,7 @@
   {
    "id": "word-wings",
    "title": "Word Wings – Bắn Chim",
-   "desc": "Bắn chim phá tháp: trả lời đúng để chim bay mạnh hơn. 16 màn, 1–6 người chơi hoặc đấu với Bot, nhiều dạng câu từ vựng, có giải thích khi sai.",
+   "desc": "Bắn chim phá tháp: trả lời đúng để chim bay mạnh hơn. 28 màn, 7 thế giới, 1–6 người chơi hoặc đấu với Bot, nhiều dạng câu từ vựng, có giải thích khi sai.",
    "file": "apps/games/word-wings.html",
    "tags": [
     "Từ vựng",
@@ -398,7 +398,7 @@
    "color": "teal",
    "icon": "🐦",
    "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261107220000"
+   "v": "20261109100000"
   },
   {
    "id": "english-arcade",
@@ -419,6 +419,48 @@
    "icon": "🍓",
    "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
    "v": "20261107220000"
+  },
+  {
+   "id": "pirate-word-battle",
+   "title": "Pirate Word Battle",
+   "desc": "Hải chiến chữ nghĩa kiểu bắn tàu: trả lời đúng để nạp tên lửa, dò và hạ hết icon của đối thủ. Chơi với 1–3 Bot hoặc đấu 1-1, 3 bầu trời, nhiều dạng câu từ vựng.",
+   "file": "apps/games/pirate-word-battle.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-pirate-word-battle.webp",
+   "color": "ocean",
+   "icon": "🏴‍☠️",
+   "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261109100000",
+   "min": 6
+  },
+  {
+   "id": "dao-trung-than-ky",
+   "title": "Đảo Trứng Thần Kỳ",
+   "desc": "Trả lời đúng để nhận trứng và vật phẩm, ấp trứng, nuôi thú, phối giống và tiến hóa cả sở thú. Chơi một mình, 1-1 hoặc đấu với Robo.",
+   "file": "apps/games/dao-trung-than-ky.html",
+   "tags": [
+    "Từ vựng",
+    "Đấu đôi"
+   ],
+   "cats": [
+    "vocab",
+    "duo"
+   ],
+   "poster": "mole",
+   "posterImg": "apps/games/img/poster-dao-trung-than-ky.webp",
+   "color": "lime",
+   "icon": "🥚",
+   "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
+   "v": "20261109100000",
+   "min": 6
   }
  ]
 }

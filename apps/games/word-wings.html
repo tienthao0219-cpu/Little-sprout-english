@@ -69,7 +69,7 @@ input{font-family:inherit;-webkit-user-select:text;user-select:text}
 .lvl i{font-style:normal;font-size:18px;letter-spacing:2px;filter:grayscale(1);opacity:.4}
 .lvl i.f{filter:none;opacity:1}
 .lvl.lock{opacity:.55;pointer-events:none;filter:grayscale(.7)}
-.lvl.t0{border-bottom:6px solid #5ccf63}.lvl.t1{border-bottom:6px solid #f0a64a}.lvl.t2{border-bottom:6px solid #75a8ff}.lvl.t3{border-bottom:6px solid #ff5f4c}
+.lvl.t0{border-bottom:6px solid #5ccf63}.lvl.t1{border-bottom:6px solid #f0a64a}.lvl.t2{border-bottom:6px solid #75a8ff}.lvl.t3{border-bottom:6px solid #ff5f4c}.lvl.t4{border-bottom:6px solid #2fb37a}.lvl.t5{border-bottom:6px solid #ff8fc0}.lvl.t6{border-bottom:6px solid #8c6cff}
 
 /* ---------- HUD ---------- */
 #hud{position:absolute;left:0;right:0;top:0;display:flex;align-items:flex-start;justify-content:space-between;gap:8px;
@@ -628,11 +628,11 @@ function buildGrammar(type){
   return q;
 }
 /* =========================================================
-   ENGINE: thế giới, vật lý nhẹ, 16 level, bot
+   ENGINE: thế giới, vật lý nhẹ, 28 level, bot
    ========================================================= */
 const GROUND=620, WH=720, GRAV=1500;
 const SLING={x:230,y:505};
-const MAXPULL=130, VMAX=1900;
+const MAXPULL=130, VMAX=2200;
 
 const MAT={
   wood: {hp:60, dens:1,  pts:500,  birdK:1,   name:'Gỗ'},
@@ -652,7 +652,10 @@ const THEMES=[
   {name:'Đồng Cỏ Nắng',  sky:['#4fb7ff','#a8e2ff','#eafaff'], sun:'#fff6b0', far:'#9ed6ea', mid:'#7cc7a2', near:'#53b36b', gTop:'#8bea6a', gMid:'#5fc24e', dirt:['#9a6a3d','#6b4426'], cloud:'#ffffff', tree:'round', night:false, fog:'#e6fbff'},
   {name:'Sa Mạc Hoàng Hôn', sky:['#ff8a4c','#ffc27a','#fff0c9'], sun:'#fff1a8', far:'#e9a77a', mid:'#d98c5f', near:'#c47a4f', gTop:'#f3d58a', gMid:'#e2b862', dirt:['#c98f52','#8f5d30'], cloud:'#ffe9cf', tree:'cactus', night:false, fog:'#ffe2b8'},
   {name:'Núi Tuyết',     sky:['#7ba9ff','#c9ddff','#f6fbff'], sun:'#ffffff', far:'#b8c9e8', mid:'#a3b8dd', near:'#8ea7d0', gTop:'#ffffff', gMid:'#dbe9fb', dirt:['#8fa5c6','#5d7396'], cloud:'#ffffff', tree:'pine', night:false, fog:'#eef6ff'},
-  {name:'Núi Lửa Đêm',   sky:['#120a33','#3d1759','#c2433a'], sun:'#ffd9a0', far:'#4a2358', mid:'#37194a', near:'#2a123a', gTop:'#5a4a5e', gMid:'#3f3346', dirt:['#3b2a35','#1d1219'], cloud:'#7b4a73', tree:'rock', night:true, fog:'#5a2a4a'}
+  {name:'Núi Lửa Đêm',   sky:['#120a33','#3d1759','#c2433a'], sun:'#ffd9a0', far:'#4a2358', mid:'#37194a', near:'#2a123a', gTop:'#5a4a5e', gMid:'#3f3346', dirt:['#3b2a35','#1d1219'], cloud:'#7b4a73', tree:'rock', night:true, fog:'#5a2a4a'},
+  {name:'Rừng Mưa',       sky:['#1f7a6a','#6cc9a0','#d6f5dc'], sun:'#f6ffb0', far:'#5fae8f', mid:'#3f9a73', near:'#2c8a5a', gTop:'#5fd05a', gMid:'#3aa84a', dirt:['#7a5230','#4a2f1b'], cloud:'#e8fff0', tree:'palm', night:false, fog:'#cfeee0'},
+  {name:'Thành Phố Mây', sky:['#ff8fc0','#ffc8e4','#fff2f9'], sun:'#fffbd0', far:'#e5b5e8', mid:'#d79bdb', near:'#c383cc', gTop:'#ffffff', gMid:'#ffe0f0', dirt:['#d9a8d6','#a875ab'], cloud:'#ffffff', tree:'candy', night:false, fog:'#ffe9f4'},
+  {name:'Vũ Trụ',          sky:['#04061a','#171250','#5a2a8c'], sun:'#c9e9ff', far:'#2b2670', mid:'#211c5a', near:'#18144a', gTop:'#6a63a8', gMid:'#453f85', dirt:['#2c2865','#15123a'], cloud:'#7a6ad0', tree:'crystal', night:true, fog:'#3a2f80'}
 ];
 
 /* ---------- Dựng level ---------- */
@@ -668,6 +671,8 @@ function mkWorld(def){
     hut(x,mat='wood',o={}){ B.pillar(x-44,GROUND,mat); B.pillar(x+44,GROUND,mat); const top=B.plank(x,GROUND-64,124,mat); if(o.in)B.pig(x,GROUND,o.in); if(o.roof)B.pig(x,top,o.roof); if(o.tnt)B.tnt(x-8); return top; },
     tower(x,floors,mat,o={}){ let yb=GROUND; for(let f=0;f<floors;f++){ B.pillar(x-44,yb,mat); B.pillar(x+44,yb,mat); const top=B.plank(x,yb-64,124,mat); if(o.in&&o.in[f])B.pig(x,yb,o.in[f]); yb=top; } if(o.roof)B.pig(x,yb,o.roof); return yb; },
     bridge(x,mat,o={}){ const sm=o.base||'stone'; B.stack(x-130,3,sm); B.stack(x+130,3,sm); const top=B.plank(x,GROUND-120,340,mat); if(o.in)B.pig(x,GROUND,o.in); if(o.top)B.pig(x,top,o.top); if(o.tnt)B.tnt(x-60); return top; },
+    pyramid(x,rows,mat,o={}){ let yb=GROUND; for(let r=0;r<rows;r++){ const n=rows-r; for(let c=0;c<n;c++) B.blk(mat,x+(c-(n-1)/2)*40,yb,40,40); yb-=40; } if(o.top)B.pig(x,yb,o.top); if(o.tnt)B.tnt(x+rows*20+30); return yb; },
+    shield(x,mat='stone',n=3){ return B.stack(x,n,mat,24,56); },
     fort(x,mat,o={}){ B.stack(x-70,2,mat); B.stack(x+70,2,mat); const top=B.plank(x,GROUND-80,184,mat); if(o.in)B.pig(x,GROUND,o.in); if(o.tnt)B.tnt(x+30); if(o.roof)B.pig(x,top,o.roof); return top; }
   };
   def.build(B); return W;
@@ -692,8 +697,23 @@ const LEVELS=[
  // ---- Thế giới 4: Núi lửa ----
  {name:'Đêm rực lửa',    theme:3,w:3600,birds:['red','yellow','blue','black','red','yellow'], build:B=>{ B.tower(1050,2,'wood',{in:['s','s'],roof:'s'}); B.tower(1700,3,'stone',{in:['s','m','s']}); B.hut(2400,'glass',{in:'m',roof:'m'}); B.tnt(2200); }},
  {name:'Hang TNT',       theme:3,w:3800,birds:['black','yellow','blue','red','black'], build:B=>{ B.fort(1150,'wood',{in:'s',tnt:true,roof:'m'}); B.tnt(1500); B.tnt(1540); B.tnt(1580); B.bridge(2000,'stone',{in:'m',top:'s',tnt:true,base:'wood'}); B.hut(2700,'wood',{in:'k'}); }},
- {name:'Pháo đài đen',   theme:3,w:4000,birds:['yellow','black','blue','red','yellow','black','blue'], build:B=>{ B.fort(1100,'stone',{in:'m',roof:'s'}); B.tower(1700,3,'stone',{in:['s','s','m'],roof:'s'}); B.bridge(2300,'stone',{in:'m',top:'s',base:'stone'}); B.hut(2900,'wood',{in:'s',roof:'k'}); B.tnt(2000); }},
- {name:'Trùm cuối',      theme:3,w:4300,birds:['red','yellow','blue','black','red','black','yellow','blue'], build:B=>{ B.tower(1100,2,'stone',{in:['m','s'],roof:'m'}); B.fort(1750,'stone',{in:'k',tnt:true}); B.tnt(1500); B.bridge(2500,'wood',{in:'m',top:'k',tnt:true,base:'stone'}); B.tower(3250,3,'stone',{in:['s','s','m'],roof:'k'}); B.tnt(3000); B.tnt(3040); }}
+ {name:'Pháo đài đen',   theme:3,w:4000,birds:['yellow','black','blue','red','yellow','black','blue','black'], build:B=>{ B.fort(1100,'stone',{in:'m',roof:'s'}); B.tower(1700,3,'stone',{in:['s','s','m'],roof:'s'}); B.bridge(2300,'stone',{in:'m',top:'s',base:'stone'}); B.hut(2900,'wood',{in:'s',roof:'k'}); B.tnt(2000); }},
+ {name:'Trùm cuối',      theme:3,w:4300,birds:['red','yellow','blue','black','red','black','yellow','blue','yellow'], build:B=>{ B.tower(1100,2,'stone',{in:['m','s'],roof:'m'}); B.fort(1750,'stone',{in:'k',tnt:true}); B.tnt(1500); B.bridge(2500,'wood',{in:'m',top:'k',tnt:true,base:'stone'}); B.tower(3250,3,'stone',{in:['s','s','m'],roof:'k'}); B.tnt(3000); B.tnt(3040); }},
+ // ---- Thế giới 5: Rừng mưa ----
+ {name:'Lối mòn rừng',   theme:4,w:3200,birds:['red','yellow','blue','black','red','yellow'], build:B=>{ B.hut(1050,'wood',{in:'s',roof:'s'}); B.pyramid(1750,3,'wood',{top:'s'}); B.tnt(2150); B.tower(2450,2,'wood',{in:['s','m'],roof:'s'}); }},
+ {name:'Cầu dây',        theme:4,w:3400,birds:['yellow','black','blue','red','black','yellow','red'], build:B=>{ B.bridge(1150,'wood',{in:'m',top:'s',base:'wood'}); B.shield(1750,'stone'); B.hut(1950,'stone',{in:'m',roof:'s'}); B.bridge(2750,'wood',{in:'s',top:'m',tnt:true,base:'stone'}); }},
+ {name:'Hang rắn',       theme:4,w:3300,birds:['black','yellow','blue','red','black','yellow','blue'], build:B=>{ B.fort(1100,'stone',{in:'m',tnt:true,roof:'s'}); B.pyramid(1800,4,'stone',{top:'m'}); B.tnt(2150); B.tnt(2190); B.tower(2650,3,'wood',{in:['s','s','s'],roof:'m'}); }},
+ {name:'Chúa rừng xanh',theme:4,w:3600,birds:['red','black','yellow','blue','black','red','yellow','blue','black'],build:B=>{ B.tower(1100,3,'stone',{in:['s','m'],roof:'s'}); B.tnt(1500); B.fort(1800,'stone',{in:'k',tnt:true,roof:'m'}); B.bridge(2400,'stone',{in:'m',top:'k',tnt:true,base:'stone'}); B.hut(3000,'wood',{in:'m'}); }},
+ // ---- Thế giới 6: Thành phố mây ----
+ {name:'Tháp kẹo',       theme:5,w:3200,birds:['blue','blue','yellow','black','red','yellow','blue'], build:B=>{ B.tower(1000,4,'glass',{in:['s','s','s','s'],roof:'m'}); B.pyramid(1700,4,'glass',{top:'s'}); B.tower(2400,3,'wood',{in:['m','s','s'],roof:'k'}); }},
+ {name:'Cầu vồng',      theme:5,w:3500,birds:['yellow','yellow','black','blue','red','black','yellow','blue'],build:B=>{ B.bridge(1150,'glass',{in:'m',top:'s',base:'glass'}); B.bridge(1950,'glass',{in:'m',top:'s',tnt:true,base:'stone'}); B.shield(2450,'stone',4); B.pyramid(2800,4,'wood',{top:'m'}); }},
+ {name:'Mây dông',       theme:5,w:3600,birds:['black','black','yellow','blue','red','yellow','black','blue'], build:B=>{ B.fort(1050,'stone',{in:'m',roof:'s',tnt:true}); B.tnt(1450); B.tnt(1490); B.shield(1700,'stone',4); B.tower(2100,3,'stone',{in:['s','s','m'],roof:'s'}); B.bridge(2900,'wood',{in:'k',top:'s',tnt:true,base:'stone'}); }},
+ {name:'Vua mây',       theme:5,w:3800,birds:['red','black','yellow','blue','black','yellow','red','blue','black'],build:B=>{ B.pyramid(1050,4,'stone'); B.tower(1600,3,'glass',{in:['s','m'],roof:'s'}); B.tnt(1950); B.tnt(1990); B.fort(2250,'stone',{in:'m',roof:'k',tnt:true}); B.bridge(2800,'stone',{in:'m',top:'s',base:'stone',tnt:true}); B.tower(3200,2,'stone',{in:['s'],roof:'k'}); }},
+ // ---- Thế giới 7: Vũ trụ ----
+ {name:'Sao băng',      theme:6,w:3700,birds:['yellow','black','blue','red','black','yellow','blue','black','red'],build:B=>{ B.pyramid(1100,4,'stone',{top:'m'}); B.tower(1650,3,'stone',{in:['s','m'],roof:'s'}); B.tnt(2000); B.tnt(2040); B.bridge(2400,'stone',{in:'m',top:'s',tnt:true,base:'stone'}); B.fort(3100,'stone',{in:'m',roof:'m',tnt:true}); }},
+ {name:'Hố đen',        theme:6,w:3700,birds:['black','yellow','blue','black','red','yellow','black','blue','red'],build:B=>{ B.fort(1100,'stone',{in:'m',roof:'s',tnt:true}); B.shield(1500,'stone',4); B.tower(1800,3,'stone',{in:['s','m'],roof:'m'}); B.tnt(2200); B.pyramid(2500,5,'stone',{top:'k'}); B.bridge(3100,'stone',{in:'m',top:'m',base:'stone',tnt:true}); }},
+ {name:'Thiên hà',      theme:6,w:3900,birds:['red','black','yellow','blue','black','yellow','black','blue','red','black'],build:B=>{ B.tower(1050,3,'stone',{in:['s','m'],roof:'s'}); B.fort(1600,'stone',{in:'m',roof:'m',tnt:true}); B.tnt(1900); B.tnt(1940); B.shield(2150,'stone',4); B.bridge(2550,'stone',{in:'k',top:'s',base:'stone',tnt:true}); B.pyramid(2950,5,'stone',{top:'m'}); B.tower(3300,3,'stone',{in:['s','m'],roof:'k'}); }},
+ {name:'Hoàng đế Slime',theme:6,w:3900,birds:['red','black','yellow','blue','black','yellow','black','blue','red','black'],build:B=>{ B.tower(1050,3,'stone',{in:['m','s'],roof:'m'}); B.fort(1600,'stone',{in:'m',roof:'s',tnt:true}); B.tnt(1900); B.tnt(1940); B.tnt(1980); B.pyramid(2250,5,'stone'); B.bridge(2750,'stone',{in:'k',top:'m',base:'stone',tnt:true}); B.shield(3150,'stone',4); B.tower(3350,3,'stone',{in:['s','m']}); }}
 ];
 
 /* ---------- Trạng thái ---------- */
@@ -984,6 +1004,7 @@ const hash=i=>fract(Math.sin(i*127.1+311.7)*43758.5453);
 function resize(){
   DPR=Math.min(window.devicePixelRatio||1,2);
   const w=window.innerWidth,h=window.innerHeight;
+  if(!(w>40&&h>40))return; // cửa sổ bị ẩn/thu nhỏ về 0: giữ kích thước cũ
   cv.width=Math.round(w*DPR); cv.height=Math.round(h*DPR);
   S.view.w=w; S.view.h=h; S.view.s=Math.min(h/WH,w/980); S.view.vw=w/S.view.s;
 }
@@ -1051,6 +1072,9 @@ function hills(th,camx,gy){
 function treeShape(kind,x,y,k,i){
   if(kind==='round'){ ctx.fillStyle='#6b4a2b'; ctx.fillRect(x-4*k,y-28*k,8*k,30*k); ctx.fillStyle='#2e9a55'; circ(x,y-44*k,24*k); ctx.fill(); ctx.fillStyle='#46bb6d'; circ(x-7*k,y-50*k,15*k); ctx.fill(); }
   else if(kind==='cactus'){ ctx.fillStyle='#4f9a5a'; rrect(x-6*k,y-60*k,12*k,62*k,6*k); ctx.fill(); rrect(x-22*k,y-42*k,10*k,26*k,5*k); ctx.fill(); ctx.fillRect(x-22*k,y-24*k,18*k,8*k); rrect(x+12*k,y-50*k,10*k,26*k,5*k); ctx.fill(); ctx.fillRect(x+2*k,y-30*k,18*k,8*k); }
+  else if(kind==='palm'){ ctx.strokeStyle='#7a5230'; ctx.lineWidth=7*k; ctx.lineCap='round'; ctx.beginPath(); ctx.moveTo(x,y); ctx.quadraticCurveTo(x+10*k,y-30*k,x+4*k,y-64*k); ctx.stroke(); ctx.fillStyle='#2f9a4a'; for(let j=0;j<5;j++){ const a=-2.7+j*.55; ctx.beginPath(); ctx.moveTo(x+4*k,y-64*k); ctx.quadraticCurveTo(x+4*k+Math.cos(a)*26*k,y-64*k+Math.sin(a)*26*k-10*k,x+4*k+Math.cos(a)*44*k,y-64*k+Math.sin(a)*30*k+10*k); ctx.quadraticCurveTo(x+4*k+Math.cos(a)*26*k,y-64*k+Math.sin(a)*26*k+4*k,x+4*k,y-64*k); ctx.fill(); } }
+  else if(kind==='candy'){ ctx.fillStyle='#fff'; ctx.fillRect(x-3*k,y-40*k,6*k,42*k); ctx.fillStyle='#ff7fb6'; circ(x,y-52*k,18*k); ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=4*k; ctx.beginPath(); ctx.arc(x,y-52*k,10*k,0,5); ctx.stroke(); ctx.strokeStyle='#ffd24d'; ctx.beginPath(); ctx.arc(x,y-52*k,4*k,0,5); ctx.stroke(); }
+  else if(kind==='crystal'){ const c=['#7ad7ff','#b48cff','#ff8ad6'][i%3]; ctx.fillStyle=c; ctx.globalAlpha=.85; ctx.beginPath(); ctx.moveTo(x-14*k,y); ctx.lineTo(x-8*k,y-52*k); ctx.lineTo(x,y-70*k-hash(i)*20*k); ctx.lineTo(x+9*k,y-46*k); ctx.lineTo(x+16*k,y); ctx.closePath(); ctx.fill(); ctx.fillStyle='rgba(255,255,255,.4)'; ctx.beginPath(); ctx.moveTo(x-8*k,y-52*k); ctx.lineTo(x,y-70*k-hash(i)*20*k); ctx.lineTo(x+2*k,y-10*k); ctx.closePath(); ctx.fill(); ctx.globalAlpha=1; }
   else if(kind==='pine'){ ctx.fillStyle='#5a3d2a'; ctx.fillRect(x-3*k,y-10*k,6*k,12*k); for(let j=0;j<3;j++){ ctx.fillStyle=j%2?'#3f7f6a':'#4a9179'; ctx.beginPath(); ctx.moveTo(x,y-(48+j*0)*k+j*-12*k); ctx.lineTo(x-(26-j*5)*k,y-(10+j*16)*k); ctx.lineTo(x+(26-j*5)*k,y-(10+j*16)*k); ctx.closePath(); ctx.fill(); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.moveTo(x,y-(48)*k+j*-12*k); ctx.lineTo(x-8*k,y-(34-j*0)*k+j*-12*k); ctx.lineTo(x+8*k,y-34*k+j*-12*k); ctx.closePath(); ctx.fill(); } }
   else { ctx.fillStyle='#1d0f27'; ctx.beginPath(); ctx.moveTo(x-20*k,y); ctx.lineTo(x-8*k,y-40*k-hash(i)*20*k); ctx.lineTo(x+4*k,y-22*k); ctx.lineTo(x+16*k,y-50*k); ctx.lineTo(x+26*k,y); ctx.closePath(); ctx.fill(); ctx.fillStyle='rgba(255,110,50,.55)'; ctx.beginPath(); ctx.moveTo(x+16*k,y-50*k); ctx.lineTo(x+11*k,y-34*k); ctx.lineTo(x+21*k,y-34*k); ctx.closePath(); ctx.fill(); }
 }
@@ -1263,7 +1287,7 @@ function drawMinimap(){
 /* ---------------- Khung hình chính ---------------- */
 function render(){
   const {w:W,h:H,s}=S.view; ctx.setTransform(DPR,0,0,DPR,0,0);
-  const th=THEMES[S.world?S.world.theme:(Math.floor(S.clock/14)%4)];
+  const th=THEMES[S.world?S.world.theme:(Math.floor(S.clock/14)%THEMES.length)];
   if(!S.world){ // nền menu: tự cuộn
     S.cam.x=S.clock*45; drawBackground(th,S.cam.x); drawGround(th); drawMenuBirds(); drawForeground(th); return;
   }
@@ -1403,10 +1427,10 @@ function drawChips(){
 }
 function buildLevels(){
   const solo=CFG.humans+CFG.bots===1; let html='';
-  for(let w=0;w<4;w++){
+  for(let w=0;w<THEMES.length;w++){
     html+=`<div class="worldtitle">🌍 Thế giới ${w+1}: ${THEMES[w].name}</div><div class="lvlgrid">`;
     for(let i=w*4;i<w*4+4;i++){
-      const st=SAVE.stars[i]||0, lock=solo&&i>0&&!(SAVE.stars[i-1]>0);
+      const st=SAVE.stars[i]||0, lock=solo&&i>0&&!(SAVE.stars[i-1]>0||(i>1&&SAVE.stars[i-2]>0));
       html+=`<button class="lvl t${w} ${lock?'lock':''}" data-i="${i}"><b>${lock?'🔒':i+1}</b><span>${LEVELS[i].name}</span><div>${[1,2,3].map(n=>`<i class="${n<=st?'f':''}">⭐</i>`).join('')}</div></button>`;
     }
     html+='</div>';
@@ -1437,7 +1461,7 @@ function startLevel(idx){
   const hn=Array.from({length:CFG.humans},(_,i)=>(CFG.names[i]||'').trim()||(CFG.humans===1?'Bạn':`Bạn ${i+1}`));
   const bn=Array.from({length:CFG.bots},(_,i)=>CFG.bots===1?'Bot 🤖':`Bot ${i+1} 🤖`);
   S.players=hn.map(n=>newPlayer(n,false)).concat(bn.map(n=>newPlayer(n,true)));
-  S.cur=0; S.loaded=null; S.aim=null; S.drag=null; S.botPlan=null; S.ending=false; Q=null;
+  S.cur=0; S.loaded=null; S.aim=null; S.drag=null; S.botPlan=null; S.botAb=null; S.ending=false; pan=null; Q=null;
   S.phase='intro'; S.introT=0; S.cam.mode='intro'; S.cam.x=0; S.paused=false;
   hideScreens(); closeModal(); banner(); $('#hud').classList.remove('hidden'); $('#qwrap').classList.add('hidden');
   Quiz.recent=[]; Quiz.recentG=[]; S.hudDirty=true;
@@ -1630,7 +1654,7 @@ function howTo(){
   <li><b>Kéo chim ra sau rồi thả</b> để bắn. Phá hết Slime xanh để thắng. Kéo vào khoảng trống để <b>cuộn màn hình sang phải</b> xem các công trình ở xa (có mini-map phía trên).</li>
   <li><b>Chạm màn hình khi chim đang bay</b> để dùng kỹ năng: 🔵 Mây tách 3 chim · 🟡 Nắng tăng tốc · ⚫ Bom phát nổ. Hãy phá TNT để nổ dây chuyền!</li>
   <li><b>💡 Gợi ý 3 mức:</b> (1) chữ cái đầu · (2) đầu + giữa · (3) đầu + giữa + cuối. Mỗi mức trừ bớt điểm.</li>
-  <li><b>Chế độ:</b> Chơi đơn (16 màn, 4 thế giới); đấu 1–1; nhiều bạn thay phiên trên cùng thiết bị (tối đa 6); hoặc đấu với một hay nhiều Bot. Bạn tự chọn số người chơi và số Bot ở màn thiết lập. Mọi người cùng bắn một công trình, ai điểm cao nhất thắng.</li>
+  <li><b>Chế độ:</b> Chơi đơn (28 màn, 7 thế giới, càng về sau càng khó); đấu 1–1; nhiều bạn thay phiên trên cùng thiết bị (tối đa 6); hoặc đấu với một hay nhiều Bot. Bạn tự chọn số người chơi và số Bot ở màn thiết lập. Mọi người cùng bắn một công trình, ai điểm cao nhất thắng.</li>
   <li><b>Ảnh minh hoạ:</b> nếu bạn đặt ảnh <code>assets/vocab_1.png … vocab_6.png</code> (mỗi ảnh 9 hình) cạnh file game, các câu “nghe chọn hình” sẽ dùng ảnh đó; nếu chưa có, game dùng emoji.</li></ol>
   <div class="btns"><button class="btn teal" data-a="close">Đã hiểu!</button></div>`);
 }
@@ -1695,11 +1719,21 @@ function update(dtReal){
   if(S.hudDirty){ hudT+=dtReal; if(hudT>.08){ hudT=0; renderHUD(); } }
 }
 function curAnsSafe(){ try{return curAns();}catch(e){return '';} }
+let errN=0;
+function recover(){
+  // Phòng khi có lỗi bất ngờ: bỏ lượt bắn đang treo để game tiếp tục chạy thay vì đứng im
+  try{
+    S.birds=[]; S.botAb=null; S.drag=null; S.aim=null; pan=null;
+    if(S.world&&S.phase!=='over'&&S.phase!=='menu'){ if(S.phase==='fly'||S.phase==='aim'||S.phase==='between')endTurn(); }
+  }catch(e){}
+}
 function frame(now){
-  const dt=Math.max(0,Math.min(.1,(now-lastT)/1000)); lastT=now;   /* không cho dt âm ở khung hình đầu (gây lỗi nền khi trang nạp chậm) */
-  if(!S.world)S.clock+=dt; else update(dt);
-  render();
-  requestAnimationFrame(frame);
+  requestAnimationFrame(frame); // đặt lịch trước để một lỗi không bao giờ làm dừng cả game
+  const dt=Math.max(0,Math.min(.1,(now-lastT)/1000))||0; lastT=now;
+  if(Math.round(innerWidth*DPR)!==cv.width||Math.round(innerHeight*DPR)!==cv.height)resize();
+  try{ if(!S.world)S.clock+=dt; else update(dt); }
+  catch(e){ console.error(e); if(++errN<=3||errN%60===0)recover(); }
+  try{ render(); }catch(e){ console.error(e); if(++errN<=3||errN%60===0)recover(); }
 }
 
 /* =========================================================
@@ -1768,7 +1802,7 @@ function simLevel(idx,diff,q='super'){
   res.win=S.world.pigs.every(p=>p.dead); res.left=pl.birds.length; res.blocksLeft=S.world.blocks.filter(b=>!b.dead).length; res.score=pl.score;
   return res;
 }
-window.WW={buildMode,simLevel,S,CFG,startLevel,nextTurn,askQuestion,makeQuestion,LEVELS,VOCAB,GRAMMAR,Q:()=>Q,loadBird,releaseShot,botPlan,endTurn,finish,SAVE,submit,preloadSheets};
+window.WW={update,render,buildMode,simLevel,S,CFG,startLevel,nextTurn,askQuestion,makeQuestion,LEVELS,VOCAB,GRAMMAR,Q:()=>Q,loadBird,releaseShot,botPlan,endTurn,finish,SAVE,submit,preloadSheets};
 
 })();
 </script>
