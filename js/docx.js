@@ -76,7 +76,7 @@ window.LSE = window.LSE || {};
   const INSTR = /^(choose|mark|read|supply|find|rewrite|complete|fill|match|circle|underline|put|write|use|give|correct|change|turn|listen|look|identify|decide|select|arrange|reorder|rearrange|choose|answer|do|finish|make|order)\b/i;
   /* dòng yêu cầu bằng tiếng Việt đứng trước câu 1 (vd "Bài tập: Hãy đặt câu hỏi…", "Chọn đáp án đúng…") và khung hướng dẫn cho học sinh */
   const VIINSTR = /^\s*(?:bài\s*tập\s*[:.\-–]\s*)?(?:hãy|đặt câu hỏi|chọn|điền|viết lại|sắp xếp|tìm|nối|ghép|đọc|hoàn thành|khoanh|gạch chân)\b/i;
-  const GUIDE = /hướng\s*dẫn\s*làm\s*bài|lưu\s*ý|ghi\s*nhớ|cách\s*làm/i;
+  const GUIDE = /hướng\s*dẫn\s*làm\s*bài|mẹo|lưu\s*ý|ghi\s*nhớ|cách\s*làm/i;
   /* tiêu đề bảng đáp án phải BẮT ĐẦU bằng cụm này (tránh nhầm với dòng hướng dẫn như "Chọn đáp án đúng nhất…") */
   const KEYHEAD = /^\s*(?:(?:phần|part)\s+[ivx\d]+\s*[:.\-–]\s*)?(?:bảng\s+)?(?:đáp\s*án|answer\s*key|key|hướng\s*dẫn\s*giải|lời\s*giải)\b/i;
 
@@ -186,8 +186,9 @@ window.LSE = window.LSE || {};
         b.rows.forEach(r => {
           const c0 = (r[0] || "").trim();
           const kr = c0.match(KT); if (kr && c0.length < 80) { newSeg(+kr[1]); return; }
-          if (!/^\d{1,3}$/.test(c0) && r.length >= 4) { const hi = r.findIndex((x, k) => k >= 2 && /giải\s*thích|explanation|lý\s*do|hướng\s*dẫn/i.test(String(x))); if (hi >= 2) expCol = hi; }   // bảng 4 cột: Câu | Đáp án | Từ gạch chân | Giải thích
-          if (/^\d{1,3}$/.test(c0) && r.length >= 2) { const n = +c0; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[expCol] || "").trim(); put(n, key.ans[n], key.expl[n]); }
+          const rowNo = (c0.match(/^(?:câu|cau|question|q)?\s*(\d{1,3})\s*[.:)]?$/i) || [])[1];   // "1", "Câu 1", "Question 1."
+          if (!rowNo && r.length >= 4) { const hi = r.findIndex((x, k) => k >= 2 && /giải\s*thích|explanation|lý\s*do|hướng\s*dẫn/i.test(String(x))); if (hi >= 2) expCol = hi; }   // bảng 4 cột: Câu | Đáp án | Từ gạch chân | Giải thích
+          if (rowNo && r.length >= 2) { const n = +rowNo; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[expCol] || "").trim(); put(n, key.ans[n], key.expl[n]); }
           else if (/^(ph[ầa]n|part|section)\b/i.test(c0)) {
             const m = c0.match(/\((\d+)\s*[–\-—to]+\s*(\d+)\)/i);
             if (m) key.parts.push({ from: +m[1], to: +m[2], title: c0.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(), full: c0 });
@@ -252,7 +253,7 @@ window.LSE = window.LSE || {};
       if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title)) {
         newSec(b.t); return;
       }
-      if (!cur) { if (!title) title = stripU(b.t); else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
+      if (!cur) { if (!title) title = stripU(b.t).replace(/\s*\n\s*/g, " – "); else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
       if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
     });
     /* Task ghép từ / đúng-sai: nhận dạng từ bảng + đoạn, bỏ qua cách tách câu theo số thứ tự thông thường */
@@ -268,7 +269,8 @@ window.LSE = window.LSE || {};
     /* câu hỏi -> kiểu */
     secs.forEach(s => {
       s.items = s.pre || s.qs.map(qq => {
-        const text = qq.lines.join("\n").trim();
+        let text = qq.lines.join("\n").trim();
+        { const fl = text.split("\n")[0]; if ((fl.match(/\//g) || []).length >= 3 && !/_{3,}|\.{4,}|…/.test(fl)) text = fl.trim(); }   // sắp xếp từ thành câu: dòng "➔ ? ____" bên dưới chỉ là chỗ viết trên giấy
         const key1 = key.ans[qq.num] || "", ex = key.expl[qq.num] || "";
         const o = splitOptions(text);
         if (o) {
@@ -404,9 +406,11 @@ window.LSE = window.LSE || {};
       if (sec.n) sections.push(sec); else if (sec.warns.length) notes.push(...sec.warns);
     });
     sections.forEach(s => { if (s.type === "fill" || s.type === "fillhint") s.raw = s.raw.replace(/\nEXP:/g, "\nEXP:"); });
+    let unitNo = 0;   // "UNIT 4" trong vài dòng đầu file -> app gợi ý đúng unit khi xếp bài vào giáo trình
+    for (const b of blocks.slice(0, 8)) { if (b.k !== "p") continue; const um = b.t.match(/\bunit\s*0*(\d{1,2})\b/i); if (um) { unitNo = +um[1]; break; } }
     const nQ = sections.reduce((a, s) => a + s.n, 0);
     if (!nQ) warns.push("Chưa nhận ra câu hỏi nào. File cần có câu dạng \"Question 1.\" hoặc \"1.\" hoặc \"Câu 1.\".");
-    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ };
+    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo };
   }
   const prettyPart = p => { const t = p.full.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(); const m = t.match(/^(ph[ầa]n|part|section)\s+([IVX\d]+)\s*[:.\-–]\s*(.+)$/i); const nm = m ? m[3].toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()) : t; return (m ? "Phần " + m[2] + ": " : "") + nm + " (" + p.from + "–" + p.to + ")"; };
 

@@ -687,7 +687,7 @@
     const m = L.state.manifest;
     const draw = () => {
       body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
         list.length ? list.map(x => {
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
@@ -1120,9 +1120,12 @@
   }
 
   /* ---------- File Word -> bài tập ---------- */
-  function docxModal(onDone) {
+  function docxModal(onDone, o) {
+    o = o || {};
     L.modal(close => {
-      const box = h("div"), st = { res: null, err: "" };
+      let lastCur = ""; try { lastCur = localStorage.getItem("lse_last_cur") || ""; } catch (e) { }
+      if (!L.cur(lastCur)) lastCur = "";
+      const box = h("div"), st = { res: null, err: "", loc: { cur: lastCur, unit: "", unitSet: false } };
       const typeName = id => ((L.hw.TYPE || {})[id] || {}).label || id;
       const draw = () => {
         box.innerHTML = "";
@@ -1143,13 +1146,26 @@
         const r = st.res;
         box.append(h("p.small", "Tiêu đề: ", h("b", r.title || "(chưa có)"), " · ", h("b", String(r.nQ)), " câu · ", h("b", String(r.sections.length)), " phần"));
         if (r.warns.length || r.sections.some(s => s.warns.length)) box.append(h("div.err", { style: "margin-bottom:10px;max-height:150px;overflow:auto" }, h("b", "Cần cô lưu ý:"), r.warns.map(w => h("div", "• " + w)), r.sections.map(s => s.warns.map(w => h("div", "• [" + s.title + "] " + w)))));
+        /* xếp bài tập vào giáo trình / unit ngay từ đây (nếu không, bài sẽ rơi vào giáo trình đầu tiên, chưa phân unit) */
+        if (o.pickLoc) {
+          const lc = L.cur(st.loc.cur);
+          if (lc && !st.loc.unitSet) {   // gợi ý unit theo số "Unit N" trong tiêu đề file Word
+            st.loc.unitSet = true;
+            if (r.unitNo) { const n1 = new RegExp("unit\\s*0*" + r.unitNo + "(?!\\d)", "i"), n2 = new RegExp("(?:^|\\D)0*" + r.unitNo + "(?!\\d)"), us = lc.units || [], u = us.find(x => n1.test(x.name)) || us.find(x => n2.test(x.name)); if (u) { st.loc.unit = u.id; st.loc.guess = r.unitNo; } }
+          }
+          box.append(h("div.hint", { style: "margin-bottom:10px" }, h("b", "Xếp bài tập vào đâu? "), h("span.small", "(học sinh sẽ thấy bài trong đúng giáo trình/unit này)"),
+            h("div.two", { style: "margin-top:8px" },
+              h("label.field", h("span", "Giáo trình *"), selCur(L.state.manifest, st.loc.cur, v => { st.loc.cur = v; st.loc.unit = ""; st.loc.unitSet = false; st.loc.guess = 0; draw(); }, "— Chọn giáo trình —")),
+              h("label.field", h("span", "Unit / chủ đề"), selUnit(lc, st.loc.unit, v => { st.loc.unit = v; st.loc.unitSet = true; st.loc.guess = 0; }))),
+            st.loc.guess ? h("div.small.muted", { style: "margin-top:4px" }, "Gợi ý unit theo tên file (Unit " + st.loc.guess + "). Cô kiểm tra lại nhé.") : null));
+        }
         box.append(h("div", { style: "max-height:48vh;overflow:auto" }, r.sections.map((s, i) => {
           const first = s.raw.split(/\n\n|\n(?=[^A-H*E])/)[0].replace(/<\/?u>/g, "").slice(0, 130);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", String(i + 1)),
             h("div.grow", h("b", s.title), h("div.small.muted", typeName(s.type) + " · " + s.n + " câu" + (s.desc ? " · có đoạn văn/yêu cầu" : "") + (s.topic ? " · chủ điểm: " + s.topic : "")), h("div.small", { style: "opacity:.75;margin-top:3px" }, first + "…")));
         })));
         box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: () => { st.res = null; draw(); } }, "← Chọn file khác"), h("button.btn.ghost", { onclick: close }, "Đóng"),
-          r.sections.length ? h("button.btn.mint", { onclick: () => { const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw, numFresh: !!s.numFresh, tfLabels: s.tfLabels || "en" })); close(); onDone(r.title, secs); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
+          r.sections.length ? h("button.btn.mint", { onclick: () => { if (o.pickLoc && !st.loc.cur) { toast("Chọn giáo trình cho bài tập trước nhé", 3500); return; } const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw, numFresh: !!s.numFresh, tfLabels: s.tfLabels || "en" })); if (o.pickLoc) { try { localStorage.setItem("lse_last_cur", st.loc.cur); } catch (e) { } } close(); onDone(r.title, secs, o.pickLoc ? { curId: st.loc.cur, unitId: st.loc.unit } : null); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
       };
       draw();
       return box;
