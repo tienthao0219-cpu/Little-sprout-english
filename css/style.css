@@ -176,7 +176,7 @@ select.blank{width:auto;appearance:auto}
 .chip.k-right{background:var(--mint);box-shadow:inset 0 0 0 2px var(--good)}
 .chip.k-wrong{background:var(--rose);box-shadow:inset 0 0 0 2px var(--bad)}
 .answerline{min-height:48px;border:2px dashed var(--lav-d);border-radius:var(--r-sm);padding:8px;display:flex;flex-wrap:wrap;gap:8px;background:#FBF9FF;margin-bottom:10px;align-items:center}
-.answerline:empty::before{content:"Chạm vào các từ bên dưới để xếp vào đây";color:var(--soft);font-size:14px}
+.answerline:empty::before{content:"Kéo (hoặc chạm) các thẻ bên dưới vào đây. Kéo trong dòng để đổi chỗ, kéo ra ngoài để bỏ.";color:var(--soft);font-size:14px}
 .tok{cursor:pointer;border-radius:6px;padding:1px 2px}
 .tok:hover{background:var(--butter)}
 .tok.sel{background:var(--lav);box-shadow:inset 0 -3px 0 var(--lav-d)}
@@ -802,3 +802,11 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 /* chữ gạch chân (phần cần hỏi trong bài Wh-questions…): nổi bật, dễ thấy trên iPad/điện thoại, vẫn in được */
 .q u,.srcbox u,.shared u,.pline u{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px;text-decoration-color:#E0679A;font-weight:800;background:linear-gradient(transparent 58%,#FFE59A 58%);border-radius:3px;padding:0 1px}
 @media print{.q u,.srcbox u,.shared u,.pline u,u{background:none;text-decoration:underline;text-decoration-color:#000;font-weight:700}}
+
+/* kéo thả sắp xếp câu / thứ tự */
+.answerline .chip,.row .chip{position:relative;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.answerline.hot{background:#F1EAFF;border-style:solid}
+.chip.lifted{opacity:.25}
+.chip.ghost{box-shadow:0 8px 18px rgba(80,60,140,.35);cursor:grabbing;font-size:inherit;white-space:nowrap}
+.chip.ins-before::before{content:"";position:absolute;left:-7px;top:3px;bottom:3px;width:4px;border-radius:2px;background:#E0679A}
+.answerline.ins-end::after{content:"";width:4px;height:32px;border-radius:2px;background:#E0679A}

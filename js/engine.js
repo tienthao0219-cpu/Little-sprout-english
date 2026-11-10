@@ -46,7 +46,7 @@
       rule: "Mỗi nhóm là một câu hỏi: viết các mục theo ĐÚNG thứ tự, mỗi mục một dòng (hệ thống sẽ xáo trộn). Các nhóm cách nhau 1 dòng trống. Có thể thêm dòng TASK:.",
       sample: "TASK: Sắp xếp các hoạt động trong ngày.\nWake up\nBrush teeth\nHave breakfast\nGo to school" },
     { id: "sentence", label: "Sắp xếp câu", emoji: "🧱", color: "lav",
-      rule: "Mỗi dòng là một câu đúng, các từ hoặc cụm từ ngăn bằng dấu /. Nếu không có dấu / thì tách theo từng từ. Có thể thêm gợi ý tiếng Việt sau dấu |.",
+      rule: "Mỗi dòng là một câu đúng, các từ hoặc cụm từ ngăn bằng dấu /. Nếu không có dấu / thì tách theo từng từ. Có thể thêm gợi ý tiếng Việt sau dấu |. Học sinh KÉO THẢ từng thẻ vào dòng đáp án (hoặc chạm), kéo trong dòng để đổi chỗ. Thêm dòng EXP: để hiện nghĩa tiếng Việt khi xem đáp án.",
       sample: "She / goes / to school / every day. | Cô ấy đi học mỗi ngày.\nWhat / is / your / name?\nI like playing football on Sundays." },
     { id: "classify", label: "Phân loại", emoji: "🗂️", color: "butter",
       rule: "Mỗi nhóm là một câu hỏi, mỗi dòng dạng: [Tên nhóm] mục 1, mục 2, mục 3. Cần ít nhất 2 nhóm. Các câu cách nhau 1 dòng trống. Có thể thêm dòng TASK:.",
@@ -526,14 +526,66 @@
     }), multi && !review ? h("div.small.muted", { style: "margin-top:6px" }, "Chọn tất cả đáp án đúng.") : null);
   }
 
+  /* Sắp xếp (câu / thứ tự): KÉO thả bằng ngón tay hoặc chuột, hoặc chạm.
+     - kéo từ khay vào dòng đáp án: thả đúng chỗ muốn chèn (vạch hồng báo vị trí)
+     - kéo trong dòng đáp án: đổi thứ tự; kéo ra ngoài dòng đáp án: trả về khay
+     - chạm khay: thêm vào cuối; chạm thẻ đã xếp: lấy ra. (Dùng pointer events: chạy trên Safari/iPadOS 13+) */
   function seqView(q, st, ctx, g, labels, kind) {
     const review = ctx.mode === "review";
-    const placed = h("div.answerline", st.v.map((idx, pos) => {
+    let placed = null;
+    const chipsIn = () => Array.from(placed.children).filter(c => c.classList.contains("chip"));
+    const insertAt = (x, y, skip) => {            // vị trí chèn trong dòng đáp án theo toạ độ ngón tay; -1 nếu ở ngoài dòng
+      const r = placed.getBoundingClientRect();
+      if (x < r.left - 14 || x > r.right + 14 || y < r.top - 14 || y > r.bottom + 14) return -1;
+      const cs = chipsIn(); let k = cs.length;
+      for (let i = 0; i < cs.length; i++) {
+        if (i === skip) continue;
+        const b = cs[i].getBoundingClientRect();
+        if (y < b.top || (y <= b.bottom && x < b.left + b.width / 2)) { k = i; break; }
+      }
+      return k;
+    };
+    const mark = k => {                            // vạch báo vị trí sẽ chèn
+      chipsIn().forEach(c => c.classList.remove("ins-before")); placed.classList.remove("ins-end", "hot");
+      if (k == null || k < 0) return; placed.classList.add("hot");
+      const cs = chipsIn(); if (k < cs.length) cs[k].classList.add("ins-before"); else placed.classList.add("ins-end");
+    };
+    const drag = (el, idx, from) => {              // from = vị trí trong st.v nếu thẻ đã xếp, -1 nếu thẻ còn ở khay
+      if (review) return;
+      el.style.touchAction = "none";
+      const tap = () => { if (from >= 0) st.v.splice(from, 1); else if (!st.v.includes(idx)) st.v.push(idx); ctx.redraw(); };
+      el.addEventListener("click", e => { if (e.detail === 0) tap(); });          // bàn phím (Enter/Space)
+      el.addEventListener("pointerdown", e => {
+        if (e.button != null && e.button > 0) return;
+        if (from < 0 && st.v.includes(idx)) return;
+        const sx = e.clientX, sy = e.clientY; let ghost = null, moved = false, k = -1;
+        const move = ev => {
+          if (!moved && Math.hypot(ev.clientX - sx, ev.clientY - sy) > 7) {
+            moved = true; ghost = el.cloneNode(true); ghost.classList.add("ghost");
+            const r = el.getBoundingClientRect(); ghost.style.cssText = "position:fixed;z-index:9999;pointer-events:none;left:0;top:0;opacity:.92;transform:scale(1.06) rotate(-3deg)";
+            ghost.style.minWidth = r.width + "px"; document.body.appendChild(ghost); el.classList.add("lifted");
+          }
+          if (moved) { ghost.style.left = (ev.clientX - 30) + "px"; ghost.style.top = (ev.clientY - 22) + "px"; k = insertAt(ev.clientX, ev.clientY, from); mark(k); ev.preventDefault(); }
+        };
+        const up = ev => {
+          document.removeEventListener("pointermove", move); document.removeEventListener("pointerup", up); document.removeEventListener("pointercancel", up);
+          mark(null); if (ghost) ghost.remove(); el.classList.remove("lifted");
+          if (!moved) { if (ev.type === "pointerup") tap(); return; }
+          if (ev.type === "pointercancel") { ctx.redraw(); return; }
+          k = insertAt(ev.clientX, ev.clientY, from);
+          if (from >= 0) { st.v.splice(from, 1); if (k >= 0) { if (k > from) k--; st.v.splice(k, 0, idx); } }   // kéo ra ngoài = trả về khay
+          else if (k >= 0) st.v.splice(Math.min(k, st.v.length), 0, idx);
+          ctx.redraw();
+        };
+        document.addEventListener("pointermove", move, { passive: false }); document.addEventListener("pointerup", up); document.addEventListener("pointercancel", up);
+      });
+    };
+    placed = h("div.answerline", st.v.map((idx, pos) => {
       let c = "chip pick";
       if (review) c = "chip " + (kind === "order" ? (idx === pos ? "k-right" : "k-wrong") : (g.got ? "k-right" : "k-wrong"));
-      return h("button." + c.split(" ").join("."), { onclick: () => { if (review) return; st.v.splice(pos, 1); ctx.redraw(); } }, labels[idx]);
+      const b = h("button." + c.split(" ").join("."), { type: "button" }, labels[idx]); drag(b, idx, pos); return b;
     }));
-    const pool = h("div.row", { style: "gap:8px" }, st.ord.map(idx => h("button.chip" + (st.v.includes(idx) ? ".used" : ""), { onclick: () => { if (review || st.v.includes(idx)) return; st.v.push(idx); ctx.redraw(); } }, labels[idx])));
+    const pool = h("div.row", { style: "gap:8px" }, st.ord.map(idx => { const b = h("button.chip" + (st.v.includes(idx) ? ".used" : ""), { type: "button" }, labels[idx]); if (!st.v.includes(idx)) drag(b, idx, -1); return b; }));
     return h("div",
       q.hint ? h("div.small.muted", { style: "margin-bottom:6px" }, "Gợi ý: " + q.hint) : null,
       placed, review ? null : pool,
