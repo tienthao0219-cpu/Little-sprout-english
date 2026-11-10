@@ -228,7 +228,7 @@ details.moremenu .mm .btn{justify-content:flex-start;text-align:left;white-space
 .spinner{display:inline-block;width:18px;height:18px;border:3px solid var(--lav);border-top-color:var(--lav-d);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* =====================================================
+/* ==============================================
    v2 — sinh động: chuyển động nhẹ, minh hoạ, phản hồi khi chạm
    (tắt tự động nếu máy bật "giảm chuyển động")
    ===================================================== */
@@ -821,3 +821,7 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 .spg-iss{background:rgba(255,255,255,.7);border:2px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;margin-top:8px}
 textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-height:1.6}
 .spg-bar{position:sticky;bottom:10px;z-index:5;padding:10px 14px}
+
+/* chữ gạch chân (phần cần hỏi trong bài Wh-questions…): nổi bật, dễ thấy trên iPad/điện thoại, vẫn in được */
+.q u,.srcbox u,.shared u,.pline u{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:4px;text-decoration-color:#E0679A;font-weight:800;background:linear-gradient(transparent 58%,#FFE59A 58%);border-radius:3px;padding:0 1px}
+@media print{.q u,.srcbox u,.shared u,.pline u,u{background:none;text-decoration:underline;text-decoration-color:#000;font-weight:700}}

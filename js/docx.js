@@ -74,6 +74,9 @@ window.LSE = window.LSE || {};
   const stripU = s => String(s || "").replace(/<\/?u>/g, "");
   const QRE = /^(?:(?:question|câu|cau|q)\s*)?(\d{1,3})\s*[.:)]\s*(.*)$/is;
   const INSTR = /^(choose|mark|read|supply|find|rewrite|complete|fill|match|circle|underline|put|write|use|give|correct|change|turn|listen|look|identify|decide|select|arrange|reorder|rearrange|choose|answer|do|finish|make|order)\b/i;
+  /* dòng yêu cầu bằng tiếng Việt đứng trước câu 1 (vd "Bài tập: Hãy đặt câu hỏi…", "Chọn đáp án đúng…") và khung hướng dẫn cho học sinh */
+  const VIINSTR = /^\s*(?:bài\s*tập\s*[:.\-–]\s*)?(?:hãy|đặt câu hỏi|chọn|điền|viết lại|sắp xếp|tìm|nối|ghép|đọc|hoàn thành|khoanh|gạch chân)\b/i;
+  const GUIDE = /hướng\s*dẫn\s*làm\s*bài|lưu\s*ý|ghi\s*nhớ|cách\s*làm/i;
   /* tiêu đề bảng đáp án phải BẮT ĐẦU bằng cụm này (tránh nhầm với dòng hướng dẫn như "Chọn đáp án đúng nhất…") */
   const KEYHEAD = /^\s*(?:(?:phần|part)\s+[ivx\d]+\s*[:.\-–]\s*)?(?:bảng\s+)?(?:đáp\s*án|answer\s*key|key|hướng\s*dẫn\s*giải|lời\s*giải)\b/i;
 
@@ -170,6 +173,7 @@ window.LSE = window.LSE || {};
   /* ---- bảng đáp án ---- */
   function parseKey(blocks, startIdx) {
     const key = { ans: {}, expl: {}, parts: [], segs: [] };
+    let expCol = 2;                                            // cột "Giải thích" (mặc định cột thứ 3; đọc theo hàng tiêu đề nếu có)
     /* bài đọc nhiều Task, số câu làm lại từ 1 ở mỗi Task: đáp án của từng Task nằm trong một "đoạn" riêng (segs) */
     let seg = null;
     const KT = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)/i;
@@ -182,7 +186,8 @@ window.LSE = window.LSE || {};
         b.rows.forEach(r => {
           const c0 = (r[0] || "").trim();
           const kr = c0.match(KT); if (kr && c0.length < 80) { newSeg(+kr[1]); return; }
-          if (/^\d{1,3}$/.test(c0) && r.length >= 2) { const n = +c0; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[2] || "").trim(); put(n, key.ans[n], key.expl[n]); }
+          if (!/^\d{1,3}$/.test(c0) && r.length >= 4) { const hi = r.findIndex((x, k) => k >= 2 && /giải\s*thích|explanation|lý\s*do|hướng\s*dẫn/i.test(String(x))); if (hi >= 2) expCol = hi; }   // bảng 4 cột: Câu | Đáp án | Từ gạch chân | Giải thích
+          if (/^\d{1,3}$/.test(c0) && r.length >= 2) { const n = +c0; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[expCol] || "").trim(); put(n, key.ans[n], key.expl[n]); }
           else if (/^(ph[ầa]n|part|section)\b/i.test(c0)) {
             const m = c0.match(/\((\d+)\s*[–\-—to]+\s*(\d+)\)/i);
             if (m) key.parts.push({ from: +m[1], to: +m[2], title: c0.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(), full: c0 });
@@ -224,7 +229,7 @@ window.LSE = window.LSE || {};
     const main = keyAt >= 0 ? blocks.slice(0, keyAt) : blocks;
 
     let title = "", secs = [], cur = null, q = null, started = false;
-    const pre = [];                                          // đoạn văn đứng trước "Task 1" (bài đọc dùng chung cho các Task)
+    const pre = [], guide = [];                              // pre: đoạn văn đứng trước "Task 1" (bài đọc chung); guide: khung "Hướng dẫn làm bài" đứng trước đề
     const newSec = t => { cur = { title: t, desc: [], qs: [] }; secs.push(cur); q = null; };
     const flushQ = () => { q = null; };
     main.forEach(b => {
@@ -233,7 +238,7 @@ window.LSE = window.LSE || {};
       if (cur && cur.task) cur.blocks.push(b);
       if (b.k === "t") {
         const txt = b.rows.map(r => r.filter(Boolean).join("\n")).filter(Boolean).join("\n");
-        if (!cur) { if (title && txt.replace(/\s+/g, " ").length >= 160) pre.push(txt); return; }   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
+        if (!cur) { if (GUIDE.test(txt.slice(0, 80))) { guide.push(txt); return; } if (title && txt.replace(/\s+/g, " ").length >= 160) pre.push(txt); return; }   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
         if (!cur.qs.length) { if (txt) cur.desc.push(txt); } else if (q) q.lines.push(txt);
         return;
       }
@@ -243,6 +248,7 @@ window.LSE = window.LSE || {};
         if (!cur) newSec("");
         q = { num: +m[1], lines: [m[2]] }; cur.qs.push(q); started = true; return;
       }
+      if (!cur && !started && b.t.length < 260 && VIINSTR.test(b.t)) { newSec(b.t.replace(/^\s*bài\s*tập\s*[:.\-–]\s*/i, "").replace(/\s*[:：]\s*$/, "").trim()); return; }   // "Bài tập: Hãy đặt câu hỏi cho phần gạch chân…"
       if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title)) {
         newSec(b.t); return;
       }
@@ -257,6 +263,7 @@ window.LSE = window.LSE || {};
     });
     const passage = pre.join("\n\n").trim(), usePassage = passage.replace(/\s+/g, " ").length >= 160;
     secs = secs.filter(s => s.qs.length || (s.pre && s.pre.length));
+    if (guide.length && secs.length) secs[0].desc.unshift(guide.join("\n\n"));
 
     /* câu hỏi -> kiểu */
     secs.forEach(s => {
@@ -305,9 +312,11 @@ window.LSE = window.LSE || {};
         }
         if (/^[→➜➔>-]\s/.test(text.split("\n")[1] || "") || /\n\s*(→|->)/.test(text)) {   // viết lại câu
           const ls = text.split("\n").map(x => x.trim()).filter(Boolean);
-          const src = ls[0], starter = ls.slice(1).join(" ").replace(/^(→|->|➜)\s*/, "").replace(/[….]{2,}|_{3,}/g, "").trim();
-          const ans = key1.replace(/^(→|->|➜)\s*/, "").trim();
-          return { num: qq.num, type: "transform", src: stripU(src), starter, answers: ans ? ans.split(/\s+\/\s+/) : [], expl: ex, warns: ans ? [] : ["Câu " + qq.num + ": chưa có đáp án viết lại câu"] };
+          const ARROW = /^\s*(?:→|->|➜|➔|⟶|⇒|>)\s*/;
+          /* GIỮ chữ gạch chân ở câu gốc: với bài "đặt câu hỏi cho phần gạch chân" đó chính là đề bài */
+          const src = ls[0], starter = ls.slice(1).join(" ").replace(ARROW, "").replace(/[….]{2,}|_{3,}/g, "").trim();
+          const ans = key1.replace(ARROW, "").trim();
+          return { num: qq.num, type: "transform", src, starter, answers: ans ? ans.split(/\s+\/\s+/) : [], expl: ex, warns: ans ? [] : ["Câu " + qq.num + ": chưa có đáp án viết lại câu"] };
         }
         if (text.split("/").length >= 4 && !/_{3,}|\.{4,}|…/.test(text)) {   // sắp xếp từ thành câu: từ / từ / từ / …
           const chunks = text.split("/").map(x => x.replace(/\s+/g, " ").trim()).filter(Boolean);
