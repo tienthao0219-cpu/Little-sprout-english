@@ -489,7 +489,37 @@
       const notes = ta(l.notes, "Ghi chú khác cho AI", 56);
       const err = h("div.err");
       const fld = (t, el) => h("label.field", { style: "margin-top:10px" }, h("span", t), el);
-      return h("div", h("h3", { style: "margin-bottom:6px" }, isNew ? "Thêm bài học" : "Sửa " + lessonLabel(l)),
+      /* Nhập từ file HTML bài dạy: chỉ ĐIỀN VÀO FORM để cô xem lại, chưa lưu gì. */
+      const impMsg = h("div.small", { style: "margin-top:8px" });
+      const impIn = h("input", { type: "file", accept: ".html,.htm,text/html", style: "display:none", onchange: async e => {
+        const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+        impMsg.className = "small muted"; impMsg.textContent = "Đang đọc file..."; err.textContent = "";
+        try {
+          const d = S.importDeck(await f.text()), done = [], kept = [];
+          const emptyOrGeneric = v => !v.trim() || /^bài\s*[\d.]+$/i.test(v.trim());
+          const setIf = (el, val, name, generic) => { if (!val) return; if (!el.value.trim() || (generic && emptyOrGeneric(el.value))) { el.value = val; done.push(name); } else kept.push(name); };
+          const merge = (el, arr, name) => { if (!arr || !arr.length) return; const cur = lines(el.value), add = arr.filter(x => !cur.some(c => c.toLowerCase() === x.toLowerCase())); el.value = cur.concat(add).join("\n"); done.push(name + " (+" + add.length + ")"); };
+          if (isNew && !code.value.trim() && d.code) { code.value = d.code; done.push("mã bài"); }
+          setIf(title, d.title, "tên bài", true);
+          setIf(prompt, d.prompt, "đề nói");
+          setIf(sounds, d.targetSounds, "âm IPA");
+          setIf(grammar, d.grammar, "ngữ pháp");
+          if (d.soundErrors && d.soundErrors.length) { const txt = "Lỗi hay gặp theo ghi chú của cô trong slide: " + d.soundErrors.join(" "); if (!snotes.value.includes("Lỗi hay gặp theo ghi chú")) { snotes.value = (snotes.value.trim() ? snotes.value.trim() + "\n" : "") + txt; done.push("ghi chú phát âm"); } }
+          merge(vocab, d.vocab, "từ vựng"); merge(phrases, d.phrases, "cụm từ");
+          const extra = [];
+          if (d.template && d.template.length) extra.push("Khung sườn bài nói của cô: " + d.template.join(" / "));
+          if (d.easy && d.easy.length) extra.push("Cách nói đơn giản hơn trong bài (tính là dùng đúng cụm từ/đồng nghĩa): " + d.easy.join("; "));
+          if (extra.length && !/Khung sườn bài nói của cô/.test(notes.value)) { notes.value = (notes.value.trim() ? notes.value.trim() + "\n" : "") + extra.join("\n"); done.push("ghi chú cho AI"); }
+          impMsg.className = "small"; impMsg.innerHTML = "";
+          impMsg.append(h("div", { style: "color:#2a7a45;font-weight:800" }, "✓ Đã điền vào form: " + (done.join(", ") || "không có gì mới") + ". Cô xem lại rồi bấm 💾 Lưu."));
+          if (kept.length) impMsg.append(h("div.muted", "Giữ nguyên nội dung cô đã có ở: " + kept.join(", ") + "."));
+          if (d.missing.length) impMsg.append(h("div.muted", "Không tìm thấy trong file: " + d.missing.join(", ") + " (cô tự nhập nếu cần)."));
+        } catch (e2) { impMsg.className = "small"; impMsg.innerHTML = ""; err.textContent = "Không đọc được file: " + e2.message; }
+      } });
+      const impBox = h("div.hint", { style: "margin-top:10px" },
+        h("b", "📥 Có file HTML bài dạy? "), "Chọn file để tự điền từ vựng, cụm từ, âm IPA, ngữ pháp, đề nói. App chỉ chép chữ có trong file, không tự thêm, và chưa lưu gì cho đến khi cô bấm Lưu. ",
+        h("button.btn.ghost", { style: "margin-top:6px", onclick: () => impIn.click() }, "Chọn file HTML bài dạy"), impIn, impMsg);
+      return h("div", h("h3", { style: "margin-bottom:6px" }, isNew ? "Thêm bài học" : "Sửa " + lessonLabel(l)), impBox,
         fld("Mã bài (chữ không dấu, số, dấu chấm)", code), fld("Tên bài", title), fld("Đề nói", prompt), fld("Âm IPA trọng tâm", sounds), fld("Ghi chú phát âm", snotes),
         fld("Từ vựng cốt lõi", vocab), fld("Cụm từ/collocation của bài", phrases), fld("Ngữ pháp trọng tâm", grammar), fld("Ghi chú khác", notes), err,
         h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Huỷ"),

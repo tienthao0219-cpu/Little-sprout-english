@@ -278,10 +278,82 @@
     };
   }
 
+  /* ============================================================
+     Nhập bài từ file HTML bài dạy (bộ slide EasyEng của cô).
+     Chỉ chép lại chữ CÓ TRONG file; phần nào không thấy thì để trống và báo lại.
+     ============================================================ */
+  function deckStrings_(src) {
+    const out = []; const re = /(['"])((?:\\.|(?!\1)[^\\\n])*)\1/g; let m;
+    while ((m = re.exec(src))) out.push(m[2].replace(/\\(['"\\])/g, "$1").replace(/\\n/g, " "));
+    return out;
+  }
+  function deckPlain_(t) {
+    return String(t).replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#39;|&apos;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, " ").trim();
+  }
+  function importDeck(html) {
+    let s = String(html || "");
+    s = s.replace(/data:[a-z]+\/[a-z0-9.+-]+;base64,[A-Za-z0-9+\/=]+/gi, "").replace(/(['"`])[A-Za-z0-9+\/=]{1500,}\1/g, "$1$1");
+    const out = { found: {}, missing: [] };
+    const miss = k => out.missing.push(k);
+    const tm = s.match(/<title>([^<]*)<\/title>/i);
+    if (tm) {
+      const t = deckPlain_(tm[1]), cm = t.match(/^(.*?)[\s·\-–]*(\d+(?:\.\d+)?)\s*$/);
+      if (cm) { out.code = cm[2]; out.name = cm[1].trim(); out.title = "Bài " + cm[2] + (cm[1].trim() ? " · " + cm[1].trim() : ""); } else { out.name = t; }
+    } else miss("tên bài");
+    // âm IPA trọng tâm: slide "Sound focus: /f/ & /v/"
+    const sm = s.match(/add\(\s*['"]Sound focus:\s*([^'"]+)['"]/i);
+    if (sm) out.targetSounds = sm[1].split(/\s*(?:&|and|,|;)\s*/).map(x => x.trim()).filter(Boolean).join(", "); else miss("âm IPA trọng tâm");
+    // từ vựng: const V=[{w:'laptop',alt:'..'}...]
+    const vi = s.indexOf("const V=["), vend = vi >= 0 ? s.indexOf("V.forEach", vi) : -1;
+    if (vi >= 0 && vend > vi) {
+      const seg = s.slice(vi, vend), re = /(?:\{\s*w|[,{\s]alt)\s*:\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1/g; let m; const v = [];
+      while ((m = re.exec(seg))) v.push(deckPlain_(m[2].replace(/\\(['"\\])/g, "$1")));
+      out.vocab = v.filter((x, i) => x && v.indexOf(x) === i);
+    }
+    if (!out.vocab || !out.vocab.length) { out.vocab = []; miss("từ vựng"); }
+    // cụm từ: "Useful phrases" (câu giao tiếp) + "Interview words" (cụm từ phỏng vấn)
+    const phrases = [], easy = [];
+    const sec = (title, openTok) => {
+      const at = s.indexOf("add('" + title + "'"); if (at < 0) return null;
+      const st = s.lastIndexOf(openTok, at); if (st < 0) return null;
+      const en = s.indexOf("];", st); return en > st ? s.slice(st, en) : null;
+    };
+    const pu = sec("Useful phrases", "const P=[");
+    if (pu) { const a = deckStrings_(pu); for (let i = 0; i < a.length; i += 2) if (a[i] && !/^[A-Z]$/.test(a[i])) phrases.push(deckPlain_(a[i])); }
+    const iw = sec("Interview words", "const R=[");
+    if (iw) { const a = deckStrings_(iw); for (let i = 0; i < a.length; i += 4) { if (a[i]) phrases.push(deckPlain_(a[i])); if (a[i] && a[i + 3]) easy.push(deckPlain_(a[i]) + " ≈ " + deckPlain_(a[i + 3])); } }
+    out.phrases = phrases.filter((x, i) => x && phrases.indexOf(x) === i);
+    if (!out.phrases.length) miss("cụm từ");
+    out.easy = easy;
+    // ngữ pháp: tiêu đề các slide cấu trúc có dấu "+" (use … to + V ...)
+    const g = []; const gr = /add\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1\s*,\s*['"]\w+['"]\s*,\s*['"]Grammar['"]/g; let gm;
+    while ((gm = gr.exec(s))) if (/\+/.test(gm[2])) g.push(deckPlain_(gm[2]));
+    out.grammar = g.join("; "); if (!g.length) miss("ngữ pháp");
+    // đề nói: mục Speak trong Homework
+    const hm = s.match(/\[\s*['"]Speak['"]\s*,\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1/);
+    if (hm) out.prompt = deckPlain_(hm[2]).replace(/\s*\([^)]*[à-ỹ][^)]*\)\s*$/i, "").trim(); else miss("đề nói");
+    // khung sườn bài nói (Speaking template)
+    const ti = s.indexOf("add('Speaking template'");
+    if (ti >= 0) {
+      const seg = s.slice(ti, s.indexOf("ART(", ti) > ti ? s.indexOf("ART(", ti) : ti + 4000), lines = [];
+      const re = /\[\s*(['"`])((?:\\.|(?!\1)[^\\\n])*?)\1\s*,\s*(['"`])((?:\\.|(?!\3)[^\\\n])*?)\3\s*\]/g; let m;
+      while ((m = re.exec(seg))) { const en = deckPlain_(m[2].replace(/<span class="slot">([^<]*)<\/span>/g, "[$1]")); if (/\[/.test(en)) lines.push(en); }
+      if (lines.length) out.template = lines;
+    }
+    if (!out.template) miss("khung sườn bài nói");
+    // lỗi phát âm hay gặp: chỉ chép nguyên câu cô đã ghi trong ghi chú GV
+    const errs = []; const nr = /noteGV\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1\s*\)/g; let nm;
+    while ((nm = nr.exec(s))) {
+      deckPlain_(nm[2].replace(/\\(['"\\])/g, "$1")).split(/(?<=[.!?])\s+/).forEach(x => { if (/^Lỗi hay gặp|học viên thường/i.test(x)) errs.push(x); });
+    }
+    if (errs.length) out.soundErrors = errs;
+    return out;
+  }
+
   const api = {
     RUBRIC: RUBRIC, ITEMS: ITEMS, ITEM: ITEM, MAX_TOTAL: MAX_TOTAL, MAX_AI_PART: MAX_AI_PART, DEFAULT_SETTINGS: DEFAULT_SETTINGS,
     bandOf: bandOf, lengthScore: lengthScore, analyzeSamples: analyzeSamples, textStats: textStats,
-    sanitize: sanitize, totals: totals, buildZalo: buildZalo, sampleResult: sampleResult, half: half, clamp: clamp
+    sanitize: sanitize, totals: totals, buildZalo: buildZalo, sampleResult: sampleResult, importDeck: importDeck, half: half, clamp: clamp
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else { root.LSE = root.LSE || {}; root.LSE.spk = api; }
