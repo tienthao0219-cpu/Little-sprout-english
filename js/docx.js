@@ -404,9 +404,11 @@ window.LSE = window.LSE || {};
       if (sec.n) sections.push(sec); else if (sec.warns.length) notes.push(...sec.warns);
     });
     sections.forEach(s => { if (s.type === "fill" || s.type === "fillhint") s.raw = s.raw.replace(/\nEXP:/g, "\nEXP:"); });
+    let unitNo = 0;   // "UNIT 4" trong vài dòng đầu file -> app gợi ý đúng unit khi xếp bài vào giáo trình
+    for (const b of blocks.slice(0, 8)) { if (b.k !== "p") continue; const um = b.t.match(/\bunit\s*0*(\d{1,2})\b/i); if (um) { unitNo = +um[1]; break; } }
     const nQ = sections.reduce((a, s) => a + s.n, 0);
     if (!nQ) warns.push("Chưa nhận ra câu hỏi nào. File cần có câu dạng \"Question 1.\" hoặc \"1.\" hoặc \"Câu 1.\".");
-    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ };
+    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo };
   }
   const prettyPart = p => { const t = p.full.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(); const m = t.match(/^(ph[ầa]n|part|section)\s+([IVX\d]+)\s*[:.\-–]\s*(.+)$/i); const nm = m ? m[3].toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()) : t; return (m ? "Phần " + m[2] + ": " : "") + nm + " (" + p.from + "–" + p.to + ")"; };
 
