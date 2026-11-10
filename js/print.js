@@ -71,7 +71,7 @@ window.LSE = window.LSE || {};
       }
       case "transform": {
         if (q.parts) { const k = []; const kids = q.parts.map(p => { if (p.k === "t") return document.createTextNode(p.s); k.push(p.answers[0]); return U(Math.max(14, p.answers[0].length)); }); return { s: wrap(h("div", num, q.src), h("div", { style: "margin:4px 0 0 18px;line-height:2.2" }, kids)), k: k.join(" ; ") }; }
-        return { s: wrap(h("div", num, q.src), q.starter ? h("div", { style: "margin-left:18px" }, q.starter + " …") : null, h("div.pline"), h("div.pline")), k: q.answers.join("  /  ") };
+        return { s: wrap(h("div", num, L.rich(q.src)), q.starter ? h("div", { style: "margin-left:18px" }, q.starter + " …") : null, h("div.pline"), h("div.pline")), k: q.answers.join("  /  ") };
       }
       case "errfix": return { s: wrap(h("div", num, q.full), h("div", { style: "margin-left:18px" }, "Mistake: ", U(10), "   Correct: ", U(12))), k: q.wrong + " → " + q.fixes.join(" / ") };
     }

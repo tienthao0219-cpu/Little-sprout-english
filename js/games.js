@@ -71,8 +71,8 @@ window.LSE = window.LSE || {};
       rule: "Mỗi ván là một nhóm dòng, các ván cách nhau 1 dòng trống. Mỗi dòng: đáp án | gợi ý. Hệ thống tự xếp ô chữ (các từ cần có chữ cái chung mới nối được; nên 5–8 từ). Nếu có từ không xếp được, hệ thống sẽ báo.",
       sample: "TASK: Điền ô chữ.\napple | a red or green fruit\nanimal | a dog is an ...\nelephant | a very big grey animal\nlion | king of the jungle\nbanana | a long yellow fruit" },
     { id: "transform", label: "Viết lại câu (đồng nghĩa)", emoji: "✍️", color: "rose",
-      rule: "Có 2 cách viết, trộn lẫn trong cùng một phần cũng được. CÁCH 1 (điền vào chỗ trống + từ gợi ý): câu gốc => câu thứ hai có chỗ trống, rồi => đáp án. Chỗ trống viết bằng dấu chấm ............ (hoặc ___), từ gợi ý để trong ngoặc ( ) ngay sau chỗ trống. Có nhiều cách viết đúng thì ngăn bằng dấu /. Có nhiều chỗ trống thì ngăn đáp án của từng chỗ bằng dấu ; theo thứ tự. Ví dụ: she hates learning English => She ............ (dislike) => dislikes learning English. CÁCH 1b (gọn hơn): đặt thẳng đáp án vào [[ ]]: She hates learning English. => She [[dislikes learning English]] (dislike). CÁCH 2 (viết lại cả câu): câu gốc | gợi ý bắt đầu (không bắt buộc) => đáp án 1 / đáp án 2. Hệ thống không phân biệt hoa/thường, bỏ qua dấu câu cuối và coi \"isn't\" = \"is not\", \"I'm\" = \"I am\". Thêm dòng EXP: ngay sau câu để giải thích.",
-      sample: "she hates learning English => She ............ (dislike) => dislikes learning English / does not like learning English\nEXP: hate ≈ dislike (ghét ≈ không thích).\nHe started playing the piano two years ago. => He has ............ (play) for two years. => played the piano / been playing the piano\nThey built this bridge in 1990. => This bridge [[was built]] (build) in 1990.\nShe is taller than her sister. | Her sister => Her sister is shorter than her. / Her sister is not as tall as her.\n\"Where do you live?\" he asked me. | He asked me => He asked me where I lived." },
+      rule: "Có 2 cách viết, trộn lẫn trong cùng một phần cũng được. CÁCH 1 (điền vào chỗ trống + từ gợi ý): câu gốc => câu thứ hai có chỗ trống, rồi => đáp án. Chỗ trống viết bằng dấu chấm ............ (hoặc ___), từ gợi ý để trong ngoặc ( ) ngay sau chỗ trống. Có nhiều cách viết đúng thì ngăn bằng dấu /. Có nhiều chỗ trống thì ngăn đáp án của từng chỗ bằng dấu ; theo thứ tự. Ví dụ: she hates learning English => She ............ (dislike) => dislikes learning English. CÁCH 1b (gọn hơn): đặt thẳng đáp án vào [[ ]]: She hates learning English. => She [[dislikes learning English]] (dislike). CÁCH 2 (viết lại cả câu): câu gốc | gợi ý bắt đầu (không bắt buộc) => đáp án 1 / đáp án 2. Hệ thống không phân biệt hoa/thường, bỏ qua dấu câu cuối và coi \"isn't\" = \"is not\", \"I'm\" = \"I am\". CÁCH 3 (đặt câu hỏi cho phần gạch chân - Wh-questions): câu gốc | ? => câu hỏi đúng. Bọc phần cần hỏi trong <u>...</u> để học sinh thấy gạch chân, ví dụ: The Hmong people live <u>in the high mountains</u>. | ? => Where do the Hmong people live? (Có thể chọn chữ rồi bấm nút U ở thanh công cụ phía trên ô nhập; hoặc dán từ Word, gạch chân sẽ tự được giữ.) Thêm dòng EXP: ngay sau câu để giải thích.",
+      sample: "she hates learning English => She ............ (dislike) => dislikes learning English / does not like learning English\nEXP: hate ≈ dislike (ghét ≈ không thích).\nHe started playing the piano two years ago. => He has ............ (play) for two years. => played the piano / been playing the piano\nThey built this bridge in 1990. => This bridge [[was built]] (build) in 1990.\nShe is taller than her sister. | Her sister => Her sister is shorter than her. / Her sister is not as tall as her.\n\"Where do you live?\" he asked me. | He asked me => He asked me where I lived.\nThe Hmong people live <u>in the high mountains</u>. | ? => Where do the Hmong people live?\nEXP: Nơi chốn ➔ dùng Where." },
     { id: "errfix", label: "Thám tử bắt lỗi (Error detective)", emoji: "🕵️", color: "rose",
       rule: "Mỗi dòng một câu có đúng 1 lỗi: bọc phần sai trong [[ ]], rồi => phần sửa đúng (nhiều cách sửa chấp nhận thì ngăn bằng dấu /). Ví dụ: She [[go]] to school every day. => goes. Học sinh chạm vào chỗ sai rồi gõ cách sửa; chấm 2 ý (tìm lỗi + sửa lỗi). Thêm dòng EXP: giải thích ngay sau câu (hiện khi xem đáp án).",
       sample: "She [[go]] to school every day. => goes\nEXP: Chủ ngữ số ít (She) thì động từ thêm -es.\nThere [[is]] three cats in the garden. => are\nI [[am have]] a new bike. => have / 've got\nHe didn't [[went]] to school. => go" }
@@ -301,7 +301,9 @@ window.LSE = window.LSE || {};
       // cách 2: viết lại cả câu
       const answers = right.split(" / ").map(s => s.trim()).filter(Boolean);
       if (!answers.length) { errors.push("Dòng " + (i + 1) + ": thiếu đáp án (nhiều đáp án ngăn bằng dấu / có khoảng trắng hai bên)"); return; }
-      questions.push({ type: "transform", stem: "Viết lại câu sao cho nghĩa không đổi.", src, starter, answers });
+      /* "câu gốc | ? => câu hỏi": đặt câu hỏi (Wh-question) cho phần gạch chân. Phần gạch chân viết trong <u>...</u> */
+      const ask = /^\s*\?\s*$/.test(starter);
+      questions.push({ type: "transform", stem: ask ? (/<u>/.test(src) ? "Đặt câu hỏi (Wh-question) cho phần được gạch chân." : "Đặt câu hỏi (Wh-question) cho câu sau.") : "Viết lại câu sao cho nghĩa không đổi.", src, starter: ask ? "" : starter, ask, answers });
     });
     return { questions, errors };
   }
@@ -392,7 +394,8 @@ window.LSE = window.LSE || {};
     }
     return st;
   }
-  const lab = s => String(s).replace(/\s+/g, " ").slice(0, 90);
+  const plain = s => String(s == null ? "" : s).replace(/<\/?u>/g, "");   /* bỏ thẻ gạch chân khi cần chữ thuần (nhãn, đọc to) */
+  const lab = s => plain(s).replace(/\s+/g, " ").slice(0, 90);
   function grade(q, st) {
     const v = st.v;
     switch (q.type) {
@@ -536,10 +539,10 @@ window.LSE = window.LSE || {};
           return h("span.fillbox", h("input.blank" + (review ? (ok ? ".k-right" : ".k-wrong") : ""), { type: "text", style: "width:" + w + "px;max-width:100%", value: st.v[i], disabled: review, placeholder: (st.hnt && st.hnt[i]) || null, autocomplete: "off", autocapitalize: "none", spellcheck: "false", oninput: e => { st.v[i] = e.target.value; } }),
             review && ctx.showAns && !ok ? h("span.small", { style: "color:var(--good);font-weight:800;margin-left:6px" }, "→ " + p.answers.join(" / ")) : null);
         });
-        return h("div", h("div.srcbox", q.src, ctx.sec && ctx.sec.speak ? speakBtn(q.src) : null), h("div", { style: "font-size:18px;line-height:2.3;margin-top:8px" }, line));
+        return h("div", h("div.srcbox", h("span", { style: "flex:1;min-width:0" }, L.rich ? L.rich(q.src) : plain(q.src)), ctx.sec && ctx.sec.speak ? speakBtn(plain(q.src)) : null), h("div", { style: "font-size:18px;line-height:2.3;margin-top:8px" }, line));
       }
-      const ta = h("textarea.blank" + (review ? (g.got ? ".k-right" : ".k-wrong") : ""), { style: "width:100%;min-height:64px;text-align:left;font-family:var(--bfont);font-size:17px;border-radius:12px", value: st.v, disabled: review, spellcheck: "false", autocomplete: "off", placeholder: st.hnt || (q.starter ? q.starter + " …" : "Viết lại cả câu ở đây…"), oninput: e => { st.v = e.target.value; } });
-      return h("div", h("div.srcbox", q.src, ctx.sec && ctx.sec.speak ? speakBtn(q.src) : null), q.starter ? h("div.small", { style: "margin:6px 0" }, "Bắt đầu bằng: ", h("b.pill.lav", q.starter)) : null, ta,
+      const ta = h("textarea.blank" + (review ? (g.got ? ".k-right" : ".k-wrong") : ""), { style: "width:100%;min-height:64px;text-align:left;font-family:var(--bfont);font-size:17px;border-radius:12px", value: st.v, disabled: review, spellcheck: "false", autocomplete: "off", placeholder: st.hnt || (q.starter ? q.starter + " …" : q.ask ? "Viết cả câu hỏi ở đây (bắt đầu bằng từ để hỏi: What, Where, When, Who, Why, How…)" : "Viết lại cả câu ở đây…"), oninput: e => { st.v = e.target.value; } });
+      return h("div", h("div.srcbox", h("span", { style: "flex:1;min-width:0" }, L.rich ? L.rich(q.src) : plain(q.src)), ctx.sec && ctx.sec.speak ? speakBtn(plain(q.src)) : null), q.starter ? h("div.small", { style: "margin:6px 0" }, "Bắt đầu bằng: ", h("b.pill.lav", q.starter)) : null, ta,
         review && ctx.showAns && !g.got ? h("div.fb.bad", "Đáp án: ", q.answers.map((a, i) => h("div", h("span.ans", a)))) : null);
     },
     errfix(q, st, ctx, g) {

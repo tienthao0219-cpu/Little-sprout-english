@@ -872,6 +872,56 @@
       const bk = h("div.lnbk");
       const ta = h("textarea.lned", { style: "min-height:190px;max-height:520px", placeholder: "Dán bài tập (theo cú pháp) vào đây…", spellcheck: "false", wrap: "soft", oninput: e => { sec.raw = e.target.value; markDirty(); paintLines(); check(); }, onscroll: () => syncBk() }, sec.raw || "");
       const taWrap = h("div.lnwrap", bk, ta);
+
+      /* ---- Gạch chân / in đậm: bôi đen chữ rồi bấm U hoặc B (dùng cho bài "đặt câu hỏi cho phần gạch chân") ---- */
+      const afterEdit = () => { sec.raw = ta.value; markDirty(); paintLines(); check(); };
+      const wrapSel = (a, b) => {
+        let s0 = ta.selectionStart, e0 = ta.selectionEnd; const v = ta.value;
+        if (s0 === e0) { toast("Bôi đen (chọn) chữ cần " + (a === "<u>" ? "gạch chân" : "in đậm") + " trước, rồi bấm lại nhé.", 3500); return; }
+        while (s0 < e0 && /\s/.test(v[s0])) s0++;
+        while (e0 > s0 && /\s/.test(v[e0 - 1])) e0--;
+        if (s0 >= e0) return;
+        if (v.slice(s0 - a.length, s0) === a && v.slice(e0, e0 + b.length) === b) {               // đã bọc: bấm lại để bỏ gạch chân/in đậm
+          ta.value = v.slice(0, s0 - a.length) + v.slice(s0, e0) + v.slice(e0 + b.length);
+          ta.setSelectionRange(s0 - a.length, e0 - a.length);
+        } else {
+          ta.value = v.slice(0, s0) + a + v.slice(s0, e0) + b + v.slice(e0);
+          ta.setSelectionRange(s0 + a.length, e0 + a.length);
+        }
+        afterEdit();
+      };
+      /* dán từ Word / Google Docs: chữ gạch chân (u hoặc text-decoration:underline) được đổi thành <u>…</u>; khối nào không có gạch chân thì dán như cũ */
+      const htmlToMarked = html => {
+        const doc = new DOMParser().parseFromString(html, "text/html"); let out = "", inU = false;
+        const underlined = el => el.tagName === "U" || /text-decoration[^;]*underline/i.test(el.getAttribute("style") || "");
+        const nl = () => { if (out && !out.endsWith("\n")) out += "\n"; };
+        (function walk(node) {
+          for (const c of node.childNodes) {
+            if (c.nodeType === 3) { out += c.nodeValue.replace(/[\s\u00a0]+/g, " "); continue; }
+            if (c.nodeType !== 1 || /^(STYLE|SCRIPT|HEAD|TITLE|META|XML)$/.test(c.tagName)) continue;
+            if (c.tagName === "BR") { out += "\n"; continue; }
+            const blk = /^(P|DIV|LI|TR|H[1-6]|UL|OL|TABLE|BLOCKQUOTE)$/.test(c.tagName), u = !inU && underlined(c);
+            if (blk) nl(); if (u) { out += "<u>"; inU = true; }
+            walk(c);
+            if (u) { out += "</u>"; inU = false; } if (blk) nl(); else if (/^(TD|TH)$/.test(c.tagName)) out += " ";
+          }
+        })(doc.body);
+        return out.replace(/<u>(\s+)/g, "$1<u>").replace(/(\s+)<\/u>/g, "</u>$1").replace(/<u><\/u>/g, "").replace(/<\/u>( ?)<u>/g, "$1")
+          .replace(/[ \t]*\n[ \t]*/g, "\n").replace(/\n{3,}/g, "\n\n").replace(/ {2,}/g, " ").trim();
+      };
+      ta.addEventListener("paste", ev => {
+        const cd = ev.clipboardData, html = cd && cd.getData("text/html");
+        if (!html || !/underline|<u[\s>]/i.test(html)) return;                      // không có gạch chân -> dán bình thường
+        const txt = htmlToMarked(html); if (!txt || txt.indexOf("<u>") < 0) return;
+        ev.preventDefault();
+        let ok = false; try { ok = document.execCommand && document.execCommand("insertText", false, txt); } catch (e) { }
+        if (!ok) { ta.setRangeText(txt, ta.selectionStart, ta.selectionEnd, "end"); afterEdit(); }
+        toast("Đã giữ chữ gạch chân khi dán ✓", 2500);
+      });
+      const fmtBar = h("div.row", { style: "gap:8px;margin:2px 0 6px;align-items:center;flex-wrap:wrap" },
+        h("button.btn.sm.sky", { type: "button", title: "Bôi đen chữ rồi bấm để gạch chân (bấm lại để bỏ)", onmousedown: e => e.preventDefault(), onclick: () => wrapSel("<u>", "</u>") }, h("u", "U"), " Gạch chân"),
+        h("button.btn.sm.sky", { type: "button", title: "Bôi đen chữ rồi bấm để in đậm (bấm lại để bỏ)", onmousedown: e => e.preventDefault(), onclick: () => wrapSel("**", "**") }, h("b", "B"), " In đậm"),
+        h("span.small.muted", "Bôi đen chữ rồi bấm. Dán từ Word thì gạch chân tự được giữ."));
       let badLines = new Map();
       const syncBk = () => { const sb = ta.offsetWidth - ta.clientWidth - 4; bk.style.paddingRight = (12 + Math.max(0, sb)) + "px"; bk.scrollTop = ta.scrollTop; };
       const paintLines = () => {
@@ -959,7 +1009,7 @@
             ta.value = sec.raw = r.raw; markDirty(); paintLines(); check(); toast("Đã gắn hình cho " + r.added + "/" + r.total + " câu. Cô xem lại và xoá dòng IMG: nếu chưa đúng ý nhé.", 5000);
           } }, "🪄 Gợi ý hình"),
           h("button.btn.sm.sky", { onclick: () => promptModal(sec.type, sec.topic) }, "🤖 Prompt cho AI")),
-        taWrap, status, prev);
+        fmtBar, taWrap, status, prev);
       box.jumpErr = () => {
         badLines = locateErrors(sec, L.hw.parseSection(sec).errors); paintLines();
         const first = [...badLines.keys()].sort((a, b) => a - b)[0];

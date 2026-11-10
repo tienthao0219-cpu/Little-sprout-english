@@ -136,6 +136,15 @@ Cú pháp: `câu gốc => câu thứ hai có chỗ trống ............ (từ g�
 - Thêm dòng `EXP: ...` ngay sau câu để hiện lời giải thích khi xem đáp án.
 - Cách cũ (`câu gốc | bắt đầu bằng => đáp án`) vẫn dùng được, có thể trộn chung 1 phần bài. Chấm không phân biệt hoa/thường, bỏ dấu câu; coi isn't = is not, I'm = I am.
 
+### C2. Đặt câu hỏi cho phần gạch chân (Wh-questions) — ✍️ Viết lại câu
+Cú pháp: `câu gốc có <u>phần cần hỏi</u> | ? => câu hỏi đúng`
+- Ví dụ: `The Hmong people live <u>in the high mountains</u>. | ? => Where do the Hmong people live?` rồi dòng `EXP: Nơi chốn ➔ dùng Where`.
+  → Học sinh thấy đề *"Đặt câu hỏi (Wh-question) cho phần được gạch chân"*, phần cần hỏi nổi bật (gạch chân hồng + nền vàng), và gõ cả câu hỏi.
+- **Cách gạch chân khi soạn tay:** bôi đen chữ trong ô soạn bài rồi bấm nút **U Gạch chân** (bấm lại để bỏ). Nút **B In đậm** làm tương tự.
+- **Dán từ Word / Google Docs:** chữ gạch chân tự được giữ (đổi thành `<u>…</u>`), không cần làm gì thêm.
+- **Nhập cả file Word:** dòng `➔ ? ____` dưới mỗi câu, bảng đáp án có cột "Giải thích", khung "Hướng dẫn làm bài" và dòng "Bài tập: Hãy đặt câu hỏi…" đều được nhận; gạch chân giữ nguyên.
+- Có nhiều câu hỏi đúng thì ngăn bằng ` / `, ví dụ: `... | ? => Which costume do the Thai women prefer? / What costume do the Thai women prefer?`
+
 ### D. 🐾 Thú nuôi (góc phải màn hình)
 - Mỗi học sinh chọn 1 bé (11 bé: 4 bé đầu miễn phí, các bé còn lại 40–200 xu), đặt tên tối đa 14 ký tự. Bé hiện nhỏ ở góc dưới bên phải mọi trang (kéo đi chỗ khác được), chạm vào để xem độ cute, cho ăn (−3 xu, +8 cute), đổi bé.
 - Trả lời đúng → bé cute hơn, vui, lên cấp (7 cấp). Sai nhiều → bé buồn. **Lâu không học → bé nằm ngủ**; vào học lại thì bé tỉnh dậy.

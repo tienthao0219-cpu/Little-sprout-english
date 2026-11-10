@@ -8,7 +8,7 @@ window.LSE = window.LSE || {};
   const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return fmtDay(d); };
   const hashStr = s => { let x = 2166136261; for (let i = 0; i < s.length; i++) { x ^= s.charCodeAt(i); x = Math.imul(x, 16777619); } return x >>> 0; };
   const BIG = { memory: 1, wordsearch: 1, crossword: 1 };          // dạng quá dài để làm từng câu
-  const qLabel = q => String(q.src || (q.parts ? q.parts.map(p => p.k === "t" ? p.s : "___").join("") : "") || q.stem || q.ans || q.say || (q.chunks ? q.chunks.join(" ") : "") || (q.full) || q.type).replace(/\s+/g, " ").trim().slice(0, 90);
+  const qLabel = q => String(q.src || (q.parts ? q.parts.map(p => p.k === "t" ? p.s : "___").join("") : "") || q.stem || q.ans || q.say || (q.chunks ? q.chunks.join(" ") : "") || (q.full) || q.type).replace(/<\/?u>/g, "").replace(/\s+/g, " ").trim().slice(0, 90);
 
   /* ================= Nhiệm vụ ngày ================= */
   const QUESTS = [
