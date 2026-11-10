@@ -74,6 +74,11 @@
   };
   /** "Bài 5.1" nếu tên đã bắt đầu bằng "Bài", ngược lại "Bài 5.1 · Tên bài" */
   const lessonLabel = l => { const t = String((l && l.title) || "").trim(), c = String((l && (l.code || l.id)) || "").trim(); return /^bài\s/i.test(t) || !c ? (t || "Bài " + c) : "Bài " + c + " · " + t; };
+  const MODE_KEY = "lse_spg_noscore";
+  const modeGet = () => { try { return localStorage.getItem(MODE_KEY) !== "0"; } catch (e) { return true; } };
+  const modeSet = v => { try { localStorage.setItem(MODE_KEY, v ? "1" : "0"); } catch (e) { } };
+  const modeDesc = noScore => noScore ? "Đang TẮT chấm điểm: app chỉ phân tích (điểm mạnh, điểm cần cải thiện, cụm từ nói chưa tự nhiên, phát âm) và soạn tin Zalo không có số điểm." : "Đang BẬT chấm điểm: AI chấm 90 điểm, cô tự chấm 10 điểm phong thái, có xếp loại.";
+  const NOSCORE_BAND = "Nhận xét";
   const settingsOf = s => Object.assign({}, S.DEFAULT_SETTINGS, s || {});
   const lines = v => (Array.isArray(v) ? v : String(v || "").split(/\n|;/)).map(x => String(x).trim()).filter(Boolean);
 
@@ -135,7 +140,7 @@
     catch (e) { host.innerHTML = ""; host.append(h("div.card", h("div.err", e.message))); return; }
     host.innerHTML = "";
     const settings = settingsOf(ls.settings);
-    const st = { lessonId: "", student: "", prep: null, file: null, busy: false, url: "" };
+    const st = { lessonId: "", student: "", prep: null, file: null, busy: false, url: "", noScore: modeGet() };
 
     if (info.demo) host.append(h("div.hint", { style: "margin-bottom:12px" }, "Đang ở chế độ DEMO (chưa nối Google Apps Script): app vẫn đo ngắt nghỉ thật từ file của cô, nhưng phần điểm AI là KẾT QUẢ MẪU để xem giao diện. Muốn chấm thật, làm theo mục Chấm Speaking trong HUONG-DAN.md."));
     else if (!info.hasKey) host.append(h("div.hint", { style: "margin-bottom:12px;background:var(--rose)" }, "Chưa cài khoá Gemini nên chưa chấm được. Vào Apps Script › Cài đặt dự án › Thuộc tính tập lệnh, thêm GEMINI_API_KEY (xem HUONG-DAN.md, mục Chấm Speaking), rồi tải lại trang."));
@@ -150,6 +155,10 @@
     drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
     drop.addEventListener("dragleave", () => drop.classList.remove("over"));
     drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) { try { const dt = new DataTransfer(); dt.items.add(f); fileIn.files = dt.files; } catch (_) { } onFile({ target: { files: [f] } }); } });
+    const modeBox = h("label", { style: "display:flex;align-items:center;gap:10px;margin-top:14px;cursor:pointer;font-weight:800" },
+      h("input", { type: "checkbox", style: "width:22px;height:22px", checked: !st.noScore, onchange: e => { st.noScore = !e.target.checked; modeSet(st.noScore); modeTxt.textContent = modeDesc(st.noScore); } }),
+      h("span", "Chấm điểm theo rubric 100 điểm"));
+    const modeTxt = h("div.small.muted", { style: "margin-top:4px" }, modeDesc(st.noScore));
     const player = h("div");
     const infoBox = h("div");
     const lessonHint = h("div");
@@ -162,7 +171,7 @@
         h("label.field", h("span", "1. Bài học"), lessonSel),
         h("label.field", h("span", "2. Học viên"), nameIn, h("datalist#spgNames", names.map(n => h("option", { value: n })))),
         h("div.field", h("span", "3. File ghi âm hoặc video (mp3, mp4...)"), drop)),
-      lessonHint, player, infoBox,
+      modeBox, modeTxt, lessonHint, player, infoBox,
       h("div.row", { style: "margin-top:12px" }, goBtn, h("span.small.muted", "Mất khoảng 20-60 giây. Bài càng ngắn càng nhanh.")),
       ls.lessons.length ? null : h("div.hint", { style: "margin-top:12px" }, "Cô chưa có bài học nào. ", h("a", { href: "#/teacher/speak/lessons", style: "font-weight:800" }, "Vào Cấu hình bài"), " để tạo (có nút tạo sẵn các bài theo rubric)."),
       ), out);
@@ -211,9 +220,9 @@
         const rs = {
           id: "", student: st.student.trim(), lesson: { id: lesson.id, code: lesson.code || "", title: lesson.title || "", vocab: lines(lesson.vocab), phrases: lines(lesson.phrases) },
           result: result, measured: st.prep.measured, scores: Object.assign({}, result.scores), manual: { eyeContact: "", expression: "" },
-          zalo: "", note: "", durationSec: st.prep.measured.spanSec, demo: !!r.demo, model: r.model || "", audioUrl: st.url, status: "draft", settings: settings
+          noScore: st.noScore, zalo: "", note: "", durationSec: st.prep.measured.spanSec, demo: !!r.demo, model: r.model || "", audioUrl: st.url, status: "draft", settings: settings
         };
-        rs.zalo = S.buildZalo({ result: result, student: rs.student, totals: S.totals(rs.scores, rs.manual) });
+        rs.zalo = S.buildZalo({ result: result, student: rs.student, totals: S.totals(rs.scores, rs.manual), noScore: rs.noScore });
         out.innerHTML = ""; renderResult(out, rs);
         try { await persist(rs, "draft"); toast("Đã lưu bản nháp AI vào Lịch sử"); } catch (e) { toast("Chưa lưu được bản nháp: " + e.message, 5000); }
         out.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -252,10 +261,14 @@
     const ring = h("div.spg-ring"), bandBox = h("div"), provBox = h("div.small.muted");
     const head = h("div.card.spg-head", ring, h("div.grow", h("div", { style: "font-family:var(--hfont);font-size:22px;font-weight:700" }, rs.student), h("div.muted.small", lessonLabel(rs.lesson) + " · " + mmss(rs.durationSec || 0) + " thời lượng nói"), bandBox, provBox));
     host.append(head);
+    if (rs.noScore) {
+      ring.style.display = "none";
+      bandBox.append(h("div", { style: "margin-top:6px" }, h("span.pill.big.sky", "📝 Chỉ nhận xét, không chấm điểm")));
+    }
     if (rs.demo) host.append(h("div.hint", { style: "margin-top:12px;background:var(--rose)" }, "⚠️ ĐÂY LÀ KẾT QUẢ MẪU (chế độ DEMO). Điểm AI và nhận xét bên dưới không phải do AI chấm file của cô."));
     if (R.audioNote && !rs.demo) host.append(h("div.hint", { style: "margin-top:12px" }, "📝 AI ghi chú về âm thanh: " + R.audioNote));
     if (R.confidence === "low" && !rs.demo) host.append(h("div.hint", { style: "margin-top:12px;background:var(--rose)" }, "AI tự đánh giá độ tin cậy THẤP với bài này (file ngắn, nhiều tiếng ồn hoặc khó nghe). Cô nghe lại và xem kỹ điểm trước khi gửi."));
-    host.append(h("div.hint", { style: "margin-top:12px" }, "Điểm AI chỉ là bản nháp. Phát âm và ngữ điệu AI có thể nghe sai, nhất là những lỗi có nhãn \"tin cậy thấp\". Cô nghe lại và chỉnh điểm được ở bảng dưới."));
+    host.append(h("div.hint", { style: "margin-top:12px" }, rs.noScore ? "Nhận xét của AI chỉ là bản nháp. Phát âm và ngữ điệu AI có thể nghe sai, nhất là những lỗi có nhãn \"tin cậy thấp\". Cô nghe lại và sửa tin Zalo trước khi gửi." : "Điểm AI chỉ là bản nháp. Phát âm và ngữ điệu AI có thể nghe sai, nhất là những lỗi có nhãn \"tin cậy thấp\". Cô nghe lại và chỉnh điểm được ở bảng dưới."));
 
     /* --- bảng điểm --- */
     const tblBody = [];
@@ -275,7 +288,12 @@
         tblBody.push(h("div.spg-row", h("div.spg-lab", h("b", it.label), modeTag), h("div.spg-in", inp, h("span.muted", " / " + it.max)), h("div.spg-cm.small", cm || h("span.muted", "(AI không ghi nhận xét)"))));
       });
     });
-    host.append(h("div.card", { style: "margin-top:12px" }, h("h3", { style: "margin-bottom:8px" }, "Bảng điểm theo rubric"), tblBody));
+    if (!rs.noScore) host.append(h("div.card", { style: "margin-top:12px" }, h("h3", { style: "margin-bottom:8px" }, "Bảng điểm theo rubric"), tblBody));
+    else {
+      const cms = [];
+      S.RUBRIC.forEach(g => g.items.forEach(it => { const c = it.mode === "ai" && R.comments && R.comments[it.id]; if (c) cms.push(h("div.spg-iss", h("b", it.label), h("div.small", c))); }));
+      if (cms.length) host.append(h("div.card", { style: "margin-top:12px" }, h("h3", { style: "margin-bottom:8px" }, "Nhận xét theo tiêu chí"), cms));
+    }
 
     /* --- số liệu đo --- */
     host.append(h("div.card", { style: "margin-top:12px" }, h("h3", "Số liệu đo được"), measuredCard(rs.measured, rs.measured && rs.measured.totalSec, false, R.textStats),
@@ -334,13 +352,13 @@
     host.append(h("div.card", { style: "margin-top:12px" }, h("h3", "💬 Tin nhắn gửi Zalo (sửa trực tiếp được)"), zalo, zaloNote,
       h("div.row", { style: "margin-top:8px" },
         h("button.btn.sky", { onclick: () => L.copyText(zalo.value) }, "📋 Sao chép"),
-        h("button.btn.ghost", { onclick: async () => { if (!(await L.confirmBox("Tạo lại tin nhắn theo điểm hiện tại? Phần cô đã sửa tay sẽ mất.", "Tạo lại"))) return; rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: T() }); rs.zaloEdited = false; zaloNote.style.display = "none"; zalo.value = rs.zalo; } }, "🔄 Tạo lại theo điểm hiện tại"))));
+        h("button.btn.ghost", { onclick: async () => { if (!(await L.confirmBox("Tạo lại tin nhắn từ nhận xét của AI? Phần cô đã sửa tay sẽ mất.", "Tạo lại"))) return; rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: T(), noScore: rs.noScore }); rs.zaloEdited = false; zaloNote.style.display = "none"; zalo.value = rs.zalo; } }, "🔄 Tạo lại theo điểm hiện tại"))));
 
     /* --- ghi chú & lưu --- */
     const note = h("textarea", { style: "min-height:70px;font-family:inherit", placeholder: "Ghi chú riêng của cô (học viên không thấy)...", oninput: e => { rs.note = e.target.value; } }); note.value = rs.note || "";
     const saveBtn = h("button.btn.mint", { onclick: async () => {
       saveBtn.disabled = true;
-      try { const t = T(); await persist(rs, t.provisional ? "tentative" : "final"); toast(t.provisional ? "Đã lưu. Cô nhớ chấm 10 điểm phong thái nữa nhé." : "Đã lưu kết quả ✓"); }
+      try { const t = T(); await persist(rs, rs.noScore || !t.provisional ? "final" : "tentative"); toast(rs.noScore ? "Đã lưu nhận xét ✓" : t.provisional ? "Đã lưu. Cô nhớ chấm 10 điểm phong thái nữa nhé." : "Đã lưu kết quả ✓"); }
       catch (e) { toast("Chưa lưu được: " + e.message, 5000); } finally { saveBtn.disabled = false; }
     } }, "💾 Lưu kết quả");
     host.append(h("div.card", { style: "margin-top:12px" }, h("h3", { style: "margin-bottom:6px" }, "📝 Ghi chú riêng"), note));
@@ -349,6 +367,7 @@
 
     function paint() {
       const t = T();
+      if (rs.noScore) { if (!rs.zaloEdited) { rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: t, noScore: true }); zalo.value = rs.zalo; } return; }
       ring.innerHTML = ""; ring.append(h("b", String(t.provisional ? t.part : t.total)), h("span", t.provisional ? "/90 (tạm)" : "/100"));
       ring.className = "spg-ring " + t.band.key;
       bandBox.innerHTML = ""; bandBox.append(h("div", { style: "margin-top:4px" }, h("span.pill.big", t.band.icon + " " + t.band.label + (t.provisional ? " (tạm tính)" : ""))), h("div.small", { style: "margin-top:6px" }, t.band.note));
@@ -364,8 +383,8 @@
     rs.status = status;
     rs.id = await store.saveResult({
       id: rs.id || undefined, student: rs.student, lessonId: rs.lesson.id, lessonTitle: lessonLabel(rs.lesson),
-      total: t.provisional ? t.part : t.total, band: t.band.label, durationSec: rs.durationSec || 0, status: status,
-      data: { result: rs.result, measured: rs.measured, scores: rs.scores, manual: rs.manual, zalo: rs.zalo, zaloEdited: !!rs.zaloEdited, note: rs.note, lesson: rs.lesson, demo: rs.demo, model: rs.model, settings: { phrases: (rs.settings || {}).phrases } }
+      total: rs.noScore ? 0 : t.provisional ? t.part : t.total, band: rs.noScore ? NOSCORE_BAND : t.band.label, durationSec: rs.durationSec || 0, status: status,
+      data: { noScore: !!rs.noScore, result: rs.result, measured: rs.measured, scores: rs.scores, manual: rs.manual, zalo: rs.zalo, zaloEdited: !!rs.zaloEdited, note: rs.note, lesson: rs.lesson, demo: rs.demo, model: rs.model, settings: { phrases: (rs.settings || {}).phrases } }
     });
   }
 
@@ -401,14 +420,14 @@
       box.innerHTML = "";
       const rows = list.filter(r => !sel || r.student === sel);
       if (sel) {
-        const chrono = rows.slice().reverse().filter(r => r.status === "final");
+        const chrono = rows.slice().reverse().filter(r => r.status === "final" && r.band !== NOSCORE_BAND);
         if (chrono.length >= 2) box.append(h("div.hint", { style: "margin-bottom:10px" }, h("b", "Tiến bộ của " + sel + ": "), chrono.map(r => r.total).join("  →  "), "  (các bài đã hoàn tất, cũ đến mới)"));
       }
       box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Ngày", "Học viên", "Bài", "Điểm", "Xếp loại", "Trạng thái", ""].map(t => h("th", t)))),
         h("tbody", rows.map(r => {
-          const tg = stTag[r.status] || stTag.draft;
+          const ns = r.band === NOSCORE_BAND, tg = ns ? ["sky", "Nhận xét"] : (stTag[r.status] || stTag.draft);
           return h("tr", h("td", { style: "white-space:nowrap" }, fmtDate(r.time)), h("td", h("b", r.student)), h("td", r.lessonTitle),
-            h("td", h("b", String(r.total)), h("span.muted", r.status === "final" ? "/100" : "/90")), h("td", r.band), h("td", h("span.pill." + tg[0], tg[1])),
+            h("td", ns ? h("span.muted", "—") : [h("b", String(r.total)), h("span.muted", r.status === "final" ? "/100" : "/90")]), h("td", ns ? "—" : r.band), h("td", h("span.pill." + tg[0], tg[1])),
             h("td", { style: "white-space:nowrap" }, h("a.btn.sm", { href: "#/teacher/speak/r/" + r.id }, "Mở"), " ",
               h("button.btn.sm.ghost", { onclick: async () => { if (!(await L.confirmBox("Xoá kết quả của " + r.student + " (" + r.lessonTitle + ")?", "Xoá"))) return; try { await store.delResult(r.id); list = list.filter(x => x.id !== r.id); draw(); toast("Đã xoá"); } catch (e) { toast(e.message, 4000); } } }, "🗑️")));
         })))));
@@ -429,7 +448,7 @@
     const rs = {
       id: item.id, student: item.student, lesson: d.lesson || { id: item.lessonId, code: "", title: item.lessonTitle, vocab: [], phrases: [] },
       result: d.result, measured: d.measured, scores: d.scores || d.result.scores, manual: d.manual || { eyeContact: "", expression: "" }, zalo: d.zalo || "", zaloEdited: !!d.zaloEdited, note: d.note || "",
-      durationSec: item.durationSec, demo: !!d.demo, model: d.model || "", audioUrl: "", status: item.status, settings: d.settings || {}
+      noScore: !!d.noScore || item.band === NOSCORE_BAND, durationSec: item.durationSec, demo: !!d.demo, model: d.model || "", audioUrl: "", status: item.status, settings: d.settings || {}
     };
     host.append(h("div.row", { style: "margin-bottom:12px" }, h("a.btn.sm.ghost", { href: "#/teacher/speak/history" }, "← Lịch sử"), h("span.muted.small", "Chấm lúc " + fmtDate(item.time))));
     renderResult(host, rs);

@@ -245,7 +245,7 @@
     if (arr(r.strengths).length > 1) good.push(arr(r.strengths)[1]);
     lines.push("👍 Điểm cô khen: " + (good.length ? good.join(" ") : "Em đã hoàn thành bài nói và rất cố gắng, cô thấy tiến bộ rồi đó."));
     lines.push("");
-    lines.push("🔧 Điểm cần hoàn thiện thêm (Chấm điểm: " + (tot.provisional ? "tạm " + tot.part + "/90, chưa tính phong thái" : tot.total + "/100") + "):");
+    lines.push(ctx.noScore || !tot ? "🔧 Điểm cần hoàn thiện thêm:" : "🔧 Điểm cần hoàn thiện thêm (Chấm điểm: " + (tot.provisional ? "tạm " + tot.part + "/90, chưa tính phong thái" : tot.total + "/100") + "):");
     let k = 0;
     const iss = arr(r.pronunciationIssues).filter(x => x.confidence !== "low")[0] || arr(r.pronunciationIssues)[0];
     if (iss) { k++; lines.push(k + ". Phát âm: " + (iss.word ? "từ \"" + iss.word + "\": " : "") + (iss.tip || (iss.heard && iss.expected ? "em đọc gần giống /" + iss.heard + "/, mình sửa thành /" + iss.expected + "/ nhé." : "mình luyện lại nhé."))); }
