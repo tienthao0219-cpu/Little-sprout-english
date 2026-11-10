@@ -833,3 +833,10 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 .chip.ghost{box-shadow:0 8px 18px rgba(80,60,140,.35);cursor:grabbing;font-size:inherit;white-space:nowrap}
 .chip.ins-before::before{content:"";position:absolute;left:-7px;top:3px;bottom:3px;width:4px;border-radius:2px;background:#E0679A}
 .answerline.ins-end::after{content:"";width:4px;height:32px;border-radius:2px;background:#E0679A}
+
+.spg-drop{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 18px;border:2.5px dashed var(--rose,#e8708a);border-radius:16px;background:#fff7f9;cursor:pointer;min-height:64px;transition:.15s}
+.spg-drop:hover,.spg-drop.over{background:#ffe9ef;transform:translateY(-1px)}
+.spg-drop.has{border-style:solid;background:#f3fbf4;border-color:#5dbb7a}
+.spg-drop input[type=file]{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.spg-dropico{font-size:30px}
+.spg-dropname{margin-left:auto;font-weight:800;font-size:13.5px;word-break:break-all;max-width:100%}

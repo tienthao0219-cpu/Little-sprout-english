@@ -83,13 +83,13 @@
   async function prepAudio(file) {
     const AC = window.AudioContext || window.webkitAudioContext, OAC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
     if (!AC || !OAC) throw new Error("Trình duyệt này chưa hỗ trợ xử lý âm thanh. Hãy dùng Chrome hoặc Safari bản mới.");
-    if (file.size > 60 * 1024 * 1024) throw new Error("File quá nặng (trên 60 MB). Hãy cắt ngắn file.");
+    if (file.size > 250 * 1024 * 1024) throw new Error("File quá nặng (trên 250 MB). Hãy cắt ngắn file hoặc xuất riêng phần âm thanh (mp3).");
     const buf = await file.arrayBuffer();
     const ctx = new AC();
     let dec;
     try {
       dec = await new Promise((res, rej) => { const p = ctx.decodeAudioData(buf, res, rej); if (p && p.catch) p.catch(rej); });
-    } catch (e) { throw new Error("Không đọc được file này. Hãy thử file mp3, m4a hoặc wav khác."); }
+    } catch (e) { throw new Error("Không đọc được âm thanh trong file này. Nếu là video, hãy thử xuất riêng phần tiếng ra mp3/m4a rồi up lại; hoặc thử file khác."); }
     finally { try { ctx.close(); } catch (e) { } }
     if (dec.duration > MAX_SEC) throw new Error("File dài " + Math.round(dec.duration) + " giây, vượt giới hạn " + MAX_SEC / 60 + " phút. Hãy cắt ngắn rồi up lại.");
     const sr = 16000, off = new OAC(1, Math.max(1, Math.ceil(dec.duration * sr)), sr);
@@ -144,7 +144,12 @@
       h("option", { value: "" }, ls.lessons.length ? "— Chọn bài học —" : "— Chưa có bài nào —"),
       ls.lessons.slice().sort((a, b) => String(a.code || a.id).localeCompare(String(b.code || b.id), "vi", { numeric: true })).map(l => h("option", { value: l.id }, lessonLabel(l))));
     const nameIn = h("input", { type: "text", list: "spgNames", placeholder: "Tên học viên", autocomplete: "off", oninput: e => { st.student = e.target.value; refresh(); } });
-    const fileIn = h("input", { type: "file", accept: "audio/*,.mp3,.m4a,.wav,.aac,.ogg,.flac", onchange: onFile });
+    const fileIn = h("input", { type: "file", accept: "audio/*,video/*,.mp3,.m4a,.wav,.aac,.ogg,.flac,.mp4,.mov,.m4v,.webm,.3gp", onchange: onFile });
+    const dropName = h("span.spg-dropname", "Chưa chọn file");
+    const drop = h("label.spg-drop", h("span.spg-dropico", "📁"), h("span", h("b", "Bấm để chọn file ghi âm hoặc video"), h("br"), h("span.small.muted", "mp3, m4a, wav, mp4, mov... (tối đa 5 phút)")), dropName, fileIn);
+    drop.addEventListener("dragover", e => { e.preventDefault(); drop.classList.add("over"); });
+    drop.addEventListener("dragleave", () => drop.classList.remove("over"));
+    drop.addEventListener("drop", e => { e.preventDefault(); drop.classList.remove("over"); const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; if (f) { try { const dt = new DataTransfer(); dt.items.add(f); fileIn.files = dt.files; } catch (_) { } onFile({ target: { files: [f] } }); } });
     const player = h("div");
     const infoBox = h("div");
     const lessonHint = h("div");
@@ -156,7 +161,7 @@
       h("div.grid2", { style: "display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px" },
         h("label.field", h("span", "1. Bài học"), lessonSel),
         h("label.field", h("span", "2. Học viên"), nameIn, h("datalist#spgNames", names.map(n => h("option", { value: n })))),
-        h("label.field", h("span", "3. File ghi âm (mp3, m4a, wav...)"), fileIn)),
+        h("div.field", h("span", "3. File ghi âm hoặc video (mp3, mp4...)"), drop)),
       lessonHint, player, infoBox,
       h("div.row", { style: "margin-top:12px" }, goBtn, h("span.small.muted", "Mất khoảng 20-60 giây. Bài càng ngắn càng nhanh.")),
       ls.lessons.length ? null : h("div.hint", { style: "margin-top:12px" }, "Cô chưa có bài học nào. ", h("a", { href: "#/teacher/speak/lessons", style: "font-weight:800" }, "Vào Cấu hình bài"), " để tạo (có nút tạo sẵn các bài theo rubric)."),
@@ -174,9 +179,11 @@
       const f = e.target.files[0]; st.file = f || null; st.prep = null; infoBox.innerHTML = ""; player.innerHTML = "";
       if (st.url) { URL.revokeObjectURL(st.url); st.url = ""; }
       refresh();
+      dropName.textContent = f ? f.name : "Chưa chọn file"; drop.classList.toggle("has", !!f);
       if (!f) return;
       st.url = URL.createObjectURL(f);
-      player.append(h("audio", { controls: true, src: st.url, style: "width:100%;margin-top:12px" }));
+      const isVid = /^video\//.test(f.type) || /\.(mp4|mov|m4v|webm|3gp)$/i.test(f.name);
+      player.append(h(isVid ? "video" : "audio", { controls: true, src: st.url, style: "width:100%;margin-top:12px" + (isVid ? ";max-height:220px;background:#000;border-radius:12px" : "") }));
       infoBox.append(h("div.muted.small", { style: "margin-top:8px" }, h("span.spinner"), " Đang đọc và đo file..."));
       try {
         const prep = await prepAudio(f);
