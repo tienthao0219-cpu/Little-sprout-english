@@ -78,14 +78,14 @@
   /* ============================================================
      Khung các tab
      ============================================================ */
-  const TABS = [["home", "🌿 Tổng quan"], ["upload", "⬆️ Đăng app"], ["content", "🗂️ Giáo trình & unit"], ["hw", "📝 Bài tập"], ["images", "🖼️ Hình"], ["students", "👥 Học viên"], ["report", "📊 Báo cáo học viên"], ["settings", "⚙️ Cài đặt"]];
+  const TABS = [["home", "🌿 Tổng quan"], ["upload", "⬆️ Đăng app"], ["content", "🗂️ Giáo trình & unit"], ["hw", "📝 Bài tập"], ["images", "🖼️ Hình"], ["students", "👥 Học viên"], ["report", "📊 Báo cáo học viên"], ["speak", "🎤 Chấm Speaking"], ["settings", "⚙️ Cài đặt"]];
   async function teacherView(tab, rest) {
     L.show(h("div.center.muted", h("span.spinner")));
     await L.loadManifest();
     const body = h("div");
     const tabs = h("div.tabs", TABS.map(([id, t]) => h("button" + (tab === id || (tab === "hw-edit" && id === "hw") ? ".on" : ""), { onclick: () => L.go("/teacher/" + id) }, t)));
     L.show(h("h1", { style: "font-size:30px;margin-bottom:12px" }, "Khu của cô " + CFG.teacherName), tabs, body);
-    const fn = { home: tHome, upload: tUpload, content: tContent, hw: tHwList, "hw-edit": tHwEdit, students: tStudents, images: tImages, report: tReport, settings: tSettings }[tab];
+    const fn = { home: tHome, upload: tUpload, content: tContent, hw: tHwList, "hw-edit": tHwEdit, students: tStudents, images: tImages, report: tReport, speak: (b, r) => L.speakTab(b, r), settings: tSettings }[tab];
     if (!fn) { body.append(h("div.card.empty", "Không có mục này.")); return; }
     try { await fn(body, rest || []); } catch (e) { console.error(e); body.append(h("div.card", h("div.err", e.message))); }
   }

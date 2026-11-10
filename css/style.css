@@ -798,3 +798,26 @@ textarea.lned{position:relative;z-index:1;background:transparent;padding-left:52
 @keyframes ghPop{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.gh-card,.gh-poster img{animation:none;transition:none}.gh-card:hover{transform:none}}
 @media(max-width:520px){.gh-grid{gap:18px}.gh-card{border-width:4px;border-radius:26px}}
+
+/* ---------- Chấm Speaking bằng AI (khu giáo viên) ---------- */
+.spg-head{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.spg-ring{width:118px;height:118px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;background:#fff;border:8px solid var(--lav);color:var(--ink);text-align:center;line-height:1.05}
+.spg-ring b{font-family:var(--hfont);font-size:38px}
+.spg-ring span{font-size:12.5px;font-weight:800;color:var(--soft)}
+.spg-ring.excellent{border-color:#F6C945}.spg-ring.good{border-color:var(--mint-d)}.spg-ring.fair{border-color:var(--sky-d)}.spg-ring.improve{border-color:var(--peach-d)}
+.spg-grp{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px;padding:6px 0;border-bottom:2px solid var(--line)}
+.spg-row{display:grid;grid-template-columns:minmax(150px,1.1fr) 110px minmax(0,2fr);gap:10px;align-items:start;padding:9px 0;border-bottom:1px solid var(--line)}
+.spg-lab{display:flex;flex-direction:column;gap:4px;align-items:flex-start}
+.spg-in{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.spg-in input{width:74px;padding:8px;text-align:center;font-weight:800}
+@media (max-width:640px){.spg-row{grid-template-columns:1fr 100px}.spg-cm{grid-column:1/-1}}
+.spg-stats{display:flex;gap:8px;flex-wrap:wrap}
+.spg-stat{background:#fff;border:2px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;min-width:92px;text-align:center}
+.spg-stat b{display:block;font-family:var(--hfont);font-size:22px}
+.spg-stat span{font-size:12px;color:var(--soft);font-weight:800}
+.spg-tr{line-height:1.9;font-size:16px;margin:8px 0}
+.spg-tr mark.v{background:var(--mint);border-radius:6px;padding:1px 4px}
+.spg-tr mark.f{background:var(--peach);border-radius:6px;padding:1px 4px}
+.spg-iss{background:rgba(255,255,255,.7);border:2px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;margin-top:8px}
+textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-height:1.6}
+.spg-bar{position:sticky;bottom:10px;z-index:5;padding:10px 14px}

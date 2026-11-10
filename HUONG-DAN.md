@@ -301,3 +301,29 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - **Giống Flyers:** mỗi bộ hoàn thành đủ 4 Part được ⭐; đủ mốc 1, 3, 5, 7, 10, 13, 16, 20, 24, 28, 34, 40 bộ thì mở sticker (12 sticker). Lưu trong hồ sơ website (trường `mov`) và đồng bộ lên Google Sheets (trang tính `profiles`). Mở app đứng riêng (chưa đăng nhập) thì sao/sticker chỉ lưu trên máy này.
 - **Mã của cô:** mặc định `thao2026` (cùng mã với Flyers). Đổi mã: `python3 apps/movers/speaking/_work/set_code.py <mã mới>` rồi `python3 apps/movers/speaking/_work/build.py`. Học viên đã đăng nhập không thấy nút "Cô".
 - **Cần làm một lần:** dán lại `apps-script/Code.gs` vào Apps Script và **Triển khai phiên bản mới** (nếu cô đã làm bước này cho Flyers thì phải làm lại một lần nữa, vì Code.gs có thêm trường `mov`). Chưa làm thì sao/sticker vẫn lưu trên máy, chỉ chưa lên Google Sheets.
+
+## Chấm Speaking bằng AI (mới) — tab 🎤 Chấm Speaking trong Khu của cô
+
+**Làm gì:** cô chọn bài, nhập tên học viên, up file ghi âm (mp3, m4a, wav). App đo ngắt nghỉ ngay trên máy cô, nhờ Gemini nghe và chấm theo rubric 100 điểm (phát âm 30, từ vựng 25, ngữ pháp 20, trôi chảy 15, phong thái 10), rồi hiện điểm mạnh, điểm yếu, điều cần cải thiện, gợi ý nói tự nhiên hơn và soạn sẵn tin Zalo kiểu "khen, góp ý, động viên". Cô xem, sửa điểm, chấm tay 10 điểm phong thái, sao chép tin gửi học viên.
+
+### A. Cài đặt (làm 1 lần, khoảng 15 phút)
+1. **Cập nhật Apps Script:** mở `apps-script/Code.gs` mới, copy toàn bộ, dán đè vào Apps Script của cô. **Nhớ giữ nguyên 2 mật khẩu** `STUDENT_PASSWORD` và `TEACHER_PASSWORD` (sửa lại như cô đang dùng, đừng để chữ DOI-MAT-KHAU).
+2. **Lấy khoá Gemini:** vào https://aistudio.google.com/apikey bằng tài khoản Google, bấm tạo khoá, copy.
+3. Trong Apps Script: biểu tượng bánh răng **Cài đặt dự án → Thuộc tính tập lệnh → Thêm thuộc tính**: tên `GEMINI_API_KEY`, giá trị là khoá vừa copy. Lưu. (Không dán khoá vào code hay vào GitHub.)
+4. Chạy hàm `thietLapLanDau` một lần để tạo 2 trang tính mới (`spgLessons`, `spgResults`).
+5. **Triển khai → Quản lý triển khai → Sửa → Phiên bản mới → Triển khai.** (Bắt buộc, nếu không web vẫn chạy code cũ.) Địa chỉ `/exec` giữ nguyên, không cần sửa `config.js`.
+6. Đưa các file web mới lên GitHub (`index.html`, `css/style.css`, `js/teacher.js`, `js/speakgrade.js`, `js/speakgrade-core.js`), chờ 1-3 phút, tải lại trang (Ctrl+Shift+R / trên iPad đóng hẳn tab rồi mở lại).
+
+### B. Dùng hằng ngày
+1. Tab **📚 Cấu hình bài**: nhập cho từng bài *âm IPA trọng tâm, từ vựng cốt lõi, cụm từ, ngữ pháp trọng tâm, đề nói*. Nút "✨ Tạo sẵn bài 1, 4.1, 5.1, 6.1, 6.2, 7.1" chỉ điền phần cô đã viết trong rubric; cô tự bổ sung phần còn lại. Bài càng đầy đủ thì AI chấm càng sát. Cụm từ đắt giá (work-life balance, ...) và từ nối chỉnh ở "Cài đặt chung" cùng trang.
+2. Tab **🎤 Chấm bài mới**: chọn bài, nhập tên, chọn file, bấm **Chấm điểm** (20-60 giây). Bản nháp AI tự lưu vào Lịch sử.
+3. Cô nghe lại ở các mốc giờ AI nêu, sửa điểm nếu cần, nhập 2 ô **Giao tiếp ánh mắt (7)** và **Biểu cảm (3)**, sửa tin Zalo, bấm **Lưu kết quả**.
+4. Tab **🗂️ Lịch sử**: xem lại, lọc theo học viên, xem tiến bộ qua các bài.
+
+### C. Nói thật về giới hạn (cô nên đọc)
+- **Điểm AI là bản nháp, không thay tai của cô.** Phát âm và ngữ điệu là phần AI yếu nhất: AI có thể nghe sai hoặc bỏ sót. Mỗi lỗi có nhãn độ tin cậy; lỗi "thấp" cô nghe lại rồi hãy tin. Từ vựng, ngữ pháp, từ nối thì đáng tin hơn. Chưa có dữ liệu chấm thật nào để đối chiếu, nên 3-5 bài đầu cô nên so điểm AI với cảm nhận của cô.
+- **10 điểm phong thái** (ánh mắt, nụ cười) không chấm được từ file âm thanh, cô tự chấm. Khi chưa nhập, điểm hiện "x/90 (tạm)".
+- **Điểm độ dài (5đ) và số lần ngắt** do app tính bằng công thức từ file, không phải AI đoán. Các mức giữa (50-59s, 91-105s, 40-49s, 106-120s) là đề xuất của mình; mốc 60-90s, dưới 40s, quá 2 phút là của cô. Muốn đổi mức, sửa hàm `lengthScore` trong `js/speakgrade-core.js`.
+- **Quyền riêng tư:** file ghi âm được gửi cho Google Gemini. Với khoá miễn phí, Google có thể dùng nội dung để cải thiện sản phẩm; gói trả phí thì không. Nếu học viên là người lớn gửi giọng nói thật, cô nên báo trước và cân nhắc bật thanh toán trên khoá. App không lưu file âm thanh, chỉ lưu phiên âm và điểm trong Google Sheets của cô.
+- **Giới hạn:** mỗi file tối đa 5 phút. Khoá miễn phí giới hạn số lần chấm mỗi phút/ngày; gặp lỗi "hết lượt" thì đợi 1-2 phút. Mặc định dùng model `gemini-2.5-flash`; nếu Google đổi tên/ngừng model, thêm thuộc tính `GEMINI_MODEL` trong Apps Script để đổi.
+- Chế độ DEMO (chưa nối Apps Script) chỉ cho xem giao diện: điểm AI là kết quả mẫu.
