@@ -249,6 +249,64 @@ details.guide li{margin:4px 0}
 .sw{width:54px;height:32px;border-radius:99px;background:#ddd5ee;position:relative;flex:none;transition:.15s}
 .sw::after{content:'';position:absolute;left:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 2px 4px rgba(0,0,0,.2)}
 .sw.on{background:var(--ok)}.sw.on::after{left:25px}
+
+/* ----- tab Luyện tập / Trò chơi nhỏ + danh sách game ----- */
+.mtabs{display:flex;gap:8px;margin:14px 0 2px}
+.mtabs button{flex:1;background:var(--card);border:3px solid var(--line);border-radius:16px;padding:10px 8px;font-weight:800;font-size:17px;font-family:var(--fh);min-height:48px}
+.mtabs button.on{border-color:var(--lav);background:var(--lav-s);color:#6a4fcb;box-shadow:0 4px 0 #d9cdf5}
+.modes.two{grid-template-columns:repeat(2,1fr)}
+.gnote{margin:10px 2px 0;background:var(--sun-s);border:2px dashed #f2d88a;border-radius:14px;padding:9px 12px;font-weight:700;font-size:14.5px}
+.gnote .ex{background:#fff;border-radius:8px;padding:1px 7px;font-weight:800}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:12px}
+.gcard{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:3px solid var(--line);border-radius:20px;padding:12px 14px;box-shadow:0 4px 0 var(--line);width:100%;min-height:72px}
+.gcard:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.gcard .gi{font-size:32px;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;background:var(--g);flex:none}
+.gcard b{font-family:var(--fh);font-size:18px;line-height:1.15}
+.gcard .vi{color:var(--muted);font-size:13.5px;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ----- game nhanh trong app ----- */
+.gbar .gtitle{font-family:var(--fh);font-size:19px;flex:1;min-width:0}
+.gbar .gscore{font-weight:800;font-size:15px;white-space:nowrap;background:#fff;border:2px solid var(--line);border-radius:999px;padding:3px 11px}
+.qrg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.qrg div{background:#fff;border:3px solid var(--line);border-radius:16px;padding:8px 4px}
+.qrg b{display:block;font-family:var(--fh);font-size:24px}
+.qrg span{color:var(--muted);font-size:13px;font-weight:700}
+.cw{font-family:var(--fh);font-weight:800;font-size:1.15em}
+.ctag{font-weight:800;color:#6a4fcb;background:var(--lav-s);border-radius:8px;padding:0 6px}
+.csub{color:var(--muted);font-weight:700}
+.qlabel{font-weight:700;color:var(--muted);margin:6px 0}
+.bigclue{font-size:26px;margin:6px 0 4px;line-height:1.25}
+.bigans{font-family:var(--fh);font-weight:800;font-size:40px;color:#3b86d6;margin:6px 0 10px;word-break:break-word}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mcard{min-height:96px;border-radius:16px;border:3px solid #cfe9dd;background:#effaf5;display:grid;place-items:center;padding:6px;font-weight:800;font-size:17px;line-height:1.2;word-break:break-word;text-align:center}
+.mcard small{display:block;font-size:12px;color:#6a4fcb}
+.mcard:active:not(:disabled){transform:scale(.96)}
+.mcard .q{font-size:30px}
+.mcard.up{background:#fff;border-color:#9cc7ff;opacity:1}
+.mcard.up.a{background:var(--pink-s);border-color:var(--pink)}
+.mcard.done{background:var(--mint);border-color:var(--mint-d);color:#fff;opacity:1}
+.mcard.done small{color:#fff}
+.mcard:disabled{opacity:1}
+.wslist{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.wsi{background:#fff;border:2px solid var(--line);border-radius:12px;padding:4px 9px;font-weight:700;font-size:14px}
+.wsi.done{border-color:transparent}
+.wsgrid{display:grid;gap:3px;max-width:520px;margin:0 auto}
+.wc{aspect-ratio:1;background:#fff;border:2px solid var(--line);border-radius:9px;font-family:var(--fh);font-weight:800;font-size:clamp(15px,4.4vw,24px);text-transform:uppercase;display:grid;place-items:center;padding:0}
+.wc.sel{background:var(--sun);border-color:#e7b93a}
+.sky{position:relative;height:min(54vh,430px);margin-top:10px;overflow:hidden;border-radius:20px;background:linear-gradient(180deg,#cfeaff,#fff 85%);border:3px solid var(--line)}
+.balloon{position:absolute;bottom:-140px;width:23%;aspect-ratio:.82;border-radius:50% 50% 46% 46%;background:var(--bc);border:0;color:#fff;font-weight:800;font-size:clamp(11px,3.3vw,18px);display:grid;place-items:center;padding:8px;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:inset -8px -10px 0 rgba(0,0,0,.1);animation:balloonUp linear forwards;word-break:break-word;line-height:1.15}
+@keyframes balloonUp{to{transform:translateY(calc(-1 * (var(--h) + 170px)))}}
+.balloon.freeze{animation-play-state:paused}
+.balloon.dim{opacity:.3}
+.balloon.right{box-shadow:0 0 0 5px var(--ok),inset -8px -10px 0 rgba(0,0,0,.1)}
+.balloon.wrong{box-shadow:0 0 0 5px var(--bad),inset -8px -10px 0 rgba(0,0,0,.1);opacity:.6}
+.banner{min-height:48px;margin-top:10px;border-radius:14px;padding:10px 14px;font-weight:700;text-align:center;visibility:hidden}
+.banner.show{visibility:visible}
+.banner.good{background:var(--mint-s);color:var(--mint-d)}
+.banner.bad{background:var(--bad-s);color:#b23a55}
+.bzb{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.bzt{background:var(--mint-s);border-color:var(--mint)}
+.bzf{background:var(--bad-s);border-color:var(--bad)}
 </style>
 </head>
 <body>
@@ -305,6 +363,8 @@ let store = (function () {
 if (!Array.isArray(store.sel)) store.sel = VERBS.filter(v => v.part === 1).map(v => v.id);
 store.sel = store.sel.filter(id => BY[id]);
 if (!MODES[store.mode]) store.mode = 'A';
+if (store.tab !== 'games') store.tab = 'quest';          // tab đang mở: 'quest' (Luyện tập) hoặc 'games' (Trò chơi nhỏ)
+if (store.gmode !== 'v3') store.gmode = 'vi';            // kiểu trả lời trong game: 'vi' = V2 + nghĩa, 'v3' = V2 + V3
 if (!store.off || typeof store.off !== 'object') store.off = {};
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
 const W = id => store.words[id] || (store.words[id] = {ok:0, bad:0, st:0, rv:false, seen:0});
@@ -408,15 +468,18 @@ function renderHome() {
         <li><b>Chọn kiểu học:</b> V1 → Nghĩa, V1 → V2, hoặc V1 → V2 &amp; V3.</li>
         <li><b>Flashcard:</b> bố mẹ đọc/ chỉ vào từ V1, bé nói đáp án trước, rồi chạm thẻ để lật kiểm tra. Bấm 🔊 để nghe đọc mẫu (giọng máy).</li>
         <li><b>Luyện tập:</b> bé tự làm câu hỏi. Câu sai sẽ quay lại; cuối buổi bấm <b>Fix it!</b> để làm lại đúng các từ vừa sai.</li>
+        <li><b>Trò chơi nhỏ:</b> sang tab 🎮, chọn <i>V2 + Nghĩa</i> hoặc <i>V2 + V3</i>, rồi bấm một game. Game chỉ hỏi đúng các động từ đã tick (đề cho V1, bé trả lời V2 hoặc V3).</li>
       </ol>
       <div class="muted">Mẹo: học 10–15 phút mỗi ngày hiệu quả hơn học dồn. Nút “Che đáp án” trong danh sách giúp bé tự kiểm tra.</div>
     </div></details>
 
-    <div class="sec">1️⃣ Chọn kiểu học</div>
+    <div class="mtabs"><button class="${store.tab === 'games' ? '' : 'on'}" data-act="mainTab" data-t="quest">📚 Luyện tập</button><button class="${store.tab === 'games' ? 'on' : ''}" data-act="mainTab" data-t="games">🎮 Trò chơi nhỏ</button></div>
+
+    ${store.tab === 'games' ? gamesTabHtml() : `<div class="sec">1️⃣ Chọn kiểu học</div>
     <div class="modes" id="modes">${Object.keys(MODES).map(k => `<button class="mode ${store.mode === k ? 'on' : ''}" data-act="mode" data-k="${k}"><span class="mi">${MODES[k].icon}</span><b>${MODES[k].name}</b><span>${MODES[k].sub}</span></button>`).join('')}</div>
 
     <div class="sec">2️⃣ Học &amp; trả bài</div>
-    <div id="act"></div>
+    <div id="act"></div>`}
 
     <div class="sec">3️⃣ Chọn động từ <small id="selInfo"></small></div>
     <div class="chips" id="quick"></div>
@@ -426,14 +489,17 @@ function renderHome() {
       <div class="az" id="az"></div>
     </div>
     <div id="list"></div>
-    <div class="sec">✅ Chọn xong rồi? Bắt đầu thôi!</div>
-    <div id="act2"></div>
+    ${store.tab === 'games'
+      ? `<div class="sec">✅ Chọn xong rồi? Chọn game thôi!</div><div class="act"><button class="btn pri big" data-act="toGames">🎮 Lên chọn game<small>Game sẽ dùng đúng các động từ đã tick</small></button></div>`
+      : `<div class="sec">✅ Chọn xong rồi? Bắt đầu thôi!</div>
+    <div id="act2"></div>`}
   </div>
   <div class="bar" id="bar"></div>`;
   const q = $('#q');
   q.addEventListener('input', () => { S.q = q.value; $('.search .cl').classList.toggle('hidden', !S.q); renderList(); });
   q.addEventListener('keydown', e => { if (e.key === 'Enter') q.blur(); });
   renderTools(); renderList(); renderBar();
+  if (store.tab === 'games') { renderGamesInfo(); drawGames(); }
   /* thanh nút cố định ở đáy chỉ hiện khi 2 khối "Học & trả bài" ở trên/dưới danh sách đang khuất → không bị trùng nội dung */
   try {
     if (window.__barIO) window.__barIO.disconnect();
@@ -506,7 +572,10 @@ function actHtml() {
 }
 function renderBar() {
   const n = store.sel.length;
-  $('#bar').innerHTML = `<div class="in"><div class="cnt"><b>${n}</b> từ<small>đã chọn</small></div>
+  $('#bar').innerHTML = store.tab === 'games'
+    ? `<div class="in"><div class="cnt"><b>${n}</b> từ<small>đã chọn</small></div>
+    <button class="btn pri" data-act="toGames">🎮 Chọn game</button></div>`
+    : `<div class="in"><div class="cnt"><b>${n}</b> từ<small>đã chọn</small></div>
     <button class="btn" data-act="flash" ${n ? '' : 'disabled'}>🃏 Flashcard</button>
     <button class="btn pri" data-act="learnThen" ${n ? '' : 'disabled'}>🚀 Học rồi trả bài</button></div>`;
   ['#act', '#act2'].forEach(id => { const e = $(id); if (e) e.innerHTML = `<div class="act">${id === '#act' ? typesHtml() : ''}${actHtml()}</div>`; });
@@ -518,7 +587,325 @@ function typesHtml() {
     <div class="chips2">${tys.map(t => `<button class="chip ${isOn(t) ? 'on' : 'off'}" data-act="setType" data-t="${t}" aria-pressed="${isOn(t)}">${TYPES[t].icon} ${TYPES[t].label}</button>`).join('')}
     <button class="chip act" data-act="allTypes">${all ? '🔀 Đang trộn tất cả' : '🔀 Chọn tất cả'}</button></div></div>`;
 }
-function refreshSel() { renderTools(); renderList(); renderBar(); }
+function refreshSel() { renderTools(); renderList(); renderBar(); if (store.tab === 'games') renderGamesInfo(); }
+
+
+/* =====================================================================
+   TRÒ CHƠI NHỎ — các game của website chạy với đúng những động từ đã tick
+   Mỗi game nhận bộ từ gồm cặp {w: đáp án, vi: đề}. Ở đây "đề" luôn xuất phát từ V1:
+     • V2 + Nghĩa : đề "go – đi"  → đáp án "went"   (nghĩa chỉ để nhìn/chọn, bé không phải gõ nghĩa)
+     • V2 + V3    : đề "go → V2" → "went"  và  đề "go → V3" → "gone"
+   Game gõ/xếp chữ chỉ nhận MỘT dạng viết: lấy dạng đầu tiên trong danh sách (burnt, dreamt, got).
+   ===================================================================== */
+const SITE_ROOT = location.pathname.replace(/\/apps\/.*$/, '/');
+const HUB_CUR = 'grammar-irregular';
+const GMODES = {
+  vi: {name:'V2 + Nghĩa', icon:'🇻🇳', sub:'Cho V1 → trả lời V2. Nghĩa chỉ để nhìn và chọn, không phải gõ'},
+  v3: {name:'V2 + V3',    icon:'🎯', sub:'Cho V1 → trả lời V2, rồi V3'}
+};
+const GCATS = [['all', 'Tất cả'], ['vocab', 'Từ vựng'], ['speed', 'Tốc độ'], ['duo', 'Đấu đôi']];
+const GAME_COLOR = {pink:'#ffe1ec',yellow:'#fff2c4',sky:'#dff1ff',lilac:'#ece3ff',mint:'#d9f6f0',coral:'#ffe3e0',orange:'#ffe9c9',teal:'#d9f2ea',green:'#e6f5d0',brown:'#f1e4d6',rose:'#ffe3e3',gold:'#fff0c7',peach:'#ffe9c9',aqua:'#d6f3f7',ocean:'#dbe8ff',violet:'#e8defa',lime:'#eaf7c8',plum:'#f0dcf0'};
+const GAME_ICON = {arcade:'🕹️',claw:'🧸',dice:'🎲',dino:'🦖',duck:'🦆',farm:'🚜',fly:'🪰',garden:'🌻',gold:'⛏️',ice:'🧊',mole:'🔨',ninja:'🥷',race:'🏁',sea:'🎣',ski:'⛷️',stream:'🎣',tower:'🏙️',tycoon:'🏙️',uno:'🃏',zombie:'🧟'};
+let TEMPLATES = [], hubState = 'loading', gcat = 'all';
+
+/* Bộ câu hỏi gửi cho game, theo kiểu trả lời đang chọn */
+function gameItems(mode) {
+  const out = [];
+  VERBS.filter(v => store.sel.indexOf(v.id) >= 0).forEach(v => {
+    const mean = v.vi.split(',').slice(0, 2).map(s => s.trim()).join(', ');
+    const pic = mode === 'vi' ? new URL('images/' + v.id + '.webp?v=' + IMGV, location.href).href : '';
+    const add = (w, clue, withPic) => { const o = {w: w, vi: clue}; if (withPic && pic) o.img = pic; out.push(o); };
+    if (mode === 'vi') {
+      if (v.id === 'be') { add('was', 'be – ' + mean + ' (I / he / she / it)', true); add('were', 'be – ' + mean + ' (we / you / they)', false); }
+      else add(v.v2[0], v.v1 + ' – ' + mean, true);
+    } else {
+      if (v.id === 'be') { add('was', 'be (I / he / she / it) → V2'); add('were', 'be (we / you / they) → V2'); add('been', 'be → V3'); }
+      else if (v.v2[0] === v.v3[0]) add(v.v2[0], v.v1 + ' → V2 & V3');
+      else { add(v.v2[0], v.v1 + ' → V2'); add(v.v3[0], v.v1 + ' → V3'); }
+    }
+  });
+  return out;
+}
+function gamesTabHtml() {
+  return `<div class="sec">1️⃣ Chọn kiểu trả lời trong game</div>
+    <div class="modes two" id="gmodes">${Object.keys(GMODES).map(k => `<button class="mode ${store.gmode === k ? 'on' : ''}" data-act="gmode" data-k="${k}"><span class="mi">${GMODES[k].icon}</span><b>${GMODES[k].name}</b><span>${GMODES[k].sub}</span></button>`).join('')}</div>
+    <div class="gnote" id="gnote"></div>
+    <div class="sec" id="gamesTop">2️⃣ Chọn game</div>
+    <div class="chips" id="gcats"></div>
+    <div class="games" id="gamesGrid"></div>
+    <div class="sec">⚡ Game nhanh trong app</div>
+    <div class="games">${QGAMES.map(g => `<button class="gcard" style="--g:${g.color}" data-act="${g.act}"><span class="gi">${g.icon}</span><span><b>${g.name}</b><br><span class="vi">${g.desc}</span></span></button>`).join('')}</div>
+    <p class="muted" style="font-weight:700;font-size:13.5px;margin:8px 2px 0">Game nhanh chạy ngay trong trang này. Động từ nào em làm sai sẽ được đánh dấu “Cần ôn”.</p>`;
+}
+function renderGamesInfo() {
+  const e = $('#gnote'); if (!e) return;
+  const n = store.sel.length, items = gameItems(store.gmode);
+  e.innerHTML = n
+    ? `Đã tick <b>${n}</b> động từ → game có <b>${items.length}</b> câu để hỏi.<br>Ví dụ: <span class="ex">${esc(items[0].vi)}</span> → <b>${esc(items[0].w)}</b>`
+    : 'Chưa tick động từ nào. Hãy tick ít nhất <b>4</b> động từ ở phần 3️⃣ bên dưới để chơi game.';
+}
+function drawGames() {
+  const chips = $('#gcats'), grid = $('#gamesGrid'); if (!chips || !grid) return;
+  chips.innerHTML = GCATS.map(c => `<button class="chip ${gcat === c[0] ? 'on' : ''}" data-act="gcat" data-c="${c[0]}">${c[1]}</button>`).join('');
+  if (hubState === 'loading') { grid.innerHTML = '<p class="note">Đang tải danh sách game…</p>'; return; }
+  const list = TEMPLATES.filter(g => gcat === 'all' || g.cats.indexOf(gcat) >= 0);
+  if (!TEMPLATES.length) { grid.innerHTML = '<button class="gcard" style="--g:#eef3ff" data-act="openHub"><span class="gi">🎮</span><span><b>Trung tâm trò chơi</b><br><span class="vi">Không tải được danh sách game ở đây. Bấm để mở Trung tâm trò chơi của website.</span></span></button>'; return; }
+  grid.innerHTML = list.map(g => `<button class="gcard" style="--g:${g.color}" data-act="openGame" data-k="${esc(g.key)}"><span class="gi">${g.icon}</span><span><b>${esc(g.name)}</b><br><span class="vi">${esc(g.desc)}</span></span></button>`).join('');
+}
+function loadHubGames() {
+  fetch(SITE_ROOT + 'data/games.json?v=' + Date.now(), {cache: 'no-store'}).then(r => r.ok ? r.json() : Promise.reject()).then(j => {
+    TEMPLATES = (j.games || []).filter(g => g && g.id && g.title).map(g => ({key: g.id, icon: g.icon || GAME_ICON[g.poster] || '🎮', name: g.title, desc: g.desc || '', color: GAME_COLOR[g.color] || '#eef3ff', min: g.min || 4, cats: g.cats || []}));
+    hubState = 'ok';
+  }).catch(() => { TEMPLATES = []; hubState = 'fail'; }).then(() => { if (S.view === 'home' && store.tab === 'games') drawGames(); });
+}
+function hubHref(path) { return location.origin + SITE_ROOT + '#/games' + (path || ''); }
+function goTop(url) { try { (window.top || window).location.href = url; } catch (e) { window.location.href = url; } }
+function launchGame(key) {
+  const t = TEMPLATES.find(x => x.key === key); if (!t) return;
+  const items = gameItems(store.gmode);
+  if (items.length < t.min) { toast(`Game này cần ít nhất ${t.min} câu — hãy tick thêm động từ (hiện có ${items.length} câu).`); return; }
+  try { sessionStorage.setItem('lse_custom_set', JSON.stringify({title: 'Irregular verbs · ' + GMODES[store.gmode].name + ' · ' + store.sel.length + ' động từ', items: items})); }
+  catch (e) { toast('Không lưu được bộ từ cho game (trình duyệt chặn bộ nhớ tạm).'); return; }
+  toast('Đang mở game…');
+  goTop(hubHref('/play/' + encodeURIComponent(t.key) + '/custom?cur=' + HUB_CUR + '&unit='));
+}
+
+
+/* =====================================================================
+   GAME NHANH TRONG APP — 4 game nhỏ chạy ngay trong trang, dùng các động từ đã tick
+   (đề luôn là V1; đáp án V2 hoặc V3 tuỳ kiểu trả lời đã chọn ở phần 1️⃣)
+   ===================================================================== */
+let QG = null;
+const QGAMES = [
+  {act:'qgMemory',  icon:'🃏', name:'Lật thẻ ghép cặp',   desc:'Ghép V1 với đáp án của nó',                    color:'#ffe3ee'},
+  {act:'qgSearch',  icon:'🔎', name:'Tìm từ trong ô chữ', desc:'Nhìn V1, tìm đáp án ẩn trong ô chữ',            color:'#e0edff'},
+  {act:'qgBalloon', icon:'🎈', name:'Bắn bóng bay',       desc:'Chạm bóng có đáp án đúng trước khi nó bay mất', color:'#ffe1e8'},
+  {act:'qgBlitz',   icon:'⚡', name:'Đúng hay Sai?',      desc:'60 giây, trả lời được càng nhiều càng tốt',      color:'#ece3ff'}
+];
+const BCOL = ['#ff9ebb', '#8cc7ff', '#7fd3b4', '#b9a8f0', '#ffb38a', '#ffd86b'];
+
+/* danh sách câu hỏi của game nhanh: {v, clue, tag, sub, ans (nhãn hiển thị), find (một dạng viết, dùng cho ô chữ)} */
+function qItems() {
+  const out = [], mode = store.gmode;
+  VERBS.filter(v => store.sel.indexOf(v.id) >= 0).forEach(v => {
+    const a2 = fm(v.v2), a3 = fm(v.v3), mean = v.vi.split(',').slice(0, 2).map(s => s.trim()).join(', ');
+    if (mode === 'vi') out.push({v: v, clue: v.v1, tag: 'V2', sub: mean, ans: a2, find: v.v2[0]});
+    else if (a2 === a3) out.push({v: v, clue: v.v1, tag: 'V2 & V3', sub: '', ans: a2, find: v.v2[0]});
+    else { out.push({v: v, clue: v.v1, tag: 'V2', sub: '', ans: a2, find: v.v2[0]}); out.push({v: v, clue: v.v1, tag: 'V3', sub: '', ans: a3, find: v.v3[0]}); }
+  });
+  return out;
+}
+const clueHtml = it => `<span class="cw">${esc(it.clue)}</span> <small class="ctag">→ ${it.tag}</small>${it.sub ? ` <span class="csub">${esc(it.sub)}</span>` : ''}`;
+/* 3 đáp án sai: lỗi "thêm -ed" quen thuộc, dạng còn lại của chính động từ, và đáp án của động từ khác */
+function qgOpts(it, items) {
+  const v = it.v, pri = [], rest = [];
+  const add = (arr, a) => { if (a && a !== it.ans && pri.indexOf(a) < 0 && rest.indexOf(a) < 0) arr.push(a); };
+  const ed = regEd(v.v1);
+  if (v.id !== 'be' && v.v2.indexOf(ed) < 0 && v.v3.indexOf(ed) < 0) add(pri, ed);
+  add(pri, it.tag === 'V3' ? fm(v.v2) : it.tag === 'V2' ? fm(v.v3) : '');
+  shuffle(items.filter(x => x.v !== v)).forEach(x => add(rest, x.ans));
+  const bad = shuffle(pri.slice()).slice(0, 1).concat(rest);
+  pri.forEach(a => { if (bad.indexOf(a) < 0) bad.push(a); });
+  return bad.slice(0, 3);
+}
+function qgNeed(min) {
+  const items = qItems();
+  if (items.length < min) { toast(`Game này cần ít nhất ${min} câu — hãy tick thêm động từ (hiện có ${items.length} câu).`); return null; }
+  return items;
+}
+function qgEnd() { if (QG) { QG.timers.forEach(t => { clearInterval(t); clearTimeout(t); }); } QG = null; }
+function qgBegin(o, title, icon, inner) {
+  qgEnd(); QG = Object.assign({timers: []}, o); S.view = 'qgame';
+  $('#root').innerHTML = `<div class="app"><div class="gbar"><button class="x" data-act="qgQuit" aria-label="Về trang chủ">${HOME_SVG}</button><b class="gtitle">${icon} ${title}</b><span class="gscore" id="gscore"></span></div>${inner}</div>`;
+  window.scrollTo(0, 0);
+}
+const qgScore = s => { const e = $('#gscore'); if (e) e.textContent = s; };
+const fmtT = ms => { const s = Math.round(ms / 1000); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const sayQ = w => { if (store.sound && TTS_OK) speak(w); };
+function qgResult(o) {
+  const seen = {}, miss = (o.missed || []).filter(it => !seen[it.v.id] && (seen[it.v.id] = 1));
+  miss.forEach(it => { W(it.v.id).rv = true; }); save();
+  qgEnd(); S.view = 'result';
+  if (o.win) { sfxWin(); confetti(); }
+  $('#root').innerHTML = `<div class="app"><div class="qcard res"><div class="stars">${o.icon}</div><h2>${o.title}</h2><div class="cheer">${o.msg}</div>
+    <div class="qrg">${o.stats.map(s => `<div><b>${s[0]}</b><span>${s[1]}</span></div>`).join('')}</div>
+    ${miss.length ? `<h3 style="margin:16px 0 4px;text-align:left">📝 Các từ cần ôn lại (${miss.length})</h3><div class="rl">${miss.map(it => listItem(it.v)).join('')}</div>` : ''}
+    <div class="rbtns"><button class="btn pri big" data-act="${o.again}">▶ Chơi lại</button><button class="btn big" data-act="qgQuit">🏠 Về danh sách</button></div></div></div>`;
+  window.scrollTo(0, 0);
+}
+
+/* ---------- 1. Lật thẻ ghép cặp ---------- */
+function qgMemory() {
+  const items = qgNeed(4); if (!items) return;
+  const used = {}, picked = [];
+  shuffle(items.slice()).forEach(it => { if (picked.length < 8 && !used[it.ans]) { used[it.ans] = 1; picked.push(it); } });
+  if (picked.length < 4) { toast('Cần ít nhất 4 câu có đáp án khác nhau — hãy tick thêm động từ.'); return; }
+  const cards = shuffle(picked.reduce((a, it) => a.concat([{it: it, side: 'q', up: false, done: false}, {it: it, side: 'a', up: false, done: false}]), []));
+  qgBegin({key: 'memory', cards: cards, n: picked.length, first: -1, lock: false, moves: 0, matched: 0, t0: Date.now()}, 'Lật thẻ ghép cặp', '🃏',
+    '<p class="muted" style="margin:0 0 10px;font-weight:700">Lật hai thẻ để ghép động từ V1 với đáp án của nó.</p><div class="mgrid" id="mgrid"></div>');
+  qgDrawMem(); qgMemTick(); QG.timers.push(setInterval(qgMemTick, 500));
+}
+function qgMemTick() { if (QG && QG.key === 'memory') qgScore('⏱ ' + fmtT(Date.now() - QG.t0) + ' · 🔄 ' + QG.moves); }
+function qgDrawMem() {
+  $('#mgrid').innerHTML = QG.cards.map((c, i) => {
+    const show = c.up || c.done;
+    const face = c.side === 'q' ? `<span>${esc(c.it.clue)}<small>→ ${c.it.tag}</small></span>` : `<span>${esc(c.it.ans)}</span>`;
+    return `<button class="mcard ${c.side}${c.up ? ' up' : ''}${c.done ? ' done' : ''}" data-act="qgFlip" data-i="${i}" ${show ? 'disabled' : ''} aria-label="Thẻ ${i + 1}">${show ? face : '<span class="q">🌱</span>'}</button>`;
+  }).join('');
+}
+function qgFlip(i) {
+  const g = QG; if (!g || g.key !== 'memory' || g.lock) return;
+  const c = g.cards[i]; if (c.up || c.done) return;
+  c.up = true; sayQ(c.side === 'q' ? c.it.clue : c.it.find);
+  if (g.first < 0) { g.first = i; qgDrawMem(); return; }
+  const a = g.cards[g.first]; g.first = -1; g.moves++;
+  if (a.it === c.it) {
+    a.done = c.done = true; a.up = c.up = false; g.matched++; sfxOk(); qgDrawMem(); qgMemTick();
+    if (g.matched === g.n) g.timers.push(setTimeout(() => {
+      const ms = Date.now() - g.t0, stars = g.moves <= Math.ceil(g.n * 1.6) ? 3 : g.moves <= Math.ceil(g.n * 2.4) ? 2 : 1;
+      qgResult({icon: '🃏', title: 'Ghép xong rồi!', msg: ['', 'Làm tốt lắm! Thử ít lượt hơn nhé.', 'Giỏi lắm!', 'Trí nhớ siêu đẳng!'][stars], stats: [[g.moves, 'Lượt lật'], [fmtT(ms), 'Thời gian'], ['⭐'.repeat(stars), 'Đánh giá']], again: 'qgMemory', win: stars >= 2});
+    }, 600));
+  } else {
+    g.lock = true; sfxBad(); qgDrawMem(); qgMemTick();
+    g.timers.push(setTimeout(() => { a.up = false; c.up = false; g.lock = false; qgDrawMem(); }, 900));
+  }
+}
+
+/* ---------- 2. Tìm từ trong ô chữ ---------- */
+const WCOLS = ['#ffd6a5', '#caffbf', '#9bf6ff', '#bdb2ff', '#ffc6ff', '#fdffb6', '#a0c4ff'];
+function qgSearch() {
+  const items = qgNeed(4); if (!items) return;
+  const SIZE = 10, DIRS = [[0, 1], [1, 0], [1, 1]];
+  let grid = null, placed = [];
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const seen = {}, cand = [];
+    shuffle(items.slice()).forEach(it => { if (cand.length < 6 && !seen[it.find] && /^[a-z]{2,10}$/.test(it.find)) { seen[it.find] = 1; cand.push(it); } });
+    cand.sort((a, b) => b.find.length - a.find.length);
+    const gr = Array.from({length: SIZE}, () => Array(SIZE).fill('')), pl = [];
+    cand.forEach(it => {
+      const s = it.find;
+      for (let k = 0; k < 200; k++) {
+        const d = rnd(DIRS), r = Math.floor(Math.random() * SIZE), c = Math.floor(Math.random() * SIZE);
+        if (r + d[0] * (s.length - 1) >= SIZE || c + d[1] * (s.length - 1) >= SIZE) continue;
+        let ok = true; for (let j = 0; j < s.length; j++) { const ch = gr[r + d[0] * j][c + d[1] * j]; if (ch && ch !== s[j]) { ok = false; break; } }
+        if (!ok) continue;
+        for (let j = 0; j < s.length; j++) gr[r + d[0] * j][c + d[1] * j] = s[j];
+        pl.push({it: it, done: false, col: WCOLS[pl.length % WCOLS.length]}); return;
+      }
+    });
+    if (!grid || pl.length > placed.length) { grid = gr; placed = pl; }
+    if (placed.length === cand.length && cand.length >= 4) break;
+  }
+  if (placed.length < 3) { toast('Chưa xếp được ô chữ — hãy tick thêm động từ rồi thử lại.'); return; }
+  const letters = 'abcdefghijklmnoprstuwy';
+  for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) if (!grid[r][c]) grid[r][c] = letters[Math.floor(Math.random() * letters.length)];
+  qgBegin({key: 'search', grid: grid, placed: placed, mark: {}, sel: null, wrong: 0, t0: Date.now(), SIZE: SIZE}, 'Tìm từ trong ô chữ', '🔎',
+    '<p class="muted" style="margin:0 0 8px;font-weight:700">Chạm chữ đầu rồi chạm chữ cuối của đáp án (ngang, dọc hoặc chéo).</p><div class="wslist" id="wslist"></div><div class="wsgrid" id="wsgrid"></div>');
+  qgPaint(); QG.timers.push(setInterval(() => { if (QG && QG.key === 'search') qgScore('⏱ ' + fmtT(Date.now() - QG.t0)); }, 500));
+}
+function qgPaint() {
+  const g = QG; if (!g || g.key !== 'search') return;
+  $('#wslist').innerHTML = g.placed.map(p => `<div class="wsi ${p.done ? 'done' : ''}" style="${p.done ? 'background:' + p.col : ''}">${clueHtml(p.it)}${p.done ? ' <b>→ ' + esc(p.it.find) + '</b>' : ''}</div>`).join('');
+  let h = '';
+  for (let r = 0; r < g.SIZE; r++) for (let c = 0; c < g.SIZE; c++) {
+    const m = g.mark[r + ',' + c], on = g.sel && g.sel[0] === r && g.sel[1] === c;
+    h += `<button class="wc ${on ? 'sel' : ''}" style="${m ? 'background:' + m : ''}" data-act="qgCell" data-r="${r}" data-c="${c}" aria-label="${g.grid[r][c]}">${g.grid[r][c]}</button>`;
+  }
+  $('#wsgrid').style.gridTemplateColumns = 'repeat(' + g.SIZE + ',1fr)'; $('#wsgrid').innerHTML = h;
+}
+function qgCell(r, c) {
+  const g = QG; if (!g || g.key !== 'search') return;
+  if (!g.sel) { g.sel = [r, c]; qgPaint(); return; }
+  const r0 = g.sel[0], c0 = g.sel[1]; g.sel = null;
+  if (r0 === r && c0 === c) { qgPaint(); return; }
+  const dr = r - r0, dc = c - c0;
+  if (!(dr === 0 || dc === 0 || Math.abs(dr) === Math.abs(dc))) { g.wrong++; sfxBad(); qgPaint(); return; }
+  const n = Math.max(Math.abs(dr), Math.abs(dc)) + 1, sr = dr ? dr / Math.abs(dr) : 0, sc = dc ? dc / Math.abs(dc) : 0;
+  let s = '', pos = [];
+  for (let k = 0; k < n; k++) { pos.push([r0 + sr * k, c0 + sc * k]); s += g.grid[r0 + sr * k][c0 + sc * k]; }
+  const rev = s.split('').reverse().join('');
+  const hit = g.placed.filter(p => !p.done && (p.it.find === s || p.it.find === rev))[0];
+  if (hit) { hit.done = true; pos.forEach(q => { g.mark[q[0] + ',' + q[1]] = hit.col; }); sfxOk(); sayQ(hit.it.find); }
+  else { g.wrong++; sfxBad(); }
+  qgPaint();
+  if (g.placed.every(p => p.done)) {
+    const ms = Date.now() - g.t0, stars = g.wrong <= 1 ? 3 : g.wrong <= 4 ? 2 : 1;
+    g.timers.push(setTimeout(() => qgResult({icon: '🔎', title: 'Tìm đủ rồi!', msg: ['', 'Làm tốt lắm!', 'Giỏi lắm!', 'Đôi mắt siêu tinh!'][stars], stats: [[g.placed.length, 'Từ tìm thấy'], [fmtT(ms), 'Thời gian'], ['⭐'.repeat(stars), 'Đánh giá']], again: 'qgSearch', win: stars >= 2}), 500));
+  }
+}
+
+/* ---------- 3. Bắn bóng bay ---------- */
+function qgBalloon() {
+  const items = qgNeed(4); if (!items) return;
+  const qs = shuffle(items.slice()).slice(0, 10);
+  qgBegin({key: 'balloon', items: items, qs: qs, i: 0, lives: 3, score: 0, combo: 0, right: 0, missed: [], cur: null}, 'Bắn bóng bay', '🎈',
+    '<div class="qcard" id="bprompt"></div><div class="sky" id="sky"></div><div class="banner" id="bbanner"></div>');
+  qgBalloonRound();
+}
+function qgBalloonScore() { qgScore('❤️'.repeat(Math.max(0, QG.lives)) + ' ⭐' + QG.score); }
+function qgBalloonRound() {
+  const g = QG, it = g.qs[g.i], opts = shuffle(qgOpts(it, g.items).concat([it.ans]));
+  g.cur = {it: it, opts: opts, resolved: false};
+  $('#bprompt').innerHTML = `<span class="qtype">🎈 Bóng ${g.i + 1}/${g.qs.length}</span><div class="qlabel">Chạm vào bóng bay có đáp án đúng:</div><div class="bigclue">${clueHtml(it)}</div>`;
+  const sky = $('#sky'); sky.style.setProperty('--h', sky.clientHeight + 'px');
+  const dur = Math.max(5, 8.5 - g.i * .3), slots = shuffle([0, 1, 2, 3]);
+  sky.innerHTML = opts.map((o, i) => `<button class="balloon" style="left:${slots[i] * 25 + 1}%;--bc:${BCOL[(g.i + i) % BCOL.length]};animation-duration:${(dur + Math.random() * 1.2).toFixed(2)}s;animation-delay:${(Math.random() * 1.6).toFixed(2)}s" data-act="qgBpick" data-i="${i}">${esc(o)}</button>`).join('');
+  [].slice.call(sky.children).forEach((b, i) => { if (opts[i] === it.ans) b.addEventListener('animationend', () => qgBalloonResolve(false, -1)); });
+  g.timers.push(setTimeout(() => qgBalloonResolve(false, -1), (dur + 4) * 1000));
+  $('#bbanner').className = 'banner'; $('#bbanner').innerHTML = '';
+  qgBalloonScore();
+}
+function qgBalloonResolve(ok, i) {
+  const g = QG; if (!g || g.key !== 'balloon' || !g.cur || g.cur.resolved) return;
+  const c = g.cur; c.resolved = true;
+  [].slice.call($('#sky').children).forEach((b, j) => { b.classList.add('freeze'); if (c.opts[j] === c.it.ans) b.classList.add('right'); else if (j === i) b.classList.add('wrong'); else b.classList.add('dim'); });
+  if (ok) { g.score += 10 + Math.min(g.combo, 5) * 2; g.combo++; g.right++; sfxOk(); }
+  else { g.lives--; g.combo = 0; g.missed.push(c.it); sfxBad(); }
+  sayQ(c.it.find);
+  const b = $('#bbanner'); b.className = 'banner show ' + (ok ? 'good' : 'bad');
+  b.innerHTML = (ok ? '✅ ' : '❌ Đáp án: ') + `<b>${esc(c.it.clue)}</b> → ${c.it.tag} <b>${esc(c.it.ans)}</b>`;
+  qgBalloonScore();
+  g.timers.push(setTimeout(() => { g.i++; if (g.lives <= 0 || g.i >= g.qs.length) qgBalloonEnd(); else qgBalloonRound(); }, 1500));
+}
+function qgBalloonEnd() {
+  const g = QG, alive = g.lives > 0;
+  lse('finish', {score: g.right, max: g.qs.length});
+  qgResult({icon: alive ? '🎈' : '💔', title: alive ? 'Hoàn thành!' : 'Hết tim rồi!', msg: alive ? 'Em đã chạm đúng nhiều bóng bay!' : 'Đừng lo, thử lại nhé!', stats: [[g.right + '/' + g.qs.length, 'Bóng đúng'], [g.score, 'Điểm'], ['❤️ ' + Math.max(0, g.lives), 'Tim còn lại']], missed: g.missed, again: 'qgBalloon', win: alive && g.right >= g.qs.length - 1});
+}
+
+/* ---------- 4. Đúng hay Sai? (60 giây) ---------- */
+function qgBlitz() {
+  const items = qgNeed(4); if (!items) return;
+  qgBegin({key: 'blitz', items: items, t0: Date.now(), total: 60, score: 0, combo: 0, right: 0, done: 0, missed: [], cur: null, last: null}, 'Đúng hay Sai?', '⚡',
+    '<div class="qcard" id="bz"></div><div class="two bzb"><button class="btn big bzt" data-act="qgTf" data-v="1">✅ Đúng</button><button class="btn big bzf" data-act="qgTf" data-v="0">❌ Sai</button></div><div class="banner" id="bbanner"></div>');
+  QG.timers.push(setInterval(qgBlitzTick, 250)); qgBlitzNext();
+}
+function qgBlitzTick() {
+  const g = QG; if (!g || g.key !== 'blitz') return;
+  const left = Math.max(0, g.total - Math.floor((Date.now() - g.t0) / 1000));
+  qgScore('⏱ ' + left + 's · ⭐' + g.score);
+  if (left <= 0) qgBlitzEnd();
+}
+function qgBlitzNext() {
+  const g = QG; if (!g || g.key !== 'blitz') return;
+  let it; do { it = rnd(g.items); } while (g.items.length > 1 && it === g.last); g.last = it;
+  const truth = Math.random() < .5, shown = truth ? it.ans : qgOpts(it, g.items)[0];
+  g.cur = {it: it, truth: truth, shown: shown};
+  $('#bz').innerHTML = `<span class="qtype">⚡ Câu ${g.done + 1}</span><div class="bigclue">${clueHtml(it)}</div><div class="bigans">${esc(shown)}</div><div class="qlabel">Đáp án này đúng hay sai?</div>`;
+}
+function qgTf(v) {
+  const g = QG; if (!g || g.key !== 'blitz' || !g.cur) return;
+  const c = g.cur, ok = (v === '1') === c.truth; g.cur = null; g.done++;
+  if (ok) { g.score += 10 + Math.min(g.combo, 5) * 2; g.combo++; g.right++; sfxOk(); } else { g.combo = 0; g.missed.push(c.it); sfxBad(); }
+  const b = $('#bbanner'); b.className = 'banner show ' + (ok ? 'good' : 'bad');
+  b.innerHTML = ok ? '✅ Đúng rồi!' : `❌ Đáp án đúng: <b>${esc(c.it.clue)}</b> → ${c.it.tag} <b>${esc(c.it.ans)}</b>`;
+  qgBlitzTick(); if (QG === g) qgBlitzNext();
+}
+function qgBlitzEnd() {
+  const g = QG; if (!g || g.key !== 'blitz') return;
+  lse('finish', {score: g.right, max: g.done});
+  qgResult({icon: '⚡', title: 'Hết giờ!', msg: g.right >= 15 ? 'Nhanh như chớp!' : g.right >= 8 ? 'Giỏi lắm!' : 'Luyện thêm sẽ nhanh hơn nhé!', stats: [[g.right + '/' + g.done, 'Câu đúng'], [g.score, 'Điểm'], ['🔥 ' + g.combo, 'Chuỗi cuối']], missed: g.missed, again: 'qgBlitz', win: g.right >= 8});
+}
 
 /* ---------- cửa sổ phụ (detail, cài đặt, thoát) ---------- */
 function closeOv() { if (ovEl) { ovEl.remove(); ovEl = null; } }
@@ -908,6 +1295,21 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el) return;
   const a = el.dataset.act, id = el.dataset.id;
   switch (a) {
+    case 'qgMemory': qgMemory(); break;
+    case 'qgSearch': qgSearch(); break;
+    case 'qgBalloon': qgBalloon(); break;
+    case 'qgBlitz': qgBlitz(); break;
+    case 'qgFlip': qgFlip(+el.dataset.i); break;
+    case 'qgCell': qgCell(+el.dataset.r, +el.dataset.c); break;
+    case 'qgBpick': { const g = QG; if (g && g.key === 'balloon' && g.cur && !g.cur.resolved) qgBalloonResolve(g.cur.opts[+el.dataset.i] === g.cur.it.ans, +el.dataset.i); break; }
+    case 'qgTf': qgTf(el.dataset.v); break;
+    case 'qgQuit': qgEnd(); renderHome(); break;
+    case 'mainTab': store.tab = el.dataset.t === 'games' ? 'games' : 'quest'; save(); renderHome(); break;
+    case 'gmode': store.gmode = el.dataset.k === 'v3' ? 'v3' : 'vi'; save(); document.querySelectorAll('#gmodes .mode').forEach(b => b.classList.toggle('on', b.dataset.k === store.gmode)); renderGamesInfo(); sfxClick(); break;
+    case 'gcat': gcat = el.dataset.c; drawGames(); break;
+    case 'openGame': launchGame(el.dataset.k); break;
+    case 'openHub': goTop(hubHref('')); break;
+    case 'toGames': { const g = document.getElementById('gamesTop'); if (g) g.scrollIntoView({behavior: 'smooth', block: 'start'}); break; }
     case 'tog': { e.preventDefault(); const s = selSet(); s.has(id) ? s.delete(id) : s.add(id); setSel([...s]); refreshSel(); sfxClick(); break; }
     case 'togClose': { const s = selSet(); s.has(id) ? s.delete(id) : s.add(id); setSel([...s]); closeOv(); refreshSel(); break; }
     case 'say': { e.stopPropagation(); const v = BY[id]; if (v) sayV(v, el.dataset.w ? +el.dataset.w : 0); break; }
@@ -969,6 +1371,7 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('pointerdown', function prime() { try { if (TTS_OK) speechSynthesis.getVoices(); const C = window.AudioContext || window.webkitAudioContext; if (C) { actx = actx || new C(); if (actx.state === 'suspended') actx.resume(); } } catch (e) {} document.removeEventListener('pointerdown', prime); }, {once: true});
 renderHome();
+loadHubGames();
 window.__iv = {VERBS, store, S, get Q() { return Q; }, startQuiz, build, nextQ, finishQuiz};
 </script>
 </body>
