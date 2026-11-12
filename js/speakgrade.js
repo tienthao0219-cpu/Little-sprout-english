@@ -65,13 +65,32 @@
       await L.api.call("spgResultDelete", { id: id });
     },
     async grade(payload, sampleMeasured) {
-      if (isDemo()) { await new Promise(r => setTimeout(r, 900)); return { raw: S.sampleResult(), demo: true }; }
+      if (isDemo()) {
+        await new Promise(r => setTimeout(r, 900));
+        const raw = S.sampleResult();
+        if (payload.previous) raw.progress = { summary: "(MẪU DEMO) So với lần trước, em đã dùng mạo từ tốt hơn nhưng âm /v/ vẫn cần luyện.", fixed: [{ item: "thiếu mạo từ trước danh từ (mẫu)", evidence: "I check the app (mẫu)" }], stillIssues: [{ item: "âm /v/ trong video (mẫu)", tip: "Chạm răng trên vào môi dưới." }], newIssues: [], notTested: ["từ charger (mẫu)"], encouragement: "Em tiến bộ rồi, cố lên nhé! (mẫu)" };
+        return { raw: raw, demo: true };
+      }
       return L.api.call("spgGrade", payload);
+    },
+    async digest(params) {
+      params = params || {};
+      if (isDemo()) {
+        return demoLoad().results.filter(r => (!params.student || S.sameStudent(r.student, params.student)) && (!params.lessonId || String(r.lessonId) === String(params.lessonId)) &&
+          (!params.since || new Date(r.time) >= new Date(params.since)) && (!params.until || new Date(r.time) < new Date(params.until))).sort((a, b) => new Date(a.time) - new Date(b.time)).map(S.digestOf);
+      }
+      return (await L.api.call("spgDigest", params)).items || [];
+    },
+    async monthly(facts) {
+      if (isDemo()) { await new Promise(r => setTimeout(r, 600)); return { raw: { headline: "(MẪU DEMO) " + facts.student + " đang tiến bộ", summary: "Đây là nội dung mẫu ở chế độ DEMO, chưa gọi AI thật.", strengths: facts.strengths || [], progress: facts.fixedByRetry || [], nextGoals: facts.suggestedGoals || [], zalo: "[MẪU DEMO] " + S.monthlyDraft(facts) } }; }
+      return L.api.call("spgMonthly", { facts: facts });
     },
     async studentNames() {
       try { const r = await L.api.call("studentList"); return (r.list || []).filter(s => s.active !== false).map(s => s.name); } catch (e) { return []; }
     }
   };
+  const safeDecode = v => { try { return decodeURIComponent(v); } catch (e) { return v; } };
+  const monthNow = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0"); };
   /** "Bài 5.1" nếu tên đã bắt đầu bằng "Bài", ngược lại "Bài 5.1 · Tên bài" */
   const lessonLabel = l => { const t = String((l && l.title) || "").trim(), c = String((l && (l.code || l.id)) || "").trim(); return /^bài\s/i.test(t) || !c ? (t || "Bài " + c) : "Bài " + c + " · " + t; };
   const MODE_KEY = "lse_spg_noscore";
@@ -121,11 +140,13 @@
      ============================================================ */
   L.speakTab = async function (body, rest) {
     const sub = (rest && rest[0]) || "new";
-    const tabs = [["new", "🎤 Chấm bài mới"], ["history", "🗂️ Lịch sử"], ["lessons", "📚 Cấu hình bài"]];
+    const tabs = [["new", "🎤 Chấm bài mới"], ["history", "🗂️ Lịch sử"], ["students", "👤 Học viên"], ["class", "🏫 Cả lớp"], ["lessons", "📚 Cấu hình bài"]];
     body.append(h("div.tabs", tabs.map(([id, t]) => h("button" + (sub === id || (sub === "r" && id === "history") ? ".on" : ""), { onclick: () => L.go("/teacher/speak/" + id) }, t))));
     const host = h("div"); body.append(host);
     if (sub === "history") return historyView(host);
     if (sub === "lessons") return lessonsView(host);
+    if (sub === "students") return studentsView(host, rest[1] ? safeDecode(rest[1]) : "");
+    if (sub === "class") return classView(host);
     if (sub === "r" && rest[1]) return savedView(host, rest[1]);
     return gradeView(host);
   };
@@ -135,12 +156,12 @@
      ============================================================ */
   async function gradeView(host) {
     host.append(h("div.center.muted", h("span.spinner")));
-    let info, ls, names;
-    try { [info, ls, names] = await Promise.all([store.info(), store.lessons(), store.studentNames()]); }
+    let info, ls, names, allRes;
+    try { [info, ls, names, allRes] = await Promise.all([store.info(), store.lessons(), store.studentNames(), store.results().catch(() => [])]); }
     catch (e) { host.innerHTML = ""; host.append(h("div.card", h("div.err", e.message))); return; }
     host.innerHTML = "";
     const settings = settingsOf(ls.settings);
-    const st = { lessonId: "", student: "", prep: null, file: null, busy: false, url: "", noScore: modeGet() };
+    const st = { lessonId: "", student: "", prep: null, file: null, busy: false, url: "", noScore: modeGet(), compare: true };
 
     if (info.demo) host.append(h("div.hint", { style: "margin-bottom:12px" }, "Đang ở chế độ DEMO (chưa nối Google Apps Script): app vẫn đo ngắt nghỉ thật từ file của cô, nhưng phần điểm AI là KẾT QUẢ MẪU để xem giao diện. Muốn chấm thật, làm theo mục Chấm Speaking trong HUONG-DAN.md."));
     else if (!info.hasKey) host.append(h("div.hint", { style: "margin-bottom:12px;background:var(--rose)" }, "Chưa cài khoá Gemini nên chưa chấm được. Vào Apps Script › Cài đặt dự án › Thuộc tính tập lệnh, thêm GEMINI_API_KEY (xem HUONG-DAN.md, mục Chấm Speaking), rồi tải lại trang."));
@@ -162,6 +183,7 @@
     const player = h("div");
     const infoBox = h("div");
     const lessonHint = h("div");
+    const cmpBox = h("div");
     const goBtn = h("button.btn.rose", { onclick: go }, "🎤 Chấm điểm");
     const out = h("div");
 
@@ -171,15 +193,24 @@
         h("label.field", h("span", "1. Bài học"), lessonSel),
         h("label.field", h("span", "2. Học viên"), nameIn, h("datalist#spgNames", names.map(n => h("option", { value: n })))),
         h("div.field", h("span", "3. File ghi âm hoặc video (mp3, mp4...)"), drop)),
-      modeBox, modeTxt, lessonHint, player, infoBox,
+      modeBox, modeTxt, lessonHint, cmpBox, player, infoBox,
       h("div.row", { style: "margin-top:12px" }, goBtn, h("span.small.muted", "Mất khoảng 20-60 giây. Bài càng ngắn càng nhanh.")),
       ls.lessons.length ? null : h("div.hint", { style: "margin-top:12px" }, "Cô chưa có bài học nào. ", h("a", { href: "#/teacher/speak/lessons", style: "font-weight:800" }, "Vào Cấu hình bài"), " để tạo (có nút tạo sẵn các bài theo rubric)."),
       ), out);
 
     function lessonOf() { return ls.lessons.find(l => l.id === st.lessonId); }
+    /** các lần nói trước của cùng học viên + cùng bài (mới nhất trước) */
+    function priorOf() { return st.lessonId && st.student.trim() ? allRes.filter(r => String(r.lessonId) === String(st.lessonId) && S.sameStudent(r.student, st.student)).sort((a, b) => new Date(b.time) - new Date(a.time)) : []; }
     function refresh() {
       const l = lessonOf();
-      lessonHint.innerHTML = "";
+      lessonHint.innerHTML = ""; cmpBox.innerHTML = "";
+      const pr = priorOf();
+      if (pr.length) cmpBox.append(h("div.hint", { style: "margin-top:10px;background:var(--sky)" },
+        h("b", "📈 " + st.student.trim() + " đã nói bài này " + pr.length + " lần"), " (gần nhất " + fmtDate(pr[0].time) + "). Lần này sẽ là lần " + (pr.length + 1) + ".",
+        h("label", { style: "display:flex;align-items:center;gap:10px;margin-top:8px;cursor:pointer;font-weight:800" },
+          h("input", { type: "checkbox", style: "width:22px;height:22px", checked: st.compare, onchange: e => { st.compare = e.target.checked; } }),
+          h("span", "AI so sánh với lần gần nhất và nhận xét tiến bộ")),
+        h("div.small.muted", { style: "margin-top:4px" }, "AI không nghe lại bài cũ; nó dùng bản phân tích đã lưu của lần trước (lỗi, câu đã nói, số đo ngắt nghỉ) để đối chiếu với bài nói mới.")));
       if (l && !lines(l.vocab).length) lessonHint.append(h("div.hint", { style: "margin-top:10px" }, "Bài này chưa có từ vựng cốt lõi. AI sẽ chấm mục từ vựng theo chủ đề chung nên kém chính xác hơn; cô nên bổ sung ở ", h("a", { href: "#/teacher/speak/lessons", style: "font-weight:800" }, "Cấu hình bài"), "."));
       const ok = st.lessonId && st.student.trim() && st.prep && st.prep.measured && st.prep.measured.ok && !st.busy;
       goBtn.disabled = !ok; goBtn.classList.toggle("ghost", !ok);
@@ -210,8 +241,12 @@
       st.busy = true; goBtn.disabled = true; goBtn.classList.add("ghost"); goBtn.textContent = "⏳ AI đang nghe...";
       out.innerHTML = ""; out.append(h("div.card.center.muted", h("span.spinner"), " AI đang nghe và chấm, cô chờ chút nhé (20-60 giây)..."));
       try {
+        const pr = priorOf(), attempt = pr.length + 1;
+        let prevItem = null;
+        if (pr.length) { try { prevItem = await store.getResult(pr[0].id); } catch (e) { prevItem = null; } }
+        const usePrev = !!(st.compare && prevItem && prevItem.data && prevItem.data.result);
         const payload = {
-          audioBase64: st.prep.b64, mimeType: "audio/wav", measured: st.prep.measured,
+          audioBase64: st.prep.b64, mimeType: "audio/wav", measured: st.prep.measured, previous: usePrev ? S.prevSummary(prevItem) : undefined,
           rubric: S.ITEMS.filter(i => i.mode === "ai").map(i => ({ id: i.id, label: i.label, max: i.max, def: i.def })),
           lesson: lesson, settings: settings
         };
@@ -220,17 +255,42 @@
         const rs = {
           id: "", student: st.student.trim(), lesson: { id: lesson.id, code: lesson.code || "", title: lesson.title || "", vocab: lines(lesson.vocab), phrases: lines(lesson.phrases) },
           result: result, measured: st.prep.measured, scores: Object.assign({}, result.scores), manual: { eyeContact: "", expression: "" },
-          noScore: st.noScore, zalo: "", note: "", durationSec: st.prep.measured.spanSec, demo: !!r.demo, model: r.model || "", audioUrl: st.url, status: "draft", settings: settings
+          noScore: st.noScore, attempt: attempt, prevTime: usePrev ? prevItem.time : "", prevMeasured: usePrev && prevItem.data.measured && prevItem.data.measured.ok ? pickM(prevItem.data.measured) : null, zalo: "", note: "", durationSec: st.prep.measured.spanSec, demo: !!r.demo, model: r.model || "", audioUrl: st.url, status: "draft", settings: settings
         };
-        rs.zalo = S.buildZalo({ result: result, student: rs.student, totals: S.totals(rs.scores, rs.manual), noScore: rs.noScore });
+        rs.zalo = S.buildZalo({ result: result, student: rs.student, totals: S.totals(rs.scores, rs.manual), noScore: rs.noScore, attempt: attempt, prevMeasured: rs.prevMeasured, measured: rs.measured });
         out.innerHTML = ""; renderResult(out, rs);
-        try { await persist(rs, "draft"); toast("Đã lưu bản nháp AI vào Lịch sử"); } catch (e) { toast("Chưa lưu được bản nháp: " + e.message, 5000); }
+        try { await persist(rs, "draft"); allRes.unshift({ id: rs.id, student: rs.student, lessonId: lesson.id, time: new Date().toISOString(), status: "draft" }); refresh(); toast("Đã lưu bản nháp AI vào Lịch sử"); } catch (e) { toast("Chưa lưu được bản nháp: " + e.message, 5000); }
         out.scrollIntoView({ behavior: "smooth", block: "start" });
       } catch (e) {
         out.innerHTML = ""; out.append(h("div.card", h("div.err", e.message), h("div.small.muted", { style: "margin-top:6px" }, "Cô bấm Chấm điểm lần nữa để thử lại. File và tên học viên vẫn còn nguyên.")));
       } finally { st.busy = false; goBtn.textContent = "🎤 Chấm điểm"; refresh(); }
     }
     refresh();
+  }
+
+  const pickM = m => ({ spanSec: m.spanSec, ratio: m.ratio, pauseCount: m.pauseCount, longPauseCount: m.longPauseCount, longestPause: m.longestPause });
+
+  /* ---------- thẻ "So với lần nói trước" ---------- */
+  function progressCard(rs) {
+    const R = rs.result, pg = R.progress, kids = [];
+    kids.push(h("h3", { style: "margin-bottom:6px" }, "📈 So với lần nói trước (lần " + (rs.attempt - 1) + (rs.prevTime ? ", " + fmtDate(rs.prevTime) : "") + ")"));
+    if (rs.prevMeasured && rs.measured && rs.measured.ok) {
+      const rows = S.measuredDelta(rs.prevMeasured, rs.measured);
+      const verdict = x => x.better === true ? h("span", { style: "color:var(--good);font-weight:800" }, "▲ tốt hơn") : x.better === false ? h("span", { style: "color:var(--peach-d);font-weight:800" }, "▼ kém hơn") : h("span.muted", "≈ như cũ");
+      const trs = rows.map(x => h("tr", h("td", x.label), h("td", x.prev), h("td", h("b", x.cur)), h("td.small", verdict(x))));
+      kids.push(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Số đo", "Lần trước", "Lần này", ""].map(t => h("th", t)))), h("tbody", trs))));
+      kids.push(h("div.small.muted", { style: "margin-top:4px" }, "Số đo tự động từ âm lượng, chỉ để tham khảo. Thời lượng nói không phán xét tốt hay kém vì phụ thuộc đề bài."));
+    }
+    const chips = (arr, ico, cls) => arr.map(x => h("div.spg-iss", ico + " " + (x.item || x), x.evidence ? h("div.small.muted", "Nghe thấy lần này: " + x.evidence) : null, x.tip ? h("div.small", "💡 " + x.tip) : null));
+    if (pg) {
+      if (pg.summary) kids.push(h("p", { style: "margin:10px 0 4px" }, pg.summary));
+      if (pg.fixed.length) kids.push(h("div", { style: "margin-top:8px" }, h("b", "✅ Đã sửa được"), chips(pg.fixed, "✅")));
+      if (pg.stillIssues.length) kids.push(h("div", { style: "margin-top:8px" }, h("b", "⏳ Vẫn còn"), chips(pg.stillIssues, "⏳")));
+      if (pg.newIssues.length) kids.push(h("div", { style: "margin-top:8px" }, h("b", "🆕 Lỗi mới xuất hiện"), chips(pg.newIssues, "🆕")));
+      if (pg.notTested.length) kids.push(h("div", { style: "margin-top:8px" }, h("b", "➖ Chưa kiểm tra lại được (lần này em không nói tới)"), chips(pg.notTested, "➖")));
+      if (pg.encouragement) kids.push(h("div.hint", { style: "margin-top:10px" }, pg.encouragement));
+    } else kids.push(h("div.muted", { style: "margin-top:8px" }, rs.prevMeasured ? "AI chưa nhận xét tiến bộ lần này." : "Lần này AI không so sánh với lần trước (cô tắt so sánh, hoặc chưa có dữ liệu lần trước)."));
+    return h("div.card", { style: "margin-top:12px" }, kids);
   }
 
   /* ---------- thẻ số liệu đo bằng phần mềm ---------- */
@@ -269,6 +329,8 @@
     if (R.audioNote && !rs.demo) host.append(h("div.hint", { style: "margin-top:12px" }, "📝 AI ghi chú về âm thanh: " + R.audioNote));
     if (R.confidence === "low" && !rs.demo) host.append(h("div.hint", { style: "margin-top:12px;background:var(--rose)" }, "AI tự đánh giá độ tin cậy THẤP với bài này (file ngắn, nhiều tiếng ồn hoặc khó nghe). Cô nghe lại và xem kỹ điểm trước khi gửi."));
     host.append(h("div.hint", { style: "margin-top:12px" }, rs.noScore ? "Nhận xét của AI chỉ là bản nháp. Phát âm và ngữ điệu AI có thể nghe sai, nhất là những lỗi có nhãn \"tin cậy thấp\". Cô nghe lại và sửa tin Zalo trước khi gửi." : "Điểm AI chỉ là bản nháp. Phát âm và ngữ điệu AI có thể nghe sai, nhất là những lỗi có nhãn \"tin cậy thấp\". Cô nghe lại và chỉnh điểm được ở bảng dưới."));
+
+    if (rs.attempt > 1) host.append(progressCard(rs));
 
     /* --- bảng điểm --- */
     const tblBody = [];
@@ -352,7 +414,7 @@
     host.append(h("div.card", { style: "margin-top:12px" }, h("h3", "💬 Tin nhắn gửi Zalo (sửa trực tiếp được)"), zalo, zaloNote,
       h("div.row", { style: "margin-top:8px" },
         h("button.btn.sky", { onclick: () => L.copyText(zalo.value) }, "📋 Sao chép"),
-        h("button.btn.ghost", { onclick: async () => { if (!(await L.confirmBox("Tạo lại tin nhắn từ nhận xét của AI? Phần cô đã sửa tay sẽ mất.", "Tạo lại"))) return; rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: T(), noScore: rs.noScore }); rs.zaloEdited = false; zaloNote.style.display = "none"; zalo.value = rs.zalo; } }, "🔄 Tạo lại theo điểm hiện tại"))));
+        h("button.btn.ghost", { onclick: async () => { if (!(await L.confirmBox("Tạo lại tin nhắn từ nhận xét của AI? Phần cô đã sửa tay sẽ mất.", "Tạo lại"))) return; rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: T(), noScore: rs.noScore, attempt: rs.attempt, prevMeasured: rs.prevMeasured, measured: rs.measured }); rs.zaloEdited = false; zaloNote.style.display = "none"; zalo.value = rs.zalo; } }, "🔄 Tạo lại theo điểm hiện tại"))));
 
     /* --- ghi chú & lưu --- */
     const note = h("textarea", { style: "min-height:70px;font-family:inherit", placeholder: "Ghi chú riêng của cô (học viên không thấy)...", oninput: e => { rs.note = e.target.value; } }); note.value = rs.note || "";
@@ -367,13 +429,13 @@
 
     function paint() {
       const t = T();
-      if (rs.noScore) { if (!rs.zaloEdited) { rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: t, noScore: true }); zalo.value = rs.zalo; } return; }
+      if (rs.noScore) { if (!rs.zaloEdited) { rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: t, noScore: true, attempt: rs.attempt, prevMeasured: rs.prevMeasured, measured: rs.measured }); zalo.value = rs.zalo; } return; }
       ring.innerHTML = ""; ring.append(h("b", String(t.provisional ? t.part : t.total)), h("span", t.provisional ? "/90 (tạm)" : "/100"));
       ring.className = "spg-ring " + t.band.key;
       bandBox.innerHTML = ""; bandBox.append(h("div", { style: "margin-top:4px" }, h("span.pill.big", t.band.icon + " " + t.band.label + (t.provisional ? " (tạm tính)" : ""))), h("div.small", { style: "margin-top:6px" }, t.band.note));
       provBox.textContent = t.provisional ? "Chưa tính 10 điểm Phong thái (cô tự chấm bên dưới). Xếp loại tạm quy từ " + t.part + "/90." : "";
       t.groups.forEach(g => { refs.groups[g.id].textContent = g.got + " / " + g.max; });
-      if (!rs.zaloEdited) { rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: t }); zalo.value = rs.zalo; }
+      if (!rs.zaloEdited) { rs.zalo = S.buildZalo({ result: R, student: rs.student, totals: t, attempt: rs.attempt, prevMeasured: rs.prevMeasured, measured: rs.measured }); zalo.value = rs.zalo; }
     }
     paint();
   }
@@ -384,7 +446,7 @@
     rs.id = await store.saveResult({
       id: rs.id || undefined, student: rs.student, lessonId: rs.lesson.id, lessonTitle: lessonLabel(rs.lesson),
       total: rs.noScore ? 0 : t.provisional ? t.part : t.total, band: rs.noScore ? NOSCORE_BAND : t.band.label, durationSec: rs.durationSec || 0, status: status,
-      data: { noScore: !!rs.noScore, result: rs.result, measured: rs.measured, scores: rs.scores, manual: rs.manual, zalo: rs.zalo, zaloEdited: !!rs.zaloEdited, note: rs.note, lesson: rs.lesson, demo: rs.demo, model: rs.model, settings: { phrases: (rs.settings || {}).phrases } }
+      data: { noScore: !!rs.noScore, attempt: rs.attempt || 1, prevTime: rs.prevTime || "", prevMeasured: rs.prevMeasured || null, result: rs.result, measured: rs.measured, scores: rs.scores, manual: rs.manual, zalo: rs.zalo, zaloEdited: !!rs.zaloEdited, note: rs.note, lesson: rs.lesson, demo: rs.demo, model: rs.model, settings: { phrases: (rs.settings || {}).phrases } }
     });
   }
 
@@ -404,6 +466,202 @@
   }
 
   /* ============================================================
+     BIỂU ĐỒ CỘT ĐƠN (một chuỗi số, có bảng số liệu đi kèm bên dưới)
+     ============================================================ */
+  function barChart(data, opt) {
+    opt = opt || {};
+    const box = h("div", { style: "margin-top:6px" });
+    if (!data.length) { box.append(h("div.muted.small", "Chưa có dữ liệu.")); return box; }
+    const esc = t => String(t).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    const W = 640, H = 200, pl = 36, pr = 10, pt = 22, pb = 34, n = data.length;
+    const maxV = Math.max(1, opt.band ? opt.band[1] : 0, ...data.map(d => d.value)) * 1.15;
+    const iw = W - pl - pr, ih = H - pt - pb, step = iw / n, bw = Math.max(8, Math.min(30, step * 0.62));
+    const y = v => pt + ih - (v / maxV) * ih;
+    const niceTop = Math.ceil(maxV / 5) * 5;
+    let g = "";
+    [0, 0.5, 1].forEach(f => { const v = Math.round(niceTop * f); g += `<line x1="${pl}" x2="${W - pr}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--line);stroke-width:1"/><text x="${pl - 6}" y="${y(v) + 4}" text-anchor="end" style="fill:var(--soft);font-size:11px">${v}</text>`; });
+    if (opt.band) g += `<rect x="${pl}" y="${y(opt.band[1])}" width="${iw}" height="${y(opt.band[0]) - y(opt.band[1])}" style="fill:var(--mint);opacity:.55"/><text x="${W - pr - 4}" y="${y(opt.band[1]) + 13}" text-anchor="end" style="fill:var(--mint-d);font-size:11px;font-weight:800">${esc(opt.bandLabel || "")}</text>`;
+    const maxIdx = data.reduce((m, d, i) => d.value > data[m].value ? i : m, 0);
+    data.forEach((d, i) => {
+      const cx = pl + step * i + step / 2, x = cx - bw / 2, top = y(d.value), hh = Math.max(2, y(0) - top), r = Math.min(4, hh, bw / 2);
+      g += `<g><title>${esc(d.tip || d.label + ": " + d.value)}</title><path d="M${x},${y(0)} v${-(hh - r)} q0,${-r} ${r},${-r} h${bw - 2 * r} q${r},0 ${r},${r} v${hh - r} z" style="fill:var(--sky-d)"/>`;
+      if (n <= 10 || i === n - 1 || i === maxIdx) g += `<text x="${cx}" y="${top - 5}" text-anchor="middle" style="fill:var(--ink);font-size:11px;font-weight:800">${esc(opt.fmt ? opt.fmt(d.value) : d.value)}</text>`;
+      if (n <= 12 || i % 2 === 0 || i === n - 1) g += `<text x="${cx}" y="${H - 12}" text-anchor="middle" style="fill:var(--soft);font-size:10.5px">${esc(d.label)}</text>`;
+      g += "</g>";
+    });
+    box.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opt.title || "Biểu đồ")}" style="width:100%;height:auto;max-width:720px;display:block">${g}</svg>`;
+    return box;
+  }
+  const shortDate = t => { const d = new Date(t); return String(d.getDate()).padStart(2, "0") + "/" + String(d.getMonth() + 1).padStart(2, "0"); };
+
+  /* ============================================================
+     HỌC VIÊN: danh sách + hồ sơ + báo cáo tháng
+     ============================================================ */
+  async function studentsView(host, name) {
+    host.append(h("div.center.muted", h("span.spinner")));
+    try {
+      if (!name) return await studentListView(host);
+      const ds = await store.digest({ student: name });
+      host.innerHTML = ""; profileView(host, name, ds);
+    } catch (e) { host.innerHTML = ""; host.append(h("div.card", h("div.err", e.message), h("a.btn", { href: "#/teacher/speak/students" }, "← Học viên"))); }
+  }
+  async function studentListView(host) {
+    const list = await store.results();
+    host.innerHTML = "";
+    if (!list.length) { host.append(h("div.card.empty", "Chưa có bài nào được chấm nên chưa có hồ sơ học viên.")); return; }
+    const groups = new Map();
+    list.forEach(r => { const k = S.normName(r.student); if (!k) return; let g = groups.get(k); if (!g) { g = { name: r.student, n: 0, lessons: new Set(), last: 0 }; groups.set(k, g); } g.n++; g.lessons.add(String(r.lessonId)); const t = new Date(r.time).getTime(); if (t >= g.last) { g.last = t; g.name = r.student; } });
+    const rows = Array.from(groups.values()).sort((a, b) => b.last - a.last);
+    const box = h("div");
+    const q = h("input", { type: "search", placeholder: "Tìm học viên...", style: "max-width:260px", oninput: () => draw() });
+    function draw() {
+      const key = S.normName(q.value); box.innerHTML = "";
+      box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Học viên", "Số bài nói", "Số bài học khác nhau", "Gần nhất", ""].map(t => h("th", t)))),
+        h("tbody", rows.filter(g => !key || S.normName(g.name).includes(key)).map(g => h("tr", h("td", h("b", g.name)), h("td", String(g.n)), h("td", String(g.lessons.size)), h("td", fmtDate(new Date(g.last).toISOString())),
+          h("td", h("a.btn.sm", { href: "#/teacher/speak/students/" + encodeURIComponent(g.name) }, "Mở hồ sơ"))))))));
+    }
+    host.append(h("div.card", h("div.row", { style: "margin-bottom:10px" }, h("h3", "👤 Hồ sơ học viên"), h("span.grow"), q),
+      h("div.small.muted", { style: "margin-bottom:8px" }, "Hồ sơ tổng hợp từ các bài đã chấm và lưu: lỗi lặp lại, xu hướng nói, mục tiêu đề xuất và báo cáo tháng cho phụ huynh."), box));
+    draw();
+  }
+
+  function profileView(host, name, ds) {
+    const P = S.profileOf(ds);
+    host.append(h("div.row", { style: "margin-bottom:12px" }, h("a.btn.sm.ghost", { href: "#/teacher/speak/students" }, "← Học viên")));
+    if (!P.n) { host.append(h("div.card.empty", "Chưa có bài nào của " + name + ".")); return; }
+    const stat = (v, l) => h("div.spg-stat", h("b", String(v)), h("span", l));
+    host.append(h("div.card",
+      h("div", { style: "font-family:var(--hfont);font-size:24px;font-weight:700" }, name),
+      h("div.spg-stats", { style: "margin-top:8px" }, stat(P.n, "bài đã nói"), stat(P.lessons.length, "bài học khác nhau"), stat(Math.round(P.totalSpanSec / 6) / 10 + " phút", "tổng thời lượng nói"), stat(P.retries, "lần nói lại"))));
+
+    /* xu hướng */
+    const last = P.withM.slice(-16);
+    const lbl = d => shortDate(d.time) + (d.attempt > 1 ? " (lần " + d.attempt + ")" : "");
+    host.append(h("div.card", { style: "margin-top:12px" },
+      h("h3", "📊 Thời lượng nói mỗi bài (giây)"), h("div.small.muted", "Mỗi cột là một bài, cũ đến mới. Vùng xanh là khoảng chuẩn 60–90 giây."),
+      barChart(last.map(d => ({ label: shortDate(d.time), value: Math.round(d.m.spanSec), tip: d.lessonTitle + " · " + lbl(d) + ": " + Math.round(d.m.spanSec) + " giây" })), { title: "Thời lượng nói mỗi bài", band: [60, 90], bandLabel: "chuẩn 60–90s", fmt: v => v + "s" }),
+      h("h3", { style: "margin-top:16px" }, "⏸️ Số lần ngắt dài (từ 1,2 giây) mỗi bài"), h("div.small.muted", "Càng ít thường càng trôi chảy. Đo tự động từ âm lượng nên chỉ để tham khảo."),
+      barChart(last.map(d => ({ label: shortDate(d.time), value: d.m.longPauseCount, tip: d.lessonTitle + " · " + lbl(d) + ": " + d.m.longPauseCount + " lần ngắt dài" })), { title: "Số lần ngắt dài mỗi bài" }),
+      h("details", { style: "margin-top:10px" }, h("summary", { style: "cursor:pointer;font-weight:800" }, "Xem bảng số liệu"),
+        h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Ngày", "Bài", "Lần", "Thời lượng", "Ngắt ≥1,2s", "Thời gian có tiếng", ""].map(t => h("th", t)))),
+          h("tbody", P.items.slice().reverse().map(d => h("tr", h("td", fmtDate(d.time)), h("td", d.lessonTitle), h("td", String(d.attempt)), h("td", d.m ? Math.round(d.m.spanSec) + "s" : "—"), h("td", d.m ? String(d.m.longPauseCount) : "—"), h("td", d.m ? Math.round(d.m.ratio * 100) + "%" : "—"),
+            h("td", h("a.btn.sm", { href: "#/teacher/speak/r/" + d.id }, "Mở"))))))))));
+
+    /* lỗi lặp lại */
+    const list = (items, fmt, empty) => items.length ? h("ul", { style: "margin:6px 0 0;padding-left:20px" }, items.map(x => h("li", fmt(x)))) : h("div.muted.small", empty);
+    const rep = a => a.filter(x => x.times >= 2).slice(0, 6);
+    host.append(h("div.card", { style: "margin-top:12px" }, h("h3", "🔁 Lỗi lặp lại (từ 2 bài trở lên)"),
+      h("div", { style: "display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:6px" },
+        h("div", h("b", "📐 Ngữ pháp"), list(rep(P.grammar), x => [h("b", x.text), " ", h("span.pill.butter", x.times + " bài"), x.example ? h("div.small.muted", x.example) : null], "Chưa có lỗi nào lặp lại.")),
+        h("div", h("b", "🎙️ Phát âm (AI nghe, cô kiểm tra)"), list(rep(P.pron), x => [h("b", x.text), " ", h("span.pill.butter", x.times + " bài"), x.example ? h("div.small.muted", x.example) : null], "Chưa có từ nào lặp lại.")),
+        h("div", h("b", "📚 Từ vựng của bài chưa dùng"), list(rep(P.vocab), x => [h("b", x.text), " ", h("span.pill.butter", x.times + " bài")], "Chưa có từ nào lặp lại."))),
+      P.goals.length ? h("div.hint", { style: "margin-top:12px" }, h("b", "🎯 Mục tiêu gợi ý: "), P.goals.join(" · ")) : null,
+      P.fixed.length ? h("div", { style: "margin-top:12px" }, h("b", "✅ Đã sửa được khi nói lại: "), P.fixed.map(x => h("span.pill.mint", { style: "margin:2px 4px 2px 0" }, x))) : null,
+      P.strengths.length ? h("div", { style: "margin-top:10px" }, h("b", "💪 Điểm mạnh gần đây"), h("ul", { style: "margin:6px 0 0;padding-left:20px" }, P.strengths.map(x => h("li", x)))) : null));
+
+    host.append(reportSection(name, ds));
+  }
+
+  /* ---------- báo cáo tháng cho phụ huynh ---------- */
+  function reportSection(name, ds) {
+    const card = h("div.card.spg-noprint", { style: "margin-top:12px" });
+    const monthIn = h("input", { type: "month", value: monthNow(), style: "width:auto", onchange: () => build() });
+    const out = h("div");
+    card.append(h("h3", "📄 Báo cáo tháng cho phụ huynh"), h("div.small.muted", "Soạn từ các bài đã nói trong tháng, chỉ dùng số liệu thật. Cô xem và sửa trước khi gửi."),
+      h("div.row", { style: "margin-top:8px" }, h("span", "Tháng:"), monthIn), out);
+    let ai = null;
+    function build() {
+      ai = null; out.innerHTML = "";
+      const rg = S.monthRange(monthIn.value);
+      if (!rg) { out.append(h("div.muted", "Chọn tháng cần báo cáo.")); return; }
+      const mds = ds.filter(d => new Date(d.time) >= new Date(rg.since) && new Date(d.time) < new Date(rg.until));
+      const facts = S.monthFacts(mds, name, rg.label);
+      show(facts, mds);
+    }
+    function show(facts, mds) {
+      out.innerHTML = "";
+      if (!facts.recordings) { out.append(h("div.empty.muted", { style: "margin-top:10px" }, "Tháng " + facts.month + " chưa có bài nói nào của " + name + ".")); return; }
+      const ta = h("textarea.spg-zalo", { style: "margin-top:10px" }); ta.value = ai ? ai.zalo || S.monthlyDraft(facts) : S.monthlyDraft(facts);
+      const aiBtn = h("button.btn.ghost", { onclick: async () => {
+        aiBtn.disabled = true; aiBtn.textContent = "⏳ AI đang viết...";
+        try { const r = await store.monthly(facts); ai = r.raw || {}; ta.value = ai.zalo || ta.value; paintCard(); toast("AI đã viết lại. Cô đọc lại trước khi gửi nhé."); }
+        catch (e) { toast("Chưa viết lại được: " + e.message, 5000); } finally { aiBtn.disabled = false; aiBtn.textContent = "✨ Nhờ AI viết lại cho mượt"; }
+      } }, "✨ Nhờ AI viết lại cho mượt");
+      const cardBox = h("div");
+      function paintCard() { cardBox.innerHTML = ""; cardBox.append(reportCard(facts, ai, mds)); }
+      out.append(ta, h("div.small.muted", { style: "margin-top:4px" }, "Bản nháp này dựng thẳng từ số liệu đã lưu. Nút AI chỉ viết lại cho mượt, không thêm số liệu mới."),
+        h("div.row", { style: "margin-top:8px" }, h("button.btn.sky", { onclick: () => L.copyText(ta.value) }, "📋 Sao chép tin Zalo"), aiBtn, h("button.btn.ghost", { onclick: () => window.print() }, "🖨️ In / lưu PDF thẻ báo cáo")),
+        h("h4", { style: "margin:16px 0 6px" }, "Thẻ báo cáo (để in hoặc lưu PDF)"), cardBox);
+      paintCard();
+    }
+    build();
+    return card;
+  }
+  function reportCard(f, ai, mds) {
+    const bullets = a => a && a.length ? h("ul", { style: "margin:4px 0 0;padding-left:20px" }, a.map(x => h("li", x))) : null;
+    const prog = ai && ai.progress && ai.progress.length ? ai.progress : [].concat(f.fixedByRetry ? ["Đã sửa được: " + f.fixedByRetry.join(", ")] : [], f.firstVsLast && f.firstVsLast.lastLongPauses < f.firstVsLast.firstLongPauses ? ["Số lần ngắt dài giảm từ " + f.firstVsLast.firstLongPauses + " xuống " + f.firstVsLast.lastLongPauses] : []);
+    const stats = [[f.recordings, "bài đã nói"], [f.lessons.length, "bài học"], [String(f.speakingMinutes).replace(".", ","), "phút luyện nói"]].concat(f.retries ? [[f.retries, "lần nói lại"]] : []);
+    const withM = (mds || []).filter(d => d.m).slice(-12);
+    return h("div.spg-report", { style: "border:2px solid var(--lav);border-radius:18px;padding:20px;background:#fff;max-width:760px" },
+      h("div", { style: "display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap" },
+        h("div", h("div", { style: "font-family:var(--hfont);font-size:13px;color:var(--soft);font-weight:800" }, "LITTLE SPROUT ENGLISH"), h("div", { style: "font-family:var(--hfont);font-size:24px;font-weight:700;line-height:1.2" }, "Báo cáo luyện nói tháng " + f.month)),
+        h("div", { style: "text-align:right" }, h("div", { style: "font-size:20px;font-weight:800" }, f.student))),
+      ai && ai.headline ? h("div", { style: "margin-top:10px;font-size:17px;font-weight:800" }, ai.headline) : null,
+      h("div.spg-stats", { style: "margin-top:12px" }, stats.map(([v, l]) => h("div.spg-stat", h("b", String(v)), h("span", l)))),
+      ai && ai.summary ? h("p", { style: "margin:12px 0 0" }, ai.summary) : null,
+      withM.length ? h("div", { style: "margin-top:12px" }, h("b.small", "Thời lượng nói mỗi bài (giây)"), barChart(withM.map(d => ({ label: shortDate(d.time), value: Math.round(d.m.spanSec), tip: d.lessonTitle + ": " + Math.round(d.m.spanSec) + " giây" })), { title: "Thời lượng nói mỗi bài", band: [60, 90], bandLabel: "chuẩn 60–90s", fmt: v => v + "s" })) : null,
+      (ai && ai.strengths && ai.strengths.length ? ai.strengths : f.strengths) ? h("div", { style: "margin-top:10px" }, h("b", "👍 Điểm mạnh"), bullets(ai && ai.strengths && ai.strengths.length ? ai.strengths : f.strengths)) : null,
+      prog.length ? h("div", { style: "margin-top:10px" }, h("b", "📈 Tiến bộ"), bullets(prog)) : null,
+      (ai && ai.nextGoals && ai.nextGoals.length ? ai.nextGoals : f.suggestedGoals) ? h("div", { style: "margin-top:10px" }, h("b", "🎯 Mục tiêu tháng sau"), bullets(ai && ai.nextGoals && ai.nextGoals.length ? ai.nextGoals : f.suggestedGoals)) : null,
+      h("div", { style: "margin-top:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end" },
+        h("div.small.muted", { style: "max-width:430px" }, "Số liệu nói và ngắt nghỉ được đo tự động. Nhận xét phát âm do AI nghe và cô giáo kiểm tra."),
+        h("div", { style: "font-family:var(--hfont);font-size:18px;font-weight:700" }, "Cô Thảo")));
+  }
+
+  /* ============================================================
+     CẢ LỚP: lỗi chung + gợi ý ôn đầu buổi
+     ============================================================ */
+  async function classView(host) {
+    host.append(h("div.center.muted", h("span.spinner")));
+    let ls;
+    try { ls = await store.lessons(); } catch (e) { host.innerHTML = ""; host.append(h("div.card", h("div.err", e.message))); return; }
+    host.innerHTML = "";
+    const st = { lessonId: "", period: "30" };
+    const out = h("div");
+    const lessonSel = h("select", { onchange: e => { st.lessonId = e.target.value; load(); } }, h("option", { value: "" }, "Tất cả các bài"),
+      ls.lessons.slice().sort((a, b) => String(a.code || a.id).localeCompare(String(b.code || b.id), "vi", { numeric: true })).map(l => h("option", { value: l.id }, lessonLabel(l))));
+    const perSel = h("select", { onchange: e => { st.period = e.target.value; load(); } }, h("option", { value: "30" }, "30 ngày gần nhất"), h("option", { value: "month" }, "Tháng này"), h("option", { value: "all" }, "Tất cả thời gian"));
+    host.append(h("div.card", h("h3", "🏫 Tổng hợp cả lớp"), h("div.small.muted", "Gom lỗi từ các bài đã chấm để cô biết cả lớp đang vấp chỗ nào và ôn gì đầu buổi tới."),
+      h("div.row", { style: "margin-top:10px;gap:10px;flex-wrap:wrap" }, h("label.field", h("span", "Bài học"), lessonSel), h("label.field", h("span", "Thời gian"), perSel))), out);
+    async function load() {
+      out.innerHTML = ""; out.append(h("div.center.muted", { style: "margin-top:12px" }, h("span.spinner")));
+      try {
+        const params = {}; if (st.lessonId) params.lessonId = st.lessonId;
+        if (st.period === "30") params.since = new Date(Date.now() - 30 * 86400000).toISOString();
+        else if (st.period === "month") params.since = S.monthRange(monthNow()).since;
+        const ds = await store.digest(params);
+        out.innerHTML = ""; draw(ds);
+      } catch (e) { out.innerHTML = ""; out.append(h("div.card", h("div.err", e.message))); }
+    }
+    function draw(ds) {
+      if (!ds.length) { out.append(h("div.card.empty", { style: "margin-top:12px" }, "Chưa có bài nào trong phạm vi này.")); return; }
+      const C = S.classSummary(ds);
+      const sugg = C.suggestions.length ? "Gợi ý ôn 5 phút đầu buổi:\n" + C.suggestions.map((x, i) => (i + 1) + ". " + x).join("\n") : "";
+      out.append(h("div.card", { style: "margin-top:12px" }, h("div.spg-stats", h("div.spg-stat", h("b", String(C.students)), h("span", "học viên")), h("div.spg-stat", h("b", String(C.recordings)), h("span", "bài đã nói")))));
+      out.append(h("div.card", { style: "margin-top:12px" }, h("h3", "💡 Gợi ý ôn 5 phút đầu buổi"),
+        C.suggestions.length ? [h("ol", { style: "margin:6px 0 0;padding-left:22px" }, C.suggestions.map(x => h("li", x))), h("div.row", { style: "margin-top:10px" }, h("button.btn.sky", { onclick: () => L.copyText(sugg) }, "📋 Sao chép"))] : h("div.muted", "Chưa có lỗi nào lặp lại ở nhiều học viên. Cô chọn bài có nhiều học viên hơn hoặc mở rộng thời gian."),
+        h("div.small.muted", { style: "margin-top:8px" }, "Chỉ lấy các mục xuất hiện ở từ 2 học viên trở lên. Phát âm do AI nghe nên cô kiểm tra lại trước khi ôn.")));
+      const top = (title, arr, fmt) => h("div.card", { style: "margin-top:12px" }, h("h3", title), arr.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Mục", "Số học viên", "Số bài"].map(t => h("th", t)))),
+        h("tbody", arr.slice(0, 8).map(x => h("tr", h("td", fmt(x)), h("td", x.students + "/" + C.students), h("td", String(x.times))))))) : h("div.muted", "(chưa có)"));
+      out.append(top("📐 Lỗi ngữ pháp hay gặp", C.grammar, x => [h("b", x.text), x.example ? h("div.small.muted", x.example) : null]),
+        top("🎙️ Phát âm hay gặp (AI nghe)", C.pron, x => [h("b", x.text), x.example ? h("div.small.muted", x.example) : null]),
+        top("📚 Từ vựng của bài ít được dùng", C.vocab, x => h("b", x.text)),
+        top("🗣️ Cách nói chưa tự nhiên", C.natural, x => x.text));
+    }
+    load();
+  }
+
+  /* ============================================================
      LỊCH SỬ & mở lại bài đã lưu
      ============================================================ */
   async function historyView(host) {
@@ -419,6 +677,7 @@
     function draw() {
       box.innerHTML = "";
       const rows = list.filter(r => !sel || r.student === sel);
+      const attemptOf = r => list.filter(x => String(x.lessonId) === String(r.lessonId) && S.sameStudent(x.student, r.student) && new Date(x.time) <= new Date(r.time)).length;
       if (sel) {
         const chrono = rows.slice().reverse().filter(r => r.status === "final" && r.band !== NOSCORE_BAND);
         if (chrono.length >= 2) box.append(h("div.hint", { style: "margin-bottom:10px" }, h("b", "Tiến bộ của " + sel + ": "), chrono.map(r => r.total).join("  →  "), "  (các bài đã hoàn tất, cũ đến mới)"));
@@ -426,7 +685,7 @@
       box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Ngày", "Học viên", "Bài", "Điểm", "Xếp loại", "Trạng thái", ""].map(t => h("th", t)))),
         h("tbody", rows.map(r => {
           const ns = r.band === NOSCORE_BAND, tg = ns ? ["sky", "Nhận xét"] : (stTag[r.status] || stTag.draft);
-          return h("tr", h("td", { style: "white-space:nowrap" }, fmtDate(r.time)), h("td", h("b", r.student)), h("td", r.lessonTitle),
+          return h("tr", h("td", { style: "white-space:nowrap" }, fmtDate(r.time)), h("td", h("b", r.student)), h("td", r.lessonTitle, attemptOf(r) > 1 ? h("span.pill.sky", { style: "margin-left:6px" }, "lần " + attemptOf(r)) : null),
             h("td", ns ? h("span.muted", "—") : [h("b", String(r.total)), h("span.muted", r.status === "final" ? "/100" : "/90")]), h("td", ns ? "—" : r.band), h("td", h("span.pill." + tg[0], tg[1])),
             h("td", { style: "white-space:nowrap" }, h("a.btn.sm", { href: "#/teacher/speak/r/" + r.id }, "Mở"), " ",
               h("button.btn.sm.ghost", { onclick: async () => { if (!(await L.confirmBox("Xoá kết quả của " + r.student + " (" + r.lessonTitle + ")?", "Xoá"))) return; try { await store.delResult(r.id); list = list.filter(x => x.id !== r.id); draw(); toast("Đã xoá"); } catch (e) { toast(e.message, 4000); } } }, "🗑️")));
@@ -448,7 +707,7 @@
     const rs = {
       id: item.id, student: item.student, lesson: d.lesson || { id: item.lessonId, code: "", title: item.lessonTitle, vocab: [], phrases: [] },
       result: d.result, measured: d.measured, scores: d.scores || d.result.scores, manual: d.manual || { eyeContact: "", expression: "" }, zalo: d.zalo || "", zaloEdited: !!d.zaloEdited, note: d.note || "",
-      noScore: !!d.noScore || item.band === NOSCORE_BAND, durationSec: item.durationSec, demo: !!d.demo, model: d.model || "", audioUrl: "", status: item.status, settings: d.settings || {}
+      noScore: !!d.noScore || item.band === NOSCORE_BAND, attempt: +d.attempt || 1, prevTime: d.prevTime || "", prevMeasured: d.prevMeasured || null, durationSec: item.durationSec, demo: !!d.demo, model: d.model || "", audioUrl: "", status: item.status, settings: d.settings || {}
     };
     host.append(h("div.row", { style: "margin-bottom:12px" }, h("a.btn.sm.ghost", { href: "#/teacher/speak/history" }, "← Lịch sử"), h("span.muted.small", "Chấm lúc " + fmtDate(item.time))));
     renderResult(host, rs);

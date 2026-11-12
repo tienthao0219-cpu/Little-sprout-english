@@ -840,3 +840,11 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 .spg-drop input[type=file]{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .spg-dropico{font-size:30px}
 .spg-dropname{margin-left:auto;font-weight:800;font-size:13.5px;word-break:break-all;max-width:100%}
+
+@media print{
+  *{animation:none!important;transform:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+  body *{visibility:hidden}
+  .spg-report,.spg-report *{visibility:visible}
+  .spg-report{position:fixed;left:0;top:0;width:100%;max-width:none!important;border:none!important}
+  .spg-bg,.spark,.star{display:none!important}
+}

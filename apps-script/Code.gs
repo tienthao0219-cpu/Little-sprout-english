@@ -35,8 +35,8 @@ function doPost(e) {
   let body = {};
   try { body = JSON.parse(e.postData.contents); } catch (err) { return json_({ ok: false, error: 'Dữ liệu gửi lên không hợp lệ' }); }
   // Chấm Speaking gọi Gemini mất 20-60 giây: KHÔNG giữ khoá chung, nếu không mọi học viên khác phải chờ theo
-  if (body.action === 'spgGrade') {
-    try { return json_(spgGrade_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
+  if (body.action === 'spgGrade' || body.action === 'spgMonthly') {
+    try { return json_(body.action === 'spgGrade' ? spgGrade_(body) : spgMonthly_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
   }
   const lock = LockService.getScriptLock();
   try {
@@ -100,6 +100,7 @@ function route_(b) {
     case 'hwDelete': needT(); return hwDelete_(b.id);
     case 'hwSetOpen': needT(); return hwSetOpen_(b.id, !!b.open);
     // Chấm Speaking bằng AI (spgGrade xử lý riêng ở doPost)
+    case 'spgDigest': needT(); return spgDigest_(b);
     case 'spgInfo': needT(); return { ok: true, hasKey: !!spgProps_().getProperty('GEMINI_API_KEY'), model: String(spgProps_().getProperty('GEMINI_MODEL') || SPG_DEFAULT_MODEL) };
     case 'spgLessonList': needT(); return spgLessonList_();
     case 'spgLessonSave': needT(); return spgLessonSave_(b.lesson);
@@ -521,7 +522,8 @@ function spgGrade_(b) {
   }).map(function (it) { return { id: String(it.id), label: cut_(it.label, 80), max: +it.max, def: cut_(it.def, 400) }; });
   if (!items.length) throw new Error('Thiếu rubric.');
 
-  const prompt = spgPrompt_(b, items);
+  const prev = spgPrevSan_(b.previous);
+  const prompt = spgPrompt_(b, items, prev);
   // Gemini 3.x: không đặt temperature (Google khuyên bỏ), dùng thinkingLevel; 2.5: dùng thinkingBudget.
   const is3 = /gemini-3/.test(model);
   const gen = { responseMimeType: 'application/json', maxOutputTokens: is3 ? 16384 : 8192 };
@@ -532,7 +534,7 @@ function spgGrade_(b) {
   const payload = function (withSchema, withThink) {
     const g = JSON.parse(JSON.stringify(gen));
     if (withThink === false) delete g.thinkingConfig;
-    if (withSchema) g.responseSchema = spgSchema_(items);
+    if (withSchema) g.responseSchema = spgSchema_(items, !!prev);
     return JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }, { inlineData: { mimeType: mime, data: audio } }] }], generationConfig: g });
   };
   let res = spgFetch_(url, key, payload(true));
@@ -583,13 +585,13 @@ function spgParseJson_(t) {
   return null;
 }
 
-function spgSchema_(items) {
+function spgSchema_(items, hasPrev) {
   const S = { type: 'STRING' }, N = { type: 'NUMBER' };
   const arrS = { type: 'ARRAY', items: S };
   const obj = function (props, req) { return { type: 'OBJECT', properties: props, required: req || Object.keys(props) }; };
   const scoreProps = {};
   items.forEach(function (it) { scoreProps[it.id] = obj({ score: N, comment: S }); });
-  return obj({
+  const sch = obj({
     transcript: S, audioNote: S, confidence: S, estimatedSeconds: N,
     scores: obj(scoreProps),
     pronunciationIssues: { type: 'ARRAY', items: obj({ word: S, time: S, heard: S, expected: S, tip: S, confidence: S }, ['word', 'tip']) },
@@ -598,13 +600,21 @@ function spgSchema_(items) {
     strengths: arrS, weaknesses: arrS,
     improvements: { type: 'ARRAY', items: obj({ title: S, how: S, practice: S }) },
     naturalPhrasing: { type: 'ARRAY', items: obj({ said: S, moreNatural: S, why: S }) },
-    nextChallenge: obj({ scenario: S, sentences: arrS })
-  }, ['transcript', 'scores', 'strengths', 'weaknesses', 'improvements']);
+    nextChallenge: obj({ scenario: S, sentences: arrS }),
+    progress: obj({
+      summary: S, encouragement: S,
+      fixed: { type: 'ARRAY', items: obj({ item: S, evidence: S }) },
+      stillIssues: { type: 'ARRAY', items: obj({ item: S, tip: S }) },
+      newIssues: arrS, notTested: arrS
+    })
+  }, ['transcript', 'scores', 'strengths', 'weaknesses', 'improvements'].concat(hasPrev ? ['progress'] : []));
+  if (!hasPrev) delete sch.properties.progress;
+  return sch;
 }
 
 function spgList_(v) { return (Array.isArray(v) ? v : String(v || '').split(/\n|;/)).map(function (x) { return cut_(x, 160).trim(); }).filter(Boolean).slice(0, 60); }
 
-function spgPrompt_(b, items) {
+function spgPrompt_(b, items, prev) {
   const L = b.lesson || {}, S = b.settings || {}, M = b.measured || {};
   const lines = [];
   lines.push('You are an experienced English speaking examiner and pronunciation coach for ADULT Vietnamese learners of English who study workplace and everyday communication with a teacher named Miss Thao. You are listening to ONE learner recording (a short monologue, homework). Grade it against the rubric below and return ONLY JSON.');
@@ -634,6 +644,17 @@ function spgPrompt_(b, items) {
     lines.push('OBJECTIVE MEASUREMENTS from the audio file (computed by software, reliable): speaking span ' + M.spanSec + ' s, actual speech ' + M.speechSec + ' s, pauses of 0.5 s or longer: ' + M.pauseCount + ' (of which 1.2 s or longer: ' + M.longPauseCount + '), longest pause ' + M.longestPause + ' s. Use these for the pace criterion together with what you hear.');
     lines.push('');
   }
+  if (prev) {
+    lines.push('PREVIOUS ATTEMPT (attempt ' + prev.attempt + (prev.date ? ', ' + prev.date : '') + ') by the SAME learner on the SAME lesson. You do NOT hear that earlier recording; below is the analysis saved from it. The audio you hear now is the NEW attempt.');
+    if (prev.m) lines.push('- Then: speaking span ' + prev.m.spanSec + ' s, pauses >=0.5 s: ' + prev.m.pauseCount + ', pauses >=1.2 s: ' + prev.m.longPauseCount + ', longest pause ' + prev.m.longestPause + ' s.');
+    if (prev.transcript) lines.push('- Then, transcript: ' + prev.transcript);
+    if (prev.pron.length) lines.push('- Then, pronunciation issues: ' + prev.pron.map(function (x) { return x.word + (x.tip ? ' (' + x.tip + ')' : ''); }).join('; '));
+    if (prev.grammar.length) lines.push('- Then, grammar errors: ' + prev.grammar.map(function (x) { return '"' + x.said + '" -> "' + x.better + '"'; }).join('; '));
+    if (prev.natural.length) lines.push('- Then, unnatural phrasing: ' + prev.natural.map(function (x) { return '"' + x.said + '" -> "' + x.moreNatural + '"'; }).join('; '));
+    if (prev.weaknesses.length) lines.push('- Then, weaknesses: ' + prev.weaknesses.join('; '));
+    lines.push('COMPARISON RULES: Score this NEW recording on its own merits, with the same standard as before; do not inflate scores because it is a retry. In "progress", compare honestly. Put an item in "fixed" ONLY if it was a problem before AND you clearly hear/see it done correctly now (give the evidence, e.g. the corrected sentence you heard). If the learner did not say that word or structure this time, put it in "notTested", never in "fixed". Put problems that are still there in "stillIssues" with one practical tip, and new problems in "newIssues". If the new attempt is worse in some respect, say so kindly and accurately. Do not flatter.');
+    lines.push('');
+  }
   lines.push('RUBRIC TO SCORE (put one entry per id inside "scores", each {score, comment}; the comment cites concrete evidence from the recording in 1-2 sentences):');
   items.forEach(function (it) { lines.push('- ' + it.id + ' (max ' + it.max + '): ' + it.label + '. ' + it.def); });
   lines.push('Score anchors: 90-100% of max = consistently good with only trivial slips; 70-89% = minor recurring issues, fully understandable; 40-69% = noticeable issues that sometimes reduce clarity; below 40% = frequent issues that often block understanding or the skill is almost absent.');
@@ -645,8 +666,9 @@ function spgPrompt_(b, items) {
   lines.push('- strengths (2-4) and weaknesses (2-4): specific, Vietnamese, each tied to evidence. improvements (2-4): {title, how (what to change, Vietnamese), practice (a concrete 5-minute drill, Vietnamese)}.');
   lines.push('- naturalPhrasing (0-4): sentences the learner said that are understandable but not how people naturally say it in real life; give {said, moreNatural, why (Vietnamese)}. Focus on real-life communication, not textbook English.');
   lines.push('- nextChallenge: {scenario: a short real-life situation in Vietnamese for the next lesson warm-up, sentences: 2-4 English model sentences using the lesson language}.');
+  if (prev) lines.push('- progress: {summary (2-3 sentences in Vietnamese: what improved, what did not, the single most useful next step), fixed [{item (Vietnamese label of the earlier problem), evidence (what you heard now)}], stillIssues [{item, tip}], newIssues [short Vietnamese strings], notTested [short Vietnamese strings], encouragement (one warm Vietnamese sentence)}.');
   lines.push('');
-  lines.push('Return a single JSON object with exactly these keys: transcript, audioNote, confidence, estimatedSeconds, scores{' + items.map(function (it) { return it.id; }).join(', ') + '}, pronunciationIssues[{word,time,heard,expected,tip,confidence}], vocabUsed[], vocabMissing[], phrasesUsed[], phrasesMissing[], connectorsUsed[], grammarErrors[{said,better,rule}], strengths[], weaknesses[], improvements[{title,how,practice}], naturalPhrasing[{said,moreNatural,why}], nextChallenge{scenario,sentences[]}.');
+  lines.push('Return a single JSON object with exactly these keys: transcript, audioNote, confidence, estimatedSeconds, scores{' + items.map(function (it) { return it.id; }).join(', ') + '}, pronunciationIssues[{word,time,heard,expected,tip,confidence}], vocabUsed[], vocabMissing[], phrasesUsed[], phrasesMissing[], connectorsUsed[], grammarErrors[{said,better,rule}], strengths[], weaknesses[], improvements[{title,how,practice}], naturalPhrasing[{said,moreNatural,why}], nextChallenge{scenario,sentences[]}' + (prev ? ', progress{summary,fixed[{item,evidence}],stillIssues[{item,tip}],newIssues[],notTested[],encouragement}' : '') + '.');
   return lines.join('\n');
 }
 
@@ -741,6 +763,103 @@ function thietLapLanDau() {
   Object.keys(SHEETS).forEach(sheet_);
   folder_();
   Logger.log('Xong! Các trang tính và thư mục bài tập đã sẵn sàng.');
+}
+
+/* ---------- so sánh với lần nói trước ---------- */
+function spgPrevSan_(p) {
+  if (!p || typeof p !== 'object') return null;
+  const arr = function (v, n) { return Array.isArray(v) ? v.slice(0, n) : []; };
+  const m = p.m && typeof p.m === 'object' ? { spanSec: +p.m.spanSec || 0, pauseCount: +p.m.pauseCount || 0, longPauseCount: +p.m.longPauseCount || 0, longestPause: +p.m.longestPause || 0 } : null;
+  const out = {
+    attempt: Math.max(1, Math.min(50, +p.attempt || 1)), date: cut_(p.date, 20), m: m, transcript: cut_(p.transcript, 1800),
+    pron: arr(p.pron, 10).map(function (x) { return { word: cut_(x && x.word, 40), tip: cut_(x && x.tip, 140) }; }).filter(function (x) { return x.word; }),
+    grammar: arr(p.grammar, 8).map(function (x) { return { said: cut_(x && x.said, 140), better: cut_(x && x.better, 140) }; }).filter(function (x) { return x.said; }),
+    natural: arr(p.natural, 5).map(function (x) { return { said: cut_(x && x.said, 140), moreNatural: cut_(x && x.moreNatural, 140) }; }).filter(function (x) { return x.said; }),
+    weaknesses: arr(p.weaknesses, 5).map(function (x) { return cut_(x, 200); }).filter(Boolean)
+  };
+  return out.transcript || out.pron.length || out.grammar.length || out.weaknesses.length ? out : null;
+}
+
+/* ---------- hồ sơ học viên / tổng hợp lớp: bản tóm tắt gọn của các kết quả đã lưu ---------- */
+function spgDigest_(b) {
+  const since = b.since ? new Date(b.since).getTime() : 0, until = b.until ? new Date(b.until).getTime() : 0;
+  const student = String(b.student || ''), lessonId = String(b.lessonId || '');
+  let list = rows_('spgResults').filter(function (r) {
+    if (student && !sameName_(r.student, student)) return false;
+    if (lessonId && String(r.lessonId) !== lessonId) return false;
+    const t = new Date(r.time).getTime();
+    if (since && !(t >= since)) return false;
+    if (until && !(t < until)) return false;
+    return true;
+  });
+  list.sort(function (x, y) { return new Date(x.time).getTime() - new Date(y.time).getTime(); });
+  if (list.length > 250) list = list.slice(list.length - 250);
+  const A = function (v, n) { return Array.isArray(v) ? v.slice(0, n) : []; };
+  const items = list.map(function (r) {
+    let d = {}; try { d = JSON.parse(r.data || '{}'); } catch (e) { }
+    const R = d.result || {}, M = d.measured || {}, T = R.textStats || {};
+    return {
+      id: String(r.id), time: r.time, student: String(r.student), lessonId: String(r.lessonId), lessonTitle: String(r.lessonTitle),
+      status: String(r.status || 'draft'), band: String(r.band), durationSec: +r.durationSec || 0, noScore: !!d.noScore || String(r.band) === 'Nhận xét', attempt: +d.attempt || 1,
+      m: M.ok ? { spanSec: +M.spanSec || 0, ratio: +M.ratio || 0, pauseCount: +M.pauseCount || 0, longPauseCount: +M.longPauseCount || 0, longestPause: +M.longestPause || 0 } : null,
+      wpm: +T.wpm || 0,
+      strengths: A(R.strengths, 4).map(function (x) { return cut_(x, 220); }), weaknesses: A(R.weaknesses, 4).map(function (x) { return cut_(x, 220); }),
+      grammar: A(R.grammarErrors, 6).map(function (x) { return { said: cut_(x && x.said, 120), better: cut_(x && x.better, 120), rule: cut_(x && x.rule, 140) }; }),
+      pron: A(R.pronunciationIssues, 6).map(function (x) { return { word: cut_(x && x.word, 40), tip: cut_(x && x.tip, 140), confidence: cut_(x && x.confidence, 8) }; }),
+      natural: A(R.naturalPhrasing, 4).map(function (x) { return { said: cut_(x && x.said, 120), moreNatural: cut_(x && x.moreNatural, 120) }; }),
+      vocabUsed: A(R.vocabUsed, 15).map(function (x) { return cut_(x, 40); }), vocabMissing: A(R.vocabMissing, 10).map(function (x) { return cut_(x, 40); }),
+      phrasesMissing: A(R.phrasesMissing, 6).map(function (x) { return cut_(x, 60); }),
+      progress: R.progress && typeof R.progress === 'object' ? {
+        summary: cut_(R.progress.summary, 400),
+        fixed: A(R.progress.fixed, 6).map(function (x) { return { item: cut_(x && x.item, 120), evidence: cut_(x && x.evidence, 140) }; }),
+        stillIssues: A(R.progress.stillIssues, 6).map(function (x) { return { item: cut_(x && x.item, 120) }; })
+      } : null
+    };
+  });
+  return { ok: true, items: items, truncated: list.length >= 250 };
+}
+
+/* ---------- báo cáo tháng: Gemini chỉ viết lại từ số liệu thật, không nghe âm thanh ---------- */
+function spgMonthly_(b) {
+  const a = auth_(b);
+  if (!a || a.role !== 'teacher') throw new Error('Chỉ dành cho cô giáo');
+  const key = spgProps_().getProperty('GEMINI_API_KEY');
+  if (!key) throw new Error('Chưa cài khoá Gemini (GEMINI_API_KEY).');
+  const model = String(spgProps_().getProperty('GEMINI_MODEL') || SPG_DEFAULT_MODEL).trim();
+  if (!/^[a-zA-Z0-9._-]{3,60}$/.test(model)) throw new Error('GEMINI_MODEL không hợp lệ: ' + model);
+  const f = b.facts && typeof b.facts === 'object' ? b.facts : {};
+  const facts = JSON.stringify(f).slice(0, 9000);
+  if (facts.length < 20) throw new Error('Thiếu số liệu để viết báo cáo.');
+  const lines = [];
+  lines.push('You write a short monthly progress note about ONE learner of English speaking, for the learner or the learner\'s parent, on behalf of the teacher "Cô Thảo" of the center Little Sprout English.');
+  lines.push('Write in VIETNAMESE: warm, specific, honest, simple words, no jargon, no scores. Use ONLY the facts in the JSON below. Do not invent numbers, lessons, errors or improvements. If a fact is missing, leave it out. Do not flatter: if progress is small, say so kindly and focus on the next step.');
+  lines.push('Pronunciation facts come from an AI listening tool that can be wrong, so phrase pronunciation points as "cô thấy cần chú ý" rather than certainties.');
+  lines.push('');
+  lines.push('FACTS (JSON): ' + facts);
+  lines.push('');
+  lines.push('Return JSON with keys: headline (one short line), summary (3-4 sentences), strengths (2-3 short strings), progress (1-3 short strings about what visibly improved, only from the facts), nextGoals (2-3 short concrete goals for next month), zalo (a ready-to-send Zalo message of 120-180 words, starting with a greeting that uses the learner name from the facts, in the style: khen -> điểm cần cải thiện -> mục tiêu tháng sau, signed "Cô Thảo").');
+  const S = { type: 'STRING' }, arrS = { type: 'ARRAY', items: S };
+  const schema = { type: 'OBJECT', properties: { headline: S, summary: S, strengths: arrS, progress: arrS, nextGoals: arrS, zalo: S }, required: ['headline', 'summary', 'strengths', 'nextGoals', 'zalo'] };
+  const is3 = /gemini-3/.test(model);
+  const gen = { responseMimeType: 'application/json', maxOutputTokens: is3 ? 8192 : 4096 };
+  if (!is3) gen.temperature = 0.4; else gen.thinkingConfig = { thinkingLevel: 'low' };
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
+  const body = function (withSchema, withThink) {
+    const g = JSON.parse(JSON.stringify(gen));
+    if (withThink === false) delete g.thinkingConfig;
+    if (withSchema) g.responseSchema = schema;
+    return JSON.stringify({ contents: [{ role: 'user', parts: [{ text: lines.join('\n') }] }], generationConfig: g });
+  };
+  let res = spgFetch_(url, key, body(true));
+  if (res.code === 400 && /thinking/i.test(res.text)) res = spgFetch_(url, key, body(true, false));
+  if (res.code === 400 && /schema|response_schema|responseSchema/i.test(res.text)) res = spgFetch_(url, key, body(false, false));
+  if (res.code !== 200) throw new Error(spgHttpError_(res, model));
+  let data; try { data = JSON.parse(res.text); } catch (e) { throw new Error('Gemini trả về dữ liệu lạ, hãy thử lại.'); }
+  const cand = data.candidates && data.candidates[0];
+  const text = ((cand && cand.content && cand.content.parts) || []).map(function (p) { return p.text || ''; }).join('').trim();
+  const parsed = spgParseJson_(text);
+  if (!parsed) throw new Error('Không đọc được kết quả của Gemini. Hãy bấm viết lại.');
+  return { ok: true, raw: parsed, model: model };
 }
 
 /** Chạy tay trong trình soạn thảo để kiểm tra quyền gọi Gemini + khoá + model. Không in khoá ra. */

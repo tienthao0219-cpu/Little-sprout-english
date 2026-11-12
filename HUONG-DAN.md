@@ -343,3 +343,37 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - Kết quả "chỉ nhận xét" lưu trong Lịch sử với nhãn **Nhận xét**, cột điểm hiển thị "—". Không cần cập nhật Apps Script.
 - Nút **Chọn file HTML bài dạy** trong Cấu hình bài điền sẵn từ vựng, cụm từ, âm IPA, ngữ pháp, đề nói từ file slide của cô. App chỉ chép chữ có trong file và chưa lưu cho đến khi cô bấm Lưu.
 - Có thể up cả file video (mp4, mov); app chỉ lấy phần tiếng, tối đa 5 phút.
+
+## Chấm Speaking: so sánh lần nói lại, hồ sơ học viên, tổng hợp cả lớp, báo cáo tháng (mới)
+
+### A. Cách cập nhật (làm đúng thứ tự)
+1. Dán file `Code.gs` mới vào Apps Script (thay hết code cũ) rồi bấm 💾 Lưu.
+2. Bấm **Triển khai → Quản lý các bản triển khai → biểu tượng cây bút → Phiên bản: Phiên bản mới → Triển khai**. Không làm bước này thì app vẫn chạy bản cũ.
+3. Đẩy các file của web lên GitHub như mọi lần. Nếu màn hình chưa đổi thì nhấn Ctrl+F5 (hoặc xoá bộ nhớ đệm trên điện thoại).
+
+### B. So sánh lần nói lại trong cùng một bài
+- Vào **Chấm bài mới**, chọn đúng bài và gõ tên học viên như lần trước (không phân biệt hoa thường, có dấu hay không).
+- Nếu học viên đã có kết quả đã lưu của bài này, app hiện khung "Em này đã nói bài này N lần" và ô tick **AI so sánh với lần gần nhất** (mặc định bật).
+- Kết quả có thêm thẻ **📈 So với lần nói trước**: bảng số liệu đo được (thời lượng, ngắt nghỉ...) kèm ▲ tốt hơn / ▼ kém hơn / ≈ như cũ, rồi "✅ Đã sửa được", "⏳ Vẫn còn", "🆕 Lỗi mới", "➖ Chưa kiểm tra được". Tin Zalo tự có thêm dòng "📈 So với lần nói trước".
+- **AI không nghe lại file cũ.** App chỉ gửi cho AI bản phân tích đã lưu của lần trước (không gửi âm thanh), nên một lỗi chỉ được ghi "đã sửa" khi AI nghe thấy rõ ở lần này. Nếu bài lần này không nói tới chỗ đó, mục đó nằm ở "Chưa kiểm tra được".
+- Phải bấm **Lưu kết quả** thì lần sau mới so sánh được. Âm thanh không được lưu nên chưa nghe lại bản cũ cạnh bản mới.
+
+### C. Hồ sơ học viên (tab 👤 Học viên)
+- Danh sách học viên có bài đã lưu; bấm **Mở hồ sơ** để xem: số bài, tổng thời lượng nói, số lần nói lại.
+- Hai biểu đồ cột: thời lượng nói mỗi bài (vùng xanh là khoảng 60–90 giây) và số lần ngắt dài. Di chuột vào cột để xem chi tiết; có bảng số liệu bên dưới.
+- Danh sách **lỗi lặp lại** (từ 2 bài trở lên): ngữ pháp, phát âm, từ vựng chưa dùng; kèm "Đã sửa được" và mục tiêu gợi ý.
+
+### D. Tổng hợp cả lớp (tab 🏫 Cả lớp)
+- Chọn bài và khoảng thời gian (30 ngày, tháng này, tất cả). App gom lỗi của nhiều học viên và ghi "x/N em".
+- Khung **Gợi ý ôn 5 phút đầu buổi** chỉ lấy các mục xuất hiện ở từ 2 học viên trở lên. Có nút sao chép.
+
+### E. Báo cáo tháng cho phụ huynh (trong hồ sơ học viên)
+- Chọn tháng, app dựng sẵn một tin Zalo từ các bài đã lưu trong tháng (số bài, thời lượng, điểm khen, tiến bộ, mục tiêu). Cô sửa trực tiếp rồi bấm **Sao chép**.
+- **Nhiều bài trong một tháng thì sao?** App gom tất cả bản phân tích đã lưu của học viên trong tháng đó. AI không nghe lại các file cũ; nó chỉ nhận số liệu tổng hợp (dạng chữ) và viết lại cho mượt. Bản nháp mặc định không gọi AI, chỉ dùng số liệu thật; nút **✨ Nhờ AI viết lại** thì mới gọi.
+- Nút **🖨️ In / lưu PDF** in thẻ báo cáo có logo, số liệu, biểu đồ và chữ ký "Cô Thảo". Trong hộp thoại in, chọn "Lưu dưới dạng PDF" nếu cô muốn gửi file.
+- Cô đọc lại trước khi gửi. Nhận xét phát âm do AI nghe nên chỉ mang tính tham khảo.
+
+### F. Lưu ý
+- Tên học viên phải gõ giống nhau giữa các lần (hoa/thường hoặc dấu thì không sao). "Linh" và "Linh Nguyễn" sẽ bị tính là hai em.
+- Muốn có báo cáo tháng thì các bài phải được **Lưu kết quả**.
+- Chế độ DEMO (chưa gắn Apps Script) vẫn thử được toàn bộ, nhưng nội dung AI là bản mẫu.

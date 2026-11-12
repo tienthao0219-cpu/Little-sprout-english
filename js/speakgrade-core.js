@@ -164,6 +164,17 @@
   function half(n) { return Math.round(n * 2) / 2; }
   function clamp(n, lo, hi) { n = +n; if (!isFinite(n)) n = 0; return Math.min(hi, Math.max(lo, n)); }
 
+  function sanitizeProgress(p) {
+    if (!p || typeof p !== "object") return null;
+    const strs = a => arr(a).map(x => str(x && typeof x === "object" ? (x.item || x.text || "") : x)).filter(Boolean).slice(0, 8);
+    const o = {
+      summary: str(p.summary), encouragement: str(p.encouragement),
+      fixed: arr(p.fixed).slice(0, 8).map(x => ({ item: str(x && x.item), evidence: str(x && x.evidence) })).filter(x => x.item),
+      stillIssues: arr(p.stillIssues).slice(0, 8).map(x => ({ item: str(x && x.item), tip: str(x && x.tip) })).filter(x => x.item),
+      newIssues: strs(p.newIssues), notTested: strs(p.notTested)
+    };
+    return o.summary || o.fixed.length || o.stillIssues.length || o.newIssues.length || o.notTested.length ? o : null;
+  }
   function sanitize(raw, measured) {
     raw = raw && typeof raw === "object" ? raw : {};
     const sc = raw.scores && typeof raw.scores === "object" ? raw.scores : {};
@@ -202,6 +213,7 @@
       nextChallenge: { scenario: str(raw.nextChallenge && raw.nextChallenge.scenario), sentences: arr(raw.nextChallenge && raw.nextChallenge.sentences).map(str).filter(Boolean).slice(0, 5) },
       confidence: /^(high|medium|low)$/.test(str(raw.confidence)) ? str(raw.confidence) : "medium"
     };
+    out.progress = sanitizeProgress(raw.progress);
     out.textStats = textStats(tr, span);
     return out;
   }
@@ -245,6 +257,15 @@
     if (arr(r.strengths).length > 1) good.push(arr(r.strengths)[1]);
     lines.push("👍 Điểm cô khen: " + (good.length ? good.join(" ") : "Em đã hoàn thành bài nói và rất cố gắng, cô thấy tiến bộ rồi đó."));
     lines.push("");
+    const pg = r.progress, att = +ctx.attempt || 1;
+    if (att > 1 && (pg || ctx.prevMeasured)) {
+      const bits = [];
+      if (pg && pg.fixed.length) bits.push("em đã sửa được " + joinList(pg.fixed.slice(0, 3).map(f => f.item)) + ".");
+      else if (pg && pg.summary) bits.push(pg.summary);
+      const d = ctx.prevMeasured && ctx.measured ? measuredDelta(ctx.prevMeasured, ctx.measured).filter(x => x.better === true && /ngắt dài|ngắt nghỉ/.test(x.label))[0] : null;
+      if (d) bits.push("Số lần " + d.label.toLowerCase() + " giảm từ " + d.prev + " xuống " + d.cur + ".");
+      if (bits.length) { lines.push("📈 So với lần nói trước: " + bits.join(" ")); lines.push(""); }
+    }
     lines.push(ctx.noScore || !tot ? "🔧 Điểm cần hoàn thiện thêm:" : "🔧 Điểm cần hoàn thiện thêm (Chấm điểm: " + (tot.provisional ? "tạm " + tot.part + "/90, chưa tính phong thái" : tot.total + "/100") + "):");
     let k = 0;
     const iss = arr(r.pronunciationIssues).filter(x => x.confidence !== "low")[0] || arr(r.pronunciationIssues)[0];
@@ -350,10 +371,162 @@
     return out;
   }
 
+  /* ============================================================
+     SO SÁNH LẦN NÓI, HỒ SƠ HỌC VIÊN, TỔNG HỢP LỚP, BÁO CÁO THÁNG
+     Mọi con số ở đây đều tính từ dữ liệu đã lưu, không do AI bịa.
+     ============================================================ */
+  function normName(s) { return String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").replace(/Đ/g, "d").toLowerCase().replace(/\s+/g, " ").trim(); }
+  function normKey(s) { return normName(s).replace(/[^a-z0-9 ]/g, "").trim(); }
+
+  /** Tóm tắt một kết quả đã lưu để gửi cho AI làm "lần trước" */
+  function prevSummary(item) {
+    const d = (item && item.data) || {}, R = d.result || {}, M = d.measured || {};
+    return {
+      attempt: +d.attempt || 1, date: item && item.time ? new Date(item.time).toLocaleDateString("vi-VN") : "",
+      m: M.ok ? { spanSec: M.spanSec, pauseCount: M.pauseCount, longPauseCount: M.longPauseCount, longestPause: M.longestPause } : null,
+      transcript: str(R.transcript).slice(0, 1800),
+      pron: arr(R.pronunciationIssues).filter(x => x.confidence !== "low").slice(0, 10).map(x => ({ word: x.word, tip: x.tip })),
+      grammar: arr(R.grammarErrors).slice(0, 8).map(x => ({ said: x.said, better: x.better })),
+      natural: arr(R.naturalPhrasing).slice(0, 5).map(x => ({ said: x.said, moreNatural: x.moreNatural })),
+      weaknesses: arr(R.weaknesses).slice(0, 5)
+    };
+  }
+  /** So sánh số đo giữa hai lần: better true = tốt lên, false = kém đi, null = không đổi/không phán xét */
+  function measuredDelta(a, b) {
+    if (!a || !b) return [];
+    const row = (label, pa, pb, lowerIsBetter, fmt) => {
+      const f = fmt || (v => String(v));
+      const better = pa === pb ? null : (lowerIsBetter === null ? null : (lowerIsBetter ? pb < pa : pb > pa));
+      return { label, prev: f(pa), cur: f(pb), better };
+    };
+    const out = [];
+    if (a.spanSec != null && b.spanSec != null) out.push(row("Thời lượng nói", round1(a.spanSec), round1(b.spanSec), null, v => v + "s"));
+    if (a.ratio != null && b.ratio != null) out.push(row("Thời gian có tiếng", Math.round(a.ratio * 100), Math.round(b.ratio * 100), false, v => v + "%"));
+    if (a.pauseCount != null && b.pauseCount != null) out.push(row("Lần ngắt ≥ 0,5s", a.pauseCount, b.pauseCount, true));
+    if (a.longPauseCount != null && b.longPauseCount != null) out.push(row("Lần ngắt dài ≥ 1,2s", a.longPauseCount, b.longPauseCount, true));
+    if (a.longestPause != null && b.longestPause != null) out.push(row("Ngắt dài nhất", round1(a.longestPause), round1(b.longestPause), true, v => v + "s"));
+    return out;
+  }
+  /** Tên học viên trùng nhau không phân biệt hoa/thường và dấu */
+  function sameStudent(a, b) { return !!normName(a) && normName(a) === normName(b); }
+
+  /** Bản tóm tắt gọn của 1 kết quả đã lưu (giống hệt hàm spgDigest_ trong Code.gs; dùng cho chế độ DEMO) */
+  function digestOf(it) {
+    const d = it.data || {}, R = d.result || {}, M = d.measured || {}, T = R.textStats || {};
+    const A = (v, n) => Array.isArray(v) ? v.slice(0, n) : [];
+    return {
+      id: it.id, time: it.time, student: it.student, lessonId: it.lessonId, lessonTitle: it.lessonTitle, status: it.status || "draft", band: it.band, durationSec: +it.durationSec || 0,
+      noScore: !!d.noScore || it.band === "Nhận xét", attempt: +d.attempt || 1,
+      m: M.ok ? { spanSec: +M.spanSec || 0, ratio: +M.ratio || 0, pauseCount: +M.pauseCount || 0, longPauseCount: +M.longPauseCount || 0, longestPause: +M.longestPause || 0 } : null,
+      wpm: +T.wpm || 0, strengths: A(R.strengths, 4), weaknesses: A(R.weaknesses, 4),
+      grammar: A(R.grammarErrors, 6), pron: A(R.pronunciationIssues, 6), natural: A(R.naturalPhrasing, 4),
+      vocabUsed: A(R.vocabUsed, 15), vocabMissing: A(R.vocabMissing, 10), phrasesMissing: A(R.phrasesMissing, 6),
+      progress: R.progress && typeof R.progress === "object" ? { summary: R.progress.summary || "", fixed: A(R.progress.fixed, 6), stillIssues: A(R.progress.stillIssues, 6) } : null
+    };
+  }
+
+  /** Đếm mục lặp lại: mỗi bài nói chỉ tính 1 lần cho mỗi mục; by = số học viên khác nhau */
+  function tally(digests, pick) {
+    const map = new Map();
+    digests.forEach(d => {
+      const seen = new Set();
+      pick(d).forEach(o => {
+        if (!o || !o.key || seen.has(o.key)) return; seen.add(o.key);
+        let e = map.get(o.key); if (!e) { e = { key: o.key, text: o.text, example: o.example || "", times: 0, students: new Set(), last: 0 }; map.set(o.key, e); }
+        e.times++; e.students.add(normName(d.student)); const t = new Date(d.time).getTime() || 0;
+        if (t >= e.last) { e.last = t; e.text = o.text; e.example = o.example || e.example; }
+      });
+    });
+    return Array.from(map.values()).map(e => ({ key: e.key, text: e.text, example: e.example, times: e.times, students: e.students.size })).sort((a, b) => b.times - a.times || b.students - a.students || a.text.localeCompare(b.text));
+  }
+  const pickGrammar = d => arr(d.grammar).map(g => { const t = str(g.rule) || (str(g.said) + " → " + str(g.better)); return { key: normKey(g.rule || g.better || g.said), text: t, example: g.said && g.better ? g.said + " → " + g.better : "" }; }).filter(o => o.key);
+  const pickPron = d => arr(d.pron).filter(p => p.confidence !== "low").map(p => ({ key: normKey(p.word), text: str(p.word), example: str(p.tip) })).filter(o => o.key);
+  const pickVocab = d => arr(d.vocabMissing).map(w => ({ key: normKey(w), text: str(w) })).filter(o => o.key);
+  const pickNatural = d => arr(d.natural).map(n => ({ key: normKey(n.said), text: str(n.said) + " → " + str(n.moreNatural) })).filter(o => o.key);
+
+  /** Hồ sơ một học viên từ các digest (cũ -> mới) */
+  function profileOf(digests) {
+    const ds = digests.slice().sort((a, b) => new Date(a.time) - new Date(b.time));
+    const withM = ds.filter(d => d.m);
+    const fixed = [], fixedSeen = new Set();
+    ds.forEach(d => d.progress && arr(d.progress.fixed).forEach(f => { const k = normKey(f.item); if (k && !fixedSeen.has(k)) { fixedSeen.add(k); fixed.push(str(f.item)); } }));
+    const lessons = Array.from(new Set(ds.map(d => d.lessonTitle)));
+    const strengths = []; const sSeen = new Set();
+    ds.slice().reverse().forEach(d => arr(d.strengths).forEach(x => { const k = normKey(x); if (k && !sSeen.has(k) && strengths.length < 4) { sSeen.add(k); strengths.push(str(x)); } }));
+    const gr = tally(ds, pickGrammar), pr = tally(ds, pickPron), vo = tally(ds, pickVocab);
+    const latest = ds[ds.length - 1] || null;
+    const goals = [];
+    gr.filter(x => x.times >= 2).slice(0, 2).forEach(x => goals.push("Ngữ pháp: " + x.text));
+    pr.filter(x => x.times >= 2).slice(0, 2).forEach(x => goals.push("Phát âm từ \"" + x.text + "\"" + (x.example ? " (" + x.example + ")" : "")));
+    if (!goals.length && latest) arr(latest.weaknesses).slice(0, 2).forEach(w => goals.push(w));
+    return {
+      n: ds.length, lessons: lessons, totalSpanSec: Math.round(withM.reduce((s, d) => s + d.m.spanSec, 0)), items: ds, withM: withM,
+      grammar: gr, pron: pr, vocab: vo, natural: tally(ds, pickNatural), fixed: fixed, strengths: strengths, goals: goals,
+      stillIssues: latest && latest.progress ? arr(latest.progress.stillIssues).map(x => str(x.item)) : [],
+      retries: ds.filter(d => d.attempt > 1).length
+    };
+  }
+
+  /** Tổng hợp cả lớp + gợi ý ôn đầu buổi (không dùng AI) */
+  function classSummary(digests) {
+    const students = new Set(digests.map(d => normName(d.student)));
+    const gr = tally(digests, pickGrammar), pr = tally(digests, pickPron), vo = tally(digests, pickVocab), na = tally(digests, pickNatural);
+    const N = students.size || 1;
+    const sugg = [];
+    gr.filter(x => x.students >= 2 || N === 1).slice(0, 2).forEach(x => sugg.push("Ngữ pháp: " + x.text + (x.example ? " (ví dụ: " + x.example + ")" : "") + " — " + x.students + "/" + N + " em."));
+    pr.filter(x => x.students >= 2 || N === 1).slice(0, 2).forEach(x => sugg.push("Phát âm: \"" + x.text + "\"" + (x.example ? " — " + x.example : "") + " — " + x.students + "/" + N + " em."));
+    vo.filter(x => x.students >= 2 || N === 1).slice(0, 1).forEach(x => sugg.push("Từ vựng ít được dùng: \"" + x.text + "\" — " + x.students + "/" + N + " em chưa dùng."));
+    na.filter(x => x.students >= 2).slice(0, 1).forEach(x => sugg.push("Cách nói tự nhiên: " + x.text + " — " + x.students + "/" + N + " em."));
+    return { students: students.size, recordings: digests.length, grammar: gr, pron: pr, vocab: vo, natural: na, suggestions: sugg };
+  }
+
+  /** Số liệu thật của một tháng cho báo cáo phụ huynh */
+  function monthFacts(digests, student, monthLabel) {
+    const P = profileOf(digests), ds = P.items;
+    const f = { student: student, month: monthLabel, recordings: P.n, lessons: P.lessons.slice(0, 8), speakingMinutes: Math.round(P.totalSpanSec / 6) / 10, retries: P.retries };
+    if (P.withM.length >= 2) {
+      const a = P.withM[0].m, b = P.withM[P.withM.length - 1].m;
+      f.firstVsLast = { firstSpanSec: round1(a.spanSec), lastSpanSec: round1(b.spanSec), firstLongPauses: a.longPauseCount, lastLongPauses: b.longPauseCount, firstSpeechPct: Math.round(a.ratio * 100), lastSpeechPct: Math.round(b.ratio * 100) };
+    }
+    if (P.strengths.length) f.strengths = P.strengths.slice(0, 3);
+    if (P.fixed.length) f.fixedByRetry = P.fixed.slice(0, 5);
+    const rec = [];
+    P.grammar.filter(x => x.times >= 2).slice(0, 2).forEach(x => rec.push({ type: "ngữ pháp", text: x.text, times: x.times }));
+    P.pron.filter(x => x.times >= 2).slice(0, 2).forEach(x => rec.push({ type: "phát âm (AI nghe, cần cô kiểm tra)", text: x.text, times: x.times }));
+    if (rec.length) f.recurringIssues = rec;
+    if (P.stillIssues.length) f.stillIssuesLatest = P.stillIssues.slice(0, 3);
+    if (P.goals.length) f.suggestedGoals = P.goals.slice(0, 3);
+    return f;
+  }
+  /** Bản nháp báo cáo tháng dựng thẳng từ số liệu (luôn có, không cần AI) */
+  function monthlyDraft(f) {
+    const noDot = x => String(x || "").replace(/[.\s]+$/, "");
+    const name = f.student || "em", L = [];
+    L.push("Chào " + name + "! Cô Thảo gửi em tổng kết luyện nói tháng " + f.month + " nhé.");
+    L.push("");
+    if (!f.recordings) { L.push("Tháng này em chưa có bài nói nào. Tháng sau mình bắt đầu với 1 bài ngắn mỗi tuần nha!"); L.push(""); L.push("Cô Thảo"); return L.join("\n"); }
+    L.push("📊 Em đã nói " + f.recordings + " bài (" + f.lessons.join(", ") + ")" + (f.speakingMinutes ? ", tổng khoảng " + String(f.speakingMinutes).replace(".", ",") + " phút luyện nói" : "") + (f.retries ? ", trong đó " + f.retries + " lần em nói lại để sửa" : "") + ".");
+    L.push("");
+    if (f.strengths && f.strengths.length) { L.push("👍 Điểm cô khen: " + f.strengths.join(" ")); L.push(""); }
+    const prog = [];
+    if (f.fixedByRetry && f.fixedByRetry.length) prog.push("em đã sửa được " + joinList(f.fixedByRetry.slice(0, 3)) + ".");
+    if (f.firstVsLast && f.firstVsLast.lastLongPauses < f.firstVsLast.firstLongPauses) prog.push("Số lần ngắt dài giảm từ " + f.firstVsLast.firstLongPauses + " xuống " + f.firstVsLast.lastLongPauses + " giữa bài đầu và bài mới nhất.");
+    if (prog.length) { L.push("📈 Tiến bộ: " + prog.join(" ")); L.push(""); }
+    if (f.recurringIssues && f.recurringIssues.length) { L.push("🔧 Điểm cần chú ý thêm: " + f.recurringIssues.map(x => noDot(x.text)).join("; ") + "."); L.push(""); }
+    if (f.suggestedGoals && f.suggestedGoals.length) { L.push("🎯 Mục tiêu tháng sau: " + f.suggestedGoals.map(noDot).join("; ") + "."); L.push(""); }
+    L.push("Cô Thảo");
+    return L.join("\n");
+  }
+  function monthRange(ym) {
+    const m = /^(\d{4})-(\d{2})$/.exec(ym || ""); if (!m) return null;
+    const y = +m[1], mo = +m[2] - 1;
+    return { since: new Date(y, mo, 1).toISOString(), until: new Date(y, mo + 1, 1).toISOString(), label: String(mo + 1).padStart(2, "0") + "/" + y };
+  }
+
   const api = {
     RUBRIC: RUBRIC, ITEMS: ITEMS, ITEM: ITEM, MAX_TOTAL: MAX_TOTAL, MAX_AI_PART: MAX_AI_PART, DEFAULT_SETTINGS: DEFAULT_SETTINGS,
     bandOf: bandOf, lengthScore: lengthScore, analyzeSamples: analyzeSamples, textStats: textStats,
-    sanitize: sanitize, totals: totals, buildZalo: buildZalo, sampleResult: sampleResult, importDeck: importDeck, half: half, clamp: clamp
+    sanitize: sanitize, totals: totals, buildZalo: buildZalo, sampleResult: sampleResult, importDeck: importDeck, normName: normName, prevSummary: prevSummary, measuredDelta: measuredDelta, sameStudent: sameStudent, digestOf: digestOf, tally: tally, profileOf: profileOf, classSummary: classSummary, monthFacts: monthFacts, monthlyDraft: monthlyDraft, monthRange: monthRange, sanitizeProgress: sanitizeProgress, half: half, clamp: clamp
   };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else { root.LSE = root.LSE || {}; root.LSE.spk = api; }
