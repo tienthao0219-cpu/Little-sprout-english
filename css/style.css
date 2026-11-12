@@ -840,3 +840,12 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 .spg-drop input[type=file]{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
 .spg-dropico{font-size:30px}
 .spg-dropname{margin-left:auto;font-weight:800;font-size:13.5px;word-break:break-all;max-width:100%}
+
+/* ===== Tắt các hiệu ứng ngôi sao / lấp lánh chạy trên nền (12/11/2026) =====
+   Muốn bật lại: xoá khối này. Giữ nguyên nền cực quang và các đốm màu mờ. */
+.fxlayer{display:none!important}                 /* ✨⭐💫 rơi từ trên xuống toàn trang */
+.deco svg{display:none!important}                /* ngôi sao + mầm lá bay lơ lửng ở nền */
+.deco::after{display:none!important}             /* các chấm sáng nhấp nháy ở nền */
+.hero-art .sp{display:none!important}            /* ✨⭐🌿 nhấp nháy quanh mascot ở trang chủ */
+.mascot .m-sp{display:none!important}            /* ✨⭐💖 quanh mascot */
+.gh-sp{display:none!important}                   /* ✦♥★✿ bay ở đầu trang Trò chơi */
