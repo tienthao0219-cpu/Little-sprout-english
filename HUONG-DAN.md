@@ -334,7 +334,7 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - **10 điểm phong thái** (ánh mắt, nụ cười) không chấm được từ file âm thanh, cô tự chấm. Khi chưa nhập, điểm hiện "x/90 (tạm)".
 - **Điểm độ dài (5đ) và số lần ngắt** do app tính bằng công thức từ file, không phải AI đoán. Các mức giữa (50-59s, 91-105s, 40-49s, 106-120s) là đề xuất của mình; mốc 60-90s, dưới 40s, quá 2 phút là của cô. Muốn đổi mức, sửa hàm `lengthScore` trong `js/speakgrade-core.js`.
 - **Quyền riêng tư:** file ghi âm được gửi cho Google Gemini. Với khoá miễn phí, Google có thể dùng nội dung để cải thiện sản phẩm; gói trả phí thì không. Nếu học viên là người lớn gửi giọng nói thật, cô nên báo trước và cân nhắc bật thanh toán trên khoá. App không lưu file âm thanh, chỉ lưu phiên âm và điểm trong Google Sheets của cô.
-- **Giới hạn:** mỗi file tối đa 5 phút. Khoá miễn phí giới hạn số lần chấm mỗi phút/ngày; gặp lỗi "hết lượt" thì đợi 1-2 phút. Mặc định dùng model `gemini-2.5-flash`; nếu Google đổi tên/ngừng model, thêm thuộc tính `GEMINI_MODEL` trong Apps Script để đổi.
+- **Giới hạn:** mỗi file tối đa 5 phút. Khoá miễn phí giới hạn số lần chấm mỗi phút/ngày; gặp lỗi "hết lượt" thì đợi 1-2 phút. Mặc định dùng model `gemini-3.8-flash`; nếu Google đổi tên/ngừng model, thêm thuộc tính `GEMINI_MODEL` trong Apps Script để đổi.
 - Chế độ DEMO (chưa nối Apps Script) chỉ cho xem giao diện: điểm AI là kết quả mẫu.
 
 

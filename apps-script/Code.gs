@@ -496,9 +496,9 @@ function hwSubmit_(name, b, teacher) {
    CHẤM SPEAKING BẰNG AI (Gemini) — chỉ dành cho cô giáo
    Khoá Gemini KHÔNG nằm trong code: cài ở Apps Script -> Cài đặt dự án -> Thuộc tính tập lệnh:
      GEMINI_API_KEY  = khoá lấy ở https://aistudio.google.com/apikey   (bắt buộc)
-     GEMINI_MODEL    = tên model (không bắt buộc, mặc định gemini-2.5-flash)
+     GEMINI_MODEL    = tên model (không bắt buộc, mặc định gemini-3.8-flash)
    ============================================================ */
-const SPG_DEFAULT_MODEL = 'gemini-2.5-flash';
+const SPG_DEFAULT_MODEL = 'gemini-3.8-flash';
 const SPG_MAX_AUDIO_B64 = 15 * 1024 * 1024;   // ~11 MB âm thanh (Gemini nhận tối đa 20 MB cả yêu cầu)
 const SPG_MAX_CELL = 46000;                    // một ô Google Sheets chứa tối đa 50.000 ký tự
 
@@ -522,16 +522,22 @@ function spgGrade_(b) {
   if (!items.length) throw new Error('Thiếu rubric.');
 
   const prompt = spgPrompt_(b, items);
-  const gen = { temperature: 0.2, responseMimeType: 'application/json', maxOutputTokens: 8192 };
-  if (/2\.5-flash/.test(model) && !/lite/.test(model)) gen.thinkingConfig = { thinkingBudget: 2048 };
+  // Gemini 3.x: không đặt temperature (Google khuyên bỏ), dùng thinkingLevel; 2.5: dùng thinkingBudget.
+  const is3 = /gemini-3/.test(model);
+  const gen = { responseMimeType: 'application/json', maxOutputTokens: is3 ? 16384 : 8192 };
+  if (!is3) gen.temperature = 0.2;
+  if (is3) gen.thinkingConfig = { thinkingLevel: 'medium' };
+  else if (/2\.5-flash/.test(model) && !/lite/.test(model)) gen.thinkingConfig = { thinkingBudget: 2048 };
   const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
-  const payload = function (withSchema) {
+  const payload = function (withSchema, withThink) {
     const g = JSON.parse(JSON.stringify(gen));
+    if (withThink === false) delete g.thinkingConfig;
     if (withSchema) g.responseSchema = spgSchema_(items);
     return JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }, { inlineData: { mimeType: mime, data: audio } }] }], generationConfig: g });
   };
   let res = spgFetch_(url, key, payload(true));
-  if (res.code === 400 && /schema|response_schema|responseSchema/i.test(res.text)) res = spgFetch_(url, key, payload(false));   // model không nhận schema: vẫn có mô tả JSON trong lời nhắc
+  if (res.code === 400 && /thinking/i.test(res.text)) res = spgFetch_(url, key, payload(true, false));   // model không nhận cấu hình suy luận
+  if (res.code === 400 && /schema|response_schema|responseSchema/i.test(res.text)) res = spgFetch_(url, key, payload(false, false));   // model không nhận schema: vẫn có mô tả JSON trong lời nhắc
   if (res.code !== 200) throw new Error(spgHttpError_(res, model));
 
   let data;
@@ -563,7 +569,7 @@ function spgHttpError_(res, model) {
   if (res.code === 400 && /API key/i.test(msg)) return 'Khoá Gemini không hợp lệ. Kiểm tra lại GEMINI_API_KEY.';
   if (res.code === 400) return 'Gemini báo lỗi dữ liệu gửi lên: ' + cut_(msg, 200);
   if (res.code === 401 || res.code === 403) return 'Gemini từ chối khoá này (chưa bật quyền hoặc bị chặn): ' + cut_(msg, 160);
-  if (res.code === 404) return 'Không tìm thấy model "' + model + '". Đổi GEMINI_MODEL trong Thuộc tính tập lệnh sang model còn hoạt động.';
+  if (res.code === 404) return 'Model "' + model + '" không còn dùng được: ' + cut_(msg, 160) + ' Đổi GEMINI_MODEL trong Thuộc tính tập lệnh sang model mới hơn.';
   if (res.code === 429) return 'Gemini báo hết lượt hoặc gọi quá nhanh. Đợi 1-2 phút rồi chấm lại (gói miễn phí giới hạn số lần mỗi phút/ngày).';
   if (res.code >= 500) return 'Máy chủ Gemini đang bận (' + res.code + '). Thử lại sau ít phút.';
   return 'Gemini lỗi ' + res.code + ': ' + cut_(msg, 200);
@@ -735,4 +741,14 @@ function thietLapLanDau() {
   Object.keys(SHEETS).forEach(sheet_);
   folder_();
   Logger.log('Xong! Các trang tính và thư mục bài tập đã sẵn sàng.');
+}
+
+/** Chạy tay trong trình soạn thảo để kiểm tra quyền gọi Gemini + khoá + model. Không in khoá ra. */
+function kiemTraGemini() {
+  const key = spgProps_().getProperty('GEMINI_API_KEY');
+  if (!key) { Logger.log('Chưa thấy GEMINI_API_KEY trong Thuộc tính tập lệnh (tên khoá không có dấu chấm ở cuối).'); return; }
+  const model = String(spgProps_().getProperty('GEMINI_MODEL') || SPG_DEFAULT_MODEL).trim();
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
+  const r = spgFetch_(url, key, JSON.stringify({ contents: [{ parts: [{ text: 'Reply with the single word OK' }] }] }));
+  Logger.log('Model: ' + model + ' | Mã phản hồi: ' + r.code + ' | ' + (r.code === 200 ? 'THÀNH CÔNG, sẵn sàng chấm.' : spgHttpError_(r, model)));
 }
