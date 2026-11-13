@@ -227,14 +227,25 @@ window.LSE = window.LSE || {};
   const isHeadLine = t => t.length < 160 && /^\s*(?:[★☆✦✧●▶►]|(?:phần|part)\s+[ivx\d]+\b|mẹo\s*\d)/i.test(t);
   /** bảng Word -> các dòng "| ô | ô |" (ô nhiều dòng gộp bằng " · "); engine.richBlock vẽ lại thành bảng */
   const tableLines = rows => rows.filter(r => r.some(c => String(c).trim())).map(r => "| " + r.map(c => String(c).replace(/\s*\n\s*/g, " · ").replace(/\|/g, "/").trim()).join(" | ") + " |");
-  /** bảng từ vựng có cột Phiên âm: chỉ giữ Từ vựng + Phiên âm, bỏ cột Trọng âm / Dấu hiệu / Mẹo (tránh lộ đáp án bài trọng âm) */
+  /** bảng từ vựng có cột Phiên âm: chỉ giữ Từ vựng + Phiên âm, bỏ cột Trọng âm / Dấu hiệu / Mẹo (tránh lộ đáp án bài trọng âm);
+      ô "(n) /ˈleʒ.ə/" được tách thành cột Loại từ (đứng ngay cạnh Từ vựng) + cột Phiên âm */
+  const PHON = /phiên\s*âm|\bipa\b/i;
+  function splitPos(rows) {
+    const head = rows[0] || [], pi = head.findIndex(c => PHON.test(c));
+    if (pi < 0 || !/loại\s*từ|từ\s*loại|pos/i.test(head[pi])) return rows;
+    const parts = rows.slice(1).map(r => { const m = String(r[pi] || "").match(/^\s*(\([^)]{1,15}\))\s*([\s\S]*)$/); return m ? [m[1], m[2].trim()] : ["", String(r[pi] || "").trim()]; });
+    if (parts.filter(x => x[0]).length < parts.length / 2) return rows;
+    const out = [head.slice(0, pi).concat(["Loại từ", "Phiên âm"], head.slice(pi + 1))];
+    rows.slice(1).forEach((r, i) => out.push(r.slice(0, pi).concat(parts[i], r.slice(pi + 1))));
+    return out;
+  }
   function slimPhonetic(rows, note) {
     const head = rows[0] || [];
-    if (!head.some(c => /phiên\s*âm|\bipa\b/i.test(c))) return rows;
-    const keep = head.map((c, i) => /phiên\s*âm|\bipa\b/i.test(c) || !/trọng\s*âm|stress|dấu\s*hiệu|mẹo/i.test(c));
-    if (keep.every(Boolean)) return rows;
+    if (!head.some(c => PHON.test(c))) return rows;
+    const keep = head.map(c => PHON.test(c) || !/trọng\s*âm|stress|dấu\s*hiệu|mẹo/i.test(c));
+    if (keep.every(Boolean)) return splitPos(rows);
     note.dropped = head.filter((c, i) => !keep[i]).map(c => String(c).replace(/\s+/g, " ").trim());
-    return rows.map(r => r.filter((c, i) => keep[i] !== false));
+    return splitPos(rows.map(r => r.filter((c, i) => keep[i] !== false)));
   }
   function buildGuide(lead, titleBlock, taskFile, note) {
     const isGuide = b => b !== titleBlock && (b.k === "t" ? GUIDE.test(flat(b).slice(0, 80)) : (!taskFile && b.t.length < 100 && GUIDE.test(b.t.slice(0, 80))));
