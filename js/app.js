@@ -491,7 +491,7 @@
       const submitBtn = h("button.btn.mint", { style: "width:100%;margin-top:16px;font-size:18px", onclick: () => submit(false) }, "Nộp bài ✓");
       const err = h("div");
       if (!rts.some(r => r.qs.length)) { show(h("div.card.empty", "Bài tập này chưa có câu hỏi.")); return; }
-      const guideBox = (hw.desc || "").trim() ? h("details.hw-guide", h("summary", "💡 Xem lại mẹo / hướng dẫn làm bài"), h("div.shared.guide", L.richBlock(hw.desc))) : null;
+      const guideBox = (hw.desc || "").trim() ? h("details.hw-guide", h("summary", "📖 Xem lại phần đầu bài (từ vựng / hướng dẫn)"), h("div.shared.guide", L.richBlock(hw.desc))) : null;
       show(head, guideBox, parts, err, submitBtn);
       if (m.timeLimit) {
         const end = t0 + m.timeLimit * 60000;

@@ -243,6 +243,9 @@ window.LSE = window.LSE || {};
     let g = lead.slice(at).filter(b => b !== titleBlock);
     while (g.length && g[g.length - 1].k === "p" && g[g.length - 1].t.length < 100 && g[g.length - 1].t === g[g.length - 1].t.toUpperCase()) g.pop();   // dòng "PHẦN III: 20 CÂU BÀI TẬP…" ngay trước câu 1
     if (taskFile) g = g.filter(b => b.k === "t");
+    /* bài trọng âm: khung đầu bài chỉ gồm bảng Từ vựng + Phiên âm (bỏ các đoạn mẹo và tiêu đề có chữ "trọng âm", tránh lộ đáp án) */
+    const phon = g.filter(b => b.k === "t" && (b.rows[0] || []).some(c => /phiên\s*âm|\bipa\b/i.test(c)));
+    if (phon.length) { if (g.length > phon.length) note.onlyTable = true; g = phon; }
     const out = [];
     g.forEach(b => {
       if (b.k === "t") { const rows = tableLines(slimPhonetic(b.rows, note)); if (rows.length) { if (out.length) out.push(""); out.push(...rows); out.push(""); } return; }
@@ -301,6 +304,7 @@ window.LSE = window.LSE || {};
        Bắt đầu từ khối đầu tiên có chữ "mẹo / hướng dẫn làm bài / lưu ý / ghi nhớ / cách làm" ở đầu; bỏ tiêu đề file và dòng tiêu đề phần đứng ngay trước câu 1. */
     const gnote = { dropped: null };
     const guideText = buildGuide(blocks0(main, leadEnd < 0 ? main.length : leadEnd), titleBlock, secs.some(x => x.task), gnote);
+    if (gnote.onlyTable) warns.push("Đầu file có phần mẹo + bảng phiên âm: chỉ đưa bảng Từ vựng + Phiên âm lên đầu bài, bỏ phần mẹo.");
     if (gnote.dropped) warns.push("Bảng từ vựng ở đầu file: chỉ giữ cột Từ vựng + Phiên âm, đã bỏ cột " + gnote.dropped.map(x => "\"" + x + "\"").join(", ") + " (để học sinh không thấy sẵn trọng âm).");
 
     /* câu hỏi -> kiểu */
