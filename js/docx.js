@@ -227,7 +227,16 @@ window.LSE = window.LSE || {};
   const isHeadLine = t => t.length < 160 && /^\s*(?:[★☆✦✧●▶►]|(?:phần|part)\s+[ivx\d]+\b|mẹo\s*\d)/i.test(t);
   /** bảng Word -> các dòng "| ô | ô |" (ô nhiều dòng gộp bằng " · "); engine.richBlock vẽ lại thành bảng */
   const tableLines = rows => rows.filter(r => r.some(c => String(c).trim())).map(r => "| " + r.map(c => String(c).replace(/\s*\n\s*/g, " · ").replace(/\|/g, "/").trim()).join(" | ") + " |");
-  function buildGuide(lead, titleBlock, taskFile) {
+  /** bảng từ vựng có cột Phiên âm: chỉ giữ Từ vựng + Phiên âm, bỏ cột Trọng âm / Dấu hiệu / Mẹo (tránh lộ đáp án bài trọng âm) */
+  function slimPhonetic(rows, note) {
+    const head = rows[0] || [];
+    if (!head.some(c => /phiên\s*âm|\bipa\b/i.test(c))) return rows;
+    const keep = head.map((c, i) => /phiên\s*âm|\bipa\b/i.test(c) || !/trọng\s*âm|stress|dấu\s*hiệu|mẹo/i.test(c));
+    if (keep.every(Boolean)) return rows;
+    note.dropped = head.filter((c, i) => !keep[i]).map(c => String(c).replace(/\s+/g, " ").trim());
+    return rows.map(r => r.filter((c, i) => keep[i] !== false));
+  }
+  function buildGuide(lead, titleBlock, taskFile, note) {
     const isGuide = b => b !== titleBlock && (b.k === "t" ? GUIDE.test(flat(b).slice(0, 80)) : (!taskFile && b.t.length < 100 && GUIDE.test(b.t.slice(0, 80))));
     const at = lead.findIndex(isGuide);
     if (at < 0) return "";
@@ -236,7 +245,7 @@ window.LSE = window.LSE || {};
     if (taskFile) g = g.filter(b => b.k === "t");
     const out = [];
     g.forEach(b => {
-      if (b.k === "t") { const rows = tableLines(b.rows); if (rows.length) { if (out.length) out.push(""); out.push(...rows); out.push(""); } return; }
+      if (b.k === "t") { const rows = tableLines(slimPhonetic(b.rows, note)); if (rows.length) { if (out.length) out.push(""); out.push(...rows); out.push(""); } return; }
       const t = (b.tb || b.t).replace(/<\/?u>/g, "");
       if (isHeadLine(b.t)) out.push("", "**" + t.replace(/\*\*/g, "").replace(/\n/g, " ") + "**"); else out.push(t);
     });
@@ -290,7 +299,9 @@ window.LSE = window.LSE || {};
     secs = secs.filter(s => s.qs.length || (s.pre && s.pre.length));
     /* KHUNG MẸO LÀM BÀI đứng trước đề (đoạn văn + bảng): đưa lên đầu bài (hw.desc), rộng hết khổ, bảng hiển thị thành bảng thật.
        Bắt đầu từ khối đầu tiên có chữ "mẹo / hướng dẫn làm bài / lưu ý / ghi nhớ / cách làm" ở đầu; bỏ tiêu đề file và dòng tiêu đề phần đứng ngay trước câu 1. */
-    const guideText = buildGuide(blocks0(main, leadEnd < 0 ? main.length : leadEnd), titleBlock, secs.some(x => x.task));
+    const gnote = { dropped: null };
+    const guideText = buildGuide(blocks0(main, leadEnd < 0 ? main.length : leadEnd), titleBlock, secs.some(x => x.task), gnote);
+    if (gnote.dropped) warns.push("Bảng từ vựng ở đầu file: chỉ giữ cột Từ vựng + Phiên âm, đã bỏ cột " + gnote.dropped.map(x => "\"" + x + "\"").join(", ") + " (để học sinh không thấy sẵn trọng âm).");
 
     /* câu hỏi -> kiểu */
     secs.forEach(s => {
