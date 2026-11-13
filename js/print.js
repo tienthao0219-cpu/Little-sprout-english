@@ -87,7 +87,7 @@ window.LSE = window.LSE || {};
     const paper = h("div.paper"), keyp = h("div.paper.keypaper");
     paper.append(h("div.ph", h("h1", hw.title || "Worksheet"), h("div", { style: "text-align:right;font-size:13px" }, (c ? c.name : "") + (unit ? " · " + unit : ""))),
       h("div.fld", h("div", "Name: ", h("span")), h("div", "Class: ", h("span", { style: "min-width:80px" })), h("div", "Date: ", h("span", { style: "min-width:100px" })), h("div", "Score: ", h("span", { style: "min-width:70px" }))));
-    if (hw.desc) paper.append(h("div.pdesc", hw.desc));
+    if (hw.desc) paper.append(h("div.pdesc", L.richBlock ? L.richBlock(hw.desc) : hw.desc));
     keyp.append(h("div.ph", h("h1", "ANSWER KEY · " + (hw.title || "")), h("div", { style: "font-size:13px" }, "Đáp án (dành cho giáo viên)")));
     let no = 1;
     rts.forEach((rt, si) => {

@@ -849,3 +849,18 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 .hero-art .sp{display:none!important}            /* ✨⭐🌿 nhấp nháy quanh mascot ở trang chủ */
 .mascot .m-sp{display:none!important}            /* ✨⭐💖 quanh mascot */
 .gh-sp{display:none!important}                   /* ✦♥★✿ bay ở đầu trang Trò chơi */
+
+/* ===== khung mẹo / bảng ở đầu bài (hw.desc): rộng hết khổ, bảng thật ===== */
+.shared.guide{white-space:normal;line-height:1.6}
+.shared.guide .rline{margin:2px 0}
+.shared.guide .rgap{height:6px}
+.shared.guide .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:8px 0}
+.rtable{border-collapse:collapse;width:100%;min-width:520px;font-size:.95em;background:#fff}
+.rtable th,.rtable td{border:1px solid #D9CFF5;padding:6px 10px;text-align:left;vertical-align:top}
+.rtable th{background:#EFE8FF;color:#4B3799;font-weight:800;white-space:nowrap}
+.rtable tbody tr:nth-child(even) td{background:#FBF8FF}
+.hw-guide{margin:10px 0;background:#fff;border:1.5px solid #E4DBFA;border-radius:var(--r-sm);padding:6px 12px}
+.hw-guide>summary{cursor:pointer;font-weight:800;padding:6px 0;color:#5B45B8}
+.hw-guide .shared{margin:4px 0 8px}
+@media print{.pdesc .rtable{min-width:0;font-size:12px}.pdesc .rtable th,.pdesc .rtable td{border-color:#000;padding:3px 6px}}
+@media(max-width:640px){.rtable{min-width:0;font-size:.8em}.rtable th,.rtable td{padding:5px 6px}.rtable th{white-space:normal}}

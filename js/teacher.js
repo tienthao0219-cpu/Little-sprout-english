@@ -687,7 +687,7 @@
     const m = L.state.manifest;
     const draw = () => {
       body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
         list.length ? list.map(x => {
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
@@ -830,7 +830,7 @@
     let hw;
     if (id === "new") hw = { id: "hw" + uid("").slice(-6), title: "", desc: "", curId: (L.state.manifest.curricula[0] || {}).id || "", unitId: "", open: true, sections: [newSection()], meta: Object.assign({}, defMeta) };
     else hw = (await L.api.call("hwGet", { id })).hw;
-    if (id === "new") { try { const dr = JSON.parse(sessionStorage.getItem("lse_hw_draft") || "null"); if (dr && dr.sections && dr.sections.length) { hw.title = dr.title || ""; hw.sections = dr.sections.map(x => Object.assign(newSection(), x)); if (dr.curId) { hw.curId = dr.curId; hw.unitId = dr.unitId || ""; } } sessionStorage.removeItem("lse_hw_draft"); } catch (e) { } }
+    if (id === "new") { try { const dr = JSON.parse(sessionStorage.getItem("lse_hw_draft") || "null"); if (dr && dr.sections && dr.sections.length) { hw.title = dr.title || ""; if (dr.desc) hw.desc = dr.desc; hw.sections = dr.sections.map(x => Object.assign(newSection(), x)); if (dr.curId) { hw.curId = dr.curId; hw.unitId = dr.unitId || ""; } } sessionStorage.removeItem("lse_hw_draft"); } catch (e) { } }
     hw.meta = Object.assign({}, defMeta, hw.meta || {});
     const m = L.state.manifest;
     try { await L.imgs.load(); } catch (e) { }
@@ -1020,7 +1020,7 @@
     }
 
     const addBtn = h("div.row", { style: "margin-top:14px" }, h("button.btn.ghost", { onclick: () => { hw.sections.push(newSection()); markDirty(); drawSecs(); } }, "+ Thêm phần (có thể chọn dạng bài khác)"),
-      h("button.btn.mint", { onclick: () => docxModal((title, secs) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"),
+      h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"),
       h("button.btn.sky", { onclick: () => ocrModal(secs => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ ảnh. Cô xem lại từng phần nhé."); }) }, "📷 Tạo phần từ ảnh sách"));
     const saveStatus = h("div");
     const doSave = async (after) => {
@@ -1159,13 +1159,14 @@
               h("label.field", h("span", "Unit / chủ đề"), selUnit(lc, st.loc.unit, v => { st.loc.unit = v; st.loc.unitSet = true; st.loc.guess = 0; }))),
             st.loc.guess ? h("div.small.muted", { style: "margin-top:4px" }, "Gợi ý unit theo tên file (Unit " + st.loc.guess + "). Cô kiểm tra lại nhé.") : null));
         }
+        if (r.guide) box.append(h("div.hint", { style: "margin-bottom:8px" }, "💡 Có khung mẹo/bảng ở đầu file: sẽ đưa lên ĐẦU BÀI (rộng hết khổ, bảng hiện thành bảng thật), không tách riêng ra bên cạnh câu hỏi."));
         box.append(h("div", { style: "max-height:48vh;overflow:auto" }, r.sections.map((s, i) => {
           const first = s.raw.split(/\n\n|\n(?=[^A-H*E])/)[0].replace(/<\/?u>/g, "").slice(0, 130);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", String(i + 1)),
             h("div.grow", h("b", s.title), h("div.small.muted", typeName(s.type) + " · " + s.n + " câu" + (s.desc ? " · có đoạn văn/yêu cầu" : "") + (s.topic ? " · chủ điểm: " + s.topic : "")), h("div.small", { style: "opacity:.75;margin-top:3px" }, first + "…")));
         })));
         box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: () => { st.res = null; draw(); } }, "← Chọn file khác"), h("button.btn.ghost", { onclick: close }, "Đóng"),
-          r.sections.length ? h("button.btn.mint", { onclick: () => { if (o.pickLoc && !st.loc.cur) { toast("Chọn giáo trình cho bài tập trước nhé", 3500); return; } const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw, numFresh: !!s.numFresh, tfLabels: s.tfLabels || "en" })); if (o.pickLoc) { try { localStorage.setItem("lse_last_cur", st.loc.cur); } catch (e) { } } close(); onDone(r.title, secs, o.pickLoc ? { curId: st.loc.cur, unitId: st.loc.unit } : null); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
+          r.sections.length ? h("button.btn.mint", { onclick: () => { if (o.pickLoc && !st.loc.cur) { toast("Chọn giáo trình cho bài tập trước nhé", 3500); return; } const secs = r.sections.map(s => ({ title: s.title, type: s.type, desc: s.desc, topic: s.topic, raw: s.raw, numFresh: !!s.numFresh, tfLabels: s.tfLabels || "en" })); if (o.pickLoc) { try { localStorage.setItem("lse_last_cur", st.loc.cur); } catch (e) { } } close(); onDone(r.title, secs, o.pickLoc ? { curId: st.loc.cur, unitId: st.loc.unit } : null, r.guide || ""); } }, "✨ Đưa vào bài tập (cô xem lại)") : null));
       };
       draw();
       return box;

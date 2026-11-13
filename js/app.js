@@ -445,7 +445,7 @@
       const nSec = (hw.sections || []).length;
       show(h("div.crumbs", h("a", { href: "#/hw" }, "Bài tập"), " › ", hw.title),
         h("div.card", h("h1", { style: "font-size:30px" }, hw.title),
-          hw.desc ? h("div.shared", hw.desc) : null,
+          hw.desc ? h("div.shared.guide", L.richBlock(hw.desc)) : null,
           h("div.row", { style: "margin:12px 0" }, h("span.pill", nSec + " phần"), m.nItems ? h("span.pill.sky", m.nItems + " ý") : null, m.timeLimit ? h("span.pill.butter", "⏱ " + m.timeLimit + " phút") : null,
             m.maxAttempts ? h("span.pill.peach", "Lượt: " + used + "/" + m.maxAttempts) : h("span.pill.mint", "Không giới hạn lượt"), h("span.pill." + (st.can ? "mint" : "rose"), st.text)),
           h("div.row", st.can ? h("button.btn", { onclick: run }, used ? "Làm lại ▶" : "Bắt đầu làm bài ▶") : null, h("a.btn.peach", { href: "#/practice/" + hw.id }, "🎮 Luyện tập (không tính điểm, có gợi ý, kiếm xu)"), isTeacher() ? null : h("a.btn.rose", { href: "#/boss/" + hw.id }, "👾 Đánh Boss")), !st.can ? h("div.hint", st.text === "Hết lượt" ? "Em đã dùng hết số lượt làm bài này." : "Bài này hiện không mở để làm.") : null,
@@ -491,7 +491,8 @@
       const submitBtn = h("button.btn.mint", { style: "width:100%;margin-top:16px;font-size:18px", onclick: () => submit(false) }, "Nộp bài ✓");
       const err = h("div");
       if (!rts.some(r => r.qs.length)) { show(h("div.card.empty", "Bài tập này chưa có câu hỏi.")); return; }
-      show(head, parts, err, submitBtn);
+      const guideBox = (hw.desc || "").trim() ? h("details.hw-guide", h("summary", "💡 Xem lại mẹo / hướng dẫn làm bài"), h("div.shared.guide", L.richBlock(hw.desc))) : null;
+      show(head, guideBox, parts, err, submitBtn);
       if (m.timeLimit) {
         const end = t0 + m.timeLimit * 60000;
         const upd = () => { const left = Math.max(0, end - Date.now()); timer.textContent = "⏱ " + String(Math.floor(left / 60000)).padStart(2, "0") + ":" + String(Math.floor(left / 1000) % 60).padStart(2, "0"); timer.classList.toggle("low", left < 60000); if (left <= 0 && !submitted) { clearInterval(tick); toast("Hết giờ! Bài được nộp tự động."); submit(true); } };

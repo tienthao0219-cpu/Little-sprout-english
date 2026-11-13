@@ -424,6 +424,22 @@
   const rich = t => { const s = String(t == null ? "" : t); if (s.indexOf("<u>") < 0 && s.indexOf("**") < 0) return s; const out = []; s.split(/(<u>.*?<\/u>|\*\*[^*\n]+?\*\*)/g).forEach(x => { let m; if ((m = x.match(/^<u>(.*)<\/u>$/))) out.push(h("u", m[1])); else if ((m = x.match(/^\*\*([^*\n]+?)\*\*$/))) out.push(h("b", m[1])); else if (x) out.push(x); }); return out; };
 
   L.rich = rich;
+  /** Khối chữ nhiều dòng có bảng: dòng dạng "| ô | ô |" liền nhau thành một bảng thật (dòng đầu = tiêu đề cột; dòng "|---|" bị bỏ qua);
+      các dòng khác giữ nguyên (**đậm**, <u>gạch chân</u>). Dùng cho khung mẹo ở đầu bài (hw.desc). */
+  const isRow = l => /^\s*\|.*\|\s*$/.test(l), isSep = l => /^\s*\|[\s:|-]+\|\s*$/.test(l);
+  function richBlock(text) {
+    const lines = String(text == null ? "" : text).split("\n"), root = h("div.rb"), buf = [];
+    const flush = () => {
+      if (!buf.length) return;
+      const rows = buf.splice(0).filter(l => !isSep(l)).map(l => l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim()));
+      const head = rows.shift();
+      root.append(h("div.tbl-wrap", h("table.rtable", h("thead", h("tr", head.map(c => h("th", rich(c))))), h("tbody", rows.map(r => h("tr", r.map(c => h("td", rich(c)))))))));
+    };
+    lines.forEach(l => { if (isRow(l)) { buf.push(l); return; } flush(); if (l.trim()) root.append(h("div.rline", rich(l))); else root.append(h("div.rgap")); });
+    flush();
+    return root;
+  }
+  L.richBlock = richBlock;
   function view(q, st, ctx, no) {
     const review = ctx.mode === "review";
     const g = review ? grade(q, st) : null;

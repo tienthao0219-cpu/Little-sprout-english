@@ -221,6 +221,28 @@ window.LSE = window.LSE || {};
     return { stem: t.slice(0, pos[0].at).replace(/\s+/g, " ").trim(), opts };
   }
 
+  /* ---- khung mẹo làm bài ở đầu file ---- */
+  const blocks0 = (main, end) => main.slice(0, end);
+  const flat = b => b.k === "t" ? b.rows.map(r => r.filter(Boolean).join("\n")).filter(Boolean).join("\n") : b.t;
+  const isHeadLine = t => t.length < 160 && /^\s*(?:[★☆✦✧●▶►]|(?:phần|part)\s+[ivx\d]+\b|mẹo\s*\d)/i.test(t);
+  /** bảng Word -> các dòng "| ô | ô |" (ô nhiều dòng gộp bằng " · "); engine.richBlock vẽ lại thành bảng */
+  const tableLines = rows => rows.filter(r => r.some(c => String(c).trim())).map(r => "| " + r.map(c => String(c).replace(/\s*\n\s*/g, " · ").replace(/\|/g, "/").trim()).join(" | ") + " |");
+  function buildGuide(lead, titleBlock, taskFile) {
+    const isGuide = b => b !== titleBlock && (b.k === "t" ? GUIDE.test(flat(b).slice(0, 80)) : (!taskFile && b.t.length < 100 && GUIDE.test(b.t.slice(0, 80))));
+    const at = lead.findIndex(isGuide);
+    if (at < 0) return "";
+    let g = lead.slice(at).filter(b => b !== titleBlock);
+    while (g.length && g[g.length - 1].k === "p" && g[g.length - 1].t.length < 100 && g[g.length - 1].t === g[g.length - 1].t.toUpperCase()) g.pop();   // dòng "PHẦN III: 20 CÂU BÀI TẬP…" ngay trước câu 1
+    if (taskFile) g = g.filter(b => b.k === "t");
+    const out = [];
+    g.forEach(b => {
+      if (b.k === "t") { const rows = tableLines(b.rows); if (rows.length) { if (out.length) out.push(""); out.push(...rows); out.push(""); } return; }
+      const t = (b.tb || b.t).replace(/<\/?u>/g, "");
+      if (isHeadLine(b.t)) out.push("", "**" + t.replace(/\*\*/g, "").replace(/\n/g, " ") + "**"); else out.push(t);
+    });
+    return out.join("\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
   function parseDocx(blocks, fileName) {
     const warns = [];
     let keyAt = blocks.findIndex(b => b.k === "p" && KEYHEAD.test(b.t) && b.t.length < 90 && !QRE.test(b.t));
@@ -231,15 +253,17 @@ window.LSE = window.LSE || {};
 
     let title = "", secs = [], cur = null, q = null, started = false;
     const pre = [], guide = [];                              // pre: đoạn văn đứng trước "Task 1" (bài đọc chung); guide: khung "Hướng dẫn làm bài" đứng trước đề
-    const newSec = t => { cur = { title: t, desc: [], qs: [] }; secs.push(cur); q = null; };
+    let bi = 0, leadEnd = -1, titleBlock = null;               // leadEnd: vị trí khối đầu tiên mở phần bài (mọi thứ đứng trước là phần mở đầu của file)
+    const newSec = t => { if (leadEnd < 0) leadEnd = bi; cur = { title: t, desc: [], qs: [] }; secs.push(cur); q = null; };
     const flushQ = () => { q = null; };
-    main.forEach(b => {
+    main.forEach((b, bIdx) => {
+      bi = bIdx;
       /* "Task 1: …" mở một phần mới; mọi khối đứng sau nó (đoạn, bảng) được giữ lại để nhận dạng bài Ghép / Đúng-Sai */
       if (b.k === "p" && b.t.length < 260 && TASKRE.test(b.t)) { newSec(stripU(b.t)); cur.task = true; cur.taskNo = +b.t.match(TASKRE)[1]; cur.blocks = []; return; }
       if (cur && cur.task) cur.blocks.push(b);
       if (b.k === "t") {
         const txt = b.rows.map(r => r.filter(Boolean).join("\n")).filter(Boolean).join("\n");
-        if (!cur) { if (GUIDE.test(txt.slice(0, 80))) { guide.push(txt); return; } if (title && txt.replace(/\s+/g, " ").length >= 160) pre.push(txt); return; }   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
+        if (!cur) { if (GUIDE.test(txt.slice(0, 80))) return; if (title && txt.replace(/\s+/g, " ").length >= 160) pre.push(txt); return; }   // bảng thông tin đầu đề (Môn, Thời gian, Họ tên…) bỏ qua
         if (!cur.qs.length) { if (txt) cur.desc.push(txt); } else if (q) q.lines.push(txt);
         return;
       }
@@ -253,7 +277,7 @@ window.LSE = window.LSE || {};
       if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title)) {
         newSec(b.t); return;
       }
-      if (!cur) { if (!title) title = stripU(b.t).replace(/\s*\n\s*/g, " – "); else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
+      if (!cur) { if (!title) { title = stripU(b.t).replace(/\s*\n\s*/g, " – "); titleBlock = b; } else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
       if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
     });
     /* Task ghép từ / đúng-sai: nhận dạng từ bảng + đoạn, bỏ qua cách tách câu theo số thứ tự thông thường */
@@ -264,7 +288,9 @@ window.LSE = window.LSE || {};
     });
     const passage = pre.join("\n\n").trim(), usePassage = passage.replace(/\s+/g, " ").length >= 160;
     secs = secs.filter(s => s.qs.length || (s.pre && s.pre.length));
-    if (guide.length && secs.length) secs[0].desc.unshift(guide.join("\n\n"));
+    /* KHUNG MẸO LÀM BÀI đứng trước đề (đoạn văn + bảng): đưa lên đầu bài (hw.desc), rộng hết khổ, bảng hiển thị thành bảng thật.
+       Bắt đầu từ khối đầu tiên có chữ "mẹo / hướng dẫn làm bài / lưu ý / ghi nhớ / cách làm" ở đầu; bỏ tiêu đề file và dòng tiêu đề phần đứng ngay trước câu 1. */
+    const guideText = buildGuide(blocks0(main, leadEnd < 0 ? main.length : leadEnd), titleBlock, secs.some(x => x.task));
 
     /* câu hỏi -> kiểu */
     secs.forEach(s => {
@@ -410,7 +436,7 @@ window.LSE = window.LSE || {};
     for (const b of blocks.slice(0, 8)) { if (b.k !== "p") continue; const um = b.t.match(/\bunit\s*0*(\d{1,2})\b/i); if (um) { unitNo = +um[1]; break; } }
     const nQ = sections.reduce((a, s) => a + s.n, 0);
     if (!nQ) warns.push("Chưa nhận ra câu hỏi nào. File cần có câu dạng \"Question 1.\" hoặc \"1.\" hoặc \"Câu 1.\".");
-    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo };
+    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo, guide: guideText };
   }
   const prettyPart = p => { const t = p.full.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(); const m = t.match(/^(ph[ầa]n|part|section)\s+([IVX\d]+)\s*[:.\-–]\s*(.+)$/i); const nm = m ? m[3].toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()) : t; return (m ? "Phần " + m[2] + ": " : "") + nm + " (" + p.from + "–" + p.to + ")"; };
 
