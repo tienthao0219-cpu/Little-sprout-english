@@ -482,16 +482,58 @@ const OUT = 'stroke="#2B3550" stroke-width="2.4" stroke-linejoin="round"';
 function animal(id, x, y, s) { return kawaii(id).replace('<svg ', '<svg x="' + x + '" y="' + y + '" width="' + s + '" height="' + s + '" '); }
 function table(x) { return '<g ' + OUT + '><rect x="' + (x + 8) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + (x + 87) + '" y="99" width="9" height="49" fill="#C48E5A"/><rect x="' + x + '" y="88" width="104" height="11" rx="5" fill="#E2B27C"/></g>'; }
 function sofa(x) { return '<g ' + OUT + '><rect x="' + x + '" y="76" width="120" height="58" rx="16" fill="#8FB8E8"/><rect x="' + (x - 10) + '" y="100" width="140" height="48" rx="14" fill="#A9CCF2"/><rect x="' + (x - 10) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><rect x="' + (x + 110) + '" y="92" width="20" height="56" rx="9" fill="#8FB8E8"/><ellipse cx="' + (x + 28) + '" cy="104" rx="20" ry="11" fill="#FFB8CC"/></g>'; }
-function prepSVG(v, A) {
+/* ---- Đồ vật cho hình giới từ: vẽ cùng nét với bàn / hộp / ghế sofa (viền xanh đậm, màu pastel) ----
+   Mỗi đồ vật vẽ trong hệ toạ độ riêng: gốc (0,0) = giữa đáy, vẽ lên phía y âm. PG đặt vào cảnh. */
+const PG = (cx, gy, s, inner) => '<g transform="translate(' + cx + ',' + gy + ') scale(' + s + ')" stroke="#2B3550" stroke-width="' + (2.4 / s).toFixed(2) + '" stroke-linejoin="round" stroke-linecap="round">' + inner + '</g>';
+function psec(cx, cy, r, a0, a1, f) {
+  const p = a => [(cx + r * Math.cos(a * Math.PI / 180)).toFixed(1), (cy + r * Math.sin(a * Math.PI / 180)).toFixed(1)], s = p(a0), e = p(a1);
+  return '<path d="M' + cx + ' ' + cy + 'L' + s[0] + ' ' + s[1] + 'A' + r + ' ' + r + ' 0 0 1 ' + e[0] + ' ' + e[1] + 'Z" fill="' + f + '" stroke-width="1.2"/>';
+}
+const PX = {
+  pen: '<g transform="rotate(-12)"><path d="M-6 -16H6L0 0Z" fill="#FFE3CF"/><path d="M-2.400 -6H2.400L0 0Z" fill="#2B3550"/><rect x="-6" y="-80" width="12" height="64" rx="3" fill="#8FB8E8"/><rect x="-6" y="-80" width="12" height="10" rx="3" fill="#FF9DB7"/><rect x="5" y="-74" width="4" height="30" rx="2" fill="#fff"/></g>',
+  key: '<path d="M-4 -52H4V-2Q4 0 2 0H-2Q-4 0 -4 -2Z" fill="#FFD76A"/><path d="M4 -14H14V-8H4ZM4 -26H11V-20H4Z" fill="#FFD76A"/><circle cx="0" cy="-64" r="13" fill="#FFD76A"/><circle cx="0" cy="-64" r="5" fill="#FFF7E8"/>',
+  cup: '<path d="M14 -31C34 -33 34 -9 12 -10" fill="none" stroke-width="8"/><path d="M14 -31C34 -33 34 -9 12 -10" fill="none" stroke="#FFB8CC" stroke-width="3.600"/><path d="M-17 -38H17L13 -4Q12 0 8 0H-8Q-12 0 -13 -4Z" fill="#FFB8CC"/><ellipse cx="0" cy="-38" rx="17" ry="4.500" fill="#FFE3EC"/><path d="M0 -12C-9 -18 -5 -27 0 -22C5 -27 9 -18 0 -12Z" fill="#fff" stroke="none"/>',
+  shoe: '<path d="M-21 -2Q-21 -10 -14 -12Q-8 -14 -6 -22H4Q6 -15 12 -12Q25 -9 25 -4V-3Q25 0 21 0H-17Q-21 0 -21 -3Z" fill="#FF9DB7"/><path d="M-21 -5H25" fill="none"/><path d="M-3 -18L3 -15M-4 -13L5 -10" fill="none" stroke="#fff" stroke-width="2.400"/>',
+  ball: (() => { const c = ['#FF9DB7', '#fff', '#8FB8E8', '#fff', '#FFD76A', '#fff']; return c.map((f, i) => psec(0, -16, 16, i * 60 - 90, i * 60 - 30, f)).join('') + '<circle cx="0" cy="-16" r="16" fill="none"/><circle cx="0" cy="-16" r="3" fill="#fff" stroke-width="1.400"/>'; })(),
+  bagHandle: '<path d="M-13 -80Q-13 -96 0 -96Q13 -96 13 -80" fill="none" stroke-width="7"/><path d="M-13 -80Q-13 -96 0 -96Q13 -96 13 -80" fill="none" stroke="#7FA8DE" stroke-width="3"/>',
+  bagBack: '<path d="M-30 -6V-70Q-30 -80 -20 -80H20Q30 -80 30 -70V-6Q30 0 24 0H-24Q-30 0 -30 -6Z" fill="#7FA8DE"/>',
+  bagFront: '<path d="M-30 -50H30V-6Q30 0 24 0H-24Q-30 0 -30 -6Z" fill="#A9CCF2"/><rect x="-18" y="-36" width="36" height="24" rx="6" fill="#FFD0DF"/><path d="M-18 -28H18" fill="none" stroke-width="2"/><circle cx="0" cy="-22" r="3" fill="#FFD76A" stroke-width="1.600"/>',
+  bagFull: '<path d="M-30 -6V-70Q-30 -80 -20 -80H20Q30 -80 30 -70V-6Q30 0 24 0H-24Q-30 0 -30 -6Z" fill="#A9CCF2"/><path d="M-30 -56H30" fill="none"/><rect x="-18" y="-40" width="36" height="26" rx="6" fill="#FFD0DF"/><path d="M-18 -31H18" fill="none" stroke-width="2"/><circle cx="0" cy="-24" r="3" fill="#FFD76A" stroke-width="1.600"/>',
+  fridge: '<rect x="-26" y="-100" width="52" height="100" rx="9" fill="#DCEEFF"/><path d="M-26 -66H26" fill="none"/><rect x="14" y="-92" width="5" height="18" rx="2.500" fill="#fff"/><rect x="14" y="-58" width="5" height="30" rx="2.500" fill="#fff"/><path d="M-9 -41C-17 -47 -13 -55 -9 -50C-5 -55 -1 -47 -9 -41Z" fill="#FF9DB7" stroke-width="1.600"/>',
+  cooker: '<rect x="-33" y="-62" width="66" height="62" rx="7" fill="#F4F0FF"/><rect x="-33" y="-62" width="66" height="10" rx="5" fill="#C9B8FF"/><ellipse cx="-14" cy="-57" rx="9" ry="2.600" fill="#2B3550" stroke="none"/><ellipse cx="14" cy="-57" rx="9" ry="2.600" fill="#2B3550" stroke="none"/><circle cx="-20" cy="-43" r="3" fill="#FF9DB7" stroke-width="1.600"/><circle cx="-7" cy="-43" r="3" fill="#FFD76A" stroke-width="1.600"/><circle cx="7" cy="-43" r="3" fill="#9BE08A" stroke-width="1.600"/><circle cx="20" cy="-43" r="3" fill="#8FB8E8" stroke-width="1.600"/><rect x="-26" y="-36" width="52" height="30" rx="5" fill="#fff"/><rect x="-18" y="-31" width="36" height="17" rx="3" fill="#9BC8F5"/><path d="M-12 -18L-6 -27" fill="none" stroke="#fff" stroke-width="2.400"/>',
+  desk: '<rect x="-46" y="-49" width="9" height="49" fill="#C48E5A"/><rect x="8" y="-49" width="40" height="49" fill="#D9A56D"/><path d="M8 -25H48" fill="none"/><circle cx="28" cy="-37" r="2.600" fill="#FFD76A" stroke-width="1.600"/><circle cx="28" cy="-13" r="2.600" fill="#FFD76A" stroke-width="1.600"/><rect x="-52" y="-60" width="104" height="11" rx="5" fill="#E2B27C"/>',
+  bed: '<rect x="-75" y="-74" width="12" height="74" rx="4" fill="#C48E5A"/><rect x="63" y="-42" width="12" height="42" rx="4" fill="#C48E5A"/><rect x="-66" y="-52" width="130" height="18" rx="6" fill="#F4F0FF"/><rect x="-30" y="-62" width="94" height="28" rx="8" fill="#FFB8CC"/><path d="M-8 -62V-34M14 -62V-34M36 -62V-34" fill="none" stroke="#FF8FB0" stroke-width="2.400"/><rect x="-62" y="-68" width="34" height="18" rx="9" fill="#fff"/>',
+  chair: '<rect x="-34" y="-110" width="7" height="62" fill="#C48E5A"/><rect x="27" y="-110" width="7" height="62" fill="#C48E5A"/><rect x="-34" y="-108" width="68" height="26" rx="6" fill="#E2B27C"/><path d="M-12 -104V-86M0 -104V-86M12 -104V-86" fill="none" stroke-width="2"/><rect x="-40" y="-52" width="80" height="11" rx="5" fill="#E2B27C"/><rect x="-36" y="-41" width="8" height="41" fill="#C48E5A"/><rect x="28" y="-41" width="8" height="41" fill="#C48E5A"/>',
+  door: '<rect x="-44" y="-120" width="88" height="120" fill="#C48E5A"/><rect x="-38" y="-114" width="76" height="114" fill="#BDE7D3"/><rect x="-28" y="-104" width="56" height="38" rx="4" fill="none" stroke-width="2"/><rect x="-28" y="-58" width="56" height="48" rx="4" fill="none" stroke-width="2"/><circle cx="-24" cy="-62" r="5.500" fill="#FFD76A"/>',
+  board: '<rect x="-72" y="-120" width="144" height="62" rx="5" fill="#C48E5A"/><rect x="-66" y="-114" width="132" height="50" rx="2" fill="#fff"/><text x="-58" y="-82" font-family="Baloo 2,sans-serif" font-size="22" font-weight="800" fill="#8FB8E8" stroke="none">A B C</text><path d="M22 -98H58M22 -86H48M22 -74H54" fill="none" stroke="#C9B8FF" stroke-width="3"/><rect x="-52" y="-62" width="104" height="5" rx="2" fill="#C99A6B" stroke-width="1.600"/>'
+};
+/* các cảnh có đồ vật (Unit 1): khoá = giới từ : nơi : vật */
+function prepScene(v, A, O) {
+  const k = v + ':' + O + ':' + A;
+  if (k === 'in:bag:pen') return PG(120, 148, 1.1, PX.bagHandle + PX.bagBack + '<g transform="translate(-4,-24)">' + PX.pen + '</g>' + PX.bagFront);
+  if (k === 'in:box:key') return '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + PG(120, 148, 1, '<g transform="translate(0,-30)">' + PX.key + '</g>') + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
+  if (k === 'on:table:cup') return table(68) + PG(120, 88, 1.15, PX.cup);
+  if (k === 'on:desk:bag') return PG(120, 148, 1, PX.desk) + PG(118, 88, 0.62, PX.bagFull + PX.bagHandle);
+  if (k === 'under:bed:shoes') return PG(120, 148, 1, PX.bed) + PG(94, 148, 1, PX.shoe) + PG(148, 148, 1, '<g transform="scale(-1,1)">' + PX.shoe + '</g>');
+  if (k === 'under:chair:ball') return PG(120, 148, 1, PX.ball) + PG(120, 148, 1, PX.chair);
+  if (k === 'behind:door:cat') return animal('cat', 118, 98, 56) + PG(92, 148, 1, PX.door);
+  if (k === 'next:cooker:fridge') return PG(88, 148, 1, PX.cooker) + PG(152, 148, 1, PX.fridge);
+  if (k === 'front:board:desk') return PG(120, 148, 1, PX.board) + PG(120, 148, 1, PX.desk);
+  if (k === 'behind:sofa:tail') return '<path d="M146 92C146 66 172 72 167 46" fill="none" stroke="#2B3550" stroke-width="12" stroke-linecap="round"/><path d="M146 92C146 66 172 72 167 46" fill="none" stroke="#FFE0D2" stroke-width="7" stroke-linecap="round"/>' + sofa(60);
+  return null;
+}
+function prepSVG(v, A, O) {
   A = A || 'cat';
   const bg = '<rect width="240" height="170" rx="22" fill="#FFF7E8"/><rect y="148" width="240" height="22" fill="#F3E3C3"/>';
-  let body = '';
-  if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + animal(A, 92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
-  else if (v === 'on') body = table(68) + animal(A, 96, 38, 56);
-  else if (v === 'under') body = animal(A, 96, 100, 56) + table(68);
-  else if (v === 'next') body = table(30) + animal(A, 168, 100, 56);
-  else if (v === 'behind') body = animal(A, 92, 44, 56) + sofa(60);
-  else body = sofa(60) + animal(A, 92, 98, 56);
+  let body = O ? prepScene(v, A, O) : null;
+  if (body == null) {
+    if (v === 'in') body = '<g ' + OUT + '><rect x="84" y="96" width="72" height="54" fill="#B98558"/></g>' + animal(A, 92, 70, 56) + '<g ' + OUT + '><rect x="78" y="118" width="84" height="32" rx="3" fill="#E0B88A"/><rect x="78" y="118" width="84" height="7" fill="#C99A6B"/></g>';
+    else if (v === 'on') body = table(68) + animal(A, 96, 38, 56);
+    else if (v === 'under') body = animal(A, 96, 100, 56) + table(68);
+    else if (v === 'next') body = table(30) + animal(A, 168, 100, 56);
+    else if (v === 'behind') body = animal(A, 92, 44, 56) + sofa(60);
+    else body = sofa(60) + animal(A, 92, 98, 56);
+  }
   return '<svg viewBox="0 24 240 146" role="img" aria-label="' + v + '">' + bg + body + '</svg>';
 }
 function person(x, y, c, dash, k) {
@@ -541,7 +583,7 @@ function artEl(a) {
   if (a && a.t === 'sign') return h('div', { html: signSVG(a.v) });
   if (a && a.t === 'emo') return h('div', { html: emoSVG(a.e) });
   if (!a) return null;
-  if (a.t === 'prep') return h('div', { html: prepSVG(a.v, a.a) });
+  if (a.t === 'prep') return h('div', { html: prepSVG(a.v, a.a, a.o) });
   if (a.t === 'people' || a.t === 'thing') return h('div', { html: roomSVG(a.t, a.v) });
   if (a.t === 'vocab') { const bb = (ALL.bbox || {})[a.vd || U.vocabDir] || {}, fit = !!bb[a.w];
     return h('div.vart' + (a.no ? '.no' : '') + (a.q ? '.q' : '') + (a.x ? '.x' : '') + (fit ? '.vf' : '') + ((a.n || 1) > 1 ? '.multi' : ''), Array.from({ length: a.n || 1 }, () => vimg(a.w, a.vd))); }
