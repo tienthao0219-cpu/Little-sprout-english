@@ -4116,9 +4116,4011 @@
   {
    "id": "a4",
    "name": "Authentic 4",
-   "sub": "Flyers 4",
-   "tests": [],
-   "note": "Sắp có"
+   "sub": "Flyers 4 (2022)",
+   "tests": [
+    {
+     "no": 1,
+     "parts": [
+      {
+       "n": 1,
+       "type": "lines",
+       "title": "Listen and draw lines",
+       "vi": "Nghe và nối tên với đúng người trong tranh. Có 1 ví dụ (Michael đã nối sẵn).",
+       "audio": "media/a4t1_p1.mp3",
+       "pages": [
+        "media/a4t1_p1.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "names": [
+        {
+         "n": "Katy",
+         "box": [
+          133,
+          258,
+          44,
+          24
+         ],
+         "anchor": [
+          155,
+          300
+         ]
+        },
+        {
+         "n": "Robert",
+         "box": [
+          353,
+          258,
+          62,
+          24
+         ],
+         "anchor": [
+          384,
+          300
+         ]
+        },
+        {
+         "n": "Oliver",
+         "box": [
+          575,
+          258,
+          56,
+          24
+         ],
+         "anchor": [
+          603,
+          300
+         ]
+        },
+        {
+         "n": "Helen",
+         "box": [
+          786,
+          258,
+          52,
+          24
+         ],
+         "anchor": [
+          812,
+          300
+         ]
+        },
+        {
+         "n": "Sophia",
+         "box": [
+          218,
+          1195,
+          64,
+          24
+         ],
+         "anchor": [
+          250,
+          1170
+         ]
+        },
+        {
+         "n": "Michael",
+         "box": [
+          449,
+          1195,
+          74,
+          24
+         ],
+         "anchor": [
+          486,
+          1170
+         ]
+        },
+        {
+         "n": "Emma",
+         "box": [
+          684,
+          1195,
+          60,
+          24
+         ],
+         "anchor": [
+          714,
+          1170
+         ]
+        }
+       ],
+       "items": [
+        {
+         "name": "Sophia",
+         "target": [
+          410,
+          800
+         ],
+         "r": 75,
+         "text": "Sophia và cô bé có băng ở đầu gối, đang nhảy qua con suối"
+        },
+        {
+         "name": "Oliver",
+         "target": [
+          348,
+          495
+         ],
+         "r": 48,
+         "text": "Oliver và cậu bé đội mũ bảo hiểm, đang đạp xe"
+        },
+        {
+         "name": "Emma",
+         "target": [
+          525,
+          1005
+         ],
+         "r": 62,
+         "text": "Emma và cô bé bên đống lửa, đang cầm khúc củi"
+        },
+        {
+         "name": "Robert",
+         "target": [
+          548,
+          545
+         ],
+         "r": 45,
+         "text": "Robert và cậu bé đang khám phá cái hang với đèn pin"
+        },
+        {
+         "name": "Katy",
+         "target": [
+          235,
+          780
+         ],
+         "r": 58,
+         "text": "Katy và cô bé không đi giày, đang chơi game trên máy tính bảng"
+        }
+       ],
+       "keyImg": "media/a4t1_key_p1.jpg",
+       "keyText": [
+        "Lines should be drawn between:",
+        "1 Sophia and the girl with a bandaged knee, jumping across the stream",
+        "2 Oliver and the boy wearing a helmet, riding a bike",
+        "3 Emma and the girl by the fire, holding a piece of wood",
+        "4 Robert and the boy exploring a cave with a torch",
+        "5 Katy and the girl with no shoes, playing a game on her tablet"
+       ],
+       "answerText": [
+        "1 Sophia",
+        "2 Oliver",
+        "3 Emma",
+        "4 Robert",
+        "5 Katy"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Hello. This is the Cambridge Assessment English A2 Flyers Listening Test."
+        },
+        {
+         "t": "ex",
+         "text": "Part 1 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Here's a photo of my friends on our school camping trip, Uncle."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Wow!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "There's Michael."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The one with the magazine?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. And the silly hat! He collects all kinds of funny clothes. He wants to design clothes!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the line? This is an example. Now you listen and draw lines."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Our camping trip was amazing. Can you see that girl?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The one with the bandage on her knee?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. She was the only one who fell over that week. But, look! She's jumping across that dangerous stream again."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What's her name?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Sophia."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "And who's that?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "He's called Oliver."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh! Well, it's good that he's wearing a helmet."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. They didn't let us cycle anywhere without one."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Well, that's important . . . He's got a nice bike!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "And can you see Emma?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The girl with the wood. She's by the fire?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That's right."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Was she cooking something on it?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Not that afternoon, but the next day she made some fantastic pancakes!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Great!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What's that person doing? Is it a girl or a boy? I can't see."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I'm not sure! Is it Helen? Oh no, that's Robert. Sorry. He was exploring that cave."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What did he hope to find inside?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I don't know, but he took his torch! Monsters perhaps!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Katy's in the picture, too. She and I slept in the same tent."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Which one's she? The girl on the high rock?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No. She's that girl, the one who's playing an adventure game on her tablet."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh . . . With no shoes on?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That's right! She's my best friend. We never stop laughing!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 1 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 1."
+        }
+       ]
+      },
+      {
+       "n": 2,
+       "type": "fill",
+       "title": "Listen and write",
+       "vi": "Nghe và viết từ/cụm từ còn thiếu (Holly's homework). Có 1 ví dụ: history.",
+       "audio": "media/a4t1_p2.mp3",
+       "pages": [
+        "media/a4t1_p2.jpg"
+       ],
+       "items": [
+        {
+         "pre": "Name of teacher: Mr",
+         "post": "",
+         "acc": [
+          "badger"
+         ],
+         "show": "Badger"
+        },
+        {
+         "pre": "Read about person who invented: the",
+         "post": "",
+         "acc": [
+          "telephone",
+          "phone"
+         ],
+         "show": "telephone"
+        },
+        {
+         "pre": "Number of questions:",
+         "post": "",
+         "acc": [
+          "24",
+          "twenty-four",
+          "twenty four"
+         ],
+         "show": "24 / twenty-four"
+        },
+        {
+         "pre": "Must give homework to teacher on:",
+         "post": "",
+         "acc": [
+          "wednesday"
+         ],
+         "show": "Wednesday"
+        },
+        {
+         "pre": "What to take to school: some",
+         "post": "",
+         "acc": [
+          "glue"
+         ],
+         "show": "glue"
+        }
+       ],
+       "answerText": [
+        "1 Badger",
+        "2 telephone",
+        "3 24 / twenty-four",
+        "4 Wednesday",
+        "5 glue"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 2 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Have you got a lot of homework to do this evening, Holly?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No, Mom. I've only got to do one piece of work."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "For which subject?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "It's for history."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the answer? Now you listen and write."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Your history teacher is new, isn't he? What's his name?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "He's called Mr Badger. You spell that B–A–D–G–E–R. He's a good teacher. He makes everything really interesting. Everyone likes him."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's good. What is your homework about?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "It's about people who invented things. I've got to read about the man who invented the . . ."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": ". . . bicycle? I remember having to write about that!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No. The telephone, Mom! A man did that in 1876, I think!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Wow! Do you have to answer lots of questions about him?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How many? More than twelve?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes! Twenty-four!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "And do you have to give this homework to your teacher on Friday?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No, sooner than that. On Wednesday. So I really want to start it tonight."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Good idea! Will you need to go online?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I'm not sure yet. But can I borrow your laptop to do that?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Of course."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "We're going to make a model of a phone in class. That'll be fun."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Do you need to take anything to school to help you make it?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes, some glue."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No problem. I'll get some for you."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Thanks. Now, Mom, I really must do my homework . . . Please stop talking!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "OK. Sorry!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 2 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 2."
+        }
+       ]
+      },
+      {
+       "n": 3,
+       "type": "match",
+       "title": "Listen and write a letter in each box",
+       "vi": "William giúp dì cất đồ trên bàn. Mỗi món đồ đến từ đâu? Chọn chữ cái A–H. Có 1 ví dụ: comb = H.",
+       "audio": "media/a4t1_p3.mp3",
+       "pages": [
+        "media/a4t1_p3a.jpg",
+        "media/a4t1_p3b.jpg"
+       ],
+       "letters": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+       ],
+       "items": [
+        {
+         "lab": "letter",
+         "ans": "D",
+         "note": "restaurant"
+        },
+        {
+         "lab": "soap",
+         "ans": "G",
+         "note": "hotel"
+        },
+        {
+         "lab": "scissors",
+         "ans": "F",
+         "note": "chemist's"
+        },
+        {
+         "lab": "bracelet",
+         "ans": "A",
+         "note": "airport"
+        },
+        {
+         "lab": "belt",
+         "ans": "B",
+         "note": "castle"
+        }
+       ],
+       "exampleText": "comb = H (ví dụ)",
+       "answerText": [
+        "1 letter – D (restaurant)",
+        "2 soap – G (hotel)",
+        "3 scissors – F (chemist's)",
+        "4 bracelet – A (airport)",
+        "5 belt – B (castle)"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 3 Listen and look. There is one example. William is helping his aunt to tidy her table. Where did each thing on the table come from?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "My room is really untidy. Let's put all these things away, William."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. What an unusual comb, Aunt Sarah! Where did you get it from?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "The Museum of Art. I bought it last week. I like it very much but I haven't used it yet. I think I'll keep it in my handbag."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "All right."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the letter H? Now you listen and write a letter in each box."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "This is one of my favourite bracelets but I don't often wear it."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "It's broken. Can you fix it?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No, but I know someone who can. I got it a long time ago when I was going on holiday."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "So did you buy it at the airport?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, that's right."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "And I need to put this soap in the bathroom."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Did you get that from the new chemist?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "It didn't come from there. I got it from the hotel where I stayed last week."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "When you had your important meeting in the city?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. I was there for two days."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "What about this belt? Is it yours? It looks like a man's . . ."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "It is mine, actually. I'll take it upstairs in a minute. I found that in the little shop in the castle."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "The one we visited together last summer?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "That was such a cool place!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Now, what shall I do with these scissors? I know. I'll put them here."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Have you had those for a long time?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. I can't remember when I bought them but I remember where I bought them!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Let me guess . . . From the factory you go to sometimes?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "You're good at guessing . . . but no. From the chemist's."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Last thing – this letter."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "It looks important, but you haven't opened it yet."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I know. I'll read it later. It's from the restaurant. We're going to have a party there."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Wow! Do you mean in the one in the new building next to the motorway?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No, the new one in town."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Excellent!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 3 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 3."
+        }
+       ]
+      },
+      {
+       "n": 4,
+       "type": "mc",
+       "title": "Listen and tick the box",
+       "vi": "Nghe và chọn tranh đúng (A, B hoặc C). Có 1 ví dụ: Which sport is David going to play? – A (volleyball).",
+       "audio": "media/a4t1_p4.mp3",
+       "pages": [
+        "media/a4t1_p4a.jpg",
+        "media/a4t1_p4b.jpg"
+       ],
+       "choices": [
+        "A",
+        "B",
+        "C"
+       ],
+       "items": [
+        {
+         "q": "1  Where will the match be?",
+         "ans": "C"
+        },
+        {
+         "q": "2  How will David get to the match?",
+         "ans": "B"
+        },
+        {
+         "q": "3  What time will the match begin?",
+         "ans": "C"
+        },
+        {
+         "q": "4  Who asked David to play in the match?",
+         "ans": "A"
+        },
+        {
+         "q": "5  How is David feeling now?",
+         "ans": "B"
+        }
+       ],
+       "exampleText": "Which sport is David going to play? = A (ví dụ)",
+       "answerText": [
+        "1 C",
+        "2 B",
+        "3 C",
+        "4 A",
+        "5 B"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 4 Listen and look. There is one example. Which sport is David going to play?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "David's going to have a busy weekend. He's got to play in a sports match."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What is it this time? Soccer?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Volleyball. That's his favourite sport now and he's good at it!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "So he enjoys that more than ice hockey, too?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the tick? Now you listen and tick the box."
+        },
+        {
+         "t": "ex",
+         "text": "1 Where will the match be?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Where will the match be? At the sports centre?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's right . . . He isn't happy about that. He wanted to play at the stadium!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Well perhaps he will in the future. He might be famous then."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Well, we should go and watch. It isn't very far from his school."
+        },
+        {
+         "t": "ex",
+         "text": "2 How will David get to the match?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Is the team going to travel to the match on the school bus?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No. I told the teacher that we can give David and two of his friends a lift."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Fine. That's easier than going by train."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "All right."
+        },
+        {
+         "t": "ex",
+         "text": "3 What time will the match begin?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What time should we arrive?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "We should get there before half past two. The game will start then."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "So . . . two o'clock?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, or two fifteen. He'll only need five minutes to change into his sports clothes."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "OK. Well I hope there won't be too much traffic on the roads."
+        },
+        {
+         "t": "ex",
+         "text": "4 Who asked David to play in the match?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "So who asked David to play? Was it his sports teacher?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Mrs Green? No. It was Harry's father, actually."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh. Is Harry one of the boys in the team?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's right."
+        },
+        {
+         "t": "ex",
+         "text": "5 How is David feeling now?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Where is David now? I'd like to talk to him. Is he worried about the game?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No, he isn't. He was feeling really tired, but he isn't now. He's repairing his skateboard outside."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh, yes! Why does he look so angry?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I think he needs another new wheel and he hasn't got any money."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No problem. I'll take him to the sports shop after lunch and get him one."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Great!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 4 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 4."
+        }
+       ]
+      },
+      {
+       "n": 5,
+       "type": "colour",
+       "title": "Listen and colour and write",
+       "vi": "Nghe và tô màu / viết chữ vào tranh. Có 1 ví dụ (cái gối trên sàn màu vàng).",
+       "audio": "media/a4t1_p5.mp3",
+       "pages": [
+        "media/a4t1_p5.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "palette": [
+        "black",
+        "blue",
+        "brown",
+        "green",
+        "grey",
+        "orange",
+        "pink",
+        "purple",
+        "red",
+        "yellow"
+       ],
+       "items": [
+        {
+         "kind": "colour",
+         "colour": "orange",
+         "target": [
+          455,
+          572
+         ],
+         "r": 36,
+         "text": "Colour the glove on the seat – orange (tô chiếc găng tay trên ghế màu cam)"
+        },
+        {
+         "kind": "colour",
+         "colour": "red",
+         "target": [
+          630,
+          342
+         ],
+         "r": 32,
+         "text": "Colour the butterfly the boy's looking at – red (tô con bướm mà cậu bé đang nhìn màu đỏ)"
+        },
+        {
+         "kind": "write",
+         "word": "frank",
+         "target": [
+          415,
+          805
+         ],
+         "r": 72,
+         "text": "Write FRANK on the largest drum on the floor (viết FRANK lên cái trống to nhất trên sàn)"
+        },
+        {
+         "kind": "write",
+         "word": "sleep",
+         "target": [
+          214,
+          312
+         ],
+         "r": 58,
+         "text": "Write SLEEP on the poster above the bed (viết SLEEP lên tấm áp phích phía trên giường)"
+        },
+        {
+         "kind": "colour",
+         "colour": "purple",
+         "target": [
+          570,
+          472
+         ],
+         "r": 30,
+         "text": "Colour the flag on the laptop screen – purple (tô lá cờ trên màn hình laptop màu tím)"
+        }
+       ],
+       "keyImg": "media/a4t1_key_p5.jpg",
+       "keyText": [
+        "1 Colour the glove on the seat – orange",
+        "2 Colour the butterfly the boy's looking at – red",
+        "3 Write FRANK on the largest drum on the floor",
+        "4 Write SLEEP on the poster above the bed",
+        "5 Colour the flag on the laptop screen – purple"
+       ],
+       "answerText": [
+        "1 Colour the glove on the seat – orange",
+        "2 Colour the butterfly the boy's looking at – red",
+        "3 Write FRANK on the largest drum on the floor",
+        "4 Write SLEEP on the poster above the bed",
+        "5 Colour the flag on the laptop screen – purple"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 5 Listen and look at the picture. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "This boy has quite a lot of fun in this room, I think! Can I colour this picture?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Well, you can colour some parts of it. Can you see the cushion?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "The one on the floor? Sure!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Excellent! Make that yellow, please."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK! There!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the yellow cushion? This is an example. Now you listen and colour and write."
+        },
+        {
+         "t": "ex",
+         "text": "1"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Let's colour one of the boy's gloves next."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "All right! Do you mean the one on the seat?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "That's right. How about colouring that orange?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Cool! I love that colour."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Good. So do I!"
+        },
+        {
+         "t": "ex",
+         "text": "2"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Can I colour something else in the room now?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, you can. Colour the butterfly."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "The one that the boy's looking at? All right. What colour shall I use?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Green, I think."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Could I colour it red instead? I think that will look better."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "If you want. OK!"
+        },
+        {
+         "t": "ex",
+         "text": "3"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'd like you to write something in the picture, too."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK. Where?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "On the largest drum in the middle of the room. Write FRANK."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Is that the boy's name, then?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, it is!"
+        },
+        {
+         "t": "ex",
+         "text": "4"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Can I do some more writing please? I really enjoy that."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Fine. Let's put a word on the piece of paper that's on the wall above the boy's bed, then."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK. I've got an idea. Can I write SLEEP?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "(laughs) Yes!"
+        },
+        {
+         "t": "ex",
+         "text": "5"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Perhaps you should colour that flag, too."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Do you mean the one that's by the brush and the TV?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Not that one. The other one. Can you see it? It's on the computer screen."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No problem!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Let's use purple for that . . . Brilliant! This picture looks a lot better now!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Hooray!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "(laughs)"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 5 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of the A2 Flyers Listening Test."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "no": 2,
+     "parts": [
+      {
+       "n": 1,
+       "type": "lines",
+       "title": "Listen and draw lines",
+       "vi": "Nghe và nối tên với đúng người trong tranh. Có 1 ví dụ (Harry đã nối sẵn).",
+       "audio": "media/a4t2_p1.mp3",
+       "pages": [
+        "media/a4t2_p1.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "names": [
+        {
+         "n": "Harry",
+         "box": [
+          145,
+          268,
+          54,
+          24
+         ],
+         "anchor": [
+          172,
+          308
+         ]
+        },
+        {
+         "n": "Betty",
+         "box": [
+          349,
+          266,
+          51,
+          24
+         ],
+         "anchor": [
+          374,
+          308
+         ]
+        },
+        {
+         "n": "Michael",
+         "box": [
+          572,
+          264,
+          75,
+          24
+         ],
+         "anchor": [
+          610,
+          308
+         ]
+        },
+        {
+         "n": "Sarah",
+         "box": [
+          783,
+          262,
+          56,
+          24
+         ],
+         "anchor": [
+          811,
+          308
+         ]
+        },
+        {
+         "n": "Holly",
+         "box": [
+          241,
+          1198,
+          48,
+          24
+         ],
+         "anchor": [
+          265,
+          1172
+         ]
+        },
+        {
+         "n": "Helen",
+         "box": [
+          475,
+          1197,
+          52,
+          24
+         ],
+         "anchor": [
+          501,
+          1172
+         ]
+        },
+        {
+         "n": "George",
+         "box": [
+          703,
+          1195,
+          66,
+          24
+         ],
+         "anchor": [
+          736,
+          1172
+         ]
+        }
+       ],
+       "items": [
+        {
+         "name": "Michael",
+         "target": [
+          608,
+          540
+         ],
+         "r": 60,
+         "text": "Michael và người đàn ông trên thang, tay cầm cái chổi"
+        },
+        {
+         "name": "Helen",
+         "target": [
+          715,
+          985
+         ],
+         "r": 75,
+         "text": "Helen và người phụ nữ đang nhặt giấy bỏ vào cái túi lớn"
+        },
+        {
+         "name": "Sarah",
+         "target": [
+          295,
+          580
+         ],
+         "r": 50,
+         "text": "Sarah và người phụ nữ đội mũ bảo hiểm, đang sửa mái nhà"
+        },
+        {
+         "name": "Betty",
+         "target": [
+          190,
+          810
+         ],
+         "r": 70,
+         "text": "Betty và người phụ nữ cạnh chậu cây, đang tưới cây"
+        },
+        {
+         "name": "George",
+         "target": [
+          828,
+          770
+         ],
+         "r": 60,
+         "text": "George và người đàn ông đứng trên ghế, đang sửa cái đèn"
+        }
+       ],
+       "keyImg": "media/a4t2_key_p1.jpg",
+       "keyText": [
+        "Lines should be drawn between:",
+        "1 Michael and the man on the ladder, with a brush in his hand",
+        "2 Helen and the woman putting paper into a big bag",
+        "3 Sarah and the woman fixing the roof, wearing a helmet",
+        "4 Betty and the woman next to the plants, watering them",
+        "5 George and the man standing on a seat, fixing the light"
+       ],
+       "answerText": [
+        "1 Michael",
+        "2 Helen",
+        "3 Sarah",
+        "4 Betty",
+        "5 George"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Hello. This is the Cambridge Assessment English A2 Flyers Listening Test."
+        },
+        {
+         "t": "ex",
+         "text": "Part 1 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "What are all these people doing, Grandpa?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "This is an old railway station that people haven't used for a long time. These are my friends. They want trains to stop here again."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "That's great! Who's that man? He's wearing a baseball cap and he's cleaning the windows."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, they were really dirty! His name's Harry."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Oh, yes. He lives in our street, doesn't he?"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the line? This is an example. Now you listen and draw lines."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Everyone's very busy."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, well, there's a lot to do before the station can open again."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Is that your friend Michael with a brush in his hand?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, that's right. He's not afraid of climbing up buildings!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "No, he isn't."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "What's that woman doing with that big bag?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The woman who's standing on the platform?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "No, she's got lots of papers in her hands."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh, yes. They were all over the ground, so she's collecting them all together and then she's going to take them away."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Is her name Helen?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, that's right."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Was the station roof broken?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes. Some parts of it were missing."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "And who's that who's fixing it?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "That's Sarah. She's good at that."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "I'm glad she's wearing a helmet. It could be dangerous up there."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Those plants look lovely, don't they?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes. Betty bought those and she's looking after them."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Does she have to water them a lot?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, every day when it's hot weather."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Wow!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "And who's that with the light?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "That woman who's reading something?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "No, the man who's standing on the seat."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "That's George."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "This station's going to be brilliant, Grandpa. Can we come and see the trains later in the year?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, of course. We can go on one if you like!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 1 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 1."
+        }
+       ]
+      },
+      {
+       "n": 2,
+       "type": "fill",
+       "title": "Listen and write",
+       "vi": "Nghe và viết từ/cụm từ còn thiếu (Visiting Daisy). Có 1 ví dụ: Friday to Sunday.",
+       "audio": "media/a4t2_p2.mp3",
+       "pages": [
+        "media/a4t2_p2.jpg"
+       ],
+       "items": [
+        {
+         "pre": "Travel by:",
+         "post": "",
+         "acc": [
+          "car"
+         ],
+         "show": "car"
+        },
+        {
+         "pre": "Journey time:",
+         "post": "minutes",
+         "acc": [
+          "45",
+          "about 45",
+          "forty-five",
+          "forty five",
+          "about forty-five",
+          "about forty five"
+         ],
+         "show": "(about) 45"
+        },
+        {
+         "pre": "Going to see rock band called: The",
+         "post": "Boys",
+         "acc": [
+          "birthday"
+         ],
+         "show": "Birthday"
+        },
+        {
+         "pre": "Sunday picnic near: a",
+         "post": "",
+         "acc": [
+          "lake"
+         ],
+         "show": "lake"
+        },
+        {
+         "pre": "Take for Daisy's mum: a",
+         "post": "made of shells",
+         "acc": [
+          "bracelet",
+          "present"
+         ],
+         "show": "bracelet / present"
+        }
+       ],
+       "answerText": [
+        "1 car",
+        "2 (about) 45",
+        "3 Birthday",
+        "4 lake",
+        "5 bracelet / present"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 2 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Sophia, there's an email here from your friend Daisy's mom. They're inviting you to visit them."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That's really cool, Mom. I was sad when Daisy's family went to live in another town. When can I go there?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "They'd like you to arrive on Friday and come home on Sunday evening."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the answer? Now you listen and write."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I've never been to Daisy's before. How can I get there? On the train?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I can give you a ride in the car on my way to work."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Thanks, Mom. Is it a long way?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No, not really. If the traffic's OK, it takes about forty-five minutes."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That's great. Are Daisy and I going to do anything special?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, you are. You're going to go to a concert."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Will that be boring?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I don't think so, Sophia. You're going to see a rock band!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Really? What's their name?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Let me look in the email. They're called, um . . . The Birthday Boys."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "What?! Oh, Mom. That's great. They're fantastic! I listen to their music all the time!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's good, then."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes, it really is."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "And on Sunday, you're going to go for a picnic by a river. Oh no, sorry, it's going to be by a lake."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That sounds great."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I think you should take a present for Daisy's mom."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "You're right. What can we buy her?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How about a nice necklace?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I've got a better idea. Do you know what, Mom? I'm going to make a lovely bracelet for her with those little shells. Do you remember – we found them on the beach?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's a lovely idea, Sophia."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Thanks. I'm going to start it now. Can I do it on the kitchen table?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, of course but put some newspaper down first!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 2 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 2."
+        }
+       ]
+      },
+      {
+       "n": 3,
+       "type": "match",
+       "title": "Listen and write a letter in each box",
+       "vi": "Lớp của Lucy đi đâu cùng mỗi thầy cô? Chọn chữ cái A–H. Có 1 ví dụ: sports teacher = B.",
+       "audio": "media/a4t2_p3.mp3",
+       "pages": [
+        "media/a4t2_p3a.jpg",
+        "media/a4t2_p3b.jpg"
+       ],
+       "letters": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+       ],
+       "items": [
+        {
+         "lab": "maths teacher",
+         "ans": "A",
+         "note": "castle"
+        },
+        {
+         "lab": "art teacher",
+         "ans": "E",
+         "note": "restaurant"
+        },
+        {
+         "lab": "science teacher",
+         "ans": "F",
+         "note": "factory"
+        },
+        {
+         "lab": "geography teacher",
+         "ans": "D",
+         "note": "airport"
+        },
+        {
+         "lab": "history teacher",
+         "ans": "G",
+         "note": "hotel"
+        }
+       ],
+       "exampleText": "sports teacher = B (ví dụ)",
+       "answerText": [
+        "1 maths teacher – A (castle)",
+        "2 art teacher – E (restaurant)",
+        "3 science teacher – F (factory)",
+        "4 geography teacher – D (airport)",
+        "5 history teacher – G (hotel)"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 3 Listen and look. There is one example. Last month, Lucy's teachers took her class to different places in the town. Where did the class go with each teacher?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Are you enjoying your new school, Lucy?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes thanks, Aunt Emma. Our teachers took us to different places in town last month. It was really interesting."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Did you go somewhere with the sports teacher?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. He wanted us to practise running faster. We're too slow when we're in races."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "So, did you go to the stadium?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes, we did. It's very big! I was really tired after that!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the letter B? Now you listen and write a letter in each box."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Your school sounds great, Lucy. Where else did you go with your teachers?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That new factory in Long Road."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Who took you there?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Our science teacher. They're making some really amazing computers there."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Can you buy them in the shops?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No, they're only for big businesses."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "What about the history teacher?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "We went out with her last Thursday."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Did you go to the museum?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "My mum asked me that! No, we didn't. We went to the hotel in the High Street."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Really? Why?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Because they built it three hundred years ago. A lot of famous people stayed there. You can still see some of the things that they forgot to take home with them!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "My favourite day was with our maths teacher."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Did you go to the bank and count the money?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "(laughs) No, we didn't. We went to the castle."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Really? What did you do there?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "We looked at things like the clothes and the beds of the people that lived there. We had to decide if people today are taller. We're much bigger!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "You went to a lot of places."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. Guess where we went with the geography teacher."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Er . . . the airport?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes. We're learning about all the countries in the world. So we went to see where you can travel to from there."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Who's your favourite teacher?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Mr Black. He teaches us art."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "And I think he took you to the museum to see some paintings!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Wrong again! There's a big restaurant in the square. Some artists are showing their paintings there this week. So we went there."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Were they good?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes, very. And the cake that he bought for us there was very good, too!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 3 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 3."
+        }
+       ]
+      },
+      {
+       "n": 4,
+       "type": "mc",
+       "title": "Listen and tick the box",
+       "vi": "Nghe và chọn tranh đúng (A, B hoặc C). Có 1 ví dụ: What did Uncle Robert do with his friends last night? – A (xem bóng đá trên tivi).",
+       "audio": "media/a4t2_p4.mp3",
+       "pages": [
+        "media/a4t2_p4a.jpg",
+        "media/a4t2_p4b.jpg"
+       ],
+       "choices": [
+        "A",
+        "B",
+        "C"
+       ],
+       "items": [
+        {
+         "q": "1  Where should Katy put the clean glasses?",
+         "ans": "C"
+        },
+        {
+         "q": "2  What did Uncle Robert and his friends eat?",
+         "ans": "B"
+        },
+        {
+         "q": "3  Who is the best player in the football team?",
+         "ans": "A"
+        },
+        {
+         "q": "4  Which sport is Uncle Robert best at?",
+         "ans": "C"
+        },
+        {
+         "q": "5  What does Uncle Robert want to show Katy later?",
+         "ans": "A"
+        }
+       ],
+       "exampleText": "What did Uncle Robert do with his friends last night? = A (ví dụ)",
+       "answerText": [
+        "1 C",
+        "2 B",
+        "3 A",
+        "4 C",
+        "5 A"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 4 Listen and look. There is one example. What did Uncle Robert do with his friends last night?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Uncle Robert! Why is your living room so untidy?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "My friends came round yesterday evening."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "For a party?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No. They came to watch a football game."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Do they always make the house untidy like this?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No. Last week they came and played computer games and everything was fine."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the tick? Now you listen and tick the box."
+        },
+        {
+         "t": "ex",
+         "text": "1 Where should Katy put the clean glasses?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Can I help you to tidy the living room, Uncle Robert?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes please, Katy."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK. Where shall I put these clean glasses? In the kitchen cupboard?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "They're not mine. I have to give them back to my friend."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Shall I put them in the hall?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Put them by the oven. I don't want anyone to fall over them."
+        },
+        {
+         "t": "ex",
+         "text": "2 What did Uncle Robert and his friends eat?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Did you and your friends eat pizza last night?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "We just had pasta because it's quick and easy to cook."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I love that too. What's your favourite food?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh, meat and vegetables, I think."
+        },
+        {
+         "t": "ex",
+         "text": "3 Who is the best player in the football team?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Who won the game last night?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "My team!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Great. Who's the best player? That one with long hair? He always wears orange shoes."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Not now. Their new player's the best. He wears black shoes."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Has he got blond, curly hair?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Well, it is curly but it's dark."
+        },
+        {
+         "t": "ex",
+         "text": "4 Which sport is Uncle Robert best at?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Are you good at football, Uncle Robert?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I was, but I do most of my sports in the mountains now."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "So, what are you best at?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Well, when I first went there, I always skied. But I won a snowboarding competition last winter, so I think I'm best at that now."
+        },
+        {
+         "t": "ex",
+         "text": "5 What does Uncle Robert want to show Katy later?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Did you get a prize for winning the competition?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, but I didn't get a cup. Just a delicious dinner. You can see me eating it in this photo."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Great."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "But I do have a video of me winning the race. Shall I show it to you?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK. But shall we do that later? Let's finish tidying first."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "You're right! No more chatting!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 4 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 4."
+        }
+       ]
+      },
+      {
+       "n": 5,
+       "type": "colour",
+       "title": "Listen and colour and write",
+       "vi": "Nghe và tô màu / viết chữ vào tranh. Có 1 ví dụ (phi hành gia mặc đồ màu vàng).",
+       "audio": "media/a4t2_p5.mp3",
+       "pages": [
+        "media/a4t2_p5.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "palette": [
+        "black",
+        "blue",
+        "brown",
+        "green",
+        "grey",
+        "orange",
+        "pink",
+        "purple",
+        "red",
+        "yellow"
+       ],
+       "items": [
+        {
+         "kind": "colour",
+         "colour": "green",
+         "target": [
+          745,
+          845
+         ],
+         "r": 52,
+         "text": "Colour the head of the alien with the cup of tea – green (tô cái đầu của người ngoài hành tinh đang cầm tách trà màu xanh lá)"
+        },
+        {
+         "kind": "write",
+         "word": "rocket",
+         "target": [
+          155,
+          813
+         ],
+         "r": 40,
+         "text": "Write ROCKET above 'stop' on the board (viết ROCKET phía trên chữ 'stop' trên tấm biển)"
+        },
+        {
+         "kind": "colour",
+         "colour": "red",
+         "target": [
+          418,
+          670
+         ],
+         "r": 85,
+         "text": "Colour the planet with holes in it – red (tô hành tinh có nhiều lỗ màu đỏ)"
+        },
+        {
+         "kind": "colour",
+         "colour": "purple",
+         "target": [
+          490,
+          962
+         ],
+         "r": 55,
+         "text": "Colour the star on the right, with the friendly face – purple (tô ngôi sao bên phải có khuôn mặt thân thiện màu tím)"
+        },
+        {
+         "kind": "write",
+         "word": "rainbow",
+         "target": [
+          585,
+          470
+         ],
+         "r": 68,
+         "text": "Write RAINBOW on the side of the spaceship (viết RAINBOW lên thân tàu vũ trụ)"
+        }
+       ],
+       "keyImg": "media/a4t2_key_p5.jpg",
+       "keyText": [
+        "1 Colour the head of the alien with the cup of tea – green",
+        "2 Write ROCKET above 'stop' on the board",
+        "3 Colour the planet with holes in it – red",
+        "4 Colour the star on the right, with the friendly face – purple",
+        "5 Write RAINBOW on the side of the spaceship"
+       ],
+       "answerText": [
+        "1 Colour the head of the alien with the cup of tea – green",
+        "2 Write ROCKET above 'stop' on the board",
+        "3 Colour the planet with holes in it – red",
+        "4 Colour the star on the right, with the friendly face – purple",
+        "5 Write RAINBOW on the side of the spaceship"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 5 Listen and look at the picture. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "What's that picture, William?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "It's cool, isn't it? It's from a really funny story that I'm reading about space."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "But it's just in black and white. Do you want to colour it?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "That's a good idea."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "OK. Let's start with the astronaut then. He's just flying around."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Right. I'm going to make his clothes yellow."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. Do that now."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the astronaut's yellow clothes? This is an example. Now you listen and colour and write."
+        },
+        {
+         "t": "ex",
+         "text": "1"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "What shall I colour next?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How about an alien?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Which one? The one with some tea?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, OK. I didn't know that aliens drink from cups."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "They do in this story!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "It sounds great! OK. Colour his head green."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "That's a good colour for him, I think!"
+        },
+        {
+         "t": "ex",
+         "text": "2"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Shall I write something now?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. Can you see that board with 'stop' on it?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Shall I write ROCKET on it?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Excellent. Do you know how to spell that?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Yes, thanks."
+        },
+        {
+         "t": "ex",
+         "text": "3"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "The planets look interesting."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Yes, I'm going to colour one of them red."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Which one? The one with rings round it?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "No, the other one. It's got lots of holes in it."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Right. Would you like to visit that one?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Yes, I would! I'm colouring it now."
+        },
+        {
+         "t": "ex",
+         "text": "4"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "What about colouring a star now? You could make it purple."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. I'm going to do the one on the left."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "But the one on the right has a more friendly face."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Yes, it does. I'll colour that one."
+        },
+        {
+         "t": "ex",
+         "text": "5"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "And some more writing now, I think."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. Why don't you write a name on that spaceship?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. What shall I write?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Well, it's in the sky. Can you think of another word about the sky?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "RAINBOW?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, great idea. Let's call it that."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "I'm writing that word now."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's a great picture, William. You've really improved it!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 5 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of the A2 Flyers Listening Test."
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "no": 3,
+     "parts": [
+      {
+       "n": 1,
+       "type": "lines",
+       "title": "Listen and draw lines",
+       "vi": "Nghe và nối tên với đúng người trong tranh. Có 1 ví dụ (Frank đã nối sẵn).",
+       "audio": "media/a4t3_p1.mp3",
+       "pages": [
+        "media/a4t3_p1.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "names": [
+        {
+         "n": "Emma",
+         "box": [
+          144,
+          266,
+          57,
+          24
+         ],
+         "anchor": [
+          173,
+          308
+         ]
+        },
+        {
+         "n": "Frank",
+         "box": [
+          365,
+          265,
+          52,
+          24
+         ],
+         "anchor": [
+          391,
+          308
+         ]
+        },
+        {
+         "n": "Helen",
+         "box": [
+          585,
+          264,
+          53,
+          24
+         ],
+         "anchor": [
+          612,
+          308
+         ]
+        },
+        {
+         "n": "George",
+         "box": [
+          783,
+          263,
+          67,
+          24
+         ],
+         "anchor": [
+          817,
+          308
+         ]
+        },
+        {
+         "n": "Sophia",
+         "box": [
+          231,
+          1194,
+          64,
+          24
+         ],
+         "anchor": [
+          263,
+          1168
+         ]
+        },
+        {
+         "n": "Harry",
+         "box": [
+          471,
+          1193,
+          53,
+          24
+         ],
+         "anchor": [
+          498,
+          1168
+         ]
+        },
+        {
+         "n": "Katy",
+         "box": [
+          712,
+          1192,
+          42,
+          24
+         ],
+         "anchor": [
+          733,
+          1168
+         ]
+        }
+       ],
+       "items": [
+        {
+         "name": "Sophia",
+         "target": [
+          790,
+          830
+         ],
+         "r": 65,
+         "text": "Sophia và cô bé đang trượt băng, quàng khăn sọc"
+        },
+        {
+         "name": "George",
+         "target": [
+          210,
+          945
+         ],
+         "r": 75,
+         "text": "George và cậu bé đeo găng tay xanh, đang làm thân người tuyết"
+        },
+        {
+         "name": "Harry",
+         "target": [
+          635,
+          650
+         ],
+         "r": 70,
+         "text": "Harry và cậu bé đi ủng lông, đang kéo xe trượt"
+        },
+        {
+         "name": "Emma",
+         "target": [
+          700,
+          440
+         ],
+         "r": 60,
+         "text": "Emma và cô bé đang trượt nhanh xuống dốc, ngồi trên chiếc đệm hồng"
+        },
+        {
+         "name": "Katy",
+         "target": [
+          650,
+          1085
+         ],
+         "r": 65,
+         "text": "Katy và cô bé nằm trên mặt đất, chỉ còn một chiếc ván trượt"
+        }
+       ],
+       "keyImg": "media/a4t3_key_p1.jpg",
+       "keyText": [
+        "Lines should be drawn between:",
+        "1 Sophia and the girl ice skating, wearing a striped scarf",
+        "2 George and the boy wearing blue gloves, making the body of a snowman",
+        "3 Harry and the boy pulling a sledge, wearing furry boots",
+        "4 Emma and the girl going fast downhill, sitting on a pink cushion",
+        "5 Katy and the girl lying on the ground, wearing one ski"
+       ],
+       "answerText": [
+        "1 Sophia",
+        "2 George",
+        "3 Harry",
+        "4 Emma",
+        "5 Katy"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Hello. This is the Cambridge Assessment English A2 Flyers Listening Test."
+        },
+        {
+         "t": "ex",
+         "text": "Part 1 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "What a great picture!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Thank you, Mr Little! We had such a lot of fun on the mountain on Saturday. Look at my friend Frank!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The boy who's snowboarding?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "With the yellow helmet. That's right! He's amazing!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the line? This is an example. Now you listen and draw lines."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Do you know the names of everyone in this picture?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I know most of them. That girl is called Sophia."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "The girl on the ice with a striped scarf around her neck?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "In front of the penguins. Yes!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "How many times did she fall over?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "(laughs) I can't remember!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "And that boy, the one who's making another snowman . . . his name's George."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Do you mean the one who's touching the snowman's face?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "No, the boy who's wearing blue gloves. He's only made the snowman's body. He hasn't finished it yet."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Right! OK."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "And there's Harry. He's really kind."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Which person are you talking about now?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That boy! The one who's pulling the girl on the sledge."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Do you mean the boy in the furry boots?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes! I'd like some like that."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Me too!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "And who's that? She's going so fast down the hill!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "That's Emma. She's really brave. She isn't afraid of anything!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Oh! Why is she sitting on a pink cushion?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I don't know. I'll ask her tomorrow."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I think I know that girl."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "The one in the green jacket?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Not her. The girl who's fallen over. She's only wearing one ski now. I hope she was OK. Her name's Katy, isn't it?"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Yes! How do you know her?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "She sometimes plays chess with my daughter."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Oh!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 1 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 1."
+        }
+       ]
+      },
+      {
+       "n": 2,
+       "type": "fill",
+       "title": "Listen and write",
+       "vi": "Nghe và viết từ/cụm từ còn thiếu (Summer festival). Có 1 ví dụ: 15th July.",
+       "audio": "media/a4t3_p2.mp3",
+       "pages": [
+        "media/a4t3_p2.jpg"
+       ],
+       "items": [
+        {
+         "pre": "Most famous band: The",
+         "post": "",
+         "acc": [
+          "wolves"
+         ],
+         "show": "Wolves"
+        },
+        {
+         "pre": "In: park by the",
+         "post": "",
+         "acc": [
+          "stadium"
+         ],
+         "show": "stadium"
+        },
+        {
+         "pre": "Competition prize: a pair of",
+         "post": "",
+         "acc": [
+          "sunglasses",
+          "sun glasses",
+          "cool sunglasses",
+          "cool sun glasses",
+          "really cool sunglasses",
+          "really cool sun glasses"
+         ],
+         "show": "(really cool) sunglasses / sun glasses"
+        },
+        {
+         "pre": "Phone number for more information:",
+         "post": "",
+         "acc": [
+          "088619",
+          "088 619"
+         ],
+         "show": "088619"
+        },
+        {
+         "pre": "Take: an",
+         "post": "",
+         "acc": [
+          "umbrella"
+         ],
+         "show": "umbrella"
+        }
+       ],
+       "answerText": [
+        "1 Wolves",
+        "2 stadium",
+        "3 (really cool) sunglasses / sun glasses",
+        "4 088619",
+        "5 umbrella"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 2 Listen and look. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Hi, Miss Farmer. Can you tell me more about the summer festival?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Of course. What do you want to know?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "The date! I know it's on the fifteenth, but . . ."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "It'll be on the fifteenth of July. Wait a minute . . . yes, that's right."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Great. I'll text that to my friends."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Brilliant!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the answer? Now you listen and write."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Do you know which bands will be there yet?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Well, I think the most famous one is called 'The Wolves'. Have you heard any of their music? They're a rock band."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "I'm not sure. Do you spell that W–O–L–V–E–S?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's right. They're really great."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "And where is the festival this year?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "It'll be in the park."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Which one? The one by the river?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No, that isn't big enough. The one that's next to the stadium."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. Thanks. And there's a competition, I think!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes, for the best funny hat. The prize is a pair of . . ."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Let me guess! Roller skates? I'd love a pair of those!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No! Sunglasses. Some really cool ones."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Wow! Where can I find out some more information?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "You can call zero eight eight six one nine. There's a message on that number with everything you need to know about tickets and the times that things start, for example."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Right. Is there anything else that I should tell my parents?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Oh! People shouldn't take any food with them – you can buy some there. But if you and your friends do go, take an umbrella! One year it rained and rained!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "We won't forget! Thanks."
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 2 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 2."
+        }
+       ]
+      },
+      {
+       "n": 3,
+       "type": "match",
+       "title": "Listen and write a letter in each box",
+       "vi": "Bố của Holly tìm thấy gì ở mỗi nơi trong nhà? Chọn chữ cái A–H. Có 1 ví dụ: balcony = A.",
+       "audio": "media/a4t3_p3.mp3",
+       "pages": [
+        "media/a4t3_p3a.jpg",
+        "media/a4t3_p3b.jpg"
+       ],
+       "letters": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H"
+       ],
+       "items": [
+        {
+         "lab": "steps",
+         "ans": "F",
+         "note": "money"
+        },
+        {
+         "lab": "cooker",
+         "ans": "H",
+         "note": "scissors"
+        },
+        {
+         "lab": "gate",
+         "ans": "C",
+         "note": "key"
+        },
+        {
+         "lab": "basement",
+         "ans": "G",
+         "note": "stamps"
+        },
+        {
+         "lab": "swing",
+         "ans": "B",
+         "note": "bracelet"
+        }
+       ],
+       "exampleText": "balcony = A (ví dụ)",
+       "answerText": [
+        "1 steps – F (money)",
+        "2 cooker – H (scissors)",
+        "3 gate – C (key)",
+        "4 basement – G (stamps)",
+        "5 swing – B (bracelet)"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 3 Listen and look. There is one example. Holly's father is telling Holly about some things he found at home. What did he find in each place?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Hi, Holly! I tidied our home while you were at school today . . . inside and outside. I found something of yours on the balcony."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "What, Dad? Was it something that I lost?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes, your comb! The one your cousin gave you. Here you are!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Wow! Thanks! I looked everywhere for that."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I know you did!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the letter A? Now you listen and write a letter in each box."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'm very pleased that I found this old key."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Oh! Where was that?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "On the ground by the gate. I found it when I was cutting the grass."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "It's lovely. It's really old, isn't it?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes. My grandfather always opened and closed his favourite cupboard with it."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "What about my trainers, Dad? Did you find those too? I don't know where they are."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'm sorry, Holly. No, I didn't."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Oh dear!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "But I found this by the swing. It's your lucky bracelet!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "But it's broken."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I can fix it. Don't worry."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'm lucky, too! I found this money."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Where?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "On the steps outside. I saw it when I went out to the post office this morning."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "And you didn't use it to buy some more stamps?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "And look! These were under the cooker. I saw them when I was cleaning the floor."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "My little scissors! Excellent! I like to keep those with my glue for when I'm making my model dinosaurs. Perhaps I dropped them . . ."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes. Perhaps you did. Well, wash and dry them carefully before you take them to your room."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "All right."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "And last . . . well, you asked me about getting some more stamps. . . . Look!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "Four of them. And they're all the same!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Yes. Guess where I found these!"
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "I don't know . . ."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "In the basement. They were under a box down there. They're very unusual. Come on. Let's try to find a picture of them online. They might be really old."
+        },
+        {
+         "t": "d",
+         "who": "GIRL",
+         "text": "OK!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 3 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 3."
+        }
+       ]
+      },
+      {
+       "n": 4,
+       "type": "mc",
+       "title": "Listen and tick the box",
+       "vi": "Nghe và chọn tranh đúng (A, B hoặc C). Có 1 ví dụ: Who is Michael going to go to the theatre with? – C (một cô bé).",
+       "audio": "media/a4t3_p4.mp3",
+       "pages": [
+        "media/a4t3_p4a.jpg",
+        "media/a4t3_p4b.jpg"
+       ],
+       "choices": [
+        "A",
+        "B",
+        "C"
+       ],
+       "items": [
+        {
+         "q": "1  How did Michael find out about the special evening at the theatre?",
+         "ans": "C"
+        },
+        {
+         "q": "2  How will Michael travel to the theatre?",
+         "ans": "A"
+        },
+        {
+         "q": "3  What time does Michael want to arrive at the theatre?",
+         "ans": "B"
+        },
+        {
+         "q": "4  What will Michael be most interested in?",
+         "ans": "B"
+        },
+        {
+         "q": "5  Where are the theatre tickets?",
+         "ans": "C"
+        }
+       ],
+       "exampleText": "Who is Michael going to go to the theatre with? = C (ví dụ)",
+       "answerText": [
+        "1 C",
+        "2 A",
+        "3 B",
+        "4 B",
+        "5 C"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 4 Listen and look. There is one example. Who is Michael going to go to the theatre with?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Hello, Mr Roberts. How's your son?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Good morning, Mrs Day. Oh, you mean Michael? He's very excited actually. He's going to go to the theatre tonight. Some actors are going to come and talk about their work."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That sounds interesting. Is he going with you and your wife?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No. He's going with his older sister."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Lovely! But I've forgotten her name . . ."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Zoe. She has the same name as her grandmother. She wants to be an actor one day."
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the tick? Now you listen and tick the box."
+        },
+        {
+         "t": "ex",
+         "text": "1 How did Michael find out about the special evening at the theatre?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How did Michael find out about this special evening with the actors?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "He read about it in a magazine."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Was that on a website?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No, it wasn't. He phoned all his friends about it! I think quite a lot of them are going to go, too."
+        },
+        {
+         "t": "ex",
+         "text": "2 How will Michael travel to the theatre?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "They wanted to travel to the theatre on the train this evening, but the station is too far away."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Well, could they go there on the bus?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "That's not easy. I told them to go in a taxi. They were happy about that."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Good! That's the quickest way too, I think."
+        },
+        {
+         "t": "ex",
+         "text": "3 What time does Michael want to arrive at the theatre?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Will Michael have to go before dinner?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No. We'll eat early. He wants to leave home just before seven o'clock."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Oh. So what time will he arrive at the theatre?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "It starts at half past seven. Michael says he wants to be there by a quarter past, so they'll have enough time to find their seats."
+        },
+        {
+         "t": "ex",
+         "text": "4 What will Michael be most interested in?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How do actors remember all the things they have to say?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Ha! I don't know, but Michael isn't very interested in hearing about that."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Why not?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'm not sure. He's much more interested in finding out about building the things you see on the stage."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Well, I'm always interested in the actors' costumes. I make all my clothes!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "Do you? Well done!"
+        },
+        {
+         "t": "ex",
+         "text": "5 Where are the theatre tickets?"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "But I've got to go now, Mrs Day. Michael's just sent me a text. He can't find the tickets! He's looked in all his pockets."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Oh dear. I hope he didn't drop them in the street!"
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "No, don't worry. I know where they are. I put them in my diary."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Good. Well, I hope it'll be fun."
+        },
+        {
+         "t": "d",
+         "who": "MAN",
+         "text": "I'm sure it will. See you tomorrow. Bye!"
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 4 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of Part 4."
+        }
+       ]
+      },
+      {
+       "n": 5,
+       "type": "colour",
+       "title": "Listen and colour and write",
+       "vi": "Nghe và tô màu / viết chữ vào tranh. Có 1 ví dụ (lâu đài màu hồng).",
+       "audio": "media/a4t3_p5.mp3",
+       "pages": [
+        "media/a4t3_p5.jpg"
+       ],
+       "W": 992,
+       "H": 1404,
+       "palette": [
+        "black",
+        "blue",
+        "brown",
+        "green",
+        "grey",
+        "orange",
+        "pink",
+        "purple",
+        "red",
+        "yellow"
+       ],
+       "items": [
+        {
+         "kind": "colour",
+         "colour": "purple",
+         "target": [
+          235,
+          770
+         ],
+         "r": 45,
+         "text": "Colour the newspaper in the man's hands – purple (tô tờ báo trong tay người đàn ông màu tím)"
+        },
+        {
+         "kind": "write",
+         "word": "deep",
+         "target": [
+          810,
+          638
+         ],
+         "r": 45,
+         "text": "Write DEEP above 'water' on the sign (viết DEEP phía trên chữ 'water' trên tấm biển)"
+        },
+        {
+         "kind": "colour",
+         "colour": "green",
+         "target": [
+          855,
+          805
+         ],
+         "r": 55,
+         "text": "Colour the swan that's not being fed – green (tô con thiên nga không được cho ăn màu xanh lá)"
+        },
+        {
+         "kind": "colour",
+         "colour": "red",
+         "target": [
+          235,
+          628
+         ],
+         "r": 40,
+         "text": "Colour the bin by the man selling ice cream – red (tô thùng rác cạnh người bán kem màu đỏ)"
+        },
+        {
+         "kind": "write",
+         "word": "centre",
+         "target": [
+          262,
+          962
+         ],
+         "r": 45,
+         "text": "Write CENTRE after 'city' on the signpost (viết CENTRE sau chữ 'city' trên biển chỉ đường)"
+        }
+       ],
+       "keyImg": "media/a4t3_key_p5.jpg",
+       "keyText": [
+        "1 Colour the newspaper in the man's hands – purple",
+        "2 Write DEEP above 'water'",
+        "3 Colour the swan that's not being fed – green",
+        "4 Colour the bin by the man selling ice cream – red",
+        "5 Write CENTRE after 'city'"
+       ],
+       "answerText": [
+        "1 Colour the newspaper in the man's hands – purple",
+        "2 Write DEEP above 'water'",
+        "3 Colour the swan that's not being fed – green",
+        "4 Colour the bin by the man selling ice cream – red",
+        "5 Write CENTRE after 'city'"
+       ],
+       "script": [
+        {
+         "t": "ex",
+         "text": "Part 5 Listen and look at the picture. There is one example."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I'd like you to do some colouring and writing here."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Sure! What can I colour first?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "How about the castle? The one on the hill. Make it pink, please."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "No problem. There!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Great!"
+        },
+        {
+         "t": "ex",
+         "text": "Can you see the pink castle? This is an example. Now you listen and colour and write."
+        },
+        {
+         "t": "ex",
+         "text": "1"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Can I colour something purple, next? That's my favourite colour."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "All right. Let me think. I know! Colour the newspaper that the older man is holding."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Fine. I'll do that now."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Excellent."
+        },
+        {
+         "t": "ex",
+         "text": "2"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "We also need to write something on the board. The one that's on the rock in the middle of the lake."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. Above the word 'water'?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes. Write DEEP there."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "All right. So it'll be difficult for that boy to get his football back?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Yes!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Oh dear. He won't be pleased!"
+        },
+        {
+         "t": "ex",
+         "text": "3"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Now some more colouring. Find the colour green and use it to colour one of the swans."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "The one that the girl is feeding? It looks very hungry."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "No. I meant the other one, actually."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "OK. But I've never seen one that colour!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "(laughs) I know. It's all right."
+        },
+        {
+         "t": "ex",
+         "text": "4"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Those lights are unusual . . ."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Would you like to colour one of them?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "I'd prefer to colour the bin by the man who's selling ice cream. It'll be easier!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "That's a good idea. What colour? You choose."
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "I'll make it red. That'll look good."
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "I agree."
+        },
+        {
+         "t": "ex",
+         "text": "5"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "And let's add another word here. Are you good at spelling?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Not always! What should I write?"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Can you write CENTRE after the word 'city'?"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "Oh! On the other board? Yes, I can. There!"
+        },
+        {
+         "t": "d",
+         "who": "WOMAN",
+         "text": "Very good. This picture looks a bit more interesting now. Thank you!"
+        },
+        {
+         "t": "d",
+         "who": "BOY",
+         "text": "You're welcome."
+        },
+        {
+         "t": "ex",
+         "text": "Now listen to Part 5 again."
+        },
+        {
+         "t": "note",
+         "text": "[The recording is repeated.]"
+        },
+        {
+         "t": "ex",
+         "text": "That is the end of the A2 Flyers Listening Test."
+        }
+       ]
+      }
+     ]
+    }
+   ]
   }
  ]
 }
