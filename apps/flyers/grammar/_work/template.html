@@ -748,7 +748,11 @@ function actEl(a, l) {
   const wrap = h('div.act'), bank = h('div.bank'), tgt = h('div.tgts' + (a.mode === 'bucket' ? '.buckets' : '.slots')), msg = h('div.amsg');
   let sel = null, left = 0, wrongN = 0;
   const norm = t => String(t).trim().toLowerCase();
-  const chips = (a.mode === 'bucket' ? a.chips : a.chips.map(c => ({ label: c })));
+  /* xáo ngẫu nhiên mỗi lần mở bài: chữ không được xếp theo thứ tự câu / thứ tự nhóm (không bị trùng thứ tự gốc) */
+  const base = (a.mode === 'bucket' ? a.chips : a.chips.map(c => ({ label: c })));
+  const chips = (() => { let r, k = 0; const same = r => r.every((x, i) => x === base[i]);
+    do { r = base.map(x => [Math.random(), x]).sort((u, v) => u[0] - v[0]).map(x => x[1]); } while (base.length > 1 && same(r) && ++k < 20);
+    return r; })();
   const chipEl = (c, i) => { const e = h('div.chip' + (c.art || c.emo ? '.big' : ''), { 'data-i': i, tabindex: '0', role: 'button' }, c.emo ? h('span.ce', c.emo) : null, c.art ? h('div.cart', artEl(c.art)) : null, h('span', c.label)); e._c = c; return e; };
   const doneAll = () => { upd(p => { p.act[a.id] = true; }); msg.className = 'amsg ok'; msg.textContent = '🎉 Giỏi quá! Em làm đúng hết rồi!'; wrap.classList.add('fin'); const btn = document.getElementById('goPractice'); if (btn && actsDone(l)) { btn.disabled = false; btn.classList.add('pulse'); btn.textContent = 'Em đã hiểu ✓ Luyện tập ' + l.practice.length + ' câu →'; } };
   const attempt = (chip, t) => {
