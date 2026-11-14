@@ -100,6 +100,10 @@
           "name": "SPEAKING"
         },
         {
+          "id": "listening",
+          "name": "LISTENING"
+        },
+        {
           "id": "grammar",
           "name": "GRAMMAR"
         },
@@ -1201,6 +1205,16 @@
       "desc": "12 thẻ màu sắc: hình + tên màu + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
       "added": "2026-11-01T04:45:03.000Z",
       "updated": "2026-11-01T05:00:42.000Z"
+    },
+    {
+      "id": "listening-authentic",
+      "title": "Listening Test – Cambridge Authentic (nghe + làm bài + chấm)",
+      "cur": "flyers",
+      "unit": "listening",
+      "file": "apps/flyers/listening/listening.html",
+      "kind": "app",
+      "desc": "Nghe audio từng Part, xem trang sách, làm bài trên web rồi chấm; chế độ Cô có Đáp án và Script.",
+      "added": "2026-11-14T08:20:00.000Z"
     }
   ]
 }
