@@ -1250,6 +1250,18 @@
       "desc": "12 thẻ màu sắc: hình + tên màu + nghĩa + nghe. Chế độ Học thẻ và Luyện tập.",
       "added": "2026-11-01T04:45:03.000Z",
       "updated": "2026-11-01T05:00:42.000Z"
+    },
+    {
+      "id": "word-family-gs8u1-wf8a",
+      "title": "WORD FAMILY",
+      "cur": "gs8",
+      "unit": "unit-1-lb16",
+      "file": "apps/gs8/unit-1-lb16/word-family-gs8u1-wf8a.png",
+      "kind": "image",
+      "orig": "word-family-unit-1.png",
+      "size": 749620,
+      "desc": "Bảng 20 từ: Verb – Noun – Adjective – Adverb – Meaning",
+      "added": "2026-11-15T11:27:39.000Z"
     }
   ]
 }
