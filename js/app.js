@@ -290,7 +290,8 @@
       h("a.btn" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"));
   }
   /* ---------- link gửi học sinh (dán vào Zalo, Messenger…) ---------- */
-  const hwUrl = id => location.origin + location.pathname + "#/hw/" + id;
+  /* "?p=2" làm Zalo/Messenger coi đây là địa chỉ mới nên lấy lại hình & tên xem trước mới (link cũ thì khung xem trước đã bị các app đó nhớ) */
+  const hwUrl = id => location.origin + location.pathname + "?p=2#/hw/" + id;
   const copyHwLink = x => L.copyText(x.title + "\n" + hwUrl(x.id));
   L.hwUrl = hwUrl; L.copyHwLink = copyHwLink;
   async function unitView(cid, uid) {
