@@ -827,7 +827,7 @@
       const kids = [];
       if (sortMode === "unit" && g.c) {
         const used = new Set();
-        (g.c.units || []).forEach(u => {
+        (g.c.units || []).slice().reverse().forEach(u => {   // unit cao nhất (học sinh đang học tới) nằm trên, Unit 1 nằm dưới
           const a = g.items.filter(x => x.unitId === u.id); if (!a.length) return;
           a.forEach(x => used.add(x)); kids.push(unitHead(u.name, a.length)); a.sort(byNew).forEach(x => kids.push(rowOf(x)));
         });
@@ -843,7 +843,7 @@
     const listBox = h("div"), tabsBox = h("div.tabs", { style: "margin:0" });
     const drawTabs = () => {
       tabsBox.innerHTML = "";
-      [["unit", "Theo unit (tăng dần)"], ["new", "Mới nhất trước"]].forEach(([k, t]) => tabsBox.append(h("button" + (sortMode === k ? ".on" : ""), { title: k === "unit" ? "Trong mỗi giáo trình: Unit 1, 2, 3… và bài mới nhất nằm trên cùng mỗi unit" : "Giáo trình có bài mới nhất lên đầu; trong giáo trình, bài mới tạo nằm trên cùng", onclick: () => { sortMode = k; try { localStorage.setItem(SORT_KEY, k); } catch (e) { } drawTabs(); draw(); } }, t)));
+      [["unit", "Theo unit (mới học nhất ở trên)"], ["new", "Mới nhất trước"]].forEach(([k, t]) => tabsBox.append(h("button" + (sortMode === k ? ".on" : ""), { title: k === "unit" ? "Trong mỗi giáo trình: Unit 1, 2, 3… và bài mới nhất nằm trên cùng mỗi unit" : "Giáo trình có bài mới nhất lên đầu; trong giáo trình, bài mới tạo nằm trên cùng", onclick: () => { sortMode = k; try { localStorage.setItem(SORT_KEY, k); } catch (e) { } drawTabs(); draw(); } }, t)));
     };
     const draw = () => {
       listBox.innerHTML = "";
