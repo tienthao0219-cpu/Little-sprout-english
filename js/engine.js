@@ -434,7 +434,13 @@
       const rows = buf.splice(0).filter(l => !isSep(l)).map(l => l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim()));
       /* Bảng chỉ có 1 cột (vd khung "KHẮC CỐT GHI TÂM"): hiện thành khung chữ tự xuống dòng, không kéo ngang */
       if (rows.length && rows.every(r => r.length === 1)) {
-        root.append(h("div.callout", rows.map(r => h("div.rline", rich(r[0])))));
+        /* file Word nối các dòng trong ô bằng " · " và gạch đầu dòng "•": tách lại thành từng dòng cho dễ đọc */
+        const pieces = [];
+        rows.forEach(r => String(r[0] || "").split(/\s+·\s+/).forEach(t => { t = t.replace(/^[\s·]+/, "").trim(); if (t && t !== "•") pieces.push(t); }));
+        root.append(h("div.callout", pieces.map(t => {
+          const bul = /^[•\-–]\s*/.test(t) && t.length > 2;
+          return h("div.rline" + (bul ? ".bul" : ""), rich(bul ? t.replace(/^[•\-–]\s*/, "") : t));
+        })));
         return;
       }
       const head = rows.shift();
