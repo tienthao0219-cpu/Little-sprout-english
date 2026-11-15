@@ -230,7 +230,12 @@
       "name": "Global Success 7",
       "emoji": "📙",
       "tint": 2,
-      "units": []
+      "units": [
+        {
+          "id": "unit-4-oos7",
+          "name": "UNIT 4"
+        }
+      ]
     },
     {
       "id": "gs8",
