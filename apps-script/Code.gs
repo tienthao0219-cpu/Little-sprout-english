@@ -38,6 +38,10 @@ function doPost(e) {
   if (body.action === 'spgGrade') {
     try { return json_(spgGrade_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
   }
+  // AI soạn bài tập từ ảnh cũng gọi Gemini (20-90 giây): xử lý riêng, không giữ khoá chung
+  if (body.action === 'hwAi') {
+    try { return json_(hwAi_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
+  }
   const lock = LockService.getScriptLock();
   try {
     lock.waitLock(20000);
@@ -550,6 +554,58 @@ function spgGrade_(b) {
   const parsed = spgParseJson_(text);
   if (!parsed) throw new Error('Không đọc được kết quả của Gemini' + (cand && cand.finishReason === 'MAX_TOKENS' ? ' (bị cắt giữa chừng, thử lại)' : '') + '. Hãy bấm chấm lại.');
   return { ok: true, raw: parsed, model: model, usage: data.usageMetadata || null };
+}
+
+/* ============================================================
+   AI SOẠN BÀI TẬP TỪ ẢNH SÁCH (Gemini) — chỉ dành cho cô giáo
+   Dùng chung GEMINI_API_KEY / GEMINI_MODEL với Chấm Speaking. Lời nhắc do trang web dựng sẵn (theo đúng cú pháp từng dạng bài).
+   ============================================================ */
+const HWAI_MAX_IMAGES = 8;
+const HWAI_MAX_B64 = 15 * 1024 * 1024;   // tổng dữ liệu ảnh (Gemini nhận tối đa 20 MB cả yêu cầu)
+
+function hwAi_(b) {
+  const a = auth_(b);
+  if (!a || a.role !== 'teacher') throw new Error('Chỉ dành cho cô giáo');
+  const key = spgProps_().getProperty('GEMINI_API_KEY');
+  if (!key) throw new Error('Chưa cài khoá Gemini. Vào Apps Script -> Cài đặt dự án -> Thuộc tính tập lệnh -> thêm GEMINI_API_KEY (xem HUONG-DAN.md).');
+  const model = String(spgProps_().getProperty('GEMINI_MODEL') || SPG_DEFAULT_MODEL).trim();
+  if (!/^[a-zA-Z0-9._-]{3,60}$/.test(model)) throw new Error('GEMINI_MODEL không hợp lệ: ' + model);
+  const prompt = String(b.prompt || '');
+  if (prompt.length < 200 || prompt.length > 40000) throw new Error('Lời nhắc không hợp lệ.');
+  const imgs = (Array.isArray(b.images) ? b.images : []).slice(0, HWAI_MAX_IMAGES).filter(function (im) {
+    return im && /^image\/(jpeg|png|webp)$/.test(String(im.mimeType || '')) && String(im.data || '').length > 500;
+  });
+  if (!imgs.length) throw new Error('Chưa nhận được ảnh nào.');
+  let total = 0; imgs.forEach(function (im) { total += String(im.data).length; });
+  if (total > HWAI_MAX_B64) throw new Error('Ảnh quá nặng. Chọn ít ảnh hơn (tối đa khoảng 8 ảnh) rồi thử lại.');
+
+  const is3 = /gemini-3/.test(model);
+  const gen = { responseMimeType: 'application/json', maxOutputTokens: is3 ? 32768 : 16384 };
+  if (!is3) gen.temperature = 0.3;
+  if (is3) gen.thinkingConfig = { thinkingLevel: 'medium' };
+  else if (/2\.5-flash/.test(model) && !/lite/.test(model)) gen.thinkingConfig = { thinkingBudget: 2048 };
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(model) + ':generateContent';
+  const parts = [{ text: prompt }];
+  imgs.forEach(function (im) { parts.push({ inlineData: { mimeType: im.mimeType, data: String(im.data) } }); });
+  const payload = function (withThink) {
+    const g = JSON.parse(JSON.stringify(gen));
+    if (withThink === false) delete g.thinkingConfig;
+    return JSON.stringify({ contents: [{ role: 'user', parts: parts }], generationConfig: g });
+  };
+  let res = spgFetch_(url, key, payload(true));
+  if (res.code === 400 && /thinking/i.test(res.text)) res = spgFetch_(url, key, payload(false));
+  if (res.code !== 200) throw new Error(spgHttpError_(res, model));
+
+  let data;
+  try { data = JSON.parse(res.text); } catch (e) { throw new Error('Gemini trả về dữ liệu lạ, hãy thử lại.'); }
+  if (data.promptFeedback && data.promptFeedback.blockReason) throw new Error('Gemini từ chối xử lý ảnh này (' + data.promptFeedback.blockReason + ').');
+  const cand = data.candidates && data.candidates[0];
+  const rp = cand && cand.content && cand.content.parts || [];
+  const text = rp.map(function (p) { return p.text || ''; }).join('').trim();
+  if (!text) throw new Error('Gemini không trả về nội dung' + (cand && cand.finishReason ? ' (' + cand.finishReason + ')' : '') + '. Thử lại hoặc dùng ảnh rõ hơn.');
+  const parsed = spgParseJson_(text);
+  if (!parsed) throw new Error('Không đọc được kết quả của Gemini' + (cand && cand.finishReason === 'MAX_TOKENS' ? ' (bị cắt giữa chừng: chọn ít dạng bài hoặc ít câu hơn)' : '') + '. Hãy bấm soạn lại.');
+  return { ok: true, raw: parsed, model: model };
 }
 
 function spgFetch_(url, key, body) {

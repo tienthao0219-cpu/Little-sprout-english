@@ -740,7 +740,7 @@
     };
     const draw = () => {
       body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn", { title: "Chụp/chọn ảnh sách, AI tự soạn cả bài (khung lý thuyết + các phần câu hỏi có đáp án)", onclick: () => aiHwModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }) }, "✨ AI soạn bài từ ảnh"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
         list.length ? list.map(x => {
           const c = L.cur(x.curId);
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
@@ -1169,6 +1169,83 @@
         upd();
       };
       draw1();
+      return box;
+    }, { wide: true, sticky: true });
+  }
+
+  /* ---------- AI soạn bài từ ảnh sách (Gemini) ---------- */
+  function aiHwModal(onDone) {
+    if (L.api.isDemo()) { toast("Chế độ demo chưa dùng được AI. Cần kết nối Apps Script thật.", 4500); return; }
+    const A = L.aihw;
+    L.modal(close => {
+      let lastCur = ""; try { lastCur = localStorage.getItem("lse_last_cur") || ""; } catch (e) { }
+      if (!L.cur(lastCur)) lastCur = "";
+      const st = { files: [], urls: [], cur: lastCur, unit: "", theory: true, note: "", pick: {}, busy: false, err: "", res: null, keyMissing: false };
+      A.allowed().forEach(c => { st.pick[c[0]] = { on: c[2], n: c[1] }; });
+      const box = h("div"), tName = id => ((L.hw.TYPE || {})[id] || {}).label || id;
+      const finish = () => { st.urls.forEach(u => URL.revokeObjectURL(u)); close(); };
+      L.api.call("spgInfo").then(r => { if (r && r.hasKey === false) { st.keyMissing = true; draw(); } }).catch(() => { });
+      const run = async () => {
+        const types = A.allowed().filter(c => st.pick[c[0]].on).map(c => ({ id: c[0], n: st.pick[c[0]].n }));
+        st.err = "";
+        if (!st.files.length) { st.err = "Chọn ít nhất 1 ảnh sách trước nhé."; draw(); return; }
+        if (!types.length) { st.err = "Chọn ít nhất 1 dạng bài để AI soạn."; draw(); return; }
+        if (!st.cur) { st.err = "Chọn giáo trình cho bài tập trước nhé."; draw(); return; }
+        st.busy = true; draw();
+        try {
+          const imgs = []; let tot = 0;
+          for (const f of st.files.slice(0, A.MAX_IMAGES)) { const x = await A.shrink(f); tot += x.data.length; imgs.push({ mimeType: x.mimeType, data: x.data }); }
+          if (tot > A.MAX_TOTAL_B64) throw new Error("Ảnh quá nặng. Chọn ít ảnh hơn rồi thử lại.");
+          const cu = L.cur(st.cur), un = cu && (cu.units || []).find(u => u.id === st.unit);
+          const level = [cu && cu.name, un && un.name].filter(Boolean).join(" – ");
+          const prompt = A.buildPrompt({ types, theory: st.theory, note: st.note, level });
+          const r = await L.api.call("hwAi", { prompt, images: imgs });
+          st.res = A.check(r.raw, types.map(t => t.id));
+          try { localStorage.setItem("lse_last_cur", st.cur); } catch (e) { }
+        } catch (e) { st.err = e.message || String(e); if (/Hành động không hợp lệ/.test(st.err)) st.err = "Máy chủ Apps Script chưa được cập nhật bản mới có tính năng AI soạn bài. Cô dán lại file apps-script/Code.gs rồi Triển khai → Quản lý triển khai → Sửa → Phiên bản mới (xem HUONG-DAN.md)."; }
+        st.busy = false; draw();
+      };
+      const draw = () => {
+        box.innerHTML = "";
+        box.append(h("h3", { style: "margin-top:0" }, "✨ AI soạn bài tập từ ảnh sách"));
+        if (st.busy) {
+          box.append(h("div.hint", { style: "text-align:center;padding:26px 10px" }, h("div", { style: "font-size:34px" }, "🤖"), h("b", "AI đang đọc ảnh và soạn bài…"), h("div.small.muted", { style: "margin-top:6px" }, "Thường mất 30–90 giây. Cô đừng đóng cửa sổ này nhé.")));
+          return;
+        }
+        if (st.res) {
+          const r = st.res;
+          box.append(h("div.hint", { style: "margin-bottom:10px" }, h("b", "Xong rồi! "), "AI soạn được " + r.secs.length + " phần" + (r.desc ? " + khung lý thuyết đầu bài" : "") + ". Cô bấm \"Mở để xem & chỉnh\", đọc lại từng câu và đáp án rồi mới lưu nhé (AI có thể sai)."));
+          if (r.title) box.append(h("div", { style: "margin-bottom:6px" }, h("b", "Tên bài: "), r.title));
+          if (r.desc) box.append(h("details", { style: "margin-bottom:8px" }, h("summary", { style: "cursor:pointer;font-weight:700" }, "Xem khung lý thuyết đầu bài"), h("div.shared.guide", L.richBlock ? L.richBlock(r.desc) : r.desc)));
+          box.append(h("div", { style: "max-height:36vh;overflow:auto" }, r.secs.map((s, i) => h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", String(i + 1)),
+            h("div.grow", h("b", s.title), h("div.small.muted", tName(s.type) + " · " + s.n + " câu"), s.errors.length ? h("div.small", { style: "color:#b4234a;margin-top:3px" }, "⚠ " + s.errors.join(" · ")) : null)))));
+          if (r.notes.length) box.append(h("div.hint", { style: "margin-top:8px;background:var(--butter,#fff6d6)" }, h("b", "AI ghi chú cho cô:"), r.notes.map(n => h("div.small", "• " + n))));
+          box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" },
+            h("button.btn.ghost", { onclick: () => { st.res = null; draw(); } }, "← Soạn lại"), h("button.btn.ghost", { onclick: finish }, "Đóng"),
+            h("button.btn.mint", { onclick: () => { const secs = r.secs.map(s => ({ title: s.title, type: s.type, desc: "", topic: "", raw: s.raw, tfLabels: "en" })); finish(); onDone(r.title, secs, { curId: st.cur, unitId: st.unit }, r.desc || ""); } }, "✨ Mở để xem & chỉnh")));
+          return;
+        }
+        box.append(h("div.hint", "Chọn ảnh trang sách (rõ nét, chữ in) rồi bấm soạn. AI chỉ dùng nội dung trong ảnh, soạn cả khung lý thuyết và các phần câu hỏi có đáp án. Ảnh được gửi cho Gemini để đọc."));
+        if (st.keyMissing) box.append(h("div.hint", { style: "margin-top:8px;background:var(--rose,#ffe1e8)" }, "Chưa cài khoá Gemini nên chưa soạn được. Vào Apps Script › Cài đặt dự án › Thuộc tính tập lệnh, thêm GEMINI_API_KEY (giống phần Chấm Speaking)."));
+        const fi = h("input", { type: "file", accept: "image/*", multiple: true, class: "hidden", onchange: e => { st.files = Array.from(e.target.files).slice(0, A.MAX_IMAGES); st.urls.forEach(u => URL.revokeObjectURL(u)); st.urls = st.files.map(f => URL.createObjectURL(f)); draw(); } });
+        box.append(h("div.row", { style: "margin-top:10px" }, h("button.btn.sky", { onclick: () => fi.click() }, "🖼️ Chọn ảnh sách (tối đa " + A.MAX_IMAGES + " ảnh)"), fi), h("div.row", { style: "gap:8px;margin-top:8px" }, st.urls.map(u => h("img", { src: u, style: "height:84px;border-radius:10px;border:2px solid var(--line,#eee)" }))));
+        const lc = L.cur(st.cur);
+        box.append(h("div.two", { style: "margin-top:12px" },
+          h("label.field", h("span", "Giáo trình *"), selCur(L.state.manifest, st.cur, v => { st.cur = v; st.unit = ""; draw(); }, "— Chọn giáo trình —")),
+          h("label.field", h("span", "Unit / chủ đề"), selUnit(lc, st.unit, v => { st.unit = v; }))));
+        box.append(h("label.row", { style: "gap:8px;cursor:pointer;margin-top:10px" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: st.theory, onchange: e => { st.theory = e.target.checked; } }), "📖 Soạn khung lý thuyết ở đầu bài (bảng, ví dụ lấy từ ảnh)"));
+        box.append(h("h4", { style: "margin:14px 0 6px" }, "Các dạng bài muốn AI soạn"));
+        box.append(h("div.stack", A.allowed().map(c => {
+          const p = st.pick[c[0]];
+          return h("div.row", { style: "gap:8px;align-items:center" },
+            h("label.row", { style: "gap:8px;cursor:pointer;flex:1" }, h("input", { type: "checkbox", style: "width:20px;height:20px", checked: p.on, onchange: e => { p.on = e.target.checked; } }), (L.hw.TYPE[c[0]].emoji || "") + " " + tName(c[0])),
+            h("select", { style: "width:92px", onchange: e => { p.n = +e.target.value; } }, A.COUNTS.map(n => h("option", { value: n, selected: n === p.n }, n + " câu"))));
+        })));
+        box.append(h("label.field", { style: "margin-top:12px" }, h("span", "Dặn thêm AI (không bắt buộc)"), h("textarea", { rows: 3, placeholder: "Ví dụ: câu dễ hơn; chỉ dùng từ trong bảng trang 2; mỗi câu có giải thích ngắn…", oninput: e => { st.note = e.target.value; } }, st.note)));
+        if (st.err) box.append(h("div.err", { style: "margin-top:8px" }, st.err));
+        box.append(h("div.row", { style: "justify-content:flex-end;margin-top:14px" }, h("button.btn.ghost", { onclick: finish }, "Đóng"), h("button.btn.mint", { onclick: run }, "✨ Soạn bài")));
+      };
+      draw();
       return box;
     }, { wide: true, sticky: true });
   }

@@ -343,3 +343,10 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - Kết quả "chỉ nhận xét" lưu trong Lịch sử với nhãn **Nhận xét**, cột điểm hiển thị "—". Không cần cập nhật Apps Script.
 - Nút **Chọn file HTML bài dạy** trong Cấu hình bài điền sẵn từ vựng, cụm từ, âm IPA, ngữ pháp, đề nói từ file slide của cô. App chỉ chép chữ có trong file và chưa lưu cho đến khi cô bấm Lưu.
 - Có thể up cả file video (mp4, mov); app chỉ lấy phần tiếng, tối đa 5 phút.
+
+
+## AI soạn bài tập từ ảnh sách (✨ AI soạn bài từ ảnh)
+Ở khu giáo viên › **Bài tập**, nút **✨ AI soạn bài từ ảnh**: chọn ảnh sách, chọn giáo trình/unit, chọn các dạng bài và số câu, bấm **Soạn bài**. AI (Gemini) đọc ảnh và soạn khung lý thuyết + các phần câu hỏi có đáp án, rồi mở sang trang soạn bài để cô xem lại và chỉnh trước khi lưu.
+- Dùng chung khoá `GEMINI_API_KEY` (và `GEMINI_MODEL`) với phần Chấm Speaking, không cần cài thêm.
+- Lần đầu: dán lại toàn bộ `apps-script/Code.gs` vào Apps Script rồi **Triển khai → Quản lý triển khai → Sửa → Phiên bản mới → Triển khai** (bước này bắt buộc thì máy chủ mới hiểu lệnh `hwAi`).
+- Ảnh được thu nhỏ trên máy cô (tối đa 8 ảnh, mỗi ảnh ≤ 1600 px) rồi gửi cho Gemini. AI chỉ được dặn dùng nội dung trong ảnh, nhưng vẫn có thể sai: luôn đọc lại câu và đáp án.
