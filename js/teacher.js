@@ -802,7 +802,7 @@
     const rowOf = x => {
       const c = L.cur(x.curId);
       return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
-            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần" + (ts(x) ? " · tạo " + sd(ts(x)) : "")), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng"), isNew(x) ? h("span.pill.butter", { style: "margin-left:6px" }, "🆕 Mới") : null, doneLine(x)),
+            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần" + (ts(x) ? " · tạo " + sd(ts(x)) : "")), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng"), isNew(x) ? h("span.pill.butter", { style: "margin-left:6px" }, "🆕 Mới") : null, doneLine(x), assignChip(x)),
             h("button.btn.sm.mint", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(x) }, "🔗 Sao chép link"),
             h("button.btn.sm.sky", { title: "Đổi nhanh tiêu đề, mô tả, giáo trình, unit (tự lưu)", onclick: () => quickEditModal(x) }, "⚡ Sửa nhanh"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id, title: "Sửa toàn bộ nội dung bài" }, "Sửa"),
@@ -822,17 +822,34 @@
               return menu;
             })());
     };
-    const unitHead = (name, n) => h("div", { style: "margin:14px 2px 0;font-weight:800;color:var(--lav-d);display:flex;gap:8px;align-items:center" }, "🔖 " + name, h("span.small.muted", n + " bài"));
+    /* giao bài cho học viên ngay trên danh sách (không phải mở từng bài): lưu = đọc bài, đổi meta.assignedTo, ghi lại; [] = tất cả học viên */
+    const saveAssign = async (x, v) => {
+      const hw = (await L.api.call("hwGet", { id: x.id })).hw; hw.meta = hw.meta || {};
+      hw.meta.assignedTo = v; await L.api.call("hwSave", { hw }); x.assignedTo = v;
+    };
+    const assignChip = x => {
+      const a = Array.isArray(x.assignedTo) ? x.assignedTo : [];
+      return h("button.hwasg" + (a.length ? ".some" : ""), { title: "Bấm để chọn học viên được thấy bài này", onclick: () => pickStudents(a, async v => {
+        try { await saveAssign(x, v); L.state.hwList = null; toast(v.length ? "Đã giao riêng cho " + v.length + " học viên ✓" : "Bài này hiện cho tất cả học viên ✓"); draw(); } catch (e) { toast(e.message, 5000); }
+      }, "Bài \"" + x.title + "\" chỉ hiện cho các học viên được chọn. Chọn tất cả hoặc không chọn ai = cả lớp đều thấy.") },
+        a.length ? "👥 Giao riêng: " + a.slice(0, 3).join(", ") + (a.length > 3 ? " +" + (a.length - 3) : "") : "👥 Cả lớp");
+    };
+    const unitHead = (name, n, items) => h("div", { style: "margin:14px 2px 0;font-weight:800;color:var(--lav-d);display:flex;gap:8px;align-items:center;flex-wrap:wrap" }, "🔖 " + name, h("span.small.muted", n + " bài"),
+      items && items.length > 1 ? h("button.btn.sm.ghost", { title: "Chọn học viên một lần cho tất cả bài trong unit này", onclick: () => pickStudents([], async v => {
+        let ok = 0; toast("Đang giao " + items.length + " bài…", 4000);
+        for (const x of items) { try { await saveAssign(x, v); ok++; } catch (e) { console.warn(e); } }
+        L.state.hwList = null; toast("Đã giao " + ok + "/" + items.length + " bài" + (v.length ? " cho " + v.length + " học viên" : " cho cả lớp") + " ✓", 5000); draw();
+      }, "Áp dụng cho cả " + items.length + " bài trong " + name + ". Chọn tất cả hoặc không chọn ai = cả lớp đều thấy (ghi đè cách giao cũ của các bài này).") }, "👥 Giao cả unit") : null);
     const groupBox = g => {
       const kids = [];
       if (sortMode === "unit" && g.c) {
         const used = new Set();
         (g.c.units || []).slice().reverse().forEach(u => {   // unit cao nhất (học sinh đang học tới) nằm trên, Unit 1 nằm dưới
           const a = g.items.filter(x => x.unitId === u.id); if (!a.length) return;
-          a.forEach(x => used.add(x)); kids.push(unitHead(u.name, a.length)); a.sort(byNew).forEach(x => kids.push(rowOf(x)));
+          a.forEach(x => used.add(x)); kids.push(unitHead(u.name, a.length, a)); a.sort(byNew).forEach(x => kids.push(rowOf(x)));
         });
         const rest = g.items.filter(x => !used.has(x));
-        if (rest.length) { kids.push(unitHead("Chưa gắn unit", rest.length)); rest.sort(byNew).forEach(x => kids.push(rowOf(x))); }
+        if (rest.length) { kids.push(unitHead("Chưa gắn unit", rest.length, rest)); rest.sort(byNew).forEach(x => kids.push(rowOf(x))); }
       } else g.items.slice().sort(byNew).forEach(x => kids.push(rowOf(x)));
       const det = h("details.fold.hwgrp", h("summary", h("span", "📚 " + g.name), h("span.pill.sky", g.items.length + " bài"), g.newest ? h("span.small.muted", "mới nhất " + sd(g.newest)) : null), h("div", kids));
       det.open = !!q || openSet.has(g.key);
