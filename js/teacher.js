@@ -1175,6 +1175,27 @@
       h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"),
       h("button.btn.sky", { onclick: () => ocrModal(secs => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ ảnh. Cô xem lại từng phần nhé."); }) }, "📷 Tạo phần từ ảnh sách"));
     const saveStatus = h("div");
+    /** Cảnh báo trùng: lúc lưu BÀI MỚI, nếu cùng giáo trình đã có bài giống (cùng unit + tên gần giống, hoặc trùng hẳn tên) thì hỏi lại, kèm ai đã làm rồi */
+    const dupCheck = async () => {
+      if (id !== "new") return true;
+      let all = []; try { all = await L.loadHw(true); } catch (e) { return true; }
+      const key = t => L.plain(t).replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+      const words = t => new Set(key(t).split(" ").filter(w => w.length > 1));
+      const mine = key(hw.title), mw = words(hw.title);
+      if (!mine) return true;
+      const sim = o => {
+        const k = key(o.title); if (!k) return false;
+        if (k === mine || k.includes(mine) || mine.includes(k)) return true;
+        const ow = words(o.title); let n = 0; mw.forEach(w => { if (ow.has(w)) n++; });
+        return n >= 2 && n / Math.max(1, Math.min(mw.size, ow.size)) >= 0.8;
+      };
+      const same = all.filter(o => o.id !== hw.id && o.curId === hw.curId && ((o.unitId || "") === (hw.unitId || "") ? sim(o) : key(o.title) === mine));
+      if (!same.length) return true;
+      const cache = L.state.hwSubsCache, who = o => { if (!cache) return ""; const n = new Set(cache.subs.filter(x => x.hwId === o.id && x.name !== CFG.teacherName).map(x => x.name)).size; return n ? ", " + n + " học viên đã làm" : ", chưa ai làm"; };
+      const c = L.cur(hw.curId);
+      return L.confirmBox("Có thể bài này đã được tạo rồi: " + same.slice(0, 3).map(o => "“" + o.title + "” (" + (c ? c.name : "") + (o.unitId && c ? " · " + L.unitName(c, o.unitId) : "") + (o.created ? ", tạo " + sdShort(o.created) : "") + who(o) + ")").join("; ") + (same.length > 3 ? " …" : "") + ". Vẫn lưu thêm bài mới?", "Vẫn lưu");
+    };
+    const sdShort = t => { const d = new Date(t), p = n => String(n).padStart(2, "0"); return isNaN(d) ? "" : p(d.getDate()) + "/" + p(d.getMonth() + 1); };
     const doSave = async (after) => {
       saveStatus.innerHTML = "";
       if (!hw.title.trim()) { saveStatus.append(h("div.err", "Nhập tiêu đề bài tập.")); return; }
@@ -1184,7 +1205,9 @@
       if (firstBad >= 0 && secsBox.children[firstBad] && secsBox.children[firstBad].jumpErr) secsBox.children[firstBad].jumpErr();
       if (bad.some(b => /chưa có câu/.test(b))) { saveStatus.append(h("div.err", bad.filter(b => /chưa có câu/.test(b)).map(b => h("div", "• " + b)))); return; }
       if (bad.length && !(await L.confirmBox(bad.join("\n") + "\nVẫn lưu bài?", "Vẫn lưu"))) return;
-      hw.meta.nItems = nItems; hw.meta.nSections = hw.sections.length; hw.title = hw.title.trim();
+      hw.title = hw.title.trim();
+      if (!(await dupCheck())) return;
+      hw.meta.nItems = nItems; hw.meta.nSections = hw.sections.length;
       hw.meta.title = hw.title;
       try {
         const payload = JSON.parse(JSON.stringify(hw));
