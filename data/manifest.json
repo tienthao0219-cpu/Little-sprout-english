@@ -108,18 +108,6 @@
           "name": "REVIEW"
         },
         {
-          "id": "unit-5-5x5z",
-          "name": "UNIT 5"
-        },
-        {
-          "id": "unit-6-5365",
-          "name": "UNIT 6"
-        },
-        {
-          "id": "unit-7-o88s",
-          "name": "UNIT 7"
-        },
-        {
           "id": "unit-1-tfka",
           "name": "UNIT 1"
         },
@@ -134,6 +122,18 @@
         {
           "id": "unit-4-5yam",
           "name": "UNIT 4"
+        },
+        {
+          "id": "unit-5-5x5z",
+          "name": "UNIT 5"
+        },
+        {
+          "id": "unit-6-5365",
+          "name": "UNIT 6"
+        },
+        {
+          "id": "unit-7-o88s",
+          "name": "UNIT 7"
         },
         {
           "id": "unit-8-uu06",
@@ -232,28 +232,28 @@
       "tint": 2,
       "units": [
         {
-          "id": "unit-3-wljn",
-          "name": "UNIT 3"
-        },
-        {
-          "id": "unit-5-8jma",
-          "name": "UNIT 5"
-        },
-        {
-          "id": "unit-4-oos7",
-          "name": "UNIT 4"
-        },
-        {
-          "id": "review-d7ee",
-          "name": "REVIEW"
-        },
-        {
           "id": "unit-1-0wyf",
           "name": "UNIT 1"
         },
         {
           "id": "unit-2-2iay",
           "name": "UNIT 2"
+        },
+        {
+          "id": "unit-3-wljn",
+          "name": "UNIT 3"
+        },
+        {
+          "id": "unit-4-oos7",
+          "name": "UNIT 4"
+        },
+        {
+          "id": "unit-5-8jma",
+          "name": "UNIT 5"
+        },
+        {
+          "id": "review-d7ee",
+          "name": "REVIEW"
         }
       ]
     },
@@ -264,12 +264,12 @@
       "tint": 5,
       "units": [
         {
-          "id": "unit-2-life-in-country-side-tuzg",
-          "name": "UNIT 2_LIFE IN COUNTRY SIDE"
+          "id": "unit-1-lb16",
+          "name": "UNIT 1"
         },
         {
-          "id": "nhan-am-kvu3",
-          "name": "NHẤN ÂM"
+          "id": "unit-2-life-in-country-side-tuzg",
+          "name": "UNIT 2_LIFE IN COUNTRY SIDE"
         },
         {
           "id": "unit-3-kaie",
@@ -280,12 +280,16 @@
           "name": "UNIT 4"
         },
         {
+          "id": "nhan-am-kvu3",
+          "name": "NHẤN ÂM"
+        },
+        {
           "id": "review-q3jo",
           "name": "REVIEW"
         },
         {
-          "id": "unit-1-lb16",
-          "name": "UNIT 1"
+          "id": "word-family-ghaz",
+          "name": "WORD FAMILY"
         }
       ]
     },
