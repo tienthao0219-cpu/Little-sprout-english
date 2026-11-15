@@ -232,12 +232,12 @@
       "tint": 2,
       "units": [
         {
-          "id": "unit-4-oos7",
-          "name": "UNIT 4"
-        },
-        {
           "id": "unit-3-wljn",
           "name": "UNIT 3"
+        },
+        {
+          "id": "unit-4-oos7",
+          "name": "UNIT 4"
         },
         {
           "id": "unit-5-8jma",
