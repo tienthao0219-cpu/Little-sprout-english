@@ -82,9 +82,15 @@ window.LSE = window.LSE || {};
 
   /* ---- bài đọc dạng phiếu: "Task 1: Match…" (ghép từ với nghĩa), "Task 2: … True (T) or False (F)", đoạn văn chung ---- */
   /* đề do NotebookLM / Gemini soạn: mỗi phần mở bằng dòng đậm "PART I. PRONUNCIATION & STRESS (1.0 point)" rồi mới tới dòng yêu cầu */
-  const PARTHEAD = /^\s*(?:part|phần|section)\s+([ivx]{1,5}|\d{1,2})\s*[.:\-–)]\s*(.+)$/i;
+  /* "PHẦN I: …", "PART 2 – …", "PHẦN I (CÂU 1-15): …", "Phần II" (đứng một mình) */
+  const PARTHEAD = /^\s*(?:part|phần|section)\s+([ivx]{1,5}|\d{1,2})\s*(?:\([^)]*\)\s*)?(?:[.:\-–)]\s*(.*))?$/i;
+  /* "I. TRẮC NGHIỆM …", "II) TỰ LUẬN …" (số La Mã + chữ in hoa) cũng là tiêu đề phần */
+  const ROMANHEAD = /^\s*([IVX]{1,4})\s*[.)]\s+(\S.{2,})$/;
+  const mostlyUpper = t => { const l = t.replace(/[^A-Za-zÀ-ỹ]/g, ""); return l.length >= 4 && l.replace(/[^A-ZÀ-Ỵ]/g, "").length / l.length >= 0.75; };
+  /* dòng tiêu đề nhóm xen giữa các câu: "★ UNIT 1: HOBBIES", "UNIT 2: HEALTHY LIVING" — không thuộc câu nào */
+  const isSubHead = t => t.length < 90 && (/^\s*[★☆]\s*\S/.test(t) || (/^\s*(?:unit|bài|lesson|topic|chủ\s*đề)\s*\d+\s*[:.\-–]/i.test(t) && mostlyUpper(t.replace(/^\s*\S+\s*\d+\s*[:.\-–]/, ""))));
   const romanInt = r => { r = String(r).toUpperCase(); if (/^\d+$/.test(r)) return +r; const v = { I: 1, V: 5, X: 10 }; let n = 0; for (let i = 0; i < r.length; i++) { const a = v[r[i]] || 0, b = v[r[i + 1]] || 0; n += a < b ? -a : a; } return n; };
-  const partPretty = (no, rest) => "Part " + no + " · " + rest.replace(/\s*\((?:[^()]*(?:point|điểm|pts?)[^()]*)\)\s*$/i, "").replace(/\s+/g, " ").trim().toLowerCase().replace(/(^|[\s&\/-])(\S)/g, (m, a, b) => a + b.toUpperCase());
+  const partPretty = (no, rest) => !String(rest || "").trim() ? "Part " + no : "Part " + no + " · " + rest.replace(/\s*\((?:[^()]*(?:point|điểm|pts?)[^()]*)\)\s*$/i, "").replace(/\s+/g, " ").trim().toLowerCase().replace(/(^|[\s&\/-])(\S)/g, (m, a, b) => a + b.toUpperCase());
   const TASKRE = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)\s*[:.\-–)]/i;
   const TFEND = /\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?[\s.]*$/i;
   const TFCELL = /^\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?$/i;
@@ -210,6 +216,9 @@ window.LSE = window.LSE || {};
           }
         });
       } else {
+        /* "★ Câu 51 (Unit 1): My sister spends … -> Giải thích: …" (đáp án tự luận nằm trong đoạn văn, không phải bảng) */
+        const sm = b.t.match(/^\s*[★☆•\-–]?\s*(?:câu|cau|question)\s*(\d{1,3})\s*(?:\([^)]*\))?\s*[:.)\-–]\s*(.+?)\s*(?:->|→|➔|=>)\s*(?:giải\s*thích|explanation)\s*[:：]\s*(.*)$/i);
+        if (sm) { put(+sm[1], sm[2].trim(), sm[3].trim()); if (!(+sm[1] in key.ans)) { key.ans[+sm[1]] = sm[2].trim(); key.expl[+sm[1]] = sm[3].trim(); } continue; }
         /* đáp án viết gọn trên một dòng: "1 – c, 2 – a, 3 – d, 4 – b" hoặc "1-T 2-F 3-T" */
         const toks = []; b.t.replace(/(\d{1,2})\s*[-–:.)]\s*([a-hA-H]|True|False|T|F|Đúng|Sai)(?![A-Za-zà-ỹ])/g, (all, n, v) => { toks.push([+n, v]); return all; });
         if (toks.length >= 2) { toks.forEach(([n, v]) => { put(n, v, ""); if (!(n in key.ans)) key.ans[n] = v; }); continue; }
@@ -299,8 +308,9 @@ window.LSE = window.LSE || {};
       bi = bIdx;
       /* "PART II. VOCABULARY & DEFINITIONS (1.0 point)": mở phần mới (đóng câu đang đọc dở), dòng yêu cầu ngay sau đó mới tạo phần bài */
       if (b.k === "p" && b.t.length < 200 && !QRE.test(b.t)) {
-        const pm = b.t.match(PARTHEAD);
-        if (pm) { part = { no: romanInt(pm[1]), title: partPretty(pm[1].toUpperCase(), pm[2]) }; q = null; if (cur && !cur.qs.length && !cur.task) { /* phần trước chưa có câu nào: giữ nguyên */ } return; }
+        let pm = b.t.match(PARTHEAD);
+        if (!pm && ROMANHEAD.test(b.t) && mostlyUpper(b.t) && !INSTR.test(b.t)) pm = b.t.match(ROMANHEAD);
+        if (pm) { part = { no: romanInt(pm[1]), title: partPretty(pm[1].toUpperCase(), pm[2] || "") }; q = null; if (cur && cur.qs.length) { newSec(""); cur.pendingTitle = true; } return; }   // phần trước đã có câu: "PHẦN II …" mở phần mới (dòng yêu cầu kế tiếp sẽ thành tiêu đề phần)
       }
       /* "Task 1: …" mở một phần mới; mọi khối đứng sau nó (đoạn, bảng) được giữ lại để nhận dạng bài Ghép / Đúng-Sai */
       if (b.k === "p" && b.t.length < 260 && TASKRE.test(b.t)) { newSec(stripU(b.t)); cur.task = true; cur.taskNo = +b.t.match(TASKRE)[1]; cur.blocks = []; return; }
@@ -311,6 +321,7 @@ window.LSE = window.LSE || {};
         if (!cur.qs.length) { if (txt) cur.desc.push(txt); } else if (q) q.lines.push(txt);
         return;
       }
+      if (cur && isSubHead(b.t) && !QRE.test(b.t)) { q = null; return; }
       const m = b.t.match(QRE);
       const isQ = m && !INSTR.test(b.t) && (m[2] !== "" || /^(question|câu)/i.test(b.t));
       if (isQ) {
@@ -323,6 +334,7 @@ window.LSE = window.LSE || {};
         if (/^\s*match\b/i.test(b.t)) { cur.task = true; cur.taskNo = 0; cur.blocks = []; }   // "Match … with …" + bảng 2 cột: nhận dạng như bài Ghép từ
         return;
       }
+      if (cur && cur.pendingTitle && b.k === "p") { cur.pendingTitle = false; if (b.t.length < 260 && !cur.qs.length) { cur.title = b.t.replace(/\s*[:：]\s*$/, "").trim(); return; } }
       if (!cur) { if (!title) { title = stripU(b.t).replace(/\s*\n\s*/g, " – "); titleBlock = b; } else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
       if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
     });
@@ -350,7 +362,7 @@ window.LSE = window.LSE || {};
     secs.forEach(s => {
       s.items = s.pre || s.qs.map(qq => {
         let text = qq.lines.join("\n").trim();
-        { const fl = text.split("\n")[0]; if ((fl.match(/\//g) || []).length >= 3 && !/_{3,}|\.{4,}|…/.test(fl)) text = fl.trim(); }   // sắp xếp từ thành câu: dòng "➔ ? ____" bên dưới chỉ là chỗ viết trên giấy
+        { const fl = text.split("\n")[0]; if ((fl.match(/\//g) || []).length >= 3 && !/_{3,}|\.{4,}|…/.test(fl) && !/\n\s*\*?\(?[A-D][.)]\s/.test(text)) text = fl.trim(); }   // sắp xếp từ thành câu: dòng "➔ ? ____" bên dưới chỉ là chỗ viết trên giấy
         const key1 = key.ans[qq.num] || "", ex = key.expl[qq.num] || "";
         const o = splitOptions(text);
         if (o) {
@@ -396,7 +408,7 @@ window.LSE = window.LSE || {};
           const ls = text.split("\n").map(x => x.trim()).filter(Boolean);
           const ARROW = /^\s*(?:→|->|➜|➔|⟶|⇒|>)\s*/;
           /* GIỮ chữ gạch chân ở câu gốc: với bài "đặt câu hỏi cho phần gạch chân" đó chính là đề bài */
-          const src = ls[0], starter = ls.slice(1).join(" ").replace(ARROW, "").replace(/[….]{2,}|_{3,}/g, "").trim();
+          const src = ls[0], starter = ls.slice(1).join(" ").replace(ARROW, "").replace(/[….]{2,}|_{3,}/g, "").replace(/\s+[.?!]\s*$/, "").trim();
           const ans = key1.replace(ARROW, "").trim();
           return { num: qq.num, type: "transform", src, starter, answers: ans ? ans.split(/\s+\/\s+/) : [], expl: ex, warns: ans ? [] : ["Câu " + qq.num + ": chưa có đáp án viết lại câu"] };
         }
