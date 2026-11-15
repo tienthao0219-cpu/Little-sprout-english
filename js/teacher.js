@@ -738,13 +738,71 @@
           h("div.row", { style: "justify-content:space-between;margin-top:12px" }, h("a.btn.sm.ghost", { href: "#/teacher/hw-edit/" + x.id, onclick: close }, "Sửa cả nội dung bài"), h("button.btn", { onclick: async () => { await save(); close(); } }, "Xong")));
       }, { sticky: true });
     };
-    const draw = () => {
-      body.innerHTML = "";
-      body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn", { title: "Chụp/chọn ảnh sách, AI tự soạn cả bài (khung lý thuyết + các phần câu hỏi có đáp án)", onclick: () => aiHwModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }) }, "✨ AI soạn bài từ ảnh"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
-        list.length ? list.map(x => {
-          const c = L.cur(x.curId);
-          return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
-            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần"), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng")),
+    /* ===== Gom theo giáo trình → unit (tăng dần), bài mới nhất lên trước, kèm dòng "học viên nào đã làm" ===== */
+    const SORT_KEY = "lse_hw_sort", OPEN_KEY = "lse_hw_open";
+    let sortMode = "unit"; try { sortMode = localStorage.getItem(SORT_KEY) === "new" ? "new" : "unit"; } catch (e) { }
+    let openSet = null; try { const v = JSON.parse(sessionStorage.getItem(OPEN_KEY) || "null"); if (Array.isArray(v)) openSet = new Set(v); } catch (e) { }
+    const saveOpen = () => { try { sessionStorage.setItem(OPEN_KEY, JSON.stringify([...openSet])); } catch (e) { } };
+    let q = "";
+    let doneBy = null, doneState = "loading";          // doneBy[hwId] = [{name, final, last}] (người làm gần nhất đứng trước)
+    const ts = x => +new Date(x.created) || 0;
+    const sd = t => { const d = new Date(t), p = n => String(n).padStart(2, "0"); return p(d.getDate()) + "/" + p(d.getMonth() + 1); };
+    const isNew = x => ts(x) && Date.now() - ts(x) < 3 * 86400000;
+    const byNew = (a, b) => ts(b) - ts(a);
+    const norm = t => String(t || "").toLowerCase();
+
+    const loadDone = async () => {
+      try {
+        let subs; const c = L.state.hwSubsCache;
+        if (c && Date.now() - c.t < 60000) subs = c.subs;
+        else { subs = (await L.api.call("report")).subs || []; L.state.hwSubsCache = { t: Date.now(), subs }; }
+        const rule = {}; list.forEach(x => { rule[x.id] = x.scoreRule || "highest"; });
+        const by = {};
+        subs.forEach(s => {
+          if (!s.hwId || !(s.hwId in rule) || s.name === CFG.teacherName) return;
+          const o = by[s.hwId] = by[s.hwId] || {};
+          (o[s.name] = o[s.name] || []).push(s);
+        });
+        doneBy = {};
+        Object.keys(by).forEach(id => {
+          doneBy[id] = Object.keys(by[id]).map(n => {
+            const a = by[id][n].slice().sort((p, r) => p.attempt - r.attempt), sc = a.map(s => +s.scaled || 0);
+            const fin = rule[id] === "last" ? sc[sc.length - 1] : rule[id] === "avg" ? L.round2(sc.reduce((p, r) => p + r, 0) / sc.length) : Math.max(...sc);
+            return { name: n, final: fin, last: Math.max(...a.map(s => +new Date(s.time) || 0)) };
+          }).sort((p, r) => r.last - p.last);
+        });
+        doneState = "ok";
+      } catch (e) { doneState = "fail"; }
+      if (body.isConnected) draw();
+    };
+    /** dòng chữ nhỏ dưới tên bài: ai đã làm + điểm (bấm vào để xem chi tiết) */
+    const doneLine = x => {
+      if (doneState === "loading") return h("div.small.muted.hwdone", "⏳ Đang kiểm tra bài nộp…");
+      if (doneState === "fail") return null;
+      const a = (doneBy && doneBy[x.id]) || [];
+      if (!a.length) return h("div.small.muted.hwdone", "⏳ Chưa có học viên nào làm");
+      return h("button.hwdone.has", { title: "Bấm để xem kết quả chi tiết", onclick: () => hwResultsModal(x) },
+        "✅ " + a.length + " học viên đã làm: " + a.slice(0, 4).map(r => r.name + " " + r.final).join(" · ") + (a.length > 4 ? " … +" + (a.length - 4) + " bạn" : "") + " · gần nhất " + sd(a[0].last));
+    };
+
+    const matches = x => {
+      if (!q) return true;
+      const c = L.cur(x.curId);
+      return norm(x.title + " " + (c ? c.name + " " + L.unitName(c, x.unitId) : "")).includes(q);
+    };
+    const groups = () => {
+      const items = list.filter(matches), known = new Set(m.curricula.map(c => c.id)), out = [];
+      m.curricula.forEach(c => { const a = items.filter(x => x.curId === c.id); if (a.length) out.push({ key: c.id, name: c.name, c, items: a }); });
+      const other = items.filter(x => !known.has(x.curId));
+      if (other.length) out.push({ key: "_other", name: "Chưa chọn giáo trình", c: null, items: other });
+      out.forEach(g => { g.newest = Math.max(...g.items.map(ts)); });
+      if (sortMode === "new") out.sort((a, b) => b.newest - a.newest);   // chế độ "Mới nhất trước": giáo trình có bài mới nhất lên đầu
+      return out;
+    };
+    const rowOf = x => {
+      const c = L.cur(x.curId);
+      return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
+            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần" + (ts(x) ? " · tạo " + sd(ts(x)) : "")), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng"), isNew(x) ? h("span.pill.butter", { style: "margin-left:6px" }, "🆕 Mới") : null, doneLine(x)),
             h("button.btn.sm.mint", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(x) }, "🔗 Sao chép link"),
             h("button.btn.sm.sky", { title: "Đổi nhanh tiêu đề, mô tả, giáo trình, unit (tự lưu)", onclick: () => quickEditModal(x) }, "⚡ Sửa nhanh"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id, title: "Sửa toàn bộ nội dung bài" }, "Sửa"),
@@ -754,7 +812,6 @@
               const menu = h("details.moremenu");
               /* hàng đang mở menu nổi lên trên các hàng bên dưới (nếu không các nút của hàng dưới sẽ đè lên menu) */
               menu.addEventListener("toggle", () => { const it = menu.closest(".item"); if (it) it.classList.toggle("mm-open", menu.open); });
-              document.addEventListener("pointerdown", ev => { if (menu.open && !menu.contains(ev.target)) menu.open = false; }, true);
               const item = (tag, props, label) => h(tag + ".btn.sm.ghost", Object.assign({}, props, props.onclick ? { onclick: e => { menu.open = false; props.onclick(e); } } : {}), label);
               menu.append(h("summary.btn.sm.ghost", { title: "Thêm" }, "⋯"), h("div.mm",
                 item("a", { href: "#/hw/" + x.id }, "👀 Xem thử"),
@@ -764,9 +821,50 @@
                 h("button.btn.sm.rose", { onclick: async () => { menu.open = false; if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "🗑️ Xoá")));
               return menu;
             })());
-        }) : h("div.empty", "Chưa có bài tập nào.")));
     };
-    draw();
+    const unitHead = (name, n) => h("div", { style: "margin:14px 2px 0;font-weight:800;color:var(--lav-d);display:flex;gap:8px;align-items:center" }, "🔖 " + name, h("span.small.muted", n + " bài"));
+    const groupBox = g => {
+      const kids = [];
+      if (sortMode === "unit" && g.c) {
+        const used = new Set();
+        (g.c.units || []).forEach(u => {
+          const a = g.items.filter(x => x.unitId === u.id); if (!a.length) return;
+          a.forEach(x => used.add(x)); kids.push(unitHead(u.name, a.length)); a.sort(byNew).forEach(x => kids.push(rowOf(x)));
+        });
+        const rest = g.items.filter(x => !used.has(x));
+        if (rest.length) { kids.push(unitHead("Chưa gắn unit", rest.length)); rest.sort(byNew).forEach(x => kids.push(rowOf(x))); }
+      } else g.items.slice().sort(byNew).forEach(x => kids.push(rowOf(x)));
+      const det = h("details.fold.hwgrp", h("summary", h("span", "📚 " + g.name), h("span.pill.sky", g.items.length + " bài"), g.newest ? h("span.small.muted", "mới nhất " + sd(g.newest)) : null), h("div", kids));
+      det.open = !!q || openSet.has(g.key);
+      det.addEventListener("toggle", () => { if (q) return; if (det.open) openSet.add(g.key); else openSet.delete(g.key); saveOpen(); });
+      return det;
+    };
+
+    const listBox = h("div"), tabsBox = h("div.tabs", { style: "margin:0" });
+    const drawTabs = () => {
+      tabsBox.innerHTML = "";
+      [["unit", "Theo unit (tăng dần)"], ["new", "Mới nhất trước"]].forEach(([k, t]) => tabsBox.append(h("button" + (sortMode === k ? ".on" : ""), { title: k === "unit" ? "Trong mỗi giáo trình: Unit 1, 2, 3… và bài mới nhất nằm trên cùng mỗi unit" : "Giáo trình có bài mới nhất lên đầu; trong giáo trình, bài mới tạo nằm trên cùng", onclick: () => { sortMode = k; try { localStorage.setItem(SORT_KEY, k); } catch (e) { } drawTabs(); draw(); } }, t)));
+    };
+    const draw = () => {
+      listBox.innerHTML = "";
+      if (!list.length) { listBox.append(h("div.empty", "Chưa có bài tập nào.")); return; }
+      const gs = groups();
+      if (!openSet) { const top = groups().slice().sort((a, b) => b.newest - a.newest)[0]; openSet = new Set(top ? [top.key] : []); saveOpen(); }   // lần đầu: chỉ mở giáo trình có bài mới nhất
+      if (!gs.length) { listBox.append(h("div.empty", "Không có bài nào khớp \"" + q + "\".")); return; }
+      gs.forEach(g => listBox.append(groupBox(g)));
+    };
+    const setAll = on => { if (on) groups().forEach(g => openSet.add(g.key)); else openSet.clear(); saveOpen(); draw(); };
+    /* đóng menu ⋯ khi bấm ra ngoài (1 listener chung cho cả danh sách) */
+    const closeMenus = ev => { if (!body.isConnected) { document.removeEventListener("pointerdown", closeMenus, true); return; } body.querySelectorAll("details.moremenu[open]").forEach(mn => { if (!mn.contains(ev.target)) mn.open = false; }); };
+    document.addEventListener("pointerdown", closeMenus, true);
+
+    body.innerHTML = "";
+    body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn", { title: "Chụp/chọn ảnh sách, AI tự soạn cả bài (khung lý thuyết + các phần câu hỏi có đáp án)", onclick: () => aiHwModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }) }, "✨ AI soạn bài từ ảnh"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+      h("div.row", { style: "margin:12px 0 2px;gap:8px;flex-wrap:wrap" }, tabsBox,
+        h("input", { type: "search", placeholder: "🔍 Tìm bài tập…", style: "padding:8px 14px;border-radius:999px;border:2px solid var(--line);font:inherit;min-width:170px", oninput: e => { q = norm(e.target.value.trim()); draw(); } }),
+        h("span.grow"), h("button.btn.sm.ghost", { onclick: () => setAll(true) }, "Mở hết"), h("button.btn.sm.ghost", { onclick: () => setAll(false) }, "Thu gọn hết")),
+      listBox));
+    drawTabs(); draw(); loadDone();
   }
 
   /** Chi tiết MỘT bài nộp của MỘT học viên: phần nào → câu nào → đề, em chọn gì, đáp án đúng.

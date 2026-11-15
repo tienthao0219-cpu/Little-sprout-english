@@ -874,3 +874,10 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 /* an toàn: chữ dài/không có dấu cách không được làm tràn khung lý thuyết */
 .shared,.shared .rb,.shared .rline,.shared .rtable td,.shared .rtable th{overflow-wrap:anywhere;word-break:normal}
 .shared .rb{max-width:100%}
+
+/* Tab Bài tập (khu của cô): nhóm theo giáo trình + dòng "học viên đã làm" */
+details.hwgrp>summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:17px;font-family:var(--hfont)}
+details.hwgrp[open]>summary{margin-bottom:2px}
+.hwdone{display:block;margin-top:4px;font-size:13px;line-height:1.35}
+button.hwdone.has{border:0;background:var(--mint);color:#17604a;font:inherit;font-size:13px;font-weight:800;border-radius:10px;padding:3px 10px;cursor:pointer;text-align:left;max-width:100%}
+button.hwdone.has:hover{filter:brightness(.96)}
