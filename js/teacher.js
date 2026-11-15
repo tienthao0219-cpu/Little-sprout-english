@@ -1189,8 +1189,7 @@
     }
 
     const addBtn = h("div.row", { style: "margin-top:14px" }, h("button.btn.ghost", { onclick: () => { hw.sections.push(newSection()); markDirty(); drawSecs(); } }, "+ Thêm phần (có thể chọn dạng bài khác)"),
-      h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"),
-      h("button.btn.sky", { onclick: () => ocrModal(secs => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ ảnh. Cô xem lại từng phần nhé."); }) }, "📷 Tạo phần từ ảnh sách"));
+      h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"));
     const saveStatus = h("div");
     /** Cảnh báo trùng: lúc lưu BÀI MỚI, nếu cùng giáo trình đã có bài giống (cùng unit + tên gần giống, hoặc trùng hẳn tên) thì hỏi lại, kèm ai đã làm rồi */
     const dupCheck = async () => {
