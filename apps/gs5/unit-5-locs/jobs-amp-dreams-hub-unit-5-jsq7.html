@@ -181,6 +181,7 @@ main{flex:1;min-height:0;overflow-y:auto;padding:6px 16px 14px}
 .qsub{font-size:14px;color:var(--ink-soft)}
 .qmid{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .qart{width:120px;height:120px;flex:none}
+.qart.big{width:170px;height:170px}
 .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .opt{display:flex;align-items:center;gap:12px;min-height:62px;padding:8px 14px;text-align:left;background:#fff;border:4px solid var(--lilac);border-radius:20px;box-shadow:0 5px 0 rgba(94,78,150,.14);transition:transform .1s}
 .opt .ltr{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;background:var(--lilac-d)}
@@ -311,6 +312,7 @@ main{flex:1;min-height:0;overflow-y:auto;padding:6px 16px 14px}
   .nav button span{overflow-wrap:normal;word-break:normal}
   .opts{grid-template-columns:1fr}
   .qart{width:96px;height:96px}
+  .qart.big{width:132px;height:132px}
   .mcol{height:270px}.mlabs{width:108px}.mlab{font-size:16px}
   .prow{grid-template-columns:1fr 1fr}.prow .pface{grid-column:1/-1}
 }
@@ -1380,6 +1382,9 @@ JOBS.forEach(j => {
     const L = id.split(''); let t = shuffle(L), n = 0; while (t.join('') === id && n++ < 9) t = shuffle(L);
     return {type: 'order', join: '', prompt: 'Sắp xếp các chữ cái thành tên nghề.', sub: cap(j.vi), art: chibiSVG(id), tiles: t, target: id, exp: `Từ đúng là <b>${id}</b> (${j.vi}).`};
   }, id);
+  /* Picture → Type Answer: chỉ nhìn hình, tự gõ cả tên nghề (không hiện sẵn chữ cái, không hiện nghĩa).
+     Chấp nhận cả "firefighter" lẫn "a firefighter"/"an actor". Nút Gợi ý mở dần chữ cái (accept[0] = tên nghề). */
+  mk('v:tpic:' + id, 'vocab', () => ({type: 'fill', big: true, line: 'Who is this? <span class="qsub">(Đây là ai?)</span>', prompt: 'Nhìn hình rồi gõ tên nghề bằng tiếng Anh.', art: chibiSVG(id), accept: [id, aj(id)], show: id, exp: `Đây là <b>${aj(id)}</b> ${j.ipa} (${j.vi}).`}), id);
   if (!j.main) return;
   mk('v:who:' + id, 'vocab', () => Object.assign({type: 'mc', prompt: `Who ${j.d3}? <span class="qsub">(Ai ${j.dvi}?)</span>`, exp: `<b>${cap(aj(id))}</b> ${j.d3}.`}, mcOpts(aj(id), MAIN.filter(x => x.id !== (id === 'gardener' ? 'farmer' : id === 'farmer' ? 'gardener' : '')).map(x => aj(x.id)))), id);
   mk('v:duty:' + id, 'vocab', () => { const pic = Math.random() < .5; return Object.assign({type: 'mc', prompt: `${pic ? 'This person' : cap(aj(id))} ${'<span class="blank">____</span>'}.`, sub: pic ? 'Nhìn hình: người này làm công việc gì?' : `${cap(j.vi)} làm công việc gì?`, art: pic ? chibiSVG(id) : '', exp: `${cap(aj(id))} <b>${j.d3}</b> (${j.dvi}).`}, mcOpts(j.d3, MAIN.filter(x => !(id === 'gardener' && x.id === 'farmer') && !(id === 'farmer' && x.id === 'gardener')).map(x => x.d3))); }, id);
@@ -1585,6 +1590,7 @@ for (let n = 0; n < 8; n++) {
 const MODES = {
   vocab:   {name: 'Từ vựng tổng hợp',   pre: ['v:'], desc: 'Trộn tất cả dạng bài từ vựng.', bg: 'linear-gradient(160deg,#FFE6EF,#fff)'},
   vpic:    {name: 'Picture Match',       pre: ['v:pic:', 'v:who:'], desc: 'Nhìn hình đoán nghề, đọc công việc đoán người.', bg: 'linear-gradient(160deg,#E6F3FF,#fff)'},
+  vtpic:   {name: 'Picture → Type Answer', pre: ['v:tpic:'], desc: 'Nhìn hình, tự gõ tên nghề bằng tiếng Anh (đủ 10 nghề). Có nút Gợi ý mở dần chữ cái.', bg: 'linear-gradient(160deg,#FFF0D9,#fff)'},
   venvi:   {name: 'Anh ⇔ Việt',          pre: ['v:vi:', 'v:en:'], desc: 'Đủ 10 nghề, mỗi từ hỏi hai chiều (20 câu).', bg: 'linear-gradient(160deg,#EBE3FF,#fff)', all: true},
   vduty:   {name: 'Collocation Match',   pre: ['v:duty:', 'v:col:'], desc: 'Ghép nghề với công việc: put out fires, report the news…', bg: 'linear-gradient(160deg,#FFE2D2,#fff)'},
   vtype:   {name: 'Missing Letters & Unscramble', pre: ['v:miss:', 'v:scr:'], desc: 'Gõ từ còn thiếu chữ, sắp xếp chữ cái. Có nút Gợi ý.', bg: 'linear-gradient(160deg,#E4F7EE,#fff)'},
@@ -1604,7 +1610,7 @@ const MODES = {
   mix:     {name: 'Mixed Practice',      pre: ['v:', 'g:', 'w:', 'x:'], desc: 'Trộn xen kẽ từ vựng và ngữ pháp.', bg: 'linear-gradient(160deg,#FFF3C9,#fff)'}
 };
 const PTABS = [
-  {id: 'v', name: 'Từ vựng', modes: ['vocab', 'vpic', 'venvi', 'vduty', 'vsort', 'vmatch', 'vtype']},
+  {id: 'v', name: 'Từ vựng', modes: ['vocab', 'vpic', 'vtpic', 'venvi', 'vduty', 'vsort', 'vmatch', 'vtype']},
   {id: 'g', name: 'Ngữ pháp', modes: ['grammar', 'gwould', 'gan', 'gansort', 'gfill', 'gord', 'gwhy', 'gwhy2', 'gmatch', 'gsort', 'gerr']},
   {id: 'm', name: 'Mix', modes: ['mix']}
 ];
@@ -1631,7 +1637,7 @@ function checkAns(Q, st) {
 const newSt = () => ({map: {}, pick: null, sel: null, text: '', built: [], hint: 0, done: false, ok: null, skipped: false, coin: 0});
 /* phần thân câu hỏi dùng chung cho Practice và Game (pre = tiền tố data-act) */
 function qBodyHTML(Q, st, pre, opt = {}) {
-  const done = st.done, artH = Q.art ? `<div class="qart">${Q.art}</div>` : '';
+  const done = st.done, artH = Q.art ? `<div class="qart${Q.big ? ' big' : ''}">${Q.art}</div>` : '';
   const sub = Q.sub ? `<div class="${Q.subBig ? 'qprompt' : 'qsub'}" ${Q.subBig ? 'style="font-size:clamp(18px,2.3vw,24px);margin-top:6px"' : ''}>${Q.sub}</div>` : '';
   if (Q.type === 'mc') {
     return `<div class="qmid">${artH}<div style="flex:1;min-width:0"><div class="qprompt">${Q.prompt}</div>${sub}</div></div><div class="opts">${Q.opts.map((o, j) => {
