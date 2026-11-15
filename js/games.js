@@ -397,19 +397,19 @@ window.LSE = window.LSE || {};
   const plain = s => String(s == null ? "" : s).replace(/<\/?u>/g, "");   /* bỏ thẻ gạch chân khi cần chữ thuần (nhãn, đọc to) */
   const lab = s => plain(s).replace(/\s+/g, " ").slice(0, 90);
   function grade(q, st) {
-    const v = st.v;
+    const v = st.v, NOPICK = "(chưa chọn)", NOFILL = "(bỏ trống)";   // ans/key: em chọn gì / đáp án đúng -> hiện trong Báo cáo học viên
     switch (q.type) {
-      case "pick": { const ok = v != null && !!q.opts[v] && q.opts[v].ok; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: (q.mode === "listen" ? "🔊 " : lab(q.prompt || q.stem) + " → ") + q.say }] }; }
-      case "scramble": { const ok = v.length === q.lt.length && v.map(i => q.lt[i]).join("").toLowerCase() === q.ans.replace(/\s/g, "").toLowerCase(); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: q.ans }] }; }
-      case "memory": { const items = q.pairs.map((p, i) => ({ ok: v.includes(i) && st.miss[i] <= (q.pairs.length > 8 ? 2 : 1), label: lab(p.l) + " = " + p.r })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-      case "wordsearch": { const items = q.words.map((w, i) => ({ ok: v.includes(i), label: w.w.toLowerCase() + (w.clue ? " (" + w.clue + ")" : "") })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-      case "crossword": { const items = q.words.map(w => { let ok = true; for (let k = 0; k < w.w.length; k++) { const x = (v[(w.r + (w.dir ? k : 0)) + "," + (w.c + (w.dir ? 0 : k))] || "").toUpperCase(); if (x !== w.w[k]) { ok = false; break; } } return { ok, label: w.n + (w.dir ? " Down" : " Across") + " · " + lab(w.clue) + " → " + w.w.toLowerCase() }; }); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "pick": { const ok = v != null && !!q.opts[v] && q.opts[v].ok; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: (q.mode === "listen" ? "🔊 " : lab(q.prompt || q.stem) + " → ") + q.say, ans: v != null && q.opts[v] ? String(q.opts[v].t) : NOPICK, key: String((q.opts.find(o => o.ok) || {}).t || q.say || "") }] }; }
+      case "scramble": { const ok = v.length === q.lt.length && v.map(i => q.lt[i]).join("").toLowerCase() === q.ans.replace(/\s/g, "").toLowerCase(); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: q.ans, ans: v.length ? v.map(i => q.lt[i]).join("") : NOFILL, key: q.ans }] }; }
+      case "memory": { const items = q.pairs.map((p, i) => ({ ok: v.includes(i) && st.miss[i] <= (q.pairs.length > 8 ? 2 : 1), label: lab(p.l) + " = " + p.r, ans: !v.includes(i) ? "(chưa ghép)" : (st.miss[i] <= (q.pairs.length > 8 ? 2 : 1) ? "ghép đúng" : "ghép được nhưng lật nhầm nhiều lần"), key: p.r })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "wordsearch": { const items = q.words.map((w, i) => ({ ok: v.includes(i), label: w.w.toLowerCase() + (w.clue ? " (" + w.clue + ")" : ""), ans: v.includes(i) ? "đã tìm thấy" : "(chưa tìm thấy)", key: w.w.toLowerCase() })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+      case "crossword": { const items = q.words.map(w => { let ok = true; for (let k = 0; k < w.w.length; k++) { const x = (v[(w.r + (w.dir ? k : 0)) + "," + (w.c + (w.dir ? 0 : k))] || "").toUpperCase(); if (x !== w.w[k]) { ok = false; break; } } const typed = []; for (let k = 0; k < w.w.length; k++) typed.push((v[(w.r + (w.dir ? k : 0)) + "," + (w.c + (w.dir ? 0 : k))] || "").toLowerCase() || "·"); return { ok, label: w.n + (w.dir ? " Down" : " Across") + " · " + lab(w.clue) + " → " + w.w.toLowerCase(), ans: typed.every(x => x === "·") ? NOFILL : typed.join(""), key: w.w.toLowerCase() }; }); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "transform": {
-        if (q.parts) { const bs = q.parts.filter(p => p.k === "b"); const items = bs.map((b, i) => ({ ok: !!v[i] && b.answers.some(a => tnorm(a) === tnorm(v[i])), label: lab(q.src) + " → " + lab(q.parts.map(p => p.k === "t" ? p.s : p.answers[0]).join("")) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
-        const ok = !!v && q.answers.some(a => tnorm(a) === tnorm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.src) + " → " + lab(q.answers[0]) }] }; }
+        if (q.parts) { const bs = q.parts.filter(p => p.k === "b"); const items = bs.map((b, i) => ({ ok: !!v[i] && b.answers.some(a => tnorm(a) === tnorm(v[i])), label: lab(q.src) + " → " + lab(q.parts.map(p => p.k === "t" ? p.s : p.answers[0]).join("")), ans: v[i] ? String(v[i]) : NOFILL, key: b.answers.join(" / ") })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
+        const ok = !!v && q.answers.some(a => tnorm(a) === tnorm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.src) + " → " + lab(q.answers[0]), ans: v ? String(v) : NOFILL, key: q.answers.join(" / ") }] }; }
       case "errfix": {
         const a = v.pick != null && q.toks[v.pick] && q.toks[v.pick].ok, b = !!v.fix && q.fixes.some(f => norm(f) === norm(v.fix));
-        return { got: (a ? 1 : 0) + (b ? 1 : 0), max: 2, items: [{ ok: a, label: "Tìm lỗi: " + lab(q.full) }, { ok: b, label: "Sửa lỗi: " + q.wrong + " → " + q.fixes[0] }] };
+        return { got: (a ? 1 : 0) + (b ? 1 : 0), max: 2, items: [{ ok: a, label: "Tìm lỗi: " + lab(q.full), ans: v.pick != null && q.toks[v.pick] ? String(q.toks[v.pick].w) : NOPICK, key: String(q.wrong) }, { ok: b, label: "Sửa lỗi: " + q.wrong + " → " + q.fixes[0], ans: v.fix ? String(v.fix) : NOFILL, key: q.fixes.join(" / ") }] };
       }
     }
     return { got: 0, max: 0, items: [] };
