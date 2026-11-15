@@ -702,6 +702,41 @@
   async function tHwList(body) {
     const list = await L.loadHw(true);
     const m = L.state.manifest;
+    /** Sửa nhanh: chỉ tiêu đề, mô tả, giáo trình, unit. Đổi xong tự lưu (không cần vào cả trang sửa bài). Nội dung các phần của bài được giữ nguyên. */
+    const quickEditModal = async (x) => {
+      let hw;
+      try { hw = (await L.api.call("hwGet", { id: x.id })).hw; } catch (e) { toast(e.message, 5000); return; }
+      hw.meta = hw.meta || {};
+      modal(close => {
+        const status = h("div.small.muted", { style: "min-height:22px;margin-top:10px" }, "Đổi xong bài tự lưu.");
+        const say = (txt, bad) => { status.textContent = txt; status.style.color = bad ? "#b43a62" : ""; status.style.fontWeight = bad ? "800" : ""; };
+        let timer = null, saving = false, again = false;
+        const save = async () => {
+          clearTimeout(timer);
+          if (saving) { again = true; return; }
+          if (!hw.title.trim()) { say("Tiêu đề không được để trống, bài chưa lưu.", true); return; }
+          saving = true; say("Đang lưu…");
+          try {
+            hw.title = hw.title.trim(); hw.meta.title = hw.title;
+            await L.api.call("hwSave", { hw: JSON.parse(JSON.stringify(hw)) });
+            x.title = hw.title; x.curId = hw.curId; x.unitId = hw.unitId;
+            L.state.hwList = null; say("Đã lưu ✓"); draw();
+          } catch (e) { say("Chưa lưu được: " + e.message, true); }
+          saving = false;
+          if (again) { again = false; save(); }
+        };
+        const later = () => { clearTimeout(timer); timer = setTimeout(save, 1000); };
+        const unitBox = h("div");
+        const drawUnit = () => { unitBox.innerHTML = ""; unitBox.append(h("label.field", h("span", "Unit / chủ đề"), selUnit(L.cur(hw.curId), hw.unitId, v => { hw.unitId = v; save(); }))); };
+        drawUnit();
+        return h("div", h("h3", { style: "margin:0 0 10px" }, "⚡ Sửa nhanh"),
+          h("label.field", h("span", "Tiêu đề bài tập *"), h("input", { type: "text", value: hw.title, oninput: e => { hw.title = e.target.value; later(); }, onchange: save })),
+          h("label.field", { style: "margin-top:8px" }, h("span", "Mô tả / hướng dẫn cho học viên (không bắt buộc)"), h("textarea", { style: "min-height:70px;font-family:var(--bfont)", oninput: e => { hw.desc = e.target.value; later(); }, onchange: save }, hw.desc || "")),
+          h("div.two", { style: "margin-top:8px" }, h("label.field", h("span", "Giáo trình"), selCur(m, hw.curId, v => { hw.curId = v; hw.unitId = ""; drawUnit(); save(); })), unitBox),
+          status,
+          h("div.row", { style: "justify-content:space-between;margin-top:12px" }, h("a.btn.sm.ghost", { href: "#/teacher/hw-edit/" + x.id, onclick: close }, "Sửa cả nội dung bài"), h("button.btn", { onclick: async () => { await save(); close(); } }, "Xong")));
+      }, { sticky: true });
+    };
     const draw = () => {
       body.innerHTML = "";
       body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn.sky", { onclick: () => ocrModal(secs => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title: "", sections: secs })); L.go("/teacher/hw-edit/new"); }) }, "📷 Tạo từ ảnh sách"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
@@ -710,7 +745,8 @@
           return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
             h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần"), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng")),
             h("button.btn.sm.mint", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(x) }, "🔗 Sao chép link"),
-            h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id }, "Sửa"),
+            h("button.btn.sm.sky", { title: "Đổi nhanh tiêu đề, mô tả, giáo trình, unit (tự lưu)", onclick: () => quickEditModal(x) }, "⚡ Sửa nhanh"),
+            h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id, title: "Sửa toàn bộ nội dung bài" }, "Sửa"),
             h("button.btn.sm.sky", { onclick: () => hwResultsModal(x) }, "Kết quả"),
             (() => {
               /* các nút ít dùng gom vào menu ⋯ cho đỡ rối */
