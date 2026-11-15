@@ -23,15 +23,20 @@
     configured() { const c = gh.cfg(); return !!(c.owner && c.repo && c.token); },
     async api(path, opts) {
       const c = gh.cfg();
+      /* cache: "no-store" → luôn đọc bản mới nhất từ GitHub, không dùng bản trình duyệt giữ lại ~1 phút (nguyên nhân lỗi "does not match" khi lưu liên tiếp) */
       const r = await fetch("https://api.github.com/repos/" + c.owner + "/" + c.repo + path, Object.assign({
-        headers: { Authorization: "Bearer " + c.token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }
+        headers: { Authorization: "Bearer " + c.token, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
+        cache: "no-store"
       }, opts, opts && opts.body ? { body: JSON.stringify(opts.body) } : {}));
       if (r.status === 404) return null;
       const data = await r.json().catch(() => ({}));
       if (!r.ok) {
         if (r.status === 401) throw new Error("GitHub từ chối token (sai hoặc hết hạn). Tạo lại token trong Cài đặt.");
         if (r.status === 403) throw new Error("GitHub chặn thao tác: token chưa có quyền 'Contents: Read and write' cho kho này. " + (data.message || ""));
-        throw new Error("GitHub: " + (data.message || r.status));
+        const err = new Error("GitHub: " + (data.message || r.status));
+        /* 409/422 "does not match" = file vừa bị sửa ở nơi khác (hoặc lần lưu ngay trước) → cho phép đọc lại rồi thử lại */
+        err.conflict = r.status === 409 || (r.status === 422 && /does not match|sha/i.test(data.message || ""));
+        throw err;
       }
       return data;
     },
@@ -39,13 +44,15 @@
       const c = gh.cfg();
       return gh.api("/contents/" + path.split("/").map(encodeURIComponent).join("/") + "?ref=" + encodeURIComponent(c.branch));
     },
-    async putFile(path, base64, message) {
-      const c = gh.cfg();
-      for (let attempt = 0; attempt < 2; attempt++) {
+    /** ghi file. Nếu truyền sha (mã bản file lúc đọc) thì ghi đúng bản đó và ném lỗi err.conflict khi file đã đổi; không truyền thì tự lấy sha mới nhất (thử tối đa 3 lần) */
+    async putFile(path, base64, message, sha) {
+      const c = gh.cfg(), url = "/contents/" + path.split("/").map(encodeURIComponent).join("/");
+      if (sha !== undefined) return gh.api(url, { method: "PUT", body: { message, content: base64, branch: c.branch, sha: sha || undefined } });
+      for (let attempt = 0; ; attempt++) {
         const ex = await gh.getFile(path);
         try {
-          return await gh.api("/contents/" + path.split("/").map(encodeURIComponent).join("/"), { method: "PUT", body: { message, content: base64, branch: c.branch, sha: ex ? ex.sha : undefined } });
-        } catch (e) { if (attempt === 1 || !/409|does not match|sha/i.test(e.message)) throw e; }
+          return await gh.api(url, { method: "PUT", body: { message, content: base64, branch: c.branch, sha: ex ? ex.sha : undefined } });
+        } catch (e) { if (attempt >= 2 || !e.conflict) throw e; await new Promise(r => setTimeout(r, 500 * (attempt + 1))); }
       }
     },
     async readManifest() {
@@ -67,11 +74,21 @@
   /** sửa manifest: ghi lên GitHub nếu đã nối; nếu chưa thì lưu tạm trên máy này (để thử giao diện) */
   async function editManifest(fn, msg) {
     let m;
-    if (gh.configured()) m = await gh.readManifest();
-    else m = JSON.parse(JSON.stringify(await L.loadManifest()));
-    fn(m);
-    if (gh.configured()) await gh.writeManifest(m, msg);
-    else { localStorage.setItem(MK, JSON.stringify(m)); }
+    if (!gh.configured()) {
+      m = JSON.parse(JSON.stringify(await L.loadManifest()));
+      fn(m);
+      localStorage.setItem(MK, JSON.stringify(m));
+    } else {
+      /* đọc bản mới nhất + mã sha → áp dụng thay đổi → ghi đúng bản đó. Nếu trong lúc ấy file bị sửa (lần lưu liền trước, hoặc máy/hồ sơ khác) thì đọc lại và áp dụng lại, tối đa 4 lần */
+      for (let attempt = 0; ; attempt++) {
+        const f = await gh.getFile("data/manifest.json");
+        if (!f) throw new Error("Không thấy data/manifest.json trong kho");
+        m = JSON.parse(L.base64ToText(f.content));
+        fn(m);
+        try { await gh.putFile("data/manifest.json", L.textToBase64(JSON.stringify(m, null, 2) + "\n"), msg || "Cập nhật danh mục", f.sha); break; }
+        catch (e) { if (!e.conflict || attempt >= 3) throw e; await new Promise(r => setTimeout(r, 500 * (attempt + 1))); }
+      }
+    }
     L.state.manifest = m;
     return m;
   }
