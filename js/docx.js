@@ -81,6 +81,10 @@ window.LSE = window.LSE || {};
   const KEYHEAD = /^\s*(?:(?:phần|part)\s+[ivx\d]+\s*[:.\-–]\s*)?(?:bảng\s+)?(?:đáp\s*án|answer\s*key|key|hướng\s*dẫn\s*giải|lời\s*giải)\b/i;
 
   /* ---- bài đọc dạng phiếu: "Task 1: Match…" (ghép từ với nghĩa), "Task 2: … True (T) or False (F)", đoạn văn chung ---- */
+  /* đề do NotebookLM / Gemini soạn: mỗi phần mở bằng dòng đậm "PART I. PRONUNCIATION & STRESS (1.0 point)" rồi mới tới dòng yêu cầu */
+  const PARTHEAD = /^\s*(?:part|phần|section)\s+([ivx]{1,5}|\d{1,2})\s*[.:\-–)]\s*(.+)$/i;
+  const romanInt = r => { r = String(r).toUpperCase(); if (/^\d+$/.test(r)) return +r; const v = { I: 1, V: 5, X: 10 }; let n = 0; for (let i = 0; i < r.length; i++) { const a = v[r[i]] || 0, b = v[r[i + 1]] || 0; n += a < b ? -a : a; } return n; };
+  const partPretty = (no, rest) => "Part " + no + " · " + rest.replace(/\s*\((?:[^()]*(?:point|điểm|pts?)[^()]*)\)\s*$/i, "").replace(/\s+/g, " ").trim().toLowerCase().replace(/(^|[\s&\/-])(\S)/g, (m, a, b) => a + b.toUpperCase());
   const TASKRE = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)\s*[:.\-–)]/i;
   const TFEND = /\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?[\s.]*$/i;
   const TFCELL = /^\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?$/i;
@@ -98,8 +102,8 @@ window.LSE = window.LSE || {};
   const tfOf = v => { const s = String(v || "").trim(); if (/^(?:t|true|đúng|đ)(?![a-zà-ỹ])/i.test(s)) return "T"; if (/^(?:f|false|sai|s)(?![a-zà-ỹ])/i.test(s)) return "F"; return ""; };
   const segOf = (key, taskNo) => (key.segs || []).find(x => x.tn === taskNo) || ((key.segs || []).length === 1 && key.segs[0].tn === 0 ? key.segs[0] : null) || { ans: key.ans, expl: key.expl };
   /** nhận ra bài Đúng/Sai hoặc bài Ghép từ trong một Task; trả {items, warns} hoặc null nếu không phải hai dạng này */
-  function detectTask(s, key) {
-    const seg = segOf(key, s.taskNo || 0), warns = [], tag = "Task " + (s.taskNo || "?") + ": ";
+  function detectTask(s, key, segIn) {
+    const seg = segIn || segOf(key, s.taskNo || 0), warns = [], tag = "Task " + (s.taskNo || "?") + ": ";
     /* --- Đúng / Sai: mỗi nhận định một hàng (số | nhận định | T / F) hoặc một đoạn kết thúc bằng T / F --- */
     const tfs = [];
     s.blocks.forEach(b => {
@@ -173,7 +177,8 @@ window.LSE = window.LSE || {};
   /* ---- bảng đáp án ---- */
   function parseKey(blocks, startIdx) {
     const key = { ans: {}, expl: {}, parts: [], segs: [] };
-    let expCol = 2;                                            // cột "Giải thích" (mặc định cột thứ 3; đọc theo hàng tiêu đề nếu có)
+    let expCol = 2, ansCol = 1, partCol = -1;                  // cột "Giải thích" (mặc định cột thứ 3), cột "Đáp án" (mặc định cột thứ 2), cột "Phần": đọc theo hàng tiêu đề nếu có
+    key.rows = [];                                             // từng dòng bảng đáp án: { n, local, part, ans, expl } (số câu "6 (1)" = câu 6 của đề, câu 1 trong phần)
     /* bài đọc nhiều Task, số câu làm lại từ 1 ở mỗi Task: đáp án của từng Task nằm trong một "đoạn" riêng (segs) */
     let seg = null;
     const KT = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)/i;
@@ -186,9 +191,19 @@ window.LSE = window.LSE || {};
         b.rows.forEach(r => {
           const c0 = (r[0] || "").trim();
           const kr = c0.match(KT); if (kr && c0.length < 80) { newSeg(+kr[1]); return; }
-          const rowNo = (c0.match(/^(?:câu|cau|question|q)?\s*(\d{1,3})\s*[.:)]?$/i) || [])[1];   // "1", "Câu 1", "Question 1."
+          const rm = c0.match(/^(?:câu|cau|question|q)?\s*(\d{1,3})\s*(?:\(\s*(\d{1,3})\s*\))?\s*[.:)]?$/i), rowNo = rm && rm[1];   // "1", "Câu 1", "Question 1.", "6 (1)"
+          if (!rowNo && r.length >= 3) {          // hàng tiêu đề: Câu | Phần | Đáp án | Giải thích
+            const ai = r.findIndex((x, k) => k >= 1 && /^\s*(?:đáp\s*án|answer|key)\b/i.test(String(x))); if (ai >= 1) ansCol = ai;
+            const pi = r.findIndex((x, k) => k >= 1 && /^\s*(?:phần|part|section)\s*$/i.test(String(x))); partCol = pi >= 1 ? pi : -1;
+          }
           if (!rowNo && r.length >= 4) { const hi = r.findIndex((x, k) => k >= 2 && /giải\s*thích|explanation|lý\s*do|hướng\s*dẫn/i.test(String(x))); if (hi >= 2) expCol = hi; }   // bảng 4 cột: Câu | Đáp án | Từ gạch chân | Giải thích
-          if (rowNo && r.length >= 2) { const n = +rowNo; key.ans[n] = (r[1] || "").trim(); key.expl[n] = (r[expCol] || "").trim(); put(n, key.ans[n], key.expl[n]); }
+          if (rowNo && r.length >= 2) {
+            /* "11 (6)": dòng 11 của bảng = Question 6 của đề (số trong ngoặc là số câu in trên đề; ở phần Ghép từ nó là số thứ tự trong phần, trùng với các câu đầu đề nên dòng nào đến trước giữ chỗ) */
+            const n = +rowNo, ex = rm[2] ? +rm[2] : n, av = (r[ansCol] || "").trim(), ev = (r[expCol] || "").trim();
+            if (!rm[2] || !(ex in key.ans)) { key.ans[ex] = av; key.expl[ex] = ev; put(ex, av, ev); }
+            const pm = partCol >= 0 ? String(r[partCol] || "").match(/^\s*([IVX]+|\d{1,2})\b/i) : null;
+            key.rows.push({ n, local: rm[2] ? +rm[2] : 0, partNo: pm ? romanInt(pm[1]) : 0, ans: av, expl: ev });
+          }
           else if (/^(ph[ầa]n|part|section)\b/i.test(c0)) {
             const m = c0.match(/\((\d+)\s*[–\-—to]+\s*(\d+)\)/i);
             if (m) key.parts.push({ from: +m[1], to: +m[2], title: c0.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(), full: c0 });
@@ -277,10 +292,16 @@ window.LSE = window.LSE || {};
     let title = "", secs = [], cur = null, q = null, started = false;
     const pre = [], guide = [];                              // pre: đoạn văn đứng trước "Task 1" (bài đọc chung); guide: khung "Hướng dẫn làm bài" đứng trước đề
     let bi = 0, leadEnd = -1, titleBlock = null;               // leadEnd: vị trí khối đầu tiên mở phần bài (mọi thứ đứng trước là phần mở đầu của file)
-    const newSec = t => { if (leadEnd < 0) leadEnd = bi; cur = { title: t, desc: [], qs: [] }; secs.push(cur); q = null; };
+    let part = null;                                            // phần hiện tại theo dòng "PART I. …"
+    const newSec = t => { if (leadEnd < 0) leadEnd = bi; cur = { title: t, desc: [], qs: [], part }; secs.push(cur); q = null; };
     const flushQ = () => { q = null; };
     main.forEach((b, bIdx) => {
       bi = bIdx;
+      /* "PART II. VOCABULARY & DEFINITIONS (1.0 point)": mở phần mới (đóng câu đang đọc dở), dòng yêu cầu ngay sau đó mới tạo phần bài */
+      if (b.k === "p" && b.t.length < 200 && !QRE.test(b.t)) {
+        const pm = b.t.match(PARTHEAD);
+        if (pm) { part = { no: romanInt(pm[1]), title: partPretty(pm[1].toUpperCase(), pm[2]) }; q = null; if (cur && !cur.qs.length && !cur.task) { /* phần trước chưa có câu nào: giữ nguyên */ } return; }
+      }
       /* "Task 1: …" mở một phần mới; mọi khối đứng sau nó (đoạn, bảng) được giữ lại để nhận dạng bài Ghép / Đúng-Sai */
       if (b.k === "p" && b.t.length < 260 && TASKRE.test(b.t)) { newSec(stripU(b.t)); cur.task = true; cur.taskNo = +b.t.match(TASKRE)[1]; cur.blocks = []; return; }
       if (cur && cur.task) cur.blocks.push(b);
@@ -297,8 +318,10 @@ window.LSE = window.LSE || {};
         q = { num: +m[1], lines: [m[2]] }; cur.qs.push(q); started = true; return;
       }
       if (!cur && !started && b.t.length < 260 && VIINSTR.test(b.t)) { newSec(b.t.replace(/^\s*bài\s*tập\s*[:.\-–]\s*/i, "").replace(/\s*[:：]\s*$/, "").trim()); return; }   // "Bài tập: Hãy đặt câu hỏi cho phần gạch chân…"
-      if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title)) {
-        newSec(b.t); return;
+      if (INSTR.test(b.t) && b.t.length < 220 && (!cur || cur.qs.length || !cur.title || (part && cur.part !== part))) {
+        newSec(b.t);
+        if (/^\s*match\b/i.test(b.t)) { cur.task = true; cur.taskNo = 0; cur.blocks = []; }   // "Match … with …" + bảng 2 cột: nhận dạng như bài Ghép từ
+        return;
       }
       if (!cur) { if (!title) { title = stripU(b.t).replace(/\s*\n\s*/g, " – "); titleBlock = b; } else if (b.t.length >= 40) pre.push(b.tb || b.t); return; }
       if (!cur.qs.length) cur.desc.push(b.tb || b.t); else if (q) q.lines.push(b.t);
@@ -306,7 +329,12 @@ window.LSE = window.LSE || {};
     /* Task ghép từ / đúng-sai: nhận dạng từ bảng + đoạn, bỏ qua cách tách câu theo số thứ tự thông thường */
     secs.forEach(s => {
       if (!s.task) return;
-      const det = detectTask(s, key);
+      let segIn = null;
+      if (s.part && s.part.no && (key.rows || []).length) {   // đáp án dạng "1 - B" nằm ở dòng "6 (1)" của bảng: đánh số theo phần
+        const rs = key.rows.filter(r => r.partNo === s.part.no && r.local);
+        if (rs.length) { segIn = { ans: {}, expl: {} }; rs.forEach(r => { segIn.ans[r.local] = String(r.ans || "").replace(/^\s*\d+\s*[-–:.)]\s*/, ""); segIn.expl[r.local] = r.expl; }); }
+      }
+      const det = detectTask(s, key, segIn);
       if (det) { s.pre = det.items; s.qs = []; s.desc = []; warns.push(...det.warns); }
     });
     const passage = pre.join("\n\n").trim(), usePassage = passage.replace(/\s+/g, " ").length >= 160;
@@ -329,7 +357,7 @@ window.LSE = window.LSE || {};
           let stem = o.stem;
           /* câu không có đề, chỉ có A/B/C và đoạn văn có "(21) ____" -> bài đọc điền chỗ trống (xem clozeMerge) */
           const cloze = !stem && s.desc.join(" ").includes("(" + qq.num + ")");
-          if (!stem) stem = cloze ? "Chỗ trống (" + qq.num + ")" : "Choose the correct answer.";
+          if (!stem) stem = cloze ? "Chỗ trống (" + qq.num + ")" : (/^(?:choose|mark|circle)\b/i.test(s.title || "") && (s.title || "").length < 120 ? s.title.replace(/\s*[:：]\s*$/, "") : "Choose the correct answer.");   // câu chỉ có A/B/C/D: lấy dòng yêu cầu làm đề
           const lm = key1.match(/^([A-H])(?![A-Za-z])/i); const letter = lm ? lm[1].toUpperCase() : "";
           const w = [];
           if (!key1) w.push("Câu " + qq.num + ": chưa có đáp án trong bảng đáp án");
@@ -381,10 +409,11 @@ window.LSE = window.LSE || {};
         }
         if (/_{3,}|\.{4,}|…/.test(text)) {       // điền từ có gợi ý trong ngoặc
           const hm = text.match(/\(([A-Za-zÀ-ỹ][^()]{0,40})\)\s*[.?!]?\s*$/);
-          const hint = hm ? hm[1].trim() : "";
-          let body = hm ? text.slice(0, hm.index).trim() : text;
+          const adj = hm ? null : text.match(/(_{3,}|\.{4,}|…+)\s*\(([A-Za-zÀ-ỹ][^()]{0,40})\)/);   // "enjoy ______ (cook) delicious…": gợi ý nằm ngay sau chỗ trống
+          const hint = hm ? hm[1].trim() : (adj ? adj[2].trim() : "");
+          let body = hm ? text.slice(0, hm.index).trim() : (adj ? text.replace(adj[0], adj[1]) : text);
           const blanks = body.match(/_{3,}|\.{4,}|…+/g) || [];
-          const ans = key1.replace(/[.]+$/, "").trim();
+          const ans = key1.replace(/[.]+$/, "").replace(/\s*\/\s*/g, "/").trim();   // "getting / to get" -> [[getting/to get]]
           const w = [];
           if (!ans) w.push("Câu " + qq.num + ": chưa có đáp án điền từ");
           if (blanks.length !== 1) w.push("Câu " + qq.num + ": có " + blanks.length + " chỗ trống, hãy kiểm tra sau khi chỉnh");
@@ -407,7 +436,7 @@ window.LSE = window.LSE || {};
         const g = groups[groups.length - 1];
         if (g && g.gk === gk) g.items.push(it); else groups.push({ gk, part, type: it.type, items: [it] });
       });
-      groups.forEach((g, gi) => out.push({ title: g.part ? prettyPart(g.part) : (s.title || "Phần " + (out.length + 1)), instr: s.title, desc: gi === 0 ? s.desc.join("\n\n") : (g.part ? "" : s.desc.join("\n\n")), topic: g.part ? g.part.title.replace(/^(ph[ầa]n|part|section)\s+[IVX\d]+\s*[:.\-–]\s*/i, "").toLowerCase() : "", type: g.type, items: g.items, task: !!s.task }));
+      groups.forEach((g, gi) => out.push({ title: g.part ? prettyPart(g.part) : (s.part ? s.part.title : (s.title || "Phần " + (out.length + 1))), instr: s.title, desc: gi === 0 ? s.desc.join("\n\n") : (g.part ? "" : s.desc.join("\n\n")), topic: g.part ? g.part.title.replace(/^(ph[ầa]n|part|section)\s+[IVX\d]+\s*[:.\-–]\s*/i, "").toLowerCase() : "", type: g.type, items: g.items, task: !!s.task }));
     });
     /* đoạn văn đứng trước Task 1 là bài đọc chung: gắn vào mọi Task để app ghim đoạn văn cạnh câu hỏi */
     if (usePassage) out.forEach(o => { if (o.task) o.desc = passage + (o.desc ? "\n\n" + o.desc : ""); });
