@@ -216,9 +216,11 @@
     show(spinner()); await loadManifest();
     const c = cur(cid);
     if (!c) { show(h("div.card.empty", "Không tìm thấy giáo trình này.", h("div", h("a.btn", { href: "#/" }, "Về trang chủ")))); return; }
+    const metaEls = {};   // số bài tập của từng unit điền vào sau khi tải xong danh sách bài tập
     const units = (c.units || []).map(u => {
       const n = appsIn(cid, u.id).length;
-      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), L.ei(c.emoji || "📘", 32)), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), h("div.small.muted", n + " app/game")));
+      const meta = metaEls[u.id] = h("div.small.muted", n + " app/game");
+      return h("a.unit-card", { href: "#/c/" + cid + "/u/" + u.id }, h("div.ic.tint" + ((c.tint || 0) % 16), L.ei(c.emoji || "📘", 32)), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, u.name), meta));
     });
     const loose = appsIn(cid, "");
     if (!(c.units || []).length && loose.length) {
@@ -230,7 +232,11 @@
         h("div.card", h("h3", { style: "margin-bottom:4px" }, "App & game"), loose.map(appItem)));
       return;
     }
-    if (loose.length) units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), h("div.small.muted", loose.length + " app/game"))));
+    if (loose.length) { const meta = metaEls[""] = h("div.small.muted", loose.length + " app/game"); units.push(h("a.unit-card", { href: "#/c/" + cid + "/u/_" }, h("div.ic.tint7", "🎒"), h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:18px" }, "Chưa phân unit"), meta))); }
+    loadHw().then(list => {
+      const cnt = {}; list.filter(x => x.curId === cid).forEach(x => { const k = x.unitId || ""; cnt[k] = (cnt[k] || 0) + 1; });
+      Object.keys(metaEls).forEach(k => { if (cnt[k]) metaEls[k].textContent += " · 📝 " + cnt[k] + " bài tập"; });
+    }).catch(() => { });
     show(
       h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), c.name),
       h("div.row", { style: "margin-bottom:10px" }, h("a.btn.sm.sky", { href: "#/" }, "🏠 Về các folder")),
@@ -299,10 +305,11 @@
     const hwBox = h("div.card", h("h3", { style: "margin-bottom:4px" }, "Bài tập"), h("div.empty", h("span.spinner")));
     show(h("div.crumbs", h("a", { href: "#/" }, "Trang chủ"), " › ", groupCrumb(c), h("a", { href: "#/c/" + cid }, c.name), " › ", name),
       h("div.row", { style: "margin-bottom:10px;gap:8px;flex-wrap:wrap" }, h("a.btn.sm.sky", { href: "#/" }, "🏠 Về các folder"), h("a.btn.sm.ghost", { href: "#/c/" + cid }, "← Các unit của " + c.name)),
-      h("div.row.space", { style: "margin-bottom:12px" }, h("h1", { style: "font-size:30px" }, name), h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" + encodeURIComponent(real) }, "🎮 Chơi game với bài này")), box, hwBox);
+      h("div.row.space", { style: "margin-bottom:12px" }, h("h1", { style: "font-size:30px" }, name), h("a.btn.sm.rose", { href: "#/games?cur=" + encodeURIComponent(cid) + "&unit=" + encodeURIComponent(real) }, "🎮 Chơi game với bài này")), hwBox, box);
     try {
       const list = (await loadHw()).filter(x => x.curId === cid && (x.unitId || "") === real);
-      hwBox.innerHTML = ""; hwBox.append(h("h3", { style: "margin-bottom:4px" }, "Bài tập"), list.length ? list.map(hwRow) : h("div.empty", "Chưa có bài tập cho unit này."));
+      hwBox.innerHTML = ""; hwBox.append(h("h3", { style: "margin-bottom:4px" }, "📝 Bài tập & ôn tập"), list.length ? list.map(hwRow) : h("div.empty", "Chưa có bài tập cho unit này."));
+      if (!apps.length && list.length) box.remove();   // unit chỉ có bài tập: bỏ khung "Chưa có app" cho gọn
     } catch (e) { hwBox.innerHTML = ""; hwBox.append(h("h3", "Bài tập"), h("div.err", e.message)); }
   }
 
