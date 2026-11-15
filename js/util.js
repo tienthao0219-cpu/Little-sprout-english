@@ -133,5 +133,20 @@ window.LSE = window.LSE || {};
     });
   }
 
-  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText, enterCheck });
+  /** Sắp xếp unit theo SỐ trong tên (UNIT 1, UNIT 2, … UNIT 10: số nhỏ lên trước).
+   *  Unit không có số: những unit đứng trước unit có số đầu tiên (SPEAKING, ALPHABET…) giữ nguyên ở đầu; các unit không số còn lại (REVIEW…) xuống cuối.
+   *  Unit cùng số giữ thứ tự cũ. Trả về mảng mới, không sửa mảng gốc. */
+  function sortUnits(units) {
+    const arr = Array.isArray(units) ? units : [];
+    const num = u => { const m = String((u && u.name) || "").match(/\d+/); return m ? parseInt(m[0], 10) : null; };
+    const first = arr.findIndex(u => num(u) != null);
+    if (first < 0) return arr.slice();
+    const rest = arr.slice(first);
+    const numbered = rest.map((u, i) => ({ u, i, n: num(u) })).filter(x => x.n != null).sort((a, b) => a.n - b.n || a.i - b.i).map(x => x.u);
+    return arr.slice(0, first).concat(numbered, rest.filter(u => num(u) == null));
+  }
+  /** áp dụng sortUnits cho mọi giáo trình trong manifest (sửa tại chỗ) */
+  function normalizeUnits(m) { ((m && m.curricula) || []).forEach(c => { if (c && Array.isArray(c.units) && c.units.length > 1) c.units = sortUnits(c.units); }); return m; }
+
+  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText, enterCheck, sortUnits, normalizeUnits });
 })(window.LSE);

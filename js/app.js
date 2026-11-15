@@ -31,6 +31,7 @@
         const hc = new Set([...hid].filter(x => String(x).startsWith("cur:")).map(x => String(x).slice(4))); state.hiddenCur = hc;
         if (hid.size) { m.apps = (m.apps || []).filter(a => !hid.has(a.id) && !hc.has(a.cur)); if (hc.size) m.curricula = (m.curricula || []).filter(c => !hc.has(c.id)); } } catch (e) { console.warn("appAccess", e); }
     }
+    L.normalizeUnits(m);   /* unit tự xếp theo số từ nhỏ đến lớn */
     state.manifest = m; return m;
   }
   L.loadManifest = loadManifest;

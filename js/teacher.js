@@ -60,7 +60,7 @@
       if (!f) throw new Error("Không thấy data/manifest.json trong kho");
       return JSON.parse(L.base64ToText(f.content));
     },
-    async writeManifest(m, msg) { return gh.putFile("data/manifest.json", L.textToBase64(JSON.stringify(m, null, 2) + "\n"), msg || "Cập nhật danh mục"); },
+    async writeManifest(m, msg) { L.normalizeUnits(m); return gh.putFile("data/manifest.json", L.textToBase64(JSON.stringify(m, null, 2) + "\n"), msg || "Cập nhật danh mục"); },
     async test() {
       const c = gh.cfg();
       const r = await gh.api("");
@@ -76,7 +76,7 @@
     let m;
     if (!gh.configured()) {
       m = JSON.parse(JSON.stringify(await L.loadManifest()));
-      fn(m);
+      fn(m); L.normalizeUnits(m);
       localStorage.setItem(MK, JSON.stringify(m));
     } else {
       /* đọc bản mới nhất + mã sha → áp dụng thay đổi → ghi đúng bản đó. Nếu trong lúc ấy file bị sửa (lần lưu liền trước, hoặc máy/hồ sơ khác) thì đọc lại và áp dụng lại, tối đa 4 lần */
@@ -84,7 +84,7 @@
         const f = await gh.getFile("data/manifest.json");
         if (!f) throw new Error("Không thấy data/manifest.json trong kho");
         m = JSON.parse(L.base64ToText(f.content));
-        fn(m);
+        fn(m); L.normalizeUnits(m);
         try { await gh.putFile("data/manifest.json", L.textToBase64(JSON.stringify(m, null, 2) + "\n"), msg || "Cập nhật danh mục", f.sha); break; }
         catch (e) { if (!e.conflict || attempt >= 3) throw e; await new Promise(r => setTimeout(r, 500 * (attempt + 1))); }
       }
@@ -436,6 +436,7 @@
       const unitCard = h("div.card", h("div.row", h("h3", "Unit / chủ đề của " + c.name), h("span.grow")));
       const nu = h("input", { type: "text", placeholder: "Tên unit mới (do cô đặt)", style: "max-width:340px" });
       unitCard.append(h("div.row", { style: "margin:8px 0" }, nu, h("button.btn.sm", { onclick: () => { const v = nu.value.trim(); if (!v) return; save(mm => { const cc = mm.curricula.find(x => x.id === sel); cc.units = cc.units || []; cc.units.push({ id: slug(v) + "-" + uid("").slice(-4), name: v }); }, "Thêm unit " + v); } }, "+ Thêm unit")));
+      unitCard.append(h("div.small.muted", { style: "margin:0 0 6px" }, "Unit có số trong tên (UNIT 1, UNIT 2, …) tự xếp từ nhỏ đến lớn. Unit không có số (REVIEW, SPEAKING…) đứng ở đầu nếu nằm trước các unit có số, còn lại xuống cuối. Nút ↑ ↓ chỉ đổi chỗ được cho các unit không có số."));
       /* chọn nhiều unit để chuyển sang giáo trình khác hoặc xoá cùng lúc */
       if ((c.units || []).length) unitCard.append(h("div.row", { style: "margin:4px 0 8px;gap:8px;flex-wrap:wrap" },
         h("button.btn.sm.ghost", { onclick: () => { if (picked.size === c.units.length) picked.clear(); else c.units.forEach(u => picked.add(u.id)); draw(); } }, picked.size === c.units.length ? "Bỏ chọn hết" : "Chọn tất cả unit"),
