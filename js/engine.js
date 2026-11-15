@@ -432,6 +432,11 @@
     const flush = () => {
       if (!buf.length) return;
       const rows = buf.splice(0).filter(l => !isSep(l)).map(l => l.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(c => c.trim()));
+      /* Bảng chỉ có 1 cột (vd khung "KHẮC CỐT GHI TÂM"): hiện thành khung chữ tự xuống dòng, không kéo ngang */
+      if (rows.length && rows.every(r => r.length === 1)) {
+        root.append(h("div.callout", rows.map(r => h("div.rline", rich(r[0])))));
+        return;
+      }
       const head = rows.shift();
       root.append(h("div.tbl-wrap", h("table.rtable", h("thead", h("tr", head.map(c => h("th", rich(c))))), h("tbody", rows.map(r => h("tr", r.map(c => h("td", rich(c)))))))));
     };
