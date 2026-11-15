@@ -427,6 +427,8 @@
   /** Khối chữ nhiều dòng có bảng: dòng dạng "| ô | ô |" liền nhau thành một bảng thật (dòng đầu = tiêu đề cột; dòng "|---|" bị bỏ qua);
       các dòng khác giữ nguyên (**đậm**, <u>gạch chân</u>). Dùng cho khung mẹo ở đầu bài (hw.desc). */
   const isRow = l => /^\s*\|.*\|\s*$/.test(l), isSep = l => /^\s*\|[\s:|-]+\|\s*$/.test(l);
+  /* ô bảng: dấu " ⏎ " (xuống dòng trong ô Word) -> xuống dòng thật */
+  const cellRich = c => { const ps = String(c == null ? "" : c).split(/\s*⏎\s*/).filter(x => x.trim()); if (ps.length < 2) return rich(c); const out = []; ps.forEach((x, i) => { if (i) out.push(h("br")); out.push(rich(x)); }); return out; };
   function richBlock(text) {
     const lines = String(text == null ? "" : text).split("\n"), root = h("div.rb"), buf = [];
     const flush = () => {
@@ -436,7 +438,7 @@
       if (rows.length && rows.every(r => r.length === 1)) {
         /* file Word nối các dòng trong ô bằng " · " và gạch đầu dòng "•": tách lại thành từng dòng cho dễ đọc */
         const pieces = [];
-        rows.forEach(r => String(r[0] || "").split(/\s+·\s+/).forEach(t => { t = t.replace(/^[\s·]+/, "").trim(); if (t && t !== "•") pieces.push(t); }));
+        rows.forEach(r => String(r[0] || "").split(/\s*⏎\s*|\s+·\s+/).forEach(t => { t = t.replace(/^[\s·]+/, "").trim(); if (t && t !== "•") pieces.push(t); }));
         root.append(h("div.callout", pieces.map(t => {
           const bul = /^[•\-–]\s*/.test(t) && t.length > 2;
           return h("div.rline" + (bul ? ".bul" : ""), rich(bul ? t.replace(/^[•\-–]\s*/, "") : t));
@@ -444,7 +446,7 @@
         return;
       }
       const head = rows.shift();
-      root.append(h("div.tbl-wrap", h("table.rtable", h("thead", h("tr", head.map(c => h("th", rich(c))))), h("tbody", rows.map(r => h("tr", r.map(c => h("td", rich(c)))))))));
+      root.append(h("div.tbl-wrap", h("table.rtable", h("thead", h("tr", head.map(c => h("th", cellRich(c))))), h("tbody", rows.map(r => h("tr", r.map(c => h("td", cellRich(c)))))))));
     };
     lines.forEach(l => { if (isRow(l)) { buf.push(l); return; } flush(); if (l.trim()) root.append(h("div.rline", rich(l))); else root.append(h("div.rgap")); });
     flush();

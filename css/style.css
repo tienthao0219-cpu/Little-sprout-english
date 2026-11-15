@@ -870,3 +870,7 @@ textarea.spg-zalo{min-height:260px;font-family:inherit;font-size:15.5px;line-hei
 .hw-guide .shared{margin:4px 0 8px}
 @media print{.pdesc .rtable{min-width:0;font-size:12px}.pdesc .rtable th,.pdesc .rtable td{border-color:#000;padding:3px 6px}}
 @media(max-width:640px){.rtable{min-width:0;font-size:.8em}.rtable th,.rtable td{padding:5px 6px}.rtable th{white-space:normal}}
+
+/* an toàn: chữ dài/không có dấu cách không được làm tràn khung lý thuyết */
+.shared,.shared .rb,.shared .rline,.shared .rtable td,.shared .rtable th{overflow-wrap:anywhere;word-break:normal}
+.shared .rb{max-width:100%}

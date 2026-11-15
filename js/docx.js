@@ -225,8 +225,8 @@ window.LSE = window.LSE || {};
   const blocks0 = (main, end) => main.slice(0, end);
   const flat = b => b.k === "t" ? b.rows.map(r => r.filter(Boolean).join("\n")).filter(Boolean).join("\n") : b.t;
   const isHeadLine = t => t.length < 160 && /^\s*(?:[★☆✦✧●▶►]|(?:phần|part)\s+[ivx\d]+\b|mẹo\s*\d)/i.test(t);
-  /** bảng Word -> các dòng "| ô | ô |" (ô nhiều dòng gộp bằng " · "); engine.richBlock vẽ lại thành bảng */
-  const tableLines = rows => rows.filter(r => r.some(c => String(c).trim())).map(r => "| " + r.map(c => String(c).replace(/\s*\n\s*/g, " · ").replace(/\|/g, "/").trim()).join(" | ") + " |");
+  /** bảng Word -> các dòng "| ô | ô |" (ô nhiều dòng nối bằng " ⏎ ": engine.richBlock tách lại thành từng dòng); engine.richBlock vẽ lại thành bảng */
+  const tableLines = rows => rows.filter(r => r.some(c => String(c).trim())).map(r => "| " + r.map(c => String(c).replace(/\s*\n\s*/g, " ⏎ ").replace(/\|/g, "/").trim()).join(" | ") + " |");
   /** bảng từ vựng có cột Phiên âm: chỉ giữ Từ vựng + Phiên âm, bỏ cột Trọng âm / Dấu hiệu / Mẹo (tránh lộ đáp án bài trọng âm);
       ô "(n) /ˈleʒ.ə/" được tách thành cột Loại từ (đứng ngay cạnh Từ vựng) + cột Phiên âm */
   const PHON = /phiên\s*âm|\bipa\b/i;
