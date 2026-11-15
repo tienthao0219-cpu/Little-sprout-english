@@ -14,6 +14,6 @@ window.LSE_CONFIG = {
   demoStudentPassword: "",
   demoTeacherPassword: "",
 
-  // GitHub: để trống thì tự đoán từ địa chỉ trang (ten.github.io/ten-repo)
-  github: { owner: "", repo: "", branch: "main" }
+  // GitHub: kho chứa website. Khai báo cụ thể vì khi dùng tên miền riêng thì không đoán được từ địa chỉ trang (ten.github.io/ten-repo)
+  github: { owner: "tienthao0219-cpu", repo: "Little-sprout-english", branch: "main" }
 };
