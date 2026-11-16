@@ -334,6 +334,7 @@ const MODES = {
 };
 const TYPES = {
   mc:    {label:'Chọn đáp án',        icon:'🔘'},
+  mean:  {label:'Chọn nghĩa',          icon:'🇻🇳'},
   mcr:   {label:'Chọn động từ',        icon:'🔁'},
   pic:   {label:'Nhìn hình chọn từ',   icon:'🖼️'},
   type:  {label:'Gõ đáp án',           icon:'⌨️'},
@@ -343,7 +344,7 @@ const TYPES = {
   match: {label:'Nối cặp',             icon:'🔗'},
   tf:    {label:'Đúng hay sai?',       icon:'✅'}
 };
-const MODE_TYPES = {A:['mc','mcr','pic','type','miss','scr','match','tf'], B:['mc','type','miss','scr','fill','match','tf'], C:['mc','type','miss','fill','match','tf'], D:['mc','type','miss','scr','fill','match','tf']};
+const MODE_TYPES = {A:['mc','mcr','pic','type','miss','scr','match','tf'], B:['mc','mean','type','miss','scr','fill','match','tf'], C:['mc','mean','type','miss','fill','match','tf'], D:['mc','mean','type','miss','scr','fill','match','tf']};
 
 /* ---------- tiện ích ---------- */
 const $ = s => document.querySelector(s);
@@ -1066,6 +1067,10 @@ function build(item) {
     else if (mode === 'B') { const o = shuffle([...v.v2.slice(0, 1), ...distV2(v)]); q.opts = o; q.ok = o.map(x => v.v2.includes(x)); q.prompt = `<span class="w">${esc(v.v1)}</span>Dạng quá khứ đơn (V2) là gì?`; q.ans = fm(v.v2); }
     else if (mode === 'D') { const o = shuffle([...v.v3.slice(0, 1), ...distV3(v)]); q.opts = o; q.ok = o.map(x => v.v3.includes(x)); q.prompt = `<span class="w">${esc(v.v1)}</span>Dạng phân từ quá khứ (V3) là gì?`; q.ans = fm(v.v3); }
     else { const c = pair(v); const o = shuffle([c, ...distPair(v)]); q.opts = o; q.ok = o.map(x => x === c); q.prompt = `<span class="w">${esc(v.v1)}</span>Chọn đúng V2 · V3:`; q.ans = c; }
+  } else if (t === 'mean') {
+    /* trắc nghiệm chọn nghĩa tiếng Việt (dùng cho cả 4 kiểu học; đáp án sai luôn là nghĩa khác hẳn, không trùng từ đồng nghĩa) */
+    const o = shuffle([v, ...distVi(v)]); q.opts = o.map(x => x.vi); q.ok = o.map(x => x === v);
+    q.prompt = `<span class="w">${esc(v.v1)}</span>nghĩa tiếng Việt là gì?`; q.pic = true; q.ans = v.vi;
   } else if (t === 'mcr') {
     const acc = VERBS.filter(x => sameMeaning(x, v)); const d = VERBS.filter(x => !sameMeaning(x, v)); const o = shuffle([v, ...shuffle(d).slice(0, 3)]);
     q.opts = o.map(x => x.v1); q.ok = o.map(x => acc.includes(x)); q.prompt = `Động từ nào có nghĩa:<span class="w" style="font-size:28px">${esc(v.vi)}</span>`; q.ans = v.v1;
@@ -1197,8 +1202,8 @@ function renderQ() {
   S.view = 'quiz'; const q = Q.q, ty = TYPES[q.t], retry = !!Q.cur.retry;
   let body = '';
   const L = 'ABCD';
-  if (['mc', 'mcr', 'pic', 'fill'].includes(q.t) && q.opts) {
-    const picLine = (q.t === 'mc' && q.pic) ? `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(q.v)}" alt="">` : '';
+  if (['mc', 'mean', 'mcr', 'pic', 'fill'].includes(q.t) && q.opts) {
+    const picLine = ((q.t === 'mc' || q.t === 'mean') && q.pic) ? `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(q.v)}" alt="">` : '';
     body = `<div class="qp">${picLine}${q.prompt}</div><div class="opts">${q.opts.map((o, i) => `<button class="opt" data-act="opt" data-i="${i}"><b>${L[i]}</b><span>${esc(o)}</span></button>`).join('')}</div>`;
   } else if (q.t === 'type' || q.t === 'miss' || (q.t === 'fill' && q.fields)) {
     body = `<div class="qp">${q.prompt}</div>` + q.fields.map((f, i) => `<label class="lab2">${f.label}</label><input class="inp" data-i="${i}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="${i === q.fields.length - 1 ? 'done' : 'next'}" placeholder="…">`).join('') +
