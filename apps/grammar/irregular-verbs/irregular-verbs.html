@@ -1157,7 +1157,7 @@ function startQuiz(ids, opts) {
   let total = opts.fix ? Math.min(10, Math.max(pool.length, Math.min(pool.length * 2, 10))) : (store.size ? Math.min(store.size, pool.length * 3) : pool.length);
   if (pairMean) total = Math.max(1, Math.round(total / 2));   // mỗi từ = 2 câu (chọn nghĩa + trả lời), giữ tổng số câu gần bằng cài đặt
   total = Math.max(total, Math.min(pool.length, 3)); if (total < 1) total = 1;
-  Q = {mode, items: [], queue: [], n: 0, total: 0, score: 0, combo: 0, best: 0, wrong: [], wrongSet: new Set(), retries: {}, done: 0, fix: !!opts.fix};
+  Q = {mode, pair: pairMean, items: [], queue: [], n: 0, total: 0, score: 0, combo: 0, best: 0, wrong: [], wrongSet: new Set(), retries: {}, done: 0, fix: !!opts.fix};
   // chọn từ rồi gán dạng bài luân phiên (mỗi vòng xáo lại để các lượt sau khác dạng)
   const items = []; let cyc = 0; let used = {};
   while (items.length < total) {
@@ -1243,7 +1243,21 @@ function verdict(vid, ok, qtxt, type, info) {
   record(vid, ok, qtxt, type);
   if (ok) { Q.combo++; Q.best = Math.max(Q.best, Q.combo); sfxOk(); }
   else { Q.combo = 0; sfxBad(); const k = vid; Q.retries[k] = (Q.retries[k] || 0) + 1;
-    if (Q.retries[k] <= 6) { const pool = activeTypes().filter(t => t !== 'match' && applicable(t, BY[vid], Q.mode) && t !== type); const t2 = rnd(pool.length ? pool : [type]); const pos = Math.min(Q.queue.length, 2 + Math.floor(Math.random() * 2)); Q.queue.splice(pos, 0, {vid, type: t2, retry: true}); } }
+    if (Q.retries[k] <= 6) {
+      const pos = Math.min(Q.queue.length, 2 + Math.floor(Math.random() * 2));
+      if (Q.pair) {
+        /* kiểu V1 → V2/V3: sai câu nào cũng làm lại cả cặp "chọn nghĩa → trả lời" của từ đó */
+        const prod = activeTypes().filter(t => t !== 'mean' && t !== 'match' && applicable(t, BY[vid], Q.mode));
+        const other = prod.filter(t => t !== type);
+        const pItem = {vid, type: rnd(other.length ? other : (prod.length ? prod : ['mc'])), retry: true}, mItem = {vid, type: 'mean', retry: true};
+        const iM = Q.queue.findIndex(x => x.vid === vid && x.retry && x.type === 'mean'), iP = Q.queue.findIndex(x => x.vid === vid && x.retry && x.type !== 'mean');
+        if (iM < 0 && iP < 0) Q.queue.splice(pos, 0, mItem, pItem);
+        else if (iM < 0) Q.queue.splice(iP, 0, mItem);
+        else if (iP < 0) Q.queue.splice(iM + 1, 0, pItem);
+      } else {
+        const pool = activeTypes().filter(t => t !== 'match' && applicable(t, BY[vid], Q.mode) && t !== type); const t2 = rnd(pool.length ? pool : [type]); Q.queue.splice(pos, 0, {vid, type: t2, retry: true});
+      }
+    } }
 }
 function showFb(ok, v, ansText, extra) {
   const fb = $('#fb'); if (!fb) return;
