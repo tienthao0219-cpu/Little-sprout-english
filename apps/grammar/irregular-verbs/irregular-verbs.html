@@ -1167,6 +1167,13 @@ function startQuiz(ids, opts) {
     });
     if (++cyc > 8) break;
   }
+  // kiểu V1 → V2 / V3 / V2 & V3: luôn có ít nhất 1/3 số câu là trắc nghiệm chọn nghĩa tiếng Việt (ưu tiên mỗi từ một câu)
+  if (!opts.fix && (mode === 'B' || mode === 'C' || mode === 'D') && useTypes.indexOf('mean') >= 0) {
+    const want = Math.max(1, Math.ceil(items.length / 3)); let have = items.filter(i => i.type === 'mean').length;
+    const hasMean = new Set(items.filter(i => i.type === 'mean').map(i => i.vid));
+    const cand = shuffle(items.filter(i => i.type !== 'mean')).sort((a, b) => (hasMean.has(a.vid) ? 1 : 0) - (hasMean.has(b.vid) ? 1 : 0));
+    for (const it of cand) { if (have >= want) break; it.type = 'mean'; hasMean.add(it.vid); have++; }
+  }
   // nối cặp: gom nhiều từ thành 1 màn
   const mi = items.filter(i => i.type === 'match'); const keep = items.filter(i => i.type !== 'match');
   const seen = new Set(), uniq = [];
