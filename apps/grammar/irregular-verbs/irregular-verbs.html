@@ -63,6 +63,10 @@ details.guide li{margin:4px 0}
 .mode.on b{color:#7a5cd6}
 .mode:nth-child(1).on{border-color:var(--pink);background:linear-gradient(180deg,#fff,var(--pink-s));box-shadow:0 5px 0 #ffc7d8}.mode:nth-child(1).on b{color:#e0527f}
 .mode:nth-child(2).on{border-color:var(--blue);background:linear-gradient(180deg,#fff,var(--blue-s));box-shadow:0 5px 0 #bfdcfa}.mode:nth-child(2).on b{color:#3b86d6}
+.mode:nth-child(4).on{border-color:var(--sun);background:linear-gradient(180deg,#fff,var(--sun-s));box-shadow:0 5px 0 #f3dc8f}.mode:nth-child(4).on b{color:#c98a00}
+.modes.four{grid-template-columns:repeat(2,1fr)}
+@media(min-width:640px){.modes.four{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:520px){.modes.gm{grid-template-columns:1fr}.modes.gm .mode{min-height:0;padding:10px 12px}}
 
 /* ---------- công cụ ---------- */
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -325,7 +329,8 @@ const PARTS = [1,2,3,4,5,6,7];
 const MODES = {
   A: {name:'V1 → Nghĩa',   icon:'🇻🇳', sub:'Nguyên mẫu → nghĩa tiếng Việt'},
   B: {name:'V1 → V2',      icon:'⏪', sub:'Nguyên mẫu → quá khứ đơn'},
-  C: {name:'V1 → V2 & V3', icon:'🎯', sub:'Nguyên mẫu → quá khứ & phân từ'}
+  C: {name:'V1 → V2 & V3', icon:'🎯', sub:'Nguyên mẫu → quá khứ & phân từ'},
+  D: {name:'V1 → V3',      icon:'🏁', sub:'Nguyên mẫu → phân từ quá khứ'}
 };
 const TYPES = {
   mc:    {label:'Chọn đáp án',        icon:'🔘'},
@@ -338,7 +343,7 @@ const TYPES = {
   match: {label:'Nối cặp',             icon:'🔗'},
   tf:    {label:'Đúng hay sai?',       icon:'✅'}
 };
-const MODE_TYPES = {A:['mc','mcr','pic','type','miss','scr','match','tf'], B:['mc','type','miss','scr','fill','match','tf'], C:['mc','type','miss','fill','match','tf']};
+const MODE_TYPES = {A:['mc','mcr','pic','type','miss','scr','match','tf'], B:['mc','type','miss','scr','fill','match','tf'], C:['mc','type','miss','fill','match','tf'], D:['mc','type','miss','scr','fill','match','tf']};
 
 /* ---------- tiện ích ---------- */
 const $ = s => document.querySelector(s);
@@ -364,7 +369,7 @@ if (!Array.isArray(store.sel)) store.sel = VERBS.filter(v => v.part === 1).map(v
 store.sel = store.sel.filter(id => BY[id]);
 if (!MODES[store.mode]) store.mode = 'A';
 if (store.tab !== 'games') store.tab = 'quest';          // tab đang mở: 'quest' (Luyện tập) hoặc 'games' (Trò chơi nhỏ)
-if (store.gmode !== 'v3') store.gmode = 'vi';            // kiểu trả lời trong game: 'vi' = V2 + nghĩa, 'v3' = V2 + V3
+if (store.gmode !== 'v3' && store.gmode !== 'o3') store.gmode = 'vi';   // kiểu trả lời trong game: 'vi' = V2 + nghĩa, 'v3' = V2 + V3, 'o3' = chỉ V3
 if (!store.off || typeof store.off !== 'object') store.off = {};
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} };
 const W = id => store.words[id] || (store.words[id] = {ok:0, bad:0, st:0, rv:false, seen:0});
@@ -421,7 +426,7 @@ function testSound() {
   speak('go, went, gone');
   const d = $('#diag'); if (d) d.innerHTML = audioDiag();
 }
-const sayV = (v, which) => speak(which === 1 ? v.v1 : which === 2 ? v.v2[0] : which === 3 ? v.v3[0] : [v.v1, v.v2[0], v.v3[0]].join(', '));
+const sayV = (v, which) => speak(which === 1 ? v.v1 : which === 2 ? v.v2[0] : which === 3 ? v.v3[0] : which === 13 ? [v.v1, v.v3[0]].join(', ') : [v.v1, v.v2[0], v.v3[0]].join(', '));
 function tone(seq) {
   if (!store.sound) return;
   try {
@@ -465,10 +470,10 @@ function renderHome() {
     <details class="guide"><summary>👪 Hướng dẫn cho phụ huynh</summary><div class="gb">
       <ol>
         <li><b>Chọn từ:</b> bấm vào dòng động từ để tick ✓ (5–10 từ mỗi buổi là vừa sức). Có thể chọn nhanh theo <i>Part 1–7</i> hoặc gõ tìm trong ô tìm kiếm.</li>
-        <li><b>Chọn kiểu học:</b> V1 → Nghĩa, V1 → V2, hoặc V1 → V2 &amp; V3.</li>
+        <li><b>Chọn kiểu học:</b> V1 → Nghĩa, V1 → V2, V1 → V2 &amp; V3, hoặc V1 → V3 (chỉ luyện dạng phân từ quá khứ).</li>
         <li><b>Flashcard:</b> bố mẹ đọc/ chỉ vào từ V1, bé nói đáp án trước, rồi chạm thẻ để lật kiểm tra. Bấm 🔊 để nghe đọc mẫu (giọng máy).</li>
         <li><b>Luyện tập:</b> bé tự làm câu hỏi. Câu sai sẽ quay lại; cuối buổi bấm <b>Fix it!</b> để làm lại đúng các từ vừa sai.</li>
-        <li><b>Trò chơi nhỏ:</b> sang tab 🎮, chọn <i>V2 + Nghĩa</i> hoặc <i>V2 + V3</i>, rồi bấm một game. Game chỉ hỏi đúng các động từ đã tick (đề cho V1, bé trả lời V2 hoặc V3).</li>
+        <li><b>Trò chơi nhỏ:</b> sang tab 🎮, chọn <i>V2 + Nghĩa</i>, <i>V2 + V3</i> hoặc <i>Chỉ V3</i>, rồi bấm một game. Game chỉ hỏi đúng các động từ đã tick (đề cho V1, bé trả lời V2 hoặc V3).</li>
       </ol>
       <div class="muted">Mẹo: học 10–15 phút mỗi ngày hiệu quả hơn học dồn. Nút “Che đáp án” trong danh sách giúp bé tự kiểm tra.</div>
     </div></details>
@@ -476,7 +481,7 @@ function renderHome() {
     <div class="mtabs"><button class="${store.tab === 'games' ? '' : 'on'}" data-act="mainTab" data-t="quest">📚 Luyện tập</button><button class="${store.tab === 'games' ? 'on' : ''}" data-act="mainTab" data-t="games">🎮 Trò chơi nhỏ</button></div>
 
     ${store.tab === 'games' ? gamesTabHtml() : `<div class="sec">1️⃣ Chọn kiểu học</div>
-    <div class="modes" id="modes">${Object.keys(MODES).map(k => `<button class="mode ${store.mode === k ? 'on' : ''}" data-act="mode" data-k="${k}"><span class="mi">${MODES[k].icon}</span><b>${MODES[k].name}</b><span>${MODES[k].sub}</span></button>`).join('')}</div>
+    <div class="modes four" id="modes">${Object.keys(MODES).map(k => `<button class="mode ${store.mode === k ? 'on' : ''}" data-act="mode" data-k="${k}"><span class="mi">${MODES[k].icon}</span><b>${MODES[k].name}</b><span>${MODES[k].sub}</span></button>`).join('')}</div>
 
     <div class="sec">2️⃣ Học &amp; trả bài</div>
     <div id="act"></div>`}
@@ -595,13 +600,15 @@ function refreshSel() { renderTools(); renderList(); renderBar(); if (store.tab 
    Mỗi game nhận bộ từ gồm cặp {w: đáp án, vi: đề}. Ở đây "đề" luôn xuất phát từ V1:
      • V2 + Nghĩa : đề "go – đi"  → đáp án "went"   (nghĩa chỉ để nhìn/chọn, bé không phải gõ nghĩa)
      • V2 + V3    : đề "go → V2" → "went"  và  đề "go → V3" → "gone"
+     • Chỉ V3     : đề "go → V3" → "gone"  (không hỏi V2)
    Game gõ/xếp chữ chỉ nhận MỘT dạng viết: lấy dạng đầu tiên trong danh sách (burnt, dreamt, got).
    ===================================================================== */
 const SITE_ROOT = location.pathname.replace(/\/apps\/.*$/, '/');
 const HUB_CUR = 'grammar-irregular';
 const GMODES = {
   vi: {name:'V2 + Nghĩa', icon:'🇻🇳', sub:'Cho V1 → trả lời V2. Nghĩa chỉ để nhìn và chọn, không phải gõ'},
-  v3: {name:'V2 + V3',    icon:'🎯', sub:'Cho V1 → trả lời V2, rồi V3'}
+  v3: {name:'V2 + V3',    icon:'🎯', sub:'Cho V1 → trả lời V2, rồi V3'},
+  o3: {name:'Chỉ V3',      icon:'🏁', sub:'Cho V1 → chỉ trả lời V3 (không hỏi V2)'}
 };
 const GCATS = [['all', 'Tất cả'], ['vocab', 'Từ vựng'], ['speed', 'Tốc độ'], ['duo', 'Đấu đôi']];
 const GAME_COLOR = {pink:'#ffe1ec',yellow:'#fff2c4',sky:'#dff1ff',lilac:'#ece3ff',mint:'#d9f6f0',coral:'#ffe3e0',orange:'#ffe9c9',teal:'#d9f2ea',green:'#e6f5d0',brown:'#f1e4d6',rose:'#ffe3e3',gold:'#fff0c7',peach:'#ffe9c9',aqua:'#d6f3f7',ocean:'#dbe8ff',violet:'#e8defa',lime:'#eaf7c8',plum:'#f0dcf0'};
@@ -618,6 +625,8 @@ function gameItems(mode) {
     if (mode === 'vi') {
       if (v.id === 'be') { add('was', 'be – ' + mean + ' (I / he / she / it)', true); add('were', 'be – ' + mean + ' (we / you / they)', false); }
       else add(v.v2[0], v.v1 + ' – ' + mean, true);
+    } else if (mode === 'o3') {
+      if (v.id === 'be') add('been', 'be → V3'); else add(v.v3[0], v.v1 + ' → V3');
     } else {
       if (v.id === 'be') { add('was', 'be (I / he / she / it) → V2'); add('were', 'be (we / you / they) → V2'); add('been', 'be → V3'); }
       else if (v.v2[0] === v.v3[0]) add(v.v2[0], v.v1 + ' → V2 & V3');
@@ -628,7 +637,7 @@ function gameItems(mode) {
 }
 function gamesTabHtml() {
   return `<div class="sec">1️⃣ Chọn kiểu trả lời trong game</div>
-    <div class="modes two" id="gmodes">${Object.keys(GMODES).map(k => `<button class="mode ${store.gmode === k ? 'on' : ''}" data-act="gmode" data-k="${k}"><span class="mi">${GMODES[k].icon}</span><b>${GMODES[k].name}</b><span>${GMODES[k].sub}</span></button>`).join('')}</div>
+    <div class="modes gm" id="gmodes">${Object.keys(GMODES).map(k => `<button class="mode ${store.gmode === k ? 'on' : ''}" data-act="gmode" data-k="${k}"><span class="mi">${GMODES[k].icon}</span><b>${GMODES[k].name}</b><span>${GMODES[k].sub}</span></button>`).join('')}</div>
     <div class="gnote" id="gnote"></div>
     <div class="sec" id="gamesTop">2️⃣ Chọn game</div>
     <div class="chips" id="gcats"></div>
@@ -690,6 +699,7 @@ function qItems() {
   VERBS.filter(v => store.sel.indexOf(v.id) >= 0).forEach(v => {
     const a2 = fm(v.v2), a3 = fm(v.v3), mean = v.vi.split(',').slice(0, 2).map(s => s.trim()).join(', ');
     if (mode === 'vi') out.push({v: v, clue: v.v1, tag: 'V2', sub: mean, ans: a2, find: v.v2[0]});
+    else if (mode === 'o3') out.push({v: v, clue: v.v1, tag: 'V3', sub: '', ans: a3, find: v.v3[0]});
     else if (a2 === a3) out.push({v: v, clue: v.v1, tag: 'V2 & V3', sub: '', ans: a2, find: v.v2[0]});
     else { out.push({v: v, clue: v.v1, tag: 'V2', sub: '', ans: a2, find: v.v2[0]}); out.push({v: v, clue: v.v1, tag: 'V3', sub: '', ans: a3, find: v.v3[0]}); }
   });
@@ -959,6 +969,7 @@ function renderFlash() {
     : `<div class="tip">Động từ nguyên mẫu (V1)</div><div class="big">${esc(v.v1)}</div><img src="${img(v)}" alt="" style="width:min(190px,46vw);height:min(190px,46vw)">`;
   const back = m === 'A' ? `<img src="${img(v)}" alt="" style="width:min(170px,42vw);height:min(170px,42vw)"><div class="viB" style="font-size:28px">${esc(v.vi)}</div><div class="tip">${esc(v.v1)} → ${esc(fm(v.v2))} → ${esc(fm(v.v3))}</div>`
     : m === 'B' ? `<div class="tip">${esc(v.v1)} →</div><div class="big" style="color:#3b86d6">${esc(fm(v.v2))}</div><div class="viB">${esc(v.vi)}</div><div class="tip">V3: ${esc(fm(v.v3))}</div>`
+    : m === 'D' ? `<div class="tip">${esc(v.v1)} →</div><div class="big" style="color:#c98a00">${esc(fm(v.v3))}</div><div class="viB">${esc(v.vi)}</div>`
     : `<div class="tip">${esc(v.v1)} →</div><div class="mid">${esc(fm(v.v2))}</div><div class="tip">→</div><div class="mid">${esc(fm(v.v3))}</div><div class="viB">${esc(v.vi)}</div>`;
   $('#root').innerHTML = `<div class="app">
     <div class="gbar"><button class="x" data-act="fquit" aria-label="Về trang chủ">${HOME_SVG}</button><div class="prog"><i style="width:${(F.i + 1) / n * 100}%"></i></div><span class="qn">${F.i + 1}/${n}</span></div>
@@ -1039,11 +1050,11 @@ function distVi(v) {
 function distV1(v) {
   const pool = shuffle(VERBS.filter(x => x !== v && !sameMeaning(x, v))); return pool.slice(0, 3);
 }
-const rightOf = (v, mode) => mode === 'A' ? v.vi : mode === 'B' ? v.v2[0] : pair(v);
+const rightOf = (v, mode) => mode === 'A' ? v.vi : mode === 'B' ? v.v2[0] : mode === 'D' ? v.v3[0] : pair(v);
 
 function applicable(t, v, mode) {
-  if (t === 'miss') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2.length === 1 && v.v2[0].length >= 3 : (v.v2.length === 1 && v.v3.length === 1 && v.v2[0].length >= 3 && v.v3[0].length >= 3);
-  if (t === 'scr') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2[0].length >= 4 : false;
+  if (t === 'miss') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2.length === 1 && v.v2[0].length >= 3 : mode === 'D' ? v.v3.length === 1 && v.v3[0].length >= 3 : (v.v2.length === 1 && v.v3.length === 1 && v.v2[0].length >= 3 && v.v3[0].length >= 3);
+  if (t === 'scr') return mode === 'A' ? v.v1.length >= 3 : mode === 'B' ? v.v2[0].length >= 4 : mode === 'D' ? v.v3[0].length >= 4 : false;
   return true;
 }
 function build(item) {
@@ -1053,6 +1064,7 @@ function build(item) {
   if (t === 'mc') {
     if (mode === 'A') { const d = distVi(v); const o = shuffle([v, ...d]); q.opts = o.map(x => x.vi); q.ok = o.map(x => x === v); q.prompt = `<span class="w">${esc(v.v1)}</span>nghĩa tiếng Việt là gì?`; q.pic = true; q.ans = v.vi; }
     else if (mode === 'B') { const o = shuffle([...v.v2.slice(0, 1), ...distV2(v)]); q.opts = o; q.ok = o.map(x => v.v2.includes(x)); q.prompt = `<span class="w">${esc(v.v1)}</span>Dạng quá khứ đơn (V2) là gì?`; q.ans = fm(v.v2); }
+    else if (mode === 'D') { const o = shuffle([...v.v3.slice(0, 1), ...distV3(v)]); q.opts = o; q.ok = o.map(x => v.v3.includes(x)); q.prompt = `<span class="w">${esc(v.v1)}</span>Dạng phân từ quá khứ (V3) là gì?`; q.ans = fm(v.v3); }
     else { const c = pair(v); const o = shuffle([c, ...distPair(v)]); q.opts = o; q.ok = o.map(x => x === c); q.prompt = `<span class="w">${esc(v.v1)}</span>Chọn đúng V2 · V3:`; q.ans = c; }
   } else if (t === 'mcr') {
     const acc = VERBS.filter(x => sameMeaning(x, v)); const d = VERBS.filter(x => !sameMeaning(x, v)); const o = shuffle([v, ...shuffle(d).slice(0, 3)]);
@@ -1063,14 +1075,25 @@ function build(item) {
     const mask = w => { const n = w.length, k = Math.max(1, Math.round((n - 1) * .45)); const idx = shuffle(Array.from({length: n - 1}, (_, i) => i + 1)).slice(0, k); return w.split('').map((c, i) => idx.includes(i) ? '_' : c).join(' '); };
     if (mode === 'A') { q.prompt = `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(v)}" alt="">Điền chữ cái còn thiếu của động từ (V1):<span class="w" style="font-size:26px">${esc(v.vi)}</span><span class="w mask">${esc(mask(v.v1))}</span>`; q.fields = [{acc: [v.v1], label: 'V1'}]; q.ans = v.v1; }
     else if (mode === 'B') { q.prompt = `<span class="w">${esc(v.v1)}</span>Điền chữ cái còn thiếu của V2:<span class="w mask">${esc(mask(v.v2[0]))}</span>`; q.fields = [{acc: v.v2, label: 'V2'}]; q.ans = fm(v.v2); }
+    else if (mode === 'D') { q.prompt = `<span class="w">${esc(v.v1)}</span>Điền chữ cái còn thiếu của V3:<span class="w mask">${esc(mask(v.v3[0]))}</span>`; q.fields = [{acc: v.v3, label: 'V3'}]; q.ans = fm(v.v3); }
     else { q.prompt = `<span class="w">${esc(v.v1)}</span>Điền chữ cái còn thiếu của V2 và V3:<span class="w mask">V2: ${esc(mask(v.v2[0]))}</span><span class="w mask">V3: ${esc(mask(v.v3[0]))}</span>`; q.fields = [{acc: v.v2, label: 'V2'}, {acc: v.v3, label: 'V3'}]; q.ans = fm(v.v2) + ' · ' + fm(v.v3); }
   } else if (t === 'type') {
     if (mode === 'A') { const acc = VERBS.filter(x => sameMeaning(x, v)); q.prompt = `<img class="pic" style="width:min(150px,40vw);height:min(150px,40vw)" src="${img(v)}" alt="">Gõ động từ (V1) có nghĩa:<span class="w" style="font-size:28px">${esc(v.vi)}</span>`; q.fields = [{acc: acc.map(x => x.v1), label: 'V1'}]; q.ans = v.v1; }
     else if (mode === 'B') { q.prompt = `<span class="w">${esc(v.v1)}</span>Gõ dạng quá khứ đơn (V2):`; q.fields = [{acc: v.v2, label: 'V2'}]; q.ans = fm(v.v2); }
+    else if (mode === 'D') { q.prompt = `<span class="w">${esc(v.v1)}</span>Gõ dạng phân từ quá khứ (V3):`; q.fields = [{acc: v.v3, label: 'V3'}]; q.ans = fm(v.v3); }
     else { q.prompt = `<span class="w">${esc(v.v1)}</span>Gõ V2 và V3:`; q.fields = [{acc: v.v2, label: 'V2'}, {acc: v.v3, label: 'V3'}]; q.ans = fm(v.v2) + ' · ' + fm(v.v3); }
   } else if (t === 'fill') {
     const subj = (v.v1 === 'be' && Math.random() < .5) ? 'We' : 'I';
-    if (mode === 'B') {
+    if (mode === 'D') {
+      const sb = rnd([['I', 'have'], ['We', 'have'], ['They', 'have'], ['She', 'has'], ['He', 'has']]);
+      const acc = new Set(v.v3);
+      let o = v.v1 === 'be' ? ['been', 'was', 'were', 'be'] : Array.from(new Set([v.v1, v.v2[0], v.v3[0], ...((v.v1 !== 'do') ? [regEd(v.v1)] : [])])).filter(x => !acc.has(x) || x === v.v3[0]);
+      const extra = Array.from(new Set(shuffle(VERBS.filter(x => x !== v).map(x => rnd(x.v3))).filter(x => !acc.has(x) && !o.includes(x))));
+      while (o.length < 4 && extra.length) o.push(extra.pop());
+      o = shuffle(o.slice(0, 4)); if (!o.includes(v.v3[0])) o[0] = v.v3[0];
+      q.opts = o; q.ok = o.map(x => acc.has(x)); q.ans = fm(v.v3);
+      q.prompt = `Chọn dạng đúng của động từ:<div class="sent">${sb[0]} ${sb[1]} <span class="blank">&nbsp;&nbsp;&nbsp;&nbsp;</span> (${esc(v.v1)}).</div>`;
+    } else if (mode === 'B') {
       const cand = Array.from(new Set([v.v1, v.v2[0], v.v3[0], ...((v.v1 !== 'be' && v.v1 !== 'do') ? [regEd(v.v1)] : [])]));
       const acc = new Set(v.v2); const okOpts = cand.filter(x => !acc.has(x) || x === v.v2[0]);
       if (v.v1 === 'be') { acc.clear(); acc.add(subj === 'I' ? 'was' : 'were'); }
@@ -1086,15 +1109,17 @@ function build(item) {
       q.fields = [{acc: a2, label: '1. V2'}, {acc: v.v3, label: '2. V3'}]; q.ans = '1) ' + (v.v1 === 'be' ? a2[0] : fm(v.v2)) + '   2) ' + fm(v.v3);
     }
   } else if (t === 'scr') {
-    const word = (mode === 'A' ? v.v1 : v.v2[0]); q.word = word; let letters = word.split(''); let g = 0; do { shuffle(letters); g++; } while (letters.join('') === word && g < 10);
-    q.letters = letters; q.accept = mode === 'A' ? [v.v1] : v.v2.slice();
+    const word = (mode === 'A' ? v.v1 : mode === 'D' ? v.v3[0] : v.v2[0]); q.word = word; let letters = word.split(''); let g = 0; do { shuffle(letters); g++; } while (letters.join('') === word && g < 10);
+    q.letters = letters; q.accept = mode === 'A' ? [v.v1] : mode === 'D' ? v.v3.slice() : v.v2.slice();
     q.prompt = mode === 'A' ? `Xếp chữ cái thành động từ (V1):<img class="pic" style="width:min(140px,38vw);height:min(140px,38vw)" src="${img(v)}" alt=""><span class="w" style="font-size:26px">${esc(v.vi)}</span>`
+      : mode === 'D' ? `Xếp chữ cái thành V3 của <b>${esc(v.v1)}</b>:<span class="w" style="font-size:26px">${esc(v.vi)}</span>`
       : `Xếp chữ cái thành V2 của <b>${esc(v.v1)}</b>:<span class="w" style="font-size:26px">${esc(v.vi)}</span>`;
-    q.ans = mode === 'A' ? v.v1 : fm(v.v2);
+    q.ans = mode === 'A' ? v.v1 : mode === 'D' ? fm(v.v3) : fm(v.v2);
   } else if (t === 'tf') {
     let stmt, truth = Math.random() < .5;
     if (mode === 'A') { const other = rnd(VERBS.filter(x => !sameMeaning(x, v))); stmt = `${v.v1} = ${truth ? v.vi : other.vi}`; q.ans = `${v.v1} = ${v.vi}`; }
     else if (mode === 'B') { const wrong = distV2(v)[0]; stmt = `${v.v1} → ${truth ? rnd(v.v2) : wrong}`; q.ans = `${v.v1} → ${fm(v.v2)}`; }
+    else if (mode === 'D') { const wrong = distV3(v)[0]; stmt = `${v.v1} → ${truth ? rnd(v.v3) : wrong}`; q.ans = `${v.v1} → ${fm(v.v3)}`; }
     else { const f2 = rnd(v.v2), f3 = rnd(v.v3);
       const wrongs = []; const r = (v.v1 !== 'be' && v.v1 !== 'do') ? regEd(v.v1) : null;
       if (r) wrongs.push(`${v.v1} → ${r} → ${r}`);
@@ -1103,7 +1128,7 @@ function build(item) {
       wrongs.push(`${v.v1} → ${distV2(v)[0]} → ${f3}`);
       const w = rnd(wrongs.filter(s => { const p = s.split(' → '); return !(v.v2.includes(p[1]) && v.v3.includes(p[2])); }));
       stmt = truth ? `${v.v1} → ${f2} → ${f3}` : (w || `${v.v1} → ${distV2(v)[0]} → ${f3}`); q.ans = `${v.v1} → ${fm(v.v2)} → ${fm(v.v3)}`; }
-    q.stmt = stmt; q.truth = truth; q.prompt = `Câu này đúng hay sai?`;
+    q.stmt = stmt; q.truth = truth; q.prompt = mode === 'D' ? `Câu này đúng hay sai? (V1 → <b>V3</b>, phân từ quá khứ)` : `Câu này đúng hay sai?`;
   }
   return q;
 }
@@ -1162,7 +1187,7 @@ function nextQ() {
 }
 function buildMatch(item) {
   const vs = item.vids.map(id => BY[id]), mode = Q.mode;
-  return {t: 'match', item, vs, left: shuffle(vs.slice()), right: shuffle(vs.slice()), pickL: null, doneIds: new Set(), badIds: new Set(), prompt: mode === 'A' ? 'Nối động từ với nghĩa tiếng Việt:' : mode === 'B' ? 'Nối V1 với dạng quá khứ V2:' : 'Nối V1 với V2 · V3:'};
+  return {t: 'match', item, vs, left: shuffle(vs.slice()), right: shuffle(vs.slice()), pickL: null, doneIds: new Set(), badIds: new Set(), prompt: mode === 'A' ? 'Nối động từ với nghĩa tiếng Việt:' : mode === 'B' ? 'Nối V1 với dạng quá khứ V2:' : mode === 'D' ? 'Nối V1 với dạng phân từ quá khứ V3:' : 'Nối V1 với V2 · V3:'};
 }
 function gbar() {
   const pct = Q.total ? Math.min(100, Q.done / Q.total * 100) : 0;
@@ -1270,7 +1295,7 @@ function matchFinish() {
   const q = Q.q; Q.answered = true; let nOk = 0;
   q.vs.forEach(v => { const ok = !q.badIds.has(v.id); if (ok) nOk++; verdict(v.id, ok, v.v1 + ' | ' + TYPES.match.label + ' | ' + MODES[Q.mode].name, 'match'); });
   const fb = $('#fb'); const bad = q.vs.filter(v => q.badIds.has(v.id));
-  fb.innerHTML = `<div class="fb ${bad.length ? 'bad' : 'ok'}"><h3>${bad.length ? 'Xong rồi! Cần chú ý vài từ 💪' : '🎉 Nối đúng hết!'}</h3>${q.vs.map(v => `<div class="ans" style="font-size:19px">${esc(v.v1)} → ${esc(Q.mode === 'A' ? v.vi : Q.mode === 'B' ? fm(v.v2) : pair(v))}</div>`).join('')}<div class="acts"><button class="btn pri" data-act="next">Tiếp tục ▶</button></div></div>`;
+  fb.innerHTML = `<div class="fb ${bad.length ? 'bad' : 'ok'}"><h3>${bad.length ? 'Xong rồi! Cần chú ý vài từ 💪' : '🎉 Nối đúng hết!'}</h3>${q.vs.map(v => `<div class="ans" style="font-size:19px">${esc(v.v1)} → ${esc(Q.mode === 'A' ? v.vi : Q.mode === 'B' ? fm(v.v2) : Q.mode === 'D' ? fm(v.v3) : pair(v))}</div>`).join('')}<div class="acts"><button class="btn pri" data-act="next">Tiếp tục ▶</button></div></div>`;
   if (!bad.length) advT = setTimeout(nextQ, 1400);
 }
 
@@ -1305,7 +1330,7 @@ document.addEventListener('click', e => {
     case 'qgTf': qgTf(el.dataset.v); break;
     case 'qgQuit': qgEnd(); renderHome(); break;
     case 'mainTab': store.tab = el.dataset.t === 'games' ? 'games' : 'quest'; save(); renderHome(); break;
-    case 'gmode': store.gmode = el.dataset.k === 'v3' ? 'v3' : 'vi'; save(); document.querySelectorAll('#gmodes .mode').forEach(b => b.classList.toggle('on', b.dataset.k === store.gmode)); renderGamesInfo(); sfxClick(); break;
+    case 'gmode': store.gmode = (el.dataset.k === 'v3' || el.dataset.k === 'o3') ? el.dataset.k : 'vi'; save(); document.querySelectorAll('#gmodes .mode').forEach(b => b.classList.toggle('on', b.dataset.k === store.gmode)); renderGamesInfo(); sfxClick(); break;
     case 'gcat': gcat = el.dataset.c; drawGames(); break;
     case 'openGame': launchGame(el.dataset.k); break;
     case 'openHub': goTop(hubHref('')); break;
@@ -1345,7 +1370,7 @@ document.addEventListener('click', e => {
     case 'practice': startQuiz(store.sel.slice()); break;
     case 'home': case 'fquit': renderHome(); break;
     case 'flipc': F.flip = !F.flip; document.querySelector('.fcard').classList.toggle('flip', F.flip); sfxClick(); break;
-    case 'fsay': { const v = F.list[F.i]; sayV(v, F.mode === 'A' ? 1 : 0); break; }
+    case 'fsay': { const v = F.list[F.i]; sayV(v, F.mode === 'A' ? 1 : F.mode === 'D' ? 13 : 0); break; }
     case 'fshuf': F.shuffled = !F.shuffled; F.list = F.shuffled ? shuffle(SORTED.filter(v => F.base.includes(v))) : SORTED.filter(v => F.base.includes(v)); F.i = 0; F.flip = false; renderFlash(); break;
     case 'funk': flashMark(false); break;
     case 'fknow': flashMark(true); break;
