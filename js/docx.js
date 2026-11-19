@@ -90,7 +90,7 @@ window.LSE = window.LSE || {};
   /* dòng tiêu đề nhóm xen giữa các câu: "★ UNIT 1: HOBBIES", "UNIT 2: HEALTHY LIVING" — không thuộc câu nào */
   const isSubHead = t => t.length < 90 && (/^\s*[★☆]\s*\S/.test(t) || (/^\s*(?:unit|bài|lesson|topic|chủ\s*đề)\s*\d+\s*[:.\-–]/i.test(t) && mostlyUpper(t.replace(/^\s*\S+\s*\d+\s*[:.\-–]/, ""))));
   const romanInt = r => { r = String(r).toUpperCase(); if (/^\d+$/.test(r)) return +r; const v = { I: 1, V: 5, X: 10 }; let n = 0; for (let i = 0; i < r.length; i++) { const a = v[r[i]] || 0, b = v[r[i + 1]] || 0; n += a < b ? -a : a; } return n; };
-  const partPretty = (no, rest) => !String(rest || "").trim() ? "Part " + no : "Part " + no + " · " + rest.replace(/\s*\((?:[^()]*(?:point|điểm|pts?)[^()]*)\)\s*$/i, "").replace(/\s+/g, " ").trim().toLowerCase().replace(/(^|[\s&\/-])(\S)/g, (m, a, b) => a + b.toUpperCase());
+  const partPretty = (no, rest) => !String(rest || "").trim() ? "Part " + no : "Part " + no + " · " + rest.replace(/\s*\((?:[^()]*(?:point|điểm|pts?)[^()]*)\)\s*$/i, "").replace(/\s+/g, " ").trim().toLowerCase().replace(/(^|[\s&\/(-])(\S)/g, (m, a, b) => a + b.toUpperCase());
   const TASKRE = /^\s*(?:task|exercise|activity|bài\s*tập)\s*(\d+)\s*[:.\-–)]/i;
   const TFEND = /\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?[\s.]*$/i;
   const TFCELL = /^\(?\s*(?:T\s*\/\s*F|True\s*\/\s*False|Đúng\s*\/\s*Sai)\s*\)?$/i;
@@ -182,7 +182,8 @@ window.LSE = window.LSE || {};
 
   /* ---- bảng đáp án ---- */
   function parseKey(blocks, startIdx) {
-    const key = { ans: {}, expl: {}, parts: [], segs: [] };
+    const key = { ans: {}, expl: {}, parts: [], segs: [], grid: {} };   // grid: bảng đáp án dạng lưới, mỗi ô "7. B" (chỉ dùng cho câu trắc nghiệm, vì phần viết lại câu có thể đánh số lại từ 1)
+    let lastNum = 0;                                           // câu tự luận vừa đọc: dòng gạch đầu dòng ngay sau nó là phần giải thích
     let expCol = 2, ansCol = 1, partCol = -1;                  // cột "Giải thích" (mặc định cột thứ 3), cột "Đáp án" (mặc định cột thứ 2), cột "Phần": đọc theo hàng tiêu đề nếu có
     key.rows = [];                                             // từng dòng bảng đáp án: { n, local, part, ans, expl } (số câu "6 (1)" = câu 6 của đề, câu 1 trong phần)
     /* bài đọc nhiều Task, số câu làm lại từ 1 ở mỗi Task: đáp án của từng Task nằm trong một "đoạn" riêng (segs) */
@@ -196,6 +197,8 @@ window.LSE = window.LSE || {};
       if (b.k === "t") {
         b.rows.forEach(r => {
           const c0 = (r[0] || "").trim();
+          const gridCells = r.map(x => String(x || "").trim().match(/^(?:câu\s*)?(\d{1,3})\s*[.:)\-–]\s*([A-H])$/i)).filter(Boolean);
+          if (gridCells.length >= 2 || (gridCells.length === 1 && r.filter(x => String(x || "").trim()).length === 1)) { gridCells.forEach(m => { key.grid[+m[1]] = m[2].toUpperCase(); }); return; }   // "1. B | 7. B | 13. C | 19. A | 25. C"
           const kr = c0.match(KT); if (kr && c0.length < 80) { newSeg(+kr[1]); return; }
           const rm = c0.match(/^(?:câu|cau|question|q)?\s*(\d{1,3})\s*(?:\(\s*(\d{1,3})\s*\))?\s*[.:)]?$/i), rowNo = rm && rm[1];   // "1", "Câu 1", "Question 1.", "6 (1)"
           if (!rowNo && r.length >= 3) {          // hàng tiêu đề: Câu | Phần | Đáp án | Giải thích
@@ -216,6 +219,9 @@ window.LSE = window.LSE || {};
           }
         });
       } else {
+        if (/^\s*\d{1,2}\s*[.)]\s*(?:bảng\s+)?(?:đáp\s*án|answer|lời\s*giải|hướng\s*dẫn\s*giải|giải\s*thích)/i.test(b.t) && b.t.length < 120 && (/[:：]\s*$/.test(b.t) || /\d+\s*câu/i.test(b.t))) { lastNum = 0; continue; }   // tiêu đề nhỏ "1. Đáp án 30 câu trắc nghiệm:" không phải đáp án của câu 1
+        const bm = b.t.match(/^\s*[•·▪●◦\-–]\s*(.+)$/);
+        if (bm && lastNum && !key.expl[lastNum]) { key.expl[lastNum] = bm[1].trim(); if (seg) seg.expl[lastNum] = bm[1].trim(); continue; }
         /* "★ Câu 51 (Unit 1): My sister spends … -> Giải thích: …" (đáp án tự luận nằm trong đoạn văn, không phải bảng) */
         const sm = b.t.match(/^\s*[★☆•\-–]?\s*(?:câu|cau|question)\s*(\d{1,3})\s*(?:\([^)]*\))?\s*[:.)\-–]\s*(.+?)\s*(?:->|→|➔|=>)\s*(?:giải\s*thích|explanation)\s*[:：]\s*(.*)$/i);
         if (sm) { put(+sm[1], sm[2].trim(), sm[3].trim()); if (!(+sm[1] in key.ans)) { key.ans[+sm[1]] = sm[2].trim(); key.expl[+sm[1]] = sm[3].trim(); } continue; }
@@ -224,7 +230,7 @@ window.LSE = window.LSE || {};
         if (toks.length >= 2) { toks.forEach(([n, v]) => { put(n, v, ""); if (!(n in key.ans)) key.ans[n] = v; }); continue; }
         const m = b.t.match(/^(?:câu\s*|question\s*)?(\d{1,3})\s*[.:)\-–]\s*(.+)$/i);
         if (m && !(+m[1] in key.ans)) key.ans[+m[1]] = m[2].trim();
-        if (m) put(+m[1], m[2].trim(), "");
+        if (m) { put(+m[1], m[2].trim(), ""); lastNum = +m[1]; }
       }
     }
     return key;
@@ -363,8 +369,9 @@ window.LSE = window.LSE || {};
       s.items = s.pre || s.qs.map(qq => {
         let text = qq.lines.join("\n").trim();
         { const fl = text.split("\n")[0]; if ((fl.match(/\//g) || []).length >= 3 && !/_{3,}|\.{4,}|…/.test(fl) && !/\n\s*\*?\(?[A-D][.)]\s/.test(text)) text = fl.trim(); }   // sắp xếp từ thành câu: dòng "➔ ? ____" bên dưới chỉ là chỗ viết trên giấy
-        const key1 = key.ans[qq.num] || "", ex = key.expl[qq.num] || "";
         const o = splitOptions(text);
+        const gl = o && key.grid ? key.grid[qq.num] : "";   // câu trắc nghiệm ưu tiên đáp án trong bảng lưới (số câu có thể trùng với phần viết lại câu)
+        const key1 = gl || key.ans[qq.num] || "", ex = gl ? "" : (key.expl[qq.num] || "");
         if (o) {
           let stem = o.stem;
           /* câu không có đề, chỉ có A/B/C và đoạn văn có "(21) ____" -> bài đọc điền chỗ trống (xem clozeMerge) */
