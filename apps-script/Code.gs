@@ -107,7 +107,7 @@ function route_(b) {
     case 'spgInfo': needT(); return { ok: true, hasKey: !!spgProps_().getProperty('GEMINI_API_KEY'), model: String(spgProps_().getProperty('GEMINI_MODEL') || SPG_DEFAULT_MODEL) };
     case 'spgLessonList': needT(); return spgLessonList_();
     case 'spgLessonSave': needT(); return spgLessonSave_(b.lesson);
-    case 'spgLessonDelete': needT(); deleteRow_('spgLessons', 'id', cut_(b.id, 40)); return { ok: true };
+    case 'spgLessonDelete': needT(); spgLessonDelete_(cut_(b.id, 40)); return { ok: true };
     case 'spgSettingsSave': needT(); return spgSettingsSave_(b.settings);
     case 'spgResultSave': needT(); return spgResultSave_(b.result);
     case 'spgResultList': needT(); return spgResultList_();
@@ -724,7 +724,8 @@ function spgLessonList_() {
   rows_('spgLessons').forEach(function (r) {
     let d = {}; try { d = JSON.parse(r.data || '{}'); } catch (e) { }
     if (String(r.id) === '_settings') { st = d; return; }
-    d.id = String(r.id); d.title = d.title || String(r.title || '');
+    /* Sheets hay tự đổi ô "6.2" thành ngày nên ưu tiên mã nằm trong JSON (luôn là chữ đúng) */
+    d.id = String(d.id || r.id); d.title = d.title || String(r.title || '');
     out.push(d);
   });
   return { ok: true, lessons: out, settings: st };
@@ -737,8 +738,29 @@ function spgLessonSave_(l) {
     id: id, code: cut_(l.code, 20), title: cut_(l.title, 120), prompt: cut_(l.prompt, 600), targetSounds: cut_(l.targetSounds, 200), soundNotes: cut_(l.soundNotes, 600),
     vocab: spgList_(l.vocab), phrases: spgList_(l.phrases), grammar: cut_(l.grammar, 600), notes: cut_(l.notes, 600)
   };
-  upsertRow_('spgLessons', 'id', id, { id: id, title: safe_(clean.title), data: JSON.stringify(clean), updated: new Date().toISOString() });
+  const sh = sheet_('spgLessons'), cols = SHEETS.spgLessons;
+  const row = [id, safe_(clean.title), JSON.stringify(clean), new Date().toISOString()];
+  const found = spgFindLessonRows_(id);
+  const target = found.length ? found[0] : Math.max(sh.getLastRow(), 1) + 1;
+  sh.getRange(target, 1).setNumberFormat('@'); /* ô mã bài là chữ thường, không để Sheets đổi 6.2 thành ngày */
+  sh.getRange(target, 1, 1, cols.length).setValues([row]);
+  for (let i = found.length - 1; i >= 1; i--) sh.deleteRow(found[i]); /* dọn dòng trùng nếu có */
   return { ok: true, id: id };
+}
+/** số dòng (trong sheet) của bài có mã = id; khớp theo ô mã hoặc theo mã lưu trong JSON */
+function spgFindLessonRows_(id) {
+  const sh = sheet_('spgLessons'), n = sh.getLastRow(), out = [];
+  if (n < 2) return out;
+  const vals = sh.getRange(2, 1, n - 1, SHEETS.spgLessons.length).getValues();
+  for (let i = 0; i < vals.length; i++) {
+    let jid = ''; try { jid = String((JSON.parse(vals[i][2] || '{}') || {}).id || ''); } catch (e) { }
+    if (jid ? jid === id : (!(vals[i][0] instanceof Date) && String(vals[i][0]) === id)) out.push(i + 2);
+  }
+  return out;
+}
+function spgLessonDelete_(id) {
+  const sh = sheet_('spgLessons'), rows = spgFindLessonRows_(id);
+  for (let i = rows.length - 1; i >= 0; i--) sh.deleteRow(rows[i]);
 }
 function spgSettingsSave_(s) {
   s = s || {};
