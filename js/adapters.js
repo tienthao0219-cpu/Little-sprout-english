@@ -76,7 +76,7 @@
         L.rw && L.rw.answer(!!d.ok);
         if (d.ok && (s.xu = s.xu || 0) < 30) { s.xu++; L.prof.add(1); }   // mỗi lượt chơi app: tối đa 30 xu
       }
-      if (d.kind === "answer") { s.answers.push({ qid: String(d.qid || ""), topic: String(d.topic || ""), ok: !!d.ok, q: String(d.q || "").slice(0, 160) }); s.dirty = true; s.schedule(); }
+      if (d.kind === "answer") { s.answers.push({ qid: String(d.qid || ""), topic: String(d.topic || ""), ok: !!d.ok, q: String(d.q || "").slice(0, 160), ans: d.ok ? "" : String(d.ans || "").slice(0, 100), key: d.ok ? "" : String(d.key || "").slice(0, 100) }); s.dirty = true; s.schedule(); }
       if (d.kind === "finish") { s.finishScore = { score: +d.score || 0, max: +d.max || 0 }; s.dirty = true; s.schedule(); }
     };
     window.addEventListener("message", s.onMessage);

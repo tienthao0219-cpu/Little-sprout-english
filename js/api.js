@@ -170,7 +170,7 @@
         store(d); return { ok: true, attempt: row.attempt };
       }
       case "myPlays": return { ok: true, plays: d.plays.filter(x => x.name === name).slice(-200).reverse(), subs: d.subs.filter(x => x.name === name).slice(-200).reverse() };
-      case "report": needT(); return { ok: true, plays: d.plays, subs: d.subs, answers: d.answers.slice(-8000).map(a => { const r = Object.assign({}, a); delete r.sec; delete r.no; delete r.ans; delete r.key; return r; }) };
+      case "report": needT(); return { ok: true, plays: d.plays, subs: d.subs, answers: d.answers.slice(-8000).map(a => { const r = Object.assign({}, a); delete r.sec; delete r.no; if (a.source !== "app") { delete r.ans; delete r.key; } return r; }) };   // app: giữ ans/key (em trả lời gì + đáp án đúng); bài tập: chỉ gửi khi xem chi tiết
       /* chi tiết từng câu của MỘT bài nộp: phần, câu, em chọn gì, đáp án đúng (khớp với apps-script hwDetail) */
       case "hwDetail": needT(); return { ok: true, answers: d.answers.filter(a => a.source === "hw" && a.sourceId === b.id && L.sameName(a.name, b.student) && String(a.attempt) === String(b.attempt)) };
       case "studentList": needT(); return { ok: true, roster: rosterOn, list: d.students.map(s => ({ name: s.name, code: s.code, active: s.active !== false, note: s.note || "" })) };
@@ -265,6 +265,9 @@
         const k = tp + "||" + (a.q || a.qid);
         const w = s.wrong[k] || (s.wrong[k] = { topic: tp, q: a.q || a.qid, n: 0, src: a.source, srcId: a.sourceId, last: "" });
         w.n++; if (String(a.time) > w.last) w.last = String(a.time);
+        /* em đã trả lời gì (tối đa 3 đáp án khác nhau, kèm số lần) + đáp án đúng; chỉ có với app đã cập nhật */
+        if (a.ans) { const ws = w.ans || (w.ans = {}); if (Object.keys(ws).length < 3 || ws[a.ans]) ws[a.ans] = (ws[a.ans] || 0) + 1; }
+        if (a.key && !w.key) w.key = String(a.key);
       }
     });
     Object.values(students).forEach(s => {

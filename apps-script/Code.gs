@@ -77,7 +77,7 @@ function route_(b) {
       ok: true,
       plays: rows_('plays'),
       subs: rows_('submissions'),
-      answers: rows_('answers').slice(-MAX_REPORT_ANSWERS).map(function (r) { DETAIL_COLS.forEach(function (c) { delete r[c]; }); return r; })
+      answers: rows_('answers').slice(-MAX_REPORT_ANSWERS).map(function (r) { DETAIL_COLS.forEach(function (c) { if (r.source === 'app' && (c === 'ans' || c === 'key')) return; delete r[c]; }); return r; })   // app: giữ ans/key (nhẹ, chỉ có khi sai)
     };
     // Chi tiết từng câu của MỘT bài nộp (phần, câu, đáp án em chọn, đáp án đúng)
     case 'hwDetail': needT(); return {
@@ -389,7 +389,8 @@ function logPlay_(name, p, answers) {
     append_('plays', { sid: cut_(p.sid, 40), time: now, updated: now, name: name, appId: cut_(p.appId, 80), appTitle: safe_(cut_(p.appTitle, 120)), cur: cut_(p.cur, 60), unit: cut_(p.unit, 80), attempt: attempt, score: score, max: max, pct: pct, durationSec: +p.durationSec || 0 });
   }
   appendMany_('answers', (answers || []).slice(0, 600).map(function (a) {
-    return { time: now, name: name, source: 'app', sourceId: cut_(p.appId, 80), attempt: attempt, topic: safe_(cut_(a.topic, 120)), qid: cut_(a.qid, 80), ok: !!a.ok, q: safe_(cut_(a.q, 160)) };
+    return { time: now, name: name, source: 'app', sourceId: cut_(p.appId, 80), attempt: attempt, topic: safe_(cut_(a.topic, 120)), qid: cut_(a.qid, 80), ok: !!a.ok, q: safe_(cut_(a.q, 160)),
+      ans: a.ok ? '' : safe_(cut_(a.ans, 100)), key: a.ok ? '' : safe_(cut_(a.key, 100)) };   // em trả lời gì + đáp án đúng (chỉ khi sai)
   }));
   return { ok: true, attempt: attempt };
 }

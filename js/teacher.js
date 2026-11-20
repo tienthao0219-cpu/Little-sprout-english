@@ -953,8 +953,14 @@
           box.append(h("div.tabs", { style: "margin:0 0 8px" }, [[false, "Chỉ câu sai (" + wrong.length + ")"], [true, "Tất cả (" + rows.length + ")"]].map(([v, t]) => h("button" + (showAll === v ? ".on" : ""), { onclick: () => { showAll = v; draw(); } }, t))));
           const list = showAll ? rows : wrong;
           if (!list.length) box.append(h("div.small.muted", "Lượt này em làm đúng hết 🎉"));
-          else box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Chủ điểm", ""].map(t => h("th", t)))),
-            h("tbody", list.map(a => { const ok = okOf_(a); return h("tr", { style: ok ? "" : "background:#FFF5F8" }, h("td", qText_(a)), h("td", h("span.pill", String(a.topic || "—"))), h("td", ok ? "✓" : "✗")); })))));
+          else {
+            const hasAns = rows.some(a => a.ans || a.key);
+            if (!hasAns && wrong.length) box.append(h("div.hint", { style: "margin-bottom:8px" }, "Lượt chơi này được lưu trước khi app ghi lại đáp án em chọn/gõ nên chỉ có đề và đúng/sai. Các lượt chơi từ nay sẽ có đủ."));
+            box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", hasAns ? "Em trả lời" : null, hasAns ? "Đáp án đúng" : null, ""].filter(t => t != null).map(t => h("th", t)))),
+              h("tbody", list.map(a => { const ok = okOf_(a); return h("tr", { style: ok ? "" : "background:#FFF5F8" }, h("td", String(a.q || a.qid || "")),
+                hasAns ? h("td", { style: "font-weight:800;color:" + (ok ? "var(--good,#1f7c60)" : "#b43a62") }, ok ? "" : (a.ans || "—")) : null,
+                hasAns ? h("td", { style: "font-weight:800;color:var(--good,#1f7c60)" }, ok ? "" : (a.key || "—")) : null, h("td", ok ? "✓" : "✗")); })))));
+          }
         }
         box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Đóng")));
       };
@@ -1549,6 +1555,12 @@
     });
   }
 
+  /* "Em trả lời: gõ sai A (2 lần), B · Đáp án đúng: C" cho một câu sai (chỉ có khi app đã gửi đáp án) */
+  function givenText(w) {
+    const g = w.ans ? Object.keys(w.ans).map(k => "“" + k + "”" + (w.ans[k] > 1 ? " (" + w.ans[k] + " lần)" : "")).join(", ") : "";
+    if (!g && !w.key) return "";
+    return (g ? "Em trả lời: " + g : "") + (g && w.key ? " · " : "") + (w.key ? "Đáp án đúng: " + w.key : "");
+  }
   /* gom các câu sai theo CHỦ ĐIỂM (cùng thứ tự với bảng độ chính xác: chủ điểm yếu nhất lên đầu) */
   function wrongByTopic(s) {
     return s.topicList.map(t => ({ t, items: s.wrongList.filter(w => w.topic === t.topic) })).filter(g => g.items.length).map(g => Object.assign(g, { mixed: new Set(g.items.map(w => w.src + "|" + w.srcId)).size > 1 }));   // mixed = chủ điểm này có câu sai từ nhiều app/bài khác nhau -> hiện thêm nguồn nhỏ dưới mỗi câu
@@ -1591,7 +1603,7 @@
           wrongByTopic(s).map(g => h("div.card", { style: "margin:10px 0 0;padding:12px 14px;box-shadow:none;border:2px solid var(--line,#eadff5)" },
             h("div.row", { style: "gap:8px;align-items:center" }, h("b", { style: "font-size:16px" }, g.t.topic), h("span.grow"), h("span.pill" + (g.t.n >= 3 && g.t.acc < .7 ? ".rose" : g.t.acc >= .8 ? ".mint" : ""), "đúng " + pct(g.t.acc) + "% (" + g.t.right + "/" + g.t.n + " ý)")),
             h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Số lần sai"].map(x => h("th", x)))),
-              h("tbody", g.items.slice(0, 6).map(w => h("tr", h("td", w.q, g.mixed && srcOf(w) ? h("div.small.muted", srcOf(w)) : null), h("td", { style: "white-space:nowrap" }, "× " + w.n))))))))] : null,
+              h("tbody", g.items.slice(0, 6).map(w => h("tr", h("td", w.q, givenText(w) ? h("div.small", { style: "color:#b43a62;font-weight:700;margin-top:2px" }, givenText(w)) : null, g.mixed && srcOf(w) ? h("div.small.muted", srcOf(w)) : null), h("td", { style: "white-space:nowrap" }, "× " + w.n))))))))] : null,
         h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s, mySubs)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
     });
     return card;
@@ -1605,7 +1617,7 @@
     s.topicList.filter(t => !s.weak.includes(t)).forEach(t => lines.push("- " + t.topic + ": " + pct(t.acc) + "% (" + t.n + " ý)"));
     if (s.wrongList.length) {
       lines.push("", "Các câu/ý hay sai, theo chủ điểm:");
-      wrongByTopic(s).slice(0, 8).forEach(g => { lines.push("• " + g.t.topic + " (đúng " + pct(g.t.acc) + "%):"); g.items.slice(0, 4).forEach(w => lines.push("   - " + w.q + " (sai " + w.n + " lần)")); });
+      wrongByTopic(s).slice(0, 8).forEach(g => { lines.push("• " + g.t.topic + " (đúng " + pct(g.t.acc) + "%):"); g.items.slice(0, 4).forEach(w => { lines.push("   - " + w.q + " (sai " + w.n + " lần)"); const gt = givenText(w); if (gt) lines.push("       " + gt); }); });
     }
     return lines.join("\n");
   }

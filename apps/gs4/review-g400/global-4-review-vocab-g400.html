@@ -1182,7 +1182,7 @@ function finish(ok, given){
     }
     S.results[w.id] = {w, ok, hinted:q.hints>0, type:q.type};
     S.status[w.id] = ok ? 'ok' : 'bad';
-    lse('answer', {qid:w.id, topic:'Từ vựng Global 4 – '+unitLabel(topicById(w.topics[0]))+' '+topicById(w.topics[0]).name, ok:ok, q:'['+TYPES[q.type].label+'] '+w.w+' = '+w.vi});
+    lse('answer', {qid:w.id, topic:'Từ vựng Global 4 – '+unitLabel(topicById(w.topics[0]))+' '+topicById(w.topics[0]).name, ok:ok, q:'['+TYPES[q.type].label+'] '+w.w+' = '+w.vi, ans: ok ? '' : String(given||'').slice(0,100), key: String(q.mode==='mc' ? q.correctVal : w.w).slice(0,100)});
   } else {
     if(ok) pts = 3;
     S.done++;

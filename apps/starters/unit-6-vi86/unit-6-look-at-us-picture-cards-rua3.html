@@ -339,7 +339,7 @@ function matchTap(side,i){ const q=S.cur; if(S.answered) return; const item=(sid
   q.sel=-1; q.selSide=''; if(!a||!b) return; a.classList.remove('sel'); b.classList.remove('sel');
   if(l===r){ q.done.add(l.id); sfxOk(); say(l.word); a.classList.add('gone'); b.classList.add('gone'); report({kind:'answer',qid:l.id,topic:'Từ vựng – '+document.title,ok:true,q:'[Nối cặp] '+l.word+' = '+l.vi});
     if(q.done.size===q.items.length) setTimeout(()=>{ if(S.cur===q&&!S.answered) finishQ(q.wrong<=1,'',q.c); },380); }
-  else { q.wrong++; sfxBad(); a.classList.add('bad'); b.classList.add('bad'); report({kind:'answer',qid:l.id,topic:'Từ vựng – '+document.title,ok:false,q:'[Nối cặp] '+l.word+' ≠ '+r.vi}); setTimeout(()=>{ a.classList.remove('bad'); b.classList.remove('bad'); },380); } }
+  else { q.wrong++; sfxBad(); a.classList.add('bad'); b.classList.add('bad'); report({kind:'answer',qid:l.id,topic:'Từ vựng – '+document.title,ok:false,q:'[Nối cặp] '+l.word+' ≠ '+r.vi,ans:String(r.vi).slice(0,100),key:String(l.vi).slice(0,100)}); setTimeout(()=>{ a.classList.remove('bad'); b.classList.remove('bad'); },380); } }
 function hint(){ const q=S.cur,c=q.c; if(S.hints>=3) return; S.hints++; const n=norm(c.word).length; const out=[];
   if(S.hints>=1) out.push(`💡 Từ này có <b>${n}</b> chữ cái: <span class="mono">${esc(pat(c,0))}</span>`);
   if(S.hints>=2) out.push(`💡 Chữ cái đầu tiên: <span class="mono">${esc(pat(c,1))}</span>`);
@@ -347,7 +347,7 @@ function hint(){ const q=S.cur,c=q.c; if(S.hints>=3) return; S.hints++; const n=
   $('#hb').innerHTML=out.join('<br>'); const b=$('#hbtn'); b.textContent=`💡 Gợi ý (${S.hints}/3)`; if(S.hints>=3) b.disabled=true; }
 function finishQ(ok,given,c){ const q=S.cur; if(S.answered) return; S.answered=true; c=c||q.c;
   ok?sfxOk():sfxBad();
-  if(q.type!=='match') report({kind:'answer',qid:c.id,topic:'Từ vựng – '+document.title,ok:ok,q:'['+TYPES[q.type].label+'] '+c.word+' = '+c.vi});
+  if(q.type!=='match'){ let ga=''; if(!ok&&given){ const gc=W_ALL.find(k=>k.id===given); ga=gc?(q.type==='en2vi'?gc.vi:label(gc)):String(given); } report({kind:'answer',qid:c.id,topic:'Từ vựng – '+document.title,ok:ok,q:'['+TYPES[q.type].label+'] '+c.word+' = '+c.vi,ans:String(ga).slice(0,100),key:String(q.type==='en2vi'?c.vi:(q.type==='missing'&&q.ans?q.ans:c.word)).slice(0,100)}); }
   if(ok){ if(q.att===1&&!S.hints) S.first.add(c.id); S.score+=(q.att===1?10:5); S.streak++; S.best=Math.max(S.best,S.streak); }
   else { S.streak=0; if(!S.missed.has(c.id)) S.missed.set(c.id,c); if(q.att<3){ const nt=rnd(enabled.filter(t=>t!==q.type&&!(TYPES[t].pic&&!hasImg(c))&&t!=='match')||['en2vi']); S.q.push({c,type:nt||'en2vi',att:q.att+1}); S.total=S.q.length; } }
   if(ok) S.done++; else S.done++;
