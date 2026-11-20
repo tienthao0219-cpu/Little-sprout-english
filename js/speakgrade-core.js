@@ -302,7 +302,13 @@
     } else miss("tên bài");
     // âm IPA trọng tâm: slide "Sound focus: /f/ & /v/"
     const sm = s.match(/add\(\s*['"]Sound focus:\s*([^'"]+)['"]/i);
-    if (sm) out.targetSounds = sm[1].split(/\s*(?:&|and|,|;)\s*/).map(x => x.trim()).filter(Boolean).join(", "); else miss("âm IPA trọng tâm");
+    if (sm) out.targetSounds = sm[1].split(/\s*(?:&|and|,|;)\s*/).map(x => x.trim()).filter(Boolean).join(", ");
+    else {
+      /* Bài không có slide "Sound focus" (vd 7.1): lấy các âm trong tiêu đề slide Pronunciation dạng "Last sound: /p/ and /b/" */
+      const snd = [], pr = /add\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1\s*,\s*['"]\w+['"]\s*,\s*['"]Pronunciation['"]/g; let pm;
+      while ((pm = pr.exec(s))) { const t = deckPlain_(pm[2]); if (/^(?:last|first|end|start)\s+sound\s*:/i.test(t)) (t.match(/\/[^\/\s]{1,4}\//g) || []).forEach(x => { if (snd.indexOf(x) < 0) snd.push(x); }); }
+      if (snd.length) out.targetSounds = snd.join(", "); else miss("âm IPA trọng tâm");
+    }
     // từ vựng: const V=[{w:'laptop',alt:'..'}...]
     const vi = s.indexOf("const V=["), vend = vi >= 0 ? s.indexOf("V.forEach", vi) : -1;
     if (vi >= 0 && vend > vi) {
@@ -328,6 +334,16 @@
     // ngữ pháp: tiêu đề các slide cấu trúc có dấu "+" (use … to + V ...)
     const g = []; const gr = /add\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1\s*,\s*['"]\w+['"]\s*,\s*['"]Grammar['"]/g; let gm;
     while ((gm = gr.exec(s))) if (/\+/.test(gm[2])) g.push(deckPlain_(gm[2]));
+    if (!g.length) {
+      /* Bài không có slide cấu trúc dạng "use … to + V" (vd 6.1, 7.1, 7.2): lấy tiêu đề các slide gắn nhãn Grammar,
+         bỏ các slide chung chung (Grammar time!, Grammar check, Quick practice, Choose…, Put it together). Chỉ chép chữ có trong file. */
+      const gr2 = /add\(\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1\s*,\s*['"]\w+['"]\s*,\s*['"]Grammar['"]/g; let g2;
+      while ((g2 = gr2.exec(s))) {
+        let t = deckPlain_(g2[2].replace(/\\(['"\\])/g, "$1")).replace(/^Grammar\s*:\s*/i, "");
+        if (!t || /^(grammar time|grammar check|quick practice|put it together|choose\b)/i.test(t)) continue;
+        if (g.indexOf(t) < 0) g.push(t);
+      }
+    }
     out.grammar = g.join("; "); if (!g.length) miss("ngữ pháp");
     // đề nói: mục Speak trong Homework
     const hm = s.match(/\[\s*['"]Speak['"]\s*,\s*(['"])((?:\\.|(?!\1)[^\\\n])*)\1/);
