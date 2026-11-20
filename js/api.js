@@ -12,7 +12,18 @@
   const isDemo = () => !CFG.apiUrl;
 
   /* ---------- gọi API ---------- */
-  async function call(action, payload) {
+  /* Máy chủ Apps Script xếp hàng mọi yêu cầu qua một "khoá" chung. Khi nhiều em nộp bài cùng lúc, yêu cầu đứng cuối hàng chờ quá 20 giây
+     thì máy chủ báo "Lock timeout ... another process ... holding the lock too long" (có thể hiện bằng tiếng Việt: "chờ khóa ... giữ khóa quá lâu").
+     Lỗi này xảy ra TRƯỚC khi máy chủ xử lý gì, nên thử lại là an toàn cho mọi thao tác (không ghi trùng). */
+  const BUSY_RE = /lock timeout|another process|holding the lock|chờ kh(óa|oá)|giữ kh(óa|oá)/i;
+  const isBusy = e => BUSY_RE.test(String((e && e.message) || e || ""));
+  /** lỗi do sai mật khẩu/phiên hết hạn (khác lỗi mạng hoặc máy chủ bận): chỉ khi đó mới nên đăng xuất */
+  const isAuthError = e => /sai mật khẩu|chưa đúng|phiên đã hết hạn|nhập tên của em/i.test(String((e && e.message) || e || ""));
+  const BUSY_DELAYS = [2500, 5000, 8000];   // chờ rồi thử lại tối đa 3 lần
+  const BUSY_MSG = "Hệ thống đang đông (nhiều bạn đang nộp bài). Em đợi vài giây rồi thử lại nhé.";
+  const wait = ms => new Promise(res => setTimeout(res, ms));
+
+  async function callOnce(action, payload) {
     const body = Object.assign({ action, name: auth.name, pw: auth.pw }, payload || {});
     if (isDemo()) return demo(body);
     let r;
@@ -23,6 +34,18 @@
     try { data = await r.json(); } catch (e) { throw new Error("Máy chủ trả về dữ liệu lạ. Kiểm tra lại cách triển khai Apps Script (Anyone có quyền truy cập)."); }
     if (!data.ok) throw new Error(data.error || "Có lỗi xảy ra");
     return data;
+  }
+  /** opts.onBusy(n): gọi mỗi lần máy chủ bận và sắp thử lại (n = lần thử lại thứ mấy) để màn hình hiện lời nhắn */
+  async function call(action, payload, opts) {
+    for (let n = 0; ; n++) {
+      try { return await callOnce(action, payload); }
+      catch (e) {
+        if (!isBusy(e)) throw e;
+        if (n >= BUSY_DELAYS.length) { const err = new Error(BUSY_MSG); err.busy = true; throw err; }
+        if (opts && opts.onBusy) { try { opts.onBusy(n + 1); } catch (x) { } }
+        await wait(BUSY_DELAYS[n] + Math.round(Math.random() * 800));
+      }
+    }
   }
   /** gửi nền khi rời trang (không chờ kết quả) */
   function beacon(action, payload) {
@@ -256,5 +279,5 @@
   }
 
   L.auth = auth;
-  L.api = { call, beacon, isDemo, saveAuth, logout, aggregate };
+  L.api = { call, beacon, isDemo, saveAuth, logout, aggregate, isBusy, isAuthError };
 })(window.LSE);

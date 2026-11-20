@@ -70,7 +70,7 @@
             btn.disabled = true; btn.textContent = "Đang vào…";
             L.auth.name = nm; L.auth.pw = pw.value;
             try {
-              const r = await L.api.call("login");
+              const r = await L.api.call("login", null, { onBusy: () => { btn.textContent = "Đang đông, em đợi chút nhé…"; } });
               L.auth.role = r.role; if (r.name) L.auth.name = r.name; L.api.saveAuth();
               if (tmode && r.role !== "teacher") throw new Error("Mật khẩu này không phải của cô giáo");
               state.manifest = state.hwList = state.plays = null;
@@ -617,7 +617,12 @@
     if (!L.auth.name || !L.auth.role) await loginModal(false);
     else {
       // kiểm tra phiên còn hợp lệ (mật khẩu có thể đã đổi)
-      try { const r = await L.api.call("login"); L.auth.role = r.role; if (r.name) L.auth.name = r.name; L.api.saveAuth(); } catch (e) { L.api.logout(); await loginModal(false); }
+      try { const r = await L.api.call("login"); L.auth.role = r.role; if (r.name) L.auth.name = r.name; L.api.saveAuth(); }
+      catch (e) {
+        // chỉ đăng xuất khi mật khẩu/phiên thật sự sai. Máy chủ bận hoặc mất mạng: giữ phiên đang lưu để em vào học luôn (không bắt gõ lại tên + mật khẩu)
+        if (L.api.isAuthError(e)) { L.api.logout(); await loginModal(false); }
+        else L.toast("Máy chủ đang bận hoặc mạng yếu, em cứ học tiếp nhé 🌱", 4000);
+      }
     }
     route();
   }
