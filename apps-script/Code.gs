@@ -27,6 +27,10 @@ const SHEETS = {
 const MAX_REPORT_ANSWERS = 8000;
 const DETAIL_COLS = ['sec', 'no', 'ans', 'key'];   // cột nặng: không gửi trong 'report' tổng hợp, chỉ gửi khi xem chi tiết 1 bài nộp (hwDetail)
 
+/** các action chỉ đọc dữ liệu, không ghi gì vào Sheet/Drive (kiểm tra kỹ trước khi thêm action mới vào đây) */
+const READ_ONLY_ACTIONS = { login: 1, myPlays: 1, report: 1, hwDetail: 1, studentList: 1, profileGet: 1, profileList: 1, appAccess: 1, appAssignList: 1,
+  hwList: 1, hwGet: 1, hwMine: 1, hwResults: 1, spgInfo: 1, spgLessonList: 1, spgResultList: 1, spgResultGet: 1 };
+
 function doGet() {
   return json_({ ok: true, service: 'Little Sprout English', note: 'Dùng POST. Mở trang web của lớp để sử dụng.' });
 }
@@ -41,6 +45,10 @@ function doPost(e) {
   // AI soạn bài tập từ ảnh cũng gọi Gemini (20-90 giây): xử lý riêng, không giữ khoá chung
   if (body.action === 'hwAi') {
     try { return json_(hwAi_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
+  }
+  // Thao tác chỉ ĐỌC (đăng nhập, xem danh sách, báo cáo...) không cần xếp hàng qua khoá: tránh bị kẹt khi nhiều em nộp bài cùng lúc
+  if (READ_ONLY_ACTIONS[body.action]) {
+    try { return json_(route_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
   }
   const lock = LockService.getScriptLock();
   try {
@@ -328,7 +336,7 @@ function sheet_(key) {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   let sh = ss.getSheetByName(key);
   if (!sh) {
-    sh = ss.insertSheet(key);
+    try { sh = ss.insertSheet(key); } catch (e) { sh = ss.getSheetByName(key); if (!sh) throw e; }   // yêu cầu khác vừa tạo xong thì dùng luôn
     sh.getRange(1, 1, 1, SHEETS[key].length).setValues([SHEETS[key]]).setFontWeight('bold');
     sh.setFrozenRows(1);
     if (key === 'students') sh.getRange('B:B').setNumberFormat('@'); // giữ mã dạng chữ (không bị đổi thành số)
@@ -369,7 +377,15 @@ function logPlay_(name, p, answers) {
   const now = new Date().toISOString();
   const sh = sheet_('plays'), n = sh.getLastRow();
   let rowIdx = -1, attempt = 0;
-  if (n >= 2) {
+  /* đường nhanh: lượt chơi đang diễn ra (cùng sid) -> tìm đúng dòng bằng TextFinder, không đọc cả bảng */
+  if (n >= 2 && p.sid) {
+    const hit = sh.getRange(2, 1, n - 1, 1).createTextFinder(String(p.sid)).matchEntireCell(true).findNext();
+    if (hit) {
+      const row = sh.getRange(hit.getRow(), 1, 1, SHEETS.plays.length).getValues()[0], c0 = SHEETS.plays;
+      if (row[c0.indexOf('name')] === name && row[c0.indexOf('appId')] === p.appId) { rowIdx = hit.getRow(); attempt = +row[c0.indexOf('attempt')] || 1; }
+    }
+  }
+  if (rowIdx < 0 && n >= 2) {
     const vals = sh.getRange(2, 1, n - 1, SHEETS.plays.length).getValues(), cols = SHEETS.plays;
     const iSid = cols.indexOf('sid'), iName = cols.indexOf('name'), iApp = cols.indexOf('appId');
     for (let i = 0; i < vals.length; i++) {
