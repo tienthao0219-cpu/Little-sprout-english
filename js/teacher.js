@@ -938,6 +938,31 @@
     }, { wide: true });
   }
 
+  /* Chi tiết MỘT lượt chơi app: các câu em làm trong lượt đó (lấy từ dữ liệu báo cáo đã tải, không cần gọi máy chủ) */
+  function playDetailModal(p, rep) {
+    const rows = (rep.answers || []).filter(a => a.source === "app" && String(a.sourceId) === String(p.appId) && String(a.attempt) === String(p.attempt) && L.sameName(a.name, p.name));
+    modal(close => {
+      const box = h("div"); let showAll = false;
+      const draw = () => {
+        box.innerHTML = "";
+        const wrong = rows.filter(a => !okOf_(a));
+        box.append(h("h3", { style: "margin-bottom:2px" }, p.appTitle || p.appId),
+          h("div.small.muted", { style: "margin-bottom:10px" }, p.name + " · " + [p.cur, p.unit].filter(Boolean).join(" · ") + (p.cur || p.unit ? " · " : "") + "Lần " + p.attempt + " · " + fmtDate(p.updated || p.time) + (+p.max ? " · Đúng " + p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "")));
+        if (!rows.length) box.append(h("div.hint", "Lượt chơi này chưa có chi tiết từng câu (app này không ghi lại đáp án, hoặc dữ liệu quá cũ)."));
+        else {
+          box.append(h("div.tabs", { style: "margin:0 0 8px" }, [[false, "Chỉ câu sai (" + wrong.length + ")"], [true, "Tất cả (" + rows.length + ")"]].map(([v, t]) => h("button" + (showAll === v ? ".on" : ""), { onclick: () => { showAll = v; draw(); } }, t))));
+          const list = showAll ? rows : wrong;
+          if (!list.length) box.append(h("div.small.muted", "Lượt này em làm đúng hết 🎉"));
+          else box.append(h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Chủ điểm", ""].map(t => h("th", t)))),
+            h("tbody", list.map(a => { const ok = okOf_(a); return h("tr", { style: ok ? "" : "background:#FFF5F8" }, h("td", qText_(a)), h("td", h("span.pill", String(a.topic || "—"))), h("td", ok ? "✓" : "✗")); })))));
+        }
+        box.append(h("div.row", { style: "justify-content:flex-end;margin-top:12px" }, h("button.btn.ghost", { onclick: close }, "Đóng")));
+      };
+      draw();
+      return box;
+    }, { wide: true });
+  }
+
   async function hwResultsModal(x) {
     modal(close => {
       const box = h("div", h("h3", { style: "margin-bottom:8px" }, "Kết quả: " + x.title), h("div.empty", h("span.spinner")));
@@ -1524,10 +1549,15 @@
     });
   }
 
+  /* gom các câu sai theo CHỦ ĐIỂM (cùng thứ tự với bảng độ chính xác: chủ điểm yếu nhất lên đầu) */
+  function wrongByTopic(s) {
+    return s.topicList.map(t => ({ t, items: s.wrongList.filter(w => w.topic === t.topic) })).filter(g => g.items.length).map(g => Object.assign(g, { mixed: new Set(g.items.map(w => w.src + "|" + w.srcId)).size > 1 }));   // mixed = chủ điểm này có câu sai từ nhiều app/bài khác nhau -> hiện thêm nguồn nhỏ dưới mỗi câu
+  }
   function pct(x) { return Math.round(x * 100); }
   function studentCard(s, rep) {
     rep = rep || { plays: [], subs: [] };
     const mySubs = rep.subs.filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.time).localeCompare(String(a.time)));
+    const myPlays = (rep.plays || []).filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.updated || b.time).localeCompare(String(a.updated || a.time)));
     /* câu sai nhiều nhất đến từ bài tập hay app nào */
     const srcOf = w => w.src === "hw" ? ((rep.subs.find(x => x.hwId === w.srcId) || {}).hwTitle || w.srcId || "") : w.src === "app" ? "App: " + ((rep.plays.find(x => x.appId === w.srcId) || {}).appTitle || w.srcId || "") : "";
     const tot = s.topicList.reduce((a, t) => a + t.n, 0), right = s.topicList.reduce((a, t) => a + t.right, 0);
@@ -1545,9 +1575,23 @@
             h("td", p.max ? p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "—"),
             h("td", h("button.btn.sm.sky", { onclick: () => subDetailModal(p) }, "Xem chi tiết"))))))) : h("div.small.muted", "Chưa nộp bài tập nào."),
         h("div.hint", { style: "margin:8px 0 0" }, "Phần dưới là thống kê GỘP của tất cả bài và app em đã làm (để thấy chủ điểm yếu). Muốn biết em sai ở bài nào, câu nào, chọn gì → bấm \"Xem chi tiết\" ở bảng trên."));
+      /* TỪNG LƯỢT CHƠI APP: mỗi lượt một dòng (giống "Từng bài đã nộp"), bấm "Xem chi tiết" để thấy các câu sai trong lượt đó */
+      if (myPlays.length) {
+        const PLAY_MAX = 30;
+        detail.append(h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "🎮 Từng lượt chơi app"),
+          h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["App", "Lần", "Ngày giờ", "Đúng", ""].map(t => h("th", t)))),
+            h("tbody", myPlays.slice(0, PLAY_MAX).map(p => h("tr", h("td", h("b", p.appTitle || p.appId), [p.cur, p.unit].filter(Boolean).length ? h("div.small.muted", [p.cur, p.unit].filter(Boolean).join(" · ")) : null), h("td", "Lần " + p.attempt), h("td", fmtDate(p.updated || p.time)),
+              h("td", +p.max ? p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "—"),
+              h("td", h("button.btn.sm.sky", { onclick: () => playDetailModal(p, rep) }, "Xem chi tiết"))))))),
+          myPlays.length > PLAY_MAX ? h("div.small.muted", { style: "margin-top:6px" }, "Đang hiện " + PLAY_MAX + " lượt gần nhất (trong " + myPlays.length + " lượt). Chọn \"7 ngày\" hoặc \"30 ngày\" ở trên để lọc.") : null);
+      }
       detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm (gộp tất cả bài)"),
         s.topicList.map(t => h("div.topic-row", h("div", { style: "font-weight:800" }, t.topic, h("div.small.muted", t.n + " ý" + (t.n >= 6 ? " · 6 ý gần nhất " + pct(t.recentAcc) + "%" : ""))), h("div.bar." + (t.n < 3 ? "" : t.acc < .6 ? "bad" : t.acc < .8 ? "" : "good"), h("i", { style: "width:" + pct(t.acc) + "%" })), h("b", pct(t.acc) + "%"))),
-        s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai nhiều nhất"), h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Bài / nguồn", "Chủ điểm", "Số lần sai"].map(x => h("th", x)))), h("tbody", s.wrongList.slice(0, 15).map(w => h("tr", h("td", w.q), h("td", { style: "font-size:13px" }, srcOf(w)), h("td", h("span.pill", w.topic)), h("td", "× " + w.n))))))] : null,
+        s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai theo chủ điểm"), h("div.small.muted", { style: "margin-bottom:4px" }, "Xếp theo chủ điểm, chủ điểm yếu nhất lên đầu. Mỗi chủ điểm hiện tối đa 6 câu sai nhiều nhất (bấm \"Sao chép báo cáo\" để gửi phụ huynh)."),
+          wrongByTopic(s).map(g => h("div.card", { style: "margin:10px 0 0;padding:12px 14px;box-shadow:none;border:2px solid var(--line,#eadff5)" },
+            h("div.row", { style: "gap:8px;align-items:center" }, h("b", { style: "font-size:16px" }, g.t.topic), h("span.grow"), h("span.pill" + (g.t.n >= 3 && g.t.acc < .7 ? ".rose" : g.t.acc >= .8 ? ".mint" : ""), "đúng " + pct(g.t.acc) + "% (" + g.t.right + "/" + g.t.n + " ý)")),
+            h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Số lần sai"].map(x => h("th", x)))),
+              h("tbody", g.items.slice(0, 6).map(w => h("tr", h("td", w.q, g.mixed && srcOf(w) ? h("div.small.muted", srcOf(w)) : null), h("td", { style: "white-space:nowrap" }, "× " + w.n))))))))] : null,
         h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s, mySubs)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
     });
     return card;
@@ -1559,7 +1603,10 @@
     s.weak.forEach(t => lines.push("- " + t.topic + ": đúng " + pct(t.acc) + "% (" + t.right + "/" + t.n + " ý)"));
     lines.push("", "Chủ điểm khác:");
     s.topicList.filter(t => !s.weak.includes(t)).forEach(t => lines.push("- " + t.topic + ": " + pct(t.acc) + "% (" + t.n + " ý)"));
-    if (s.wrongList.length) { lines.push("", "Hay sai:"); s.wrongList.slice(0, 8).forEach(w => lines.push("- " + w.q + " (" + w.topic + ", sai " + w.n + " lần)")); }
+    if (s.wrongList.length) {
+      lines.push("", "Các câu/ý hay sai, theo chủ điểm:");
+      wrongByTopic(s).slice(0, 8).forEach(g => { lines.push("• " + g.t.topic + " (đúng " + pct(g.t.acc) + "%):"); g.items.slice(0, 4).forEach(w => lines.push("   - " + w.q + " (sai " + w.n + " lần)")); });
+    }
     return lines.join("\n");
   }
 
