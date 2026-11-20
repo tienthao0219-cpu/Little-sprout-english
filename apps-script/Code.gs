@@ -108,6 +108,7 @@ function route_(b) {
     case 'spgLessonList': needT(); return spgLessonList_();
     case 'spgLessonSave': needT(); return spgLessonSave_(b.lesson);
     case 'spgLessonDelete': needT(); spgLessonDelete_(cut_(b.id, 40)); return { ok: true };
+    case 'spgLessonCleanup': needT(); return spgLessonCleanup_();
     case 'spgSettingsSave': needT(); return spgSettingsSave_(b.settings);
     case 'spgResultSave': needT(); return spgResultSave_(b.result);
     case 'spgResultList': needT(); return spgResultList_();
@@ -718,17 +719,42 @@ function spgShrink_(obj) {
   if (s.length > SPG_MAX_CELL) throw new Error('Kết quả quá dài để lưu.');
   return s;
 }
+/** Mã bài chuẩn của một dòng trong sheet spgLessons.
+ *  Thứ tự tin cậy: mã trong JSON -> số bài trong tên ("Bài 6.2 · ...") -> ô mã nếu là chữ hợp lệ.
+ *  Ô mã bị Sheets đổi thành ngày (6.2 -> 2 tháng 6) thì bỏ qua, vì không biết là ngày/tháng hay tháng/ngày. */
+function spgRowId_(cell, d, titleCell) {
+  const ok = function (x) { x = String(x == null ? '' : x).trim(); return /^[A-Za-z0-9_.-]+$/.test(x) ? x : ''; };
+  d = d || {};
+  let id = ok(d.id) || ok(d.code);
+  if (!id) { const m = String(d.title || titleCell || '').match(/\d+(?:\.\d+)*/); id = m ? m[0] : ''; }
+  if (!id && !(cell instanceof Date)) id = ok(cell);
+  return id;
+}
+/** điểm "đầy đủ" của một cấu hình bài: dòng nào nhiều nội dung hơn thì được giữ khi trùng mã */
+function spgLessonScore_(d) {
+  let n = 0;
+  ['prompt', 'targetSounds', 'soundNotes', 'grammar', 'notes'].forEach(function (k) { if (String(d[k] || '').trim()) n++; });
+  n += (Array.isArray(d.vocab) ? d.vocab.length : 0) + (Array.isArray(d.phrases) ? d.phrases.length : 0);
+  return n;
+}
 function spgLessonList_() {
-  const out = [], settings = { v: 1 };
-  let st = null;
+  const best = {}, order = [], settings = { v: 1 };
+  let st = null, total = 0;
   rows_('spgLessons').forEach(function (r) {
-    let d = {}; try { d = JSON.parse(r.data || '{}'); } catch (e) { }
+    let d = {}; try { d = JSON.parse(r.data || '{}') || {}; } catch (e) { d = {}; }
     if (String(r.id) === '_settings') { st = d; return; }
-    /* Sheets hay tự đổi ô "6.2" thành ngày nên ưu tiên mã nằm trong JSON (luôn là chữ đúng) */
-    d.id = String(d.id || r.id); d.title = d.title || String(r.title || '');
-    out.push(d);
+    total++;
+    d.title = d.title || String(r.title || '');
+    const id = spgRowId_(r.id, d, r.title) || String(d.id || r.id);
+    d.id = id; d.code = d.code || id;
+    const sc = spgLessonScore_(d), t = String(r.updated || '');
+    const cur = best[id];
+    if (!cur) { best[id] = { d: d, sc: sc, t: t }; order.push(id); }
+    else if (sc > cur.sc || (sc === cur.sc && t > cur.t)) best[id] = { d: d, sc: sc, t: t };
   });
-  return { ok: true, lessons: out, settings: st };
+  const out = order.map(function (id) { return best[id].d; });
+  /* dupes = số dòng thừa trong Sheet (web dùng để hiện nút "Dọn bài trùng") */
+  return { ok: true, lessons: out, settings: st, dupes: total - out.length };
 }
 function spgLessonSave_(l) {
   l = l || {};
@@ -747,16 +773,45 @@ function spgLessonSave_(l) {
   for (let i = found.length - 1; i >= 1; i--) sh.deleteRow(found[i]); /* dọn dòng trùng nếu có */
   return { ok: true, id: id };
 }
-/** số dòng (trong sheet) của bài có mã = id; khớp theo ô mã hoặc theo mã lưu trong JSON */
+/** số dòng (trong sheet) của bài có mã = id; dùng đúng cách tính mã như spgLessonList_ nên cũng tìm được các dòng cũ bị Sheets đổi ô mã thành ngày */
 function spgFindLessonRows_(id) {
   const sh = sheet_('spgLessons'), n = sh.getLastRow(), out = [];
   if (n < 2) return out;
   const vals = sh.getRange(2, 1, n - 1, SHEETS.spgLessons.length).getValues();
   for (let i = 0; i < vals.length; i++) {
-    let jid = ''; try { jid = String((JSON.parse(vals[i][2] || '{}') || {}).id || ''); } catch (e) { }
-    if (jid ? jid === id : (!(vals[i][0] instanceof Date) && String(vals[i][0]) === id)) out.push(i + 2);
+    if (String(vals[i][0]) === '_settings') continue;
+    let d = {}; try { d = JSON.parse(vals[i][2] || '{}') || {}; } catch (e) { d = {}; }
+    if (spgRowId_(vals[i][0], d, vals[i][1]) === id) out.push(i + 2);
   }
   return out;
+}
+/** Dọn các dòng trùng mã bài: mỗi bài giữ 1 dòng đầy đủ nhất (bằng nhau thì lấy dòng mới nhất), sửa lại ô mã thành chữ đúng. */
+function spgLessonCleanup_() {
+  const sh = sheet_('spgLessons'), n = sh.getLastRow(), cols = SHEETS.spgLessons.length;
+  if (n < 2) return { ok: true, removed: 0 };
+  const vals = sh.getRange(2, 1, n - 1, cols).getValues();
+  const best = {}, rowsById = {};
+  vals.forEach(function (v, i) {
+    if (String(v[0]) === '_settings') return;
+    let d = {}; try { d = JSON.parse(v[2] || '{}') || {}; } catch (e) { d = {}; }
+    const id = spgRowId_(v[0], d, v[1]);
+    if (!id) return;
+    d.title = d.title || String(v[1] || '');
+    (rowsById[id] = rowsById[id] || []).push(i + 2);
+    const sc = spgLessonScore_(d), t = v[3] instanceof Date ? v[3].toISOString() : String(v[3] || '');
+    const cur = best[id];
+    if (!cur || sc > cur.sc || (sc === cur.sc && t > cur.t)) best[id] = { row: i + 2, sc: sc, t: t, d: d };
+  });
+  const del = [];
+  Object.keys(best).forEach(function (id) {
+    const b = best[id];
+    b.d.id = id; b.d.code = b.d.code || id;
+    sh.getRange(b.row, 1).setNumberFormat('@').setValue(id);   /* ô mã là chữ thường */
+    sh.getRange(b.row, 3).setValue(JSON.stringify(b.d));
+    rowsById[id].forEach(function (r) { if (r !== b.row) del.push(r); });
+  });
+  del.sort(function (x, y) { return y - x; }).forEach(function (r) { sh.deleteRow(r); });
+  return { ok: true, removed: del.length };
 }
 function spgLessonDelete_(id) {
   const sh = sheet_('spgLessons'), rows = spgFindLessonRows_(id);

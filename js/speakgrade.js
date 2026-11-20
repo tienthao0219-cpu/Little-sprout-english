@@ -18,6 +18,17 @@
     { id: "7.1", code: "7.1", title: "Bài 7.1", targetSounds: "/p/, /k/", soundNotes: "Bật gió.", grammar: "work at + tên công ty; work in + phòng ban.", notes: "Ví dụ nối âm trong rubric: work in an office." }
   ];
 
+  /* Mã bài hợp lệ: ưu tiên mã đã lưu, rồi số bài trong tên ("Bài 6.2 · ..."). Mã bị Sheets đổi thành ngày thì không dùng. */
+  const okId = x => { x = String(x == null ? "" : x).trim(); return /^[A-Za-z0-9_.-]+$/.test(x) ? x : ""; };
+  const lessonId = l => { let id = okId(l.id) || okId(l.code); if (!id) { const m = String(l.title || "").match(/\d+(?:\.\d+)*/); id = m ? m[0] : ""; } return id || String(l.id || ""); };
+  const lessonScore = l => ["prompt", "targetSounds", "soundNotes", "grammar", "notes"].filter(k => String(l[k] || "").trim()).length + lines(l.vocab).length + lines(l.phrases).length;
+  /* Mỗi mã bài chỉ hiện 1 dòng: giữ dòng đầy đủ nhất (bằng nhau thì dòng đến sau) */
+  function dedupeLessons(list) {
+    const best = new Map();
+    list.forEach(l => { const id = lessonId(l), c = Object.assign({}, l, { id: id, code: l.code && okId(l.code) ? l.code : id }), cur = best.get(id); if (!cur || lessonScore(c) >= lessonScore(cur)) best.set(id, c); });
+    return Array.from(best.values());
+  }
+
   /* ============================================================
      Lưu trữ: Apps Script (thật) hoặc bộ nhớ trình duyệt (DEMO)
      ============================================================ */
@@ -27,9 +38,14 @@
   const store = {
     async info() { return isDemo() ? { hasKey: false, demo: true } : L.api.call("spgInfo"); },
     async lessons() {
-      if (isDemo()) { const d = demoLoad(); return { lessons: d.lessons, settings: d.settings }; }
+      if (isDemo()) { const d = demoLoad(); return { lessons: d.lessons, settings: d.settings, dupes: 0 }; }
       const r = await L.api.call("spgLessonList");
-      return { lessons: r.lessons || [], settings: r.settings || null };
+      const raw = r.lessons || [], uniq = dedupeLessons(raw);
+      return { lessons: uniq, settings: r.settings || null, dupes: Math.max(+r.dupes || 0, raw.length - uniq.length) };
+    },
+    async cleanupLessons() {
+      if (isDemo()) return { removed: 0 };
+      return L.api.call("spgLessonCleanup");
     },
     async saveLesson(l) {
       if (isDemo()) { const d = demoLoad(); const i = d.lessons.findIndex(x => x.id === l.id); if (i >= 0) d.lessons[i] = l; else d.lessons.push(l); demoSave(d); return; }
@@ -475,8 +491,15 @@
 
     host.append(h("div.card",
       h("div.row", h("h3", "Cấu hình từng bài"), h("span.grow"),
-        missing.length ? h("button.btn.sky", { title: "Tạo bài " + missing.map(m => m.code).join(", ") + " chỉ với phần cô đã viết trong rubric, các ô còn lại để cô điền", onclick: async () => {
-          try { for (const s of missing) await store.saveLesson(Object.assign({ vocab: [], phrases: [], prompt: "", targetSounds: "", soundNotes: "", grammar: "", notes: "" }, s)); toast("Đã tạo " + missing.length + " bài"); L.route(); } catch (e) { toast(e.message, 5000); }
+        ls.dupes > 0 ? h("button.btn.peach", { title: "Mỗi bài chỉ giữ 1 dòng đầy đủ nhất, xoá các dòng trùng trong Google Sheets", onclick: async ev => {
+          const b = ev.currentTarget; if (b.disabled) return;
+          if (!(await L.confirmBox("Có " + ls.dupes + " dòng bài bị trùng. Mỗi bài sẽ giữ 1 dòng đầy đủ nhất, các dòng trùng bị xoá. Kết quả đã chấm vẫn giữ nguyên.", "Dọn"))) return;
+          b.disabled = true;
+          try { const r = await store.cleanupLessons(); toast("Đã dọn " + (r.removed || 0) + " dòng trùng ✓"); L.route(); } catch (e) { b.disabled = false; toast(e.message, 5000); }
+        } }, "🧹 Dọn " + ls.dupes + " dòng trùng") : null,
+        missing.length ? h("button.btn.sky", { title: "Tạo bài " + missing.map(m => m.code).join(", ") + " chỉ với phần cô đã viết trong rubric, các ô còn lại để cô điền", onclick: async ev => {
+          const b = ev.currentTarget; if (b.disabled) return; b.disabled = true;   /* chống bấm nhiều lần sinh bài trùng */
+          try { for (const s of missing) await store.saveLesson(Object.assign({ vocab: [], phrases: [], prompt: "", targetSounds: "", soundNotes: "", grammar: "", notes: "" }, s)); toast("Đã tạo " + missing.length + " bài"); L.route(); } catch (e) { b.disabled = false; toast(e.message, 5000); }
         } }, "✨ Tạo sẵn bài " + missing.map(m => m.code).join(", ")) : null,
         h("button.btn", { onclick: () => editLesson(null) }, "+ Thêm bài")),
       h("p.small.muted", { style: "margin:6px 0 10px" }, "Mỗi bài cần: âm IPA trọng tâm, từ vựng cốt lõi, cấu trúc ngữ pháp và đề nói. Càng đủ thì AI chấm càng sát bài cô dạy. App không tự thêm nội dung bài; các bài tạo sẵn chỉ chứa phần cô đã viết trong rubric."),
