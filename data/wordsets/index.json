@@ -232,7 +232,7 @@
       "cur": "gs5",
       "unit": "unit-1-ugrc",
       "n": 18,
-      "pics": 0
+      "pics": 18
     },
     {
       "id": "gs5--unit-4-o6ek",
@@ -240,7 +240,7 @@
       "cur": "gs5",
       "unit": "unit-4-o6ek",
       "n": 20,
-      "pics": 0
+      "pics": 14
     },
     {
       "id": "gs5--unit-5-locs",
@@ -248,7 +248,7 @@
       "cur": "gs5",
       "unit": "unit-5-locs",
       "n": 18,
-      "pics": 0
+      "pics": 18
     },
     {
       "id": "gs5--unit-6-sr6d",
@@ -256,7 +256,7 @@
       "cur": "gs5",
       "unit": "unit-6-sr6d",
       "n": 18,
-      "pics": 0
+      "pics": 14
     },
     {
       "id": "movers--unit-1-mv01",
@@ -408,7 +408,7 @@
       "cur": "gs5",
       "unit": "review-g500",
       "n": 111,
-      "pics": 0
+      "pics": 94
     },
     {
       "id": "gs4--unit-2-t2hb",
@@ -440,7 +440,7 @@
       "cur": "gs5",
       "unit": "unit-2-h2om",
       "n": 22,
-      "pics": 0
+      "pics": 22
     },
     {
       "id": "gs5--unit-3-f3rd",
@@ -448,7 +448,7 @@
       "cur": "gs5",
       "unit": "unit-3-f3rd",
       "n": 16,
-      "pics": 0
+      "pics": 9
     },
     {
       "id": "gs4--unit-5-t5cd",

@@ -7,222 +7,266 @@
   {
    "w": "yourself",
    "vi": "bản thân bạn",
-   "ipa": "jɔːˈself"
+   "ipa": "jɔːˈself",
+   "img": "img/gs5--unit-1-ugrc/yourself.webp"
   },
   {
    "w": "class",
    "vi": "lớp học",
-   "ipa": "klɑːs"
+   "ipa": "klɑːs",
+   "img": "img/gs5--unit-1-ugrc/class.webp"
   },
   {
    "w": "grade",
    "vi": "khối lớp",
-   "ipa": "ɡreɪd"
+   "ipa": "ɡreɪd",
+   "img": "img/gs5--unit-1-ugrc/grade.webp"
   },
   {
    "w": "city",
    "vi": "thành phố",
-   "ipa": "ˈsɪti"
+   "ipa": "ˈsɪti",
+   "img": "img/gs5--unit-1-ugrc/city.webp"
   },
   {
    "w": "countryside",
    "vi": "nông thôn, vùng quê",
-   "ipa": "ˈkʌntrisaɪd"
+   "ipa": "ˈkʌntrisaɪd",
+   "img": "img/gs5--unit-1-ugrc/countryside.webp"
   },
   {
    "w": "favourite",
    "vi": "được yêu thích nhất",
-   "ipa": "ˈfeɪvərɪt"
+   "ipa": "ˈfeɪvərɪt",
+   "img": "img/gs5--unit-1-ugrc/favourite.webp"
   },
   {
    "w": "dolphin",
    "vi": "cá heo",
-   "ipa": "ˈdɒlfɪn"
+   "ipa": "ˈdɒlfɪn",
+   "img": "img/gs5--unit-1-ugrc/dolphin.webp"
   },
   {
    "w": "panda",
    "vi": "gấu trúc",
-   "ipa": "ˈpændə"
+   "ipa": "ˈpændə",
+   "img": "img/gs5--unit-1-ugrc/panda.webp"
   },
   {
    "w": "sandwich",
    "vi": "bánh mì kẹp",
-   "ipa": "ˈsænwɪtʃ"
+   "ipa": "ˈsænwɪtʃ",
+   "img": "img/gs5--unit-1-ugrc/sandwich.webp"
   },
   {
    "w": "table tennis",
    "vi": "môn bóng bàn",
-   "ipa": "ˈteɪbl tenɪs"
+   "ipa": "ˈteɪbl tenɪs",
+   "img": "img/gs5--unit-1-ugrc/table-tennis.webp"
   },
   {
    "w": "pink",
    "vi": "màu hồng",
-   "ipa": "pɪŋk"
+   "ipa": "pɪŋk",
+   "img": "img/gs5--unit-1-ugrc/pink.webp"
   },
   {
    "w": "sport",
    "vi": "thể thao",
-   "ipa": "spɔːt"
+   "ipa": "spɔːt",
+   "img": "img/gs5--unit-1-ugrc/sport.webp"
   },
   {
    "w": "food",
    "vi": "thức ăn",
-   "ipa": "fuːd"
+   "ipa": "fuːd",
+   "img": "img/gs5--unit-1-ugrc/food.webp"
   },
   {
    "w": "animal",
    "vi": "động vật",
-   "ipa": "ˈænɪml"
+   "ipa": "ˈænɪml",
+   "img": "img/gs5--unit-1-ugrc/animal.webp"
   },
   {
    "w": "colour",
    "vi": "màu sắc",
-   "ipa": "ˈkʌlə"
+   "ipa": "ˈkʌlə",
+   "img": "img/gs5--unit-1-ugrc/colour.webp"
   },
   {
    "w": "pizza",
    "vi": "bánh pizza",
-   "ipa": "ˈpiːtsə"
+   "ipa": "ˈpiːtsə",
+   "img": "img/gs5--unit-1-ugrc/pizza.webp"
   },
   {
    "w": "basketball",
    "vi": "bóng rổ",
-   "ipa": "ˈbɑːskɪtbɔːl"
+   "ipa": "ˈbɑːskɪtbɔːl",
+   "img": "img/gs5--unit-1-ugrc/basketball.webp"
   },
   {
    "w": "swimming",
    "vi": "bơi lội",
-   "ipa": "ˈswɪmɪŋ"
+   "ipa": "ˈswɪmɪŋ",
+   "img": "img/gs5--unit-1-ugrc/swimming.webp"
   },
   {
    "w": "house",
    "vi": "ngôi nhà",
-   "ipa": "haʊs"
+   "ipa": "haʊs",
+   "img": "img/gs5--unit-2-h2om/house.webp"
   },
   {
    "w": "flat",
    "vi": "căn hộ",
-   "ipa": "flæt"
+   "ipa": "flæt",
+   "img": "img/gs5--unit-2-h2om/flat.webp"
   },
   {
    "w": "building",
    "vi": "tòa nhà",
-   "ipa": "ˈbɪldɪŋ"
+   "ipa": "ˈbɪldɪŋ",
+   "img": "img/gs5--unit-2-h2om/building.webp"
   },
   {
    "w": "tower",
    "vi": "tòa tháp",
-   "ipa": "ˈtaʊə"
+   "ipa": "ˈtaʊə",
+   "img": "img/gs5--unit-2-h2om/tower.webp"
   },
   {
    "w": "address",
    "vi": "địa chỉ",
-   "ipa": "əˈdres"
+   "ipa": "əˈdres",
+   "img": "img/gs5--unit-2-h2om/address.webp"
   },
   {
    "w": "street",
    "vi": "đường, phố",
-   "ipa": "striːt"
+   "ipa": "striːt",
+   "img": "img/gs5--unit-2-h2om/street.webp"
   },
   {
    "w": "district",
    "vi": "quận",
-   "ipa": "ˈdɪstrɪkt"
+   "ipa": "ˈdɪstrɪkt",
+   "img": "img/gs5--unit-2-h2om/district.webp"
   },
   {
    "w": "sports centre",
    "vi": "trung tâm thể thao",
-   "ipa": "spɔːts ˈsentə"
+   "ipa": "spɔːts ˈsentə",
+   "img": "img/gs5--unit-2-h2om/sports-centre.webp"
   },
   {
    "w": "kilometre",
    "vi": "ki-lô-mét",
-   "ipa": "ˈkɪləmiːtə"
+   "ipa": "ˈkɪləmiːtə",
+   "img": "img/gs5--unit-2-h2om/kilometre.webp"
   },
   {
    "w": "near",
    "vi": "gần",
-   "ipa": "nɪə"
+   "ipa": "nɪə",
+   "img": "img/gs5--unit-2-h2om/near.webp"
   },
   {
    "w": "far",
    "vi": "xa",
-   "ipa": "fɑː"
+   "ipa": "fɑː",
+   "img": "img/gs5--unit-2-h2om/far.webp"
   },
   {
    "w": "thirteen",
    "vi": "13",
-   "ipa": "ˌθɜːˈtiːn"
+   "ipa": "ˌθɜːˈtiːn",
+   "img": "img/gs5--unit-2-h2om/thirteen.webp"
   },
   {
    "w": "fourteen",
    "vi": "14",
-   "ipa": "ˌfɔːˈtiːn"
+   "ipa": "ˌfɔːˈtiːn",
+   "img": "img/gs5--unit-2-h2om/fourteen.webp"
   },
   {
    "w": "fifteen",
    "vi": "15",
-   "ipa": "ˌfɪfˈtiːn"
+   "ipa": "ˌfɪfˈtiːn",
+   "img": "img/gs5--unit-2-h2om/fifteen.webp"
   },
   {
    "w": "sixteen",
    "vi": "16",
-   "ipa": "ˌsɪksˈtiːn"
+   "ipa": "ˌsɪksˈtiːn",
+   "img": "img/gs5--unit-2-h2om/sixteen.webp"
   },
   {
    "w": "eighteen",
    "vi": "18",
-   "ipa": "ˌeɪˈtiːn"
+   "ipa": "ˌeɪˈtiːn",
+   "img": "img/gs5--unit-2-h2om/eighteen.webp"
   },
   {
    "w": "nineteen",
    "vi": "19",
-   "ipa": "ˌnaɪnˈtiːn"
+   "ipa": "ˌnaɪnˈtiːn",
+   "img": "img/gs5--unit-2-h2om/nineteen.webp"
   },
   {
    "w": "twenty",
    "vi": "20",
-   "ipa": "ˈtwenti"
+   "ipa": "ˈtwenti",
+   "img": "img/gs5--unit-2-h2om/twenty.webp"
   },
   {
    "w": "thirty",
    "vi": "30",
-   "ipa": "ˈθɜːti"
+   "ipa": "ˈθɜːti",
+   "img": "img/gs5--unit-2-h2om/thirty.webp"
   },
   {
    "w": "sixty",
    "vi": "60",
-   "ipa": "ˈsɪksti"
+   "ipa": "ˈsɪksti",
+   "img": "img/gs5--unit-2-h2om/sixty.webp"
   },
   {
    "w": "ninety",
    "vi": "90",
-   "ipa": "ˈnaɪnti"
+   "ipa": "ˈnaɪnti",
+   "img": "img/gs5--unit-2-h2om/ninety.webp"
   },
   {
    "w": "Australian",
    "vi": "người Úc / thuộc Úc",
-   "ipa": "ɔːˈstreɪliən"
+   "ipa": "ɔːˈstreɪliən",
+   "img": "img/gs5--unit-3-f3rd/Australian.webp"
   },
   {
    "w": "Malaysian",
    "vi": "người Ma-lai-xi-a",
-   "ipa": "məˈleɪʒn"
+   "ipa": "məˈleɪʒn",
+   "img": "img/gs5--unit-3-f3rd/Malaysian.webp"
   },
   {
    "w": "American",
    "vi": "người Mỹ",
-   "ipa": "əˈmerɪkən"
+   "ipa": "əˈmerɪkən",
+   "img": "img/gs5--unit-3-f3rd/American.webp"
   },
   {
    "w": "Japanese",
    "vi": "người Nhật",
-   "ipa": "ˌdʒæpəˈniːz"
+   "ipa": "ˌdʒæpəˈniːz",
+   "img": "img/gs5--unit-3-f3rd/Japanese.webp"
   },
   {
    "w": "British",
    "vi": "người Anh",
-   "ipa": "ˈbrɪtɪʃ"
+   "ipa": "ˈbrɪtɪʃ",
+   "img": "img/gs5--unit-3-f3rd/British.webp"
   },
   {
    "w": "Australia",
@@ -252,22 +296,26 @@
   {
    "w": "friendly",
    "vi": "thân thiện",
-   "ipa": "ˈfrendli"
+   "ipa": "ˈfrendli",
+   "img": "img/gs5--unit-3-f3rd/friendly.webp"
   },
   {
    "w": "helpful",
    "vi": "hay giúp đỡ",
-   "ipa": "ˈhelpfl"
+   "ipa": "ˈhelpfl",
+   "img": "img/gs5--unit-3-f3rd/helpful.webp"
   },
   {
    "w": "clever",
    "vi": "thông minh",
-   "ipa": "ˈklevə(r)"
+   "ipa": "ˈklevə(r)",
+   "img": "img/gs5--unit-3-f3rd/clever.webp"
   },
   {
    "w": "active",
    "vi": "năng động, hoạt bát",
-   "ipa": "ˈæktɪv"
+   "ipa": "ˈæktɪv",
+   "img": "img/gs5--unit-3-f3rd/active.webp"
   },
   {
    "w": "nationality",
@@ -282,72 +330,86 @@
   {
    "w": "play the violin",
    "vi": "chơi đàn vi-ô-lông",
-   "ipa": "pleɪ ðə ˌvaɪəˈlɪn"
+   "ipa": "pleɪ ðə ˌvaɪəˈlɪn",
+   "img": "img/gs5--unit-4-o6ek/play-the-violin.webp"
   },
   {
    "w": "surf the Internet",
    "vi": "lướt mạng",
-   "ipa": "sɜːf ði ˈɪntənet"
+   "ipa": "sɜːf ði ˈɪntənet",
+   "img": "img/gs5--unit-4-o6ek/surf-the-Internet.webp"
   },
   {
    "w": "go for a walk",
    "vi": "đi dạo",
-   "ipa": "ɡəʊ fər ə ˈwɔːk"
+   "ipa": "ɡəʊ fər ə ˈwɔːk",
+   "img": "img/gs5--unit-4-o6ek/go-for-a-walk.webp"
   },
   {
    "w": "water the flowers",
    "vi": "tưới hoa",
-   "ipa": "ˈwɔːtə ðə ˈflaʊəz"
+   "ipa": "ˈwɔːtə ðə ˈflaʊəz",
+   "img": "img/gs5--unit-4-o6ek/water-the-flowers.webp"
   },
   {
    "w": "watch cartoons",
    "vi": "xem phim hoạt hình",
-   "ipa": "wɒtʃ kɑːˈtuːnz"
+   "ipa": "wɒtʃ kɑːˈtuːnz",
+   "img": "img/gs5--unit-4-o6ek/watch-cartoons.webp"
   },
   {
    "w": "listen to music",
    "vi": "nghe nhạc",
-   "ipa": "ˈlɪsn tə ˈmjuːzɪk"
+   "ipa": "ˈlɪsn tə ˈmjuːzɪk",
+   "img": "img/gs5--unit-4-o6ek/listen-to-music.webp"
   },
   {
    "w": "play table tennis",
    "vi": "chơi bóng bàn",
-   "ipa": "pleɪ ˈteɪbl ˈtenɪs"
+   "ipa": "pleɪ ˈteɪbl ˈtenɪs",
+   "img": "img/gs5--unit-4-o6ek/play-table-tennis.webp"
   },
   {
    "w": "read stories",
    "vi": "đọc truyện",
-   "ipa": "riːd ˈstɔːriz"
+   "ipa": "riːd ˈstɔːriz",
+   "img": "img/gs5--unit-4-o6ek/read-stories.webp"
   },
   {
    "w": "ride my bike",
    "vi": "đạp xe",
-   "ipa": "raɪd maɪ baɪk"
+   "ipa": "raɪd maɪ baɪk",
+   "img": "img/gs5--unit-4-o6ek/ride-my-bike.webp"
   },
   {
    "w": "play the guitar",
    "vi": "chơi đàn ghi-ta",
-   "ipa": "pleɪ ðə ɡɪˈtɑː"
+   "ipa": "pleɪ ðə ɡɪˈtɑː",
+   "img": "img/gs5--unit-4-o6ek/play-the-guitar.webp"
   },
   {
    "w": "take photos",
    "vi": "chụp ảnh",
-   "ipa": "teɪk ˈfəʊtəʊz"
+   "ipa": "teɪk ˈfəʊtəʊz",
+   "img": "img/gs5--unit-4-o6ek/take-photos.webp"
   },
   {
    "w": "play volleyball",
    "vi": "chơi bóng chuyền",
-   "ipa": "pleɪ ˈvɒlibɔːl"
+   "ipa": "pleɪ ˈvɒlibɔːl",
+   "img": "img/gs5--unit-4-o6ek/play-volleyball.webp"
   },
   {
    "w": "go swimming",
    "vi": "đi bơi",
-   "ipa": "ɡəʊ ˈswɪmɪŋ"
+   "ipa": "ɡəʊ ˈswɪmɪŋ",
+   "img": "img/gs5--unit-4-o6ek/go-swimming.webp"
   },
   {
    "w": "help mum with the cooking",
    "vi": "giúp mẹ nấu ăn",
-   "ipa": "help mʌm wɪð ðə ˈkʊkɪŋ"
+   "ipa": "help mʌm wɪð ðə ˈkʊkɪŋ",
+   "img": "img/gs5--unit-4-o6ek/help-mum-with-the-cooking.webp"
   },
   {
    "w": "always",
@@ -382,82 +444,98 @@
   {
    "w": "firefighter",
    "vi": "lính cứu hoả",
-   "ipa": "ˈfaɪəfaɪtə(r)"
+   "ipa": "ˈfaɪəfaɪtə(r)",
+   "img": "img/gs5--unit-5-locs/firefighter.webp"
   },
   {
    "w": "reporter",
    "vi": "phóng viên, nhà báo",
-   "ipa": "rɪˈpɔːtə(r)"
+   "ipa": "rɪˈpɔːtə(r)",
+   "img": "img/gs5--unit-5-locs/reporter.webp"
   },
   {
    "w": "gardener",
    "vi": "người làm vườn",
-   "ipa": "ˈɡɑːdnə(r)"
+   "ipa": "ˈɡɑːdnə(r)",
+   "img": "img/gs5--unit-5-locs/gardener.webp"
   },
   {
    "w": "writer",
    "vi": "nhà văn",
-   "ipa": "ˈraɪtə(r)"
+   "ipa": "ˈraɪtə(r)",
+   "img": "img/gs5--unit-5-locs/writer.webp"
   },
   {
    "w": "doctor",
    "vi": "bác sĩ",
-   "ipa": "ˈdɒktə(r)"
+   "ipa": "ˈdɒktə(r)",
+   "img": "img/gs5--unit-5-locs/doctor.webp"
   },
   {
    "w": "teacher",
    "vi": "giáo viên",
-   "ipa": "ˈtiːtʃə(r)"
+   "ipa": "ˈtiːtʃə(r)",
+   "img": "img/gs5--unit-5-locs/teacher.webp"
   },
   {
    "w": "dentist",
    "vi": "nha sĩ",
-   "ipa": "ˈdentɪst"
+   "ipa": "ˈdentɪst",
+   "img": "img/gs5--unit-5-locs/dentist.webp"
   },
   {
    "w": "farmer",
    "vi": "nông dân",
-   "ipa": "ˈfɑːmə(r)"
+   "ipa": "ˈfɑːmə(r)",
+   "img": "img/gs5--unit-5-locs/farmer.webp"
   },
   {
    "w": "architect",
    "vi": "kiến trúc sư",
-   "ipa": "ˈɑːkɪtekt"
+   "ipa": "ˈɑːkɪtekt",
+   "img": "img/gs5--unit-5-locs/architect.webp"
   },
   {
    "w": "actor",
    "vi": "diễn viên",
-   "ipa": "ˈæktə(r)"
+   "ipa": "ˈæktə(r)",
+   "img": "img/gs5--unit-5-locs/actor.webp"
   },
   {
    "w": "music room",
    "vi": "phòng âm nhạc",
-   "ipa": "ˈmjuːzɪk ruːm"
+   "ipa": "ˈmjuːzɪk ruːm",
+   "img": "img/gs5--unit-6-sr6d/music-room.webp"
   },
   {
    "w": "computer room",
    "vi": "phòng máy tính",
-   "ipa": "kəmˈpjuːtə ruːm"
+   "ipa": "kəmˈpjuːtə ruːm",
+   "img": "img/gs5--unit-6-sr6d/computer-room.webp"
   },
   {
    "w": "library",
    "vi": "thư viện",
-   "ipa": "ˈlaɪbrəri"
+   "ipa": "ˈlaɪbrəri",
+   "img": "img/gs5--unit-6-sr6d/library.webp"
   },
   {
    "w": "art room",
    "vi": "phòng mỹ thuật",
-   "ipa": "ˈɑːt ruːm"
+   "ipa": "ˈɑːt ruːm",
+   "img": "img/gs5--unit-6-sr6d/art-room.webp"
   },
   {
    "w": "gym",
    "vi": "phòng tập thể dục",
-   "ipa": "dʒɪm"
+   "ipa": "dʒɪm",
+   "img": "img/gs5--unit-6-sr6d/gym.webp"
   },
   {
    "w": "floor",
    "vi": "tầng",
-   "ipa": "flɔː"
+   "ipa": "flɔː",
+   "img": "img/gs5--unit-6-sr6d/floor.webp"
   },
   {
    "w": "ground floor",
@@ -482,82 +560,98 @@
   {
    "w": "corridor",
    "vi": "hành lang",
-   "ipa": "ˈkɒrɪdɔː"
+   "ipa": "ˈkɒrɪdɔː",
+   "img": "img/gs5--unit-6-sr6d/corridor.webp"
   },
   {
    "w": "go upstairs",
    "vi": "đi lên lầu / lên gác",
-   "ipa": "ɡəʊ ˌʌpˈsteəz"
+   "ipa": "ɡəʊ ˌʌpˈsteəz",
+   "img": "img/gs5--unit-6-sr6d/go-upstairs.webp"
   },
   {
    "w": "go downstairs",
    "vi": "đi xuống lầu / xuống gác",
-   "ipa": "ɡəʊ ˌdaʊnˈsteəz"
+   "ipa": "ɡəʊ ˌdaʊnˈsteəz",
+   "img": "img/gs5--unit-6-sr6d/go-downstairs.webp"
   },
   {
    "w": "go along",
    "vi": "đi dọc theo",
-   "ipa": "ɡəʊ əˈlɒŋ"
+   "ipa": "ɡəʊ əˈlɒŋ",
+   "img": "img/gs5--unit-6-sr6d/go-along.webp"
   },
   {
    "w": "go past",
    "vi": "đi qua, đi ngang qua",
-   "ipa": "ɡəʊ ˈpɑːst"
+   "ipa": "ɡəʊ ˈpɑːst",
+   "img": "img/gs5--unit-6-sr6d/go-past.webp"
   },
   {
    "w": "turn left",
    "vi": "rẽ trái",
-   "ipa": "tɜːn left"
+   "ipa": "tɜːn left",
+   "img": "img/gs5--unit-6-sr6d/turn-left.webp"
   },
   {
    "w": "turn right",
    "vi": "rẽ phải",
-   "ipa": "tɜːn raɪt"
+   "ipa": "tɜːn raɪt",
+   "img": "img/gs5--unit-6-sr6d/turn-right.webp"
   },
   {
    "w": "look for",
    "vi": "tìm kiếm",
-   "ipa": "ˈlʊk fɔː"
+   "ipa": "ˈlʊk fɔː",
+   "img": "img/gs5--unit-6-sr6d/look-for.webp"
   },
   {
    "w": "put out fires",
    "vi": "dập lửa",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/put-out-fires.webp"
   },
   {
    "w": "report the news",
    "vi": "đưa tin tức",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/report-the-news.webp"
   },
   {
    "w": "grow flowers",
    "vi": "trồng hoa",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/grow-flowers.webp"
   },
   {
    "w": "write stories",
    "vi": "viết truyện",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/write-stories.webp"
   },
   {
    "w": "help sick people",
    "vi": "giúp đỡ người bệnh",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/help-sick-people.webp"
   },
   {
    "w": "teach children",
    "vi": "dạy trẻ em",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/teach-children.webp"
   },
   {
    "w": "take care of teeth",
    "vi": "chăm sóc răng",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/take-care-of-teeth.webp"
   },
   {
    "w": "grow plants",
    "vi": "trồng cây",
-   "ipa": ""
+   "ipa": "",
+   "img": "img/gs5--unit-5-locs/grow-plants.webp"
   }
  ]
 }

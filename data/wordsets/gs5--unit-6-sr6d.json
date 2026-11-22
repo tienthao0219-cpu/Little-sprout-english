@@ -7,32 +7,38 @@
   {
    "w": "music room",
    "vi": "phòng âm nhạc",
-   "ipa": "ˈmjuːzɪk ruːm"
+   "ipa": "ˈmjuːzɪk ruːm",
+   "img": "img/gs5--unit-6-sr6d/music-room.webp"
   },
   {
    "w": "computer room",
    "vi": "phòng máy tính",
-   "ipa": "kəmˈpjuːtə ruːm"
+   "ipa": "kəmˈpjuːtə ruːm",
+   "img": "img/gs5--unit-6-sr6d/computer-room.webp"
   },
   {
    "w": "library",
    "vi": "thư viện",
-   "ipa": "ˈlaɪbrəri"
+   "ipa": "ˈlaɪbrəri",
+   "img": "img/gs5--unit-6-sr6d/library.webp"
   },
   {
    "w": "art room",
    "vi": "phòng mỹ thuật",
-   "ipa": "ˈɑːt ruːm"
+   "ipa": "ˈɑːt ruːm",
+   "img": "img/gs5--unit-6-sr6d/art-room.webp"
   },
   {
    "w": "gym",
    "vi": "phòng tập thể dục",
-   "ipa": "dʒɪm"
+   "ipa": "dʒɪm",
+   "img": "img/gs5--unit-6-sr6d/gym.webp"
   },
   {
    "w": "floor",
    "vi": "tầng",
-   "ipa": "flɔː"
+   "ipa": "flɔː",
+   "img": "img/gs5--unit-6-sr6d/floor.webp"
   },
   {
    "w": "ground floor",
@@ -57,42 +63,50 @@
   {
    "w": "corridor",
    "vi": "hành lang",
-   "ipa": "ˈkɒrɪdɔː"
+   "ipa": "ˈkɒrɪdɔː",
+   "img": "img/gs5--unit-6-sr6d/corridor.webp"
   },
   {
    "w": "go upstairs",
    "vi": "đi lên lầu / lên gác",
-   "ipa": "ɡəʊ ˌʌpˈsteəz"
+   "ipa": "ɡəʊ ˌʌpˈsteəz",
+   "img": "img/gs5--unit-6-sr6d/go-upstairs.webp"
   },
   {
    "w": "go downstairs",
    "vi": "đi xuống lầu / xuống gác",
-   "ipa": "ɡəʊ ˌdaʊnˈsteəz"
+   "ipa": "ɡəʊ ˌdaʊnˈsteəz",
+   "img": "img/gs5--unit-6-sr6d/go-downstairs.webp"
   },
   {
    "w": "go along",
    "vi": "đi dọc theo",
-   "ipa": "ɡəʊ əˈlɒŋ"
+   "ipa": "ɡəʊ əˈlɒŋ",
+   "img": "img/gs5--unit-6-sr6d/go-along.webp"
   },
   {
    "w": "go past",
    "vi": "đi qua, đi ngang qua",
-   "ipa": "ɡəʊ ˈpɑːst"
+   "ipa": "ɡəʊ ˈpɑːst",
+   "img": "img/gs5--unit-6-sr6d/go-past.webp"
   },
   {
    "w": "turn left",
    "vi": "rẽ trái",
-   "ipa": "tɜːn left"
+   "ipa": "tɜːn left",
+   "img": "img/gs5--unit-6-sr6d/turn-left.webp"
   },
   {
    "w": "turn right",
    "vi": "rẽ phải",
-   "ipa": "tɜːn raɪt"
+   "ipa": "tɜːn raɪt",
+   "img": "img/gs5--unit-6-sr6d/turn-right.webp"
   },
   {
    "w": "look for",
    "vi": "tìm kiếm",
-   "ipa": "ˈlʊk fɔː"
+   "ipa": "ˈlʊk fɔː",
+   "img": "img/gs5--unit-6-sr6d/look-for.webp"
   }
  ]
 }
