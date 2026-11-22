@@ -343,6 +343,8 @@ body{background:radial-gradient(900px 520px at 4% -10%,#CDE8FF 0%,transparent 60
 .hero-art .hc:nth-child(2){width:110px;height:110px;animation-delay:.5s}.hero-art .hc:nth-child(3){animation-delay:1s}
 .hero-art svg{width:100%;height:100%;display:block}
 .fc-art svg{border-radius:20px}
+.say{position:absolute;right:8px;top:8px;width:44px;height:44px;border-radius:50%;border:3px solid #fff;background:var(--sky);box-shadow:0 3px 8px rgba(94,78,150,.2);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;z-index:2;padding:0}
+.say:active{transform:scale(.92)}
 .fc-b .duty{margin-top:4px;padding:2px 10px;border-radius:99px;background:#fff;font-family:var(--f-head);font-weight:700;font-size:15px;color:var(--peach-d)}
 .fc .tagx{position:absolute;left:8px;top:8px;padding:1px 9px;border-radius:99px;background:var(--butter);font-size:12px;font-family:var(--f-head);font-weight:800}
 .fc .tagx.an{background:var(--pink-d);color:#fff}
@@ -923,16 +925,26 @@ const dayKey = d => d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate
 const SND = {};
 try { for (const k in SND_SRC) SND[k] = new Audio(SND_SRC[k]); } catch (e) {}
 function sfx(n) { if (S.mute || !['correct', 'wrong', 'win'].includes(n)) return; try { const a = SND[n]; if (!a) return; a.currentTime = 0; const p = a.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
-const canSpeak = 'speechSynthesis' in window && typeof SpeechSynthesisUtterance !== 'undefined';
+/* Giọng đọc máy (Anh-Anh nếu máy có). Không có SpeechSynthesis thì báo nhẹ, không lỗi. */
+let _voice = null;
+function pickVoice() {
+  try {
+    const vs = speechSynthesis.getVoices() || [];
+    _voice = vs.find(v => /en[-_]GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+  } catch (e) { _voice = null; }
+  return _voice;
+}
 function speak(text) {
-  if (S.mute || !canSpeak) return;
+  if (S.mute) return false;
+  if (!('speechSynthesis' in window) || typeof SpeechSynthesisUtterance === 'undefined') { toast('Máy này chưa hỗ trợ giọng đọc. Thử trên Chrome hoặc Safari nhé!'); return false; }
   try {
     speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text); u.lang = 'en-GB'; u.rate = .85;
-    const v = (speechSynthesis.getVoices() || []).find(v => /en[-_]GB/i.test(v.lang)) || (speechSynthesis.getVoices() || []).find(v => /^en/i.test(v.lang)); if (v) u.voice = v;
-    speechSynthesis.speak(u);
-  } catch (e) {}
+    const u = new SpeechSynthesisUtterance(text); const v = _voice || pickVoice();
+    if (v) { u.voice = v; u.lang = v.lang; } else u.lang = 'en-GB';
+    u.rate = .85; u.pitch = 1.05; speechSynthesis.speak(u); return true;
+  } catch (e) { return false; }
 }
+try { if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = pickVoice; } catch (e) {}
 
 /* ---------- thông báo, xu, pháo giấy ---------- */
 function toast(msg) {
@@ -1380,7 +1392,11 @@ JOBS.forEach(j => {
     const L = id.split(''); let t = shuffle(L), n = 0; while (t.join('') === id && n++ < 9) t = shuffle(L);
     return {type: 'order', join: '', prompt: 'Sắp xếp các chữ cái thành tên nghề.', sub: cap(j.vi), art: chibiSVG(id), tiles: t, target: id, exp: `Từ đúng là <b>${id}</b> (${j.vi}).`};
   }, id);
+  /* Look & Type: nhìn hình, tự gõ cả từ tiếng Anh (không có chữ cái gợi sẵn) */
+  mk('v:look:' + id, 'vocab', () => ({type: 'fill', prompt: 'Look and type! Nhìn hình rồi gõ tên nghề bằng tiếng Anh.', line: id.split('').map(() => '_').join(' '), art: chibiSVG(id), accept: [id, aj(id)], show: id, exp: `Đây là <b>${aj(id)}</b> ${j.ipa} (${j.vi}).`}), id);
+  mk('v:vtype:' + id, 'vocab', () => ({type: 'fill', prompt: 'Gõ từ tiếng Anh. Không có hình, em tự nhớ nhé!', line: cap(j.vi), sub: `Gợi ý: ${id.length} chữ cái`, accept: [id, aj(id)], show: id, exp: `${cap(j.vi)} là <b>${id}</b> ${j.ipa}.`}), id);
   if (!j.main) return;
+  mk('v:lookd:' + id, 'vocab', () => ({type: 'fill', prompt: `Look and type! Nhìn hình: ${aj(id)} này làm công việc gì? Gõ cụm động từ.`, line: j.duty.split(' ').map(w => w.split('').map(() => '_').join(' ')).join('   '), art: chibiSVG(id), accept: [j.duty], show: j.duty, exp: `${cap(aj(id))} <b>${j.d3}</b>. Cụm đúng: <b>${j.duty}</b> = ${j.dvi}.`}), id);
   mk('v:who:' + id, 'vocab', () => Object.assign({type: 'mc', prompt: `Who ${j.d3}? <span class="qsub">(Ai ${j.dvi}?)</span>`, exp: `<b>${cap(aj(id))}</b> ${j.d3}.`}, mcOpts(aj(id), MAIN.filter(x => x.id !== (id === 'gardener' ? 'farmer' : id === 'farmer' ? 'gardener' : '')).map(x => aj(x.id)))), id);
   mk('v:duty:' + id, 'vocab', () => { const pic = Math.random() < .5; return Object.assign({type: 'mc', prompt: `${pic ? 'This person' : cap(aj(id))} ${'<span class="blank">____</span>'}.`, sub: pic ? 'Nhìn hình: người này làm công việc gì?' : `${cap(j.vi)} làm công việc gì?`, art: pic ? chibiSVG(id) : '', exp: `${cap(aj(id))} <b>${j.d3}</b> (${j.dvi}).`}, mcOpts(j.d3, MAIN.filter(x => !(id === 'gardener' && x.id === 'farmer') && !(id === 'farmer' && x.id === 'gardener')).map(x => x.d3))); }, id);
   mk('v:col:' + id, 'vocab', () => Object.assign({type: 'mc', prompt: `<span class="blank">____</span> ${j.obj}`, sub: `Chọn động từ đi cùng để có cụm “${j.dvi}”.`, art: chibiSVG(id), exp: `Cụm đúng: <b>${j.duty}</b> = ${j.dvi}.`}, mcOpts(j.verb, MAIN.filter(x => x.verb !== j.verb).map(x => x.verb))), id);
@@ -1587,6 +1603,7 @@ const MODES = {
   vpic:    {name: 'Picture Match',       pre: ['v:pic:', 'v:who:'], desc: 'Nhìn hình đoán nghề, đọc công việc đoán người.', bg: 'linear-gradient(160deg,#E6F3FF,#fff)'},
   venvi:   {name: 'Anh ⇔ Việt',          pre: ['v:vi:', 'v:en:'], desc: 'Đủ 10 nghề, mỗi từ hỏi hai chiều (20 câu).', bg: 'linear-gradient(160deg,#EBE3FF,#fff)', all: true},
   vduty:   {name: 'Collocation Match',   pre: ['v:duty:', 'v:col:'], desc: 'Ghép nghề với công việc: put out fires, report the news…', bg: 'linear-gradient(160deg,#FFE2D2,#fff)'},
+  vlook:   {name: 'Look & Type: Nhìn hình, gõ từ', pre: ['v:look:', 'v:lookd:', 'v:vtype:'], desc: 'Nhìn hình rồi tự gõ tên nghề hoặc công việc bằng tiếng Anh, hoặc đọc nghĩa tiếng Việt rồi gõ từ. Có nút Gợi ý.', bg: 'linear-gradient(160deg,#E6F3FF,#fff)'},
   vtype:   {name: 'Missing Letters & Unscramble', pre: ['v:miss:', 'v:scr:'], desc: 'Gõ từ còn thiếu chữ, sắp xếp chữ cái. Có nút Gợi ý.', bg: 'linear-gradient(160deg,#E4F7EE,#fff)'},
   grammar: {name: 'Ngữ pháp tổng hợp',  pre: ['g:', 'w:'], desc: 'Trộn tất cả dạng bài ngữ pháp.', bg: 'linear-gradient(160deg,#FFF3C9,#fff)'},
   gwould:  {name: 'Choose the Correct Form', pre: ['g:q:', 'g:sub:', 'g:pic:'], desc: "What would… like to be? I'd / He'd / She'd like to be…", bg: 'linear-gradient(160deg,#E6F3FF,#fff)'},
@@ -1604,7 +1621,7 @@ const MODES = {
   mix:     {name: 'Mixed Practice',      pre: ['v:', 'g:', 'w:', 'x:'], desc: 'Trộn xen kẽ từ vựng và ngữ pháp.', bg: 'linear-gradient(160deg,#FFF3C9,#fff)'}
 };
 const PTABS = [
-  {id: 'v', name: 'Từ vựng', modes: ['vocab', 'vpic', 'venvi', 'vduty', 'vsort', 'vmatch', 'vtype']},
+  {id: 'v', name: 'Từ vựng', modes: ['vocab', 'vpic', 'venvi', 'vduty', 'vsort', 'vmatch', 'vlook', 'vtype']},
   {id: 'g', name: 'Ngữ pháp', modes: ['grammar', 'gwould', 'gan', 'gansort', 'gfill', 'gord', 'gwhy', 'gwhy2', 'gmatch', 'gsort', 'gerr']},
   {id: 'm', name: 'Mix', modes: ['mix']}
 ];
@@ -1728,27 +1745,29 @@ const resetRowHTML = ask => ask
   : `<span>Cô Thảo: muốn làm lại từ đầu?</span><button class="btn sm ghost" data-act="resetask">Xoá tiến trình trên máy này</button>`;
 
 /* =====================================================================
-   VIEW: FLASHCARD (IPA Anh-Anh · có nút loa đọc bằng giọng máy)
+   VIEW: FLASHCARD (IPA Anh-Anh · có giọng đọc máy)
    ===================================================================== */
+const sayBtn = (txt, lab) => `<button class="say" data-act="say" data-t="${esc(txt)}" aria-label="Nghe: ${esc(lab || txt)}" title="Nghe">🔊</button>`;
 function cardHTML(cid) {
   const seen = S.seen[cid] ? ' seen' : '';
   if (cid.startsWith('d:')) {
     const j = jobBy(cid.slice(2));
-    return `<div class="fc${seen}" data-id="${cid}" data-say="${esc(cap(aj(j.id)) + ' ' + j.d3 + '.')}" role="button" tabindex="0" aria-label="${esc(j.duty)}. Chạm để lật thẻ"><div class="fc-in"><div class="fc-f"><button class="spk" data-act="say" data-t="${esc(cap(aj(j.id)) + ' ' + j.d3 + '.')}" aria-label="Nghe câu">${SPK}</button><div class="fc-art">${chibiSVG(j.id)}</div><div class="fc-en" style="color:var(--peach-d)">${j.duty}</div><div class="fc-ipa">việc của ${aj(j.id)}</div></div><div class="fc-b"><b>${j.dvi}</b><p class="ex">${cap(aj(j.id))} ${j.d3}.</p><p class="exvi">${cap(j.vi)} ${j.dvi}.</p>${j.id === 'dentist' ? '<p class="exvi"><b>take care of</b> = chăm sóc</p>' : j.id === 'firefighter' ? '<p class="exvi">Còn: <b>help people</b> = giúp đỡ mọi người</p>' : ''}</div></div></div>`;
+    return `<div class="fc${seen}" data-id="${cid}" role="button" tabindex="0" aria-label="${esc(j.duty)}. Chạm để lật thẻ"><div class="fc-in"><div class="fc-f">${sayBtn(j.duty)}<div class="fc-art">${chibiSVG(j.id)}</div><div class="fc-en" style="color:var(--peach-d)">${j.duty}</div><div class="fc-ipa">việc của ${aj(j.id)}</div></div><div class="fc-b">${sayBtn(cap(aj(j.id)) + ' ' + j.d3 + '.', 'câu ví dụ')}<b>${j.dvi}</b><p class="ex">${cap(aj(j.id))} ${j.d3}.</p><p class="exvi">${cap(j.vi)} ${j.dvi}.</p>${j.id === 'dentist' ? '<p class="exvi"><b>take care of</b> = chăm sóc</p>' : j.id === 'firefighter' ? '<p class="exvi">Còn: <b>help people</b> = giúp đỡ mọi người</p>' : ''}</div></div></div>`;
   }
   const j = jobBy(cid);
-  return `<div class="fc${seen}" data-id="${cid}" data-say="${esc(cid)}" role="button" tabindex="0" aria-label="${esc(cid)}. Chạm để lật thẻ"><div class="fc-in"><div class="fc-f"><button class="spk" data-act="say" data-t="${esc(cid)}" aria-label="Nghe phát âm ${esc(cid)}">${SPK}</button><span class="tagx ${art(cid)}">${art(cid)}</span><div class="fc-art">${chibiSVG(cid)}</div><div class="fc-en">${cid}</div><div class="fc-ipa">${j.ipa}</div></div><div class="fc-b"><b>${j.vi}</b>${j.main ? `<span class="duty">${j.duty}</span>` : '<span class="duty">từ mở rộng</span>'}<p class="ex">I'd like to be ${aj(cid)}.</p><p class="exvi">Mình muốn trở thành ${j.vi.split(',')[0]}.</p></div></div></div>`;
+  return `<div class="fc${seen}" data-id="${cid}" role="button" tabindex="0" aria-label="${esc(cid)}. Chạm để lật thẻ"><div class="fc-in"><div class="fc-f">${sayBtn(cid)}<span class="tagx ${art(cid)}">${art(cid)}</span><div class="fc-art">${chibiSVG(cid)}</div><div class="fc-en">${cid}</div><div class="fc-ipa">${j.ipa}</div></div><div class="fc-b">${sayBtn("I'd like to be " + aj(cid) + ".", 'câu ví dụ')}<b>${j.vi}</b>${j.main ? `<span class="duty">${j.duty}</span>` : '<span class="duty">từ mở rộng</span>'}<p class="ex">I'd like to be ${aj(cid)}.</p><p class="exvi">Mình muốn trở thành ${j.vi.split(',')[0]}.</p></div></div></div>`;
 }
 function viewFlash() {
   const n = ALL_CARDS.filter(id => S.seen[id]).length;
-  return `<div class="wrap"><div class="title-row"><div><h2>Flashcard</h2><p>Chạm thẻ để lật. Mặt trước: hình + phiên âm (IPA Anh-Anh). Mặt sau: nghĩa tiếng Việt + câu ví dụ.</p></div><span class="chip" id="fcCount">Đã xem ${n}/${ALL_CARDS.length}</span></div>
+  return `<div class="wrap"><div class="title-row"><div><h2>Flashcard</h2><p>Chạm thẻ để lật. Mặt trước: hình + phiên âm (IPA Anh-Anh). Mặt sau: nghĩa tiếng Việt + câu ví dụ. Bấm 🔊 để nghe.</p></div><span class="chip" id="fcCount">Đã xem ${n}/${ALL_CARDS.length}</span></div>
   <div class="progress"><i id="fcBar" style="width:${n / ALL_CARDS.length * 100}%"></i></div>
   <h3 class="sec-h">1. Nghề nghiệp (Jobs)</h3><div class="fgrid">${MAIN.map(j => cardHTML(j.id)).join('')}</div>
   <h3 class="sec-h">Từ mở rộng: dùng “an”</h3><div class="fgrid">${JOBS.filter(j => !j.main).map(j => cardHTML(j.id)).join('')}</div>
   <h3 class="sec-h">2. Công việc của mỗi nghề (Job duties)</h3><div class="fgrid">${MAIN.map(j => cardHTML('d:' + j.id)).join('')}</div></div>`;
 }
 function flipCard(el) {
-  const id = el.dataset.id; el.classList.toggle('flip'); if (el.classList.contains('flip') && el.dataset.say) speak(el.dataset.say);
+  const id = el.dataset.id; el.classList.toggle('flip');
+  { const b = el.querySelector('.fc-f .say'); if (b && el.classList.contains('flip')) speak(b.dataset.t); }
   if (!S.seen[id]) {
     S.seen[id] = 1; save(); el.classList.add('seen');
     const n = ALL_CARDS.filter(k => S.seen[k]).length;
@@ -2325,7 +2344,7 @@ const fixIds = () => Object.keys(S.mist).filter(id => BYID[id]).slice(0, 10);
 const gq = () => G && G.q;
 
 const actions = {
-  say: t => speak(t.dataset.t),
+  say: el => { speak(el.dataset.t); },
   goto: t => go(t.dataset.tab),
   grtab: t => { ui.gr.tab = t.dataset.t; render(); window.scrollTo(0, 0); main.scrollTop = 0; },
   gramdone: () => { if (!S.gram) { S.gram = true; save(); sfx('win'); confetti(30); toast('Tuyệt! Em đã xong Grammar Box.'); } else toast('Em đã xong Grammar Box rồi.'); paintNav(); },
@@ -3023,5 +3042,5 @@ actions.globby = () => { if (G || PG) return toast('Đang chơi dở một vòng
 $('imgTeacher').src = A.teacher; $('coinIcon').innerHTML = COIN(30); paintCoins(); muteIcon(); render();
 
 </script>
-</body>
-</html>
+
+</body></html>
