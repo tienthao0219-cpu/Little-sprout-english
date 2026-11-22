@@ -27,6 +27,11 @@ const SHEETS = {
 const MAX_REPORT_ANSWERS = 8000;
 const DETAIL_COLS = ['sec', 'no', 'ans', 'key'];   // cột nặng: không gửi trong 'report' tổng hợp, chỉ gửi khi xem chi tiết 1 bài nộp (hwDetail)
 
+const READ_ONLY = {
+  login: 1, myPlays: 1, report: 1, hwDetail: 1, studentList: 1, profileGet: 1, profileList: 1, appAccess: 1, appAssignList: 1,
+  hwList: 1, hwGet: 1, hwMine: 1, hwResults: 1, spgInfo: 1, spgLessonList: 1, spgResultList: 1, spgResultGet: 1
+};
+
 function doGet() {
   return json_({ ok: true, service: 'Little Sprout English', note: 'Dùng POST. Mở trang web của lớp để sử dụng.' });
 }
@@ -41,6 +46,10 @@ function doPost(e) {
   // AI soạn bài tập từ ảnh cũng gọi Gemini (20-90 giây): xử lý riêng, không giữ khoá chung
   if (body.action === 'hwAi') {
     try { return json_(hwAi_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
+  }
+  // Thao tác CHỈ ĐỌC (đăng nhập, xem danh sách, báo cáo...) không giữ khoá chung -> không phải xếp hàng sau các lượt ghi
+  if (READ_ONLY[body.action] === 1) {
+    try { return json_(route_(body)); } catch (err) { return json_({ ok: false, error: String(err && err.message || err) }); }
   }
   const lock = LockService.getScriptLock();
   try {
@@ -77,14 +86,12 @@ function route_(b) {
       ok: true,
       plays: rows_('plays'),
       subs: rows_('submissions'),
-      answers: rows_('answers').slice(-MAX_REPORT_ANSWERS).map(function (r) { DETAIL_COLS.forEach(function (c) { if (r.source === 'app' && (c === 'ans' || c === 'key')) return; delete r[c]; }); return r; })   // app: giữ ans/key (nhẹ, chỉ có khi sai)
+      answers: rowsTail_('answers', MAX_REPORT_ANSWERS).map(function (r) { DETAIL_COLS.forEach(function (c) { if (r.source === 'app' && (c === 'ans' || c === 'key')) return; delete r[c]; }); return r; })   // app: giữ ans/key (nhẹ, chỉ có khi sai)
     };
     // Chi tiết từng câu của MỘT bài nộp (phần, câu, đáp án em chọn, đáp án đúng)
     case 'hwDetail': needT(); return {
       ok: true,
-      answers: rows_('answers').filter(function (r) {
-        return r.source === 'hw' && r.sourceId === b.id && sameName_(r.name, b.student) && String(r.attempt) === String(b.attempt);
-      })
+      answers: hwAnswers_(b.id, b.student, b.attempt)
     };
     case 'studentList': needT(); return { ok: true, roster: rosterOn_(), list: students_().map(function (r) { return { name: String(r.name), code: String(r.code), active: isTrue_(r.active), note: String(r.note || '') }; }) };
     case 'studentSave': needT(); return studentsUpsert_(b.list || [], b.oldName);
@@ -125,7 +132,20 @@ function plain_(s) { return key_(s).normalize('NFD').replace(/[̀-ͯ]/g, '').rep
 function sameName_(a, b) { return !!plain_(a) && plain_(a) === plain_(b); }
 function isTrue_(v) { return v === true || String(v).toUpperCase() === 'TRUE'; }
 function parseArr_(s) { try { const a = JSON.parse(s || '[]'); return Array.isArray(a) ? a.map(String) : []; } catch (e) { return []; } }
-function students_() { return rows_('students'); }
+let STUDENTS_MEMO_ = null;
+const STUDENTS_CACHE_KEY = 'students_v1', STUDENTS_CACHE_SEC = 120;
+/** danh sách học viên: nhớ trong lượt chạy + bộ nhớ đệm 2 phút (fresh=true: đọc thẳng từ Sheet, dùng khi sắp GHI) */
+function students_(fresh) {
+  if (!fresh && STUDENTS_MEMO_) return STUDENTS_MEMO_;
+  if (!fresh) {
+    try { const c = CacheService.getScriptCache().get(STUDENTS_CACHE_KEY); if (c) { STUDENTS_MEMO_ = JSON.parse(c); return STUDENTS_MEMO_; } } catch (e) { }
+  }
+  const list = rows_('students');
+  STUDENTS_MEMO_ = list;
+  try { CacheService.getScriptCache().put(STUDENTS_CACHE_KEY, JSON.stringify(list), STUDENTS_CACHE_SEC); } catch (e) { }
+  return list;
+}
+function studentsChanged_() { STUDENTS_MEMO_ = null; try { CacheService.getScriptCache().remove(STUDENTS_CACHE_KEY); } catch (e) { } }
 /** Có ít nhất 1 học viên đang hoạt động trong danh sách = bật chế độ "mỗi em một mật khẩu riêng" */
 function rosterOn_() { return students_().some(function (r) { return isTrue_(r.active); }); }
 
@@ -150,7 +170,8 @@ function studentsUpsert_(items, oldName) {
   if (!Array.isArray(items) || !items.length) throw new Error('Chưa có học viên nào để lưu');
   if (items.length > 200) throw new Error('Mỗi lần lưu tối đa 200 học viên');
   const sh = sheet_('students'), cols = SHEETS.students;
-  const all = students_();
+  studentsChanged_();
+  const all = students_(true);
   const now = new Date().toISOString();
   const seen = {};
   items.forEach(function (it, idx) {
@@ -183,6 +204,7 @@ function studentsUpsert_(items, oldName) {
       all.push({ name: rowVals[0], code: rowVals[1], active: active, created: now, note: rowVals[4] });
     }
   });
+  studentsChanged_();
   return { ok: true, count: items.length };
 }
 function studentDelete_(name) {
@@ -190,6 +212,7 @@ function studentDelete_(name) {
   if (n < 2) return { ok: true };
   const vals = sh.getRange(2, 1, n - 1, 1).getValues();
   for (let i = vals.length - 1; i >= 0; i--) if (sameName_(vals[i][0], name)) sh.deleteRow(i + 2);
+  studentsChanged_();
   return { ok: true };
 }
 
@@ -200,8 +223,14 @@ const MAX_COIN_DELTA = 400;   // mỗi lần đồng bộ, số xu tăng thêm t
 function profileRow_(name) {
   const sh = sheet_('profiles'), n = sh.getLastRow();
   if (n < 2) return null;
-  const vals = sh.getRange(2, 1, n - 1, 3).getValues();
-  for (let i = 0; i < vals.length; i++) if (sameName_(vals[i][0], name)) return { sh: sh, row: i + 2, data: parseObj_(vals[i][1]) };
+  // chỉ đọc cột tên để tìm dòng, rồi mới đọc dữ liệu của ĐÚNG 1 dòng (cột data của cả lớp có thể nặng hàng MB)
+  const names = sh.getRange(2, 1, n - 1, 1).getValues();
+  for (let i = 0; i < names.length; i++) {
+    if (sameName_(names[i][0], name)) {
+      const v = sh.getRange(i + 2, 1, 1, 3).getValues()[0];
+      return { sh: sh, row: i + 2, data: parseObj_(v[1]) };
+    }
+  }
   return null;
 }
 function parseObj_(s) { try { const o = JSON.parse(s || '{}'); return o && typeof o === 'object' && !Array.isArray(o) ? o : {}; } catch (e) { return {}; } }
@@ -324,11 +353,15 @@ function allowed_(assigned, name, teacher) {
 }
 
 /* ---------- bảng tính ---------- */
+let SS_ = null;
+const SHEET_MEMO_ = {};
 function sheet_(key) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  if (SHEET_MEMO_[key]) return SHEET_MEMO_[key];
+  const ss = SS_ || (SS_ = SpreadsheetApp.getActiveSpreadsheet());
   let sh = ss.getSheetByName(key);
   if (!sh) {
-    sh = ss.insertSheet(key);
+    // hai lượt chạy cùng tạo trang tính một lúc (khi không còn khoá chung cho thao tác đọc): lượt thua lấy trang đã có
+    try { sh = ss.insertSheet(key); } catch (e) { sh = ss.getSheetByName(key); if (!sh) throw e; }
     sh.getRange(1, 1, 1, SHEETS[key].length).setValues([SHEETS[key]]).setFontWeight('bold');
     sh.setFrozenRows(1);
     if (key === 'students') sh.getRange('B:B').setNumberFormat('@'); // giữ mã dạng chữ (không bị đổi thành số)
@@ -338,17 +371,57 @@ function sheet_(key) {
     sh.getRange(1, 1, 1, SHEETS[key].length).setValues([SHEETS[key]]).setFontWeight('bold');
     if (key === 'answers') sh.getRange(1, SHEETS.answers.indexOf('no') + 1, sh.getMaxRows(), 1).setNumberFormat('@');
   }
+  SHEET_MEMO_[key] = sh;
   return sh;
+}
+function rowObj_(cols, r) {
+  const o = {};
+  cols.forEach(function (c, i) { o[c] = r[i] instanceof Date ? r[i].toISOString() : r[i]; });
+  return o;
+}
+/** chỉ đọc `max` dòng CUỐI của trang tính (thay vì đọc cả bảng rồi mới cắt) */
+function rowsTail_(key, max) {
+  const sh = sheet_(key), n = sh.getLastRow();
+  if (n < 2) return [];
+  const cols = SHEETS[key], start = Math.max(2, n - max + 1);
+  return sh.getRange(start, 1, n - start + 1, cols.length).getValues().map(function (r) { return rowObj_(cols, r); });
+}
+/** số dòng (trong sheet) đầu tiên có cột `col` = val (so sánh chuỗi); 0 nếu không có. Chỉ đọc đúng 1 cột. */
+function findRow_(key, col, val) {
+  const sh = sheet_(key), n = sh.getLastRow();
+  if (n < 2) return 0;
+  const vals = sh.getRange(2, SHEETS[key].indexOf(col) + 1, n - 1, 1).getValues();
+  for (let i = 0; i < vals.length; i++) if (String(vals[i][0]) === String(val)) return i + 2;
+  return 0;
+}
+/** câu trả lời chi tiết của MỘT bài nộp (hwDetail): dò 4 cột nhỏ trước, chỉ đọc đầy đủ đoạn dòng có liên quan */
+function hwAnswers_(hwId, student, attempt) {
+  const sh = sheet_('answers'), n = sh.getLastRow(), cols = SHEETS.answers;
+  if (n < 2) return [];
+  const c0 = cols.indexOf('name');   // name, source, sourceId, attempt nằm liền nhau
+  const head = sh.getRange(2, c0 + 1, n - 1, 4).getValues();
+  const ok = function (r) { return r[1] === 'hw' && r[2] === hwId && sameName_(r[0], student) && String(r[3]) === String(attempt); };
+  let first = -1, last = -1;
+  for (let i = 0; i < head.length; i++) if (ok(head[i])) { if (first < 0) first = i; last = i; }
+  if (first < 0) return [];
+  return sh.getRange(first + 2, 1, last - first + 1, cols.length).getValues().map(function (r) { return rowObj_(cols, r); })
+    .filter(function (r) { return r.source === 'hw' && r.sourceId === hwId && sameName_(r.name, student) && String(r.attempt) === String(attempt); });
+}
+/** số lần một học viên đã nộp một bài tập (chỉ đọc 2 cột name, hwId) */
+function subsCount_(hwId, name) {
+  const sh = sheet_('submissions'), n = sh.getLastRow();
+  if (n < 2) return 0;
+  const c0 = SHEETS.submissions.indexOf('name');   // name, hwId liền nhau
+  const v = sh.getRange(2, c0 + 1, n - 1, 2).getValues();
+  let k = 0;
+  for (let i = 0; i < v.length; i++) if (v[i][1] === hwId && v[i][0] === name) k++;
+  return k;
 }
 function rows_(key) {
   const sh = sheet_(key), n = sh.getLastRow();
   if (n < 2) return [];
   const cols = SHEETS[key], vals = sh.getRange(2, 1, n - 1, cols.length).getValues();
-  return vals.map(function (r) {
-    const o = {};
-    cols.forEach(function (c, i) { o[c] = r[i] instanceof Date ? r[i].toISOString() : r[i]; });
-    return o;
-  });
+  return vals.map(function (r) { return rowObj_(cols, r); });
 }
 function append_(key, obj) {
   sheet_(key).appendRow(SHEETS[key].map(function (c) { return obj[c] === undefined ? '' : obj[c]; }));
@@ -367,27 +440,47 @@ function safe_(s) { s = String(s == null ? '' : s); return /^[=+\-@]/.test(s) ? 
 function logPlay_(name, p, answers) {
   p = p || {};
   const now = new Date().toISOString();
-  const sh = sheet_('plays'), n = sh.getLastRow();
+  const sh = sheet_('plays'), n = sh.getLastRow(), cols = SHEETS.plays;
+  const iSid = cols.indexOf('sid'), iName = cols.indexOf('name'), iApp = cols.indexOf('appId'), iAtt = cols.indexOf('attempt');
+  let cache = null; try { cache = CacheService.getScriptCache(); } catch (e) { }
+  const ckey = p.sid ? 'play:' + String(p.sid).slice(0, 100) : '';
   let rowIdx = -1, attempt = 0;
-  if (n >= 2) {
-    const vals = sh.getRange(2, 1, n - 1, SHEETS.plays.length).getValues(), cols = SHEETS.plays;
-    const iSid = cols.indexOf('sid'), iName = cols.indexOf('name'), iApp = cols.indexOf('appId');
-    for (let i = 0; i < vals.length; i++) {
-      if (vals[i][iName] === name && vals[i][iApp] === p.appId) {
-        attempt = Math.max(attempt, +vals[i][cols.indexOf('attempt')] || 0);
-        if (p.sid && vals[i][iSid] === p.sid) { rowIdx = i + 2; attempt = +vals[i][cols.indexOf('attempt')]; break; }
+  // Đường nhanh: lượt chơi này đã ghi trước đó -> nhớ số dòng, chỉ đọc đúng 1 dòng để kiểm tra (không quét cả bảng)
+  if (ckey && cache && n >= 2) {
+    try {
+      const c = cache.get(ckey);
+      if (c) {
+        const row = +JSON.parse(c).row;
+        if (row >= 2 && row <= n) {
+          const v = sh.getRange(row, 1, 1, iAtt + 1).getValues()[0];
+          if (v[iSid] === p.sid && v[iName] === name && v[iApp] === p.appId) { rowIdx = row; attempt = +v[iAtt]; }
+        }
+      }
+    } catch (e) { rowIdx = -1; }
+  }
+  // Lần đầu (hoặc bộ nhớ đệm hết hạn): dò bảng nhưng chỉ đọc 3 cột cần thiết thay vì cả 13 cột
+  if (rowIdx < 0 && n >= 2) {
+    const m = n - 1;
+    const sids = sh.getRange(2, iSid + 1, m, 1).getValues();
+    const na = sh.getRange(2, iName + 1, m, iApp - iName + 1).getValues();   // name, appId liền nhau
+    const att = sh.getRange(2, iAtt + 1, m, 1).getValues();
+    for (let i = 0; i < m; i++) {
+      if (na[i][0] === name && na[i][iApp - iName] === p.appId) {
+        attempt = Math.max(attempt, +att[i][0] || 0);
+        if (p.sid && sids[i][0] === p.sid) { rowIdx = i + 2; attempt = +att[i][0]; break; }
       }
     }
   }
   const score = +p.score || 0, max = +p.max || 0, pct = max ? Math.round(100 * score / max) : '';
   if (rowIdx > 0) {
-    const cols = SHEETS.plays;
     sh.getRange(rowIdx, cols.indexOf('updated') + 1).setValue(now);
     sh.getRange(rowIdx, cols.indexOf('score') + 1, 1, 4).setValues([[score, max, pct, +p.durationSec || 0]]);
   } else {
     attempt = attempt + 1;
     append_('plays', { sid: cut_(p.sid, 40), time: now, updated: now, name: name, appId: cut_(p.appId, 80), appTitle: safe_(cut_(p.appTitle, 120)), cur: cut_(p.cur, 60), unit: cut_(p.unit, 80), attempt: attempt, score: score, max: max, pct: pct, durationSec: +p.durationSec || 0 });
+    rowIdx = sh.getLastRow();
   }
+  if (ckey && cache && rowIdx > 0) { try { cache.put(ckey, JSON.stringify({ row: rowIdx }), 21600); } catch (e) { } }
   appendMany_('answers', (answers || []).slice(0, 600).map(function (a) {
     return { time: now, name: name, source: 'app', sourceId: cut_(p.appId, 80), attempt: attempt, topic: safe_(cut_(a.topic, 120)), qid: cut_(a.qid, 80), ok: !!a.ok, q: safe_(cut_(a.q, 160)),
       ans: a.ok ? '' : safe_(cut_(a.ans, 100)), key: a.ok ? '' : safe_(cut_(a.key, 100)) };   // em trả lời gì + đáp án đúng (chỉ khi sai)
@@ -485,9 +578,9 @@ function hwSubmit_(name, b, teacher) {
     if (meta.start && nowMs < new Date(meta.start).getTime()) throw new Error('Bài tập chưa mở');
     if (meta.end && nowMs > new Date(meta.end).getTime()) throw new Error('Bài tập đã hết hạn nộp');
   }
-  const mine = rows_('submissions').filter(function (s) { return s.hwId === b.id && s.name === name; });
-  if (meta.maxAttempts && mine.length >= meta.maxAttempts && !teacher) throw new Error('Em đã hết lượt làm bài này');
-  const attempt = mine.length + 1, score = +b.score || 0, max = +b.max || 0;
+  const mineCount = subsCount_(b.id, name);
+  if (meta.maxAttempts && mineCount >= meta.maxAttempts && !teacher) throw new Error('Em đã hết lượt làm bài này');
+  const attempt = mineCount + 1, score = +b.score || 0, max = +b.max || 0;
   const scaled = max ? Math.round(score / max * (meta.scale || 10) * 100) / 100 : 0;
   const now = new Date().toISOString();
   append_('submissions', { time: now, name: name, hwId: b.id, hwTitle: r[cols.indexOf('title')], attempt: attempt, score: score, max: max, scaled: scaled, durationSec: +b.durationSec || 0 });
@@ -786,7 +879,8 @@ function spgFindLessonRows_(id) {
   }
   return out;
 }
-/** Dọn các dòng trùng mã bài: mỗi bài giữ 1 dòng đầy đủ nhất (bằng nhau thì lấy dòng mới nhất), sửa lại ô mã thành chữ đúng. */
+/** Dọn các dòng trùng mã bài: mỗi bài giữ 1 dòng đầy đủ nhất (bằng nhau thì lấy dòng mới nhất), sửa lại ô mã thành chữ đúng.
+ *  Làm theo lô: ghi lại các dòng giữ lại bằng 1 lệnh rồi xoá phần đuôi bằng 1 lệnh (trước đây xoá từng dòng một, rất chậm khi có nhiều dòng trùng). */
 function spgLessonCleanup_() {
   const sh = sheet_('spgLessons'), n = sh.getLastRow(), cols = SHEETS.spgLessons.length;
   if (n < 2) return { ok: true, removed: 0 };
@@ -803,16 +897,27 @@ function spgLessonCleanup_() {
     const cur = best[id];
     if (!cur || sc > cur.sc || (sc === cur.sc && t > cur.t)) best[id] = { row: i + 2, sc: sc, t: t, d: d };
   });
-  const del = [];
+  const del = {}; let removed = 0;
   Object.keys(best).forEach(function (id) {
     const b = best[id];
     b.d.id = id; b.d.code = b.d.code || id;
-    sh.getRange(b.row, 1).setNumberFormat('@').setValue(id);   /* ô mã là chữ thường */
-    sh.getRange(b.row, 3).setValue(JSON.stringify(b.d));
-    rowsById[id].forEach(function (r) { if (r !== b.row) del.push(r); });
+    vals[b.row - 2][0] = id;                          // ô mã là chữ thường
+    vals[b.row - 2][2] = JSON.stringify(b.d);
+    rowsById[id].forEach(function (r) { if (r !== b.row) { del[r] = true; removed++; } });
   });
-  del.sort(function (x, y) { return y - x; }).forEach(function (r) { sh.deleteRow(r); });
-  return { ok: true, removed: del.length };
+  const keep = [], fmt = [];
+  vals.forEach(function (v, i) {
+    if (del[i + 2]) return;
+    keep.push(v);
+    if (best[String(v[0])] && best[String(v[0])].row === i + 2) fmt.push('A' + (keep.length + 1));
+  });
+  if (fmt.length) sh.getRangeList(fmt).setNumberFormat('@');
+  sh.getRange(2, 1, keep.length, cols).setValues(keep);
+  const tail = n - (keep.length + 1);
+  if (tail > 0) {
+    try { sh.deleteRows(keep.length + 2, tail); } catch (e) { sh.getRange(keep.length + 2, 1, tail, cols).clearContent(); }
+  }
+  return { ok: true, removed: removed };
 }
 function spgLessonDelete_(id) {
   const sh = sheet_('spgLessons'), rows = spgFindLessonRows_(id);
@@ -827,21 +932,31 @@ function spgSettingsSave_(s) {
 function spgResultSave_(r) {
   r = r || {};
   const id = cut_(r.id, 40).trim() || ('r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
-  const prev = rows_('spgResults').filter(function (x) { return String(x.id) === id; })[0];
+  const prow = findRow_('spgResults', 'id', id);
+  let prevTime = '';
+  if (prow) { const pv = sheet_('spgResults').getRange(prow, 2).getValue(); prevTime = pv instanceof Date ? pv.toISOString() : pv; }
   upsertRow_('spgResults', 'id', id, {
-    id: id, time: prev ? prev.time : new Date().toISOString(), student: safe_(cut_(r.student, 60)), lessonId: safe_(cut_(r.lessonId, 40)),
+    id: id, time: prow ? prevTime : new Date().toISOString(), student: safe_(cut_(r.student, 60)), lessonId: safe_(cut_(r.lessonId, 40)),
     lessonTitle: safe_(cut_(r.lessonTitle, 120)), total: +r.total || 0, band: safe_(cut_(r.band, 30)), durationSec: +r.durationSec || 0, data: spgShrink_(r.data || {}),
     status: /^(draft|tentative|final)$/.test(String(r.status)) ? r.status : 'draft'
   });
   return { ok: true, id: id };
 }
+/** danh sách kết quả chấm: chỉ đọc 500 dòng cuối và bỏ cột data (JSON rất nặng) */
 function spgResultList_() {
-  const list = rows_('spgResults').map(function (r) { return { id: String(r.id), time: r.time, student: String(r.student), lessonId: String(r.lessonId), lessonTitle: String(r.lessonTitle), total: +r.total, band: String(r.band), durationSec: +r.durationSec, status: String(r.status || 'draft') }; });
-  return { ok: true, list: list.reverse().slice(0, 500) };
+  const sh = sheet_('spgResults'), n = sh.getLastRow();
+  if (n < 2) return { ok: true, list: [] };
+  const start = Math.max(2, n - 500 + 1), m = n - start + 1;
+  const a = sh.getRange(start, 1, m, 8).getValues(), st = sh.getRange(start, SHEETS.spgResults.indexOf('status') + 1, m, 1).getValues();
+  const list = a.map(function (r, i) {
+    return { id: String(r[0]), time: r[1] instanceof Date ? r[1].toISOString() : r[1], student: String(r[2]), lessonId: String(r[3]), lessonTitle: String(r[4]), total: +r[5], band: String(r[6]), durationSec: +r[7], status: String(st[i][0] || 'draft') };
+  });
+  return { ok: true, list: list.reverse() };
 }
 function spgResultGet_(id) {
-  const r = rows_('spgResults').filter(function (x) { return String(x.id) === String(id); })[0];
-  if (!r) throw new Error('Không tìm thấy kết quả này');
+  const row = findRow_('spgResults', 'id', id);
+  if (!row) throw new Error('Không tìm thấy kết quả này');
+  const r = rowObj_(SHEETS.spgResults, sheet_('spgResults').getRange(row, 1, 1, SHEETS.spgResults.length).getValues()[0]);
   let data = {}; try { data = JSON.parse(r.data || '{}'); } catch (e) { }
   return { ok: true, item: { id: String(r.id), time: r.time, student: String(r.student), lessonId: String(r.lessonId), lessonTitle: String(r.lessonTitle), total: +r.total, band: String(r.band), durationSec: +r.durationSec, status: String(r.status || 'draft'), data: data } };
 }
