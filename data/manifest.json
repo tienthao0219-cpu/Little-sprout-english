@@ -226,6 +226,10 @@
         {
           "id": "unit-6-sr6d",
           "name": "UNIT 6"
+        },
+        {
+          "id": "unit-7-sa7k",
+          "name": "UNIT 7"
         }
       ]
     },
@@ -876,7 +880,7 @@
       "kind": "app",
       "desc": "",
       "added": "2026-11-08T11:45:22.000Z",
-      "updated": "2026-11-22T12:55:00.000Z"
+      "updated": "2026-11-22T13:05:00.000Z"
     },
     {
       "id": "unit-1-hub-6tfh",
@@ -939,6 +943,17 @@
       "desc": "",
       "added": "2026-11-22T12:20:00.000Z",
       "updated": "2026-11-22T12:30:00.000Z"
+    },
+    {
+      "id": "school-activities-hub-unit-7-w3qn",
+      "title": "School Activities Hub — Unit 7",
+      "cur": "gs5",
+      "unit": "unit-7-sa7k",
+      "file": "apps/gs5/unit-7-sa7k/school-activities-hub-unit-7-w3qn.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-22T13:05:00.000Z",
+      "updated": "2026-11-22T13:05:00.000Z"
     },
     {
       "id": "starters-vocab-quest-4jkq",

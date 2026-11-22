@@ -259,6 +259,14 @@
       "pics": 14
     },
     {
+      "id": "gs5--unit-7-sa7k",
+      "title": "Unit 7 · School activities",
+      "cur": "gs5",
+      "unit": "unit-7-sa7k",
+      "n": 13,
+      "pics": 13
+    },
+    {
       "id": "movers--unit-1-mv01",
       "title": "Unit 1 · At the park",
       "cur": "movers",
@@ -407,8 +415,8 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs5",
       "unit": "review-g500",
-      "n": 111,
-      "pics": 94
+      "n": 124,
+      "pics": 107
     },
     {
       "id": "gs4--unit-2-t2hb",
