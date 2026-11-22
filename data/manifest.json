@@ -875,7 +875,8 @@
       "file": "apps/gs5/review-g500/global-5-review-vocab-g500.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-11-08T11:45:22.000Z"
+      "added": "2026-11-08T11:45:22.000Z",
+      "updated": "2026-11-22T12:30:00.000Z"
     },
     {
       "id": "unit-1-hub-6tfh",
@@ -925,7 +926,8 @@
       "file": "apps/gs5/unit-5-locs/jobs-amp-dreams-hub-unit-5-jsq7.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-10-17T05:24:56.814Z"
+      "added": "2026-10-17T05:24:56.814Z",
+      "updated": "2026-11-22T12:30:00.000Z"
     },
     {
       "id": "school-rooms-directions-hub-unit-6-k7mp",
@@ -935,7 +937,8 @@
       "file": "apps/gs5/unit-6-sr6d/school-rooms-directions-hub-unit-6-k7mp.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-11-22T12:20:00.000Z"
+      "added": "2026-11-22T12:20:00.000Z",
+      "updated": "2026-11-22T12:30:00.000Z"
     },
     {
       "id": "starters-vocab-quest-4jkq",
