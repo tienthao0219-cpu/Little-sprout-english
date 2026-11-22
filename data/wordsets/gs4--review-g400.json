@@ -323,6 +323,121 @@
    "w": "playground",
    "vi": "sân chơi",
    "ipa": "ˈpleɪɡraʊnd"
+  },
+  {
+   "w": "art",
+   "vi": "môn Mĩ thuật",
+   "ipa": "ɑːt",
+   "img": "img/gs4--unit-7-tm7h/art.webp"
+  },
+  {
+   "w": "English",
+   "vi": "môn Tiếng Anh",
+   "ipa": "ˈɪŋɡlɪʃ",
+   "img": "img/gs4--unit-7-tm7h/English.webp"
+  },
+  {
+   "w": "history and geography",
+   "vi": "môn Lịch sử và Địa lí",
+   "ipa": "ˈhɪstri ænd dʒiˈɒɡrəfi",
+   "img": "img/gs4--unit-7-tm7h/history-and-geography.webp"
+  },
+  {
+   "w": "maths",
+   "vi": "môn Toán, toán học",
+   "ipa": "mæθs",
+   "img": "img/gs4--unit-7-tm7h/maths.webp"
+  },
+  {
+   "w": "music",
+   "vi": "môn Âm nhạc",
+   "ipa": "ˈmjuːzɪk",
+   "img": "img/gs4--unit-7-tm7h/music.webp"
+  },
+  {
+   "w": "science",
+   "vi": "môn Khoa học",
+   "ipa": "ˈsaɪəns",
+   "img": "img/gs4--unit-7-tm7h/science.webp"
+  },
+  {
+   "w": "Vietnamese",
+   "vi": "môn Tiếng Việt",
+   "ipa": "ˌviːetnəˈmiːz",
+   "img": "img/gs4--unit-7-tm7h/Vietnamese.webp"
+  },
+  {
+   "w": "subject",
+   "vi": "môn học",
+   "ipa": "ˈsʌbdʒɪkt",
+   "img": "img/gs4--unit-7-tm7h/subject.webp"
+  },
+  {
+   "w": "timetable",
+   "vi": "thời khóa biểu",
+   "ipa": "ˈtaɪmteɪbl",
+   "img": "img/gs4--unit-7-tm7h/timetable.webp"
+  },
+  {
+   "w": "IT",
+   "vi": "môn Tin học",
+   "ipa": "aɪ ˈtiː",
+   "img": "img/gs4--unit-8-fs8q/IT.webp"
+  },
+  {
+   "w": "PE",
+   "vi": "môn Thể dục",
+   "ipa": "ˌpiː ˈiː",
+   "img": "img/gs4--unit-8-fs8q/PE.webp"
+  },
+  {
+   "w": "English teacher",
+   "vi": "giáo viên dạy Tiếng Anh",
+   "ipa": "ˈɪŋɡlɪʃ ˈtiːtʃə",
+   "img": "img/gs4--unit-8-fs8q/English-teacher.webp"
+  },
+  {
+   "w": "maths teacher",
+   "vi": "giáo viên dạy Toán",
+   "ipa": "mæθs ˈtiːtʃə",
+   "img": "img/gs4--unit-8-fs8q/maths-teacher.webp"
+  },
+  {
+   "w": "painter",
+   "vi": "họa sĩ",
+   "ipa": "ˈpeɪntə(r)",
+   "img": "img/gs4--unit-8-fs8q/painter.webp"
+  },
+  {
+   "w": "singer",
+   "vi": "ca sĩ",
+   "ipa": "ˈsɪŋə(r)",
+   "img": "img/gs4--unit-8-fs8q/singer.webp"
+  },
+  {
+   "w": "favourite",
+   "vi": "được yêu thích nhất",
+   "ipa": "ˈfeɪvərɪt"
+  },
+  {
+   "w": "why",
+   "vi": "tại sao",
+   "ipa": "waɪ"
+  },
+  {
+   "w": "because",
+   "vi": "bởi vì",
+   "ipa": "bɪˈkɒz"
+  },
+  {
+   "w": "want to be",
+   "vi": "muốn trở thành…",
+   "ipa": "wɒnt tə biː"
+  },
+  {
+   "w": "good at",
+   "vi": "giỏi về (môn gì / việc gì)",
+   "ipa": "ɡʊd æt"
   }
  ]
 }

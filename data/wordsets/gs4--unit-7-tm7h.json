@@ -1,0 +1,62 @@
+{
+ "id": "gs4--unit-7-tm7h",
+ "title": "Unit 7 · School subjects",
+ "cur": "gs4",
+ "unit": "unit-7-tm7h",
+ "items": [
+  {
+   "w": "art",
+   "vi": "môn Mĩ thuật",
+   "ipa": "ɑːt",
+   "img": "img/gs4--unit-7-tm7h/art.webp"
+  },
+  {
+   "w": "English",
+   "vi": "môn Tiếng Anh",
+   "ipa": "ˈɪŋɡlɪʃ",
+   "img": "img/gs4--unit-7-tm7h/English.webp"
+  },
+  {
+   "w": "history and geography",
+   "vi": "môn Lịch sử và Địa lí",
+   "ipa": "ˈhɪstri ænd dʒiˈɒɡrəfi",
+   "img": "img/gs4--unit-7-tm7h/history-and-geography.webp"
+  },
+  {
+   "w": "maths",
+   "vi": "môn Toán, toán học",
+   "ipa": "mæθs",
+   "img": "img/gs4--unit-7-tm7h/maths.webp"
+  },
+  {
+   "w": "music",
+   "vi": "môn Âm nhạc",
+   "ipa": "ˈmjuːzɪk",
+   "img": "img/gs4--unit-7-tm7h/music.webp"
+  },
+  {
+   "w": "science",
+   "vi": "môn Khoa học",
+   "ipa": "ˈsaɪəns",
+   "img": "img/gs4--unit-7-tm7h/science.webp"
+  },
+  {
+   "w": "Vietnamese",
+   "vi": "môn Tiếng Việt",
+   "ipa": "ˌviːetnəˈmiːz",
+   "img": "img/gs4--unit-7-tm7h/Vietnamese.webp"
+  },
+  {
+   "w": "subject",
+   "vi": "môn học",
+   "ipa": "ˈsʌbdʒɪkt",
+   "img": "img/gs4--unit-7-tm7h/subject.webp"
+  },
+  {
+   "w": "timetable",
+   "vi": "thời khóa biểu",
+   "ipa": "ˈtaɪmteɪbl",
+   "img": "img/gs4--unit-7-tm7h/timetable.webp"
+  }
+ ]
+}

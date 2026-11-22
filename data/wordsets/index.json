@@ -391,8 +391,8 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs4",
       "unit": "review-g400",
-      "n": 64,
-      "pics": 0
+      "n": 84,
+      "pics": 15
     },
     {
       "id": "gs4--unit-1-lquu",
@@ -441,6 +441,22 @@
       "unit": "unit-6-s6vq",
       "n": 8,
       "pics": 0
+    },
+    {
+      "id": "gs4--unit-7-tm7h",
+      "title": "Unit 7 · School subjects",
+      "cur": "gs4",
+      "unit": "unit-7-tm7h",
+      "n": 9,
+      "pics": 9
+    },
+    {
+      "id": "gs4--unit-8-fs8q",
+      "title": "Unit 8 · My favourite subjects",
+      "cur": "gs4",
+      "unit": "unit-8-fs8q",
+      "n": 11,
+      "pics": 6
     },
     {
       "id": "gs5--unit-2-h2om",

@@ -190,6 +190,14 @@
         {
           "id": "unit-6-s6vq",
           "name": "UNIT 6"
+        },
+        {
+          "id": "unit-7-tm7h",
+          "name": "UNIT 7"
+        },
+        {
+          "id": "unit-8-fs8q",
+          "name": "UNIT 8"
         }
       ]
     },
@@ -809,7 +817,8 @@
       "file": "apps/gs4/review-g400/global-4-review-vocab-g400.html",
       "kind": "app",
       "desc": "",
-      "added": "2026-11-08T11:45:22.000Z"
+      "added": "2026-11-08T11:45:22.000Z",
+      "updated": "2026-11-22T13:30:00.000Z"
     },
     {
       "id": "english-4-hub-unit-1-my-friends-eufz",
@@ -870,6 +879,28 @@
       "kind": "app",
       "desc": "",
       "added": "2026-11-08T12:02:42.000Z"
+    },
+    {
+      "id": "global-success-4-unit-7-t7nq",
+      "title": "Global Success 4 – Unit 7 · Ôn tập",
+      "cur": "gs4",
+      "unit": "unit-7-tm7h",
+      "file": "apps/gs4/unit-7-tm7h/global-success-4-unit-7-t7nq.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-22T13:30:00.000Z",
+      "updated": "2026-11-22T13:30:00.000Z"
+    },
+    {
+      "id": "global-success-4-unit-8-f8rd",
+      "title": "Global Success 4 – Unit 8 · My favourite subjects",
+      "cur": "gs4",
+      "unit": "unit-8-fs8q",
+      "file": "apps/gs4/unit-8-fs8q/global-success-4-unit-8-f8rd.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-22T13:30:00.000Z",
+      "updated": "2026-11-22T13:30:00.000Z"
     },
     {
       "id": "global-5-review-vocab-g500",

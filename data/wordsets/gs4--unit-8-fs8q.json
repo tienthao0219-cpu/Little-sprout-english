@@ -1,0 +1,69 @@
+{
+ "id": "gs4--unit-8-fs8q",
+ "title": "Unit 8 · My favourite subjects",
+ "cur": "gs4",
+ "unit": "unit-8-fs8q",
+ "items": [
+  {
+   "w": "IT",
+   "vi": "môn Tin học",
+   "ipa": "aɪ ˈtiː",
+   "img": "img/gs4--unit-8-fs8q/IT.webp"
+  },
+  {
+   "w": "PE",
+   "vi": "môn Thể dục",
+   "ipa": "ˌpiː ˈiː",
+   "img": "img/gs4--unit-8-fs8q/PE.webp"
+  },
+  {
+   "w": "English teacher",
+   "vi": "giáo viên dạy Tiếng Anh",
+   "ipa": "ˈɪŋɡlɪʃ ˈtiːtʃə",
+   "img": "img/gs4--unit-8-fs8q/English-teacher.webp"
+  },
+  {
+   "w": "maths teacher",
+   "vi": "giáo viên dạy Toán",
+   "ipa": "mæθs ˈtiːtʃə",
+   "img": "img/gs4--unit-8-fs8q/maths-teacher.webp"
+  },
+  {
+   "w": "painter",
+   "vi": "họa sĩ",
+   "ipa": "ˈpeɪntə(r)",
+   "img": "img/gs4--unit-8-fs8q/painter.webp"
+  },
+  {
+   "w": "singer",
+   "vi": "ca sĩ",
+   "ipa": "ˈsɪŋə(r)",
+   "img": "img/gs4--unit-8-fs8q/singer.webp"
+  },
+  {
+   "w": "favourite",
+   "vi": "được yêu thích nhất",
+   "ipa": "ˈfeɪvərɪt"
+  },
+  {
+   "w": "why",
+   "vi": "tại sao",
+   "ipa": "waɪ"
+  },
+  {
+   "w": "because",
+   "vi": "bởi vì",
+   "ipa": "bɪˈkɒz"
+  },
+  {
+   "w": "want to be",
+   "vi": "muốn trở thành…",
+   "ipa": "wɒnt tə biː"
+  },
+  {
+   "w": "good at",
+   "vi": "giỏi về (môn gì / việc gì)",
+   "ipa": "ɡʊd æt"
+  }
+ ]
+}
