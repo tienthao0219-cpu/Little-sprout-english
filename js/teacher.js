@@ -844,7 +844,7 @@
       const kids = [];
       if (sortMode === "unit" && g.c) {
         const used = new Set();
-        (g.c.units || []).slice().reverse().forEach(u => {   // unit cao nhất (học sinh đang học tới) nằm trên, Unit 1 nằm dưới
+        L.unitsNewestFirst(g.c.units).forEach(u => {   // unit có số: cao nhất (học sinh đang học tới) nằm trên, Unit 1 nằm dưới; unit dạng chữ (REVIEW…) xuống sau cùng
           const a = g.items.filter(x => x.unitId === u.id); if (!a.length) return;
           a.forEach(x => used.add(x)); kids.push(unitHead(u.name, a.length, a)); a.sort(byNew).forEach(x => kids.push(rowOf(x)));
         });
