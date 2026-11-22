@@ -219,6 +219,9 @@ window.LSE = window.LSE || {};
         /* "★ Câu 51 (Unit 1): My sister spends … -> Giải thích: …" (đáp án tự luận nằm trong đoạn văn, không phải bảng) */
         const sm = b.t.match(/^\s*[★☆•\-–]?\s*(?:câu|cau|question)\s*(\d{1,3})\s*(?:\([^)]*\))?\s*[:.)\-–]\s*(.+?)\s*(?:->|→|➔|=>)\s*(?:giải\s*thích|explanation)\s*[:：]\s*(.*)$/i);
         if (sm) { put(+sm[1], sm[2].trim(), sm[3].trim()); if (!(+sm[1] in key.ans)) { key.ans[+sm[1]] = sm[2].trim(); key.expl[+sm[1]] = sm[3].trim(); } continue; }
+        /* "• Câu 41: <câu đáp án>" (có dấu đầu dòng), dòng kế tiếp "➔ Công thức: …" là phần giải thích (đáp án viết lại câu dạng đoạn văn) */
+        const bm = b.t.match(/^\s*[•▪●·*]\s*(?:câu|cau|question)\s*(\d{1,3})\s*(?:\([^)]*\))?\s*[:.)\-–]\s*([^\n]+?)\s*(?:\n\s*(?:→|->|➜|➔|⟶|⇒)\s*([\s\S]*))?$/i);
+        if (bm) { const ex = String(bm[3] || "").replace(/\s*\n\s*/g, " ").trim(); put(+bm[1], bm[2].trim(), ex); if (!(+bm[1] in key.ans)) { key.ans[+bm[1]] = bm[2].trim(); key.expl[+bm[1]] = ex; } continue; }
         /* đáp án viết gọn trên một dòng: "1 – c, 2 – a, 3 – d, 4 – b" hoặc "1-T 2-F 3-T" */
         const toks = []; b.t.replace(/(\d{1,2})\s*[-–:.)]\s*([a-hA-H]|True|False|T|F|Đúng|Sai)(?![A-Za-zà-ỹ])/g, (all, n, v) => { toks.push([+n, v]); return all; });
         if (toks.length >= 2) { toks.forEach(([n, v]) => { put(n, v, ""); if (!(n in key.ans)) key.ans[n] = v; }); continue; }
