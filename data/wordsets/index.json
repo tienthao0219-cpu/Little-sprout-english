@@ -251,6 +251,14 @@
       "pics": 0
     },
     {
+      "id": "gs5--unit-6-sr6d",
+      "title": "Unit 6 · School rooms & directions",
+      "cur": "gs5",
+      "unit": "unit-6-sr6d",
+      "n": 18,
+      "pics": 0
+    },
+    {
       "id": "movers--unit-1-mv01",
       "title": "Unit 1 · At the park",
       "cur": "movers",
@@ -399,7 +407,7 @@
       "title": "Ôn từ vựng các unit",
       "cur": "gs5",
       "unit": "review-g500",
-      "n": 85,
+      "n": 103,
       "pics": 0
     },
     {

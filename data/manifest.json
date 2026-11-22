@@ -222,6 +222,10 @@
         {
           "id": "unit-5-locs",
           "name": "UNIT 5"
+        },
+        {
+          "id": "unit-6-sr6d",
+          "name": "UNIT 6"
         }
       ]
     },
@@ -922,6 +926,16 @@
       "kind": "app",
       "desc": "",
       "added": "2026-10-17T05:24:56.814Z"
+    },
+    {
+      "id": "school-rooms-directions-hub-unit-6-k7mp",
+      "title": "School Rooms &amp; Directions Hub - Unit 6",
+      "cur": "gs5",
+      "unit": "unit-6-sr6d",
+      "file": "apps/gs5/unit-6-sr6d/school-rooms-directions-hub-unit-6-k7mp.html",
+      "kind": "app",
+      "desc": "",
+      "added": "2026-11-22T12:20:00.000Z"
     },
     {
       "id": "starters-vocab-quest-4jkq",

@@ -428,6 +428,96 @@
    "w": "actor",
    "vi": "diễn viên",
    "ipa": "ˈæktə(r)"
+  },
+  {
+   "w": "music room",
+   "vi": "phòng âm nhạc",
+   "ipa": "ˈmjuːzɪk ruːm"
+  },
+  {
+   "w": "computer room",
+   "vi": "phòng máy tính",
+   "ipa": "kəmˈpjuːtə ruːm"
+  },
+  {
+   "w": "library",
+   "vi": "thư viện",
+   "ipa": "ˈlaɪbrəri"
+  },
+  {
+   "w": "art room",
+   "vi": "phòng mỹ thuật",
+   "ipa": "ˈɑːt ruːm"
+  },
+  {
+   "w": "gym",
+   "vi": "phòng tập thể dục",
+   "ipa": "dʒɪm"
+  },
+  {
+   "w": "floor",
+   "vi": "tầng",
+   "ipa": "flɔː"
+  },
+  {
+   "w": "ground floor",
+   "vi": "tầng trệt",
+   "ipa": "ˌɡraʊnd ˈflɔː"
+  },
+  {
+   "w": "first floor",
+   "vi": "tầng một (tầng 1)",
+   "ipa": "ˌfɜːst ˈflɔː"
+  },
+  {
+   "w": "second floor",
+   "vi": "tầng hai (tầng 2)",
+   "ipa": "ˌsekənd ˈflɔː"
+  },
+  {
+   "w": "third floor",
+   "vi": "tầng ba (tầng 3)",
+   "ipa": "ˌθɜːd ˈflɔː"
+  },
+  {
+   "w": "corridor",
+   "vi": "hành lang",
+   "ipa": "ˈkɒrɪdɔː"
+  },
+  {
+   "w": "go upstairs",
+   "vi": "đi lên lầu / lên gác",
+   "ipa": "ɡəʊ ˌʌpˈsteəz"
+  },
+  {
+   "w": "go downstairs",
+   "vi": "đi xuống lầu / xuống gác",
+   "ipa": "ɡəʊ ˌdaʊnˈsteəz"
+  },
+  {
+   "w": "go along",
+   "vi": "đi dọc theo",
+   "ipa": "ɡəʊ əˈlɒŋ"
+  },
+  {
+   "w": "go past",
+   "vi": "đi qua, đi ngang qua",
+   "ipa": "ɡəʊ ˈpɑːst"
+  },
+  {
+   "w": "turn left",
+   "vi": "rẽ trái",
+   "ipa": "tɜːn left"
+  },
+  {
+   "w": "turn right",
+   "vi": "rẽ phải",
+   "ipa": "tɜːn raɪt"
+  },
+  {
+   "w": "look for",
+   "vi": "tìm kiếm",
+   "ipa": "ˈlʊk fɔː"
   }
  ]
 }
