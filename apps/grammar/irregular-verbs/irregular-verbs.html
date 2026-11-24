@@ -1278,10 +1278,11 @@ function answerOpt(i) {
 }
 function checkTyped() {
   const q = Q.q; if (Q.answered) return;
-  const ins = [...document.querySelectorAll('.inp')]; const vals = ins.map(i => i.value.trim().toLowerCase().replace(/\s+/g, ' '));
+  const ins = [...document.querySelectorAll('.inp')]; const vals = ins.map(i => i.value.trim().toLowerCase());
   if (vals.some(x => !x)) { const e = ins.find(i => !i.value.trim()); if (e) e.focus(); return; }
   Q.answered = true; let all = true;
-  q.fields.forEach((f, i) => { const ok = f.acc.map(x => x.toLowerCase()).includes(vals[i]); if (!ok) all = false; ins[i].classList.add(ok ? 'ok' : 'bad'); ins[i].disabled = true; });
+  /* Chỉ cần gõ đúng chính tả: dấu cách, phẩy, xẹt (/), gạch… giữa các từ đều được — "was/were", "was, were", "was were" đều đúng */
+  q.fields.forEach((f, i) => { const accL = f.acc.map(x => x.toLowerCase()); const tk = vals[i].split(/[^a-z]+/).filter(Boolean); const ok = tk.length > 0 && tk.every(t => accL.includes(t)); if (!ok) all = false; ins[i].classList.add(ok ? 'ok' : 'bad'); ins[i].disabled = true; });
   verdict(q.v.id, all, qText(q), q.t); showFb(all, q.v, q.ans);
 }
 function hint() {
