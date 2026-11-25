@@ -1154,9 +1154,9 @@ function startQuiz(ids, opts) {
   // kiểu V1 → V2 / V3 / V2 & V3: mỗi từ có 1 câu trắc nghiệm CHỌN NGHĨA tiếng Việt trước, rồi mới tới câu trả lời V2/V3
   const pairMean = !opts.fix && (mode === 'B' || mode === 'C' || mode === 'D') && types.indexOf('mean') >= 0 && types.some(t => t !== 'mean');
   const useTypes = pairMean ? types.filter(t => t !== 'mean') : (types.length ? types : ['mc']);
-  let total = opts.fix ? Math.min(10, Math.max(pool.length, Math.min(pool.length * 2, 10))) : (store.size ? Math.min(store.size, pool.length * 3) : pool.length);
+  let total = opts.fix ? Math.max(pool.length, Math.min(pool.length * 2, 10)) : (store.size ? Math.min(store.size, pool.length * 3) : pool.length);
   if (pairMean) total = Math.max(1, Math.round(total / 2));   // mỗi từ = 2 câu (chọn nghĩa + trả lời), giữ tổng số câu gần bằng cài đặt
-  total = Math.max(total, Math.min(pool.length, 3)); if (total < 1) total = 1;
+  total = Math.max(total, pool.length); if (total < 1) total = 1;   // luôn đủ MỌI từ đã tick (mỗi từ ít nhất 1 lượt), số câu cài đặt chỉ là mức tối thiểu
   Q = {mode, pair: pairMean, items: [], queue: [], n: 0, total: 0, score: 0, combo: 0, best: 0, wrong: [], wrongSet: new Set(), retries: {}, done: 0, fix: !!opts.fix};
   // chọn từ rồi gán dạng bài luân phiên (mỗi vòng xáo lại để các lượt sau khác dạng)
   const items = []; let cyc = 0; let used = {};
