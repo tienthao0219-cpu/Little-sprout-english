@@ -406,7 +406,8 @@ const GRAM_DEMO = [
 
 /* mở từ Trung tâm trò chơi: dùng bộ từ đã chọn (chỉ từ vựng, chưa có định nghĩa và ngữ pháp) */
 const VOCAB = window.GAMESET ? window.GAMESET.items.filter(it=>it.vi).map(it=>({w:it.w,vi:it.vi,d:""})) : VOCAB_DEMO;
-const GRAM = window.GAMESET ? [] : GRAM_DEMO;
+/* câu trắc nghiệm từ bài tập (GAMESET.mcq) dùng làm câu "Chọn đáp án đúng" */
+const GRAM = window.GAMESET ? (window.GAMESET.mcq||[]).map(m=>({s:m.q,a:m.o[0],x:m.o.slice(1),vi:m.why||("Đáp án đúng: "+m.o[0]),t:m.why||"Đọc kĩ cả câu rồi chọn đáp án đúng"})) : GRAM_DEMO;
 
 // trình độ: nOpt = số đáp án; tRight/tWrong = giây rút gỗ khi đúng/sai;
 // botAcc = bot trả lời đúng bao nhiêu %; botCareful = bot biết tránh thanh nguy hiểm bao nhiêu %
@@ -1241,9 +1242,11 @@ document.querySelectorAll("#typeChips .chip").forEach(c=>c.addEventListener("cli
   syncTypeChips(); try{ localStorage.setItem("rutgo_qt",[...qtypes].join(",")); }catch(e){}
 }));
 try{ const s=(localStorage.getItem("rutgo_qt")||"").split(",").filter(t=>QT_ALL.includes(t)); if(s.length){ qtypes=new Set(s); syncTypeChips(); } }catch(e){}
-if(window.GAMESET){   /* chưa có định nghĩa/ngữ pháp trong bộ từ: bỏ hai dạng này, giữ các dạng từ vựng */
-  qtypes=new Set(QT_ALL.filter(t=>t!=="gram"&&t!=="def")); syncTypeChips();
-  document.querySelectorAll('#typeChips .chip[data-qt="gram"],#typeChips .chip[data-qt="def"]').forEach(c=>{ c.style.display="none"; });
+if(window.GAMESET){   /* chưa có định nghĩa trong bộ từ: bỏ dạng này; dạng ngữ pháp chỉ giữ khi bài có câu trắc nghiệm; bài chỉ có câu trắc nghiệm thì bỏ các dạng từ vựng */
+  const HM=GRAM.length>0, HV=VOCAB.length>=3;
+  qtypes=new Set(QT_ALL.filter(t=>t!=="def"&&(HM||t!=="gram")&&(HV||t==="gram"))); if(!qtypes.size) qtypes=new Set(QT_ALL.filter(t=>t!=="gram"&&t!=="def"));
+  syncTypeChips();
+  document.querySelectorAll('#typeChips .chip').forEach(c=>{ const t=c.dataset.qt; if(t==="def"||(t==="gram"&&!HM)||(t!=="gram"&&!HV&&HM)) c.style.display="none"; });
 }
 function applyMode(m){
   mode=m; document.querySelectorAll("#modeChips .chip").forEach(x=>x.classList.toggle("on",x.dataset.mode===m));

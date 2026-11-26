@@ -799,10 +799,12 @@
       if (sortMode === "new") out.sort((a, b) => b.newest - a.newest);   // chế độ "Mới nhất trước": giáo trình có bài mới nhất lên đầu
       return out;
     };
+    /* note nhỏ "🎮 Chơi game được" cho bài trắc nghiệm Global 7, 8 (chỉ cô thấy ở danh sách này; học sinh thấy ở trang unit) */
+    const gameNote = x => { if (!L.mcq || !L.mcq.isGameCur(x.curId)) return null; const el = h("span"); L.mcq.badge(x, el, true); return el; };
     const rowOf = x => {
       const c = L.cur(x.curId);
       return h("div.item", { style: "flex-wrap:wrap" }, h("div.ic.tint3", "📝"),
-            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần" + (ts(x) ? " · tạo " + sd(ts(x)) : "")), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng"), isNew(x) ? h("span.pill.butter", { style: "margin-left:6px" }, "🆕 Mới") : null, doneLine(x), assignChip(x)),
+            h("div.grow", h("b", x.title), h("div.small.muted", (c ? c.name + (x.unitId ? " · " + L.unitName(c, x.unitId) : "") + " · " : "") + (x.nItems || 0) + " ý · " + (x.nSections || 0) + " phần" + (ts(x) ? " · tạo " + sd(ts(x)) : "")), h("span.pill." + (x.open ? "mint" : "rose"), x.open ? "Đang mở" : "Đã đóng"), isNew(x) ? h("span.pill.butter", { style: "margin-left:6px" }, "🆕 Mới") : null, gameNote(x), doneLine(x), assignChip(x)),
             h("button.btn.sm.mint", { title: "Sao chép link để dán vào Zalo gửi học sinh", onclick: () => L.copyHwLink(x) }, "🔗 Sao chép link"),
             h("button.btn.sm.sky", { title: "Đổi nhanh tiêu đề, mô tả, giáo trình, unit (tự lưu)", onclick: () => quickEditModal(x) }, "⚡ Sửa nhanh"),
             h("a.btn.sm", { href: "#/teacher/hw-edit/" + x.id, title: "Sửa toàn bộ nội dung bài" }, "Sửa"),
@@ -816,6 +818,9 @@
               menu.append(h("summary.btn.sm.ghost", { title: "Thêm" }, "⋯"), h("div.mm",
                 item("a", { href: "#/hw/" + x.id }, "👀 Xem thử"),
                 item("a", { href: "#/print/" + x.id, title: "In phiếu A4 kèm đáp án / lưu PDF" }, "🖨️ In phiếu"),
+                (() => { if (!L.mcq || !L.mcq.isGameCur(x.curId)) return null;   /* chỉ hiện khi bài thật sự chơi game được */
+                  const a = item("a", { href: L.mcq.hubHref(x), title: "Mở Trung tâm trò chơi với các câu trắc nghiệm của bài này" }, "🕹️ Chơi game với bài này"); a.style.display = "none";
+                  L.mcq.gameCount(x).then(n => { if (L.mcq.playable(n)) a.style.display = ""; }); return a; })(),
                 item("button", { title: "Lấy từ vựng của bài này để tạo các bài game (lật thẻ, tìm từ, ô chữ…)", onclick: () => L.gameModal && L.gameModal(x) }, "🎮 Biến thành game"),
                 item("button", { onclick: async () => { try { await L.api.call("hwSetOpen", { id: x.id, open: !x.open }); x.open = !x.open; L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } }, x.open ? "🔒 Đóng bài" : "🔓 Mở bài"),
                 h("button.btn.sm.rose", { onclick: async () => { menu.open = false; if (await L.confirmBox("Xoá bài tập \"" + x.title + "\"? Bài nộp của học viên vẫn được giữ trong bảng tính.", "Xoá")) { try { await L.api.call("hwDelete", { id: x.id }); list.splice(list.indexOf(x), 1); L.state.hwList = null; draw(); } catch (e) { toast(e.message); } } } }, "🗑️ Xoá")));
@@ -1255,6 +1260,7 @@
       hw.title = hw.title.trim();
       if (!(await dupCheck())) return;
       hw.meta.nItems = nItems; hw.meta.nSections = hw.sections.length;
+      if (L.mcq) hw.meta.gameMcq = L.mcq.mcqCount(hw);   /* số câu trắc nghiệm chơi được trong game (để danh sách hiện note 🎮 mà không phải mở từng bài) */
       hw.meta.title = hw.title;
       try {
         const payload = JSON.parse(JSON.stringify(hw));

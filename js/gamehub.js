@@ -62,7 +62,8 @@ window.LSE = window.LSE || {};
 
     const curSel = h("select.gh-sel", { "aria-label": "Giáo trình" });
     const unitSel = h("select.gh-sel", { "aria-label": "Unit" });
-    const info = h("div.gh-info"), pasteBox = h("div.gh-paste.hidden");
+    const info = h("div.gh-info"), pasteBox = h("div.gh-paste.hidden"), hwBox = h("div.gh-hw.hidden");
+    let hwPre = q.get("hw") || "", hwTok = 0;   /* ?hw=<id>: tự chọn sẵn bài tập khi mở từ note 🎮 */
     const ta = h("textarea", { rows: 6, placeholder: "Mỗi dòng một từ, ví dụ:\napple - quả táo\nbanana - quả chuối\nI am ... " , spellcheck: "false" });
     const grid = h("div.gh-grid");
 
@@ -77,7 +78,7 @@ window.LSE = window.LSE || {};
       if (!c || !(c.units || []).length) { unitSel.classList.add("hidden"); return; }
       unitSel.classList.remove("hidden");
       unitSel.append(h("option", { value: "" }, "— Chọn unit —"));
-      c.units.forEach(u => { const s = setFor(c.id, u.id); unitSel.append(h("option", { value: u.id }, u.name + (s ? " · " + s.title.replace(/^Unit \d+ · /i, "") + " (" + s.n + " từ)" : " (chưa có bộ từ – dán từ vựng)"))); });
+      c.units.forEach(u => { const s = setFor(c.id, u.id); unitSel.append(h("option", { value: u.id }, u.name + (s ? " · " + s.title.replace(/^Unit \d+ · /i, "") + " (" + s.n + " từ)" : (L.mcq && L.mcq.isGameCur(c.id) ? " (chọn bài tập trắc nghiệm hoặc dán từ vựng)" : " (chưa có bộ từ – dán từ vựng)")))); });
       if (!c.units.some(u => u.id === sel.unit)) sel.unit = "";
       unitSel.value = sel.unit;
     }
@@ -86,7 +87,7 @@ window.LSE = window.LSE || {};
     function refresh() {
       lsSet(SELKEY, JSON.stringify(sel));
       curSel.value = sel.cur; fillUnits();
-      current = null; info.innerHTML = ""; pasteBox.classList.add("hidden");
+      current = null; info.innerHTML = ""; pasteBox.classList.add("hidden"); hwBox.classList.add("hidden"); hwBox.innerHTML = ""; hwTok++;
       const c = curObj();
       if (sel.cur === "custom") { showPaste("Dán từ vựng của em/cô vào đây (mỗi dòng: từ - nghĩa)"); }
       else if (c) {
@@ -95,10 +96,47 @@ window.LSE = window.LSE || {};
         else {
           const s = setFor(sel.cur, sel.unit);
           if (s) { current = s; info.append(h("div.gh-ok", "📚 ", h("b", s.title), " · " + s.n + " từ" + (s.pics ? " · " + s.pics + " hình" : ""))); }
-          else showPaste("Unit này chưa có bộ từ sẵn. Dán từ vựng vào đây để chơi ngay (cô cũng có thể gửi mình ảnh/ file từ vựng để thêm vào).");
+          else showPaste(L.mcq && L.mcq.isGameCur(sel.cur) ? "Chọn bài tập trắc nghiệm ở khung bên dưới để chơi bằng câu hỏi của bài, hoặc dán từ vựng vào đây (mỗi dòng: từ - nghĩa)." : "Unit này chưa có bộ từ sẵn. Dán từ vựng vào đây để chơi ngay (cô cũng có thể gửi mình ảnh/ file từ vựng để thêm vào).");
+          if (L.mcq && L.mcq.isGameCur(sel.cur)) drawHw();
         }
       } else info.append(h("div.gh-hint", "👆 Chọn giáo trình và unit mà em muốn chơi nhé."));
       drawGames();
+    }
+    /* bài tập trắc nghiệm (Global 7, 8) làm nguồn câu hỏi cho game: tick một hoặc nhiều bài */
+    async function drawHw() {
+      const tok = ++hwTok, pre = hwPre; hwPre = "";
+      hwBox.classList.remove("hidden"); hwBox.innerHTML = "";
+      hwBox.append(h("h3", { style: "margin:10px 0 4px" }, "📝 Bài tập trắc nghiệm của " + (unitName() || "giáo trình này")), h("div.empty", h("span.spinner"), " Đang tìm bài tập chơi game được…"));
+      let all = []; try { all = await L.loadHw(); } catch (e) { }
+      const list = all.filter(x => x.curId === sel.cur && (!sel.unit || x.unitId === sel.unit));
+      const counts = await Promise.all(list.map(x => L.mcq.gameCount(x)));
+      if (tok !== hwTok) return;
+      const rows = list.map((x, i) => ({ x, n: counts[i] })).filter(r => L.mcq.playable(r.n));
+      hwBox.innerHTML = "";
+      hwBox.append(h("h3", { style: "margin:10px 0 4px" }, "📝 Bài tập trắc nghiệm của " + (unitName() || "giáo trình này")));
+      if (!rows.length) { hwBox.append(h("div.gh-hint", "Chưa có bài tập nào chơi game được ở đây (cần ít nhất " + L.mcq.MIN_Q + " câu trắc nghiệm một đáp án). Bạn vẫn có thể dán từ vựng ở khung trên.")); return; }
+      const on = new Set(pre && rows.some(r => r.x.id === pre) ? [pre] : []), msg = h("div.small", { style: "margin-top:6px;font-weight:800" });
+      hwBox.append(h("div.small.muted", "Tick một hoặc nhiều bài rồi bấm “Dùng các bài đã chọn”. Các game có nhãn 📝 sẽ hỏi đúng câu trắc nghiệm của bài (kèm đáp án nhiễu thật)."));
+      rows.forEach(r => hwBox.append(h("label.row", { style: "gap:8px;cursor:pointer;margin:6px 0;align-items:center" },
+        h("input", { type: "checkbox", style: "width:20px;height:20px", checked: on.has(r.x.id), onchange: e => { e.target.checked ? on.add(r.x.id) : on.delete(r.x.id); } }),
+        h("span", h("b", r.x.title), h("span.small.muted", "  · " + r.n + " câu")))));
+      async function use() {
+        if (!on.size) { toast("Tick ít nhất một bài nhé!"); return; }
+        msg.textContent = "Đang lấy câu hỏi…";
+        try {
+          const hws = []; for (const id of on) hws.push((await L.api.call("hwGet", { id })).hw);
+          const picked = rows.filter(r => on.has(r.x.id)).map(r => r.x.title);
+          const set = L.mcq.mcqSet(hws, picked.length === 1 ? picked[0] : (unitName() || "Bài tập") + " · " + picked.length + " bài");
+          if (set.mcq.length < L.mcq.MIN_Q) { msg.textContent = "Các bài đã chọn chưa đủ câu trắc nghiệm để chơi."; return; }
+          current = { id: "custom", title: set.title, cur: sel.cur, unit: sel.unit, n: set.mcq.length, custom: true, items: set.items, mcq: set.mcq };
+          info.innerHTML = ""; info.append(h("div.gh-ok", "📝 ", h("b", set.title), " · " + set.mcq.length + " câu trắc nghiệm" + (set.items.length ? " · " + set.items.length + " từ vựng" : "")));
+          pasteBox.classList.add("hidden");
+          msg.textContent = "✅ Đã chọn " + set.mcq.length + " câu. Chọn game có nhãn 📝 bên dưới để chơi!";
+          drawGames();
+        } catch (e) { msg.textContent = "Không lấy được bài: " + (e.message || e); }
+      }
+      hwBox.append(h("div.row", { style: "margin-top:6px" }, h("button.btn.sky", { type: "button", onclick: use }, "Dùng các bài đã chọn")), msg);
+      if (on.size) use();
     }
     function showPaste(msg) {
       pasteBox.classList.remove("hidden"); ta.value = lsGet(pasteKey()) || "";
@@ -121,20 +159,24 @@ window.LSE = window.LSE || {};
     function play(g) {
       if (g.fixed) { L.go("/games/play/" + g.id + "/fixed"); return; }   /* game có sẵn bộ từ riêng: chơi luôn, không cần chọn bài */
       if (!current) { toast("Chọn bài (có ít nhất 3 từ) trước nhé!"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
-      if (current.custom) { try { sessionStorage.setItem("lse_custom_set", JSON.stringify({ title: current.title, items: current.items })); } catch (e) { toast("Máy này không cho lưu tạm bộ từ"); return; } }
+      const hasQ = !!(current.mcq && current.mcq.length);
+      if (hasQ && !g.mcq && (current.items || []).length < 3) { toast("Game này chưa chơi được câu trắc nghiệm của bài. Chọn game có nhãn 📝 nhé!", 4500); return; }
+      if (current.custom) { try { sessionStorage.setItem("lse_custom_set", JSON.stringify({ title: current.title, items: current.items || [], mcq: hasQ ? current.mcq : [] })); } catch (e) { toast("Máy này không cho lưu tạm bộ từ"); return; } }
       L.go("/games/play/" + g.id + "/" + current.id + "?cur=" + encodeURIComponent(current.cur || "") + "&unit=" + encodeURIComponent(current.unit || ""));
     }
     function drawGames() {
       grid.innerHTML = "";
       const t = term.trim().toLowerCase();
-      const list = GAMES.filter(g => (cat === "all" || (g.cats || []).includes(cat)) && (!t || (g.title + " " + g.desc + " " + (g.tags || []).join(" ")).toLowerCase().includes(t)));
+      const hasQ = !!(current && current.mcq && current.mcq.length), noVoc = hasQ && (current.items || []).length < 3;
+      let list = GAMES.filter(g => (cat === "all" || (g.cats || []).includes(cat)) && (!t || (g.title + " " + g.desc + " " + (g.tags || []).join(" ")).toLowerCase().includes(t)));
+      if (hasQ) list = list.filter(g => g.mcq).concat(list.filter(g => !g.mcq));   /* game chơi được câu trắc nghiệm lên đầu */
       if (!list.length) { grid.append(h("div.empty", "Không tìm thấy game nào.")); return; }
       list.forEach(g => grid.append(h("div.gh-card.c-" + (g.color || "pink"),
         h("div.gh-poster", g.posterImg ? { }  : { html: POSTERS[g.poster] || "" }, g.posterImg ? h("img", { src: g.posterImg, alt: "", loading: "lazy" }) : null,
           h("span.gh-ico", g.icon || ICON_BY[g.color] || "🎮"), h("span.gh-kind", (g.cats || []).includes("duo") ? "👥 1–2 người" : "🎯 1 người")),
         h("div.gh-body", h("h3", g.title), h("p", g.desc),
-          h("div.gh-tags", (g.tags || []).map(x => h("span.pill", x))),
-          h("button.btn.rose.gh-play" + (current || g.fixed ? "" : ".ghost"), { onclick: () => play(g) }, current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️")))));
+          h("div.gh-tags", g.mcq ? h("span.pill.lilac", "📝 Câu trắc nghiệm") : null, (g.tags || []).map(x => h("span.pill", x))),
+          h("button.btn.rose.gh-play" + ((current || g.fixed) && !(noVoc && !g.mcq) ? "" : ".ghost"), { onclick: () => play(g) }, noVoc && !g.mcq ? "Chưa hỗ trợ câu trắc nghiệm" : (current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️"))))));
     }
 
     const chips = [["all", "Tất cả"], ["vocab", "Từ vựng"], ["speed", "Tốc độ"], ["duo", "Đấu đôi"]].map(([k, t]) => h("button.gh-chip" + (k === "all" ? ".on" : ""), { onclick: e => { cat = k; chips.forEach(c => c.classList.remove("on")); e.currentTarget.classList.add("on"); drawGames(); } }, t));
@@ -146,7 +188,7 @@ window.LSE = window.LSE || {};
         h("h1", "🎮 Trung tâm trò chơi"),
         h("p", "Ôn từ vựng bằng game! Bài nào cũng chơi được: chọn bài, chọn game rồi chơi và kiếm xu nhé."),
         h("div.gh-steps", h("span", h("b", "1"), " Chọn bài"), h("span", h("b", "2"), " Chọn game"), h("span", h("b", "3"), " Chơi & kiếm xu"))),
-      h("div.card.gh-pick", h("h2", "① Chọn bài để chơi"), h("div.gh-row", curSel, unitSel), info, pasteBox),
+      h("div.card.gh-pick", h("h2", "① Chọn bài để chơi"), h("div.gh-row", curSel, unitSel), info, hwBox, pasteBox),
       h("div.gh-bar", h("h2", "② Chọn game"), h("div.gh-chips", chips), search),
       grid);
     refresh();

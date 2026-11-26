@@ -2,7 +2,7 @@
    BỘ TỪ DÙNG CHUNG CHO GAME (Trung tâm trò chơi)
    Game chèn <script src="../../js/gameset.js"> ở đầu file. Khi được mở với ?set=<mã bộ từ>
    thì có window.GAMESET = {id, title, items:[{w,vi,ipa?,img?,v2?,v3?}], text(), pics}.
-   - ?set=custom : bộ từ cô/em tự dán, lấy từ sessionStorage "lse_custom_set"
+   - ?set=custom : bộ từ cô/em tự dán, lấy từ sessionStorage "lse_custom_set" (có thể kèm mcq: câu trắc nghiệm lấy từ bài tập)
    - ?set=<id>   : đọc data/wordsets/<id>.json
    Không có ?set thì game chạy như cũ (không có GAMESET).
    ============================================================ */
@@ -16,7 +16,11 @@
     if (id === "custom") d = JSON.parse(sessionStorage.getItem("lse_custom_set") || "null");
     else { var x = new XMLHttpRequest(); x.open("GET", base + encodeURIComponent(id) + ".json", false); x.send(); if (x.status === 200 || (x.status === 0 && x.responseText)) d = JSON.parse(x.responseText); }
   } catch (e) { d = null; }
-  if (!d || !Array.isArray(d.items) || !d.items.length) { window.GAMESET_ERROR = "Không đọc được bộ từ \"" + id + "\""; return; }
+  if (d && !Array.isArray(d.items)) d.items = [];
+  /* câu trắc nghiệm (từ bài tập): d.mcq = [{q, o:[đáp án đúng, ...nhiễu], why?, img?}], đáp án đúng luôn nằm đầu, tối đa 4 lựa chọn */
+  if (d) d.mcq = (Array.isArray(d.mcq) ? d.mcq : []).filter(function (m) { return m && m.q && Array.isArray(m.o) && m.o.length >= 3 && m.o[0]; })
+    .map(function (m) { return { q: String(m.q), o: m.o.slice(0, 4).map(String), why: m.why ? String(m.why) : "", img: m.img || "" }; });
+  if (!d || (!d.items.length && !d.mcq.length)) { window.GAMESET_ERROR = "Không đọc được bộ từ \"" + id + "\""; return; }
   d.id = id;
   d.items = d.items.filter(function (it) { return it && it.w; }).map(function (it) {
     var o = Object.assign({}, it);
