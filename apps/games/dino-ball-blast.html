@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Dino Ball Blast</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
@@ -1656,7 +1656,7 @@ function makeSample(){ return {id:uid(), name:SAMPLE.name, grade:7, level:'tb', 
 function loadLessons(){
   if(window.GAMESET){   /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn */
     const g=window.GAMESET, vocab=g.items.filter(it=>it.vi).map(it=>[it.w.replace(/\|/g,'/'),it.vi.replace(/\|/g,'/')].concat(it.img?[it.img]:[]).join(' | ')).join('\n');
-    lessons=[{id:'hub',name:g.title||'Bộ từ',grade:7,level:'tb',vocab:vocab,gName:'',gStruct:'',gram:'',types:null}]; cur=lessons[0]; return;
+    lessons=[{id:'hub',name:g.title||'Bộ từ',grade:7,level:'tb',vocab:vocab,gName:'',gStruct:'',gram:g.hasMcq?g.mcqBracket():'',types:null}]; cur=lessons[0]; return;
   }
   try{ const a=JSON.parse(localStorage.getItem(LS_L)||'null'); if(Array.isArray(a)) lessons=a.filter(x=>x&&typeof x.vocab==='string'&&x.id); }catch(e){}
   if(!lessons.length) lessons=[makeSample()];

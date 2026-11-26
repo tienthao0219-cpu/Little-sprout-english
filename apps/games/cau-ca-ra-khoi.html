@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <title>Ra Khơi Đánh Cá</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -547,8 +547,9 @@ if(HUB){
   const g=window.GAMESET;
   VOCAB.length=0; GRAMMAR.length=0;
   g.items.filter(it=>it.vi).forEach(it=>VOCAB.push({en:String(it.w).trim(),vi:String(it.vi).trim(),pic:it.img||''}));
+  if(g.hasMcq) g.mcq.forEach(m=>GRAMMAR.push({type:'mc',q:m.q,o:m.o.slice(),exp:m.why||'',say:m.q.replace(/_{2,}/g,m.o[0])}));
   { const st=document.createElement('style'); st.textContent='[onclick="openTeacher()"]{display:none!important}'; document.head.appendChild(st); }
-  CFG.id=CFG.id+':'+g.id; CFG.title=CFG.title; CFG.subtitle=g.title||'Bộ từ'; CFG.vocabShare=1; CFG.zalo=''; CFG.teacherPin='';
+  CFG.id=CFG.id+':'+g.id; CFG.title=CFG.title; CFG.subtitle=g.title||'Bộ từ'; CFG.vocabShare=1; if(g.hasMcq) CFG.vocabShare=VOCAB.length>=4?.5:0; CFG.zalo=''; CFG.teacherPin='';
 }
 
 const $=(s,r=document)=>r.querySelector(s);

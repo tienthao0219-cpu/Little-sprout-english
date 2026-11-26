@@ -242,7 +242,7 @@ textarea{width:100%;min-height:150px;padding:.7em;border-radius:14px;border:3px 
 }
 </style>
 
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 </head>
 <body>
 <div id="app">
@@ -669,7 +669,8 @@ const TY={
  lword:{c:'v',n:'Nghe chọn từ'}, lpic:{c:'v',n:'Nghe chọn hình'}, type:{c:'v',n:'Gõ từ'}, fill:{c:'v',n:'Điền từ vào câu'},
  gmc:{c:'g',n:'Ngữ pháp • Trắc nghiệm'}, gfill:{c:'g',n:'Ngữ pháp • Điền từ'}, gord:{c:'g',n:'Ngữ pháp • Sắp xếp câu'}
 };
-if(HUB){ ['def','fill','gmc','gfill','gord'].forEach(k=>delete TY[k]); }   /* bộ từ chỉ có từ + nghĩa + hình */
+const HUB_MCQ=!!(HUB&&HUB.hasMcq);
+if(HUB){ ['def','fill','gfill','gord'].concat(HUB_MCQ?[]:['gmc']).forEach(k=>delete TY[k]); }   /* bộ từ chỉ có từ + nghĩa + hình */
 const VT=['en2vi','vi2en','def','missing','scramble','lword','lpic','type','fill'].filter(t=>TY[t]);
 const isImg=s=>typeof s==='string'&&s.indexOf('img:')===0;
 const picOf=x=>x.img?'img:'+x.img:x.e;
@@ -816,6 +817,7 @@ function mkPools(cfg){
   VT.forEach(t=>add(t,base.filter(ELIG[t])));
   const gr=(arr)=>{const f=arr.filter(x=>gradeOk(x.g,cfg));return f.length>=3?f:arr};
   if(!HUB){ add('gmc',gr(GMCD)); add('gfill',gr(GFD)); add('gord',gr(SENT)); }
+  else if(HUB_MCQ){ add('gmc',HUB.mcq.map(m=>({g:0,q:m.q,a:m.o[0],w:m.o.slice(1),exp:esc(m.why||'')}))); }
   return P;
 }
 function buildQs(cfg,total){
@@ -1489,7 +1491,7 @@ const M={
 /* =====================================================================
    11. BUỔI HỌC NHIỀU GIAI ĐOẠN
 ===================================================================== */
-const ALLT=VT.concat(HUB?[]:['gmc','gfill','gord']);
+const ALLT=VT.concat(HUB?(HUB_MCQ?['gmc']:[]):['gmc','gfill','gord']);
 const GRADE_TYPES={1:['en2vi','vi2en','lword','lpic','missing','scramble','gmc','gord'],2:['en2vi','vi2en','lword','lpic','missing','scramble','type','gmc','gfill','gord'],3:ALLT,4:ALLT,5:ALLT,0:ALLT};
 const LS={on:false,i:0,stages:[],wrong:[],tot:{},
   collect(){ const seen=new Set(this.wrong.map(q=>q.key)); M.wrong.forEach(q=>{if(!seen.has(q.key)){seen.add(q.key);this.wrong.push(q)}});
@@ -1515,7 +1517,7 @@ function lessonRun(){ const st=LS.stages[LS.i],cfg=baseCfg(); Object.assign(cfg,
 ===================================================================== */
 const ST=Object.assign({game:'fruit',mode:'solo',names:['Bé 1','Bé 2'],avs:[0,1],botLvl:2,grade:3,n:8,time:'norm',speed:'norm',src:'base',types:ALLT.slice(),retry:true,weak:true,handicap:false,team:'',autoTypes:true},store.get('ea.st',{}));
 ST.types=ST.types.filter(t=>TY[t]); if(!ST.types.length)ST.types=ALLT.slice(); if(ST.game==='lesson')ST.game='fruit';
-if(HUB){ ST.game='fruit'; ST.src='mine'; ST.grade=0; ST.autoTypes=false; ST.types=ST.types.filter(t=>TY[t]); if(!ST.types.length)ST.types=VT.slice(); }
+if(HUB){ ST.game='fruit'; ST.src='mine'; ST.grade=0; ST.autoTypes=false; ST.types=ST.types.filter(t=>TY[t]); if(HUB_MCQ&&!ST.types.includes('gmc'))ST.types.push('gmc'); if(!ST.types.length)ST.types=VT.slice(); }
 const scr=$('#screens');
 function hideScreens(){ scr.innerHTML=''; }
 const decos=a=>`<div class="decos" aria-hidden="true">${a.map(([e,x,y,d])=>`<span style="left:${x}%;top:${y}%;animation-delay:${d}s">${e}</span>`).join('')}</div>`;
@@ -1562,8 +1564,10 @@ function voiceWarn(){ return (!CAN_SPEAK||(VOICE_LOADED&&!VOICE))?'⚠️ Thiế
 function showSetup(){ showSetup0(); if(HUB) hubSetup(); }
 function hubSetup(){
   scr.querySelectorAll('.panel').forEach(pn=>{ const h=(pn.querySelector('h3')||{}).textContent||''; if(/Bộ từ vựng/.test(h)||/Lớp/.test(h)) pn.remove(); });
-  scr.querySelectorAll('[data-act=preset][data-v=g]').forEach(b=>b.remove());
-  scr.querySelectorAll('b.hint').forEach(b=>{ if(/NGỮ PHÁP/.test(b.textContent)&&b.parentElement) b.parentElement.remove(); });
+  const noV=HUB_MCQ&&loadMine().length<4;
+  if(!HUB_MCQ) scr.querySelectorAll('[data-act=preset][data-v=g]').forEach(b=>b.remove());
+  if(!HUB_MCQ||noV) scr.querySelectorAll('[data-act=preset][data-v=v],[data-act=preset][data-v=all]').forEach(b=>{ if(noV) b.remove(); });
+  scr.querySelectorAll('b.hint').forEach(b=>{ if(!b.parentElement) return; if(/NGỮ PHÁP/.test(b.textContent)&&!HUB_MCQ) b.parentElement.remove(); else if(/TỪ VỰNG/.test(b.textContent)&&noV) b.parentElement.remove(); });
   const at=scr.querySelector('[data-act=autotypes]'); if(at) at.remove();
 }
 function showSetup0(){
@@ -1603,7 +1607,7 @@ function startFromSetup(){
   if(ST.game==='lesson')return lessonStart();
   if(needsMine())return; persistSt(); const cfg=baseCfg(); M.lastCfg=cfg; M.start(cfg);
 }
-function needsMine(){ if((ST.game==='fruit'||ST.game==='lesson')&&ST.src==='mine'&&loadMine().length<4){ openMine('Cần ít nhất 4 từ để tạo đáp án nhiễu. Hãy nhập thêm nhé!'); return true } return false }
+function needsMine(){ if((ST.game==='fruit'||ST.game==='lesson')&&ST.src==='mine'&&loadMine().length<4&&!(HUB_MCQ&&ST.types.includes('gmc'))){ openMine('Cần ít nhất 4 từ để tạo đáp án nhiễu. Hãy nhập thêm nhé!'); return true } return false }
 const plain=h=>String(h).replace(/<br\s*\/?>/g,' – ').replace(/<[^>]+>/g,'').replace(/&amp;/g,'&');
 function scoreCard(p,win,extra){ const a=p.total?p.right/p.total:0,st=a>=.9?'⭐⭐⭐':a>=.7?'⭐⭐☆':a>=.4?'⭐☆☆':'☆☆☆'; return `<div class="sc-card ${win?'win':''}"><div class="av">${p.av}</div><b>${esc(p.name)}</b><div class="big">${p.score}</div><div class="stars">${st}</div><span class="hint">Đúng ${p.right}/${p.total}</span>${extra||''}</div>`; }
 function rewardHTML(p){ const r=p.reward; if(!r)return ''; return `<div class="reward"><b>${esc(p.name)}</b>: ⭐ +${r.stars} <small>(tổng ${r.total})</small> · 🔥 ${r.streak} ngày liên tiếp${r.newPets.map(pt=>`<div class="newpet"><span>${pt[0]}</span><div><b>Thú cưng mới!</b><br>${esc(pt[1])} đã vào bộ sưu tập của ${esc(p.name)}</div></div>`).join('')}</div>`; }

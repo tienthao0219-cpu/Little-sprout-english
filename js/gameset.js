@@ -30,5 +30,21 @@
   d.pics = d.items.filter(function (it) { return it.img; }).length;
   /* mỗi dòng "từ | nghĩa" (dùng cho Đào Vàng, Xí Ngầu) */
   d.text = function () { return d.items.filter(function (it) { return it.vi; }).map(function (it) { return it.w.replace(/\|/g, "/") + " | " + it.vi.replace(/\|/g, "/"); }).join("\n"); };
+  /* ---- câu trắc nghiệm dưới dạng văn bản, cho các game nhập "bài học" bằng chữ (mỗi game một kiểu dòng) ---- */
+  var sq = function (t) { return String(t).replace(/\/\//g, "/").replace(/=>/g, "→").replace(/\s+/g, " ").trim(); };
+  var so = function (t) { return sq(t).replace(/[|\[\]{}]/g, "/").replace(/;/g, ",").trim(); };
+  d.hasMcq = d.mcq.length > 0;
+  /* kiểu "Câu có ___ [đúng|sai|sai|sai] ... // giải thích": Xí Ngầu, Dap Ruồi, Uno, Dino */
+  d.mcqBracket = function () {
+    return d.mcq.map(function (m) { var tok = "[" + m.o.map(so).join("|") + "]", q = sq(m.q).replace(/[\[\]{}]/g, "("); q = q.indexOf("___") >= 0 ? q.replace("___", tok) : q + " " + tok; return q + (m.why ? " // " + sq(m.why) : ""); }).join("\n");
+  };
+  /* kiểu Đào Vàng: mỗi câu là một khối "# tên / Sai: ... / câu có [đúng] | giải thích" */
+  d.mcqBlocks = function () {
+    return d.mcq.map(function (m, i) { var q = sq(m.q).replace(/[\[\]|]/g, "("); q = q.indexOf("___") >= 0 ? q.replace("___", "[" + so(m.o[0]) + "]") : q + " [" + so(m.o[0]) + "]"; return "# Câu " + (i + 1) + ""+ "\nSai: " + m.o.slice(1).map(function (x) { return so(x).replace(/[,\/]/g, " "); }).join(", ") + "\n" + q; }).join("\n");
+  };
+  /* kiểu Pirate: mc | câu | a;b;c;d | số thứ tự đáp án đúng | giải thích */
+  d.mcqPipe = function () {
+    return d.mcq.map(function (m) { return "mc | " + sq(m.q).replace(/\|/g, "/") + " | " + m.o.slice(0, 4).map(function (x) { return so(x); }).join(";") + " | 1 | " + sq(m.why || ""); }).join("\n");
+  };
   window.GAMESET = d;
 })();

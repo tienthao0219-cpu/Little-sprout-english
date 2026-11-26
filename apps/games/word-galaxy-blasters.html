@@ -262,7 +262,7 @@ textarea{width:100%;min-height:150px;border-radius:14px;border:2px solid var(--l
     <div class="row"><button class="btn alt" id="iReset">Xóa hết hình đã tải</button><button class="btn good" id="iClose">Xong</button></div>
   </div></div>
 </div>
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 <script>
 /* ---------- DATA ---------- */
 /* Chế độ Trung tâm trò chơi (?set=...): chỉ từ vựng của bộ từ đã chọn (từ + nghĩa + hình), lưu điểm riêng cho từng bộ */
@@ -354,7 +354,9 @@ const KINDS=[
 {id:'lpic',n:'Nghe chọn hình',sk:'vocab'},{id:'type',n:'Gõ từ',sk:'vocab'},{id:'fill',n:'Điền từ vào câu',sk:'vocab'},
 {id:'gmcq',n:'Ngữ pháp: trắc nghiệm',sk:'grammar'},{id:'gfill',n:'Ngữ pháp: điền từ',sk:'grammar'},{id:'gord',n:'Ngữ pháp: sắp xếp câu',sk:'grammar'}
 ];
-if(HUB)KINDS.splice(0,KINDS.length,...KINDS.filter(k=>k.sk==='vocab'&&k.id!=='def'&&k.id!=='fill'));
+const HUB_MCQ=!!(HUB&&HUB.hasMcq), HUB_V=!!HUB&&HUB.items.filter(it=>it.vi).length>=4;
+if(HUB_MCQ){GMCQ.length=0;HUB.mcq.forEach(m=>GMCQ.push({q:m.q,o:m.o.slice(),a:m.o[0],why:String(m.why||'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}))}
+if(HUB)KINDS.splice(0,KINDS.length,...KINDS.filter(k=>(HUB_V&&k.sk==='vocab'&&k.id!=='def'&&k.id!=='fill')||(HUB_MCQ&&k.id==='gmcq')));
 /* ---------- CORE HELPERS ---------- */
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
@@ -764,7 +766,7 @@ function drawBoss(t){
  ctx.restore();
 }
 /* ---------- GAME STATE ---------- */
-const CFG={mode:'solo',bot:'mid',skill:HUB?'vocab':'both',topics:new Set(HUB?['hub']:['animals','school','food','free','custom']),kinds:new Set(KINDS.map(k=>k.id)),len:10};
+const CFG={mode:'solo',bot:'mid',skill:HUB?(HUB_MCQ?(HUB_V?'both':'grammar'):'vocab'):'both',topics:new Set(HUB?['hub']:['animals','school','food','free','custom']),kinds:new Set(KINDS.map(k=>k.id)),len:10};
 const BOTS={easy:{acc:.6,r0:4.5,r1:8,dodge:.35},mid:{acc:.8,r0:2.6,r1:5.5,dodge:.7},hard:{acc:.95,r0:1.2,r1:3.2,dodge:.95}};
 let G={running:false,paused:false,phase:'idle',players:[],birds:[],eggs:[],lasers:[],items:[],parts:[],floats:[],t:0,shake:0,warp:.3};
 let EX=[];
@@ -812,7 +814,7 @@ function nextQuestion(){
   if(G.sprint&&TYPED.has(k)&&i<50&&kinds.some(x=>!TYPED.has(x)))continue;
   if(k[0]==='g')q=makeGrammar(k);else{const w=drawWord(k);if(w)q=makeVocab(k,w,G.pool)}
  }
- if(!q){q=HUB?makeVocab('en2vi',pick(G.pool),G.pool):makeGrammar('gmcq')}
+ if(!q){q=(HUB&&HUB_V)?makeVocab('en2vi',pick(G.pool),G.pool):makeGrammar('gmcq')}
  G.mult=1;G.evk=null;G.evCool--;
  if(G.sprint)G.evk='sprint';
  else if(q.mode==='shoot'&&G.qNo>=3&&G.evCool<=0&&!q.review&&Math.random()<.32){
@@ -1430,10 +1432,10 @@ function refreshMascots(){setMascot($('#mImg'),0);setMascot($('#pImg'),6)}
 /* splash */
 $('#splashImg').src=DEF_COVER;
 if(HUB){
- const sk=$('#segSkill');if(sk)sk.style.display='none';
+ const sk=$('#segSkill');if(sk&&!(HUB_MCQ&&HUB_V))sk.style.display='none';
  const bw=$('#btnWords');if(bw&&bw.parentElement)bw.parentElement.style.display='none';
  const tg=document.querySelector('#menu .tag');if(tg)tg.textContent='Bắn chim vũ trụ, né trứng, ôn bộ từ “'+HUB.title+'”!';
- CFG.skill='vocab';syncMenu();
+ CFG.skill=HUB_MCQ?(HUB_V?'both':'grammar'):'vocab';syncMenu();
 }
 function closeSplash(){au();hide('#splash')}
 $('#splash').addEventListener('click',closeSplash);

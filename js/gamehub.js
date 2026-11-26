@@ -160,14 +160,16 @@ window.LSE = window.LSE || {};
       if (g.fixed) { L.go("/games/play/" + g.id + "/fixed"); return; }   /* game có sẵn bộ từ riêng: chơi luôn, không cần chọn bài */
       if (!current) { toast("Chọn bài (có ít nhất 3 từ) trước nhé!"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       const hasQ = !!(current.mcq && current.mcq.length);
-      if (hasQ && !g.mcq && (current.items || []).length < 3) { toast("Game này chưa chơi được câu trắc nghiệm của bài. Chọn game có nhãn 📝 nhé!", 4500); return; }
+      const nItems = (current.items || []).length;
+      if (hasQ && !g.mcq && nItems < 3) { toast("Game này chưa chơi được câu trắc nghiệm của bài. Chọn game có nhãn 📝 nhé!", 4500); return; }
+      if (hasQ && g.mcq === "mix" && nItems < 4) { toast("Game này cần thêm ít nhất 4 từ vựng đi kèm câu trắc nghiệm. Hãy chọn thêm bài có từ vựng, hoặc chọn game khác nhé!", 5500); return; }
       if (current.custom) { try { sessionStorage.setItem("lse_custom_set", JSON.stringify({ title: current.title, items: current.items || [], mcq: hasQ ? current.mcq : [] })); } catch (e) { toast("Máy này không cho lưu tạm bộ từ"); return; } }
       L.go("/games/play/" + g.id + "/" + current.id + "?cur=" + encodeURIComponent(current.cur || "") + "&unit=" + encodeURIComponent(current.unit || ""));
     }
     function drawGames() {
       grid.innerHTML = "";
       const t = term.trim().toLowerCase();
-      const hasQ = !!(current && current.mcq && current.mcq.length), noVoc = hasQ && (current.items || []).length < 3;
+      const hasQ = !!(current && current.mcq && current.mcq.length), nIt = hasQ ? (current.items || []).length : 99, shortG = g => hasQ && (g.mcq === "mix" ? nIt < 4 : (!g.mcq && nIt < 3));
       let list = GAMES.filter(g => (cat === "all" || (g.cats || []).includes(cat)) && (!t || (g.title + " " + g.desc + " " + (g.tags || []).join(" ")).toLowerCase().includes(t)));
       if (hasQ) list = list.filter(g => g.mcq).concat(list.filter(g => !g.mcq));   /* game chơi được câu trắc nghiệm lên đầu */
       if (!list.length) { grid.append(h("div.empty", "Không tìm thấy game nào.")); return; }
@@ -176,7 +178,7 @@ window.LSE = window.LSE || {};
           h("span.gh-ico", g.icon || ICON_BY[g.color] || "🎮"), h("span.gh-kind", (g.cats || []).includes("duo") ? "👥 1–2 người" : "🎯 1 người")),
         h("div.gh-body", h("h3", g.title), h("p", g.desc),
           h("div.gh-tags", g.mcq ? h("span.pill.lilac", "📝 Câu trắc nghiệm") : null, (g.tags || []).map(x => h("span.pill", x))),
-          h("button.btn.rose.gh-play" + ((current || g.fixed) && !(noVoc && !g.mcq) ? "" : ".ghost"), { onclick: () => play(g) }, noVoc && !g.mcq ? "Chưa hỗ trợ câu trắc nghiệm" : (current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️"))))));
+          h("button.btn.rose.gh-play" + ((current || g.fixed) && !shortG(g) ? "" : ".ghost"), { onclick: () => play(g) }, shortG(g) ? (g.mcq === "mix" ? "Cần thêm từ vựng" : "Chưa hỗ trợ câu trắc nghiệm") : (current || g.fixed ? "Chơi ▶" : "Chọn bài trước ☝️"))))));
     }
 
     const chips = [["all", "Tất cả"], ["vocab", "Từ vựng"], ["speed", "Tốc độ"], ["duo", "Đấu đôi"]].map(([k, t]) => h("button.gh-chip" + (k === "all" ? ".on" : ""), { onclick: e => { cat = k; chips.forEach(c => c.classList.remove("on")); e.currentTarget.classList.add("on"); drawGames(); } }, t));

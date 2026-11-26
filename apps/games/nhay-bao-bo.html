@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -722,7 +722,7 @@ Object.keys(GRAW).forEach(g=>GRAW[g].forEach((a,i)=>{
   else if(a[0]==='f') GRAM.push({id,g:+g,t:'f',q:a[1],a:a[2].split('/'),e:a[3]});
   else GRAM.push({id,g:+g,t:'o',s:a[1],e:a[2]});
 }));
-if(HUB) GRAM.length=0;
+if(HUB){ GRAM.length=0; (HUB.mcq||[]).forEach((m,i)=>GRAM.push({id:'hubg'+i,g:1,t:'m',q:m.q,o:m.o.slice(),a:0,e:m.why||''})); }   /* câu trắc nghiệm từ bài tập */
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const rnd=(a,b)=>a+Math.random()*(b-a), rint=(a,b)=>Math.floor(rnd(a,b+1));
@@ -1874,7 +1874,8 @@ VTYPES.concat(GTYPES).forEach(t=>DEF.types[t]=true);
 let cfg=Object.assign({},DEF,store.get('nbb_cfg',{}));
 cfg.types=Object.assign({},DEF.types,cfg.types||{});
 if(![8,12,16].includes(cfg.len)) cfg.len=12;
-if(HUB){cfg.grade='T';cfg.content='vocab';cfg.lower=false;}
+const HUB_MCQ=!!(HUB&&HUB.mcq&&HUB.mcq.length);
+if(HUB){cfg.grade='T';cfg.content=HUB_MCQ?(HUB.items.filter(it=>it.vi).length>=4?'mix':'grammar'):'vocab';cfg.lower=false;}
 {const v0=cfg.ver||0; if(v0<2) cfg.rounds=[1,2,3,4,5]; if(v0<3) cfg.luck='auto'; cfg.ver=3;}
 if(!Array.isArray(cfg.rounds)||!cfg.rounds.length) cfg.rounds=[1,2,3];
 if(!Array.isArray(cfg.names)) cfg.names=DEF.names.slice();
@@ -2003,7 +2004,7 @@ function renderSetup(){
     row.querySelectorAll('.avb').forEach((b,i)=>{b.classList.toggle('on',cfg.an[p]===i);drawMini(b.firstChild,i,TEAM[p]);});
   });
   const n=$('#gradeNote');
-  if(cfg.grade==='T'){const c=customWords().length;n.hidden=false;n.textContent=HUB?(c>=4?`Bộ từ: ${HUB.title||''} · ${c} từ vựng.`:`Bộ từ này cần ít nhất 4 từ có nghĩa tiếng Việt (hiện có ${c}).`):(c>=4?`Đang dùng ${c} từ vựng do cô thêm. Câu ngữ pháp lấy từ tất cả các lớp.`:`Cô chưa thêm đủ 4 từ (hiện có ${c}). Vào "Góc của cô" để thêm từ vựng.`);}
+  if(cfg.grade==='T'){const c=customWords().length;n.hidden=false;n.textContent=HUB?(HUB_MCQ?`Bài tập: ${HUB.title||''} · ${HUB.mcq.length} câu trắc nghiệm${c>=4?' · '+c+' từ vựng':''}.`:(c>=4?`Bộ từ: ${HUB.title||''} · ${c} từ vựng.`:`Bộ từ này cần ít nhất 4 từ có nghĩa tiếng Việt (hiện có ${c}).`)):(c>=4?`Đang dùng ${c} từ vựng do cô thêm. Câu ngữ pháp lấy từ tất cả các lớp.`:`Cô chưa thêm đủ 4 từ (hiện có ${c}). Vào "Góc của cô" để thêm từ vựng.`);}
   else n.hidden=true;
 }
 
@@ -2018,7 +2019,7 @@ function mkPlayer(i){
 /* ---------- bắt đầu game ---------- */
 async function startGame(opts){
   Snd.unlock();
-  if(cfg.grade==='T'&&customWords().length<4){toast(HUB?'Bộ từ này cần ít nhất 4 từ có nghĩa tiếng Việt.':'Hãy thêm ít nhất 4 từ vựng trong "Góc của cô" trước nhé.');return;}
+  if(cfg.grade==='T'&&customWords().length<4&&!HUB_MCQ){toast(HUB?'Bộ từ này cần ít nhất 4 từ có nghĩa tiếng Việt.':'Hãy thêm ít nhất 4 từ vựng trong "Góc của cô" trước nhé.');return;}
   const tok=++G.tok;
   G.waits=[]; G.q=[]; G.running=false; G.modal=0; G.paused=false; G.botBusy=false; G.mist=[]; G.mixN=0; G.retry=[]; G.qn=0; Q.cur=null; G.review=null;
   if(opts&&opts.review) G.review=opts.review;

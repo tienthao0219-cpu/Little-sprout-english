@@ -651,7 +651,7 @@ body.cover #bg{animation:kb 26s ease-in-out infinite alternate;transform-origin:
   <div id="vig"></div>
 </div>
 
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 <script>
 /* ===== NỘI DUNG MẪU =====
  * Từ vựng: [english, tiếng Việt, định nghĩa (English), câu ví dụ (có chứa từ), emoji]
@@ -862,11 +862,12 @@ const norm=s=>String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/\s+/g,'
 const reEsc=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
 /* ===== Chế độ Trung tâm trò chơi (?set=...): dùng bộ từ đã chọn, không có ngữ pháp ===== */
 const HUB=window.GAMESET||null;
-const HUB_OFF=['def','fill','g-mc','g-fill','g-order'];
+const HUB_MCQ=!!(HUB&&HUB.hasMcq);
+const HUB_OFF=HUB_MCQ?['def','fill','g-fill','g-order']:['def','fill','g-mc','g-fill','g-order'];
 const PFX='pwb_'+(HUB?'hub_'+HUB.id+'_':'');
 if(HUB){
   VOCAB=[{id:'hub',name:HUB.title||'Bộ từ vựng',vi:'',icon:'📘',words:HUB.items.filter(it=>it.vi).map(it=>[it.w,it.vi,'','','',it.img||''])}];
-  GRAMMAR=[];
+  GRAMMAR=HUB_MCQ?[{id:'hubg',name:'Bài tập trắc nghiệm',vi:'Câu trắc nghiệm của cô',g:[1],icon:'📝',items:HUB.mcq.map(m=>({t:'mc',q:m.q,o:m.o.slice(),a:0,why:m.why||''}))}]:[];
 }
 const store={
   get(k,d){try{const v=localStorage.getItem(PFX+k);return v?JSON.parse(v):d}catch(e){return d}},
@@ -1169,7 +1170,7 @@ const THEMES=[{sky:'sunset',set:'boats',pattern:'scatter'},{sky:'storm',set:'mon
 const ICON_N={6:5,7:6,8:6};
 const AVATARS=['🦜','🐙','🦀','🐬','🦈','🐢','🦊','🐼'];
 const CFG=Object.assign({mode:'bot',bots:[0,1,2],mix:false,rounds:3,n:6,time:30,names:['Mia','Leo'],av:['🦜','🐙'],topics:['animals','fruits','school','g_aan','g_be'],qtypes:ALL_QTYPES.slice()},store.get('cfg',{}));
-if(HUB){ CFG.topics=['hub']; CFG.qtypes=CFG.qtypes.filter(t=>QT[t]&&QT[t].cat==='v'&&!HUB_OFF.includes(t)); if(!CFG.qtypes.length)CFG.qtypes=ALL_QTYPES.filter(t=>QT[t].cat==='v'&&!HUB_OFF.includes(t)); }
+if(HUB){ const hasV=VOCAB[0].words.length>=4; CFG.topics=(hasV?['hub']:[]).concat(HUB_MCQ?['hubg']:[]); const okT=t=>QT[t]&&!HUB_OFF.includes(t)&&(QT[t].cat==='v'?hasV:HUB_MCQ&&t==='g-mc'); CFG.qtypes=CFG.qtypes.filter(okT); if(!CFG.qtypes.length)CFG.qtypes=ALL_QTYPES.filter(okT); }
 CFG.qtypes=CFG.qtypes.filter(t=>QT[t]);
 if(![6,7,8].includes(CFG.n))CFG.n=6;
 if(CFG.opp!==undefined){ // chuyển cấu hình cũ

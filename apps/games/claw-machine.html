@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Claw Machine</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -717,9 +717,9 @@ function normalizeData(raw){
 }
 /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn (từ vựng + hình nếu có), không có ngữ pháp, ẩn phần dành cho giáo viên */
 const HUB=!!window.GAMESET;
-if(HUB){ GAME.id='claw-'+window.GAMESET.id; GAME.unit=window.GAMESET.title||'Bộ từ'; GAME.subtitle='Vocabulary review'; GAME.content='vocab'; }
+if(HUB){ GAME.id='claw-'+window.GAMESET.id; GAME.unit=window.GAMESET.title||'Bộ từ'; GAME.subtitle='Vocabulary review'; GAME.content=(window.GAMESET.mcq&&window.GAMESET.mcq.length)?(window.GAMESET.items.filter(it=>it.vi).length>=3?'both':'grammar'):'vocab'; }
 let DATA=HUB
-  ? normalizeData({vocab:window.GAMESET.items.filter(it=>it.vi).map(it=>({en:it.w,vi:it.vi,pic:it.img||''})),grammar:[],extra:{}})
+  ? normalizeData({vocab:window.GAMESET.items.filter(it=>it.vi).map(it=>({en:it.w,vi:it.vi,pic:it.img||''})),grammar:(window.GAMESET.mcq||[]).map(m=>({type:'mc',tag:'📝 Bài tập',q:m.q,ans:m.o[0],opts:m.o.slice(1),ex:m.why||''})),extra:{}})
   : normalizeData({vocab:VOCAB,grammar:GRAMMAR,extra:EXTRA_WRONG});
 const CFG={content:'both',perGame:20,vtypes:{},gtags:{}};
 const gTagOf=g=>g.tag||'';

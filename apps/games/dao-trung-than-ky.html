@@ -725,7 +725,7 @@ h1,h2,h3{font-family:var(--font-d);margin:0;line-height:1.1;text-wrap:balance}
   <div id="toast" role="status"></div>
 </div>
 
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 <script>
 /* ============================================================
    DỮ LIỆU BÀI HỌC – cô có thể sửa/thêm trực tiếp ở file này
@@ -1031,7 +1031,9 @@ function loadS() {
   return fresh();
 }
 let S = loadS();
-if (SET_HUB) S.set.topic = 'vocab';
+const HUB_MCQ = !!(SET_HUB && SET_HUB.hasMcq), HUB_V = !!SET_HUB && W.length >= 4;
+if (HUB_MCQ) { GRAM_MC.length = 0; SET_HUB.mcq.forEach(m => GRAM_MC.push({ s: m.q, o: m.o.slice(), a: 0, b: m.o.map(() => ''), x: m.why || '' })); }
+if (SET_HUB) S.set.topic = HUB_MCQ ? (HUB_V ? 'mix' : 'gram') : 'vocab';
 function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } }
 const prof = () => S.profiles[S.cur];
 const invCount = p => Object.values(p.inv).reduce((a, b) => a + b, 0);
@@ -1451,8 +1453,8 @@ const BUILD = {
 };
 function makeQ() {
   const t = S.set.topic;
-  const g = SET_HUB ? false : t === 'gram' ? true : t === 'vocab' ? false : (G.hard ? Math.random() < .5 : Math.random() < .36);
-  const kinds = G.hard ? (g ? ['gfill', 'gorder', 'gmc'] : (SET_HUB ? ['missing', 'scramble', 'type'] : ['missing', 'scramble', 'type', 'fill', 'def'])) : (g ? GK : VK);
+  const g = SET_HUB ? (HUB_MCQ && (!HUB_V || Math.random() < .4)) : t === 'gram' ? true : t === 'vocab' ? false : (G.hard ? Math.random() < .5 : Math.random() < .36);
+  const kinds = SET_HUB && g ? ['gmc'] : G.hard ? (g ? ['gfill', 'gorder', 'gmc'] : (SET_HUB ? ['missing', 'scramble', 'type'] : ['missing', 'scramble', 'type', 'fill', 'def'])) : (g ? GK : VK);
   for (let k = 0; k < 14; k++) {
     const kind = pick(kinds);
     if (k < 8 && (kind === G.lastKind || G.recent.includes(kind))) continue;

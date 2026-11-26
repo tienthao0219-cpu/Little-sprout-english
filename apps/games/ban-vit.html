@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="light">
 <title>Bắn Vịt</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -716,6 +716,8 @@ function hubLS(){
   g.items.forEach(it=>{ if(it.img&&it.w) imgs[it.w.toLowerCase()]=it.img; });
   return { cur:"hub", seedV:1, list:[{ id:"hub", kind:"vocab", name:clean(g.title).slice(0,40)||"Bộ từ", grade:7, level:"avg", text:g.text(), imgs }] };
 }
+const HUB_MCQ = !!(window.GAMESET && window.GAMESET.hasMcq);
+let NO_V = false;
 const LS = window.GAMESET ? hubLS() : (loadLessons() || { cur:"sample", seedV:1, list:[sampleLesson(), sampleVocab()] });
 function saveLessons(){ if(window.GAMESET) return true; try{ localStorage.setItem(LSKEY,JSON.stringify(LS)); return true; }catch(e){ return false; } }
 const curLesson = () => LS.list.find(l=>l.id===LS.cur) || LS.list[0];
@@ -786,6 +788,12 @@ function applyLesson(){
   DATA_ALL=r.words; GROUPS=r.groups; LV=levelOf(l); CFG.lives=l.level==="weak"?4:3;
   setup.parts=new Set(GROUPS.length?[1]:[]);
   setup.vtypes=defaultVTypes(l.level,r.words);
+  if(HUB_MCQ){   /* câu trắc nghiệm của cô: mỗi câu là một mục riêng, nằm trong nhóm "Trắc nghiệm" */
+    NO_V = r.words.length<4; const part=GROUPS.length+1; GROUPS.push({name:"Trắc nghiệm"});
+    window.GAMESET.mcq.forEach((m,i)=>DATA_ALL.push({v1:clean(m.o[0])+"\u200b".repeat(i+1),v2:"",v3:"",vi:clean(m.why||""),def:"",vocab:true,part,mcq:m}));
+    if(NO_V){ DATA_ALL=DATA_ALL.filter(x=>x.mcq); setup.vtypes=new Set(["mcq"]); setup.parts=new Set([part]); }
+    else { setup.vtypes.add("mcq"); setup.parts.add(part); }
+  }
   for(const k in bags) delete bags[k];
   practiceList=null;
   updateHUD();
@@ -1055,7 +1063,7 @@ function makeQuestion(){
 /* =====================================================================
    TỪ VỰNG — câu hỏi, giọng đọc
    ===================================================================== */
-const VTYPES=[["en2vi","EN → VI"],["vi2en","VI → EN"],["def","📖 Định nghĩa"],["missing","🔤 Điền chữ thiếu"],["scramble","🔀 Xếp chữ"],["listenWord","🔊 Nghe chọn từ"],["listenPic","🖼️ Nghe chọn hình"],["type","⌨️ Gõ chữ"]];
+const VTYPES=[["mcq","📝 Trắc nghiệm"],["en2vi","EN → VI"],["vi2en","VI → EN"],["def","📖 Định nghĩa"],["missing","🔤 Điền chữ thiếu"],["scramble","🔀 Xếp chữ"],["listenWord","🔊 Nghe chọn từ"],["listenPic","🖼️ Nghe chọn hình"],["type","⌨️ Gõ chữ"]];
 function speak(t){
   if(!HAS_TTS||!t||paused||(typeof muted!=="undefined"&&muted)) return;
   try{ const ss=window.speechSynthesis; ss.cancel(); const u=new SpeechSynthesisUtterance(t); u.lang="en-US"; u.rate=0.85; ss.speak(u); }catch(e){}
@@ -1065,9 +1073,11 @@ const baseWord = d => d.v1.split("/")[0].trim();
 const letterCount = w => (w.match(/[a-z]/gi)||[]).length;
 const picCount = () => POOL.filter(x=>x.img).length;
 function vEligible(t,d){
-  const w=baseWord(d), n=POOL.length;
+  if(d.mcq) return t==="mcq";
+  if(t==="mcq") return false;
+  const w=baseWord(d), n=POOL.filter(x=>!x.mcq).length;
   switch(t){
-    case "en2vi": return !!d.vi && POOL.filter(x=>x!==d&&x.vi&&x.vi!==d.vi).length>=2;
+    case "en2vi": return !!d.vi && POOL.filter(x=>!x.mcq&&x!==d&&x.vi&&x.vi!==d.vi).length>=2;
     case "vi2en": return !!d.vi && n>=3;
     case "def": return !!(d.def||d.vi) && n>=3;
     case "missing": return letterCount(w)>=3;
@@ -1080,13 +1090,22 @@ function vEligible(t,d){
 }
 let lastVT=null;
 const V_EXTRA={ def:3, scramble:3, listenWord:2, listenPic:2, missing:1 };
+function makeMcqQuestion(d){
+  const m=d.mcq, n=Math.max(2,Math.min(m.o.length,mods().ducks+(isRage()?1:0))), correct=m.o[0];
+  const opts=shuffle([correct,...m.o.slice(1,n)]);
+  questionsAsked++;
+  const lucky = questionsAsked>2 && Math.random()<0.12;
+  const time=(questionTime("choose")+3)*(lucky?0.8:1)*LV.qt;
+  return {d,form:"",kind:"choose",blanks:[],correct,opts,lucky,time,vocab:true,vkind:"mcq",pic:false,ansText:correct,duckText:"",masked:"",scr:"",speakText:""};
+}
 function makeVocabQuestion(){
-  const {d}=drawSeed(), w=baseWord(d);
+  const {d}=drawSeed(), w=d.mcq?"":baseWord(d);
+  if(d.mcq) return makeMcqQuestion(d);
   let types=[...setup.vtypes].filter(t=>vEligible(t,d));
   if(!types.length) types=["vi2en","type","scramble","missing"].filter(t=>vEligible(t,d));
   if(!types.length) types=["missing"];
   const alt=types.filter(t=>t!==lastVT), vk=pickOne(alt.length?alt:types); lastVT=vk;
-  const n=Math.max(3,Math.min(mods().ducks+(isRage()?1:0),POOL.length)), others=POOL.filter(x=>x!==d);
+  const n=Math.max(3,Math.min(mods().ducks+(isRage()?1:0),POOL.filter(x=>!x.mcq).length)), others=POOL.filter(x=>x!==d&&!x.mcq);
   const take=(correct,cands)=>{ const out=[correct]; for(const t of shuffle(cands)){ if(out.length>=n) break; if(t && !out.includes(t)) out.push(t); } return shuffle(out); };
   let kind="choose", blanks=[], correct="", opts=[], ansText=d.v1, duckText="", masked="", scr="", pic=false;
   if(vk==="en2vi"){ correct=d.vi; ansText=d.vi; opts=take(correct,others.map(x=>x.vi)); }
@@ -1120,7 +1139,8 @@ function showPromptVocab(){
   const inp=()=>{ const n=Math.max(d.v1.length,...accepts(d.v1).map(s=>s.length))+1;
     return `<input class="chip inp" data-f="v1" style="width:calc(${n}ch + 26px)" maxlength="24" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="go" aria-label="Từ tiếng Anh">`; };
   let ask="", chips="", mean="";
-  if(vk==="en2vi"){ ask="Bắn vịt mang NGHĨA TIẾNG VIỆT"; chips=`<span class="chip v1">${disp(d.v1)}</span>${spk}`; }
+  if(vk==="mcq"){ ask="Bắn vịt mang ĐÁP ÁN đúng"; chips=`<span class="chip given wrapok">${clean(d.mcq.q).replace(/_{2,}/g,"_____")}</span>`; }
+  else if(vk==="en2vi"){ ask="Bắn vịt mang NGHĨA TIẾNG VIỆT"; chips=`<span class="chip v1">${disp(d.v1)}</span>${spk}`; }
   else if(vk==="vi2en"){ ask="Bắn vịt mang TỪ TIẾNG ANH"; chips=`${img}<span class="chip vi">${d.vi}</span>`; }
   else if(vk==="def"){ ask=d.def?"Định nghĩa này là từ nào?":"Nghĩa này là từ tiếng Anh nào?"; chips=`<span class="chip defc">${d.def||d.vi}</span>`; }
   else if(vk==="missing"){ ask="Bắn vịt mang CHỮ CÁI còn thiếu"; chips=`<span class="chip given wrapok">${q.masked}</span>`; mean=d.vi; }
@@ -1809,7 +1829,7 @@ function sendZalo(){
 function renderVTypes(){
   const g=$("vtypeGrid"); g.textContent="";
   const pics=DATA_ALL.filter(x=>x.img).length;
-  VTYPES.forEach(([id,label])=>{
+  VTYPES.filter(([id])=>id==="mcq"?HUB_MCQ:!(HUB_MCQ&&NO_V)).forEach(([id,label])=>{
     const b=document.createElement("button"); b.type="button"; b.className="vchip"+(setup.vtypes.has(id)?" on":""); b.dataset.t=id; b.textContent=label;
     if((id==="listenPic"&&pics<3)||((id==="listenWord"||id==="listenPic")&&!HAS_TTS)){ b.disabled=true; b.classList.remove("on"); }
     g.appendChild(b);

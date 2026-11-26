@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <link rel="icon" href="data:,">
 <title>Vòng chạy vượt chướng ngại vật</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -564,7 +564,7 @@ window.GRAMMAR = [
     if (it.img) o.pic = it.img;
     return o;
   });
-  window.GRAMMAR = [];
+  window.GRAMMAR = (g.mcq || []).map(function (m) { return { type: 'mcq', q: m.q, options: m.o.slice(), answer: m.o[0], explain: m.why || '' }; });
   var c = window.GAME_CONFIG = window.GAME_CONFIG || {};
   c.unitTitle = g.title || 'Bộ từ'; c.isSample = false; c.storageKey = 'hub:' + g.id; c.onlineUrl = '';
   var st = document.createElement('style'); st.textContent = '[data-mode="online"]{display:none!important}'; document.head.appendChild(st);

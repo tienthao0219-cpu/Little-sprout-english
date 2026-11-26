@@ -1,5 +1,5 @@
 <!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#b07338"><title>Nông Trại Tiếng Anh</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -577,7 +577,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 /* ---------------- bài học và cấu hình ---------------- */
 const SAVE_KEY=APP_MODE==='game'?'fw3_save':'fw3_save_tpl';
 /* mở từ Trung tâm trò chơi: dùng bộ từ đã chọn (chỉ từ vựng, không có ngữ pháp) */
-const hubLesson=g=>({title:g.title||'Bộ từ',grammar:[],vocab:g.items.filter(it=>it.vi).map(it=>({w:it.w,vi:it.vi,em:it.img||'',def:'',ex:''}))});
+const hubLesson=g=>({title:g.title||'Bộ từ',grammar:(g.mcq||[]).map(m=>({t:'mcq',q:m.q,opts:m.o.slice(),a:m.o[0],note:m.why||''})),vocab:g.items.filter(it=>it.vi).map(it=>({w:it.w,vi:it.vi,em:it.img||'',def:'',ex:''}))});
 let LESSON=(()=>{if(window.GAMESET)return hubLesson(window.GAMESET);if(APP_MODE==='game')return DEFAULT_LESSON;const s=LS.get('fw_lesson');return s&&Array.isArray(s.vocab)&&s.vocab.length?s:DEFAULT_LESSON;})();
 LESSON.grammar=LESSON.grammar||[];
 /* đồ họa mặc định theo thiết bị: máy tính "high", điện thoại/tablet "medium", máy yếu "low" */

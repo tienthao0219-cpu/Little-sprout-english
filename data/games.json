@@ -18,7 +18,8 @@
    "posterImg": "apps/games/img/poster-vuon-chuot.webp",
    "color": "pink",
    "needs": "3 từ trở lên có nghĩa tiếng Việt (cần 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261102170000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "dao-vang",
@@ -35,8 +36,9 @@
    "poster": "gold",
    "color": "yellow",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261023152000",
-   "posterImg": "apps/games/img/poster-dao-vang.webp"
+   "v": "20261126190000",
+   "posterImg": "apps/games/img/poster-dao-vang.webp",
+   "mcq": true
   },
   {
    "id": "xi-ngau",
@@ -54,7 +56,8 @@
    "poster": "dice",
    "color": "sky",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261102173800"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "hugo",
@@ -73,7 +76,7 @@
    "posterImg": "apps/games/img/poster-hugo.webp",
    "color": "lilac",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình; chơi được cả câu trắc nghiệm của bài tập Global 7, 8 (đáp án nhiễu lấy từ chính bài)",
-   "v": "20261126130000",
+   "v": "20261126190000",
    "mcq": true
   },
   {
@@ -93,7 +96,8 @@
    "posterImg": "apps/games/img/poster-nong-trai.webp",
    "color": "mint",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì hiện hình trong câu hỏi",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "dap-ruoi",
@@ -112,7 +116,8 @@
    "posterImg": "apps/games/img/poster-dap-ruoi.webp",
    "color": "coral",
    "needs": "từ vựng có nghĩa tiếng Việt",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "ban-vit",
@@ -131,7 +136,8 @@
    "posterImg": "apps/games/img/poster-ban-vit.webp",
    "color": "orange",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "cau-ca-bac-cuc",
@@ -150,7 +156,8 @@
    "posterImg": "apps/games/img/poster-cau-ca.webp",
    "color": "teal",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "dino-ball-blast",
@@ -169,7 +176,8 @@
    "posterImg": "apps/games/img/poster-dino-ball-blast.webp",
    "color": "green",
    "needs": "từ vựng có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "rut-go",
@@ -188,7 +196,7 @@
    "posterImg": "apps/games/img/poster-rut-go.webp",
    "color": "brown",
    "needs": "từ vựng có nghĩa tiếng Việt; chơi được cả câu trắc nghiệm của bài tập Global 7, 8 (đáp án nhiễu lấy từ chính bài)",
-   "v": "20261126130000",
+   "v": "20261126190000",
    "mcq": true
   },
   {
@@ -207,8 +215,9 @@
    "poster": "uno",
    "posterImg": "apps/games/img/poster-uno-tu-vung.webp",
    "color": "rose",
-   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ)",
-   "v": "20261103190000"
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ) Câu trắc nghiệm cần đi kèm ≥ 4 từ vựng (bài chơi bằng thẻ từ).",
+   "v": "20261126190000",
+   "mcq": "mix"
   },
   {
    "id": "job-tycoon",
@@ -226,8 +235,9 @@
    "poster": "tycoon",
    "posterImg": "apps/games/img/poster-job-tycoon.webp",
    "color": "gold",
-   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô",
-   "v": "20261103190000"
+   "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ, nên 24 từ trở lên để bàn cờ không lặp từ); có hình thì hiện hình trên ô Câu trắc nghiệm cần đi kèm ≥ 4 từ vựng (bàn cờ dùng từ vựng).",
+   "v": "20261126190000",
+   "mcq": "mix"
   },
   {
    "id": "claw-machine",
@@ -245,7 +255,8 @@
    "posterImg": "apps/games/img/poster-claw-machine.webp",
    "color": "peach",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nhìn hình chọn từ",
-   "v": "20261103150000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "cau-ca-suoi",
@@ -263,7 +274,8 @@
    "posterImg": "apps/games/img/poster-cau-ca-suoi.webp",
    "color": "aqua",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103160000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "cau-ca-ra-khoi",
@@ -281,7 +293,8 @@
    "posterImg": "apps/games/img/poster-cau-ca-ra-khoi.webp",
    "color": "ocean",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103160000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "vong-chay",
@@ -301,7 +314,8 @@
    "posterImg": "apps/games/img/poster-vong-chay.webp",
    "color": "violet",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103180000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "nhay-bao-bo",
@@ -321,7 +335,8 @@
    "posterImg": "apps/games/img/poster-nhay-bao-bo.webp",
    "color": "lime",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 4 từ để có đáp án nhiễu); có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261103190000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "zombie-doi-bung",
@@ -339,7 +354,8 @@
    "posterImg": "apps/games/img/poster-zombie-doi-bung.webp",
    "color": "plum",
    "needs": "từ vựng có nghĩa tiếng Việt (ít nhất 3 từ); có hình thì hiện hình, không có hình thì hiện nghĩa tiếng Việt",
-   "v": "20261103200000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "nhay-may",
@@ -359,8 +375,9 @@
    "color": "sky",
    "icon": "☁️",
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu hỏi theo hình",
-   "v": "20261107220000",
-   "min": 6
+   "v": "20261126190000",
+   "min": 6,
+   "mcq": true
   },
   {
    "id": "ninja-trai-cay",
@@ -380,7 +397,7 @@
    "color": "orange",
    "icon": "🍉",
    "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình; chơi được cả câu trắc nghiệm của bài tập Global 7, 8 (đáp án nhiễu lấy từ chính bài)",
-   "v": "20261126130000",
+   "v": "20261126190000",
    "mcq": true
   },
   {
@@ -401,7 +418,7 @@
    "color": "teal",
    "icon": "🐦",
    "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình; chơi được cả câu trắc nghiệm của bài tập Global 7, 8 (đáp án nhiễu lấy từ chính bài)",
-   "v": "20261126130000",
+   "v": "20261126190000",
    "mcq": true
   },
   {
@@ -422,7 +439,8 @@
    "color": "peach",
    "icon": "🍓",
    "needs": "4 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261107220000"
+   "v": "20261126190000",
+   "mcq": true
   },
   {
    "id": "pirate-word-battle",
@@ -442,8 +460,9 @@
    "color": "ocean",
    "icon": "🏴‍☠️",
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261109100000",
-   "min": 6
+   "v": "20261126190000",
+   "min": 6,
+   "mcq": true
   },
   {
    "id": "dao-trung-than-ky",
@@ -463,8 +482,9 @@
    "color": "lime",
    "icon": "🥚",
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261109100000",
-   "min": 6
+   "v": "20261126190000",
+   "min": 6,
+   "mcq": true
   },
   {
    "id": "word-galaxy-blasters",
@@ -484,8 +504,9 @@
    "color": "violet",
    "icon": "🚀",
    "needs": "6 từ trở lên có nghĩa tiếng Việt; có hình thì có thêm câu Nghe chọn hình",
-   "v": "20261109120000",
-   "min": 6
+   "v": "20261126190000",
+   "min": 6,
+   "mcq": true
   }
  ]
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi"><head>
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script><meta charset="utf-8">
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="theme-color" content="#FFF9F0">
 <title>Đào Vàng Từ Vựng</title>
@@ -271,7 +271,7 @@ const PRAISE=["Tuyệt vời! 🎉","Giỏi quá! ⭐","Chính xác! 💯","Đú
 const CHEER=["Không sao, lần sau sẽ làm được! 💪","Sai một chút thôi, cố lên nhé! 🌈","Mỗi lần sai là một lần nhớ lâu hơn! 🍀","Thử câu sau nha! ✨"];
 
 /* ============ LƯU TRỮ (localStorage, có dự phòng bộ nhớ tạm) ============ */
-if(window.GAMESET){PRESET.id="hub-"+GAMESET.id;PRESET.sub=GAMESET.title||"";PRESET.vocabText=GAMESET.text();PRESET.grammarText="";PRESET.audience=GAMESET.audience||"tieuhoc";PRESET.level=GAMESET.level||"mid";}
+if(window.GAMESET){PRESET.id="hub-"+GAMESET.id;PRESET.sub=GAMESET.title||"";PRESET.vocabText=GAMESET.text();PRESET.grammarText=GAMESET.hasMcq?GAMESET.mcqBlocks():"";PRESET.audience=GAMESET.audience||"tieuhoc";PRESET.level=GAMESET.level||"mid";}
 const KEY_CFG="gmtpl:"+PRESET.id+":cfg",KEY_SAVE="gmtpl:"+PRESET.id+":save";
 const memStore={};
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return memStore[k]||null;}}
@@ -1517,7 +1517,7 @@ function pasteDeck(){
 (function init(){
   const first=!lsGet(KEY_CFG);
   CFG=cfgLoad();
-  if(window.GAMESET){CFG.vocabText=GAMESET.text();CFG.grammarText="";CFG.sub=GAMESET.title||"";CFG.title="Đào Vàng Từ Vựng";}
+  if(window.GAMESET){CFG.vocabText=GAMESET.text();CFG.grammarText=GAMESET.hasMcq?GAMESET.mcqBlocks():"";CFG.sub=GAMESET.title||"";CFG.title="Đào Vàng Từ Vựng";}
   rebuildData();paintBrand();paintTop();renderGame();
   if(first&&!CFG.vocabText&&!CFG.grammarText){openSet();}
 })();
