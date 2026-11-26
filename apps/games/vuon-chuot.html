@@ -1,5 +1,5 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <title>Đập Chuột Template</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -327,7 +327,8 @@ const SETS = [
 /* Trung tâm trò chơi (?set=...): thay bộ mẫu bằng từ vựng của unit đã chọn */
 (function(){ var G=window.GAMESET; if(!G) return;
   var items=G.items.filter(function(i){return i.vi;}).map(function(i){var o={en:i.w,vi:i.vi}; if(i.ipa)o.ipa=i.ipa; if(i.img)o.img=i.img; return o;});
-  SETS.length=0; SETS.push({id:G.id,kind:'vocab',name:G.title,items:items});
+  SETS.length=0; if(items.length||!G.hasMcq) SETS.push({id:G.id,kind:'vocab',name:G.title,items:items});
+  if(G.hasMcq) SETS.push({id:G.id+'-mcq',kind:'grammar',name:(G.title||'Bộ câu')+' · Trắc nghiệm',items:G.mcq.map(function(m){return {q:m.q,opts:m.o.slice(),ans:0,why:m.why||'',noType:true};})});
   CFG.SUBTITLE=G.title; CFG.SAVE_KEY='lse_vuonchuot_'+G.id;
 })();
 </script>

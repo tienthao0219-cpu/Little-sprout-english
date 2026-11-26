@@ -17,7 +17,7 @@
   ui.closeModal = function () { var m = $('#modal'); m.hidden = true; m.innerHTML = ''; };
   function fmtLv(l) { return NM.LEVEL_NAME[l] || l; }
   function selectedSets() {
-    if (window.GAMESET) return ['hub'];   /* chỉ có đúng một bộ từ */
+    if (window.GAMESET) return NM.SETS.map(function (s) { return s.id; });   /* bộ từ + (nếu có) bộ câu trắc nghiệm của cô */
     var p = NM.profile(); return (p.sel || ['u1', 'u2']).filter(function (id) { return NM.SETS.some(function (s) { return s.id === id; }); });
   }
   function autoLevel(ids) {

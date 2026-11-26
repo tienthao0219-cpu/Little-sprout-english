@@ -281,12 +281,15 @@
   function hwRow(x) {
     const st = hwStatus(x);
     const sub = [x.nItems ? x.nItems + " ý" : "", x.timeLimit ? x.timeLimit + " phút" : "", x.maxAttempts ? "tối đa " + x.maxAttempts + " lượt" : "", x.myAttempts ? "đã làm " + x.myAttempts + " lần" + (x.myBest != null ? " · điểm cao nhất " + x.myBest : "") : ""].filter(Boolean).join(" · ");
+    /* bài trắc nghiệm Global 7, 8 chơi game được: hiện note 🎮 + nút chơi ngay */
+    const gm = h("span"); if (L.mcq && L.mcq.isGameCur(x.curId)) L.mcq.badge(x, gm, false);
     /* một nút chính "Làm bài"; Luyện tập và Boss là hai đường chữ nhỏ bên dưới cho đỡ rối */
     return h("div.item", h("div.ic.tint3", "📝"),
       h("div.grow", h("b", x.title), h("div.small.muted", sub || "Bài tập"), h("span.pill." + (st.can ? "mint" : "rose"), st.text),
         h("div.small", { style: "margin-top:6px;display:flex;gap:14px;flex-wrap:wrap;font-weight:800" },
           h("a", { href: "#/practice/" + x.id, title: "Luyện tập: kiểm tra từng câu, có gợi ý, kiếm xu (không tính điểm)" }, "🎮 Luyện tập"),
-          isTeacher() ? null : h("a", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, "👾 Boss"))),
+          isTeacher() ? null : h("a", { href: "#/boss/" + x.id, title: "Đánh Boss: 10 câu, 3 trái tim" }, "👾 Boss"),
+          gm)),
       h("a.btn" + (x.myAttempts && !st.can ? ".ghost" : ""), { href: "#/hw/" + x.id }, st.can ? (x.myAttempts ? "Làm lại" : "Làm bài") : "Xem"));
   }
   /* ---------- link gửi học sinh (dán vào Zalo, Messenger…) ---------- */

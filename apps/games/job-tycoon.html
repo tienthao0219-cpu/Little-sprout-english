@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Cờ Tỷ Phú</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -755,6 +755,7 @@ const VOCAB = HUB
       return out; })()
   : VOCAB_JOBS;
 const CONTEXT = HUB ? [] : CONTEXT_JOBS;
+const HUB_MCQ = !!(HUB && window.GAMESET.hasMcq);
 const BOARD = HUB
   ? (()=>{ /* giữ nguyên bố cục, giá và nhóm màu của bàn cờ gốc; chỉ thay từ ở các ô nhà / địa danh */
       const slots=BOARD_JOBS.map((c,i)=>(c.type==="prop"||c.type==="landmark")?i:-1).filter(i=>i>=0);
@@ -841,7 +842,7 @@ const QTYPES = {
 /* =========================================================
    2. CÀI ĐẶT
    ========================================================= */
-if(HUB){ delete QTYPES.mc; delete QTYPES.def; }   /* bộ từ của hub chưa có định nghĩa và câu ví dụ */
+if(HUB){ if(!HUB_MCQ) delete QTYPES.mc; delete QTYPES.def; }   /* bộ từ của hub chưa có định nghĩa và câu ví dụ */
 const QUESTION_TIME = 60;
 const START_MONEY = 2000;
 const PASS_START = 200;
@@ -873,6 +874,10 @@ const pick = a => a[Math.floor(Math.random()*a.length)];
 const shuffle = arr => { const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
 const fmt = n => Math.round(n).toLocaleString("vi-VN");
 const VOC = Object.fromEntries(VOCAB.map(v=>[v.en,v]));
+/* câu trắc nghiệm của cô: mỗi câu là một mục riêng (không nằm trong bàn cờ / không tính 'đã thuộc') */
+if(HUB_MCQ){ window.GAMESET.mcq.forEach((m,i)=>{ const key=hubClean(m.o[0])+"\u200b".repeat(i+1);
+  VOC[key]={en:key,vi:hubClean(m.why||""),cat:"w",pic:"📝",img:"",thumb:"",def:"",mcq:m};
+  CONTEXT.push({q:hubClean(m.q).replace(/_{2,}/g,"___"),answer:key,mcq:m}); }); }
 /* ---------- Hình ảnh ---------- */
 const UI = ASSETS.ui;
 (function(){
@@ -1276,6 +1281,10 @@ function hintOf(item){
 }
 function buildMC(ctx){
   const item=VOC[ctx.answer];
+  if(ctx.mcq){ const m=ctx.mcq, n=D().opts-1;
+    return {type:"mc",item,mode:"choice",answer:hubClean(m.o[0]),
+      options:shuffle([hubClean(m.o[0]),...m.o.slice(1,1+n).map(hubClean)]),
+      prompt:`<div class="sub">Choose the correct answer.</div><div class="sentence">${ctx.q.replace("___",'<span class="blank">______</span>')}</div>`}; }
   return {type:"mc",item,mode:"choice",answer:item.en,
     options:shuffle([item.en,...distractors(item,D().opts-1,"en",ctx.ban||[])]),
     prompt:`<div class="sub">Choose the correct word.</div><div class="sentence">${ctx.q.replace("___",'<span class="blank">______</span>')}</div>`};
@@ -1324,7 +1333,7 @@ function makeQuestion(p,forced){
   let item=forced||null;
   if(!item && p.retry.length && Math.random()<(G.vocabMode?0.65:0.5)) item=p.retry.shift();   // câu sai quay lại
   for(let k=0;k<40;k++){
-    const t=pick(types);
+    const t=(item&&item.mcq)?"mc":pick(types);
     if(t==="mc"){
       const ctxs=item?CONTEXT.filter(c=>c.answer===item.en):CONTEXT.filter(c=>!G.recent.includes(c.answer)&&(!G.vocabMode||!G.mastered.has(c.answer)));
       if(!ctxs.length) continue;
@@ -1338,9 +1347,9 @@ function makeQuestion(p,forced){
 function record(p,item,ok,fastBonus){
   p.total++;
   if(ok){
-    p.correct++; p.streak++; p.right.set(item.en,item.vi);
+    p.correct++; p.streak++; if(!item.mcq) p.right.set(item.en,item.vi);
     if(!p.fix){ emote(p,"happy"); if(!p.isBot&&p.streak%4===0) setTimeout(()=>giveItem(p),1000); }
-    if(!p.fix && !p.isBot && !G.mastered.has(item.en)){
+    if(!p.fix && !p.isBot && !item.mcq && !G.mastered.has(item.en)){
       G.mastered.add(item.en);
       if(G.vocabMode){ updateHUD(); if(G.mastered.size>=VOCAB.length) G.over={type:"vocab"}; }
     }
@@ -1424,7 +1433,7 @@ function askQuestion(p,note,forced){
         opts.querySelectorAll(".opt").forEach(b=>{ if(b.dataset.v===q.answer) b.classList.add("right"); });
         if(!correct&&chosenEl) chosenEl.classList.add("wrong");
       } else if(st) st.slots.filter(s=>!s.fixed).forEach(s=>s.el.classList.add(correct?"right":"wrong"));
-      const ans=`<b>${q.item.en}</b> – ${q.item.vi}`;
+      const ans=q.item.mcq?`<b>${q.answer}</b>${q.item.vi?" – "+q.item.vi:""}`:`<b>${q.item.en}</b> – ${q.item.vi}`;
       if(correct){
         playCorrect();
         const r=(chosenEl||$("#qPrompt")).getBoundingClientRect();

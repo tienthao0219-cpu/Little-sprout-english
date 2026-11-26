@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="vi">
 <head>
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#ffeedd">
@@ -581,7 +581,7 @@ if(/[?&]teacher=1/.test(location.search)) CFG.teacher=true;
 function saveCfg(){ store("easyeng_xingau",CFG); }
 let LESSON=Object.assign(JSON.parse(JSON.stringify(SAMPLE)),store("easyeng_xingau_lesson")||{});
 LESSON.types=Object.assign({},SAMPLE.types,LESSON.types||{}); if(!LESSON.mix) LESSON.mix="both"; if(!LV[LESSON.level]) LESSON.level="mid";
-if(window.GAMESET){LESSON.name=GAMESET.title||LESSON.name;LESSON.vocab=GAMESET.text();LESSON.grammar="";LESSON.mix="v";}
+if(window.GAMESET){LESSON.name=GAMESET.title||LESSON.name;LESSON.vocab=GAMESET.text();LESSON.grammar=GAMESET.hasMcq?GAMESET.mcqBracket():"";LESSON.mix=GAMESET.hasMcq?(GAMESET.items.filter(it=>it.vi).length>=3?"both":"g"):"v";}
 
 /* ===== ÂM THANH ===== */
 let audioCtx=null, masterGain=null, muted=false, audioUnlocked=false, silentEl=null;

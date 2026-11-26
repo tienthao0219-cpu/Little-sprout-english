@@ -213,7 +213,7 @@ details.mis .m{margin:8px 0;padding-top:8px;border-top:1px dashed #e8d3a6;font-s
 @media (max-width:640px) and (min-height:521px){ .lvlgrid{grid-template-columns:repeat(2,1fr)} .pchip{min-width:110px} .lvlname{display:none} }
 @media (prefers-reduced-motion:reduce){ .logo{animation:none} }
 </style>
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 </head>
 <body>
 <div id="app">
@@ -435,7 +435,11 @@ const QTYPES = {
   g_fill:    {name:'Điền từ',               grp:'Ngữ pháp', ui:'type'},
   g_order:   {name:'Sắp xếp câu',           grp:'Ngữ pháp', ui:'order'}
 };
-if(HUB){ ['def','fill','g_mcq','g_fill','g_order'].forEach(k=>delete QTYPES[k]); }   /* bộ từ chỉ có từ + nghĩa + hình */
+/* câu trắc nghiệm từ bài tập (HUB.mcq): dùng làm câu trắc nghiệm ngữ pháp, đáp án nhiễu là các lựa chọn thật của bài */
+const HUB_MCQ = !!(HUB && HUB.mcq && HUB.mcq.length);
+if(HUB_MCQ){ GRAMMAR.length=0; HUB.mcq.forEach(m=>GRAMMAR.push({t:'mcq',tag:'Bài tập',q:m.q,o:m.o.slice(),a:0,exp:m.why||('Đáp án đúng: '+m.o[0]+'.')})); }
+if(HUB){ ['def','fill','g_fill','g_order'].concat(HUB_MCQ?[]:['g_mcq']).forEach(k=>delete QTYPES[k]); }   /* bộ từ chỉ có từ + nghĩa + hình (+ câu trắc nghiệm nếu có) */
+if(HUB_MCQ&&VOCAB.length<4){ Object.keys(QTYPES).forEach(k=>{ if(QTYPES[k].grp==='Từ vựng') delete QTYPES[k]; }); }   /* bài chỉ có câu trắc nghiệm: không đủ từ cho các dạng từ vựng */
 const DIFF = {
   easy:  {label:'Dễ',   icon:'🌱', time:0,  botAcc:.55, preview:'full', types:['en2vi','vi2en','def','listenword','listenpic','g_mcq'], aimErr:[7,.12],  hpK:.85},
   normal:{label:'Vừa',  icon:'🔥', time:30, botAcc:.78, preview:'short',types:['en2vi','vi2en','def','listenword','listenpic','missing','scramble','g_mcq','g_fill','g_order'], aimErr:[3,.06], hpK:1},
@@ -1390,7 +1394,7 @@ function persist(){ try{localStorage.setItem(KEY,JSON.stringify(SAVE));}catch(e)
 Snd.set(SAVE.sound!==false);
 
 /* ---------- Cấu hình ---------- */
-const CFG={humans:1,bots:0,names:[],content:HUB?'vocab':'mix',diff:'normal',types:new Set(DIFF.normal.types)};
+const CFG={humans:1,bots:0,names:[],content:HUB?(HUB_MCQ?(VOCAB.length>=4?'mix':'grammar'):'vocab'):'mix',diff:'normal',types:new Set(DIFF.normal.types)};
 const MAXP=6;
 const PRESETS=[[1,0,'🎯 Chơi đơn','Một mình chinh phục các màn'],[2,0,'👫 Đấu 1 – 1','2 bạn thay phiên trên cùng máy'],[1,1,'🤖 Với Bot','1 người đấu với 1 Bot'],[4,0,'👥 Nhiều bạn','4 người thay phiên'],[2,2,'🎉 Hỗn hợp','2 người + 2 Bot']];
 const CONTENTS=[['mix','🌈 Tổng hợp','Từ vựng + ngữ pháp'],['vocab','📚 Từ vựng','9 dạng câu hỏi'],['grammar','✍️ Ngữ pháp','Trắc nghiệm, điền từ, sắp xếp']];

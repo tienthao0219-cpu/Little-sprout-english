@@ -109,7 +109,7 @@ textarea{width:100%;min-height:150px;border-radius:12px;border:2px solid #d9dcf5
  #hintrow{margin-top:5px;gap:6px}#hintrow button{padding:5px 11px;font-size:13px}#hintText{font-size:16px;letter-spacing:1px}
  .pb{padding:3px 9px 3px 5px}.pb .av{width:28px;height:28px;font-size:19px}.ib{width:38px;height:38px}}
 </style>
-<script src="../../js/gameset.js"></script><script src="../../js/audiounlock.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script><script src="../../js/audiounlock.js"></script>
 </head>
 <body>
 <canvas id="cv"></canvas>
@@ -395,7 +395,7 @@ const sheetByWord = {};
 function rebuildData(){
   if(HUB){ /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn, không có ngữ pháp */
     VOCAB = HUB.items.filter(it=>it.vi).map(it=>({word:it.w,vi:it.vi,def:'',ex:'',emoji:'',grade:0,topic:it.topic||'Từ vựng',custom:false,img:it.img||''}));
-    GRAMMAR = []; return; }
+    GRAMMAR = (HUB.mcq||[]).map(m=>({s:m.q,ans:m.o[0],wrong:m.o.slice(1),exp:m.why||'',grade:0,alts:[]})); return; }   /* câu trắc nghiệm từ bài tập (nếu có) */
   VOCAB = parseVocab(VOCAB_BASE,'').concat(parseVocab(S.cv||'','Của cô'));
   GRAMMAR = parseGrammar(GRAMMAR_BASE); GRAMMAR.forEach(g=>{ if(ALTS[g.s]) g.alts=ALTS[g.s].split(';').map(x=>x.trim()).filter(Boolean); }); GRAMMAR = GRAMMAR.concat(parseGrammar(S.cg||''));
 }
@@ -1010,14 +1010,17 @@ $('#tSave').onclick=()=>{ S.cv=$('#tVocab').value; S.cg=$('#tGram').value; save(
 
 /* ============================ KHỞI ĐỘNG ============================ */
 load();
-if(HUB){ ['def','fill','gMC','gFill','gSort'].forEach(t=>delete TYPES[t]); }  /* bộ từ chỉ có từ + nghĩa + hình */
+const HUB_MCQ=!!(HUB&&HUB.mcq&&HUB.mcq.length), HUB_VOC=!!(HUB&&HUB.items.filter(it=>it.vi).length>=4);
+if(HUB){ ['def','fill','gFill','gSort'].concat(HUB_MCQ?[]:['gMC']).forEach(t=>delete TYPES[t]); }  /* bộ từ chỉ có từ + nghĩa + hình (+ câu trắc nghiệm của bài tập nếu có) */
+if(HUB_MCQ&&!HUB_VOC){ Object.keys(TYPES).forEach(t=>{ if(TYPES[t].g==='v') delete TYPES[t]; }); }   /* bài chỉ có câu trắc nghiệm: không đủ từ cho các dạng từ vựng */
 Object.keys(TYPES).forEach(t=>{ if(S.types[t]===undefined) S.types[t]=true; });
 rebuildData(); resize(); buildFruitSprites(); loadSheets(); renderMenu();
 if(HUB){
-  ['btnTeacher','gradeChips','typesG','allG'].forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display='none'; });
-  document.querySelectorAll('.grp').forEach(g=>{ if(/NGỮ PHÁP/.test(g.textContent)) g.style.display='none'; });
+  ['btnTeacher','gradeChips'].concat(HUB_MCQ?[]:['typesG','allG']).forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display='none'; });
+  document.querySelectorAll('.grp').forEach(g=>{ if((HUB_MCQ?/TỪ VỰNG/:/NGỮ PHÁP/).test(g.textContent)&&!(HUB_MCQ&&HUB_VOC)) g.style.display='none'; });
+  if(HUB_MCQ&&!HUB_VOC){ ['typesV','allV','topicSel'].forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display='none'; }); }
   const sh=document.querySelector('#gradeChips'); if(sh&&sh.parentElement){ const h3=sh.parentElement.querySelector('h3'); if(h3) h3.textContent='2 · Chủ đề'; }
-  const lg=document.querySelector('.logo p'); if(lg) lg.textContent=HUB.title+' · '+VOCAB.length+' từ';
+  const lg=document.querySelector('.logo p'); if(lg) lg.textContent=HUB.title+' · '+(VOCAB.length?VOCAB.length+' từ':'')+(VOCAB.length&&GRAMMAR.length?' · ':'')+(GRAMMAR.length?GRAMMAR.length+' câu':'');
   renderMenu();
 }
 if('speechSynthesis' in window) speechSynthesis.onvoiceschanged=()=>{ voice=null; };

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>[hidden]{display:none!important}</style>
 <title>Hugo Ôn Tập</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1344,13 +1344,14 @@ function loadLocal(){
 }
 function saveLocal(){if(window.GAMESET)return;try{localStorage.setItem(LS_KEY,JSON.stringify({lessons:Store.lessons,settings:Store.settings}));}catch(e){}}
 function hubLesson(g){
-  return {id:'hub',title:g.title||'Bộ từ',notes:[],order:0,grammar:[],
+  return {id:'hub',title:g.title||'Bộ từ',notes:[],order:0,
+    grammar:(g.mcq||[]).map(m=>({type:'mc',q:m.q,answer:m.o[0],wrong:m.o.slice(1),why:m.why||('Đáp án đúng: '+m.o[0]+'.')})),   /* câu trắc nghiệm từ bài tập */
     vocab:g.items.filter(it=>it.vi).map(it=>({en:it.w,vi:it.vi,def:'',ex:'',pic:it.img||''}))};
 }
 function initialLoad(){
   if(window.GAMESET){   /* mở từ Trung tâm trò chơi: dùng bộ từ đã chọn, không có ngữ pháp */
     Store.lessons=[hubLesson(window.GAMESET)];
-    mergeSettings({title:'Hugo Ôn Tập',grammarRatio:0,modes:{defChoose:false,defType:false,gMc:false,gTf:false,gFill:false,gOrder:false},tagline:'Ôn từ vựng qua các chặng trượt tuyết, cưỡi đà điểu, bay và đi xe goòng. Câu sai được ôn lại ở cuối.'});
+    mergeSettings({title:'Hugo Ôn Tập',grammarRatio:(window.GAMESET.mcq&&window.GAMESET.mcq.length?(window.GAMESET.items.filter(it=>it.vi).length>=3?60:100):0),modes:{defChoose:false,defType:false,gMc:!!(window.GAMESET.mcq&&window.GAMESET.mcq.length),gTf:false,gFill:false,gOrder:false},tagline:'Ôn từ vựng qua các chặng trượt tuyết, cưỡi đà điểu, bay và đi xe goòng. Câu sai được ôn lại ở cuối.'});
     Store.source='hub';return;
   }
   const baked=readBaked(),local=loadLocal();
@@ -1636,7 +1637,7 @@ const V_GATE=['enVi','viEn','listen','listenPic','defChoose'],V_TYPE=['defType',
 function grammarToQ(g){
   const why=g.why||'';
   const h=g.hint?'Gợi ý của thầy cô: '+g.hint:undefined;
-  if(g.type==='mc')return {k:'gram',q:g.q,o:[g.answer,...(g.wrong||[])],ansText:g.answer,hint1:h,why,flag:g.uncertain?'uncertain':g.solved?'solved':''};
+  if(g.type==='mc')return {k:'gram',q:g.q,o:[g.answer,...shuffle((g.wrong||[]).slice()).slice(0,2)],ansText:g.answer,hint1:h,why,flag:g.uncertain?'uncertain':g.solved?'solved':''};
   if(g.type==='tf')return {k:'tf',q:g.q,ok:!!g.answer,hint1:h,why};
   if(g.type==='fill')return {k:'tgram',q:g.q,a:g.answers.slice(),hint1:h,why,gram:true};
   if(g.type==='order'){const w=g.words;return {k:'order',q:g.q||'Sắp xếp các từ thành câu đúng.',words:w.slice(),a:[w.join(' ')],hint1:h,why,gram:true};}

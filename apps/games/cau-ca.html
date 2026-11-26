@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <title>Câu Cá Bắc Cực · EASYENG</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1149,6 +1149,7 @@ function matchVi(tok, accepted){
 function makeHint(word,lv=1){ const last=word.length-1; return word.split('').map((c,i)=>{ if(!/[a-z]/i.test(c)) return c; if(lv>=1&&i===0) return c; if(lv>=2&&i===last) return c; return '_'; }).join(' '); }
 /* ---------- CÁC DẠNG CÂU HỎI ---------- */
 const KINDS = [
+  ...(window.GAMESET&&window.GAMESET.hasMcq?[{ id:'mcq', label:'📝 Trắc nghiệm' }]:[]),
   { id:'en2vi',    label:'Anh → Việt' },
   { id:'vi2en',    label:'Việt → Anh' },
   { id:'def',      label:'📖 Định nghĩa' },
@@ -1174,6 +1175,8 @@ function fillPic(el,img){
   else el.textContent=img;
 }
 function eligible(kind,it){
+  if(it.mcq) return kind==='mcq';
+  if(kind==='mcq') return false;
   switch(kind){
     case 'def':      return !!it.def;
     case 'missing':  return letters(it.en)>=3;
@@ -1226,10 +1229,12 @@ function misspells(word,n){
 function makeQuestion(){
   const it=S.batch.shift(), pr=S.prof;
   const fmt0 = S.nP===2 ? 'mc' : S.mode==='mix' ? (Math.random()<.5?'mc':'type') : (S.mode==='type'?'type':'mc');
-  const ks=(S.kinds||['en2vi','vi2en','def']).filter(k=>eligible(k,it));
+  const ks=it.mcq?['mcq']:(S.kinds||['en2vi','vi2en','def']).filter(k=>eligible(k,it));
   let qtype=weighted((ks.length?ks:['en2vi']).map(k=>({id:k,w:k==='def'?pr.defW:1}))).id, fmt=fmt0;
   if(qtype==='lpic' && fmt==='type') qtype='listen';           // gõ đáp án: nghe rồi gõ lại từ
   const q={ it, qtype, fmt, tag:'', hint:'', hintCls:'', pcls:'', extra:0, acceptVi:null };
+  if(it.mcq){ const m=it.mcq; q.qtype='mcq'; q.fmt='mc'; q.tag='📝 Choose the correct answer'; q.promptText=m.q.replace(/_{2,}/g,'_____');
+    q.correctLabel=m.o[0]; q.options=[m.o[0],...m.o.slice(1,Math.max(2,S.prof.opts))]; q.accepted=[compact(m.o[0])]; q.pcls=q.promptText.length>14?' long':''; return q; }
   let accepted=[it.en,...it.alt], chunk=null;
   if(qtype==='en2vi'){
     accepted=S.pool.filter(w=>w.en===it.en).flatMap(w=>[...w.vi,...w.syn]); q.acceptVi=accepted; q.promptText=it.en;
@@ -1256,7 +1261,7 @@ function makeQuestion(){
     if(qtype==='missing'){ q.correctLabel=chunk; q.options=[chunk,...chunkAlts(chunk,pr.opts-1)]; }
     else if(qtype==='scramble'){ q.correctLabel=it.en; q.options=[it.en,...misspells(it.en,pr.opts-1)]; }
     else {
-      const en2vi=qtype==='en2vi', key = w => en2vi ? w.vi[0] : w.en, ok = w => w!==it && !clash(w,it) && (qtype!=='lpic' || w.img);
+      const en2vi=qtype==='en2vi', key = w => en2vi ? w.vi[0] : w.en, ok = w => !w.mcq && w!==it && !clash(w,it) && (qtype!=='lpic' || w.img);
       let same = shuffle(S.pool.filter(w=>ok(w) && w.set===it.set)), other = shuffle(S.pool.filter(w=>ok(w) && w.set!==it.set));
       if(pr.close){ const ka=key(it), near=w=>{ const b=key(w); return Math.abs(b.length-ka.length) + (b[0]===ka[0]?-2:0) + Math.random()*3; }; same.sort((x,y)=>near(x)-near(y)); other.sort((x,y)=>near(x)-near(y)); }
       const labels=[], used=new Set([compact(key(it))]);
@@ -1267,7 +1272,7 @@ function makeQuestion(){
   if(!q.pcls) q.pcls = q.promptText.length>14 ? ' long' : '';
   return q;
 }
-const ans = q => `${q.it.en} = ${q.it.vi.join(' / ')}`;
+const ans = q => q.it.mcq ? `${q.it.mcq.o[0]}${q.it.vi[0]&&q.it.vi[0]!=='✔'?' – '+q.it.vi[0]:''}` : `${q.it.en} = ${q.it.vi.join(' / ')}`;
 
 /* ---------- HIỆN CÂU HỎI ---------- */
 function lanes(n){ return S.nP===2 ? ({2:[68,86],3:[66,79,92]}[n] || [65,74.5,84,93.5]) : ({2:[67,85],3:[63,76,89]}[n] || [61,72,83,94]); }
@@ -1727,7 +1732,7 @@ function storeGet(){ if(window.GAMESET) return null; try{ const r=localStorage.g
 function storeSet(o){ memStore=o; if(window.GAMESET) return; try{ localStorage.setItem(STORE_KEY,JSON.stringify(o)); }catch(e){ storeOk=false; } }
 function saveStore(){ clearTimeout(saveT); storeSet({ lessons:LESSONS, sel:[...selectedSets], kinds:[...KINDS_ON] }); }
 let saveT=null; const saveSoon=()=>{ clearTimeout(saveT); saveT=setTimeout(saveStore,350); };
-let KINDS_ON=new Set(['en2vi','vi2en','def']);
+let KINDS_ON=new Set(window.GAMESET&&window.GAMESET.hasMcq?['mcq','en2vi','vi2en','def']:['en2vi','vi2en','def']);
 function newLesson(o){ return Object.assign({ id:uid(), name:'Bài mới', grade:7, level:'tb', text:'', imgs:{} }, o||{}); }
 function curLesson(){ return LESSONS.find(l=>l.id===edId); }
 function maskWord(def,words){ let out=def; words.forEach(w=>{ const e=w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); out=out.replace(new RegExp('(^|[^A-Za-z])'+e+'(?![A-Za-z])','gi'),(m,p)=>p+'____'); }); return out; }
@@ -1759,7 +1764,15 @@ function parseVocab(text){
 function lessonToSet(L){ return { id:L.id, name:L.name||'Bài chưa đặt tên', words:parseVocab(L.text).words.map(w=>({ ...w, img:(L.imgs&&L.imgs[w.en.toLowerCase()])||w.pic||'' })), custom:true, grade:clampGrade(L.grade), level:PROFILES[L.level]?L.level:'tb' }; }
 /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn, không có bộ có sẵn */
 function hubLesson(){ const g=window.GAMESET, imgs={}; g.items.forEach(it=>{ if(it.img&&it.w) imgs[it.w.toLowerCase()]=it.img; }); return newLesson({ id:'hub', name:g.title||'Bộ từ', text:g.items.filter(it=>it.vi).map(it=>it.w.replace(/[\t\r\n]/g,' ')+'\t'+it.vi.replace(/[\t\r\n]/g,' ')).join('\n'), imgs }); }
-function rebuildSets(){ SETS = window.GAMESET ? LESSONS.map(lessonToSet) : [...LESSONS.map(lessonToSet), ...BUILTIN_SETS]; }
+const HUB_MCQ = !!(window.GAMESET && window.GAMESET.hasMcq);
+/* câu trắc nghiệm của cô: mỗi câu là một "từ" đặc biệt (en = đáp án đúng + ký tự ẩn để không trùng), chỉ ra dạng 📝 */
+function addHubMcq(set){
+  if(!HUB_MCQ) return set;
+  const cl=t=>String(t||'').replace(/[<>&"`]/g,'').trim();
+  window.GAMESET.mcq.forEach((m,i)=>set.words.push({ en:cl(m.o[0])+'\u200b'.repeat(i+1), vi:[cl(m.why)||'✔'], alt:[], syn:[], def:'', sense:'mcq'+i, img:'', mcq:{ q:cl(m.q), o:m.o.map(cl) } }));
+  return set;
+}
+function rebuildSets(){ SETS = window.GAMESET ? LESSONS.map(lessonToSet).map(addHubMcq) : [...LESSONS.map(lessonToSet), ...BUILTIN_SETS]; }
 /* Mức chơi của lượt chơi: lấy theo bài tự soạn đã chọn (nhiều bài → lấy mức thấp nhất); bộ có sẵn = Trung bình */
 function profileOf(ids){
   const cs=[...ids].map(id=>SETS.find(s=>s.id===id)).filter(s=>s&&s.custom);

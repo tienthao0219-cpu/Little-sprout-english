@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Uno Từ Vựng · EASYENG</title>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
 <style>:root{color-scheme:light}html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
@@ -629,7 +629,7 @@ function sampleLesson(){ return newLesson({name:"Bài mẫu - Animals", vocab:SA
 function loadSettings(){
   if(window.GAMESET){   /* mở từ Trung tâm trò chơi: chỉ dùng bộ từ đã chọn (từ vựng, chưa có định nghĩa/ngữ pháp) */
     const g=window.GAMESET, vocab=g.items.filter(it=>it.vi).map(it=>it.w.replace(/[\t\r\n]/g," ")+"\t"+it.vi.replace(/[\t\r\n]/g," ")).join("\n");
-    return {lessons:[newLesson({id:"hub",name:g.title||"Bộ từ",vocab,types:{en2vi:1,vi2en:0,def:0,listen:0,fill:1,scramble:0,listenvi:1,pic:1,gmc:0,gsort:0}})],lessonId:"hub",mode:"bot",botCount:2,botId:"random",name1:"Bạn",name2:"Bạn B",teacher:false};
+    return {lessons:[newLesson({id:"hub",name:g.title||"Bộ từ",vocab,grammar:g.hasMcq?g.mcqBracket():"",types:g.hasMcq&&g.items.filter(it=>it.vi).length<4?{en2vi:0,vi2en:0,def:0,listen:0,fill:0,scramble:0,listenvi:0,pic:0,gmc:1,gsort:0}:{en2vi:1,vi2en:0,def:0,listen:0,fill:1,scramble:0,listenvi:1,pic:1,gmc:g.hasMcq?1:0,gsort:0}})],lessonId:"hub",mode:"bot",botCount:2,botId:"random",name1:"Bạn",name2:"Bạn B",teacher:false};
   }
   const base = {lessons:[], lessonId:"", mode:"bot", botCount:1, botId:"random", name1:"Bạn", name2:"Bạn B", teacher:false};
   let st=null;

@@ -6,7 +6,7 @@
 <title>Đập Ruồi Ôn Từ - EASYENG</title>
 <script>/* iPad/Safari cũ (trước iPadOS 15.4) chưa có Array.prototype.at */
 if(!Array.prototype.at){ Object.defineProperty(Array.prototype,"at",{ value:function(n){ n=Math.trunc(n)||0; if(n<0) n+=this.length; return (n<0||n>=this.length)?undefined:this[n]; }, writable:true, configurable:true }); }</script>
-<script src="../../js/gameset.js"></script>
+<script src="../../js/gameset.js?v=20261126b"></script>
 <script src="../../js/audiounlock.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2378,7 +2378,7 @@ function sampleLesson(){
   return newLesson({ id:"sample", name:"Bài mẫu · Nhà cửa & ngữ pháp", vocab:SAMPLE_VOCAB, gName:"Present simple / continuous / comparatives", gStruct:SAMPLE_STRUCT, gSent:SAMPLE_GRAM });
 }
 function loadLessons(){
-  if(window.GAMESET) return { list:[newLesson({ id:"hub", name:GAMESET.title||"Bộ từ", vocab:GAMESET.text() })], cur:"hub" };   /* mở từ Trung tâm trò chơi: dùng bộ từ đã chọn */
+  if(window.GAMESET) return { list:[newLesson({ id:"hub", name:GAMESET.title||"Bộ từ", vocab:GAMESET.text(), gSent:GAMESET.hasMcq?GAMESET.mcqBracket():"" })], cur:"hub" };   /* mở từ Trung tâm trò chơi: dùng bộ từ đã chọn */
   try{ const o = JSON.parse(localStorage.getItem(LESSON_KEY)); if(o && Array.isArray(o.list) && o.list.length) return o; }catch(e){}
   return { list:[sampleLesson()], cur:"sample" };
 }

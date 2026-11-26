@@ -115,4 +115,13 @@ NM.SETS = [
       return { w: it.w, vi: it.vi, e: '', img: it.img || '', d: '', s: '', alt: [], topic: it.topic || 'Từ vựng' };
     })
   }];
+  /* câu trắc nghiệm của cô: chỉ nhận câu có chỗ trống ___ (game ghép lại thành câu hoàn chỉnh) */
+  var gi = (H.mcq || []).filter(function (m) { return String(m.q).indexOf('___') >= 0; });
+  if (gi.length >= 3) {
+    NM.SETS.push({
+      id: 'hubg', kind: 'grammar', title: (H.title || 'Bộ câu') + ' · Trắc nghiệm', group: NM.SETS[0].group, icon: '📝',
+      items: gi.map(function (m) { return { q: m.q, a: m.o[0], o: m.o.slice(1), x: m.why || '' }; })
+    });
+  }
+  if (!NM.SETS[0].words.length && NM.SETS.length > 1) NM.SETS.shift();
 })();
