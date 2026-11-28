@@ -1503,17 +1503,34 @@
     body.append(h("div.empty", h("span.spinner"), " Đang tải báo cáo…"));
     const raw = await L.api.call("report");
     let range = 0;                       // 0 = tất cả; số ngày
+    let q = "", sortBy = "recent";       // ô tìm tên + cách sắp xếp (giữ nguyên khi đổi khoảng ngày)
+    const given = n => String(n || "").trim().split(/\s+/).pop();   // tên gọi = chữ cuối ("Bảo An" -> "An")
+    const SORTS = { recent: ["🕒 Học gần nhất", null], az: ["🔤 Tên A → Z", (x, y) => given(x.name).localeCompare(given(y.name), "vi") || x.name.localeCompare(y.name, "vi")], weak: ["⚠️ Cần ôn nhiều nhất", (x, y) => y.weak.length - x.weak.length || String(y.lastTime).localeCompare(String(x.lastTime))], acc: ["📉 Đúng ít nhất lên đầu", null] };
+    const accOf = x => { const t = x.topicList.reduce((a, c) => a + c.n, 0); return t ? x.topicList.reduce((a, c) => a + c.right, 0) / t : 2; };   // chưa có dữ liệu -> xuống cuối
+    SORTS.acc[1] = (x, y) => accOf(x) - accOf(y);
     const draw = () => {
       body.innerHTML = "";
       const cut = range ? Date.now() - range * 86400000 : 0;
       const inR = x => !cut || +new Date(x.time) >= cut;
       const rep = { plays: raw.plays.filter(inR), subs: raw.subs.filter(inR), answers: raw.answers.filter(inR) };
       const studs = L.api.aggregate(rep).filter(s => s.name !== CFG.teacherName);
-      body.append(h("div.row", { style: "margin-bottom:12px" }, h("div.tabs", { style: "margin:0" }, [[0, "Tất cả"], [30, "30 ngày"], [7, "7 ngày"]].map(([d, t]) => h("button" + (range === d ? ".on" : ""), { onclick: () => { range = d; draw(); } }, t))), h("span.grow"), h("span.muted.small", studs.length + " học viên")));
+      const listBox = h("div"), count = h("span.muted.small");
+      const drawList = () => {
+        listBox.innerHTML = "";
+        const f = flatT(q), fn = SORTS[sortBy][1];
+        let list = studs.filter(s => !f || flatT(s.name).includes(f));
+        if (fn) list = list.slice().sort(fn);
+        count.textContent = (f ? list.length + "/" : "") + studs.length + " học viên";
+        if (!list.length) { listBox.append(h("div.card.empty", "Không có học viên nào tên \"" + q + "\".")); return; }
+        list.forEach(s => listBox.append(studentCard(s, rep)));
+      };
+      const search = h("input", { type: "search", placeholder: "🔍 Gõ tên học viên để tìm (không cần dấu)", value: q, style: "max-width:300px", oninput: e => { q = e.target.value; drawList(); } });
+      const sortSel = h("select", { onchange: e => { sortBy = e.target.value; drawList(); } }, Object.keys(SORTS).map(k => h("option", { value: k, selected: k === sortBy }, SORTS[k][0])));
+      body.append(h("div.row", { style: "margin-bottom:12px;gap:8px;flex-wrap:wrap" }, h("div.tabs", { style: "margin:0" }, [[0, "Tất cả"], [30, "30 ngày"], [7, "7 ngày"]].map(([d, t]) => h("button" + (range === d ? ".on" : ""), { onclick: () => { range = d; draw(); } }, t))), search, sortSel, h("span.grow"), count));
       if (!studs.length) { body.append(h("div.card.empty", "Chưa có dữ liệu. Khi học viên chơi app hoặc nộp bài, kết quả sẽ hiện ở đây.")); return; }
       body.append(h("div.row", { style: "margin-bottom:10px" }, h("button.btn.peach", { onclick: () => parentReportModal(studs.map(x => x.name)) }, "📨 Báo cáo tuần cho phụ huynh (cả lớp)"), h("span.small.muted", "Tự tính từ dữ liệu 7 ngày gần nhất; cô đọc lại và thêm lời nhắn trước khi gửi.")));
       body.append(h("div.hint", { style: "margin-bottom:12px" }, "Chủ điểm \"cần ôn\" = đúng dưới 70% và đã gặp từ 3 ý trở lên. Chủ điểm lấy từ nhãn trong app hoặc dòng TOPIC: của bài tập."));
-      studs.forEach(s => body.append(studentCard(s, rep)));
+      body.append(listBox); drawList();
     };
     draw();
   }
