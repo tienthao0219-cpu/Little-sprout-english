@@ -350,3 +350,13 @@ Gói `cap-nhat-cuoi.zip` gồm toàn bộ file website đã đổi từ đợt 4
 - Dùng chung khoá `GEMINI_API_KEY` (và `GEMINI_MODEL`) với phần Chấm Speaking, không cần cài thêm.
 - Lần đầu: dán lại toàn bộ `apps-script/Code.gs` vào Apps Script rồi **Triển khai → Quản lý triển khai → Sửa → Phiên bản mới → Triển khai** (bước này bắt buộc thì máy chủ mới hiểu lệnh `hwAi`).
 - Ảnh được thu nhỏ trên máy cô (tối đa 8 ảnh, mỗi ảnh ≤ 1600 px) rồi gửi cho Gemini. AI chỉ được dặn dùng nội dung trong ảnh, nhưng vẫn có thể sai: luôn đọc lại câu và đáp án.
+
+## Cập nhật đợt 8: Nhập file PDF khi tạo bài tập
+
+Ở **Bài tập → 📄 Tạo từ file Word / PDF** (và nút **Thêm phần từ file Word / PDF** trong trang soạn bài) giờ chọn được cả file **.pdf**. Web đọc chữ trong PDF, tự nhận bố cục 2 cột, bảng đáp án (kể cả bảng mỗi dạng bài một cột như "Dạng 1 | Dạng 2"), rồi tách câu hỏi giống như file Word.
+
+- **Chỉ đọc được PDF có chữ** (xuất từ Word, Google Docs, NotebookLM, ChatGPT…). PDF là ảnh chụp/scan không có chữ thì web báo rõ; khi đó dùng **✨ AI soạn bài** với ảnh các trang.
+- **Chữ gạch chân / in đậm không được giữ lại** (ví dụ bài "đặt câu hỏi cho phần gạch chân"), bảng phức tạp có thể bị lệch: có bản Word thì nên dùng Word. Web luôn hiện cảnh báo và cô xem lại ở bước chỉnh sửa trước khi lưu.
+- Câu dạng "bếp nấu (6 chữ cái): c _ _ _ _ r" kèm dòng "Trả lời: ……" được nhận thành bài **Điền từ (có gợi ý)**, chữ cái gợi ý hiện cạnh ô trống.
+- Thư viện đọc PDF nằm ở `vendor/pdfjs/` (pdf.js bản cũ, chạy được trên Safari/iPad đời cũ); nhớ tải cả thư mục này lên GitHub.
+

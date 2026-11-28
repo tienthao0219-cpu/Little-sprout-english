@@ -201,12 +201,16 @@ window.LSE = window.LSE || {};
           if (!rowNo && r.length >= 3) {          // hàng tiêu đề: Câu | Phần | Đáp án | Giải thích
             const ai = r.findIndex((x, k) => k >= 1 && /^\s*(?:đáp\s*án|answer|key)\b/i.test(String(x))); if (ai >= 1) ansCol = ai;
             const pi = r.findIndex((x, k) => k >= 1 && /^\s*(?:phần|part|section)\s*$/i.test(String(x))); partCol = pi >= 1 ? pi : -1;
+            /* bảng đáp án có mỗi dạng bài một cột ("Câu | Dạng 1 (Trắc nghiệm) | Dạng 2 (Viết từ)"), số câu làm lại từ 1 ở mỗi dạng: cột thứ k là đáp án của phần bài thứ k */
+            const mc = []; r.forEach((x, k) => { if (k >= 1 && /^\s*(?:dạng|phần|part|section|bài|task|exercise|loại)\s*[ivx\d]+\b/i.test(String(x))) mc.push(k); });
+            if (mc.length >= 2) { key.cols = mc.map(k => ({ col: k, ans: {}, expl: {} })); ansCol = mc[0]; }
           }
           if (!rowNo && r.length >= 4) { const hi = r.findIndex((x, k) => k >= 2 && /giải\s*thích|explanation|lý\s*do|hướng\s*dẫn/i.test(String(x))); if (hi >= 2) expCol = hi; }   // bảng 4 cột: Câu | Đáp án | Từ gạch chân | Giải thích
           if (rowNo && r.length >= 2) {
             /* "11 (6)": dòng 11 của bảng = Question 6 của đề (số trong ngoặc là số câu in trên đề; ở phần Ghép từ nó là số thứ tự trong phần, trùng với các câu đầu đề nên dòng nào đến trước giữ chỗ) */
             const n = +rowNo, ex = rm[2] ? +rm[2] : n, av = (r[ansCol] || "").trim(), ev = (r[expCol] || "").trim();
             if (!rm[2] || !(ex in key.ans)) { key.ans[ex] = av; key.expl[ex] = ev; put(ex, av, ev); }
+            if (key.cols) key.cols.forEach(c => { c.ans[ex] = (r[c.col] || "").trim(); });
             const pm = partCol >= 0 ? String(r[partCol] || "").match(/^\s*([IVX]+|\d{1,2})\b/i) : null;
             key.rows.push({ n, local: rm[2] ? +rm[2] : 0, partNo: pm ? romanInt(pm[1]) : 0, ans: av, expl: ev });
           }
@@ -354,6 +358,11 @@ window.LSE = window.LSE || {};
     });
     const passage = pre.join("\n\n").trim(), usePassage = passage.replace(/\s+/g, " ").length >= 160;
     secs = secs.filter(s => s.qs.length || (s.pre && s.pre.length));
+    if (key.cols && key.cols.length >= 2) {
+      const withQ = secs.filter(x => x.qs.length && !x.task);
+      if (withQ.length === key.cols.length) withQ.forEach((x, i) => { x.keyCol = i; });
+      else warns.push("Bảng đáp án có " + key.cols.length + " cột (mỗi dạng bài một cột) nhưng đề có " + withQ.length + " phần bài: cô kiểm tra lại đáp án của từng phần.");
+    }
     /* KHUNG MẸO LÀM BÀI đứng trước đề (đoạn văn + bảng): đưa lên đầu bài (hw.desc), rộng hết khổ, bảng hiển thị thành bảng thật.
        Bắt đầu từ khối đầu tiên có chữ "mẹo / hướng dẫn làm bài / lưu ý / ghi nhớ / cách làm" ở đầu; bỏ tiêu đề file và dòng tiêu đề phần đứng ngay trước câu 1. */
     const gnote = { dropped: null };
@@ -366,7 +375,8 @@ window.LSE = window.LSE || {};
       s.items = s.pre || s.qs.map(qq => {
         let text = qq.lines.join("\n").trim();
         { const fl = text.split("\n")[0]; if ((fl.match(/\//g) || []).length >= 3 && !/_{3,}|\.{4,}|…/.test(fl) && !/\n\s*\*?\(?[A-D][.)]\s/.test(text)) text = fl.trim(); }   // sắp xếp từ thành câu: dòng "➔ ? ____" bên dưới chỉ là chỗ viết trên giấy
-        const key1 = key.ans[qq.num] || "", ex = key.expl[qq.num] || "";
+        const kc = s.keyCol != null && key.cols ? key.cols[s.keyCol] : null;
+        const key1 = (kc ? kc.ans[qq.num] : key.ans[qq.num]) || "", ex = (kc ? kc.expl[qq.num] : key.expl[qq.num]) || "";
         const o = splitOptions(text);
         if (o) {
           let stem = o.stem;
@@ -421,6 +431,13 @@ window.LSE = window.LSE || {};
           if (!ans) w.push("Câu " + qq.num + ": chưa có câu hoàn chỉnh trong bảng đáp án");
           else { line = orderChunks(chunks, ans); if (!line) { w.push("Câu " + qq.num + ": không ghép được các cụm với đáp án, đã tách theo từng từ (cô kiểm tra lại)"); line = ans.split(" ").join(" / "); } }
           return { num: qq.num, type: "sentence", line, expl: ex, warns: w, skip: !ans };
+        }
+        {   /* "bếp nấu (6 chữ cái): c _ _ _ _ r" (+ dòng "Trả lời: ......" chỉ là chỗ viết trên giấy): đáp án là từ cần viết, chữ cái gợi ý đặt trong { } */
+          const am = text.match(/\n\s*(?:trả\s*lời|answer)\s*[:：]?\s*[._…\s]*$/i);
+          const t2 = (am ? text.slice(0, am.index) : text).replace(/\s*\n\s*/g, " ").trim();
+          const lm = t2.match(/^(.+?)\s*[:：]\s*([A-Za-z](?: _)+(?: [A-Za-z])?)\s*$/);
+          const aw = key1.replace(/[.]+$/, "").replace(/\s*\/\s*/g, "/").trim();
+          if (lm && aw) return { num: qq.num, type: "fillhint", line: lm[1].trim() + ": [[" + aw + "]]{" + lm[2] + "}", expl: ex, warns: aw[0].toLowerCase() === lm[2][0].toLowerCase() ? [] : ["Câu " + qq.num + ": chữ cái gợi ý \"" + lm[2] + "\" không khớp đáp án \"" + aw + "\""] };
         }
         if (/_{3,}|\.{4,}|…/.test(text)) {       // điền từ có gợi ý trong ngoặc
           const hm = text.match(/\(([A-Za-zÀ-ỹ][^()]{0,40})\)\s*[.?!]?\s*$/);
@@ -506,12 +523,21 @@ window.LSE = window.LSE || {};
     for (const b of blocks.slice(0, 8)) { if (b.k !== "p") continue; const um = b.t.match(/\bunit\s*0*(\d{1,2})\b/i); if (um) { unitNo = +um[1]; break; } }
     const nQ = sections.reduce((a, s) => a + s.n, 0);
     if (!nQ) warns.push("Chưa nhận ra câu hỏi nào. File cần có câu dạng \"Question 1.\" hoặc \"1.\" hoặc \"Câu 1.\".");
-    return { title: title || (fileName || "").replace(/\.docx$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo, guide: guideText };
+    return { title: title || (fileName || "").replace(/\.(?:docx|pdf)$/i, "").replace(/[_]+/g, " "), sections, warns: warns.concat(notes), hasKey: keyAt >= 0, nQ, unitNo, guide: guideText };
   }
   const prettyPart = p => { const t = p.full.replace(/\s*\(\d+\s*[–\-—to]+\s*\d+\)\s*/i, "").trim(); const m = t.match(/^(ph[ầa]n|part|section)\s+([IVX\d]+)\s*[:.\-–]\s*(.+)$/i); const nm = m ? m[3].toLowerCase().replace(/(^|\s)\S/g, x => x.toUpperCase()) : t; return (m ? "Phần " + m[2] + ": " : "") + nm + " (" + p.from + "–" + p.to + ")"; };
 
   L.docx = {
-    async parseFile(file) { return parseDocx(await readBlocks(file), file.name); },
+    /* .docx đọc trực tiếp; .pdf (có chữ) đọc bằng js/pdfread.js ra cùng kiểu khối rồi dùng chung bộ nhận dạng câu hỏi */
+    async parseFile(file) {
+      const isPdf = /\.pdf$/i.test(file.name || "") || file.type === "application/pdf";
+      if (!isPdf) return parseDocx(await readBlocks(file), file.name);
+      if (!L.pdfread) throw new Error("Chưa nạp bộ đọc PDF (js/pdfread.js). Cô tải lại trang rồi thử lại.");
+      const r = parseDocx(await L.pdfread.readBlocks(file), file.name);
+      r.fromPdf = true;
+      r.warns = ["File PDF: web đọc chữ tự động nên chữ gạch chân / in đậm không được giữ lại, và bảng/cột phức tạp có thể bị lệch. Cô xem kỹ từng câu và đáp án ở bước chỉnh sửa (có bản Word thì Word vẫn chính xác hơn)."].concat(r.warns);
+      return r;
+    },
     parseDocx, readBlocks
   };
 })(window.LSE);

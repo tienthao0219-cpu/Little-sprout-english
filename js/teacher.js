@@ -881,7 +881,7 @@
     document.addEventListener("pointerdown", closeMenus, true);
 
     body.innerHTML = "";
-    body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word"), h("button.btn", { title: "Chụp/chọn ảnh sách, AI tự soạn cả bài (khung lý thuyết + các phần câu hỏi có đáp án)", onclick: () => aiHwModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }) }, "✨ AI soạn bài từ ảnh"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
+    body.append(h("div.card", h("div.row", h("h3", "Bài tập đã tạo"), h("span.grow"), h("button.btn.mint", { title: "Nhập file Word (.docx) hoặc PDF có chữ", onclick: () => docxModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }, { pickLoc: true }) }, "📄 Tạo từ file Word / PDF"), h("button.btn", { title: "Chụp/chọn ảnh sách, AI tự soạn cả bài (khung lý thuyết + các phần câu hỏi có đáp án)", onclick: () => aiHwModal((title, secs, loc, guide) => { sessionStorage.setItem("lse_hw_draft", JSON.stringify({ title, desc: guide || "", sections: secs, curId: loc && loc.curId, unitId: loc && loc.unitId })); L.go("/teacher/hw-edit/new"); }) }, "✨ AI soạn bài từ ảnh"), h("button.btn.peach", { title: "Bốc ngẫu nhiên câu từ các bài tập có sẵn trong unit để làm bài mix", onclick: () => L.mixModal && L.mixModal() }, "🎲 Tạo bài tổng hợp"), h("a.btn", { href: "#/teacher/hw-edit/new" }, "+ Tạo bài tập mới")),
       h("div.row", { style: "margin:12px 0 2px;gap:8px;flex-wrap:wrap" }, tabsBox,
         h("input", { type: "search", placeholder: "🔍 Tìm bài tập…", style: "padding:8px 14px;border-radius:999px;border:2px solid var(--line);font:inherit;min-width:170px", oninput: e => { q = norm(e.target.value.trim()); draw(); } }),
         h("span.grow"), h("button.btn.sm.ghost", { onclick: () => setAll(true) }, "Mở hết"), h("button.btn.sm.ghost", { onclick: () => setAll(false) }, "Thu gọn hết")),
@@ -1225,7 +1225,7 @@
     }
 
     const addBtn = h("div.row", { style: "margin-top:14px" }, h("button.btn.ghost", { onclick: () => { hw.sections.push(newSection()); markDirty(); drawSecs(); } }, "+ Thêm phần (có thể chọn dạng bài khác)"),
-      h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word"));
+      h("button.btn.mint", { onclick: () => docxModal((title, secs, loc, guide) => { if (hw.sections.length === 1 && !hw.sections[0].raw.trim()) hw.sections = []; if (!hw.title.trim() && title) hw.title = title; if (guide && !(hw.desc || "").trim()) hw.desc = guide; secs.forEach(x => hw.sections.push(Object.assign(newSection(), x))); markDirty(); drawSecs(); toast("Đã thêm " + secs.length + " phần từ file Word. Cô xem lại từng phần nhé."); }) }, "📄 Thêm phần từ file Word / PDF"));
     const saveStatus = h("div");
     /** Cảnh báo trùng: lúc lưu BÀI MỚI, nếu cùng giáo trình đã có bài giống (cùng unit + tên gần giống, hoặc trùng hẳn tên) thì hỏi lại, kèm ai đã làm rồi */
     const dupCheck = async () => {
@@ -1434,18 +1434,18 @@
       const typeName = id => ((L.hw.TYPE || {})[id] || {}).label || id;
       const draw = () => {
         box.innerHTML = "";
-        box.append(h("h3", { style: "margin-bottom:6px" }, "📄 Tạo bài tập từ file Word"));
+        box.append(h("h3", { style: "margin-bottom:6px" }, "📄 Tạo bài tập từ file Word / PDF"));
         if (!st.res) {
-          const inp = h("input", { type: "file", accept: ".docx", style: "display:none", onchange: async e => {
+          const inp = h("input", { type: "file", accept: ".docx,.pdf,application/pdf", style: "display:none", onchange: async e => {
             const f = e.target.files[0]; if (!f) return;
             box.innerHTML = ""; box.append(h("div.empty", h("span.spinner"), " Đang đọc file…"));
             try { st.res = await L.docx.parseFile(f); st.err = ""; } catch (er) { st.err = er.message || String(er); }
             draw();
           } });
-          box.append(h("p.small.muted", { style: "margin-top:0" }, "Chọn file .docx có các câu hỏi (Question 1. / Câu 1. / 1.) và bảng ĐÁP ÁN ở cuối. Web sẽ tự tách thành các phần bài; cô xem lại rồi mới lưu."),
+          box.append(h("p.small.muted", { style: "margin-top:0" }, "Chọn file Word (.docx) hoặc PDF có chữ (không phải ảnh scan) với các câu hỏi (Question 1. / Câu 1. / 1.) và bảng ĐÁP ÁN ở cuối. Web sẽ tự tách thành các phần bài; cô xem lại rồi mới lưu. Với PDF, chữ gạch chân / in đậm không được giữ lại và bảng phức tạp có thể lệch, nên có bản Word thì nên dùng Word."),
             h("div.hint", { style: "margin-bottom:10px" }, h("div", h("b", "Nhận ra được: ")), h("div", "• Trắc nghiệm A/B/C/D (kể cả chữ gạch chân phát âm/trọng âm, điền chỗ trống trong đoạn văn, đọc hiểu có đoạn văn)"), h("div", "• Điền từ có gợi ý trong ngoặc, ví dụ  ____ (BENEFIT)"), h("div", "• Tìm lỗi sai (A)(B)(C)(D) với đáp án dạng \"C (find → finds)\""), h("div", "• Viết lại câu (dòng thứ hai bắt đầu bằng →)"), h("div", "• Sắp xếp từ thành câu (các từ cách nhau bằng dấu /, đáp án là câu hoàn chỉnh)"), h("div", "• Bài đọc dạng phiếu: đoạn văn + \"Task 1: Match…\" (cột 1, 2, 3 và a, b, c) + \"Task 2: … True (T) or False (F)\" + bảng đáp án (Task 1 và Task 2 có thể đánh số lại từ 1)")),
             st.err ? h("div.err", st.err) : null, inp,
-            h("div.row", { style: "justify-content:flex-end;margin-top:10px" }, h("button.btn.ghost", { onclick: close }, "Đóng"), h("button.btn.mint", { onclick: () => inp.click() }, "Chọn file Word (.docx)")));
+            h("div.row", { style: "justify-content:flex-end;margin-top:10px" }, h("button.btn.ghost", { onclick: close }, "Đóng"), h("button.btn.mint", { onclick: () => inp.click() }, "Chọn file Word / PDF")));
           return;
         }
         const r = st.res;
