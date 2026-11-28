@@ -1578,58 +1578,97 @@
     return s.topicList.map(t => ({ t, items: s.wrongList.filter(w => w.topic === t.topic) })).filter(g => g.items.length).map(g => Object.assign(g, { mixed: new Set(g.items.map(w => w.src + "|" + w.srcId)).size > 1 }));   // mixed = chủ điểm này có câu sai từ nhiều app/bài khác nhau -> hiện thêm nguồn nhỏ dưới mỗi câu
   }
   function pct(x) { return Math.round(x * 100); }
+  /* ----- chia dữ liệu theo NGÀY / giờ để cô không bị lẫn khi em làm nhiều lượt trong cùng một ngày ----- */
+  const p2 = n => String(n).padStart(2, "0");
+  const dayKey = t => { const d = new Date(t); return isNaN(d) ? "" : d.getFullYear() + "-" + p2(d.getMonth() + 1) + "-" + p2(d.getDate()); };
+  const dayLabel = k => { const q = k.split("-"); return q[2] + "/" + q[1]; };
+  const hm = t => { const d = new Date(t); return isNaN(d) ? "" : p2(d.getHours()) + ":" + p2(d.getMinutes()); };
+  const hmd = (t, withDay) => withDay ? dayLabel(dayKey(t)) + " " + hm(t) : hm(t);
+  /* các lúc em làm sai một câu, gộp theo lượt: "Lần 1 · 19:05 (Sắp xếp chữ, Nhìn & gõ từ) · Lần 2 · 19:30" */
+  function wrongTimesText(w, withDay) {
+    const g = []; (w.times || []).forEach(e => { const k = e.att + "|" + e.t; let x = g.find(y => y.k === k); if (!x) g.push(x = { k, e, modes: [] }); if (e.mode && !x.modes.includes(e.mode)) x.modes.push(e.mode); });
+    return g.map(x => (x.e.att ? "Lần " + x.e.att + " · " : "") + hmd(x.e.t, withDay) + (x.modes.length ? " (" + x.modes.join(", ") + ")" : "")).join("  |  ");
+  }
   function studentCard(s, rep) {
     rep = rep || { plays: [], subs: [] };
-    const mySubs = rep.subs.filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.time).localeCompare(String(a.time)));
-    const myPlays = (rep.plays || []).filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.updated || b.time).localeCompare(String(a.updated || a.time)));
-    /* câu sai nhiều nhất đến từ bài tập hay app nào */
-    const srcOf = w => w.src === "hw" ? ((rep.subs.find(x => x.hwId === w.srcId) || {}).hwTitle || w.srcId || "") : w.src === "app" ? "App: " + ((rep.plays.find(x => x.appId === w.srcId) || {}).appTitle || w.srcId || "") : "";
-    const tot = s.topicList.reduce((a, t) => a + t.n, 0), right = s.topicList.reduce((a, t) => a + t.right, 0);
+    const mySubsAll = rep.subs.filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.time).localeCompare(String(a.time)));
+    const myPlaysAll = (rep.plays || []).filter(x => L.sameName(x.name, s.name)).sort((a, b) => String(b.updated || b.time).localeCompare(String(a.updated || a.time)));
+    const myAns = (rep.answers || []).filter(x => L.sameName(x.name, s.name));
+    /* ngày nào em có học (mới nhất lên đầu) + số lượt chơi / bài nộp của ngày đó */
+    const days = {}; const bump = (t, f) => { const k = dayKey(t); if (!k) return; (days[k] || (days[k] = { plays: 0, subs: 0 }))[f]++; };
+    myPlaysAll.forEach(x => bump(x.time || x.updated, "plays")); mySubsAll.forEach(x => bump(x.time, "subs"));
+    const dayList = Object.keys(days).sort().reverse();
+    let sel = "";                                   // "" = gộp tất cả các ngày; "2026-11-28" = chỉ ngày đó
+    const tot0 = s.topicList.reduce((a, t) => a + t.n, 0), right0 = s.topicList.reduce((a, t) => a + t.right, 0);
     const detail = h("div.hidden");
-    const head = h("div.row", { style: "cursor:pointer" }, h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:20px" }, s.name), h("div.small.muted", "Lần cuối: " + fmtDate(s.lastTime) + " · " + s.plays + " lượt chơi app · " + s.subs + " bài nộp" + (tot ? " · đúng " + pct(right / tot) + "% (" + right + "/" + tot + " ý)" : ""))),
-      s.weak.length ? h("span.pill.rose", s.weak.length + " chủ điểm cần ôn") : (tot ? h("span.pill.mint", "Ổn") : h("span.pill", "Chưa có dữ liệu")));
+    const head = h("div.row", { style: "cursor:pointer" }, h("div.grow", h("b", { style: "font-family:var(--hfont);font-size:20px" }, s.name), h("div.small.muted", "Lần cuối: " + fmtDate(s.lastTime) + " · " + s.plays + " lượt chơi app · " + s.subs + " bài nộp" + (tot0 ? " · đúng " + pct(right0 / tot0) + "% (" + right0 + "/" + tot0 + " ý)" : ""))),
+      s.weak.length ? h("span.pill.rose", s.weak.length + " chủ điểm cần ôn") : (tot0 ? h("span.pill.mint", "Ổn") : h("span.pill", "Chưa có dữ liệu")));
     const card = h("div.card", head, s.weak.length ? h("div.row", { style: "margin-top:8px;gap:6px" }, s.weak.slice(0, 5).map(t => h("span.pill.rose", t.topic + " · " + pct(t.acc) + "%"))) : null, detail);
-    head.addEventListener("click", () => {
-      if (!detail.classList.contains("hidden")) { detail.classList.add("hidden"); return; }
-      detail.classList.remove("hidden"); detail.innerHTML = "";
+    const draw = () => {
+      detail.innerHTML = "";
+      const inDay = x => !sel || dayKey(x.time || x.updated) === sel;
+      const mySubs = mySubsAll.filter(inDay), myPlays = myPlaysAll.filter(inDay);
+      /* thống kê chủ điểm: tất cả các ngày, hoặc chỉ ngày đang chọn (tính lại từ đúng các lượt của ngày đó) */
+      let sx = s;
+      if (sel) {
+        const rn = x => Object.assign({}, x, { name: s.name });
+        sx = L.api.aggregate({ plays: myPlays.map(rn), subs: mySubs.map(rn), answers: myAns.filter(inDay).map(rn) })[0] || { name: s.name, topicList: [], wrongList: [], weak: [], plays: 0, subs: 0, lastTime: "" };
+      }
+      /* câu sai nhiều nhất đến từ bài tập hay app nào */
+      const srcOf = w => w.src === "hw" ? ((rep.subs.find(x => x.hwId === w.srcId) || {}).hwTitle || w.srcId || "") : w.src === "app" ? "App: " + ((rep.plays.find(x => x.appId === w.srcId) || {}).appTitle || w.srcId || "") : "";
+      const withDay = !sel;                           // gộp nhiều ngày -> ghi cả ngày cạnh giờ
+      if (dayList.length) detail.append(h("div", { style: "margin:12px 0 6px" },
+        h("div.small", { style: "font-weight:800;margin-bottom:4px" }, "📅 Xem theo ngày (mọi phần bên dưới đổi theo ngày chọn)"),
+        h("div.row", { style: "gap:6px;flex-wrap:wrap" },
+          [["", "Tất cả các ngày"]].concat(dayList.slice(0, 14).map(k => [k, dayLabel(k) + " · " + (days[k].plays + days[k].subs) + " lượt"])).map(([k, t]) => h("button.btn.sm" + (sel === k ? ".sky" : ".ghost"), { onclick: e => { e.stopPropagation(); sel = k; draw(); } }, t))),
+        dayList.length > 14 ? h("div.small.muted", { style: "margin-top:4px" }, "Chỉ hiện 14 ngày gần nhất. Dùng nút \"7 ngày\"/\"30 ngày\" ở trên để lọc.") : null));
       /* TỪNG BÀI ĐÃ NỘP: mỗi bài một dòng, bấm "Xem chi tiết" để thấy phần nào, câu nào, em chọn gì, đáp án đúng */
-      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "📝 Từng bài đã nộp"),
-        mySubs.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Bài tập", "Lần", "Ngày giờ", "Điểm", "Đúng", ""].map(t => h("th", t)))),
-          h("tbody", mySubs.map(p => h("tr", h("td", h("b", p.hwTitle || p.hwId)), h("td", "Lần " + p.attempt), h("td", fmtDate(p.time)), h("td", h("b", String(p.scaled))),
+      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "📝 Từng bài đã nộp" + (sel ? " · ngày " + dayLabel(sel) : "")),
+        mySubs.length ? h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Bài tập", "Lần", sel ? "Giờ" : "Ngày giờ", "Điểm", "Đúng", ""].map(t => h("th", t)))),
+          h("tbody", mySubs.map(p => h("tr", h("td", h("b", p.hwTitle || p.hwId)), h("td", "Lần " + p.attempt), h("td", sel ? hm(p.time) : fmtDate(p.time)), h("td", h("b", String(p.scaled))),
             h("td", p.max ? p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "—"),
-            h("td", h("button.btn.sm.sky", { onclick: () => subDetailModal(p) }, "Xem chi tiết"))))))) : h("div.small.muted", "Chưa nộp bài tập nào."),
-        h("div.hint", { style: "margin:8px 0 0" }, "Phần dưới là thống kê GỘP của tất cả bài và app em đã làm (để thấy chủ điểm yếu). Muốn biết em sai ở bài nào, câu nào, chọn gì → bấm \"Xem chi tiết\" ở bảng trên."));
+            h("td", h("button.btn.sm.sky", { onclick: () => subDetailModal(p) }, "Xem chi tiết"))))))) : h("div.small.muted", sel ? "Ngày này chưa nộp bài tập nào." : "Chưa nộp bài tập nào."),
+        h("div.hint", { style: "margin:8px 0 0" }, "Phần dưới là thống kê GỘP của " + (sel ? "các lượt trong ngày " + dayLabel(sel) : "tất cả bài, app và các ngày em đã làm") + " (để thấy chủ điểm yếu). Muốn biết em sai ở bài nào, câu nào, chọn gì → bấm \"Xem chi tiết\" ở bảng."));
       /* TỪNG LƯỢT CHƠI APP: mỗi lượt một dòng (giống "Từng bài đã nộp"), bấm "Xem chi tiết" để thấy các câu sai trong lượt đó */
       if (myPlays.length) {
         const PLAY_MAX = 30;
-        detail.append(h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "🎮 Từng lượt chơi app"),
-          h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["App", "Lần", "Ngày giờ", "Đúng", ""].map(t => h("th", t)))),
-            h("tbody", myPlays.slice(0, PLAY_MAX).map(p => h("tr", h("td", h("b", p.appTitle || p.appId), [p.cur, p.unit].filter(Boolean).length ? h("div.small.muted", [p.cur, p.unit].filter(Boolean).join(" · ")) : null), h("td", "Lần " + p.attempt), h("td", fmtDate(p.updated || p.time)),
+        detail.append(h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "🎮 Từng lượt chơi app" + (sel ? " · ngày " + dayLabel(sel) : "")),
+          h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["App", "Lần", sel ? "Giờ" : "Ngày giờ", "Đúng", ""].map(t => h("th", t)))),
+            h("tbody", myPlays.slice(0, PLAY_MAX).map(p => h("tr", h("td", h("b", p.appTitle || p.appId), [p.cur, p.unit].filter(Boolean).length ? h("div.small.muted", [p.cur, p.unit].filter(Boolean).join(" · ")) : null), h("td", "Lần " + p.attempt), h("td", sel ? hm(p.time || p.updated) : fmtDate(p.updated || p.time)),
               h("td", +p.max ? p.score + "/" + p.max + " (" + pct(p.score / p.max) + "%)" : "—"),
               h("td", h("button.btn.sm.sky", { onclick: () => playDetailModal(p, rep) }, "Xem chi tiết"))))))),
-          myPlays.length > PLAY_MAX ? h("div.small.muted", { style: "margin-top:6px" }, "Đang hiện " + PLAY_MAX + " lượt gần nhất (trong " + myPlays.length + " lượt). Chọn \"7 ngày\" hoặc \"30 ngày\" ở trên để lọc.") : null);
+          myPlays.length > PLAY_MAX ? h("div.small.muted", { style: "margin-top:6px" }, "Đang hiện " + PLAY_MAX + " lượt gần nhất (trong " + myPlays.length + " lượt). Chọn một ngày ở trên hoặc \"7 ngày\"/\"30 ngày\" để lọc.") : null);
       }
-      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm (gộp tất cả bài)"),
-        s.topicList.map(t => h("div.topic-row", h("div", { style: "font-weight:800" }, t.topic, h("div.small.muted", t.n + " ý" + (t.n >= 6 ? " · 6 ý gần nhất " + pct(t.recentAcc) + "%" : ""))), h("div.bar." + (t.n < 3 ? "" : t.acc < .6 ? "bad" : t.acc < .8 ? "" : "good"), h("i", { style: "width:" + pct(t.acc) + "%" })), h("b", pct(t.acc) + "%"))),
-        s.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai theo chủ điểm"), h("div.small.muted", { style: "margin-bottom:4px" }, "Xếp theo chủ điểm, chủ điểm yếu nhất lên đầu. Mỗi chủ điểm hiện tối đa 6 câu sai nhiều nhất (bấm \"Sao chép báo cáo\" để gửi phụ huynh)."),
-          wrongByTopic(s).map(g => h("div.card", { style: "margin:10px 0 0;padding:12px 14px;box-shadow:none;border:2px solid var(--line,#eadff5)" },
+      detail.append(h("h4", { style: "margin:14px 0 4px;font-size:18px" }, "Độ chính xác theo chủ điểm " + (sel ? "(ngày " + dayLabel(sel) + ", gộp các lượt trong ngày)" : "(gộp tất cả bài và các ngày)")),
+        sx.topicList.length ? sx.topicList.map(t => h("div.topic-row", h("div", { style: "font-weight:800" }, t.topic, h("div.small.muted", t.n + " ý" + (t.uniq && t.uniq < t.n ? " (" + t.uniq + " từ/câu khác nhau, có câu làm lại)" : "") + (t.n >= 6 ? " · 6 ý gần nhất đúng " + pct(t.recentAcc) + "%" : ""))), h("div.bar" + (t.n < 3 ? "" : t.acc < .6 ? ".bad" : t.acc < .8 ? "" : ".good"), h("i", { style: "width:" + pct(t.acc) + "%" })), h("b", pct(t.acc) + "%")))
+          : h("div.small.muted", "Chưa có câu trả lời chi tiết nào" + (sel ? " trong ngày này." : ".")),
+        sx.wrongList.length ? [h("h4", { style: "margin:16px 0 4px;font-size:18px" }, "Câu/ý sai theo chủ điểm" + (sel ? " · ngày " + dayLabel(sel) : "")),
+          h("div.small.muted", { style: "margin-bottom:4px" }, "Mỗi dòng là MỘT từ/câu (cùng một từ làm ở nhiều trò chơi được gộp lại). Dòng ghi rõ giờ em làm sai và lần làm gần nhất đã đúng chưa; câu chưa sửa được xếp lên đầu. Mỗi chủ điểm hiện tối đa 6 câu (bấm \"Sao chép báo cáo\" để gửi phụ huynh)."),
+          wrongByTopic(sx).map(g => h("div.card", { style: "margin:10px 0 0;padding:12px 14px;box-shadow:none;border:2px solid var(--line,#eadff5)" },
             h("div.row", { style: "gap:8px;align-items:center" }, h("b", { style: "font-size:16px" }, g.t.topic), h("span.grow"), h("span.pill" + (g.t.n >= 3 && g.t.acc < .7 ? ".rose" : g.t.acc >= .8 ? ".mint" : ""), "đúng " + pct(g.t.acc) + "% (" + g.t.right + "/" + g.t.n + " ý)")),
             h("div.scroll-x", h("table.tbl", h("thead", h("tr", ["Nội dung", "Số lần sai"].map(x => h("th", x)))),
-              h("tbody", g.items.slice(0, 6).map(w => h("tr", h("td", w.q, givenText(w) ? h("div.small", { style: "color:#b43a62;font-weight:700;margin-top:2px" }, givenText(w)) : null, g.mixed && srcOf(w) ? h("div.small.muted", srcOf(w)) : null), h("td", { style: "white-space:nowrap" }, "× " + w.n))))))))] : null,
-        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(s, mySubs)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
+              h("tbody", g.items.slice(0, 6).map(w => h("tr", h("td", w.q, givenText(w) ? h("div.small", { style: "color:#b43a62;font-weight:700;margin-top:2px" }, givenText(w)) : null,
+                h("div.small.muted", { style: "margin-top:2px" }, "Sai lúc: " + wrongTimesText(w, withDay)),
+                h("div.small", { style: "margin-top:2px;font-weight:800;color:" + (w.fixed ? "var(--good,#1f7c60)" : "#b43a62") }, w.fixed ? "✓ Sau đó em đã làm đúng (" + (w.fixedAtt ? "Lần " + w.fixedAtt + " · " : "") + hmd(w.fixedAt, withDay) + ")" : "✗ Lần làm gần nhất vẫn sai, chưa sửa được"),
+                g.mixed && srcOf(w) ? h("div.small.muted", srcOf(w)) : null), h("td", { style: "white-space:nowrap" }, "× " + w.n))))))))] : null,
+        h("div.row", { style: "margin-top:12px" }, h("button.btn.sm.sky", { onclick: () => L.copyText(reportText(sx, mySubs, sel)) }, "📋 Sao chép báo cáo"), h("button.btn.sm.peach", { onclick: () => parentReportModal([s.name]) }, "📨 Báo cáo tuần cho phụ huynh")));
+    };
+    head.addEventListener("click", () => {
+      if (!detail.classList.contains("hidden")) { detail.classList.add("hidden"); return; }
+      detail.classList.remove("hidden"); draw();
     });
     return card;
   }
-  function reportText(s, subs) {
-    const lines = ["BÁO CÁO: " + s.name, "Lần học gần nhất: " + fmtDate(s.lastTime), ""];
+  function reportText(s, subs, day) {
+    const lines = ["BÁO CÁO: " + s.name + (day ? " · ngày " + dayLabel(day) : ""), "Lần học gần nhất: " + fmtDate(s.lastTime), ""];
     if (subs && subs.length) { lines.push("Các bài đã nộp (mỗi bài một dòng):"); subs.slice(0, 20).forEach(p => lines.push("- " + (p.hwTitle || p.hwId) + " · lần " + p.attempt + " · " + fmtDate(p.time) + " · điểm " + p.scaled + (p.max ? " (" + p.score + "/" + p.max + " ý)" : ""))); lines.push(""); }
     lines.push(s.weak.length ? "Cần ôn lại:" : "Chưa có chủ điểm nào dưới 70%.");
     s.weak.forEach(t => lines.push("- " + t.topic + ": đúng " + pct(t.acc) + "% (" + t.right + "/" + t.n + " ý)"));
     lines.push("", "Chủ điểm khác:");
     s.topicList.filter(t => !s.weak.includes(t)).forEach(t => lines.push("- " + t.topic + ": " + pct(t.acc) + "% (" + t.n + " ý)"));
     if (s.wrongList.length) {
-      lines.push("", "Các câu/ý hay sai, theo chủ điểm:");
-      wrongByTopic(s).slice(0, 8).forEach(g => { lines.push("• " + g.t.topic + " (đúng " + pct(g.t.acc) + "%):"); g.items.slice(0, 4).forEach(w => { lines.push("   - " + w.q + " (sai " + w.n + " lần)"); const gt = givenText(w); if (gt) lines.push("       " + gt); }); });
+      lines.push("", "Các câu/ý hay sai, theo chủ điểm (✓ = sau đó em đã làm đúng, ✗ = vẫn chưa sửa được):");
+      wrongByTopic(s).slice(0, 8).forEach(g => { lines.push("• " + g.t.topic + " (đúng " + pct(g.t.acc) + "%):"); g.items.slice(0, 4).forEach(w => { lines.push("   - " + (w.fixed ? "✓ " : "✗ ") + w.q + " (sai " + w.n + " lần: " + wrongTimesText(w, !day) + ")"); const gt = givenText(w); if (gt) lines.push("       " + gt); }); });
     }
     return lines.join("\n");
   }

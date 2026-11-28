@@ -252,18 +252,23 @@
   /* ---------- tổng hợp báo cáo (dùng chung cho demo & thật) ---------- */
   function aggregate(rep) {
     const students = {};
-    const S = n => students[n] || (students[n] = { name: n, plays: 0, subs: 0, lastTime: "", topics: {}, wrong: {}, recent: [] });
+    const S = n => students[n] || (students[n] = { name: n, plays: 0, subs: 0, lastTime: "", topics: {}, wrong: {}, ev: {}, recent: [] });
     (rep.plays || []).forEach(p => { const s = S(p.name); s.plays++; if (String(p.time) > s.lastTime) s.lastTime = String(p.time); });
     (rep.subs || []).forEach(p => { const s = S(p.name); s.subs++; if (String(p.time) > s.lastTime) s.lastTime = String(p.time); });
     (rep.answers || []).forEach(a => {
       const s = S(a.name); const tp = String(a.topic || "Chưa gắn chủ điểm");
-      const t = s.topics[tp] || (s.topics[tp] = { topic: tp, right: 0, wrong: 0, hist: [] });
+      const t = s.topics[tp] || (s.topics[tp] = { topic: tp, right: 0, wrong: 0, hist: [], ids: {} });
       const ok = a.ok === true || a.ok === "TRUE" || a.ok === 1 || a.ok === "1";
       ok ? t.right++ : t.wrong++;
       t.hist.push(ok ? 1 : 0);
+      /* app ghi câu hỏi dạng "[Sắp xếp chữ] fridge = tủ lạnh": tách tên trò chơi ra để cùng một từ làm ở nhiều trò được gộp thành MỘT dòng */
+      const qs = String(a.q || a.qid || ""), m = a.source === "app" ? /^\[([^\[\]]{1,40})\]\s*(.+)$/.exec(qs) : null;
+      const base = m ? m[2] : qs, mode = m ? m[1] : "", id = String(a.qid || base);
+      t.ids[a.source + "|" + a.sourceId + "|" + id] = 1;
+      const k = [tp, a.source, a.sourceId, id].join("||");
+      (s.ev[k] || (s.ev[k] = [])).push({ t: String(a.time || ""), ok, att: a.attempt, mode });
       if (!ok) {
-        const k = tp + "||" + (a.q || a.qid);
-        const w = s.wrong[k] || (s.wrong[k] = { topic: tp, q: a.q || a.qid, n: 0, src: a.source, srcId: a.sourceId, last: "" });
+        const w = s.wrong[k] || (s.wrong[k] = { topic: tp, q: base, n: 0, src: a.source, srcId: a.sourceId, last: "" });
         w.n++; if (String(a.time) > w.last) w.last = String(a.time);
         /* em đã trả lời gì (tối đa 3 đáp án khác nhau, kèm số lần) + đáp án đúng; chỉ có với app đã cập nhật */
         if (a.ans) { const ws = w.ans || (w.ans = {}); if (Object.keys(ws).length < 3 || ws[a.ans]) ws[a.ans] = (ws[a.ans] || 0) + 1; }
@@ -273,10 +278,15 @@
     Object.values(students).forEach(s => {
       s.topicList = Object.values(s.topics).map(t => {
         const n = t.right + t.wrong, last = t.hist.slice(-6), recent = last.length ? last.reduce((x, y) => x + y, 0) / last.length : 0;
-        return Object.assign(t, { n, acc: n ? t.right / n : 0, recentAcc: recent });
+        return Object.assign(t, { n, acc: n ? t.right / n : 0, recentAcc: recent, uniq: Object.keys(t.ids).length });
       }).sort((a, b) => a.acc - b.acc || b.n - a.n);
       s.weak = s.topicList.filter(t => t.n >= 3 && t.acc < 0.7);
-      s.wrongList = Object.values(s.wrong).sort((a, b) => b.n - a.n || String(b.last).localeCompare(String(a.last)));
+      /* mỗi câu sai: các lúc sai (giờ, lượt, trò chơi) và lần làm GẦN NHẤT đúng hay sai -> biết em đã sửa được chưa */
+      Object.keys(s.wrong).forEach(k => {
+        const w = s.wrong[k], ev = (s.ev[k] || []).slice().sort((x, y) => x.t.localeCompare(y.t)), lastEv = ev[ev.length - 1];
+        w.times = ev.filter(e => !e.ok); w.fixed = !!(lastEv && lastEv.ok); w.fixedAt = w.fixed ? lastEv.t : ""; w.fixedAtt = w.fixed ? lastEv.att : "";
+      });
+      s.wrongList = Object.values(s.wrong).sort((a, b) => (a.fixed ? 1 : 0) - (b.fixed ? 1 : 0) || b.n - a.n || String(b.last).localeCompare(String(a.last)));
     });
     return Object.values(students).sort((a, b) => String(b.lastTime).localeCompare(String(a.lastTime)));
   }

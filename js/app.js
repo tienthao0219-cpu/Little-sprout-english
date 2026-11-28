@@ -539,7 +539,7 @@
       const top = h("div.card.result",
         h("div.muted", r.preview ? "Chế độ xem thử (không lưu điểm)" : "Kết quả lần " + r.attempt),
         after === "done" ? h("div", { style: "font-size:46px" }, "🎉") : h("div.score-big", String(r.scaled), h("small", { style: "font-size:26px" }, "/" + scale)),
-        after === "done" ? h("h2", "Em đã nộp bài!") : h("div", { style: "margin:10px auto;max-width:360px" }, h("div.bar." + (pct >= 70 ? "good" : pct >= 40 ? "" : "bad"), h("i", { style: "width:" + pct + "%" })), h("div.muted", { style: "margin-top:6px" }, res.got + "/" + res.max + " ý đúng · " + fmtDur(dur))),
+        after === "done" ? h("h2", "Em đã nộp bài!") : h("div", { style: "margin:10px auto;max-width:360px" }, h("div.bar" + (pct >= 70 ? ".good" : pct >= 40 ? "" : ".bad"), h("i", { style: "width:" + pct + "%" })), h("div.muted", { style: "margin-top:6px" }, res.got + "/" + res.max + " ý đúng · " + fmtDur(dur))),
         h("div.row", { style: "justify-content:center;margin-top:10px" }, (isTeacher() || (hw.open && (!m.maxAttempts || mine.length < m.maxAttempts))) ? h("button.btn", { onclick: () => hwRunView(id) }, "Làm lại ▶") : null, h("a.btn.ghost", { href: "#/hw" }, "← Danh sách bài tập")));
       if (after !== "done") top.insertBefore(h("div.cheer", L.cheer(pct)), top.children[2] || null);
       const out = [h("div.crumbs", h("a", { href: "#/hw" }, "Bài tập"), " › ", hw.title), top];
