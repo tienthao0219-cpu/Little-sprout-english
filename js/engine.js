@@ -3,7 +3,7 @@
    parse(raw) -> câu hỏi | view(q, st, ctx) -> giao diện | grade(q, st) -> điểm
    ============================================================ */
 (function (L) {
-  const { h, norm, shuffle, esc } = L;
+  const { h, norm, shuffle, esc, ansOk } = L;
 
   /* ---------------------------------------------------------------
      1. DANH MỤC DẠNG BÀI + MẪU CÚ PHÁP
@@ -396,10 +396,10 @@
       case "tf4": { const items = q.subs.map((s, i) => ({ ok: v[i] === s.answer, label: lab(s.t), ans: TFT(v[i]), key: TFT(s.answer) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "fill": case "fillhint": case "fillchoose": case "fillbank": {
         const bs = blanksOf(q);
-        const items = bs.map((b, i) => ({ ok: !!v[i] && b.answers.some(a => norm(a) === norm(v[i])), label: lab(bs.length > 1 ? fillCtx(i) : q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0], ans: v[i] ? String(v[i]) : NOFILL, key: b.answers.join(" / ") }));
+        const items = bs.map((b, i) => ({ ok: !!v[i] && ansOk(b.answers, v[i]), label: lab(bs.length > 1 ? fillCtx(i) : q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0], ans: v[i] ? String(v[i]) : NOFILL, key: b.answers.join(" / ") }));
         return { got: items.filter(x => x.ok).length, max: items.length, items };
       }
-      case "short": { const ok = !!v && q.answers.some(a => norm(a) === norm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem), ans: v ? String(v) : NOFILL, key: q.answers.join(" / ") }] }; }
+      case "short": { const ok = !!v && ansOk(q.answers, v); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem), ans: v ? String(v) : NOFILL, key: q.answers.join(" / ") }] }; }
       case "wordpick": {
         const want = q.toks.map((t, i) => t.ok ? i : -1).filter(i => i >= 0);
         const right = (v || []).filter(i => want.includes(i)).length, wrong = (v || []).length - right;

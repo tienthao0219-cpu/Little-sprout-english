@@ -342,20 +342,6 @@
   }
 
   const sameSet = (a, b) => a.length === b.length && a.every(x => b.includes(x));
-  /** Đáp án có phần tùy chọn trong ngoặc, vd "…my brother (does)." → chấp nhận cả có và không có "does", và cả bản gõ nguyên văn. */
-  function ansVariants(a) {
-    const raw = String(a == null ? "" : a);
-    const out = new Set([norm(raw)]);
-    const groups = raw.match(/\([^()]*\)/g) || [];
-    if (!groups.length || groups.length > 4) return [...out];
-    for (let mask = 0; mask < (1 << groups.length); mask++) {
-      let i = 0;
-      out.add(norm(raw.replace(/\([^()]*\)/g, g => (mask >> i++) & 1 ? g.slice(1, -1) : "")));
-    }
-    return [...out];
-  }
-  const ansOk = (answers, typed) => { const t = norm(typed); return !!t && answers.some(a => ansVariants(a).includes(t)); };
-
   /** trả về {got, max, items:[{ok, label}]} — items dùng cho báo cáo chủ điểm */
   function grade(q, st) {
     const v = st.v;
@@ -366,10 +352,10 @@
       case "tf": { const ok = v === q.answer; return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
       case "tf4": { const items = q.subs.map((s, i) => ({ ok: v[i] === s.answer, label: lab(s.t) })); return { got: items.filter(x => x.ok).length, max: items.length, items }; }
       case "fill": case "fillhint": case "fillchoose": case "fillbank": {
-        const items = blanksOf(q).map((b, i) => ({ ok: !!v[i] && ansOk(b.answers, v[i]), label: lab(q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0] }));
+        const items = blanksOf(q).map((b, i) => ({ ok: !!v[i] && b.answers.some(a => norm(a) === norm(v[i])), label: lab(q.parts.map(p => p.k === "t" ? p.s : "___").join("")) + " → " + b.answers[0] }));
         return { got: items.filter(x => x.ok).length, max: items.length, items };
       }
-      case "short": { const ok = !!v && ansOk(q.answers, v); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
+      case "short": { const ok = !!v && q.answers.some(a => norm(a) === norm(v)); return { got: ok ? 1 : 0, max: 1, items: [{ ok, label: lab(q.stem) }] }; }
       case "wordpick": {
         const want = q.toks.map((t, i) => t.ok ? i : -1).filter(i => i >= 0);
         const right = (v || []).filter(i => want.includes(i)).length, wrong = (v || []).length - right;

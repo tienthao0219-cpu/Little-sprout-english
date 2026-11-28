@@ -95,6 +95,18 @@ window.LSE = window.LSE || {};
     });
   }
 
+  /** Đáp án có phần tùy chọn trong ngoặc, vd "I don't work as hard as my brother (does)." → chấp nhận cả có và không có "does".
+   *  Trả về các bản đáp án (chưa chuẩn hoá): nguyên văn + mọi tổ hợp bỏ/giữ từng cụm trong ngoặc. */
+  function optVariants(a) {
+    const raw = String(a == null ? "" : a), re = /\([^()]*\)/g, groups = raw.match(re) || [];
+    if (!groups.length || groups.length > 4) return [raw];
+    const out = [raw];
+    for (let mask = 0; mask < (1 << groups.length); mask++) { let i = 0; out.push(raw.replace(re, g => (mask >> i++) & 1 ? g.slice(1, -1) : "")); }
+    return out;
+  }
+  /** typed khớp với một trong các đáp án (đã xét phần tùy chọn trong ngoặc) theo hàm chuẩn hoá N (mặc định norm) */
+  const ansOk = (answers, typed, N) => { N = N || norm; const t = N(typed); return !!t && answers.some(a => optVariants(a).some(x => N(x) === t)); };
+
   function copyText(text) {
     const done = () => toast("Đã sao chép ✓");
     if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback);
@@ -157,5 +169,5 @@ window.LSE = window.LSE || {};
   /** áp dụng sortUnits cho mọi giáo trình trong manifest (sửa tại chỗ) */
   function normalizeUnits(m) { ((m && m.curricula) || []).forEach(c => { if (c && Array.isArray(c.units) && c.units.length > 1) c.units = sortUnits(c.units); }); return m; }
 
-  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText, enterCheck, sortUnits, unitsNewestFirst, normalizeUnits });
+  Object.assign(L, { confetti, $, $$, h, esc, uid, slug, shuffle, norm, optVariants, ansOk, plain, sameName, fmtDate, fmtDur, round2, toast, modal, confirmBox, copyText, fileToBase64, textToBase64, base64ToText, enterCheck, sortUnits, unitsNewestFirst, normalizeUnits });
 })(window.LSE);
